@@ -135,6 +135,32 @@ committed work.
   primitive. Applies to: `aspect-ratio` and future layout/static components.
   Evidence: [Experiment 2](02-stage-1-static-display-primitives.md),
   `packages/radcn/src/components/aspect-ratio.tsx`.
+- **2026-06-04, Experiment 3:** Navigation and collection primitives must treat
+  ARIA semantics as part of the public port contract, not incidental markup.
+  Breadcrumb and pagination expose labeled `nav` landmarks, current-page hooks,
+  list structure, presentation ellipses/separators, and stable slot hooks.
+  Applies to: `breadcrumb`, `pagination`, `navigation-menu`, `menubar`, and
+  future collection widgets. Evidence:
+  [Experiment 3](03-stage-1-navigation-collection-and-typography-primitives.md),
+  `fixtures/tests/navigation-collection.spec.ts`.
+- **2026-06-04, Experiment 3:** shadcn/ui typography is documented as examples,
+  not shipped primitive source; RadCN treats it as importable recipe components
+  so the docs site and fixtures can verify semantic text styles consistently.
+  Applies to: `typography` and future recipe/block disposition decisions.
+  Evidence:
+  [Experiment 3](03-stage-1-navigation-collection-and-typography-primitives.md),
+  `packages/radcn/src/components/typography.tsx`,
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 3:** Stage 1 static components can use real semantic
+  container elements rather than client wrappers: `Table` renders actual table
+  sections, `ItemGroup`/`Item` render list/listitem roles, and `ButtonGroup`
+  renders `role="group"` with orientation hooks. Applies to: remaining static
+  components and future composite widgets that build on these surfaces.
+  Evidence:
+  [Experiment 3](03-stage-1-navigation-collection-and-typography-primitives.md),
+  `packages/radcn/src/components/table.tsx`,
+  `packages/radcn/src/components/item.tsx`,
+  `packages/radcn/src/components/button-group.tsx`.
 
 ## Five Porting Stages
 
@@ -352,4 +378,4 @@ This issue is complete when:
 - [Experiment 2: Stage 1 static display primitives](02-stage-1-static-display-primitives.md)
   — **Pass**
 - [Experiment 3: Stage 1 navigation collection and typography primitives](03-stage-1-navigation-collection-and-typography-primitives.md)
-  — **Designed**
+  — **Pass**

@@ -3,15 +3,21 @@ export type FixtureComponent =
   | "alert"
   | "aspect-ratio"
   | "badge"
+  | "breadcrumb"
   | "button"
+  | "button-group"
   | "card"
   | "empty"
   | "field"
   | "kbd"
+  | "item"
+  | "pagination"
   | "separator"
   | "skeleton"
   | "spinner"
+  | "table"
   | "textarea"
+  | "typography"
 
 export interface FixtureScenario {
   component: FixtureComponent

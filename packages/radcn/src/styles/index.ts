@@ -83,4 +83,62 @@ export const radcnStyles = String.raw`
 .radcn-fixture-custom-card{--radcn-card-bg:#faf5ff;--radcn-card-border:#9333ea}
 .radcn-fixture-custom-spinner{--radcn-spinner-color:#0f766e;--radcn-spinner-size:2rem}
 .radcn-fixture-aspect-media{display:grid;place-items:center;height:100%;border:1px solid var(--radcn-border);background:linear-gradient(135deg,#f8fafc,#dbeafe);color:var(--radcn-foreground);font:600 1rem/1 var(--radcn-font)}
+.radcn-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.radcn-breadcrumb-list,.radcn-pagination-content{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin:0;padding:0;list-style:none;color:var(--radcn-muted-foreground);font:400 .875rem/1.4 var(--radcn-font)}
+.radcn-breadcrumb-item,.radcn-pagination-item{display:inline-flex;align-items:center}
+.radcn-breadcrumb-link,.radcn-pagination-link{display:inline-flex;align-items:center;justify-content:center;min-height:2rem;border-radius:var(--radcn-radius);color:inherit;text-decoration:none;outline:none}
+.radcn-breadcrumb-link:hover,.radcn-pagination-link:hover{color:var(--radcn-foreground)}
+.radcn-breadcrumb-page,.radcn-pagination-link--active{color:var(--radcn-foreground);font-weight:500}
+.radcn-breadcrumb-separator,.radcn-breadcrumb-ellipsis,.radcn-pagination-ellipsis{display:inline-flex;min-width:1.5rem;align-items:center;justify-content:center;color:var(--radcn-muted-foreground)}
+.radcn-button-group{display:flex;width:fit-content;align-items:stretch}
+.radcn-button-group--vertical{flex-direction:column}
+.radcn-button-group>.radcn-button:not(:first-child){border-top-left-radius:0;border-bottom-left-radius:0}
+.radcn-button-group>.radcn-button:not(:last-child){border-top-right-radius:0;border-bottom-right-radius:0}
+.radcn-button-group--vertical>.radcn-button:not(:first-child){border-top-left-radius:0;border-top-right-radius:0}
+.radcn-button-group--vertical>.radcn-button:not(:last-child){border-bottom-left-radius:0;border-bottom-right-radius:0}
+.radcn-button-group-text{display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--radcn-border);padding:0 .75rem;color:var(--radcn-muted-foreground);font:500 .8125rem/1 var(--radcn-font)}
+.radcn-button-group-separator{align-self:stretch;background:var(--radcn-border)}
+.radcn-button-group-separator--vertical{width:1px}
+.radcn-button-group-separator--horizontal{height:1px}
+.radcn-item-group{display:flex;width:min(100%,34rem);flex-direction:column;gap:.25rem;font-family:var(--radcn-font)}
+.radcn-item{display:flex;width:100%;flex-wrap:wrap;align-items:center;gap:.75rem;border:1px solid transparent;border-radius:var(--radcn-radius);padding:.875rem;color:var(--radcn-foreground)}
+.radcn-item--outline{border-color:var(--radcn-border)}
+.radcn-item--muted{background:var(--radcn-secondary)}
+.radcn-item--sm{padding:.625rem}
+.radcn-item--xs{padding:.375rem .5rem;font-size:.8125rem}
+.radcn-item-media{display:flex;width:2.5rem;height:2.5rem;flex-shrink:0;align-items:center;justify-content:center;border-radius:var(--radcn-radius);background:var(--radcn-secondary);color:var(--radcn-secondary-foreground);font-weight:600}
+.radcn-item-media--icon{width:2rem;height:2rem;border-radius:999px}
+.radcn-item-media--image{overflow:hidden}
+.radcn-item-content{display:flex;min-width:0;flex:1;flex-direction:column;gap:.25rem}
+.radcn-item-title{font:600 .875rem/1.3 var(--radcn-font)}
+.radcn-item-description{margin:0;color:var(--radcn-muted-foreground);font:400 .8125rem/1.4 var(--radcn-font)}
+.radcn-item-actions,.radcn-item-header,.radcn-item-footer{display:flex;align-items:center;gap:.5rem}
+.radcn-item-header,.radcn-item-footer{flex-basis:100%;justify-content:space-between}
+.radcn-item-separator{height:1px;width:100%;background:var(--radcn-border)}
+.radcn-pagination{display:flex;width:100%;justify-content:center;font-family:var(--radcn-font)}
+.radcn-pagination-link{min-width:2rem;padding:0 .625rem}
+.radcn-pagination-link--active{border:1px solid var(--radcn-border);background:var(--radcn-background)}
+.radcn-pagination-previous,.radcn-pagination-next{gap:.375rem}
+.radcn-table-container{width:100%;overflow-x:auto;border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);font-family:var(--radcn-font)}
+.radcn-table{width:100%;border-collapse:collapse;caption-side:bottom;color:var(--radcn-foreground);font:400 .875rem/1.45 var(--radcn-font)}
+.radcn-table-caption{padding:.75rem;color:var(--radcn-muted-foreground);text-align:left}
+.radcn-table-row{border-bottom:1px solid var(--radcn-border)}
+.radcn-table-head,.radcn-table-cell{padding:.75rem;text-align:left;vertical-align:middle}
+.radcn-table--dense .radcn-table-head,.radcn-table--dense .radcn-table-cell{padding:.375rem .5rem}
+.radcn-table-head,.radcn-table-footer{background:var(--radcn-secondary);font-weight:600}
+.radcn-typography-h1,.radcn-typography-h2,.radcn-typography-h3,.radcn-typography-h4,.radcn-typography-p,.radcn-typography-blockquote,.radcn-typography-list,.radcn-typography-lead,.radcn-typography-large,.radcn-typography-small,.radcn-typography-muted{font-family:var(--radcn-font)}
+.radcn-typography-h1{margin:0 0 1rem;font-size:var(--radcn-typography-h1-size,2rem);font-weight:700;line-height:1.1}
+.radcn-typography-h2{margin:2rem 0 1rem;border-bottom:1px solid var(--radcn-border);padding-bottom:.5rem;font-size:1.5rem;font-weight:600;line-height:1.2}
+.radcn-typography-h3{margin:1.5rem 0 .75rem;font-size:1.25rem;font-weight:600}
+.radcn-typography-h4{margin:1rem 0 .5rem;font-size:1rem;font-weight:600}
+.radcn-typography-p,.radcn-typography-list{margin:0 0 1rem;color:var(--radcn-foreground);font-size:1rem;line-height:1.75}
+.radcn-typography-list{padding-left:1.5rem}
+.radcn-typography-blockquote{margin:1rem 0;border-left:2px solid var(--radcn-border);padding-left:1rem;color:var(--radcn-muted-foreground);font-style:italic}
+.radcn-typography-inline-code{border-radius:calc(var(--radcn-radius) - .125rem);background:var(--radcn-secondary);padding:.125rem .25rem;font:600 .875em/1.4 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace}
+.radcn-typography-lead{color:var(--radcn-muted-foreground);font-size:1.25rem;line-height:1.6}
+.radcn-typography-large{font-size:1.125rem;font-weight:600}
+.radcn-typography-small{font-size:.875rem;font-weight:500}
+.radcn-typography-muted{color:var(--radcn-typography-muted,var(--radcn-muted-foreground));font-size:.875rem}
+.radcn-fixture-custom-breadcrumb{color:#0f766e}
+.radcn-fixture-custom-typography{--radcn-typography-h1-size:2.5rem;--radcn-typography-muted:#7c3aed}
 `

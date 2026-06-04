@@ -4,6 +4,14 @@ import { renderAccordionFixture } from './accordion.tsx'
 import { renderButtonFixture } from './button.tsx'
 import { renderFieldFixture } from './field.tsx'
 import {
+  renderBreadcrumbFixture,
+  renderButtonGroupFixture,
+  renderItemFixture,
+  renderPaginationFixture,
+  renderTableFixture,
+  renderTypographyFixture,
+} from './navigation-collection.tsx'
+import {
   renderAlertFixture,
   renderAspectRatioFixture,
   renderBadgeFixture,
@@ -26,8 +34,12 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderAspectRatioFixture(fixture)
     case 'badge':
       return renderBadgeFixture(fixture)
+    case 'breadcrumb':
+      return renderBreadcrumbFixture(fixture)
     case 'button':
       return renderButtonFixture(fixture)
+    case 'button-group':
+      return renderButtonGroupFixture(fixture)
     case 'card':
       return renderCardFixture(fixture)
     case 'empty':
@@ -36,13 +48,21 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderFieldFixture(fixture)
     case 'kbd':
       return renderKbdFixture()
+    case 'item':
+      return renderItemFixture(fixture)
+    case 'pagination':
+      return renderPaginationFixture(fixture)
     case 'separator':
       return renderSeparatorFixture()
     case 'skeleton':
       return renderSkeletonFixture()
     case 'spinner':
       return renderSpinnerFixture(fixture)
+    case 'table':
+      return renderTableFixture(fixture)
     case 'textarea':
       return renderTextareaFixture(fixture)
+    case 'typography':
+      return renderTypographyFixture(fixture)
   }
 }

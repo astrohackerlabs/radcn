@@ -4,6 +4,14 @@ import { renderAccordionFixture } from "./accordion"
 import { renderButtonFixture } from "./button"
 import { renderFieldFixture } from "./field"
 import {
+  renderBreadcrumbFixture,
+  renderButtonGroupFixture,
+  renderItemFixture,
+  renderPaginationFixture,
+  renderTableFixture,
+  renderTypographyFixture,
+} from "./navigation-collection"
+import {
   renderAlertFixture,
   renderAspectRatioFixture,
   renderBadgeFixture,
@@ -26,8 +34,12 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderAspectRatioFixture(fixture.id)
     case "badge":
       return renderBadgeFixture(fixture.id)
+    case "breadcrumb":
+      return renderBreadcrumbFixture(fixture.id)
     case "button":
       return renderButtonFixture(fixture.id)
+    case "button-group":
+      return renderButtonGroupFixture(fixture.id)
     case "card":
       return renderCardFixture(fixture.id)
     case "empty":
@@ -36,13 +48,21 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderFieldFixture(fixture.id)
     case "kbd":
       return renderKbdFixture()
+    case "item":
+      return renderItemFixture(fixture.id)
+    case "pagination":
+      return renderPaginationFixture(fixture.id)
     case "separator":
       return renderSeparatorFixture()
     case "skeleton":
       return renderSkeletonFixture()
     case "spinner":
       return renderSpinnerFixture(fixture.id)
+    case "table":
+      return renderTableFixture(fixture.id)
     case "textarea":
       return renderTextareaFixture(fixture.id)
+    case "typography":
+      return renderTypographyFixture(fixture.id)
   }
 }

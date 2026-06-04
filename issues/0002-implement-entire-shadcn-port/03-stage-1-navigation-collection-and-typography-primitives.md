@@ -153,3 +153,134 @@ preserves the one-experiment-at-a-time workflow, provides concrete verification
 for every named family, leaves `native-select` out for the valid reason that it
 needs native form-control verification, does not design future experiments, and
 keeps `vendor/` clean.
+
+## Result
+
+**Result:** Pass
+
+Experiment 3 ported the navigation, collection, and typography batch into
+`packages/radcn`:
+
+- `Breadcrumb`, `BreadcrumbEllipsis`, `BreadcrumbItem`, `BreadcrumbLink`,
+  `BreadcrumbList`, `BreadcrumbPage`, `BreadcrumbSeparator`
+- `ButtonGroup`, `ButtonGroupSeparator`, `ButtonGroupText`
+- `Item`, `ItemActions`, `ItemContent`, `ItemDescription`, `ItemFooter`,
+  `ItemGroup`, `ItemHeader`, `ItemMedia`, `ItemSeparator`, `ItemTitle`
+- `Pagination`, `PaginationContent`, `PaginationEllipsis`, `PaginationItem`,
+  `PaginationLink`, `PaginationNext`, `PaginationPrevious`
+- `Table`, `TableBody`, `TableCaption`, `TableCell`, `TableFooter`,
+  `TableHead`, `TableHeader`, `TableRow`
+- `TypographyBlockquote`, `TypographyH1`, `TypographyH2`, `TypographyH3`,
+  `TypographyH4`, `TypographyInlineCode`, `TypographyLarge`,
+  `TypographyLead`, `TypographyList`, `TypographyListItem`,
+  `TypographyMuted`, `TypographyP`, `TypographySmall`
+
+Each family is exported from the package root and from a package subpath. The
+Remix 3 candidate fixture imports the batch from `radcn`, not from fixture-local
+placeholder components.
+
+Shared scenarios were added for the batch:
+
+- `breadcrumb/default`
+- `breadcrumb/collapsed`
+- `breadcrumb/custom-separator`
+- `button-group/horizontal`
+- `button-group/vertical`
+- `button-group/with-separator`
+- `item/default`
+- `item/variants`
+- `item/grouped`
+- `pagination/default`
+- `pagination/active`
+- `pagination/custom-labels`
+- `table/default`
+- `table/dense`
+- `table/footer`
+- `typography/article`
+- `typography/inline`
+- `typography/custom-token`
+
+The semantic and customization checks live in
+`fixtures/tests/navigation-collection.spec.ts`. They verify breadcrumb
+navigation/current-page/ellipsis/separator hooks, button-group orientation and
+part hooks, item group/listitem and slot hooks, pagination landmark/active-page
+and label hooks, table semantic sections and dense/footer hooks, and typography
+semantic recipe/custom-token hooks.
+
+Documentation was extended in `docs/radcn-source.md` to cover source shape,
+slot conventions, variants, orientation hooks, ARIA semantics, table behavior,
+typography disposition, and customization probes.
+
+Typography is an approved divergence from shadcn/ui's examples-only typography
+surface. RadCN exposes importable recipe components so the docs site and
+fixtures can verify semantic text styles consistently.
+
+Verification run on 2026-06-04:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All commands passed. `pnpm fixtures:artifacts` reported `120 passed`. The
+artifact manifest contains 104 paired screenshot entries across 52 scenarios,
+including 18 Experiment 3 scenarios. The reference app uses port `4601`, and
+the candidate app uses port `4602`.
+
+`git status --short -- vendor` was clean. Generated artifact and test-result
+outputs remain ignored.
+
+Warnings observed during verification:
+
+- Node reported `[DEP0205] DeprecationWarning: module.register() is deprecated`
+  during React Router and Playwright commands.
+- The fixture web servers reported that `NO_COLOR` is ignored when
+  `FORCE_COLOR` is set.
+
+Neither warning blocked the experiment result.
+
+Reusable discoveries were recorded in the issue `## Learnings` section:
+
+- Navigation and collection primitives treat ARIA semantics as part of the
+  public port contract.
+- shadcn/ui typography is examples-only, while RadCN exposes importable recipe
+  components as an approved divergence.
+- Stage 1 static components can use real semantic container elements rather
+  than client wrappers.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Laplace`, which
+approved the completed experiment with **Pass**.
+
+The review confirmed that:
+
+- source files exist for all six covered families;
+- package subpath exports and root exports exist;
+- candidate fixtures import the batch from `radcn`;
+- shared scenarios include the 18 expected Experiment 3 probes;
+- reference and candidate route dispatch exists for all six families;
+- Playwright checks cover the required semantics and customization hooks;
+- docs cover source shape, slots, variants/orientation, ARIA rules, table
+  behavior, typography recipe disposition, and customization hooks;
+- Issue 2 learnings include Experiment 3 entries;
+- `vendor/` is clean;
+- the artifact manifest contains 104 paired screenshots across 52 scenarios,
+  including 18 Experiment 3 scenarios and both apps.
+
+Residual risks:
+
+- Screenshot capture is still not pixel-diff visual approval.
+- `radcnStyles` and `tokens.css` remain duplicated, which is already tracked as
+  a prior learning.
+- Typography as importable recipe components is an approved divergence from
+  shadcn/ui's examples-only typography surface.
+
+## Conclusion
+
+Experiment 3 completes the remaining Stage 1 static/navigation/collection/
+typography batch but does not complete Stage 1. The next experiment should
+handle the remaining Stage 1 native form-control work, especially
+`native-select`, and then audit whether Stage 1 can close or needs cleanup.

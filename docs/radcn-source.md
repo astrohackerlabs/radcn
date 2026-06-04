@@ -65,6 +65,21 @@ These components should be server-rendered by default. They expose semantic
 markup, slots, variants, and styling hooks, but they do not own client state or
 hydrate themselves.
 
+Experiment 3 adds navigation, collection, and typography primitives:
+
+- `Breadcrumb`
+- `ButtonGroup`
+- `Item`
+- `Pagination`
+- `Table`
+- `TypographyH1`, `TypographyH2`, `TypographyH3`, `TypographyH4`,
+  `TypographyP`, `TypographyBlockquote`, `TypographyList`,
+  `TypographyListItem`, `TypographyInlineCode`, `TypographyLead`,
+  `TypographyLarge`, `TypographySmall`, and `TypographyMuted`
+
+These are also server-rendered by default. They preserve semantic HTML and ARIA
+relationships while exposing RadCN slot hooks for styling and fixtures.
+
 ## Static Primitive Conventions
 
 Static primitives use component-part slots when shadcn/ui exposes separate
@@ -94,6 +109,26 @@ Prefer semantic HTML when it directly matches the component:
 Use CSS for static layout behavior. For example, `AspectRatio` uses the native
 `aspect-ratio` property instead of a client primitive.
 
+Navigation and collection primitives follow the same slot rule, but the
+semantic contract is more important:
+
+- `Breadcrumb` renders `nav[aria-label="breadcrumb"]`, an ordered list, current
+  page semantics, presentation separators, and optional ellipsis hooks.
+- `Pagination` renders `nav[aria-label="pagination"]`, list items, page links,
+  `aria-current="page"` for the active page, previous/next labels, and an
+  ellipsis hook.
+- `ButtonGroup` renders `role="group"` with `data-orientation` for horizontal
+  and vertical layouts.
+- `ItemGroup` renders `role="list"` and each `Item` renders `role="listitem"`.
+- `Table` renders real table elements: `caption`, `thead`, `tbody`, `tfoot`,
+  `tr`, `th`, and `td`.
+
+Typography is a RadCN recipe surface rather than a shadcn/ui primitive file.
+shadcn/ui documents typography as examples, not shipped component source. RadCN
+uses small named components for those recipe styles so Remix 3 apps can import
+and test them consistently while preserving semantic headings, paragraphs,
+lists, blockquotes, code, and supporting text elements.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -118,6 +153,11 @@ Static/display customization probes follow the same rule:
 - `badge/custom-class` overrides badge color tokens.
 - `card/custom-token` overrides card background and border tokens.
 - `spinner/custom-size` overrides spinner color and size tokens.
+
+Navigation, collection, and typography probes continue that pattern:
+
+- `breadcrumb/custom-separator` customizes breadcrumb color and separator text.
+- `typography/custom-token` overrides heading size and muted text color.
 
 ## Interim Install and Copy Workflow
 
