@@ -15,6 +15,7 @@
     "./button": "./src/components/button.tsx",
     "./button-group": "./src/components/button-group.tsx",
     "./calendar": "./src/components/calendar.tsx",
+    "./carousel": "./src/components/carousel.tsx",
     "./card": "./src/components/card.tsx",
     "./checkbox": "./src/components/checkbox.tsx",
     "./collapsible": "./src/components/collapsible.tsx",

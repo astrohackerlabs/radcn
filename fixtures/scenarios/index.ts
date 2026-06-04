@@ -1345,6 +1345,54 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Date Picker Recipe",
     description: "Date picker recipe styling through calendar and popover tokens.",
   },
+  {
+    component: "carousel",
+    id: "default",
+    title: "Default Carousel",
+    description: "Carousel region with slide semantics and controls.",
+  },
+  {
+    component: "carousel",
+    id: "initial-slide",
+    title: "Carousel Initial Slide",
+    description: "Carousel starting on a deterministic slide.",
+  },
+  {
+    component: "carousel",
+    id: "vertical",
+    title: "Vertical Carousel",
+    description: "Carousel with vertical orientation and keyboard policy.",
+  },
+  {
+    component: "carousel",
+    id: "multiple-visible",
+    title: "Multiple Visible Carousel",
+    description: "Carousel showing multiple slides within the viewport.",
+  },
+  {
+    component: "carousel",
+    id: "spacing",
+    title: "Carousel Spacing",
+    description: "Carousel with compact slide spacing.",
+  },
+  {
+    component: "carousel",
+    id: "disabled-boundaries",
+    title: "Carousel Disabled Boundaries",
+    description: "Carousel previous and next boundary disabled states.",
+  },
+  {
+    component: "carousel",
+    id: "keyboard",
+    title: "Carousel Keyboard",
+    description: "Carousel keyboard movement and state hooks.",
+  },
+  {
+    component: "carousel",
+    id: "custom-token",
+    title: "Custom Carousel Token",
+    description: "Carousel styling through public CSS variables.",
+  },
 ]
 
 export function getFixtureScenario(

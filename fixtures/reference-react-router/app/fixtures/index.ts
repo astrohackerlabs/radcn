@@ -5,6 +5,7 @@ import { renderAlertDialogFixture } from "./alert-dialog"
 import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCalendarFixture } from "./calendar"
+import { renderCarouselFixture } from "./carousel"
 import { renderCollapsibleFixture } from "./collapsible"
 import { renderComboboxFixture } from "./combobox"
 import { renderCommandFixture } from "./command"
@@ -72,6 +73,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderButtonGroupFixture(fixture.id)
     case "calendar":
       return renderCalendarFixture(fixture.id)
+    case "carousel":
+      return renderCarouselFixture(fixture.id)
     case "card":
       return renderCardFixture(fixture.id)
     case "checkbox":

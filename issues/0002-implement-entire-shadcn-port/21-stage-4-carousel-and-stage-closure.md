@@ -235,3 +235,79 @@ The re-review returned **Pass** with no remaining blocking findings. Darwin
 confirmed that the plan consistently requires `enhanceCarousel()` export and
 candidate loading, avoids implying Embla API compatibility, and remains scoped
 to final Stage 4 carousel closure without starting Stage 5.
+
+## Result
+
+**Result:** Pass
+
+Experiment 21 ported `carousel` as the final Stage 4 composite widget and
+recorded the Stage 4 closure audit.
+
+Implemented:
+
+- Added `packages/radcn/src/components/carousel.tsx` with `Carousel`,
+  `CarouselContent`, `CarouselItem`, `CarouselPrevious`, `CarouselNext`, typed
+  props, and `enhanceCarousel()`.
+- Exported carousel from `radcn/carousel` and the root RadCN package index.
+- Loaded `enhanceCarousel()` from the candidate Remix asset entry.
+- Added carousel styles, state hooks, orientation styles, spacing and
+  multiple-visible variants, disabled control styling, and custom token hooks.
+- Added shared carousel scenarios plus paired React Router reference and Remix
+  candidate fixtures for default, initial slide, vertical, multiple-visible,
+  spacing, disabled-boundaries, keyboard, and custom-token coverage.
+- Added focused Playwright coverage for semantics, accessible labels, initial
+  state, previous/next behavior, boundary disabled state, keyboard movement,
+  native scroll synchronization, vertical layout, multiple-visible layout,
+  spacing, and customization hooks.
+- Documented the native scroll-snap carousel strategy and approved Embla API
+  divergence in `docs/radcn-source.md`.
+- Added issue-level learnings for carousel semantics, native scroll
+  enhancement, unsupported Embla API/plugin compatibility, and Stage 4 closure.
+- Added `stage-4-audit.md` showing every Stage 4 component or disposition has
+  source/export status, fixture/artifact coverage, focused tests,
+  documentation, and divergence notes.
+
+Verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed. It still prints the existing
+  React Router `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/carousel.spec.ts`
+  passed with 4 tests.
+- `pnpm fixtures:artifacts` passed with 560 tests.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+
+## Conclusion
+
+Stage 4 is complete after carousel. RadCN now has ports or explicit
+recipe/block dispositions for the Stage 4 selection, search, menu/navigation,
+date-grid, and carousel widgets, with shared fixtures, screenshot artifacts,
+focused behavior tests, documentation, reviewed divergence notes, and a closure
+audit.
+
+Issue 2 remains open. The next experiment should begin Stage 5 and tackle the
+React-heavy systems, blocks, and deferred components: `chart`, `data-table`,
+`sonner`, `toast`, `resizable`, `sidebar`, `form`, `input-group`,
+`input-otp`, and any remaining block dispositions.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Nash` and returned
+**Pass**.
+
+Nash confirmed that the carousel source exists, exports are wired through both
+`radcn/carousel` and the root package, the candidate Remix app loads
+`enhanceCarousel()`, all required shared scenarios are registered, paired
+fixtures exist, focused Playwright coverage exercises the required semantics
+and behavior, docs and issue learnings record the native scroll-snap strategy
+and Embla divergence, `stage-4-audit.md` closes Stage 4, and vendor cleanliness
+is confirmed.
+
+Non-blocking hardening notes for later work:
+
+- Add explicit tests for `loop`.
+- Add explicit tests for disabled override controls.
+- Add explicit tests for emitted `radcn-carousel-select` and
+  `radcn-carousel-scroll` events.

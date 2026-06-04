@@ -5,6 +5,7 @@ import { renderAlertDialogFixture } from './alert-dialog.tsx'
 import { renderAvatarFixture } from './avatar.tsx'
 import { renderButtonFixture } from './button.tsx'
 import { renderCalendarFixture } from './calendar.tsx'
+import { renderCarouselFixture } from './carousel.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderComboboxFixture } from './combobox.tsx'
 import { renderCommandFixture } from './command.tsx'
@@ -72,6 +73,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderButtonGroupFixture(fixture)
     case 'calendar':
       return renderCalendarFixture(fixture)
+    case 'carousel':
+      return renderCarouselFixture(fixture)
     case 'card':
       return renderCardFixture(fixture)
     case 'checkbox':

@@ -9,6 +9,7 @@ export type FixtureComponent =
   | "button"
   | "button-group"
   | "calendar"
+  | "carousel"
   | "card"
   | "checkbox"
   | "collapsible"

@@ -1,6 +1,7 @@
 import { run } from 'remix/ui'
 import { enhanceAlertDialog } from 'radcn/alert-dialog'
 import { enhanceCalendar } from 'radcn/calendar'
+import { enhanceCarousel } from 'radcn/carousel'
 import { enhanceCombobox } from 'radcn/combobox'
 import { enhanceCommand } from 'radcn/command'
 import { enhanceContextMenu } from 'radcn/context-menu'
@@ -33,6 +34,7 @@ enhanceSheet()
 enhanceDrawer()
 enhanceSelect()
 enhanceCalendar()
+enhanceCarousel()
 enhanceCombobox()
 enhanceCommand()
 enhanceDropdownMenu()

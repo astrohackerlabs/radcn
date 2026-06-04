@@ -531,6 +531,28 @@ committed work.
   `carousel`, Stage 4 closure. Evidence:
   [Experiment 20](20-stage-4-calendar-and-date-picker.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 21:** Carousel keeps shadcn's public component parts
+  but replaces the React Embla wrapper with native scroll-snap plus
+  `enhanceCarousel()`. Applies to: `carousel`, future animated/scrolling
+  recipes. Evidence:
+  [Experiment 21](21-stage-4-carousel-and-stage-closure.md),
+  `packages/radcn/src/components/carousel.tsx`.
+- **2026-06-04, Experiment 21:** Core carousel intentionally does not expose
+  Embla's React `api`, `setApi`, `opts`, or plugin contract; advanced
+  Embla-specific behavior should be future recipe/hardening scope if needed.
+  Applies to: `carousel`, Stage 5 recipe/block policy. Evidence:
+  [Experiment 21](21-stage-4-carousel-and-stage-closure.md),
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 21:** Slide/region semantics are distinct from
+  listbox, menu, navigation, and date-grid widgets: carousel state tracks
+  current slide and scroll position, not selected options or menu activation.
+  Applies to: `carousel`, future scrolling composites. Evidence:
+  [Experiment 21](21-stage-4-carousel-and-stage-closure.md),
+  `fixtures/tests/carousel.spec.ts`.
+- **2026-06-04, Experiment 21:** Stage 4 is complete after carousel; Issue 2
+  should move to Stage 5 dispositions for React-heavy systems and blocks next.
+  Applies to: `Stage 4`, `Stage 5`. Evidence:
+  [Stage 4 audit](stage-4-audit.md).
 
 ## Five Porting Stages
 
@@ -793,4 +815,4 @@ This issue is complete when:
 - [Experiment 20: Stage 4 calendar and date picker](20-stage-4-calendar-and-date-picker.md)
   — **Pass**
 - [Experiment 21: Stage 4 carousel and stage closure](21-stage-4-carousel-and-stage-closure.md)
-  — **Designed**
+  — **Pass**

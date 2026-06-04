@@ -1374,8 +1374,73 @@ Approved divergences from Radix/shadcn:
 
 After this cluster, Stage 4 remains open for `carousel` only. Carousel should
 reuse the fixture/artifact discipline and explicit data hooks, but it should
-own slide, region, roving, and motion policy separately from date-grid,
+own slide, region, scroll, and motion policy separately from date-grid,
 menu/navigation, and listbox behavior.
+
+## Stage 4 Carousel Foundation
+
+Experiment 21 adds the final Stage 4 composite widget:
+
+- `Carousel`
+- `CarouselContent`
+- `CarouselItem`
+- `CarouselPrevious`
+- `CarouselNext`
+- `enhanceCarousel()`
+
+RadCN keeps the shadcn/ui carousel parts but does not copy the React Embla
+wrapper. The core RadCN carousel is a progressively enhanced native scroll-snap
+region. This preserves the visible component shape, slide semantics, keyboard
+movement, previous/next controls, boundary disabled state, responsive layout,
+and customization hooks without publishing a React `api`, `setApi`, `opts`, or
+plugin contract.
+
+The supported RadCN API is explicit:
+
+- `Carousel` supports `ariaLabel`, `ariaLabelledby`, `defaultIndex`,
+  `orientation`, `loop`, and public class/style hooks.
+- `CarouselContent` owns the overflow viewport and scroll-snap surface.
+- `CarouselItem` owns slide semantics with optional authored labels/indexes.
+- `CarouselPrevious` and `CarouselNext` are button controls with labels,
+  disabled overrides, and public class/style hooks.
+- `enhanceCarousel()` owns current-index state, native scroll synchronization,
+  control disabled state, keyboard movement, and `radcn-carousel-select` /
+  `radcn-carousel-scroll` events.
+
+Accessibility and state policy:
+
+- the root exposes `role="region"` and `aria-roledescription="carousel"`;
+- the root must have an accessible name through `ariaLabel` or
+  `ariaLabelledby`;
+- slides expose `role="group"` and `aria-roledescription="slide"`;
+- unlabeled slides are labeled as `Slide n of total` during enhancement;
+- current state is exposed through `data-index`, `data-current`,
+  `data-count`, `data-can-previous`, `data-can-next`, `data-motion`, and
+  per-slide `data-selected`;
+- previous/next controls are disabled at boundaries unless `loop` is enabled.
+
+Keyboard and scroll policy:
+
+- horizontal carousels respond to ArrowLeft and ArrowRight;
+- vertical carousels respond to ArrowUp and ArrowDown;
+- Home and End move to the first and last slide;
+- keyboard movement focuses the selected slide for deterministic focus;
+- native scroll, touchpad-style scroll, or programmatic `scrollTo()` movement
+  resynchronizes current hooks and control disabled state.
+
+Approved divergences from shadcn/Embla:
+
+- RadCN does not expose Embla's React API, options object, `setApi`, or plugin
+  system in the core carousel.
+- Core carousel movement is immediate and deterministic for state hooks rather
+  than driven by Embla animation state.
+- Advanced Embla-specific features can become future recipes or hardening work
+  if a later issue proves they are required.
+
+Stage 4 is complete after this cluster. Stage 5 should handle React-heavy
+systems and application blocks next: `chart`, `data-table`, `sonner`, `toast`,
+`resizable`, `sidebar`, `form`, `input-group`, `input-otp`, and any remaining
+recipe/block dispositions.
 
 ## Styles and Tokens
 
