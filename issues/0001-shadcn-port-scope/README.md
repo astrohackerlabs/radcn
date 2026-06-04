@@ -103,3 +103,5 @@ Those differences must be explicit and documented, not accidental.
   — **Pass**
 - [Experiment 2: Build paired fixture apps](02-build-paired-fixture-apps.md) —
   **Pass**
+- [Experiment 3: Build Playwright artifact harness](03-build-playwright-artifact-harness.md) —
+  **Designed**
