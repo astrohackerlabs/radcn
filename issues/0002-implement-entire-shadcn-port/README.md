@@ -265,6 +265,19 @@ committed work.
   integration decisions. Evidence:
   [Experiment 9](09-stage-2-toggle-and-toggle-group-primitives.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 10:** Single-thumb slider should use native
+  `<input type="range">` for accessibility, keyboard, pointer, submit, and
+  reset behavior; a small `enhanceSlider()` helper only reflects live value
+  metadata and CSS fill. Applies to: `slider`, future range controls. Evidence:
+  [Experiment 10](10-stage-2-slider-form-control-primitive.md),
+  `packages/radcn/src/components/slider.tsx`,
+  `fixtures/tests/slider.spec.ts`.
+- **2026-06-04, Experiment 10:** Multi-thumb and vertical slider behavior are
+  deferred: native range has one value, and portable vertical rendering is not
+  stable enough for Stage 2 visual parity. Applies to: `slider`, future custom
+  range primitives. Evidence:
+  [Experiment 10](10-stage-2-slider-form-control-primitive.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -499,4 +512,4 @@ This issue is complete when:
 - [Experiment 9: Stage 2 toggle and toggle group primitives](09-stage-2-toggle-and-toggle-group-primitives.md)
   — **Pass**
 - [Experiment 10: Stage 2 slider form control primitive](10-stage-2-slider-form-control-primitive.md)
-  — **Designed**
+  — **Pass**

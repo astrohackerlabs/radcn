@@ -464,6 +464,42 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Progress customized through public tokens.",
   },
   {
+    component: "slider",
+    id: "default",
+    title: "Default Slider",
+    description: "Native range slider with default value.",
+  },
+  {
+    component: "slider",
+    id: "value",
+    title: "Slider Value",
+    description: "Native range slider with an explicit initial value.",
+  },
+  {
+    component: "slider",
+    id: "disabled",
+    title: "Disabled Slider",
+    description: "Disabled native range slider.",
+  },
+  {
+    component: "slider",
+    id: "step",
+    title: "Stepped Slider",
+    description: "Native range slider with custom min max and step.",
+  },
+  {
+    component: "slider",
+    id: "custom-token",
+    title: "Custom Slider Token",
+    description: "Slider customized through public tokens.",
+  },
+  {
+    component: "slider",
+    id: "form-submit-reset",
+    title: "Slider Form Behavior",
+    description: "Slider submission and reset behavior.",
+  },
+  {
     component: "accordion",
     id: "single",
     title: "Single Accordion",

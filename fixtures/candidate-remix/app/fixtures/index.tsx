@@ -33,6 +33,7 @@ import {
 import { renderTextareaFixture } from './textarea.tsx'
 import { renderTabsFixture } from './tabs.tsx'
 import { renderToggleFixture, renderToggleGroupFixture } from './toggle.tsx'
+import { renderSliderFixture } from './slider.tsx'
 
 export function renderCandidateFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -76,6 +77,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderSeparatorFixture()
     case 'skeleton':
       return renderSkeletonFixture()
+    case 'slider':
+      return renderSliderFixture(fixture)
     case 'spinner':
       return renderSpinnerFixture(fixture)
     case 'switch':

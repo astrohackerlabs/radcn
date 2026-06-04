@@ -27,6 +27,7 @@
     "./radio-group": "./src/components/radio-group.tsx",
     "./separator": "./src/components/separator.tsx",
     "./skeleton": "./src/components/skeleton.tsx",
+    "./slider": "./src/components/slider.tsx",
     "./spinner": "./src/components/spinner.tsx",
     "./switch": "./src/components/switch.tsx",
     "./tabs": "./src/components/tabs.tsx",

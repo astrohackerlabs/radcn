@@ -19,6 +19,7 @@ export type FixtureComponent =
   | "radio-group"
   | "separator"
   | "skeleton"
+  | "slider"
   | "spinner"
   | "switch"
   | "table"

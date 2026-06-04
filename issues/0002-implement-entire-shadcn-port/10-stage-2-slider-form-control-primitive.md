@@ -172,3 +172,92 @@ decisions: native range versus custom client primitive, single-thumb versus
 multi-thumb divergence, vertical orientation support or documented exclusion,
 form submit/reset behavior, keyboard and pointer behavior, state hooks, and
 customization hooks.
+
+## Result
+
+**Result:** Pass
+
+Experiment 10 implemented the RadCN slider primitive:
+
+- `Slider`
+
+RadCN source lives at `packages/radcn/src/components/slider.tsx`. The package
+now exports `radcn/slider`, root exports for the component and type, and the
+client helper `enhanceSlider()`.
+
+The chosen state strategy is native-first single-thumb range input. `Slider`
+renders a real `<input type="range">` for accessible slider semantics, keyboard
+behavior, pointer behavior, form submission, and form reset. The wrapper exposes
+stable root, input, track, range, and thumb hooks. `enhanceSlider()` only
+reflects live `data-value` and `--radcn-slider-percent` after input events and
+form resets.
+
+This is an approved divergence from the full Radix/shadcn multi-thumb slider
+model. Multi-thumb values are deferred because native range has one value and a
+custom multi-thumb primitive would need additional collision behavior, hidden
+form values, ARIA relationships, and pointer management. Vertical orientation is
+also deferred because native range vertical rendering is not portable enough for
+the current Stage 2 visual parity surface.
+
+Disabled sliders preserve their server-rendered value hooks. The helper ignores
+input events from disabled controls so reflected metadata cannot drift from a
+non-interactive native value.
+
+Shared slider scenarios now include:
+
+- `slider/default`
+- `slider/value`
+- `slider/disabled`
+- `slider/step`
+- `slider/custom-token`
+- `slider/form-submit-reset`
+
+Verification commands run so far:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/slider.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. `pnpm fixtures:artifacts` ran 258 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 214 screenshot entries;
+- 107 shared scenarios;
+- 6 slider scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+**Reviewer:** Epicurus
+
+**Result:** Pass
+
+Epicurus found no blocking issues. The review confirmed the native range
+implementation, package exports, candidate enhancement entry, six shared slider
+scenarios, Playwright coverage, source documentation, issue learnings, result
+record, and clean `vendor/` status. The only note was non-blocking: the
+accessibility test asserts native range semantics and accessible name rather
+than using `getByRole("slider")`, which is acceptable because RadCN renders a
+real native range input.
+
+## Conclusion
+
+Experiment 10 establishes RadCN's native range-input strategy. Single-value
+range controls should use the platform input for semantics and forms, with
+small helpers only for reflected styling metadata. More complex multi-thumb
+range behavior should be treated as a future custom primitive rather than
+smuggled into the single-thumb native implementation.
+
+This experiment does not complete Stage 2. The next experiment should handle
+the remaining bounded non-overlay primitives, likely `avatar` and
+`scroll-area`, before deciding whether `hover-card` belongs in Stage 2 or moves
+to Stage 3.

@@ -1075,6 +1075,74 @@
   }
 }
 
+.radcn-slider {
+  position: relative;
+  display: block;
+  width: min(100%, 20rem);
+  height: 1.25rem;
+  color: var(--radcn-slider-fg, var(--radcn-primary));
+  font-family: var(--radcn-font);
+}
+
+.radcn-slider[data-disabled="true"] {
+  opacity: 0.5;
+}
+
+.radcn-slider-input {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radcn-slider-input:disabled {
+  cursor: not-allowed;
+}
+
+.radcn-slider-track {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: block;
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--radcn-slider-track-bg, var(--radcn-secondary));
+  transform: translateY(-50%);
+}
+
+.radcn-slider-range {
+  display: block;
+  width: var(--radcn-slider-percent, 0%);
+  height: 100%;
+  border-radius: inherit;
+  background: var(--radcn-slider-range-bg, var(--radcn-primary));
+}
+
+.radcn-slider-thumb {
+  position: absolute;
+  top: 50%;
+  left: var(--radcn-slider-percent, 0%);
+  z-index: 1;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--radcn-slider-thumb-border, var(--radcn-primary));
+  border-radius: 999px;
+  background: var(--radcn-slider-thumb-bg, var(--radcn-background));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.radcn-slider:has(.radcn-slider-input:focus-visible) .radcn-slider-thumb {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
+}
+
 .radcn-accordion {
   width: min(100%, 36rem);
   border-top: 1px solid var(--radcn-accordion-border, var(--radcn-border));
@@ -1400,6 +1468,13 @@
 .radcn-fixture-custom-progress {
   --radcn-progress-bg: #ccfbf1;
   --radcn-progress-fg: #0f766e;
+}
+
+.radcn-fixture-custom-slider {
+  --radcn-slider-track-bg: #ccfbf1;
+  --radcn-slider-range-bg: #0f766e;
+  --radcn-slider-thumb-border: #0f766e;
+  --radcn-slider-thumb-bg: #f0fdfa;
 }
 
 .radcn-fixture-custom-accordion {

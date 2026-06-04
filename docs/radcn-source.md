@@ -484,6 +484,61 @@ button-local and group-local pressed state. Later Stage 2 components should use
 this smaller helper shape when they do not need the richer tabpanel relationship
 model from tabs.
 
+## Stage 2 Slider Range Control
+
+Experiment 10 adds the bounded range form-control primitive:
+
+- `Slider`
+
+RadCN slider uses a native `<input type="range">` for the real accessible
+control and form value. A small `enhanceSlider()` helper from `radcn/slider`
+keeps wrapper `data-value` and the CSS range fill variable current after input
+events and form resets:
+
+```ts
+import { enhanceSlider } from 'radcn/slider'
+
+enhanceSlider()
+```
+
+The source is exported from the root `radcn` package and from `radcn/slider`.
+
+Public hooks:
+
+- `data-radcn-slider`
+- `data-radcn-slider-input`
+- `data-radcn-slider-track`
+- `data-radcn-slider-range`
+- `data-radcn-slider-thumb`
+
+The root exposes `data-value`, `data-min`, `data-max`, `data-step`,
+`data-orientation="horizontal"`, and `data-disabled` when disabled. The native
+input owns `name`, `min`, `max`, `step`, `disabled`, value, keyboard behavior,
+pointer behavior, form submission, and form reset.
+
+RadCN supports single-thumb horizontal sliders in Stage 2. Multi-thumb Radix
+slider values are deferred because native range has one value, and implementing
+multi-thumb collision, hidden form values, and ARIA relationships would require
+a custom client primitive beyond this bounded native form-control pass.
+Vertical orientation is also deferred because native vertical range rendering is
+not portable enough across browsers to use as a stable visual parity surface.
+
+Disabled sliders preserve their server-rendered value hooks: the helper ignores
+input events from disabled controls so visual metadata does not drift from a
+non-interactive native value.
+
+Customization tokens:
+
+- `--radcn-slider-track-bg`
+- `--radcn-slider-range-bg`
+- `--radcn-slider-thumb-border`
+- `--radcn-slider-thumb-bg`
+
+Slider establishes the range-input pattern for RadCN: prefer native form
+controls for single-value behavior, add a focused helper only for reflected
+metadata and visuals, and defer multi-value custom primitives until a component
+explicitly needs them.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document

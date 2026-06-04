@@ -33,6 +33,7 @@ import {
 import { renderTextareaFixture } from "./textarea"
 import { renderTabsFixture } from "./tabs"
 import { renderToggleFixture, renderToggleGroupFixture } from "./toggle"
+import { renderSliderFixture } from "./slider"
 
 export function renderReferenceFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -76,6 +77,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderSeparatorFixture()
     case "skeleton":
       return renderSkeletonFixture()
+    case "slider":
+      return renderSliderFixture(fixture.id)
     case "spinner":
       return renderSpinnerFixture(fixture.id)
     case "switch":
