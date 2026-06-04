@@ -836,3 +836,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 22: Stage 5 form and input cluster](22-stage-5-form-input-cluster.md)
   — **Pass**
+- [Experiment 23: Stage 5 data display and table block](23-stage-5-data-display-and-table-block.md)
+  — **Designed**
