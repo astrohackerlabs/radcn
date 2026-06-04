@@ -13,6 +13,7 @@ export type FixtureComponent =
   | "collapsible"
   | "context-menu"
   | "dialog"
+  | "drawer"
   | "dropdown-menu"
   | "empty"
   | "field"

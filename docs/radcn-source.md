@@ -694,7 +694,7 @@ Customization tokens:
 This experiment establishes the modal overlay baseline for later
 `alert-dialog` and `sheet` work. It does not solve positioned overlays:
 `popover`, `tooltip`, `hover-card`, dropdown menus, context menus, and drawer
-gestures still need positioning, collision, arrow, delay, non-modal, menu, or
+gestures need positioning, collision, arrow, delay, non-modal, menu, or
 gesture-specific experiments.
 
 ## Stage 3 Modal Variants
@@ -800,9 +800,8 @@ Sheet customization tokens:
 
 The modal overlay layer now covers `dialog`, `alert-dialog`, and `sheet`.
 Positioned overlays, menus, hover-card, context-menu, dropdown-menu, and drawer
-remain unsolved because they need collision, anchoring, menu focus/typeahead,
-hover/focus delay, contextmenu events, or gesture handling beyond this modal
-variant layer.
+need additional collision, anchoring, menu focus/typeahead, hover/focus delay,
+contextmenu, or gesture behavior beyond this modal variant layer.
 
 ## Stage 3 Positioned Overlay Foundation
 
@@ -904,9 +903,8 @@ Positioned overlay customization tokens:
 The positioned overlay foundation now covers `popover`, `tooltip`, and
 `hover-card`. Menus build on the same portal and clamping ideas but need their
 own helper because they own focus, item activation, checked state, typeahead,
-and submenu coordination. Drawer remains unsolved because it needs a gesture
-and mobile interaction policy that should not be forced into the non-modal
-positioning helper.
+and submenu coordination. Drawer needs modal behavior plus direction and
+gesture policy, so it stays separate from the non-modal positioning helper.
 
 ## Stage 3 Menu Overlay Foundation
 
@@ -1010,11 +1008,88 @@ Menu customization tokens:
 - `--radcn-menu-disabled-fg`
 
 The menu foundation now covers `dropdown-menu` and `context-menu`. Drawer
-remains unsolved because it needs mobile side-panel and gesture policy. Stage 4
-widgets such as `menubar`, `select`, `combobox`, `navigation-menu`, and
-`command` should not blindly reuse `setupMenuOverlay()`; they need their own
-orientation, selection, listbox/combobox, viewport, filtering, or navigation
-contracts.
+uses the modal foundation rather than the menu helper. Stage 4 widgets such as
+`menubar`, `select`, `combobox`, `navigation-menu`, and `command` should not
+blindly reuse `setupMenuOverlay()`; they need their own orientation, selection,
+listbox/combobox, viewport, filtering, or navigation contracts.
+
+## Stage 3 Drawer and Closure
+
+Experiment 16 adds the final Stage 3 primitive:
+
+- `Drawer`
+- `DrawerTrigger`
+- `DrawerPortal`
+- `DrawerOverlay`
+- `DrawerContent`
+- `DrawerClose`
+- `DrawerHeader`
+- `DrawerFooter`
+- `DrawerTitle`
+- `DrawerDescription`
+
+Drawer is a modal overlay like sheet, but it is not just an alias for sheet.
+Sheet is a side-panel dialog variant with explicit side placement. Drawer
+matches the shadcn/Vaul author expectation of a bottom-first panel with
+optional `direction`, a visible handle by default for bottom drawers, and a
+drag threshold policy.
+
+RadCN drawer reuses `setupModal()` for portal movement, title/description
+relationships, `role="dialog"`, `aria-modal`, focus trap, focus restoration,
+Escape and outside dismissal, close controls, and body scroll lock. The drawer
+wrapper layers on direction metadata, trigger `aria-expanded`/`aria-controls`,
+handle rendering, and pointer drag behavior.
+
+Direction policy:
+
+- default direction is `bottom`;
+- supported directions are `top`, `right`, `bottom`, and `left`;
+- content exposes `data-direction` and `data-vaul-drawer-direction` for styling
+  and migration familiarity;
+- top/bottom drawers cap height at 80vh by default;
+- left/right drawers cap width at 75vw and 24rem by default.
+
+Gesture policy:
+
+- bottom drawers render a handle by default;
+- authors may request a handle for other directions;
+- dragging from the handle or non-interactive content tracks along the drawer
+  axis with `--radcn-drawer-drag-offset`;
+- the deterministic close threshold is 80px;
+- drags below 80px snap back open;
+- drags at or beyond 80px close and restore focus through the modal controller.
+
+The implementation intentionally does not include Vaul's full velocity physics,
+snap points, nested drawer scaling, or background scaling. Those are approved
+divergences for this stage because the tested RadCN policy preserves the
+visible shadcn panel model, modal accessibility contract, customization hooks,
+and a deterministic mobile-friendly dismiss gesture without importing Vaul.
+
+Scrollable drawer content should scroll inside the drawer while body scroll
+remains locked. Fixtures use an explicit internal scroll region to verify this
+policy.
+
+Drawer customization tokens:
+
+- `--radcn-drawer-z`
+- `--radcn-drawer-overlay-bg`
+- `--radcn-drawer-border`
+- `--radcn-drawer-bg`
+- `--radcn-drawer-fg`
+- `--radcn-drawer-trigger-bg`
+- `--radcn-drawer-radius`
+- `--radcn-drawer-max-height`
+- `--radcn-drawer-side-width`
+- `--radcn-drawer-side-max-width`
+- `--radcn-drawer-handle-width`
+- `--radcn-drawer-handle-height`
+- `--radcn-drawer-handle-bg`
+- `--radcn-drawer-action-bg`
+
+Stage 3 is complete after Experiment 16. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-3-audit.md`. Stage 4 should
+move next to composite widgets such as `select`, `combobox`, `command`,
+`menubar`, `navigation-menu`, `calendar`, `date-picker`, and `carousel`.
 
 ## Styles and Tokens
 
@@ -1059,6 +1134,8 @@ Navigation, collection, and typography probes continue that pattern:
 - `alert-dialog/custom-token` overrides alert-dialog overlay, panel, media, and
   action tokens.
 - `sheet/custom-token` overrides sheet overlay, panel, and action tokens.
+- `drawer/custom-token` overrides drawer overlay, panel, handle, trigger, and
+  action tokens.
 - `popover/custom-token` overrides positioned overlay border, background,
   foreground, and close tokens.
 - `tooltip/custom-token` overrides tooltip background and foreground tokens.
@@ -1076,6 +1153,11 @@ Stage 1 is complete as of Experiment 4. Evidence is recorded in
 
 Stage 2 is complete as of Experiment 11. Evidence is recorded in
 `issues/0002-implement-entire-shadcn-port/stage-2-audit.md`.
+
+## Stage 3 Status
+
+Stage 3 is complete as of Experiment 16. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-3-audit.md`.
 
 ## Interim Install and Copy Workflow
 

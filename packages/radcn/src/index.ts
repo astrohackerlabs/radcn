@@ -26,6 +26,8 @@ export { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGr
 export type { ContextMenuItemVariant, ContextMenuProps, ContextMenuTriggerProps } from './components/context-menu.tsx'
 export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, enhanceDialog } from './components/dialog.tsx'
 export type { DialogButtonProps, DialogContentProps, DialogPartProps, DialogProps } from './components/dialog.tsx'
+export { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger, enhanceDrawer } from './components/drawer.tsx'
+export type { DrawerButtonProps, DrawerContentProps, DrawerDirection, DrawerPartProps, DrawerProps } from './components/drawer.tsx'
 export { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger, enhanceDropdownMenu } from './components/dropdown-menu.tsx'
 export type { DropdownMenuAlign, DropdownMenuCheckboxItemProps, DropdownMenuContentProps, DropdownMenuItemProps, DropdownMenuItemVariant, DropdownMenuPartProps, DropdownMenuProps, DropdownMenuRadioGroupProps, DropdownMenuRadioItemProps, DropdownMenuSide, DropdownMenuTriggerProps } from './components/dropdown-menu.tsx'
 export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './components/empty.tsx'

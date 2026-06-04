@@ -398,6 +398,22 @@ committed work.
   and future virtual-anchor overlays. Evidence:
   [Experiment 15](15-stage-3-menu-overlay-primitives.md),
   `fixtures/tests/menu-overlays.spec.ts`.
+- **2026-06-04, Experiment 16:** Drawer is not just sheet with another name:
+  it reuses modal behavior but owns default-bottom direction, handle rendering,
+  and a deterministic 80px drag threshold. Applies to: `drawer`, future
+  gesture overlays. Evidence:
+  [Experiment 16](16-stage-3-drawer-and-closure-audit.md),
+  `packages/radcn/src/components/drawer.tsx`.
+- **2026-06-04, Experiment 16:** Vaul velocity physics, snap points, nested
+  drawer scaling, and background scaling are approved Stage 3 divergences; the
+  RadCN contract is modal accessibility, direction hooks, customization hooks,
+  internal content scrolling, and deterministic drag dismissal. Applies to:
+  `drawer`, future dependency replacement decisions. Evidence:
+  [Experiment 16](16-stage-3-drawer-and-closure-audit.md),
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 16:** Stage 3 is complete after drawer. Later
+  overlay work should be hardening, not prerequisite scope for Stage 4. Applies
+  to: `Stage 3`, `Stage 4`. Evidence: [Stage 3 audit](stage-3-audit.md).
 
 ## Five Porting Stages
 
@@ -507,6 +523,9 @@ Stage 3 must answer:
 
 Stage 3 is complete only when overlay behavior is verified through keyboard,
 pointer, accessibility, visual, and divergence checks.
+
+Stage 3 status: complete as of Experiment 16. See
+[the Stage 3 audit](stage-3-audit.md).
 
 ### Stage 4: Composite Keyboard Widgets
 
@@ -647,4 +666,4 @@ This issue is complete when:
 - [Experiment 15: Stage 3 menu overlay primitives](15-stage-3-menu-overlay-primitives.md)
   — **Pass**
 - [Experiment 16: Stage 3 drawer and closure audit](16-stage-3-drawer-and-closure-audit.md)
-  — **Designed**
+  — **Pass**

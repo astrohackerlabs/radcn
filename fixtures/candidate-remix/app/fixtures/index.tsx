@@ -6,6 +6,7 @@ import { renderAvatarFixture } from './avatar.tsx'
 import { renderButtonFixture } from './button.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderDialogFixture } from './dialog.tsx'
+import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
 import { renderContextMenuFixture, renderDropdownMenuFixture } from './menu-overlays.tsx'
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from './positioned-overlays.tsx'
@@ -72,6 +73,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderContextMenuFixture(fixture)
     case 'dialog':
       return renderDialogFixture(fixture)
+    case 'drawer':
+      return renderDrawerFixture(fixture)
     case 'dropdown-menu':
       return renderDropdownMenuFixture(fixture)
     case 'empty':

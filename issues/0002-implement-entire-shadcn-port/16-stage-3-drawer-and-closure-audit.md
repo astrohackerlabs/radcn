@@ -231,3 +231,124 @@ widgets.
 One non-blocking implementation note was recorded: choose and document the
 exact drag threshold value during implementation so tests and docs describe the
 same gesture policy.
+
+## Result
+
+**Result:** Pass
+
+Experiment 16 ports `drawer` and closes Stage 3 with an audit.
+
+The implementation adds:
+
+- `packages/radcn/src/components/drawer.tsx`
+- package subpath export `radcn/drawer`
+- root package exports for drawer components, types, and `enhanceDrawer()`
+- candidate fixture enhancer loading in
+  `fixtures/candidate-remix/app/assets/entry.ts`
+- drawer styles and customization tokens in `packages/radcn/src/styles/`
+- paired candidate/reference drawer fixtures
+- shared drawer scenarios and focused Playwright coverage
+- `issues/0002-implement-entire-shadcn-port/stage-3-audit.md`
+
+Drawer reuses `setupModal()` for portal movement, role/ARIA relationships,
+focus trap, focus restoration, Escape dismissal, outside dismissal, close
+controls, and body scroll lock. `setupModal()` now returns a controller so
+drawer can close through drag gestures without duplicating modal behavior.
+
+Drawer-specific behavior lives in `enhanceDrawer()`:
+
+- default direction is `bottom`;
+- supported directions are `top`, `right`, `bottom`, and `left`;
+- root/content expose `data-direction`, `data-state`, `data-open`, and
+  `data-vaul-drawer-direction`;
+- trigger state synchronizes `aria-expanded` and `aria-controls`;
+- bottom drawers render a handle by default;
+- authors can request a handle on other directions;
+- pointer dragging tracks along the drawer axis through
+  `--radcn-drawer-drag-offset`;
+- the deterministic close threshold is 80px;
+- drags below 80px snap back open;
+- drags at or above 80px close through the modal controller.
+
+Approved Vaul/shadcn divergences:
+
+- RadCN does not implement Vaul velocity physics in Stage 3.
+- RadCN does not implement Vaul snap points in Stage 3.
+- RadCN does not implement nested drawer scaling or background scaling in
+  Stage 3.
+
+These divergences are documented because the Stage 3 contract is modal
+accessibility, direction hooks, customization hooks, internal content scrolling,
+and deterministic drag dismissal without importing Vaul.
+
+Shared drawer scenarios now include:
+
+- `drawer/default`
+- `drawer/default-open`
+- `drawer/directions`
+- `drawer/close-actions`
+- `drawer/scrollable-content`
+- `drawer/gesture-dismiss`
+- `drawer/custom-token`
+
+Focused Playwright coverage proves trigger open, portal capture, dialog
+semantics, title/description relationships, focus trap, focus restoration, body
+scroll lock/unlock, Escape dismissal, outside dismissal, close controls,
+default-open behavior, direction placement, handle visibility, internal content
+scrolling, drag snap-back, drag dismissal, customization hooks, and side-axis
+drag threshold behavior.
+
+Documentation was updated in `docs/radcn-source.md` with the drawer/sheet
+boundary, reused modal behavior, drawer-specific direction and gesture policy,
+the exact 80px drag threshold, approved Vaul divergences, scroll policy,
+customization tokens, and Stage 3 closure status.
+
+The Stage 3 audit records every Stage 3 component, completing experiment,
+source status, fixture/artifact status, focused-test status, documentation
+status, and divergence notes. The audit finds no remaining prerequisite Stage 3
+gap before Stage 4.
+
+Verification commands:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/drawer.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification passed. The focused drawer spec passed 4 tests. The full
+artifact suite passed 408 tests and generated a manifest with 168 scenarios,
+336 screenshot entries, and 14 paired drawer artifact entries.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Hubble`, which
+approved the result with **Pass** and no blocking findings.
+
+The review checked drawer source, modal reuse, direction/gesture policy, public
+hooks, package exports, root exports, candidate enhancer loading, focused
+Playwright coverage, result records, artifact totals, Stage 3 audit coverage,
+documentation, issue learnings, and vendor cleanliness.
+
+The reviewer also reran verification:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck`
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/drawer.spec.ts`
+- `pnpm fixtures:artifacts`
+
+All review verification passed. The reviewer confirmed 4 focused drawer tests,
+408 full artifact tests, 168 manifest scenarios, 336 screenshot entries, 14
+drawer artifact entries, and no vendor diffs.
+
+## Conclusion
+
+Experiment 16 completes the Stage 3 drawer surface and the Stage 3 closure
+audit. Issue 2 can move to Stage 4 composite keyboard widgets next:
+`select`, `combobox`, `command`, `menubar`, `navigation-menu`, `calendar`,
+`date-picker`, and `carousel`.

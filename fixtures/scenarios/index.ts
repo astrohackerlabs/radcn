@@ -650,6 +650,48 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Sheet customized through public tokens.",
   },
   {
+    component: "drawer",
+    id: "default",
+    title: "Default Drawer",
+    description: "Bottom drawer opened from a trigger.",
+  },
+  {
+    component: "drawer",
+    id: "default-open",
+    title: "Default Open Drawer",
+    description: "Drawer initialized open.",
+  },
+  {
+    component: "drawer",
+    id: "directions",
+    title: "Drawer Directions",
+    description: "Drawer placement from top right bottom and left edges.",
+  },
+  {
+    component: "drawer",
+    id: "close-actions",
+    title: "Drawer Close Actions",
+    description: "Drawer closed through explicit close controls and outside dismissal.",
+  },
+  {
+    component: "drawer",
+    id: "scrollable-content",
+    title: "Scrollable Drawer Content",
+    description: "Drawer with an internally scrollable content region.",
+  },
+  {
+    component: "drawer",
+    id: "gesture-dismiss",
+    title: "Drawer Gesture Dismiss",
+    description: "Drawer drag threshold behavior.",
+  },
+  {
+    component: "drawer",
+    id: "custom-token",
+    title: "Custom Drawer Token",
+    description: "Drawer customized through public tokens.",
+  },
+  {
     component: "popover",
     id: "default",
     title: "Default Popover",

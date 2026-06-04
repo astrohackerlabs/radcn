@@ -2,6 +2,7 @@ import { run } from 'remix/ui'
 import { enhanceAlertDialog } from 'radcn/alert-dialog'
 import { enhanceContextMenu } from 'radcn/context-menu'
 import { enhanceDialog } from 'radcn/dialog'
+import { enhanceDrawer } from 'radcn/drawer'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 import { enhanceHoverCard } from 'radcn/hover-card'
 import { enhancePopover } from 'radcn/popover'
@@ -23,6 +24,7 @@ enhanceTabs()
 enhanceDialog()
 enhanceAlertDialog()
 enhanceSheet()
+enhanceDrawer()
 enhanceDropdownMenu()
 enhanceContextMenu()
 enhancePopover()

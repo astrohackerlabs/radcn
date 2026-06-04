@@ -52,6 +52,15 @@ export interface ModalSetupOptions {
   triggerSelector: string
 }
 
+export interface ModalController {
+  close: (restoreFocus?: boolean) => void
+  content: HTMLElement
+  open: () => void
+  portal: HTMLElement
+  root: HTMLElement
+  trigger: HTMLElement | null
+}
+
 function portalHost(scope: HTMLElement | null) {
   let host = scope?.querySelector<HTMLElement>('[data-radcn-portal-root]') || document.querySelector<HTMLElement>('[data-radcn-portal-root]')
   if (host) return host
@@ -95,7 +104,7 @@ function setState(root: HTMLElement, portal: HTMLElement, options: ModalSetupOpt
   })
 }
 
-export function setupModal(root: HTMLElement, options: ModalSetupOptions) {
+export function setupModal(root: HTMLElement, options: ModalSetupOptions): ModalController | undefined {
   if (root.dataset[options.readyDataKey] === 'true') return
 
   let dialogId = root.id || `radcn-modal-${Math.random().toString(36).slice(2)}`
@@ -208,6 +217,15 @@ export function setupModal(root: HTMLElement, options: ModalSetupOptions) {
   else setState(root, dialogPortal, options, 'closed')
 
   root.dataset[options.readyDataKey] = 'true'
+
+  return {
+    close,
+    content: dialogContent,
+    open,
+    portal: dialogPortal,
+    root,
+    trigger,
+  }
 }
 
 export function enhanceDialog(root: ParentNode = document) {

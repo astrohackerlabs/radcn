@@ -6,6 +6,7 @@ import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCollapsibleFixture } from "./collapsible"
 import { renderDialogFixture } from "./dialog"
+import { renderDrawerFixture } from "./drawer"
 import { renderFieldFixture } from "./field"
 import { renderContextMenuFixture, renderDropdownMenuFixture } from "./menu-overlays"
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from "./positioned-overlays"
@@ -72,6 +73,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderContextMenuFixture(fixture.id)
     case "dialog":
       return renderDialogFixture(fixture.id)
+    case "drawer":
+      return renderDrawerFixture(fixture.id)
     case "dropdown-menu":
       return renderDropdownMenuFixture(fixture.id)
     case "empty":
