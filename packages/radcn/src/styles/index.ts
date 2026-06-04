@@ -263,9 +263,34 @@ export const radcnStyles = String.raw`
 .radcn-dialog-description{margin:0;color:var(--radcn-muted-foreground);font:400 .875rem/1.5 var(--radcn-font)}
 .radcn-dialog-close{position:absolute;top:.75rem;right:.75rem;display:inline-flex;width:2rem;height:2rem;align-items:center;justify-content:center;border:0;border-radius:var(--radcn-radius);background:transparent;color:var(--radcn-muted-foreground);cursor:pointer;font:600 1rem/1 var(--radcn-font)}
 .radcn-dialog-close:hover{background:var(--radcn-secondary);color:var(--radcn-foreground)}
-@media (prefers-reduced-motion:reduce){.radcn-dialog-overlay,.radcn-dialog-content{animation:none}}
+.radcn-alert-dialog,.radcn-sheet{display:contents;font-family:var(--radcn-font)}
+.radcn-alert-dialog-trigger,.radcn-sheet-trigger,.radcn-alert-dialog-action,.radcn-alert-dialog-cancel{display:inline-flex;min-height:var(--radcn-control-height);align-items:center;justify-content:center;border:1px solid transparent;border-radius:var(--radcn-radius);cursor:pointer;padding:.5rem 1rem;font:500 .875rem/1 var(--radcn-font);outline:none}
+.radcn-alert-dialog-trigger,.radcn-sheet-trigger,.radcn-alert-dialog-action{background:var(--radcn-modal-action-bg,var(--radcn-primary));color:var(--radcn-modal-action-fg,var(--radcn-primary-foreground))}
+.radcn-alert-dialog-cancel{border-color:var(--radcn-alert-dialog-cancel-border,var(--radcn-border));background:var(--radcn-background);color:var(--radcn-foreground)}
+.radcn-alert-dialog-trigger:focus-visible,.radcn-alert-dialog-action:focus-visible,.radcn-alert-dialog-cancel:focus-visible,.radcn-sheet-trigger:focus-visible,.radcn-sheet-close:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-ring) 35%,transparent)}
+.radcn-alert-dialog-portal,.radcn-sheet-portal{position:fixed;inset:0;z-index:var(--radcn-modal-z,50)}
+.radcn-alert-dialog-overlay,.radcn-sheet-overlay{position:fixed;inset:0;background:var(--radcn-modal-overlay-bg,rgb(0 0 0 / .5));animation:radcn-dialog-fade-in 120ms ease-out}
+.radcn-alert-dialog-content{position:fixed;top:50%;left:50%;z-index:1;display:grid;width:min(calc(100vw - 2rem),var(--radcn-alert-dialog-width,32rem));gap:1rem;border:1px solid var(--radcn-alert-dialog-border,var(--radcn-border));border-radius:calc(var(--radcn-radius) + .125rem);background:var(--radcn-alert-dialog-bg,var(--radcn-background));color:var(--radcn-alert-dialog-fg,var(--radcn-foreground));padding:1.5rem;box-shadow:0 24px 64px rgb(0 0 0 / .2);outline:none;transform:translate(-50%,-50%);animation:radcn-dialog-zoom-in 120ms ease-out}
+.radcn-alert-dialog-content--sm{--radcn-alert-dialog-width:24rem}
+.radcn-alert-dialog-header,.radcn-sheet-header{display:grid;gap:.375rem}
+.radcn-alert-dialog-footer,.radcn-sheet-footer{display:flex;flex-direction:row-reverse;gap:.5rem}
+.radcn-alert-dialog-content--sm .radcn-alert-dialog-footer{display:grid;grid-template-columns:1fr 1fr}
+.radcn-alert-dialog-media{display:grid;width:2.5rem;height:2.5rem;place-items:center;border-radius:999px;background:var(--radcn-alert-dialog-media-bg,var(--radcn-secondary));color:var(--radcn-alert-dialog-media-fg,var(--radcn-foreground));font:700 1rem/1 var(--radcn-font)}
+.radcn-alert-dialog-title,.radcn-sheet-title{margin:0;font:600 1.125rem/1.25 var(--radcn-font)}
+.radcn-alert-dialog-description,.radcn-sheet-description{margin:0;color:var(--radcn-muted-foreground);font:400 .875rem/1.5 var(--radcn-font)}
+.radcn-sheet-content{position:fixed;z-index:1;display:flex;flex-direction:column;gap:1rem;border:1px solid var(--radcn-sheet-border,var(--radcn-border));background:var(--radcn-sheet-bg,var(--radcn-background));color:var(--radcn-sheet-fg,var(--radcn-foreground));padding:1.5rem;box-shadow:0 24px 64px rgb(0 0 0 / .2);outline:none;animation:radcn-sheet-slide-in 140ms ease-out}
+.radcn-sheet-content--right,.radcn-sheet-content--left{top:0;bottom:0;width:min(100vw,var(--radcn-sheet-width,24rem))}
+.radcn-sheet-content--right{right:0}
+.radcn-sheet-content--left{left:0}
+.radcn-sheet-content--top,.radcn-sheet-content--bottom{right:0;left:0;min-height:var(--radcn-sheet-height,14rem)}
+.radcn-sheet-content--top{top:0}
+.radcn-sheet-content--bottom{bottom:0}
+.radcn-sheet-close{position:absolute;top:.75rem;right:.75rem;display:inline-flex;width:2rem;height:2rem;align-items:center;justify-content:center;border:0;border-radius:var(--radcn-radius);background:transparent;color:var(--radcn-muted-foreground);cursor:pointer;font:600 1rem/1 var(--radcn-font)}
+.radcn-sheet-close:hover{background:var(--radcn-secondary);color:var(--radcn-foreground)}
+@media (prefers-reduced-motion:reduce){.radcn-dialog-overlay,.radcn-dialog-content,.radcn-alert-dialog-overlay,.radcn-alert-dialog-content,.radcn-sheet-overlay,.radcn-sheet-content{animation:none}}
 @keyframes radcn-dialog-fade-in{from{opacity:0}}
 @keyframes radcn-dialog-zoom-in{from{opacity:0;transform:translate(-50%,-48%) scale(.96)}}
+@keyframes radcn-sheet-slide-in{from{opacity:0;transform:translateY(.5rem)}}
 .radcn-fixture-custom-breadcrumb{color:#0f766e}
 .radcn-fixture-custom-typography{--radcn-typography-h1-size:2.5rem;--radcn-typography-muted:#7c3aed}
 .radcn-fixture-custom-native-select{--radcn-native-select-border:#0f766e;--radcn-native-select-bg:#f0fdfa;--radcn-native-select-fg:#134e4a;--radcn-native-select-invalid:#7c3aed}
@@ -279,4 +304,6 @@ export const radcnStyles = String.raw`
 .radcn-fixture-custom-avatar{--radcn-avatar-bg:#ccfbf1;--radcn-avatar-border:#0f766e;--radcn-avatar-fallback-bg:#0f766e;--radcn-avatar-fallback-fg:#fff;--radcn-avatar-badge-bg:#7c3aed}
 .radcn-fixture-custom-scroll-area{--radcn-scroll-area-border:#0f766e;--radcn-scroll-area-bg:#f0fdfa;--radcn-scroll-area-thumb-bg:#0f766e;--radcn-scroll-area-corner-bg:#7c3aed}
 .radcn-fixture-custom-dialog{--radcn-dialog-overlay-bg:rgb(15 118 110 / .35);--radcn-dialog-border:#0f766e;--radcn-dialog-bg:#f0fdfa;--radcn-dialog-trigger-bg:#0f766e}
+.radcn-fixture-custom-alert-dialog{--radcn-modal-overlay-bg:rgb(127 29 29 / .35);--radcn-alert-dialog-border:#991b1b;--radcn-alert-dialog-bg:#fef2f2;--radcn-alert-dialog-media-bg:#fee2e2;--radcn-modal-action-bg:#991b1b}
+.radcn-fixture-custom-sheet{--radcn-modal-overlay-bg:rgb(15 118 110 / .25);--radcn-sheet-border:#0f766e;--radcn-sheet-bg:#f0fdfa;--radcn-modal-action-bg:#0f766e}
 `

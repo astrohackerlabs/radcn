@@ -323,6 +323,27 @@ committed work.
   experiments. Applies to: `Stage 3`. Evidence:
   [Experiment 12](12-stage-3-dialog-overlay-foundation.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 13:** Modal variants should delegate to the shared
+  `setupModal()` behavior instead of copying focus trap, portal, dismissal, and
+  scroll-lock code. Applies to: `dialog`, `alert-dialog`, `sheet`, future modal
+  overlays. Evidence:
+  [Experiment 13](13-stage-3-modal-variants-alert-dialog-and-sheet.md),
+  `packages/radcn/src/components/dialog.tsx`,
+  `packages/radcn/src/components/alert-dialog.tsx`,
+  `packages/radcn/src/components/sheet.tsx`.
+- **2026-06-04, Experiment 13:** Alert dialog should default to
+  non-dismissible Escape/outside behavior and close through explicit action or
+  cancel controls. Applies to: `alert-dialog`, destructive confirmation flows.
+  Evidence:
+  [Experiment 13](13-stage-3-modal-variants-alert-dialog-and-sheet.md),
+  `fixtures/tests/modal-variants.spec.ts`.
+- **2026-06-04, Experiment 13:** Sheet is a modal dialog variant with
+  side-specific `data-side` hooks; it reuses dialog focus, dismissal,
+  restoration, and scroll-lock behavior while styling panel placement by side.
+  Applies to: `sheet`, future side-panel overlays. Evidence:
+  [Experiment 13](13-stage-3-modal-variants-alert-dialog-and-sheet.md),
+  `packages/radcn/src/components/sheet.tsx`,
+  `fixtures/tests/modal-variants.spec.ts`.
 
 ## Five Porting Stages
 
@@ -566,4 +587,4 @@ This issue is complete when:
 - [Experiment 12: Stage 3 dialog overlay foundation](12-stage-3-dialog-overlay-foundation.md)
   — **Pass**
 - [Experiment 13: Stage 3 modal variants, alert dialog and sheet](13-stage-3-modal-variants-alert-dialog-and-sheet.md)
-  — **Designed**
+  — **Pass**

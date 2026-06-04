@@ -1,6 +1,7 @@
 import type { FixtureScenario } from "../../../scenarios/types"
 
 import { renderAccordionFixture } from "./accordion"
+import { renderAlertDialogFixture } from "./alert-dialog"
 import { renderAvatarFixture } from "./avatar"
 import { renderButtonFixture } from "./button"
 import { renderCollapsibleFixture } from "./collapsible"
@@ -37,6 +38,7 @@ import { renderTabsFixture } from "./tabs"
 import { renderToggleFixture, renderToggleGroupFixture } from "./toggle"
 import { renderSliderFixture } from "./slider"
 import { renderScrollAreaFixture } from "./scroll-area"
+import { renderSheetFixture } from "./sheet"
 
 export function renderReferenceFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -44,6 +46,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderAccordionFixture(fixture.id)
     case "alert":
       return renderAlertFixture(fixture.id)
+    case "alert-dialog":
+      return renderAlertDialogFixture(fixture.id)
     case "aspect-ratio":
       return renderAspectRatioFixture(fixture.id)
     case "avatar":
@@ -84,6 +88,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderNativeSelectFixture(fixture.id)
     case "separator":
       return renderSeparatorFixture()
+    case "sheet":
+      return renderSheetFixture(fixture.id)
     case "skeleton":
       return renderSkeletonFixture()
     case "slider":

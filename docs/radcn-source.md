@@ -697,6 +697,113 @@ This experiment establishes the modal overlay baseline for later
 gestures still need positioning, collision, arrow, delay, non-modal, menu, or
 gesture-specific experiments.
 
+## Stage 3 Modal Variants
+
+Experiment 13 adds modal variants on top of the dialog foundation:
+
+- `AlertDialog`
+- `AlertDialogTrigger`
+- `AlertDialogPortal`
+- `AlertDialogOverlay`
+- `AlertDialogContent`
+- `AlertDialogHeader`
+- `AlertDialogFooter`
+- `AlertDialogMedia`
+- `AlertDialogTitle`
+- `AlertDialogDescription`
+- `AlertDialogAction`
+- `AlertDialogCancel`
+- `Sheet`
+- `SheetTrigger`
+- `SheetPortal`
+- `SheetOverlay`
+- `SheetContent`
+- `SheetClose`
+- `SheetHeader`
+- `SheetFooter`
+- `SheetTitle`
+- `SheetDescription`
+
+Both component families use the modal behavior from `packages/radcn/src/components/dialog.tsx`.
+Their exported helpers delegate to the shared `setupModal()` implementation:
+
+```ts
+import { enhanceAlertDialog } from 'radcn/alert-dialog'
+import { enhanceSheet } from 'radcn/sheet'
+
+enhanceAlertDialog()
+enhanceSheet()
+```
+
+Alert dialog public hooks:
+
+- `data-radcn-alert-dialog`
+- `data-radcn-alert-dialog-trigger`
+- `data-radcn-alert-dialog-portal`
+- `data-radcn-alert-dialog-overlay`
+- `data-radcn-alert-dialog-content`
+- `data-radcn-alert-dialog-header`
+- `data-radcn-alert-dialog-footer`
+- `data-radcn-alert-dialog-media`
+- `data-radcn-alert-dialog-title`
+- `data-radcn-alert-dialog-description`
+- `data-radcn-alert-dialog-action`
+- `data-radcn-alert-dialog-cancel`
+
+Alert dialog content receives `role="alertdialog"` and `aria-modal="true"`
+after enhancement. It defaults to non-dismissible behavior: Escape and outside
+pointer events do not close it. Authors close it through `AlertDialogAction` or
+`AlertDialogCancel`, matching the component's destructive-confirmation purpose.
+`dismissible` remains available on the root for explicit opt-in divergence.
+
+Sheet public hooks:
+
+- `data-radcn-sheet`
+- `data-radcn-sheet-trigger`
+- `data-radcn-sheet-portal`
+- `data-radcn-sheet-overlay`
+- `data-radcn-sheet-content`
+- `data-radcn-sheet-close`
+- `data-radcn-sheet-header`
+- `data-radcn-sheet-footer`
+- `data-radcn-sheet-title`
+- `data-radcn-sheet-description`
+
+Sheet content receives `role="dialog"`, `aria-modal="true"`, and `data-side`
+after enhancement. `side="top" | "right" | "bottom" | "left"` maps to
+side-specific classes and stable `data-side` hooks. Sheet uses the same focus
+trap, focus restoration, Escape dismissal, outside pointer dismissal, and body
+scroll lock behavior as dialog.
+
+Alert-dialog customization tokens:
+
+- `--radcn-modal-overlay-bg`
+- `--radcn-modal-action-bg`
+- `--radcn-modal-action-fg`
+- `--radcn-alert-dialog-border`
+- `--radcn-alert-dialog-bg`
+- `--radcn-alert-dialog-fg`
+- `--radcn-alert-dialog-media-bg`
+- `--radcn-alert-dialog-media-fg`
+- `--radcn-alert-dialog-width`
+
+Sheet customization tokens:
+
+- `--radcn-modal-overlay-bg`
+- `--radcn-modal-action-bg`
+- `--radcn-modal-action-fg`
+- `--radcn-sheet-border`
+- `--radcn-sheet-bg`
+- `--radcn-sheet-fg`
+- `--radcn-sheet-width`
+- `--radcn-sheet-height`
+
+The modal overlay layer now covers `dialog`, `alert-dialog`, and `sheet`.
+Positioned overlays, menus, hover-card, context-menu, dropdown-menu, and drawer
+remain unsolved because they need collision, anchoring, menu focus/typeahead,
+hover/focus delay, contextmenu events, or gesture handling beyond this modal
+variant layer.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -737,6 +844,9 @@ Navigation, collection, and typography probes continue that pattern:
 - `scroll-area/custom-token` overrides scroll-area border, background, thumb,
   and corner tokens.
 - `dialog/custom-token` overrides dialog overlay, content, and trigger tokens.
+- `alert-dialog/custom-token` overrides alert-dialog overlay, panel, media, and
+  action tokens.
+- `sheet/custom-token` overrides sheet overlay, panel, and action tokens.
 
 ## Stage 1 Status
 

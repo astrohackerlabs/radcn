@@ -1612,3 +1612,191 @@ body {
   --reference-dialog-bg: #f0fdfa;
   --reference-dialog-trigger-bg: #0f766e;
 }
+
+.reference-alert-dialog-trigger,
+.reference-sheet-trigger,
+.reference-alert-dialog-action,
+.reference-alert-dialog-cancel,
+.reference-sheet-action {
+  display: inline-flex;
+  min-height: var(--control-height);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--reference-modal-action-bg, var(--primary));
+  color: var(--primary-foreground);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font: 500 0.875rem/1 var(--font-sans);
+}
+
+.reference-alert-dialog-cancel {
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.reference-alert-dialog-portal,
+.reference-sheet-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.reference-alert-dialog-overlay,
+.reference-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--reference-modal-overlay-bg, rgb(0 0 0 / 0.5));
+}
+
+.reference-alert-dialog-content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: grid;
+  width: min(calc(100vw - 2rem), var(--reference-alert-dialog-width, 32rem));
+  gap: 1rem;
+  border: 1px solid var(--reference-alert-dialog-border, var(--border));
+  border-radius: calc(var(--radius) + 0.125rem);
+  background: var(--reference-alert-dialog-bg, var(--background));
+  color: var(--foreground);
+  padding: 1.5rem;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.2);
+  transform: translate(-50%, -50%);
+}
+
+.reference-alert-dialog-content--sm {
+  --reference-alert-dialog-width: 24rem;
+}
+
+.reference-alert-dialog-header,
+.reference-sheet-header {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.reference-alert-dialog-footer,
+.reference-sheet-footer {
+  display: flex;
+  flex-direction: row-reverse;
+  gap: 0.5rem;
+}
+
+.reference-alert-dialog-content--sm .reference-alert-dialog-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.reference-alert-dialog-media {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--reference-alert-dialog-media-bg, var(--secondary));
+  font: 700 1rem/1 var(--font-sans);
+}
+
+.reference-alert-dialog-title,
+.reference-sheet-title {
+  margin: 0;
+  font: 600 1.125rem/1.25 var(--font-sans);
+}
+
+.reference-alert-dialog-description,
+.reference-sheet-description {
+  margin: 0;
+  color: var(--muted-foreground);
+  font: 400 0.875rem/1.5 var(--font-sans);
+}
+
+.reference-sheet-content {
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--reference-sheet-border, var(--border));
+  background: var(--reference-sheet-bg, var(--background));
+  color: var(--foreground);
+  padding: 1.5rem;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 0.2);
+}
+
+.reference-sheet-content--right,
+.reference-sheet-content--left {
+  top: 0;
+  bottom: 0;
+  width: min(100vw, 24rem);
+}
+
+.reference-sheet-content--right {
+  right: 0;
+}
+
+.reference-sheet-content--left {
+  left: 0;
+}
+
+.reference-sheet-content--top,
+.reference-sheet-content--bottom {
+  right: 0;
+  left: 0;
+  min-height: 14rem;
+}
+
+.reference-sheet-content--top {
+  top: 0;
+}
+
+.reference-sheet-content--bottom {
+  bottom: 0;
+}
+
+.reference-sheet-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  font: 600 1rem/1 var(--font-sans);
+}
+
+.reference-sheet-label {
+  display: grid;
+  gap: 6px;
+  font: 500 0.875rem/1.2 var(--font-sans);
+}
+
+.reference-sheet-input {
+  min-height: var(--control-height);
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  padding: 0 0.75rem;
+}
+
+.reference-fixture-custom-alert-dialog {
+  --reference-modal-overlay-bg: rgb(127 29 29 / 0.35);
+  --reference-alert-dialog-border: #991b1b;
+  --reference-alert-dialog-bg: #fef2f2;
+  --reference-alert-dialog-media-bg: #fee2e2;
+  --reference-modal-action-bg: #991b1b;
+}
+
+.reference-fixture-custom-sheet {
+  --reference-modal-overlay-bg: rgb(15 118 110 / 0.25);
+  --reference-sheet-border: #0f766e;
+  --reference-sheet-bg: #f0fdfa;
+  --reference-modal-action-bg: #0f766e;
+}

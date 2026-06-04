@@ -38,8 +38,18 @@ const focusableSelector = [
 let openDialogs: HTMLElement[] = []
 let previousBodyOverflow = ''
 
-function safeDialogId(value: string | undefined) {
-  return String(value || 'dialog').replace(/[^a-zA-Z0-9_-]/g, '-')
+export interface ModalSetupOptions {
+  closeSelector: string
+  contentSelector: string
+  contentStateSelector: string
+  defaultRole?: 'dialog' | 'alertdialog'
+  overlaySelector: string
+  portalSelector: string
+  readyDataKey: string
+  rootSelector: string
+  titleSelector: string
+  descriptionSelector: string
+  triggerSelector: string
 }
 
 function portalHost(scope: HTMLElement | null) {
@@ -71,41 +81,41 @@ function unlockScroll() {
   document.body.style.overflow = previousBodyOverflow
 }
 
-function setState(root: HTMLElement, portal: HTMLElement, state: 'open' | 'closed') {
+function setState(root: HTMLElement, portal: HTMLElement, options: ModalSetupOptions, state: 'open' | 'closed') {
   root.dataset.state = state
   root.dataset.open = state === 'open' ? 'true' : 'false'
   portal.dataset.state = state
   portal.hidden = state !== 'open'
-  portal.querySelectorAll<HTMLElement>('[data-radcn-dialog-overlay], [data-radcn-dialog-content]').forEach((part) => {
+  portal.querySelectorAll<HTMLElement>(options.contentStateSelector).forEach((part) => {
     part.dataset.state = state
     part.hidden = state !== 'open'
   })
-  root.querySelectorAll<HTMLElement>('[data-radcn-dialog-trigger]').forEach((trigger) => {
+  root.querySelectorAll<HTMLElement>(options.triggerSelector).forEach((trigger) => {
     trigger.dataset.state = state
   })
 }
 
-function setupDialog(root: HTMLElement) {
-  if (root.dataset.radcnDialogReady === 'true') return
+export function setupModal(root: HTMLElement, options: ModalSetupOptions) {
+  if (root.dataset[options.readyDataKey] === 'true') return
 
-  let dialogId = root.id || `radcn-dialog-${Math.random().toString(36).slice(2)}`
+  let dialogId = root.id || `radcn-modal-${Math.random().toString(36).slice(2)}`
   root.id = dialogId
 
-  let portal = root.querySelector<HTMLElement>('[data-radcn-dialog-portal]')
-  let content = root.querySelector<HTMLElement>('[data-radcn-dialog-content]')
+  let portal = root.querySelector<HTMLElement>(options.portalSelector)
+  let content = root.querySelector<HTMLElement>(options.contentSelector)
   if (!portal || !content) return
   let dialogPortal = portal
   let dialogContent = content
 
-  let trigger = root.querySelector<HTMLElement>('[data-radcn-dialog-trigger]')
-  let title = dialogContent.querySelector<HTMLElement>('[data-radcn-dialog-title]')
-  let description = dialogContent.querySelector<HTMLElement>('[data-radcn-dialog-description]')
+  let trigger = root.querySelector<HTMLElement>(options.triggerSelector)
+  let title = dialogContent.querySelector<HTMLElement>(options.titleSelector)
+  let description = dialogContent.querySelector<HTMLElement>(options.descriptionSelector)
   let dismissible = root.dataset.dismissible !== 'false'
   let lastFocused: HTMLElement | null = null
 
   dialogPortal.dataset.dialogId = dialogId
   dialogContent.id = dialogContent.id || `${dialogId}-content`
-  dialogContent.setAttribute('role', 'dialog')
+  dialogContent.setAttribute('role', options.defaultRole || 'dialog')
   dialogContent.setAttribute('aria-modal', 'true')
   dialogContent.tabIndex = -1
 
@@ -125,14 +135,14 @@ function setupDialog(root: HTMLElement) {
     lastFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
     lockScroll()
     if (!openDialogs.includes(root)) openDialogs.push(root)
-    setState(root, dialogPortal, 'open')
+    setState(root, dialogPortal, options, 'open')
     let first = focusableElements(dialogContent)[0]
     ;(first || dialogContent).focus()
   }
 
   function close(restoreFocus = true) {
     openDialogs = openDialogs.filter((dialog) => dialog !== root)
-    setState(root, dialogPortal, 'closed')
+    setState(root, dialogPortal, options, 'closed')
     unlockScroll()
     if (restoreFocus) (lastFocused || trigger)?.focus()
   }
@@ -141,7 +151,7 @@ function setupDialog(root: HTMLElement) {
     let target = event.target
     if (!(target instanceof Element)) return
 
-    let triggerButton = target.closest<HTMLElement>('[data-radcn-dialog-trigger]')
+    let triggerButton = target.closest<HTMLElement>(options.triggerSelector)
     if (triggerButton && root.contains(triggerButton)) {
       event.preventDefault()
       open()
@@ -152,13 +162,13 @@ function setupDialog(root: HTMLElement) {
     let target = event.target
     if (!(target instanceof Element)) return
 
-    if (target.closest('[data-radcn-dialog-close]')) {
+    if (target.closest(options.closeSelector)) {
       event.preventDefault()
       close()
       return
     }
 
-    if (dismissible && target.closest('[data-radcn-dialog-overlay]')) {
+    if (dismissible && target.closest(options.overlaySelector)) {
       close()
     }
   })
@@ -195,13 +205,26 @@ function setupDialog(root: HTMLElement) {
   })
 
   if (root.dataset.defaultOpen === 'true') open()
-  else setState(root, dialogPortal, 'closed')
+  else setState(root, dialogPortal, options, 'closed')
 
-  root.dataset.radcnDialogReady = 'true'
+  root.dataset[options.readyDataKey] = 'true'
 }
 
 export function enhanceDialog(root: ParentNode = document) {
-  root.querySelectorAll<HTMLElement>('[data-radcn-dialog]').forEach(setupDialog)
+  root.querySelectorAll<HTMLElement>('[data-radcn-dialog]').forEach((dialog) => {
+    setupModal(dialog, {
+      closeSelector: '[data-radcn-dialog-close]',
+      contentSelector: '[data-radcn-dialog-content]',
+      contentStateSelector: '[data-radcn-dialog-overlay], [data-radcn-dialog-content]',
+      descriptionSelector: '[data-radcn-dialog-description]',
+      overlaySelector: '[data-radcn-dialog-overlay]',
+      portalSelector: '[data-radcn-dialog-portal]',
+      readyDataKey: 'radcnDialogReady',
+      rootSelector: '[data-radcn-dialog]',
+      titleSelector: '[data-radcn-dialog-title]',
+      triggerSelector: '[data-radcn-dialog-trigger]',
+    })
+  })
 }
 
 export function Dialog(handle: Handle<DialogProps>) {

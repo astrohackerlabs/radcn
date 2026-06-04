@@ -229,3 +229,120 @@ dialog semantics, dismissal behavior, close controls, and side-specific hooks.
 Fixtures, shared scenarios, Playwright checks, docs, learnings, package
 exports, candidate helper loading, artifact generation, and vendor cleanliness
 are all explicit pass criteria. `git status --short vendor` returned no output.
+
+## Result
+
+**Result:** Pass
+
+Experiment 13 implemented the RadCN modal variant primitives:
+
+- `AlertDialog`
+- `AlertDialogTrigger`
+- `AlertDialogPortal`
+- `AlertDialogOverlay`
+- `AlertDialogContent`
+- `AlertDialogHeader`
+- `AlertDialogFooter`
+- `AlertDialogMedia`
+- `AlertDialogTitle`
+- `AlertDialogDescription`
+- `AlertDialogAction`
+- `AlertDialogCancel`
+- `Sheet`
+- `SheetTrigger`
+- `SheetPortal`
+- `SheetOverlay`
+- `SheetContent`
+- `SheetClose`
+- `SheetHeader`
+- `SheetFooter`
+- `SheetTitle`
+- `SheetDescription`
+
+RadCN source lives at:
+
+- `packages/radcn/src/components/alert-dialog.tsx`
+- `packages/radcn/src/components/sheet.tsx`
+
+The package now exports `radcn/alert-dialog`, `radcn/sheet`, root exports for
+both component families and types, and client helpers `enhanceAlertDialog()`
+and `enhanceSheet()`.
+
+The existing dialog helper was minimally refactored to expose shared
+`setupModal()` behavior. `enhanceAlertDialog()` and `enhanceSheet()` delegate
+to that shared modal behavior for portal movement, open/closed state, generated
+ARIA relationships, focus entry, focus trap, focus restoration, Escape/outside
+dismissal where allowed, body scroll lock, and hidden closed content.
+
+Alert dialog uses `role="alertdialog"` and defaults to
+`dismissible={false}`. Escape and outside pointer interactions do not close it;
+`AlertDialogAction` and `AlertDialogCancel` close and restore focus.
+
+Sheet uses `role="dialog"` and supports `side="top" | "right" | "bottom" |
+"left"` through `data-side` and side-specific placement classes. It reuses the
+shared modal behavior for focus, restoration, scroll lock, Escape, outside
+dismissal, and close controls.
+
+Shared scenarios now include:
+
+- `alert-dialog/default`
+- `alert-dialog/default-open`
+- `alert-dialog/cancel-action`
+- `alert-dialog/small`
+- `alert-dialog/custom-token`
+- `sheet/right`
+- `sheet/left`
+- `sheet/top`
+- `sheet/bottom`
+- `sheet/custom-token`
+
+Verification commands run:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/modal-variants.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. The focused modal-variants Playwright file
+ran 5 tests successfully. `pnpm fixtures:artifacts` ran 321 Playwright tests
+successfully.
+
+The generated artifact manifest contains:
+
+- 264 screenshot entries;
+- 132 shared scenarios;
+- 5 alert-dialog scenarios;
+- 5 sheet scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+**Reviewer:** Euler
+
+**Result:** Pass
+
+Euler found no blocking issues. The review confirmed shared modal helper reuse,
+alert-dialog delegation with `role="alertdialog"` and non-dismissible default
+behavior, sheet delegation with side variants and `data-side`, package exports,
+candidate browser helper loading, real RadCN candidate fixtures, reference
+fixtures, shared scenarios, focused Playwright coverage, documentation,
+learnings, artifact counts, and clean `vendor/` status.
+
+The only note was non-blocking: when `dismissible=false`, Escape leaves the
+alert dialog open but the event is not explicitly prevented. This still
+satisfies the experiment's close-policy requirement because the alert dialog
+does not close.
+
+## Conclusion
+
+Experiment 13 completes the modal dialog variant layer for Stage 3. Later modal
+overlays should reuse `setupModal()` rather than copying focus, portal,
+dismissal, and scroll-lock behavior. The next Stage 3 experiment should move to
+the positioned overlay foundation for `popover`, `tooltip`, and `hover-card`,
+or to menu-specific overlays if positioning is designed first.

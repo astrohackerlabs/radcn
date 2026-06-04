@@ -1,6 +1,7 @@
 export type FixtureComponent =
   | "accordion"
   | "alert"
+  | "alert-dialog"
   | "aspect-ratio"
   | "avatar"
   | "badge"
@@ -21,6 +22,7 @@ export type FixtureComponent =
   | "radio-group"
   | "scroll-area"
   | "separator"
+  | "sheet"
   | "skeleton"
   | "slider"
   | "spinner"
