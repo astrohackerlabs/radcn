@@ -32,6 +32,8 @@
     "./tabs": "./src/components/tabs.tsx",
     "./table": "./src/components/table.tsx",
     "./textarea": "./src/components/textarea.tsx",
+    "./toggle": "./src/components/toggle.tsx",
+    "./toggle-group": "./src/components/toggle-group.tsx",
     "./typography": "./src/components/typography.tsx",
     "./styles": "./src/styles/index.ts",
     "./package.json": "./package.json"

@@ -24,6 +24,8 @@ export type FixtureComponent =
   | "table"
   | "tabs"
   | "textarea"
+  | "toggle"
+  | "toggle-group"
   | "typography"
 
 export interface FixtureScenario {

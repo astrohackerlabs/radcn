@@ -547,6 +547,66 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Tabs Token",
     description: "Tabs customized through public tokens.",
   },
+  {
+    component: "toggle",
+    id: "default",
+    title: "Default Toggle",
+    description: "Unpressed toggle button.",
+  },
+  {
+    component: "toggle",
+    id: "pressed",
+    title: "Pressed Toggle",
+    description: "Pressed toggle button state.",
+  },
+  {
+    component: "toggle",
+    id: "disabled",
+    title: "Disabled Toggle",
+    description: "Disabled toggle button behavior.",
+  },
+  {
+    component: "toggle",
+    id: "variants-sizes",
+    title: "Toggle Variants and Sizes",
+    description: "Toggle outline variant and small/default/large sizes.",
+  },
+  {
+    component: "toggle",
+    id: "custom-token",
+    title: "Custom Toggle Token",
+    description: "Toggle customized through public tokens.",
+  },
+  {
+    component: "toggle-group",
+    id: "single",
+    title: "Single Toggle Group",
+    description: "Single-selection toggle group.",
+  },
+  {
+    component: "toggle-group",
+    id: "multiple",
+    title: "Multiple Toggle Group",
+    description: "Multiple-selection toggle group.",
+  },
+  {
+    component: "toggle-group",
+    id: "disabled",
+    title: "Disabled Toggle Group Item",
+    description: "Toggle group with a disabled item skipped by keyboard navigation.",
+  },
+  {
+    component: "toggle-group",
+    id: "vertical",
+    title: "Vertical Toggle Group",
+    description: "Vertical toggle group keyboard orientation.",
+  },
+  {
+    component: "toggle-group",
+    id: "custom-token",
+    title: "Custom Toggle Group Token",
+    description: "Toggle group customized through public tokens.",
+  },
 ]
 
 export function getFixtureScenario(

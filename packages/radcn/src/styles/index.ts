@@ -209,6 +209,17 @@ export const radcnStyles = String.raw`
 .radcn-tabs-trigger[data-disabled="true"],.radcn-tabs-trigger:disabled{cursor:not-allowed;opacity:.5}
 .radcn-tabs-content{min-width:0;border:1px solid var(--radcn-tabs-content-border,var(--radcn-border));border-radius:var(--radcn-radius);background:var(--radcn-tabs-content-bg,var(--radcn-background));color:var(--radcn-tabs-content-fg,var(--radcn-foreground));padding:1rem;font:400 .875rem/1.5 var(--radcn-font);outline:none}
 .radcn-tabs-content:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-ring) 35%,transparent)}
+.radcn-toggle{display:inline-flex;min-height:var(--radcn-control-height);align-items:center;justify-content:center;gap:.5rem;border:1px solid transparent;border-radius:var(--radcn-radius);background:transparent;color:var(--radcn-toggle-fg,var(--radcn-foreground));cursor:pointer;padding:.5rem .75rem;font:500 .875rem/1 var(--radcn-font);outline:none;transition:background-color 120ms ease,color 120ms ease,border-color 120ms ease,box-shadow 120ms ease}
+.radcn-toggle:hover{background:var(--radcn-toggle-hover-bg,var(--radcn-secondary))}
+.radcn-toggle:focus-visible{border-color:var(--radcn-ring);box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-ring) 35%,transparent)}
+.radcn-toggle[data-state="on"]{background:var(--radcn-toggle-pressed-bg,var(--radcn-primary));color:var(--radcn-toggle-pressed-fg,var(--radcn-primary-foreground))}
+.radcn-toggle--outline{border-color:var(--radcn-toggle-border,var(--radcn-border));background:var(--radcn-background)}
+.radcn-toggle--sm{min-height:2rem;padding:.375rem .625rem;font-size:.8125rem}
+.radcn-toggle--lg{min-height:2.75rem;padding:.625rem 1rem;font-size:1rem}
+.radcn-toggle[data-disabled="true"],.radcn-toggle:disabled{cursor:not-allowed;opacity:.5}
+.radcn-toggle-group{display:inline-flex;width:fit-content;align-items:center;gap:.25rem;border-radius:var(--radcn-radius);font-family:var(--radcn-font)}
+.radcn-toggle-group--vertical{flex-direction:column;align-items:stretch}
+.radcn-toggle-group-item{flex-shrink:0}
 .radcn-fixture-custom-breadcrumb{color:#0f766e}
 .radcn-fixture-custom-typography{--radcn-typography-h1-size:2.5rem;--radcn-typography-muted:#7c3aed}
 .radcn-fixture-custom-native-select{--radcn-native-select-border:#0f766e;--radcn-native-select-bg:#f0fdfa;--radcn-native-select-fg:#134e4a;--radcn-native-select-invalid:#7c3aed}
@@ -217,4 +228,5 @@ export const radcnStyles = String.raw`
 .radcn-fixture-custom-accordion{--radcn-accordion-border:#0f766e;--radcn-accordion-trigger-fg:#134e4a;--radcn-accordion-content-fg:#0f766e}
 .radcn-fixture-custom-collapsible{--radcn-collapsible-border:#0f766e;--radcn-collapsible-bg:#f0fdfa;--radcn-collapsible-fg:#134e4a;--radcn-collapsible-content-fg:#0f766e}
 .radcn-fixture-custom-tabs{--radcn-tabs-list-bg:#ccfbf1;--radcn-tabs-trigger-active-bg:#0f766e;--radcn-tabs-trigger-active-fg:#fff;--radcn-tabs-content-border:#0f766e;--radcn-tabs-content-bg:#f0fdfa;--radcn-tabs-content-fg:#134e4a}
+.radcn-fixture-custom-toggle,.radcn-fixture-custom-toggle-group{--radcn-toggle-border:#0f766e;--radcn-toggle-hover-bg:#ccfbf1;--radcn-toggle-pressed-bg:#0f766e;--radcn-toggle-pressed-fg:#fff}
 `

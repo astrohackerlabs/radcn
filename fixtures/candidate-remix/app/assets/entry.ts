@@ -1,5 +1,7 @@
 import { run } from 'remix/ui'
 import { enhanceTabs } from 'radcn/tabs'
+import { enhanceToggle } from 'radcn/toggle'
+import { enhanceToggleGroup } from 'radcn/toggle-group'
 
 run({
   async loadModule(moduleUrl, exportName) {
@@ -9,3 +11,5 @@ run({
 })
 
 enhanceTabs()
+enhanceToggle()
+enhanceToggleGroup()

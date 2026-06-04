@@ -32,6 +32,7 @@ import {
 } from './static-display.tsx'
 import { renderTextareaFixture } from './textarea.tsx'
 import { renderTabsFixture } from './tabs.tsx'
+import { renderToggleFixture, renderToggleGroupFixture } from './toggle.tsx'
 
 export function renderCandidateFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -85,6 +86,10 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderTabsFixture(fixture)
     case 'textarea':
       return renderTextareaFixture(fixture)
+    case 'toggle':
+      return renderToggleFixture(fixture)
+    case 'toggle-group':
+      return renderToggleGroupFixture(fixture)
     case 'typography':
       return renderTypographyFixture(fixture)
   }

@@ -422,6 +422,68 @@ state, but selected-state composites that need coordinated ARIA and keyboard
 behavior may reuse this pattern: server-render stable hooks, export a focused
 enhancement, and make fixture asset allowlists include package client source.
 
+## Stage 2 Toggle Pressed State
+
+Experiment 9 adds pressed-state controls:
+
+- `Toggle`
+- `ToggleGroup`
+- `ToggleGroupItem`
+
+RadCN toggles use native `<button type="button">` elements with `aria-pressed`
+and small client enhancements exported from `radcn/toggle` and
+`radcn/toggle-group`:
+
+```ts
+import { enhanceToggle } from 'radcn/toggle'
+import { enhanceToggleGroup } from 'radcn/toggle-group'
+
+enhanceToggle()
+enhanceToggleGroup()
+```
+
+This is intentionally smaller than the tabs helper. Toggles do not need panel
+relationships or generated ids; they only need live pressed state, group value
+coordination, disabled skipping, and roving focus.
+
+The source is exported from the root `radcn` package and from the `radcn/toggle`
+and `radcn/toggle-group` subpaths.
+
+Public hooks:
+
+- `data-radcn-toggle`
+- `data-radcn-toggle-group`
+- `data-radcn-toggle-group-item`
+
+`Toggle` exposes `aria-pressed`, `data-state="on"` or `data-state="off"`,
+`data-variant`, and `data-disabled` when disabled. The helper flips
+`aria-pressed` and `data-state` on pointer, Enter, and Space activation through
+the native button click behavior.
+
+`ToggleGroup` exposes `role="group"`, `data-type`, `data-orientation`,
+`data-default-value`, and live `data-value`. `ToggleGroupItem` exposes
+`aria-pressed`, `data-state`, `data-value`, `data-variant`, and disabled hooks.
+The group helper keeps single groups to zero or one pressed item, lets multiple
+groups maintain independent pressed items, moves keyboard focus through enabled
+items with Arrow keys/Home/End, and skips disabled items.
+
+Toggle buttons do not participate in native form submission in this experiment.
+They are action buttons, not native form controls. Future form-oriented pressed
+controls should use checkbox, switch, radio-group, or an explicit hidden-input
+adapter rather than pretending button state submits by default.
+
+Customization tokens:
+
+- `--radcn-toggle-border`
+- `--radcn-toggle-hover-bg`
+- `--radcn-toggle-pressed-bg`
+- `--radcn-toggle-pressed-fg`
+
+Toggle and toggle-group establish a second client enhancement pattern:
+button-local and group-local pressed state. Later Stage 2 components should use
+this smaller helper shape when they do not need the richer tabpanel relationship
+model from tabs.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document

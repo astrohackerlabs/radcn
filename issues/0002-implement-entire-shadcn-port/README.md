@@ -250,6 +250,21 @@ committed work.
   [Experiment 8](08-stage-2-tabs-state-and-keyboard-primitive.md),
   `fixtures/candidate-remix/app/assets.ts`,
   `fixtures/candidate-remix/app/assets/entry.ts`.
+- **2026-06-04, Experiment 9:** Pressed-state controls can use a smaller client
+  helper than tabs: native buttons own activation, while `enhanceToggle()` and
+  `enhanceToggleGroup()` synchronize `aria-pressed`, `data-state`, group
+  values, roving focus, and disabled skipping. Applies to: `toggle`,
+  `toggle-group`, later button-like composites. Evidence:
+  [Experiment 9](09-stage-2-toggle-and-toggle-group-primitives.md),
+  `packages/radcn/src/components/toggle.tsx`,
+  `packages/radcn/src/components/toggle-group.tsx`,
+  `fixtures/tests/toggle.spec.ts`.
+- **2026-06-04, Experiment 9:** Toggle buttons are action buttons, not native
+  form controls; button pressed state does not submit without a future
+  hidden-input adapter. Applies to: `toggle`, `toggle-group`, future form
+  integration decisions. Evidence:
+  [Experiment 9](09-stage-2-toggle-and-toggle-group-primitives.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -482,4 +497,4 @@ This issue is complete when:
 - [Experiment 8: Stage 2 tabs state and keyboard primitive](08-stage-2-tabs-state-and-keyboard-primitive.md)
   — **Pass**
 - [Experiment 9: Stage 2 toggle and toggle group primitives](09-stage-2-toggle-and-toggle-group-primitives.md)
-  — **Designed**
+  — **Pass**

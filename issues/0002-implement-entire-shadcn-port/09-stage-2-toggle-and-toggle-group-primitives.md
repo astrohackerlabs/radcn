@@ -183,3 +183,107 @@ The reviewer gave one non-blocking implementation suggestion: the final result
 should record the chosen state strategy very explicitly, especially whether
 `toggle-group` reuses the tabs enhancement pattern or establishes a smaller
 pressed-state helper.
+
+## Result
+
+**Result:** Pass
+
+Experiment 9 implemented the RadCN toggle component family:
+
+- `Toggle`
+- `ToggleGroup`
+- `ToggleGroupItem`
+
+RadCN source lives at:
+
+- `packages/radcn/src/components/toggle.tsx`
+- `packages/radcn/src/components/toggle-group.tsx`
+
+The package now exports `radcn/toggle`, `radcn/toggle-group`, root exports for
+the component family and types, and the client helpers `enhanceToggle()` and
+`enhanceToggleGroup()`.
+
+The chosen state strategy is a small pressed-state client enhancement, not the
+full tabs enhancement pattern. `Toggle` renders a native
+`<button type="button">` with initial `aria-pressed` and `data-state`; the
+browser helper flips both values through native button activation. `ToggleGroup`
+renders a `role="group"` wrapper and button items; the group helper owns
+single/multiple pressed values, `aria-pressed`, `data-state`, roving focus,
+disabled item skipping, and horizontal/vertical keyboard behavior.
+
+This is an approved divergence from Radix-controlled component state and from
+native form controls. Buttons do not submit pressed state by default, so this
+experiment documents button pressed state as non-form state. Future form-bound
+pressed controls should use checkbox/radio/switch semantics or add an explicit
+hidden-input adapter.
+
+Shared scenarios now include:
+
+- `toggle/default`
+- `toggle/pressed`
+- `toggle/disabled`
+- `toggle/variants-sizes`
+- `toggle/custom-token`
+- `toggle-group/single`
+- `toggle-group/multiple`
+- `toggle-group/disabled`
+- `toggle-group/vertical`
+- `toggle-group/custom-token`
+
+Verification commands run so far:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/toggle.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. `pnpm fixtures:artifacts` ran 242 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 202 screenshot entries;
+- 101 shared scenarios;
+- 5 toggle scenarios;
+- 5 toggle-group scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Tesla`, which
+approved the result with **Pass** and no required fixes.
+
+The review confirmed that the experiment file records `Pass`, the Issue 2
+README marks Experiment 9 as `Pass`, toggle and toggle-group source and exports
+exist, candidate fixtures import from `radcn`, the candidate asset entry loads
+`enhanceToggle()` and `enhanceToggleGroup()`, shared scenarios include five
+`toggle` and five `toggle-group` scenarios, docs and issue learnings record the
+smaller pressed-state helper strategy and non-form-state divergence, the
+artifact manifest has 202 entries across 101 scenarios with paired reference
+and candidate artifacts on ports 4601 and 4602, and `vendor/` is unmodified.
+
+The reviewer also reran these non-mutating checks successfully:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/toggle.spec.ts
+```
+
+## Conclusion
+
+Experiment 9 establishes a button-local and group-local pressed-state helper
+pattern. Toggle and toggle-group do not need the richer tabs relationship
+model, but they do need browser enhancement for live `aria-pressed`, visual
+state hooks, and group keyboard behavior.
+
+This experiment does not complete Stage 2. The next experiment should handle
+the remaining bounded Stage 2 primitives: likely `slider` next, because it is
+the remaining form-control primitive with pointer, keyboard, and value state.
