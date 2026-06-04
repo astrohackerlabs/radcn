@@ -379,3 +379,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 3: Stage 1 navigation collection and typography primitives](03-stage-1-navigation-collection-and-typography-primitives.md)
   — **Pass**
+- [Experiment 4: Stage 1 native select and closure audit](04-stage-1-native-select-and-closure-audit.md)
+  — **Designed**
