@@ -1,61 +1,50 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
-
-const baseButtonStyle = [
-  'display:inline-flex',
-  'align-items:center',
-  'justify-content:center',
-  'height:36px',
-  'width:max-content',
-  'border-radius:6px',
-  'border:1px solid transparent',
-  'padding:0 16px',
-  'font:500 14px/1 ui-sans-serif,system-ui,sans-serif',
-  'text-decoration:none',
-].join(';')
-
-const variantStyles = {
-  default: 'background:#18181b;color:#fafafa',
-  secondary: 'background:#f4f4f5;color:#18181b',
-  outline: 'background:#fff;color:#18181b;border-color:#e4e4e7',
-  ghost: 'background:transparent;color:#18181b',
-  destructive: 'background:#dc2626;color:#fff',
-  disabled: 'background:#18181b;color:#fafafa;opacity:.5;cursor:not-allowed',
-}
-
-function buttonStyle(variant: keyof typeof variantStyles) {
-  return `${baseButtonStyle};${variantStyles[variant]}`
-}
+import { Button } from 'radcn'
 
 export function renderButtonFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
     case 'variants':
       return (
         <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
-          <button style={buttonStyle('default')}>Default</button>
-          <button style={buttonStyle('secondary')}>Secondary</button>
-          <button style={buttonStyle('outline')}>Outline</button>
-          <button style={buttonStyle('ghost')}>Ghost</button>
-          <button style={buttonStyle('destructive')}>Destructive</button>
+          <Button>Default</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="outline">Outline</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="destructive">Destructive</Button>
         </div>
       )
     case 'disabled':
       return (
         <div style="display:flex;gap:12px;align-items:center">
-          <button disabled style={buttonStyle('disabled')}>
-            Disabled
-          </button>
-          <button aria-disabled="true" style={buttonStyle('disabled')}>
-            Aria Disabled
-          </button>
+          <Button disabled>Disabled</Button>
+          <Button ariaDisabled variant="outline">Aria Disabled</Button>
         </div>
       )
     case 'as-child-or-link':
+      return <Button href="/fixtures/button/default">Link Button</Button>
+    case 'sizes':
       return (
-        <a href="/fixtures/button/default" style={buttonStyle('default')}>
-          Link Button
-        </a>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+          <Button size="sm">Small</Button>
+          <Button>Default</Button>
+          <Button size="lg">Large</Button>
+          <Button ariaDisabled size="icon">+</Button>
+        </div>
+      )
+    case 'custom-class':
+      return <Button class="radcn-fixture-custom-button">Custom Button</Button>
+    case 'form-submit':
+      return (
+        <form action="/fixtures/button/form-submit" method="get" style="display:grid;gap:12px;max-width:360px">
+          <label for="candidate-button-form-value">Value</label>
+          <input id="candidate-button-form-value" name="value" value="initial" />
+          <div style="display:flex;gap:12px">
+            <Button name="intent" type="submit" value="submit">Submit</Button>
+            <Button type="reset" variant="outline">Reset</Button>
+          </div>
+        </form>
       )
     default:
-      return <button style={buttonStyle('default')}>Button</button>
+      return <Button>Button</Button>
   }
 }

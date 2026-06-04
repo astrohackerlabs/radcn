@@ -31,7 +31,7 @@ export default createController(routes, {
         <Document>
           <main style={pageStyle}>
             <h1 style={headingStyle}>RadCN candidate fixtures</h1>
-            <p style={descriptionStyle}>Remix 3 placeholders for the shared proof-set scenarios.</p>
+            <p style={descriptionStyle}>Remix 3 RadCN components for the shared proof-set scenarios.</p>
             <ul style={listStyle}>
               <li>
                 <a href="/fixtures">Browse fixtures</a>

@@ -38,6 +38,9 @@ importers:
 
   fixtures/candidate-remix:
     dependencies:
+      radcn:
+        specifier: workspace:*
+        version: link:../../packages/radcn
       remix:
         specifier: workspace:*
         version: link:../../vendor/remix/packages/remix
@@ -112,6 +115,19 @@ importers:
       vite:
         specifier: ^7.2.4
         version: 7.3.5(@types/node@24.13.0)(jiti@2.7.0)(lightningcss@1.32.0)
+
+  packages/radcn:
+    dependencies:
+      remix:
+        specifier: workspace:*
+        version: link:../../vendor/remix/packages/remix
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.13.0
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
 
   vendor/remix/packages/assert:
     devDependencies:

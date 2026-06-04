@@ -26,6 +26,24 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Button styling applied to a link-like action.",
   },
   {
+    component: "button",
+    id: "sizes",
+    title: "Button Sizes",
+    description: "Small, default, large, and icon-sized buttons.",
+  },
+  {
+    component: "button",
+    id: "custom-class",
+    title: "Custom Button Class",
+    description: "Author styling applied through the public class hook.",
+  },
+  {
+    component: "button",
+    id: "form-submit",
+    title: "Button Form Behavior",
+    description: "Native submit and reset behavior with RadCN buttons.",
+  },
+  {
     component: "field",
     id: "input-default",
     title: "Default Input Field",
@@ -42,6 +60,30 @@ export const fixtureScenarios: FixtureScenario[] = [
     id: "input-disabled",
     title: "Disabled Input Field",
     description: "Disabled input with label and helper text.",
+  },
+  {
+    component: "field",
+    id: "required",
+    title: "Required Input Field",
+    description: "Required input field with native required semantics.",
+  },
+  {
+    component: "field",
+    id: "custom-error-token",
+    title: "Custom Field Error Token",
+    description: "Field error styling customized through a RadCN CSS variable.",
+  },
+  {
+    component: "textarea",
+    id: "default",
+    title: "Default Textarea",
+    description: "Native textarea with label and description.",
+  },
+  {
+    component: "textarea",
+    id: "disabled",
+    title: "Disabled Textarea",
+    description: "Disabled textarea state with helper text.",
   },
   {
     component: "accordion",

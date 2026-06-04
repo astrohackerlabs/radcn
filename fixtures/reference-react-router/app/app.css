@@ -81,3 +81,12 @@ body {
   border-radius: var(--radius);
   background: var(--card);
 }
+
+.reference-fixture-custom-button {
+  background: #0f766e;
+  color: #ffffff;
+}
+
+.reference-fixture-custom-field {
+  --destructive: #7c3aed;
+}

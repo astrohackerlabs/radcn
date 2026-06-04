@@ -1,4 +1,4 @@
-export type FixtureComponent = "button" | "field" | "accordion"
+export type FixtureComponent = "button" | "field" | "textarea" | "accordion"
 
 export interface FixtureScenario {
   component: FixtureComponent

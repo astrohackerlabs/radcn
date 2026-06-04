@@ -139,3 +139,120 @@ Residual risks:
 - Component-specific checks are described at the behavior level, so
   implementation should translate them into explicit Playwright or fixture tests
   rather than relying only on artifact capture.
+
+## Result
+
+**Result:** Pass
+
+Experiment 1 created the first real RadCN source package at `packages/radcn`.
+The package exports `button`, `input`, `field`, `label`, `textarea`, and
+`styles`; the Remix 3 candidate fixture app consumes those exports through the
+workspace package import `radcn` instead of fixture-local placeholder
+components.
+
+The proof slice now covers:
+
+- `Button`
+- `Input`
+- `Field`
+- `FieldDescription`
+- `FieldError`
+- `Label`
+- `Textarea`
+
+Shared paired scenarios were expanded for default, state, form, and
+customization probes:
+
+- `button/default`
+- `button/variants`
+- `button/disabled`
+- `button/as-child-or-link`
+- `button/sizes`
+- `button/custom-class`
+- `button/form-submit`
+- `field/input-default`
+- `field/input-invalid`
+- `field/input-disabled`
+- `field/required`
+- `field/custom-error-token`
+- `textarea/default`
+- `textarea/disabled`
+
+The candidate document loads the exported `radcnStyles` once, and
+customization probes use stable `radcn-*` classes, `data-radcn-*` attributes,
+and CSS variables. Source layout and the interim install/copy workflow are
+documented in `docs/radcn-source.md`.
+
+Verification run on 2026-06-04:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All commands passed. `pnpm fixtures:artifacts` reported `38 passed`, including
+the native-control checks for button submit/reset behavior, field ARIA linkage,
+disabled and required semantics, and customization hooks. The artifact manifest
+contains 34 paired screenshot entries across 17 scenarios, with the reference
+app on port `4601` and the candidate app on port `4602`.
+
+`git status --short -- vendor` was clean. Generated artifact and test-result
+outputs remain ignored.
+
+Warnings observed during verification:
+
+- Node reported `[DEP0205] DeprecationWarning: module.register() is deprecated`
+  during React Router and Playwright commands.
+- The fixture web servers reported that `NO_COLOR` is ignored when
+  `FORCE_COLOR` is set.
+
+Neither warning blocked the experiment result.
+
+Reusable discoveries were recorded in the issue `## Learnings` section:
+
+- RadCN source starts as the `packages/radcn` workspace package.
+- Stage 1 customization hooks use stable classes, data attributes, and CSS
+  variables loaded once by the Remix document.
+- The first `Input` proof is text-only, so later input-like components need an
+  explicit input-type strategy.
+- Screenshot capture is the baseline visual artifact, but automated visual
+  approval still needs a pixel-diff threshold.
+- Runtime CSS currently exists as both `tokens.css` and `radcnStyles`; future
+  styling work should remove or automate that duplication before the token
+  surface grows.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Rawls`.
+
+The reviewer returned **Pass** and confirmed that the experiment satisfies the
+verification criteria:
+
+- real RadCN package and exports exist under `packages/radcn`;
+- candidate fixtures import from `radcn`, not fixture-local placeholders;
+- shared scenarios cover default, state, form, and customization probes;
+- Playwright checks cover native submit/reset, ARIA linkage, state semantics,
+  and customization hooks;
+- documentation explains source layout, imports, hooks/tokens, and interim
+  install/copy workflow;
+- learnings are recorded in the issue README;
+- `vendor/` is clean;
+- typecheck and artifact commands passed.
+
+The reviewer identified three residual risks, all recorded as issue learnings:
+
+- `Input` currently hardcodes `type="text"`; later ports need a generalized
+  input-type strategy.
+- Visual parity is captured as paired screenshots, but no pixel-diff threshold
+  exists yet.
+- CSS exists both as `tokens.css` and inline `radcnStyles`; future work should
+  prevent drift between those sources.
+
+## Conclusion
+
+Experiment 1 establishes the Stage 1 foundation but does not complete Stage 1.
+The next experiment should continue Stage 1 by porting the next small batch of
+static/native components through the same package, fixture, artifact, and
+review pattern.

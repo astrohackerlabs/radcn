@@ -82,6 +82,38 @@ If a later experiment changes or invalidates a learning, add a new learning that
 supersedes it. Do not rewrite old learning entries after they have informed
 committed work.
 
+- **2026-06-04, Experiment 1:** RadCN source starts as a workspace package at
+  `packages/radcn`, while fixtures consume it through package imports rather
+  than fixture-local component placeholders. Applies to: `Stage 1` and all
+  future component ports. Evidence:
+  [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
+  `packages/radcn/package.json`.
+- **2026-06-04, Experiment 1:** Stage 1 customization hooks use stable
+  `radcn-*` classes, `data-radcn-*` attributes, and CSS variables loaded once by
+  the Remix document. Applies to: `button`, `input`, `field`, `label`,
+  `textarea`, and later static/native components. Evidence:
+  [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
+  `packages/radcn/src/styles/tokens.css`.
+- **2026-06-04, Experiment 1:** The first `Input` proof is intentionally a text
+  input; later input-like components need an explicit type strategy instead of
+  assuming one generic wrapper can safely cover every native input type.
+  Applies to: `input`, `input-group`, `input-otp`, form controls. Evidence:
+  [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
+  `packages/radcn/src/components/input.tsx`.
+- **2026-06-04, Experiment 1:** Paired reference/candidate screenshots are the
+  baseline visual artifact, but automated visual parity still needs a pixel-diff
+  threshold before screenshot capture alone can be treated as visual approval.
+  Applies to: all component stages. Evidence:
+  [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
+  `fixtures/artifacts/manifest.json`.
+- **2026-06-04, Experiment 1:** Runtime CSS currently exists as both
+  `tokens.css` and the exported `radcnStyles` string; future styling work should
+  remove or automate that duplication before the token surface grows. Applies
+  to: all styled components. Evidence:
+  [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
+  `packages/radcn/src/styles/tokens.css`,
+  `packages/radcn/src/styles/index.ts`.
+
 ## Five Porting Stages
 
 ### Stage 1: Native Form and Static Foundations
@@ -294,4 +326,4 @@ This issue is complete when:
 ## Experiments
 
 - [Experiment 1: Stage 1 source and native control foundation](01-stage-1-source-and-native-control-foundation.md)
-  — **Designed**
+  — **Pass**

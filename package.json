@@ -1,5 +1,5 @@
 {
-  "name": "radcn",
+  "name": "radcn-workspace",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.17.0",
@@ -8,7 +8,8 @@
     "fixtures:reference:dev": "pnpm --dir fixtures/reference-react-router dev",
     "fixtures:candidate:dev": "pnpm --dir fixtures/candidate-remix dev",
     "fixtures:reference:typecheck": "pnpm --dir fixtures/reference-react-router typecheck",
-    "fixtures:candidate:typecheck": "pnpm --dir fixtures/candidate-remix typecheck"
+    "fixtures:candidate:typecheck": "pnpm --dir fixtures/candidate-remix typecheck",
+    "radcn:typecheck": "pnpm --dir packages/radcn typecheck"
   },
   "devDependencies": {
     "@playwright/test": "catalog:"

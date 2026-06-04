@@ -59,6 +59,39 @@ export function renderButtonFixture(scenario: string) {
           <a href="/fixtures/button/default">Link styled as button</a>
         </Button>
       )
+    case "sizes":
+      return (
+        <div className="flex flex-wrap items-center gap-3">
+          <Button className="h-8 px-3 text-xs">Small</Button>
+          <Button>Default</Button>
+          <Button className="h-11 px-5 text-base">Large</Button>
+          <Button aria-disabled="true" className="size-9 px-0">
+            +
+          </Button>
+        </div>
+      )
+    case "custom-class":
+      return <Button className="reference-fixture-custom-button">Custom Button</Button>
+    case "form-submit":
+      return (
+        <form action="/fixtures/button/form-submit" className="grid max-w-sm gap-3" method="get">
+          <label htmlFor="reference-button-form-value">Value</label>
+          <input
+            className="h-9 rounded-md border border-input px-3 text-sm"
+            defaultValue="initial"
+            id="reference-button-form-value"
+            name="value"
+          />
+          <div className="flex gap-3">
+            <Button name="intent" type="submit" value="submit">
+              Submit
+            </Button>
+            <Button type="reset" variant="outline">
+              Reset
+            </Button>
+          </div>
+        </form>
+      )
     default:
       return <Button>Default button</Button>
   }

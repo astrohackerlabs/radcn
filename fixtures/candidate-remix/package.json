@@ -8,6 +8,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "radcn": "workspace:*",
     "remix": "workspace:*"
   },
   "devDependencies": {

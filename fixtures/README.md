@@ -73,9 +73,16 @@ Proof-set routes:
 - `/fixtures/button/variants`
 - `/fixtures/button/disabled`
 - `/fixtures/button/as-child-or-link`
+- `/fixtures/button/sizes`
+- `/fixtures/button/custom-class`
+- `/fixtures/button/form-submit`
 - `/fixtures/field/input-default`
 - `/fixtures/field/input-invalid`
 - `/fixtures/field/input-disabled`
+- `/fixtures/field/required`
+- `/fixtures/field/custom-error-token`
+- `/fixtures/textarea/default`
+- `/fixtures/textarea/disabled`
 - `/fixtures/accordion/single`
 - `/fixtures/accordion/multiple`
 - `/fixtures/accordion/disabled-item`

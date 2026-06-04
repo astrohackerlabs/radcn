@@ -59,6 +59,26 @@ export function renderFieldFixture(scenario: string) {
           <Input id="fixture-input" name="email" defaultValue="disabled@example.com" disabled />
         </Field>
       )
+    case "required":
+      return (
+        <Field label="Email" description="Required email address.">
+          <Input id="fixture-input" name="email" placeholder="name@example.com" required />
+        </Field>
+      )
+    case "custom-error-token":
+      return (
+        <div className="reference-fixture-custom-field">
+          <Field label="Email" error="Custom token error color.">
+            <Input
+              id="fixture-input"
+              name="email"
+              defaultValue="not-an-email"
+              aria-invalid="true"
+              aria-describedby="fixture-input-error"
+            />
+          </Field>
+        </div>
+      )
     default:
       return (
         <Field label="Email" description="Use a stable test email address.">
