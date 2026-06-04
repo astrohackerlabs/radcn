@@ -464,3 +464,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 7: Stage 2 collapsible disclosure primitive](07-stage-2-collapsible-disclosure-primitive.md)
   — **Pass**
+- [Experiment 8: Stage 2 tabs state and keyboard primitive](08-stage-2-tabs-state-and-keyboard-primitive.md)
+  — **Designed**
