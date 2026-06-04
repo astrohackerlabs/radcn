@@ -357,6 +357,71 @@ without a client-state primitive. Tabs still need a separate strategy because
 they require tablist semantics, roving focus, selected tab state, and panel
 relationships that native details do not provide.
 
+## Stage 2 Tabs State
+
+Experiment 8 adds the first selected-state composite primitive:
+
+- `Tabs`
+- `TabsList`
+- `TabsTrigger`
+- `TabsContent`
+
+RadCN tabs use server-rendered component markup plus a small tabs-specific
+client enhancement exported as `enhanceTabs` from `radcn/tabs`. Native
+`<details>/<summary>` is not used because it cannot express one selected tab,
+dynamic `aria-selected`, roving focus, disabled trigger skipping, and associated
+tabpanel visibility.
+
+The source is exported from the root `radcn` package and from `radcn/tabs`.
+Apps that use tabs must load the enhancement in a browser entry:
+
+```ts
+import { enhanceTabs } from 'radcn/tabs'
+
+enhanceTabs()
+```
+
+The candidate Remix fixture app imports `enhanceTabs` from the package source in
+`app/assets/entry.ts`. Its asset server allowlist includes
+`../../packages/radcn/src/**` so client enhancements can compile from the same
+workspace package that server-rendered components import.
+
+Public hooks:
+
+- `data-radcn-tabs`
+- `data-radcn-tabs-list`
+- `data-radcn-tabs-trigger`
+- `data-radcn-tabs-content`
+
+The root exposes `data-default-value`, `data-value`, `data-orientation`, and
+`data-activation-mode`. Before enhancement, child triggers and panels expose
+stable `data-value` hooks. After enhancement, triggers receive generated ids,
+`aria-controls`, live `aria-selected`, `tabIndex`, and `data-state`. Panels
+receive generated ids, `aria-labelledby`, live `data-state`, and `hidden` for
+inactive content.
+
+Tabs support automatic and manual activation modes. In automatic mode, Arrow
+keys, Home, and End move focus and selection together. In manual mode, Arrow
+keys, Home, and End move focus only, while Enter and Space activate the focused
+tab. Disabled triggers use the native `disabled` attribute plus
+`aria-disabled="true"` and are skipped by keyboard roving focus.
+
+Customization tokens:
+
+- `--radcn-tabs-list-bg`
+- `--radcn-tabs-trigger-fg`
+- `--radcn-tabs-trigger-active-bg`
+- `--radcn-tabs-trigger-active-fg`
+- `--radcn-tabs-content-border`
+- `--radcn-tabs-content-bg`
+- `--radcn-tabs-content-fg`
+
+Tabs establish the first explicit client enhancement boundary in RadCN. Later
+Stage 2 components should prefer native controls when they can provide live
+state, but selected-state composites that need coordinated ARIA and keyboard
+behavior may reuse this pattern: server-render stable hooks, export a focused
+enhancement, and make fixture asset allowlists include package client source.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document

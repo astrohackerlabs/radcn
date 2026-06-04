@@ -29,6 +29,7 @@
     "./skeleton": "./src/components/skeleton.tsx",
     "./spinner": "./src/components/spinner.tsx",
     "./switch": "./src/components/switch.tsx",
+    "./tabs": "./src/components/tabs.tsx",
     "./table": "./src/components/table.tsx",
     "./textarea": "./src/components/textarea.tsx",
     "./typography": "./src/components/typography.tsx",

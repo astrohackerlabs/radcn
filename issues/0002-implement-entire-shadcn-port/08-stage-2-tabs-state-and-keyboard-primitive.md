@@ -94,6 +94,7 @@ Shared scenarios for this experiment should include:
 - `tabs/default-value`
 - `tabs/disabled`
 - `tabs/vertical`
+- `tabs/manual`
 - `tabs/custom-token`
 
 Add component-specific Playwright checks proving:
@@ -177,3 +178,103 @@ explicitly forbids `vendor/` edits.
 The reviewer gave one non-blocking implementation suggestion: the eventual
 result should make the chosen tabs state strategy explicit because this
 experiment is likely to set precedent for later Stage 2 stateful components.
+
+## Result
+
+**Result:** Pass
+
+Experiment 8 implemented the RadCN tabs component family:
+
+- `Tabs`
+- `TabsList`
+- `TabsTrigger`
+- `TabsContent`
+
+RadCN source lives at `packages/radcn/src/components/tabs.tsx`. The package now
+exports `radcn/tabs`, root exports for the component family and types, and the
+tabs-specific `enhanceTabs()` client helper.
+
+The chosen state strategy is explicit client enhancement. Tabs render stable
+server markup with `data-value`, `data-radcn-*` hooks, `role="tablist"`,
+`role="tab"`, and `role="tabpanel"` scaffolding. The browser entry calls
+`enhanceTabs()`, which resolves live selected state, generated trigger/panel
+ids, `aria-controls`, `aria-labelledby`, `aria-selected`, roving `tabIndex`,
+disabled trigger skipping, and `hidden` inactive panels.
+
+This is an approved divergence from the native-only Stage 2 disclosure
+strategy. Native `<details>/<summary>` is sufficient for accordion and
+collapsible, but it cannot express tabs' selected-value model, tabpanel
+relationships, or roving focus behavior. A radio-backed strategy was not used
+because it would still need JavaScript to provide complete roving focus and
+dynamic ARIA state while preserving the shadcn/ui author-facing part shape.
+
+The candidate Remix fixture app imports `enhanceTabs` from `radcn/tabs` in
+`fixtures/candidate-remix/app/assets/entry.ts`. The candidate asset server
+allowlist now includes `../../packages/radcn/src/**` so client helpers can be
+compiled from the same RadCN workspace package source as server components.
+
+Shared tabs scenarios now include:
+
+- `tabs/default`
+- `tabs/default-value`
+- `tabs/disabled`
+- `tabs/vertical`
+- `tabs/custom-token`
+
+Verification commands run so far:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/tabs.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. `pnpm fixtures:artifacts` ran 217 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 182 screenshot entries;
+- 91 shared scenarios;
+- 6 tabs scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Einstein`.
+
+The first review result was **Fail**. Required findings were:
+
+- the Issue 2 experiment index still marked Experiment 8 as `Designed` while
+  the experiment result recorded `Pass`;
+- manual activation behavior was required by the experiment plan but not proven
+  by fixtures or Playwright tests.
+
+Those findings were fixed:
+
+- the issue index now marks Experiment 8 as `Pass`;
+- shared scenarios include `tabs/manual`;
+- candidate and reference fixtures expose manual activation mode;
+- Playwright tests prove that manual-mode Arrow keys move focus without
+  changing selection, and that Enter and Space activate the focused tab;
+- full verification was rerun after the fix.
+
+Independent AI completion re-review by subagent `Einstein` approved the fixed
+result with **Pass** and no remaining required fixes.
+
+## Conclusion
+
+Experiment 8 establishes RadCN's first client enhancement boundary. Tabs should
+be treated as a selected-state composite rather than a native disclosure
+primitive: server-rendered parts provide the author-facing shape and stable
+hooks, while a focused package helper owns live state and keyboard behavior.
+
+This experiment does not complete Stage 2. The next experiment should use the
+tabs result to decide whether `toggle` and `toggle-group` can remain native or
+CSS-driven, or whether they need a smaller version of the tabs enhancement
+pattern.

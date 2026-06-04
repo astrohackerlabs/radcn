@@ -8,9 +8,10 @@ export const assetServer = createAssetServer({
   fileMap: {
     'app/*path': 'app/*path',
     'node_modules/*path': 'node_modules/*path',
+    'packages/radcn/*path': '../../packages/radcn/*path',
     'vendor/remix/packages/*path': '../../vendor/remix/packages/*path',
   },
-  allow: ['app/assets/**', 'node_modules/**', '../../vendor/remix/packages/**'],
+  allow: ['app/assets/**', 'node_modules/**', '../../packages/radcn/src/**', '../../vendor/remix/packages/**'],
   deny: ['app/**/*.server.*'],
   sourceMaps: process.env.NODE_ENV === 'development' ? 'external' : undefined,
   scripts: {

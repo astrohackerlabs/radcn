@@ -511,6 +511,42 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Collapsible Token",
     description: "Collapsible customized through public tokens.",
   },
+  {
+    component: "tabs",
+    id: "default",
+    title: "Default Tabs",
+    description: "Tabs with the first panel selected by default.",
+  },
+  {
+    component: "tabs",
+    id: "default-value",
+    title: "Tabs Default Value",
+    description: "Tabs with a non-first panel selected by default.",
+  },
+  {
+    component: "tabs",
+    id: "disabled",
+    title: "Disabled Tab",
+    description: "Tabs with one disabled trigger.",
+  },
+  {
+    component: "tabs",
+    id: "vertical",
+    title: "Vertical Tabs",
+    description: "Vertical tabs with arrow-key orientation behavior.",
+  },
+  {
+    component: "tabs",
+    id: "manual",
+    title: "Manual Tabs",
+    description: "Tabs where arrow keys move focus and Enter or Space activates.",
+  },
+  {
+    component: "tabs",
+    id: "custom-token",
+    title: "Custom Tabs Token",
+    description: "Tabs customized through public tokens.",
+  },
 ]
 
 export function getFixtureScenario(

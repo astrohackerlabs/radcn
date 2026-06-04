@@ -22,6 +22,7 @@ export type FixtureComponent =
   | "spinner"
   | "switch"
   | "table"
+  | "tabs"
   | "textarea"
   | "typography"
 

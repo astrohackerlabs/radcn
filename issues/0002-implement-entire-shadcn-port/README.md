@@ -235,6 +235,21 @@ committed work.
   Applies to: `tabs` and future client-state planning. Evidence:
   [Experiment 7](07-stage-2-collapsible-disclosure-primitive.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 8:** Tabs are the first RadCN primitive that needs a
+  package-exported client enhancement: server markup provides stable hooks and
+  values, while `enhanceTabs()` resolves selected state, ARIA relationships,
+  roving focus, disabled trigger skipping, and hidden panels in the browser.
+  Applies to: `tabs`, later selected-state composites. Evidence:
+  [Experiment 8](08-stage-2-tabs-state-and-keyboard-primitive.md),
+  `packages/radcn/src/components/tabs.tsx`,
+  `fixtures/tests/tabs.spec.ts`.
+- **2026-06-04, Experiment 8:** Remix asset entries that import RadCN client
+  helpers from workspace package source need the candidate asset server
+  allowlist to include `../../packages/radcn/src/**`. Applies to: future RadCN
+  client enhancements. Evidence:
+  [Experiment 8](08-stage-2-tabs-state-and-keyboard-primitive.md),
+  `fixtures/candidate-remix/app/assets.ts`,
+  `fixtures/candidate-remix/app/assets/entry.ts`.
 
 ## Five Porting Stages
 
@@ -465,4 +480,4 @@ This issue is complete when:
 - [Experiment 7: Stage 2 collapsible disclosure primitive](07-stage-2-collapsible-disclosure-primitive.md)
   — **Pass**
 - [Experiment 8: Stage 2 tabs state and keyboard primitive](08-stage-2-tabs-state-and-keyboard-primitive.md)
-  — **Designed**
+  — **Pass**

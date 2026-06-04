@@ -31,6 +31,7 @@ import {
   renderSpinnerFixture,
 } from './static-display.tsx'
 import { renderTextareaFixture } from './textarea.tsx'
+import { renderTabsFixture } from './tabs.tsx'
 
 export function renderCandidateFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -80,6 +81,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderSwitchFixture(fixture)
     case 'table':
       return renderTableFixture(fixture)
+    case 'tabs':
+      return renderTabsFixture(fixture)
     case 'textarea':
       return renderTextareaFixture(fixture)
     case 'typography':
