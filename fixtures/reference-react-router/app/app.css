@@ -2558,6 +2558,94 @@ body {
   color: #134e4a;
 }
 
+.reference-calendar,
+.reference-date-picker-popover {
+  display: inline-grid;
+  gap: 12px;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  background: #fff;
+  color: #18181b;
+  padding: 12px;
+  font-family: system-ui, sans-serif;
+}
+
+.reference-calendar-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reference-calendar-nav button,
+.reference-date-picker button {
+  min-height: 32px;
+  border: 1px solid #d4d4d8;
+  border-radius: 4px;
+  background: #fff;
+  color: #18181b;
+  padding: 4px 10px;
+}
+
+.reference-calendar-months {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.reference-calendar-caption {
+  margin-bottom: 8px;
+  text-align: center;
+  font: 600 14px/1.2 system-ui, sans-serif;
+}
+
+.reference-calendar-grid {
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+
+.reference-calendar-grid th,
+.reference-calendar-day {
+  width: 36px;
+  height: 36px;
+  text-align: center;
+}
+
+.reference-calendar-grid th {
+  color: #71717a;
+  font: 500 12px/1 system-ui, sans-serif;
+}
+
+.reference-calendar-day-button {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+}
+
+.reference-calendar-day[data-selected="true"] .reference-calendar-day-button,
+.reference-calendar-day[data-range-start="true"] .reference-calendar-day-button,
+.reference-calendar-day[data-range-end="true"] .reference-calendar-day-button {
+  background: #18181b;
+  color: #fff;
+}
+
+.reference-calendar-day[data-range-middle="true"] {
+  background: #f4f4f5;
+}
+
+.reference-date-picker {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+}
+
+.reference-fixture-custom-calendar,
+.reference-fixture-custom-date-picker .reference-date-picker-popover {
+  border-color: #0f766e;
+  background: #f0fdfa;
+  color: #134e4a;
+}
+
 .reference-combobox-content--popper {
   top: 0;
   left: calc(100% + 0.25rem);

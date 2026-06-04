@@ -4,9 +4,11 @@ import { renderAccordionFixture } from './accordion.tsx'
 import { renderAlertDialogFixture } from './alert-dialog.tsx'
 import { renderAvatarFixture } from './avatar.tsx'
 import { renderButtonFixture } from './button.tsx'
+import { renderCalendarFixture } from './calendar.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderComboboxFixture } from './combobox.tsx'
 import { renderCommandFixture } from './command.tsx'
+import { renderDatePickerFixture } from './date-picker.tsx'
 import { renderDialogFixture } from './dialog.tsx'
 import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
@@ -68,6 +70,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderButtonFixture(fixture)
     case 'button-group':
       return renderButtonGroupFixture(fixture)
+    case 'calendar':
+      return renderCalendarFixture(fixture)
     case 'card':
       return renderCardFixture(fixture)
     case 'checkbox':
@@ -80,6 +84,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderCommandFixture(fixture)
     case 'context-menu':
       return renderContextMenuFixture(fixture)
+    case 'date-picker':
+      return renderDatePickerFixture(fixture)
     case 'dialog':
       return renderDialogFixture(fixture)
     case 'drawer':

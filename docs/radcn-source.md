@@ -1313,11 +1313,69 @@ Approved divergences from Radix/shadcn:
   content; artifact screenshots do not depend on React layout effects.
 - Content-panel links are not part of top-level roving focus.
 
-Later `calendar` and `date-picker` should reuse only the roving-focus
-discipline and explicit motion/state hooks. They need date-grid semantics,
-date value policy, range policy, and popover composition rather than menu item
-activation. `Carousel` should use its own slide/region semantics and should
-not borrow menu or listbox roles unless a true menu/listbox is present.
+`Calendar` and `date-picker` reuse only the roving-focus discipline and
+explicit state hooks from this cluster. They own date-grid semantics, date value
+policy, range policy, and popover composition rather than menu item activation.
+`Carousel` should use its own slide/region semantics and should not borrow
+menu, date-grid, or listbox roles unless a true menu/listbox is present.
+
+## Stage 4 Calendar and Date Picker Foundation
+
+Experiment 20 adds the date-grid cluster:
+
+- `Calendar` and its caption, navigation, month, grid, week, day, day button,
+  weekday, and week-number hooks
+- `enhanceCalendar()` for pointer selection, keyboard movement, form reset, and
+  visible month navigation
+- date-picker fixture recipes that compose existing `Button`, `Popover`, and
+  `Calendar` behavior
+
+`Calendar` is not a listbox, menu, or navigation menu. The root exposes a
+labeled calendar region, the month content renders a real table with
+`role="grid"`, day cells expose `role="gridcell"`, and day buttons own roving
+focus. Date selection is a date-grid concern, not menu activation and not a
+selected option list.
+
+RadCN does not copy `react-day-picker` into the package. The port keeps the
+visible shadcn-style calendar surface while using a small native `Date` helper
+for the supported scenarios. Values serialize as local `YYYY-MM-DD` strings.
+Range display uses a `start..end` value for fixture and styling hooks; richer
+interactive range authoring should be added only when a later requirement needs
+it.
+
+Keyboard and pointer policy:
+
+- Arrow keys move day focus by one day or one week.
+- Home and End move to the start or end of the focused week.
+- PageUp and PageDown change the visible month and rerender the caption and day
+  grid.
+- Enter, Space, or pointer activation selects an enabled day and syncs the
+  hidden form value when the calendar has a `name`.
+- Disabled dates, `min`, and `max` remove dates from selection and focus.
+- Selected, today, outside, disabled, focused, range-start, range-middle, and
+  range-end states are public `data-*` hooks.
+
+Date-picker is currently a recipe/block disposition, not a core package
+subpath. The fixture route documents the composition boundary with
+`data-radcn-date-picker-recipe`: a trigger button opens a RadCN popover, the
+popover contains a RadCN calendar, and the recipe owns its hidden input and
+display label. This avoids publishing a premature date-picker API while still
+proving the browser behavior and artifact comparison path.
+
+Approved divergences from Radix/shadcn:
+
+- Calendar uses dependency-free native date helpers instead of `react-day-picker`
+  internals.
+- Date-picker is documented as composition, not exported as a core component.
+- Range behavior is currently a visual/state-hook disposition rather than a
+  complete interactive range picker.
+- Calendar month navigation rerenders deterministic DOM instead of relying on
+  React state.
+
+After this cluster, Stage 4 remains open for `carousel` only. Carousel should
+reuse the fixture/artifact discipline and explicit data hooks, but it should
+own slide, region, roving, and motion policy separately from date-grid,
+menu/navigation, and listbox behavior.
 
 ## Styles and Tokens
 

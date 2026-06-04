@@ -14,6 +14,7 @@
     "./breadcrumb": "./src/components/breadcrumb.tsx",
     "./button": "./src/components/button.tsx",
     "./button-group": "./src/components/button-group.tsx",
+    "./calendar": "./src/components/calendar.tsx",
     "./card": "./src/components/card.tsx",
     "./checkbox": "./src/components/checkbox.tsx",
     "./collapsible": "./src/components/collapsible.tsx",

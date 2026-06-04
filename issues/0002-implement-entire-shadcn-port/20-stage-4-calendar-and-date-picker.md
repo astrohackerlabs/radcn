@@ -283,3 +283,129 @@ gates.
 Dalton noted one non-blocking implementation caution: if date-picker is
 ultimately recorded as a recipe/block disposition, do not add misleading core
 source or package subpaths for it.
+
+## Result
+
+**Result:** Pass
+
+Experiment 20 implemented the calendar/date-picker cluster without modifying
+vendored source.
+
+Implemented RadCN source:
+
+- `packages/radcn/src/utils/date.ts` adds dependency-free local date helpers for
+  `YYYY-MM-DD` serialization, month math, calendar grid generation, labels, and
+  range tests.
+- `packages/radcn/src/components/calendar.tsx` adds `Calendar`, public
+  calendar part components, `selected` and `defaultSelected` value inputs, and
+  `enhanceCalendar()`.
+- `packages/radcn/package.json` adds the `radcn/calendar` package subpath.
+- `packages/radcn/src/index.ts` exports calendar components, types, and
+  `enhanceCalendar()`.
+- `packages/radcn/src/styles/tokens.css` and generated
+  `packages/radcn/src/styles/index.ts` add calendar/date-picker styling hooks.
+- `fixtures/candidate-remix/app/assets/entry.ts` loads the calendar
+  enhancement.
+
+Implemented fixtures and scenarios:
+
+- Shared scenarios now include every required `calendar/*` and `date-picker/*`
+  route for reference and candidate artifact comparison.
+- Candidate calendar fixtures render real RadCN package source.
+- Reference calendar fixtures render matching React Router reference output.
+- Date-picker is recorded as a recipe/block disposition, not a core package
+  source file or package subpath. The candidate recipe composes existing
+  `Button`, `Popover`, and `Calendar` behavior and owns its recipe hidden
+  input/display state.
+
+Implemented browser coverage:
+
+- `fixtures/tests/calendar-date-picker.spec.ts` verifies calendar grid
+  semantics, selected/hidden value state, range hooks, two-month output,
+  keyboard movement including PageUp/PageDown and Space selection, pointer
+  selection, disabled-date skip behavior, deterministic focus after month
+  rerendering, visible month rerendering, custom token hooks, date-picker
+  popover composition, date-picker form submit, disabled trigger state, and
+  date-picker customization hooks.
+
+Verification commands:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/calendar-date-picker.spec.ts`
+  passed: 4 tests.
+- `pnpm fixtures:artifacts` passed: 540 tests.
+
+Documentation and issue memory were updated:
+
+- `docs/radcn-source.md` now documents the calendar/date-picker foundation,
+  native date math, `YYYY-MM-DD` serialization, date-grid semantics, keyboard
+  policy, range disposition, date-picker recipe disposition, approved
+  divergences, and the remaining Stage 4 carousel boundary.
+- The issue `## Learnings` section records the reusable date-grid semantics,
+  serialization, date-picker recipe disposition, visible month rerender rule,
+  and Stage 4 carousel implication.
+
+## Conclusion
+
+Calendar is now a core RadCN component with package exports, source, styles,
+fixtures, focused behavior tests, and artifact scenarios. Date-picker is not a
+core package API yet; it is a documented recipe/block composition that proves
+the shadcn-style date-picker behavior through `Button`, `Popover`, and
+`Calendar`.
+
+This completes the Stage 4 date-grid cluster. Stage 4 still has one remaining
+cluster: `carousel`, which should be designed as its own slide/region/motion
+experiment rather than borrowing calendar, menu, navigation-menu, or listbox
+semantics.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Curie`. The first
+review returned **Fail** with three blocking findings:
+
+- `Calendar` was missing the root `selected` prop required by this experiment.
+- Focused Playwright coverage did not cover PageUp, PageDown, Space selection,
+  disabled-date skip behavior, or deterministic focus after month rerender.
+- PageUp/PageDown rerendered the visible month but did not move focus to a
+  replacement day button after replacing the table body.
+
+Fixes applied:
+
+- Added `selected?: string` to `CalendarProps` and made `selected` take
+  precedence over `defaultSelected`.
+- Updated the `calendar/month-navigation` candidate fixture to exercise the
+  `selected` prop.
+- Added deterministic PageUp/PageDown focus restoration after month rerender.
+- Expanded `fixtures/tests/calendar-date-picker.spec.ts` to cover
+  PageUp/PageDown, Space selection, disabled-date skip behavior, visible
+  caption rerender, and deterministic focus after rerender.
+
+The second review returned **Fail** with one remaining blocker: keyboard
+disabled-date behavior had been recorded as skip behavior, but `moveFocus()`
+stopped on the focused day when the next target was disabled and the test
+asserted that stopped behavior.
+
+Additional fix applied:
+
+- Updated `moveFocus()` to continue stepping in the requested direction until
+  it finds an enabled visible day.
+- Updated the disabled-date keyboard test to assert ArrowRight from June 9 skips
+  disabled June 10 and June 11, then focuses June 12.
+
+The final re-review returned **Pass** with no remaining blocking findings.
+Curie verified the disabled-skip fix and updated assertion, reran
+`pnpm radcn:typecheck`, reran the focused calendar/date-picker Playwright spec,
+and confirmed vendor paths remained clean.
+
+Verification after fixes:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/calendar-date-picker.spec.ts`
+  passed: 4 tests.
+- `pnpm fixtures:artifacts` passed: 540 tests.

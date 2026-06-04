@@ -1261,6 +1261,90 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Navigation Menu Token",
     description: "Navigation menu styling through public CSS variables.",
   },
+  {
+    component: "calendar",
+    id: "default",
+    title: "Default Calendar",
+    description: "Calendar date grid in the default month.",
+  },
+  {
+    component: "calendar",
+    id: "selected",
+    title: "Selected Calendar Date",
+    description: "Calendar with a selected date and hidden value.",
+  },
+  {
+    component: "calendar",
+    id: "outside-days",
+    title: "Calendar Outside Days",
+    description: "Calendar showing adjacent-month outside days.",
+  },
+  {
+    component: "calendar",
+    id: "disabled",
+    title: "Disabled Calendar Dates",
+    description: "Calendar with disabled dates and bounds.",
+  },
+  {
+    component: "calendar",
+    id: "month-navigation",
+    title: "Calendar Month Navigation",
+    description: "Calendar previous and next month controls.",
+  },
+  {
+    component: "calendar",
+    id: "range",
+    title: "Calendar Range Hooks",
+    description: "Calendar range start middle and end visual hooks.",
+  },
+  {
+    component: "calendar",
+    id: "two-months",
+    title: "Two Month Calendar",
+    description: "Calendar rendering two adjacent months.",
+  },
+  {
+    component: "calendar",
+    id: "custom-token",
+    title: "Custom Calendar Token",
+    description: "Calendar styling through public CSS variables.",
+  },
+  {
+    component: "date-picker",
+    id: "default",
+    title: "Date Picker Recipe",
+    description: "Date picker documented as a popover plus calendar recipe.",
+  },
+  {
+    component: "date-picker",
+    id: "selected",
+    title: "Selected Date Picker Recipe",
+    description: "Date picker recipe with a selected date.",
+  },
+  {
+    component: "date-picker",
+    id: "form-submit-reset",
+    title: "Date Picker Form Recipe",
+    description: "Date picker recipe hidden value submit and reset behavior.",
+  },
+  {
+    component: "date-picker",
+    id: "popover",
+    title: "Date Picker Popover Recipe",
+    description: "Date picker recipe composed with popover behavior.",
+  },
+  {
+    component: "date-picker",
+    id: "disabled",
+    title: "Disabled Date Picker Recipe",
+    description: "Date picker recipe disabled trigger state.",
+  },
+  {
+    component: "date-picker",
+    id: "custom-token",
+    title: "Custom Date Picker Recipe",
+    description: "Date picker recipe styling through calendar and popover tokens.",
+  },
 ]
 
 export function getFixtureScenario(

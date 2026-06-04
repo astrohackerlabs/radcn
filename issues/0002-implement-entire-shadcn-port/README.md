@@ -501,6 +501,36 @@ committed work.
   `date-picker`, `carousel`. Evidence:
   [Experiment 19](19-stage-4-menubar-and-navigation-menu.md),
   `fixtures/tests/menubar-navigation.spec.ts`.
+- **2026-06-04, Experiment 20:** Calendar should own date-grid semantics
+  directly instead of reusing menu, navigation-menu, or listbox roles. Applies
+  to: `calendar`, `date-picker`, future date-grid recipes. Evidence:
+  [Experiment 20](20-stage-4-calendar-and-date-picker.md),
+  `packages/radcn/src/components/calendar.tsx`,
+  `fixtures/tests/calendar-date-picker.spec.ts`.
+- **2026-06-04, Experiment 20:** Calendar date values use local native
+  `Date` math serialized as `YYYY-MM-DD`, with range hooks represented as
+  `start..end` for styling/disposition scenarios. Applies to: `calendar`,
+  `date-picker`, future date-form components. Evidence:
+  [Experiment 20](20-stage-4-calendar-and-date-picker.md),
+  `packages/radcn/src/utils/date.ts`.
+- **2026-06-04, Experiment 20:** Date-picker is a recipe/block disposition for
+  now, composed from `Button`, `Popover`, and `Calendar`; do not add a
+  misleading core source file, package subpath, or root export until a later
+  experiment proves a stable core API. Applies to: `date-picker`,
+  documentation site examples, future blocks. Evidence:
+  [Experiment 20](20-stage-4-calendar-and-date-picker.md),
+  `fixtures/candidate-remix/app/fixtures/date-picker.tsx`.
+- **2026-06-04, Experiment 20:** Calendar month navigation must rerender the
+  visible caption and day grid, not only update state attributes. Applies to:
+  `calendar`, `date-picker`, future date-grid wrappers. Evidence:
+  [Experiment 20](20-stage-4-calendar-and-date-picker.md),
+  `fixtures/tests/calendar-date-picker.spec.ts`.
+- **2026-06-04, Experiment 20:** After calendar/date-picker, Stage 4 remains
+  open only for `carousel`; it should use slide/region semantics rather than
+  borrowing date-grid, menu, navigation, or listbox roles. Applies to:
+  `carousel`, Stage 4 closure. Evidence:
+  [Experiment 20](20-stage-4-calendar-and-date-picker.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -761,4 +791,4 @@ This issue is complete when:
 - [Experiment 19: Stage 4 menubar and navigation menu](19-stage-4-menubar-and-navigation-menu.md)
   — **Pass**
 - [Experiment 20: Stage 4 calendar and date picker](20-stage-4-calendar-and-date-picker.md)
-  — **Designed**
+  — **Pass**
