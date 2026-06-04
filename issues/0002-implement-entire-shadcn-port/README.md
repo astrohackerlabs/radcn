@@ -646,3 +646,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 15: Stage 3 menu overlay primitives](15-stage-3-menu-overlay-primitives.md)
   — **Pass**
+- [Experiment 16: Stage 3 drawer and closure audit](16-stage-3-drawer-and-closure-audit.md)
+  — **Designed**
