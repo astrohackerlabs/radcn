@@ -816,3 +816,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 21: Stage 4 carousel and stage closure](21-stage-4-carousel-and-stage-closure.md)
   — **Pass**
+- [Experiment 22: Stage 5 form and input cluster](22-stage-5-form-input-cluster.md)
+  — **Designed**
