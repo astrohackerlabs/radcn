@@ -667,3 +667,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 16: Stage 3 drawer and closure audit](16-stage-3-drawer-and-closure-audit.md)
   — **Pass**
+- [Experiment 17: Stage 4 select listbox foundation](17-stage-4-select-listbox-foundation.md)
+  — **Designed**
