@@ -52,6 +52,36 @@ while using Remix 3 and web-native architecture where that is the better fit.
 Do not edit vendored source under `vendor/`. Vendor checkouts are reference
 inputs only.
 
+## Learnings
+
+Record cross-component discoveries here as soon as they become necessary for
+later components to be implemented successfully. This section is the issue-level
+memory for decisions that should outlive a single experiment.
+
+Add a learning when an experiment discovers:
+
+- a reusable source layout, helper, primitive, token, fixture pattern, or test
+  pattern;
+- a Remix 3 behavior that changes how later components should be built;
+- a shadcn/ui pattern that should be preserved, adapted, replaced, or avoided;
+- an accessibility, keyboard, form, portal, positioning, animation, or
+  customization rule that applies beyond one component;
+- a dependency or upstream implementation detail that affects later stage
+  planning;
+- an approved divergence pattern that future components may reuse.
+
+Each learning should be short and actionable:
+
+```markdown
+- **YYYY-MM-DD, Experiment N:** {decision or discovery}. Applies to:
+  `{component-or-stage}`. Evidence: {link to experiment result, helper, test, or
+  artifact}.
+```
+
+If a later experiment changes or invalidates a learning, add a new learning that
+supersedes it. Do not rewrite old learning entries after they have informed
+committed work.
+
 ## Five Porting Stages
 
 ### Stage 1: Native Form and Static Foundations
