@@ -113,6 +113,28 @@ committed work.
   [Experiment 1](01-stage-1-source-and-native-control-foundation.md),
   `packages/radcn/src/styles/tokens.css`,
   `packages/radcn/src/styles/index.ts`.
+- **2026-06-04, Experiment 2:** Static/display primitives should stay
+  server-rendered by default and expose component-part slots through stable
+  `data-radcn-*` hooks plus variant modifier classes. Applies to: `alert`,
+  `badge`, `card`, `empty`, `kbd`, `separator`, and the remaining Stage 1
+  static components. Evidence:
+  [Experiment 2](02-stage-1-static-display-primitives.md),
+  `packages/radcn/src/components/card.tsx`,
+  `fixtures/tests/static-display.spec.ts`.
+- **2026-06-04, Experiment 2:** Loading visuals need explicit accessibility
+  policy: status indicators such as `Spinner` expose `role="status"` with an
+  accessible name, while decorative placeholders such as `Skeleton` use
+  `aria-hidden="true"`. Applies to: `spinner`, `skeleton`, `progress`, and
+  future feedback components. Evidence:
+  [Experiment 2](02-stage-1-static-display-primitives.md),
+  `packages/radcn/src/components/spinner.tsx`,
+  `packages/radcn/src/components/skeleton.tsx`.
+- **2026-06-04, Experiment 2:** Layout-only Radix wrappers can often collapse to
+  native CSS when the visible and author-facing behavior is preserved; RadCN
+  `AspectRatio` uses the CSS `aspect-ratio` property instead of a client
+  primitive. Applies to: `aspect-ratio` and future layout/static components.
+  Evidence: [Experiment 2](02-stage-1-static-display-primitives.md),
+  `packages/radcn/src/components/aspect-ratio.tsx`.
 
 ## Five Porting Stages
 
@@ -328,4 +350,4 @@ This issue is complete when:
 - [Experiment 1: Stage 1 source and native control foundation](01-stage-1-source-and-native-control-foundation.md)
   — **Pass**
 - [Experiment 2: Stage 1 static display primitives](02-stage-1-static-display-primitives.md)
-  — **Designed**
+  — **Pass**

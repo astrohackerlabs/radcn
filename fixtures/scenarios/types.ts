@@ -1,4 +1,17 @@
-export type FixtureComponent = "button" | "field" | "textarea" | "accordion"
+export type FixtureComponent =
+  | "accordion"
+  | "alert"
+  | "aspect-ratio"
+  | "badge"
+  | "button"
+  | "card"
+  | "empty"
+  | "field"
+  | "kbd"
+  | "separator"
+  | "skeleton"
+  | "spinner"
+  | "textarea"
 
 export interface FixtureScenario {
   component: FixtureComponent

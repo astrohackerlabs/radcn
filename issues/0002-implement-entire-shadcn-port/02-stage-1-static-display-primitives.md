@@ -155,3 +155,128 @@ coherent, limited to the next Stage 1 static/display batch, has concrete
 verification for all nine named components, avoids vendor edits, preserves the
 one-experiment-at-a-time workflow, and does not prematurely design future
 experiments.
+
+## Result
+
+**Result:** Pass
+
+Experiment 2 ported the static/display batch into `packages/radcn`:
+
+- `Alert`, `AlertAction`, `AlertDescription`, `AlertTitle`
+- `AspectRatio`
+- `Badge`
+- `Card`, `CardAction`, `CardContent`, `CardDescription`, `CardFooter`,
+  `CardHeader`, `CardTitle`
+- `Empty`, `EmptyContent`, `EmptyDescription`, `EmptyHeader`, `EmptyMedia`,
+  `EmptyTitle`
+- `Kbd`, `KbdGroup`
+- `Separator`
+- `Skeleton`
+- `Spinner`
+
+Each component is exported from the package root and from a package subpath.
+The Remix 3 candidate fixture imports the batch from `radcn`, not from
+fixture-local placeholder components.
+
+Shared scenarios were added for the batch:
+
+- `alert/default`
+- `alert/destructive`
+- `alert/custom-token`
+- `aspect-ratio/default`
+- `aspect-ratio/custom-ratio`
+- `badge/variants`
+- `badge/custom-class`
+- `card/default`
+- `card/compact`
+- `card/custom-token`
+- `empty/default`
+- `empty/icon`
+- `kbd/default`
+- `separator/orientations`
+- `skeleton/default`
+- `spinner/default`
+- `spinner/custom-size`
+
+The semantic and customization checks live in
+`fixtures/tests/static-display.spec.ts`. They verify alert roles and variant
+hooks, aspect-ratio layout dimensions, badge variant and class hooks, card slot
+hooks and token overrides, empty-state slot hooks, real `<kbd>` semantics and
+class hooks, separator orientation semantics, spinner status semantics, and
+skeleton accessibility behavior.
+
+Documentation was extended in `docs/radcn-source.md` to cover static primitive
+source shape, slot and variant conventions, server-rendering policy, loading
+semantics, and customization probes.
+
+Verification run on 2026-06-04:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All commands passed. `pnpm fixtures:artifacts` reported `78 passed`. The
+artifact manifest contains 68 paired screenshot entries across 34 scenarios,
+including 17 static/display scenarios from this experiment. The reference app
+uses port `4601`, and the candidate app uses port `4602`.
+
+`git status --short -- vendor` was clean. Generated artifact and test-result
+outputs remain ignored.
+
+Warnings observed during verification:
+
+- Node reported `[DEP0205] DeprecationWarning: module.register() is deprecated`
+  during React Router and Playwright commands.
+- The fixture web servers reported that `NO_COLOR` is ignored when
+  `FORCE_COLOR` is set.
+
+Neither warning blocked the experiment result.
+
+Reusable discoveries were recorded in the issue `## Learnings` section:
+
+- Static/display primitives should stay server-rendered by default and expose
+  component-part slots through stable `data-radcn-*` hooks plus variant modifier
+  classes.
+- Loading visuals need explicit accessibility policy: status indicators such as
+  `Spinner` expose `role="status"` with an accessible name, while decorative
+  placeholders such as `Skeleton` use `aria-hidden="true"`.
+- Layout-only Radix wrappers can often collapse to native CSS when visible and
+  author-facing behavior is preserved.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Boole`, which
+approved the completed experiment after one fix.
+
+The review initially returned **Partial** because the `Kbd` test proved real
+`<kbd>` elements and `data-radcn-kbd` hooks but did not prove the required stable
+class hooks. The test was updated to assert both `radcn-kbd-group` and
+`radcn-kbd` class hooks, and the full verification suite was rerun.
+
+The reviewer then returned **Pass**. The review confirmed that:
+
+- package subpath exports and root exports exist for all nine components;
+- candidate fixtures import the batch from `radcn`;
+- shared scenarios cover the expected batch;
+- the artifact manifest has 68 entries across 34 scenarios for both apps;
+- Playwright checks cover the required semantics and customization behavior;
+- docs cover source layout, slots, variants, server rendering, loading
+  semantics, and customization hooks;
+- Experiment 2 learnings are present;
+- `vendor/` is clean.
+
+Residual risks:
+
+- Pixel-diff visual parity is still future work.
+- Static primitive docs are consolidated into `docs/radcn-source.md`; this is
+  acceptable for now, but the docs may need to split as Stage 1 grows.
+
+## Conclusion
+
+Experiment 2 completes the first static/display primitive batch but does not
+complete Stage 1. The next experiment should continue Stage 1 with another
+cohesive group of remaining low-risk components, using the same source, slot,
+fixture, artifact, semantic-check, learning, and review pattern.
