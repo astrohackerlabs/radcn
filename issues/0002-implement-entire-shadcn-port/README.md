@@ -543,3 +543,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 11: Stage 2 avatar, scroll area, and hover card disposition](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md)
   — **Pass**
+- [Experiment 12: Stage 3 dialog overlay foundation](12-stage-3-dialog-overlay-foundation.md)
+  — **Designed**
