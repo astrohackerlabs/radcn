@@ -174,3 +174,68 @@ Residual risks:
   component-port issues, not merely descriptive.
 - Install/source parity is included, but the actual package and source layout
   may still need a later dedicated issue once the first real port begins.
+
+## Result
+
+**Result:** Pass
+
+Created [the RadCN component parity model](parity-model.md). The model defines:
+
+- parity surfaces for visual output, customization, accessibility, interaction,
+  form/native-web behavior, and install/source workflow;
+- non-goals, including a clear rejection of exact DOM-tree equality as a default
+  pass criterion;
+- acceptable and unacceptable Remix 3 divergence rules;
+- the author customization contract every future component port must define;
+- scenario requirements for future reference and candidate fixtures;
+- verification layers that start with `pnpm fixtures:artifacts` and add visual,
+  accessibility, interaction, customization, form, and review checks;
+- a component done checklist future component-port issues can copy;
+- proof-set planning for `button`, `field`/`input`, and `accordion`;
+- open follow-up work for the first real component port, visual review policy,
+  assertion helpers, customization probes, source/install layout, and high-risk
+  primitives.
+
+Verification commands run from the repository root:
+
+```bash
+scripts/build-issues-index.sh
+rg -n "DOM|fixtures:artifacts|Customization|Accessibility|Interaction|Form|Button|Field|Accordion|Component Done|Acceptable Divergence|Non-Goals|Open Follow-Up" \
+  issues/0001-shadcn-port-scope/parity-model.md
+git status --short -- vendor
+```
+
+`scripts/build-issues-index.sh` reported `issues/README.md: 0 open, 1 closed`.
+`issues/README.md` now lists Issue 1 under closed issues with closed date
+`2026-06-04`. `git status --short -- vendor` reported no vendor modifications.
+
+Issue 1 should close. The model answers the issue's scoping questions by
+establishing the target component inventory, the Remix 3 mapping posture, the
+comparison harness, and the parity bar future component ports must satisfy. It
+does not start the first real component port; that belongs in a follow-up issue.
+
+## Conclusion
+
+The parity model is concrete enough to guide future component-port issues.
+Issue 1 can close with the conclusion recorded in `README.md` and the full issue
+index regenerated. The next issue should use the model to port the native
+form-control proof set, likely `button`, `input`, and `field`.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Lovelace`, which
+approved the result.
+
+The review found no blocking issues. It verified that `parity-model.md` exists
+and covers the required model sections, rejects exact DOM equivalence as the
+default pass criterion, uses `pnpm fixtures:artifacts` screenshots as review
+artifacts without requiring pixel diffs, defines customization, accessibility,
+interaction, and form/native-web testing, covers proof-set planning for
+`button`, `field`/`input`, and `accordion`, closes Issue 1 with Experiment 4 as
+`Pass` and a conclusion, regenerates `issues/README.md` with `0 open, 1 closed`,
+and leaves vendor files unmodified.
+
+Residual risks:
+
+- Pixel baseline policy, assertion helpers, source/install layout, and the first
+  real component port are intentionally deferred to follow-up work.

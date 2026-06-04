@@ -1,6 +1,7 @@
 +++
-status = "open"
+status = "closed"
 opened = "2026-06-04"
+closed = "2026-06-04"
 +++
 
 # Issue 1: Scope the shadcn/ui Port to Remix 3
@@ -106,4 +107,23 @@ Those differences must be explicit and documented, not accidental.
 - [Experiment 3: Build Playwright artifact harness](03-build-playwright-artifact-harness.md) —
   **Pass**
 - [Experiment 4: Define component parity model](04-define-component-parity-model.md) —
-  **Designed**
+  **Pass**
+
+## Conclusion
+
+Issue 1 is closed. The port scope now has:
+
+- a component inventory and risk classification;
+- paired React Router and Remix 3 fixture apps;
+- a Playwright artifact harness for shared scenarios;
+- a parity model that defines RadCN's user-visible, author-visible, and
+  verification contracts.
+
+RadCN should not clone React shadcn/ui DOM or internals by default. Future
+component ports should use [the parity model](parity-model.md) to preserve
+visual output, customization power, accessibility semantics, interaction
+outcomes, native form behavior, and the copy-own-customize workflow while
+allowing documented Remix 3 divergences.
+
+The next issue should start the first real component port using this model,
+likely with the native form-control proof set: `button`, `input`, and `field`.
