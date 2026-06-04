@@ -101,3 +101,5 @@ Those differences must be explicit and documented, not accidental.
 
 - [Experiment 1: Inventory and classify components](01-inventory-and-classify-components.md)
   — **Pass**
+- [Experiment 2: Build paired fixture apps](02-build-paired-fixture-apps.md) —
+  **Designed**
