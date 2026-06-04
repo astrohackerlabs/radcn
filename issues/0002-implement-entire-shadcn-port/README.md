@@ -565,3 +565,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 12: Stage 3 dialog overlay foundation](12-stage-3-dialog-overlay-foundation.md)
   — **Pass**
+- [Experiment 13: Stage 3 modal variants, alert dialog and sheet](13-stage-3-modal-variants-alert-dialog-and-sheet.md)
+  — **Designed**
