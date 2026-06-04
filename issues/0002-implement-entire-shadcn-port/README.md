@@ -617,3 +617,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 14: Stage 3 positioned overlay foundation](14-stage-3-positioned-overlay-foundation.md)
   — **Pass**
+- [Experiment 15: Stage 3 menu overlay primitives](15-stage-3-menu-overlay-primitives.md)
+  — **Designed**
