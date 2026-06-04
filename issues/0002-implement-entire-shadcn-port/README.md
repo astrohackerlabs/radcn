@@ -174,6 +174,24 @@ committed work.
   `Stage 1`, `Stage 2`. Evidence:
   [Stage 1 audit](stage-1-audit.md),
   [Experiment 4](04-stage-1-native-select-and-closure-audit.md).
+- **2026-06-04, Experiment 5:** Native state controls can stay visibly
+  modifiable without hydration when the real input owns behavior and CSS
+  `:has(input:checked)` drives live visual state. Decorative indicators and
+  thumbs must be pointer-transparent so they do not intercept native input
+  clicks. Applies to: `checkbox`, `radio-group`, `switch`, and future native
+  state controls. Evidence:
+  [Experiment 5](05-stage-2-native-state-and-progress-primitives.md),
+  `packages/radcn/src/styles/tokens.css`,
+  `fixtures/tests/native-state.spec.ts`.
+- **2026-06-04, Experiment 5:** Checkbox indeterminate state cannot be serialized
+  as the native `HTMLInputElement.indeterminate` property in server HTML.
+  RadCN exposes mixed state through `aria-checked="mixed"` and
+  `data-state="indeterminate"` unless a later client entry explicitly sets the
+  runtime property. Applies to: `checkbox`, `toggle`-like mixed states, and
+  future client-state decisions. Evidence:
+  [Experiment 5](05-stage-2-native-state-and-progress-primitives.md),
+  `packages/radcn/src/components/checkbox.tsx`,
+  `fixtures/tests/native-state.spec.ts`.
 
 ## Five Porting Stages
 
@@ -398,4 +416,4 @@ This issue is complete when:
 - [Experiment 4: Stage 1 native select and closure audit](04-stage-1-native-select-and-closure-audit.md)
   — **Pass**
 - [Experiment 5: Stage 2 native state and progress primitives](05-stage-2-native-state-and-progress-primitives.md)
-  — **Designed**
+  — **Pass**

@@ -5,6 +5,12 @@ import { renderButtonFixture } from "./button"
 import { renderFieldFixture } from "./field"
 import { renderNativeSelectFixture } from "./native-select"
 import {
+  renderCheckboxFixture,
+  renderProgressFixture,
+  renderRadioGroupFixture,
+  renderSwitchFixture,
+} from "./native-state"
+import {
   renderBreadcrumbFixture,
   renderButtonGroupFixture,
   renderItemFixture,
@@ -43,6 +49,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderButtonGroupFixture(fixture.id)
     case "card":
       return renderCardFixture(fixture.id)
+    case "checkbox":
+      return renderCheckboxFixture(fixture.id)
     case "empty":
       return renderEmptyFixture(fixture.id)
     case "field":
@@ -53,6 +61,10 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderItemFixture(fixture.id)
     case "pagination":
       return renderPaginationFixture(fixture.id)
+    case "progress":
+      return renderProgressFixture(fixture.id)
+    case "radio-group":
+      return renderRadioGroupFixture(fixture.id)
     case "native-select":
       return renderNativeSelectFixture(fixture.id)
     case "separator":
@@ -61,6 +73,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderSkeletonFixture()
     case "spinner":
       return renderSpinnerFixture(fixture.id)
+    case "switch":
+      return renderSwitchFixture(fixture.id)
     case "table":
       return renderTableFixture(fixture.id)
     case "textarea":

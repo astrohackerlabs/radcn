@@ -7,9 +7,7 @@ export interface RadioGroupProps {
   ariaInvalid?: boolean
   children?: RemixNode
   class?: string
-  disabled?: boolean
   name: string
-  required?: boolean
   style?: string
 }
 
@@ -28,18 +26,16 @@ export interface RadioGroupItemProps {
 
 export function RadioGroup(handle: Handle<RadioGroupProps>) {
   return () => {
-    let { ariaDescribedBy, ariaInvalid, children, class: className, disabled, name, required, style } = handle.props
+    let { ariaDescribedBy, ariaInvalid, children, class: className, name, style } = handle.props
 
     return (
       <div
         aria-describedby={ariaDescribedBy}
         aria-invalid={ariaInvalid ? 'true' : undefined}
         class={classes('radcn-radio-group', className)}
-        data-disabled={disabled ? 'true' : undefined}
         data-invalid={ariaInvalid ? 'true' : undefined}
         data-name={name}
         data-radcn-radio-group
-        data-required={required ? 'true' : undefined}
         role="radiogroup"
         style={style}
       >

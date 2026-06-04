@@ -60,7 +60,7 @@ export function Checkbox(handle: Handle<CheckboxProps>) {
           value={value}
         />
         <span aria-hidden="true" class="radcn-checkbox-indicator" data-radcn-checkbox-indicator>
-          {indeterminate ? '-' : checked ? 'x' : ''}
+          {indeterminate ? '-' : ''}
         </span>
       </span>
     )

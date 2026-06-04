@@ -888,6 +888,193 @@
   color: CanvasText;
 }
 
+.radcn-checkbox-wrapper,
+.radcn-radio-item,
+.radcn-switch-wrapper {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--radcn-control-border, var(--radcn-input));
+  background: var(--radcn-control-bg, var(--radcn-background));
+  color: var(--radcn-control-fg, var(--radcn-primary-foreground));
+  outline: none;
+  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.radcn-checkbox-wrapper {
+  width: 1rem;
+  height: 1rem;
+  border-radius: calc(var(--radcn-radius) - 0.1875rem);
+}
+
+.radcn-checkbox-input,
+.radcn-radio-input,
+.radcn-switch-input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radcn-checkbox-wrapper:has(.radcn-checkbox-input:focus-visible),
+.radcn-radio-item:has(.radcn-radio-input:focus-visible),
+.radcn-switch-wrapper:has(.radcn-switch-input:focus-visible) {
+  border-color: var(--radcn-ring);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
+}
+
+.radcn-checkbox-wrapper:has(.radcn-checkbox-input:checked),
+.radcn-checkbox-wrapper[data-state="indeterminate"],
+.radcn-radio-item:has(.radcn-radio-input:checked),
+.radcn-switch-wrapper:has(.radcn-switch-input:checked) {
+  border-color: var(--radcn-control-checked-bg, var(--radcn-primary));
+  background: var(--radcn-control-checked-bg, var(--radcn-primary));
+}
+
+.radcn-checkbox-wrapper[data-invalid="true"],
+.radcn-radio-item[data-invalid="true"],
+.radcn-switch-wrapper[data-invalid="true"] {
+  border-color: var(--radcn-control-invalid, var(--radcn-destructive));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-control-invalid, var(--radcn-destructive)) 20%, transparent);
+}
+
+.radcn-checkbox-wrapper[data-disabled="true"],
+.radcn-radio-item[data-disabled="true"],
+.radcn-switch-wrapper[data-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.radcn-checkbox-indicator {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--radcn-control-fg, var(--radcn-primary-foreground));
+  font: 700 0.6875rem/1 var(--radcn-font);
+  pointer-events: none;
+}
+
+.radcn-checkbox-wrapper:has(.radcn-checkbox-input:checked) .radcn-checkbox-indicator::before {
+  content: "x";
+}
+
+.radcn-radio-group {
+  display: grid;
+  gap: 0.75rem;
+  font-family: var(--radcn-font);
+}
+
+.radcn-radio-item {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+}
+
+.radcn-radio-indicator {
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.radcn-radio-item:has(.radcn-radio-input:checked) .radcn-radio-indicator {
+  opacity: 1;
+}
+
+.radcn-switch-wrapper {
+  width: 2.25rem;
+  height: 1.25rem;
+  justify-content: flex-start;
+  border-radius: 999px;
+  padding: 0.125rem;
+}
+
+.radcn-switch-wrapper--sm {
+  width: 2rem;
+  height: 1rem;
+}
+
+.radcn-switch-thumb {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 999px;
+  background: var(--radcn-switch-thumb-bg, var(--radcn-background));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.18);
+  pointer-events: none;
+  transition: transform 120ms ease;
+}
+
+.radcn-switch-wrapper--sm .radcn-switch-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.radcn-switch-wrapper:has(.radcn-switch-input:checked) .radcn-switch-thumb {
+  transform: translateX(1rem);
+}
+
+.radcn-switch-wrapper--sm:has(.radcn-switch-input:checked) .radcn-switch-thumb {
+  transform: translateX(0.875rem);
+}
+
+.radcn-progress-wrapper {
+  position: relative;
+  display: block;
+  width: min(100%, 20rem);
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--radcn-progress-bg, var(--radcn-secondary));
+}
+
+.radcn-progress {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.radcn-progress-track {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.radcn-progress-indicator {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--radcn-progress-fg, var(--radcn-primary));
+  transition: width 120ms ease;
+}
+
+.radcn-progress-wrapper--indeterminate .radcn-progress-indicator {
+  width: 35%;
+  animation: radcn-progress-slide 1.4s ease-in-out infinite;
+}
+
+@keyframes radcn-progress-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  50% {
+    transform: translateX(190%);
+  }
+
+  100% {
+    transform: translateX(320%);
+  }
+}
+
 .radcn-fixture-custom-breadcrumb {
   color: #0f766e;
 }
@@ -902,4 +1089,17 @@
   --radcn-native-select-bg: #f0fdfa;
   --radcn-native-select-fg: #134e4a;
   --radcn-native-select-invalid: #7c3aed;
+}
+
+.radcn-fixture-custom-checkbox,
+.radcn-fixture-custom-radio,
+.radcn-fixture-custom-switch {
+  --radcn-control-checked-bg: #0f766e;
+  --radcn-control-border: #0f766e;
+  --radcn-control-invalid: #7c3aed;
+}
+
+.radcn-fixture-custom-progress {
+  --radcn-progress-bg: #ccfbf1;
+  --radcn-progress-fg: #0f766e;
 }

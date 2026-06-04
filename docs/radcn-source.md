@@ -159,6 +159,93 @@ especially for popup menus and option styling. RadCN only treats the closed
 control, wrapper/icon hooks, option/optgroup markup, form behavior, and
 documented tokens as portable parity surfaces.
 
+## Stage 2 Native State Primitives
+
+Experiment 5 starts Stage 2 with primitives that can stay native-first:
+
+- `Checkbox`
+- `RadioGroup`
+- `RadioGroupItem`
+- `Switch`
+- `Progress`
+
+These components are exported from the root `radcn` package and from package
+subpaths:
+
+- `radcn/checkbox`
+- `radcn/radio-group`
+- `radcn/switch`
+- `radcn/progress`
+
+RadCN intentionally diverges from shadcn/ui's Radix-backed DOM for this batch
+when a platform control preserves the user-facing contract:
+
+- `Checkbox` renders a real `<input type="checkbox">`.
+- `RadioGroupItem` renders real radio inputs with a shared `name`.
+- `Switch` renders a real `<input type="checkbox" role="switch">`.
+- `Progress` renders a real `<progress>`.
+
+The public styling surface uses wrappers and part hooks around those native
+controls:
+
+- `data-radcn-checkbox-wrapper`, `data-radcn-checkbox-input`, and
+  `data-radcn-checkbox-indicator`
+- `data-radcn-radio-group`, `data-radcn-radio-item`,
+  `data-radcn-radio-input`, and `data-radcn-radio-indicator`
+- `data-radcn-switch-wrapper`, `data-radcn-switch-input`, and
+  `data-radcn-switch-thumb`
+- `data-radcn-progress-wrapper`, `data-radcn-progress`,
+  `data-radcn-progress-track`, and `data-radcn-progress-indicator`
+
+The server-rendered `data-state` attributes record the initial state. The live
+visual state for user changes is driven by CSS selectors such as
+`:has(input:checked)`, so checkbox, radio, and switch controls remain visibly
+modifiable without hydration. Decorative indicators and thumbs must use
+`pointer-events: none`; otherwise they intercept clicks intended for the real
+input.
+
+Checkbox indeterminate state is an approved explicit divergence. Native
+`HTMLInputElement.indeterminate` is a runtime property and cannot be represented
+as serialized HTML alone. RadCN exposes the server-rendered mixed state through
+`aria-checked="mixed"` plus `data-state="indeterminate"` on the input and
+wrapper. It does not claim that the browser input's `indeterminate` property is
+set without client code.
+
+Form behavior remains native:
+
+- checked checkboxes and switches submit their `name=value`;
+- unchecked checkboxes and switches do not submit;
+- radio groups submit the selected shared-name value;
+- radio disabled and required behavior lives on `RadioGroupItem` inputs, not on
+  `RadioGroup`, because a server-rendered group wrapper cannot propagate native
+  input attributes to arbitrary child items;
+- reset buttons restore the initial checked radio, checkbox, and switch state;
+- disabled controls use the native `disabled` attribute;
+- invalid controls use `aria-invalid="true"` and `aria-describedby` for error
+  text;
+- required controls use the native `required` attribute where applicable.
+
+Customization for this batch uses control-level and progress-level variables:
+
+- `--radcn-control-border`
+- `--radcn-control-bg`
+- `--radcn-control-fg`
+- `--radcn-control-checked-bg`
+- `--radcn-control-invalid`
+- `--radcn-switch-thumb-bg`
+- `--radcn-progress-bg`
+- `--radcn-progress-fg`
+
+Remaining Stage 2 questions are not answered by this native-state batch:
+
+- custom disclosure state for `accordion`, `collapsible`, and `tabs`;
+- pressed-state strategy for `toggle` and `toggle-group`;
+- pointer and keyboard strategy for `slider`;
+- fallback loading behavior for `avatar`;
+- scroll behavior for `scroll-area`;
+- whether `hover-card` belongs in Stage 2 or should move to Stage 3 with
+  positioned overlays.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -190,6 +277,9 @@ Navigation, collection, and typography probes continue that pattern:
 - `typography/custom-token` overrides heading size and muted text color.
 - `native-select/custom-token` overrides select border, background,
   foreground, and invalid tokens.
+- `checkbox/custom-token`, `radio-group/custom-token`, and
+  `switch/custom-token` override shared native state control tokens.
+- `progress/custom-token` overrides progress track and indicator tokens.
 
 ## Stage 1 Status
 

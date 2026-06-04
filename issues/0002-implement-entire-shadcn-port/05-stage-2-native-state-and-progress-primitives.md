@@ -177,3 +177,137 @@ Implementation caveat from the review: checkbox `indeterminate` cannot be
 represented as a plain serialized HTML attribute on a real input. The
 implementation must explicitly prove how RadCN exposes and verifies that state
 without pretending it is natively serialized HTML.
+
+## Result
+
+**Result:** Pass
+
+Experiment 5 implemented the first Stage 2 batch:
+
+- `Checkbox`
+- `RadioGroup` and `RadioGroupItem`
+- `Switch`
+- `Progress`
+
+RadCN source exists for all four families under
+`packages/radcn/src/components/`. The package exposes subpath exports for
+`radcn/checkbox`, `radcn/radio-group`, `radcn/switch`, and `radcn/progress`,
+and the root index exports the same public components and types.
+
+The Remix 3 candidate fixture app imports the covered components from `radcn`.
+The React Router reference fixture app renders equivalent local reference
+markup and styles for visual and semantic comparison. Shared scenarios now
+include the twenty planned Stage 2 native-state scenarios:
+
+- `checkbox/default`
+- `checkbox/checked`
+- `checkbox/disabled`
+- `checkbox/invalid`
+- `checkbox/indeterminate`
+- `checkbox/custom-token`
+- `checkbox/form-submit-reset`
+- `radio-group/default`
+- `radio-group/disabled`
+- `radio-group/invalid`
+- `radio-group/custom-token`
+- `radio-group/form-submit-reset`
+- `switch/default`
+- `switch/checked`
+- `switch/disabled`
+- `switch/custom-token`
+- `switch/form-submit-reset`
+- `progress/default`
+- `progress/indeterminate`
+- `progress/custom-token`
+
+The implementation uses real browser controls for this batch:
+
+- `Checkbox` renders a real `<input type="checkbox">`.
+- `RadioGroupItem` renders real `<input type="radio">` elements with shared
+  names.
+- `Switch` renders a real `<input type="checkbox" role="switch">`.
+- `Progress` renders a real `<progress>`.
+
+This approves the native-control divergence from shadcn/ui/Radix for the four
+families covered by this experiment. Native form submission, reset, disabled
+state, checked state, label association, and required behavior are preserved on
+the actual inputs. `RadioGroup` itself does not expose `disabled` or `required`
+props because a server-rendered group wrapper cannot propagate native input
+attributes into arbitrary child items; those native attributes belong on
+`RadioGroupItem`.
+
+Checkbox indeterminate state is exposed as a documented server-rendered mixed
+state, not as a false claim that the runtime
+`HTMLInputElement.indeterminate` property is serialized. RadCN renders
+`aria-checked="mixed"` and `data-state="indeterminate"` for that scenario, and
+the Playwright check confirms the native runtime property is not set without
+client code.
+
+The first completion review failed with three required fixes:
+
+1. Record the result and update the issue index.
+2. Fix or clarify group-level `RadioGroup` `disabled` and `required` props.
+3. Fix the reference progress indeterminate accessible-name mismatch.
+
+All findings were fixed. `RadioGroupProps` no longer includes misleading
+group-level native props, docs explain that disabled and required native
+behavior lives on `RadioGroupItem`, and the reference progress helper now
+accepts an `ariaLabel` so `progress/indeterminate` matches the candidate
+accessible name.
+
+Verification commands:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. `pnpm fixtures:artifacts` ran 184 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 160 screenshot entries;
+- 80 shared scenarios;
+- 20 Stage 2 native-state scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Hooke`.
+
+The first review result was **Fail**. Required findings were:
+
+- the experiment file and issue index had not yet recorded completion;
+- `RadioGroup` accepted group-level `disabled` and `required` props that did
+  not enforce native behavior on radio inputs;
+- the reference `progress/indeterminate` fixture hard-coded
+  `aria-label="Upload progress"` while the candidate exposed `Syncing files`.
+
+Those findings were fixed and verification was rerun successfully.
+
+Independent AI completion re-review by subagent `Hooke` approved the fixed
+result with **Pass**.
+
+## Conclusion
+
+Experiment 5 establishes the Stage 2 native-state foundation. RadCN can port
+checkbox, radio group, switch, and progress with platform controls while
+preserving shadcn/ui's visible and author-facing customization value.
+
+Two reusable rules carry forward:
+
+- prefer real inputs when they preserve form, label, keyboard, disabled,
+  reset, and submission behavior;
+- use CSS live-state selectors such as `:has(input:checked)` for visual state
+  when there is no hydrated client state, and keep decorative parts
+  pointer-transparent.
+
+This experiment does not complete Stage 2. The next experiment should choose
+the next bounded Stage 2 cluster, likely disclosure primitives or toggle
+state, and answer the first custom client-state strategy question.
