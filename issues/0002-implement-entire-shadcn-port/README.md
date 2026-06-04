@@ -696,3 +696,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 17: Stage 4 select listbox foundation](17-stage-4-select-listbox-foundation.md)
   — **Pass**
+- [Experiment 18: Stage 4 searchable listbox, combobox, and command](18-stage-4-searchable-listbox-combobox-command.md)
+  — **Designed**
