@@ -513,3 +513,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 10: Stage 2 slider form control primitive](10-stage-2-slider-form-control-primitive.md)
   — **Pass**
+- [Experiment 11: Stage 2 avatar, scroll area, and hover card disposition](11-stage-2-avatar-scroll-area-and-hover-card-disposition.md)
+  — **Designed**
