@@ -303,3 +303,108 @@ and submenu pointer handoff stability.
 
 After the update, `McClintock` approved the design with **Pass** and no
 remaining blocking findings.
+
+## Result
+
+**Result:** Pass
+
+Experiment 15 ports `dropdown-menu` and `context-menu` as server-rendered RadCN
+component families with package-exported browser enhancements. The
+implementation adds:
+
+- `packages/radcn/src/components/dropdown-menu.tsx`
+- `packages/radcn/src/components/context-menu.tsx`
+- `packages/radcn/src/utils/menu-overlay.ts`
+
+`setupMenuOverlay()` is shared by both component families. It intentionally
+uses its own menu-specific behavior instead of treating menus as plain
+positioned overlays: it owns roving focus, disabled skipping, typeahead, item
+activation, checked/radio state, pointer highlighting, contextmenu virtual
+anchors, submenu coordination, and cleanup. It preserves the Stage 3 overlay
+policy of moving portal content into the fixture-stage portal root when present
+and falling back to the document body for normal app usage.
+
+Package exports were added for `radcn/dropdown-menu` and `radcn/context-menu`,
+and the root package index now re-exports both families and their enhancement
+helpers. The candidate Remix fixture asset entry loads
+`enhanceDropdownMenu()` and `enhanceContextMenu()`.
+
+Shared scenarios now include:
+
+- `dropdown-menu/default`
+- `dropdown-menu/checkbox-radio`
+- `dropdown-menu/submenu`
+- `dropdown-menu/keyboard-typeahead`
+- `dropdown-menu/collision`
+- `dropdown-menu/custom-token`
+- `context-menu/default`
+- `context-menu/keyboard-trigger`
+- `context-menu/checkbox-radio`
+- `context-menu/submenu`
+- `context-menu/collision`
+- `context-menu/custom-token`
+
+Candidate fixtures import real RadCN source. Reference fixtures provide
+matching React Router comparison markup for artifact screenshots.
+
+Focused Playwright coverage proves portal capture, trigger ARIA, menu/item
+roles, dropdown click/Enter/Space/ArrowDown activation, context menu right-click
+and keyboard activation, deterministic initial focus, Tab and Shift+Tab close
+policy, Escape focus restoration, roving focus, wrapping, disabled skip,
+typeahead, pointer highlighting, disabled click non-activation, normal item
+close-on-select, checkbox/radio state updates, submenu pointer and keyboard
+behavior, submenu pointer handoff stability, collision clamping, customization
+tokens, and non-modal behavior.
+
+Documentation was updated in `docs/radcn-source.md` with the menu helper
+boundary, positioning policy, focus/typeahead policy, pointer behavior,
+checked/radio representation, contextmenu activation, submenu behavior,
+customization tokens, and remaining drawer/Stage 4 concerns. Issue-level
+learnings now record the menu helper boundary, Tab/Shift+Tab policy,
+checked-item close policy, and contextmenu virtual-anchor policy.
+
+Verification commands:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/menu-overlays.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification passed. The focused menu-overlay spec passed 5 tests. The full
+artifact suite passed 390 tests and generated a manifest with 161 scenarios and
+322 screenshot entries, including paired reference/candidate artifacts for all
+dropdown-menu and context-menu scenarios.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Leibniz`, which
+approved the result with **Pass** and no blocking findings.
+
+The review checked package subpath exports, root exports, candidate enhancer
+loading, focused Playwright coverage, artifact manifest totals, and vendor
+cleanliness. It also reran the focused menu-overlay spec and observed 5 passing
+tests.
+
+One non-blocking note was recorded: submenu triggers currently generate
+`aria-controls` values that are not assigned to submenu content, while the
+helper falls back to sibling submenu lookup. This is not a result blocker
+because submenu `aria-controls` was not part of the experiment pass criteria,
+but a later accessibility hardening pass may choose to make the submenu content
+ID explicit.
+
+## Conclusion
+
+Experiment 15 completes the Stage 3 menu overlay layer for `dropdown-menu` and
+`context-menu`. The result establishes `setupMenuOverlay()` as the reusable
+boundary for transient menu overlays, but it should not be applied blindly to
+Stage 4 widgets that need orientation, selection, listbox/combobox, filtering,
+viewport, or navigation contracts.
+
+Stage 3 still needs a separate `drawer` experiment because drawer behavior
+depends on side-panel layout, mobile affordances, and gesture policy rather than
+menu semantics.

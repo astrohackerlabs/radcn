@@ -902,11 +902,119 @@ Positioned overlay customization tokens:
 - `--radcn-hover-card-avatar-fg`
 
 The positioned overlay foundation now covers `popover`, `tooltip`, and
-`hover-card`. Dropdown menu and context menu remain unsolved because they need
-menu semantics, roving focus, typeahead, checked/radio item state, submenu
-coordination, and contextmenu triggers. Drawer remains unsolved because it
-needs a gesture and mobile interaction policy that should not be forced into
-the non-modal positioning helper.
+`hover-card`. Menus build on the same portal and clamping ideas but need their
+own helper because they own focus, item activation, checked state, typeahead,
+and submenu coordination. Drawer remains unsolved because it needs a gesture
+and mobile interaction policy that should not be forced into the non-modal
+positioning helper.
+
+## Stage 3 Menu Overlay Foundation
+
+Experiment 15 adds menu overlays:
+
+- `dropdown-menu`
+- `context-menu`
+
+Both component families render server markup with stable slots and export
+browser helpers from the package:
+
+- `enhanceDropdownMenu()`
+- `enhanceContextMenu()`
+- shared helper: `setupMenuOverlay()`
+
+Menus intentionally do not reuse `setupPositionedOverlay()` directly. They
+reuse the Stage 3 policy of moving portal content into the nearest
+`data-radcn-portal-root` inside `[data-fixture-stage]`, then falling back to
+the document body. They also reuse stage-or-viewport clamping and side/align
+metadata. Menu-specific code owns the parts that popovers do not have: roving
+focus, item roles, typeahead, item activation, checked/radio state, disabled
+skipping, contextmenu virtual anchors, and submenu coordination.
+
+Dropdown menus open from the trigger through click, Enter, Space, ArrowDown, or
+ArrowUp. Context menus open from the pointer `contextmenu` event, the Context
+Menu key, or Shift+F10. Pointer-opened context menus position from a virtual
+anchor at the event coordinates; keyboard-opened context menus position from
+the trigger box.
+
+Focus policy:
+
+- opening focuses the first enabled item, except ArrowUp opens on the last
+  enabled item;
+- ArrowUp, ArrowDown, Home, and End rove among enabled menu items with
+  wrapping;
+- disabled items are skipped by keyboard focus, ignored by pointer highlight,
+  and do not close or activate when clicked;
+- typeahead searches enabled item text values;
+- Escape closes the menu and restores focus to the trigger;
+- Tab and Shift+Tab close the menu without preventing default focus movement.
+
+Activation policy:
+
+- normal item activation closes the menu;
+- checkbox items toggle `aria-checked` and `data-state`, then close;
+- radio items update their containing radio group, expose `aria-checked` and
+  `data-state`, then close;
+- pointer movement highlights enabled items and clears the previous highlight.
+
+Submenus open from pointer hover/focus and ArrowRight. ArrowLeft closes the
+submenu and restores focus to its trigger; Escape closes the menu stack.
+Submenu content is positioned relative to the submenu trigger and clamped inside
+the fixture stage or viewport. Moving the pointer from the submenu trigger into
+submenu content keeps the submenu open.
+
+Public menu hooks:
+
+- `data-radcn-dropdown-menu`, `data-radcn-dropdown-menu-trigger`,
+  `data-radcn-dropdown-menu-portal`, `data-radcn-dropdown-menu-content`,
+  `data-radcn-dropdown-menu-group`, `data-radcn-dropdown-menu-label`,
+  `data-radcn-dropdown-menu-item`,
+  `data-radcn-dropdown-menu-checkbox-item`,
+  `data-radcn-dropdown-menu-radio-group`,
+  `data-radcn-dropdown-menu-radio-item`,
+  `data-radcn-dropdown-menu-separator`,
+  `data-radcn-dropdown-menu-shortcut`,
+  `data-radcn-dropdown-menu-sub`,
+  `data-radcn-dropdown-menu-sub-trigger`, and
+  `data-radcn-dropdown-menu-sub-content`
+- `data-radcn-context-menu`, `data-radcn-context-menu-trigger`,
+  `data-radcn-context-menu-portal`, `data-radcn-context-menu-content`,
+  `data-radcn-context-menu-group`, `data-radcn-context-menu-label`,
+  `data-radcn-context-menu-item`,
+  `data-radcn-context-menu-checkbox-item`,
+  `data-radcn-context-menu-radio-group`,
+  `data-radcn-context-menu-radio-item`,
+  `data-radcn-context-menu-separator`,
+  `data-radcn-context-menu-shortcut`, `data-radcn-context-menu-sub`,
+  `data-radcn-context-menu-sub-trigger`, and
+  `data-radcn-context-menu-sub-content`
+- shared item hooks: `data-radcn-menu-item`, `data-highlighted`,
+  `data-disabled`, `data-state`, `data-value`, `data-inset`, and
+  `data-variant`
+
+Menu customization tokens:
+
+- `--radcn-menu-z`
+- `--radcn-menu-trigger-bg`
+- `--radcn-menu-trigger-fg`
+- `--radcn-menu-width`
+- `--radcn-menu-bg`
+- `--radcn-menu-fg`
+- `--radcn-menu-border`
+- `--radcn-menu-label-fg`
+- `--radcn-menu-muted-fg`
+- `--radcn-menu-highlight-bg`
+- `--radcn-menu-highlight-fg`
+- `--radcn-menu-destructive-fg`
+- `--radcn-menu-destructive-highlight-bg`
+- `--radcn-menu-destructive-highlight-fg`
+- `--radcn-menu-disabled-fg`
+
+The menu foundation now covers `dropdown-menu` and `context-menu`. Drawer
+remains unsolved because it needs mobile side-panel and gesture policy. Stage 4
+widgets such as `menubar`, `select`, `combobox`, `navigation-menu`, and
+`command` should not blindly reuse `setupMenuOverlay()`; they need their own
+orientation, selection, listbox/combobox, viewport, filtering, or navigation
+contracts.
 
 ## Styles and Tokens
 
@@ -956,6 +1064,8 @@ Navigation, collection, and typography probes continue that pattern:
 - `tooltip/custom-token` overrides tooltip background and foreground tokens.
 - `hover-card/custom-token` overrides positioned overlay panel and avatar
   tokens.
+- `dropdown-menu/custom-token` and `context-menu/custom-token` override menu
+  panel, border, and item highlight tokens.
 
 ## Stage 1 Status
 

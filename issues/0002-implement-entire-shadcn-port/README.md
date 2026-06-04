@@ -371,6 +371,33 @@ committed work.
   `hover-card`, and later overlay planning. Evidence:
   [Experiment 14](14-stage-3-positioned-overlay-foundation.md),
   `packages/radcn/src/utils/positioned-overlay.ts`.
+- **2026-06-04, Experiment 15:** Menus need a dedicated helper boundary rather
+  than plain positioned overlay reuse: `setupMenuOverlay()` owns roving focus,
+  typeahead, item activation, checked/radio state, disabled skipping,
+  contextmenu virtual anchors, and submenu coordination while preserving the
+  Stage 3 portal and clamping policy. Applies to: `dropdown-menu`,
+  `context-menu`, future menu-like composites. Evidence:
+  [Experiment 15](15-stage-3-menu-overlay-primitives.md),
+  `packages/radcn/src/utils/menu-overlay.ts`.
+- **2026-06-04, Experiment 15:** RadCN menu Tab policy is to close on Tab and
+  Shift+Tab without preventing default focus movement; Escape closes and
+  restores focus to the trigger. Applies to: transient non-modal menus and
+  later keyboard policy reviews. Evidence:
+  [Experiment 15](15-stage-3-menu-overlay-primitives.md),
+  `fixtures/tests/menu-overlays.spec.ts`.
+- **2026-06-04, Experiment 15:** Checkbox and radio menu items update
+  `aria-checked` plus `data-state` and then close on select, preserving
+  shadcn/Radix-style checked item feedback without retaining the transient
+  menu. Applies to: `dropdown-menu`, `context-menu`, future checked menu
+  surfaces. Evidence:
+  [Experiment 15](15-stage-3-menu-overlay-primitives.md),
+  `packages/radcn/src/utils/menu-overlay.ts`.
+- **2026-06-04, Experiment 15:** Context menu pointer activation should use a
+  virtual anchor derived from the `contextmenu` event coordinates, while
+  keyboard activation should anchor to the trigger. Applies to: `context-menu`
+  and future virtual-anchor overlays. Evidence:
+  [Experiment 15](15-stage-3-menu-overlay-primitives.md),
+  `fixtures/tests/menu-overlays.spec.ts`.
 
 ## Five Porting Stages
 
@@ -618,4 +645,4 @@ This issue is complete when:
 - [Experiment 14: Stage 3 positioned overlay foundation](14-stage-3-positioned-overlay-foundation.md)
   — **Pass**
 - [Experiment 15: Stage 3 menu overlay primitives](15-stage-3-menu-overlay-primitives.md)
-  — **Designed**
+  — **Pass**

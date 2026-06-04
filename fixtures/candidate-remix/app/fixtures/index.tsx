@@ -7,6 +7,7 @@ import { renderButtonFixture } from './button.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderDialogFixture } from './dialog.tsx'
 import { renderFieldFixture } from './field.tsx'
+import { renderContextMenuFixture, renderDropdownMenuFixture } from './menu-overlays.tsx'
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from './positioned-overlays.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
 import {
@@ -67,8 +68,12 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderCheckboxFixture(fixture)
     case 'collapsible':
       return renderCollapsibleFixture(fixture)
+    case 'context-menu':
+      return renderContextMenuFixture(fixture)
     case 'dialog':
       return renderDialogFixture(fixture)
+    case 'dropdown-menu':
+      return renderDropdownMenuFixture(fixture)
     case 'empty':
       return renderEmptyFixture(fixture)
     case 'field':
