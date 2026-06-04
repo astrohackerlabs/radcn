@@ -12,7 +12,9 @@ import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
 import { renderContextMenuFixture, renderDropdownMenuFixture } from './menu-overlays.tsx'
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from './positioned-overlays.tsx'
+import { renderMenubarFixture } from './menubar.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
+import { renderNavigationMenuFixture } from './navigation-menu.tsx'
 import {
   renderCheckboxFixture,
   renderProgressFixture,
@@ -94,8 +96,12 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderKbdFixture()
     case 'item':
       return renderItemFixture(fixture)
+    case 'menubar':
+      return renderMenubarFixture(fixture)
     case 'pagination':
       return renderPaginationFixture(fixture)
+    case 'navigation-menu':
+      return renderNavigationMenuFixture(fixture)
     case 'popover':
       return renderPopoverFixture(fixture)
     case 'progress':

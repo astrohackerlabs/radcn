@@ -316,3 +316,62 @@ defensibly groups `menubar` and `navigation-menu`, excludes `calendar`,
 props, scenarios, fixtures, tests, docs, learnings, vendor-cleanliness, and
 completion-review gates, and explicitly avoids listbox/searchable-listbox
 semantics.
+
+## Result
+
+**Result:** Pass
+
+Implemented RadCN `menubar` and `navigation-menu` component families, browser
+enhancements, package exports, candidate enhancement loading, paired
+reference/candidate fixtures, shared scenarios, focused Playwright coverage,
+styles, documentation, and issue-level learnings.
+
+Verification passed:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck`
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/menubar-navigation.spec.ts`
+- `pnpm fixtures:artifacts` with 508 passing tests
+
+No files under `vendor/` were modified.
+
+Notable decisions:
+
+- `MenubarMenu` reuses the existing Stage 3 `setupMenuOverlay()` helper for
+  popup menu content, submenus, item roving, typeahead, checked/radio state,
+  portal capture, and clamping.
+- `Menubar` adds a separate root layer for persistent top-level trigger roving
+  and orientation-aware keyboard behavior.
+- `NavigationMenu` uses a dedicated enhancement because it owns
+  navigation/disclosure behavior, not menu activation.
+- Top-level navigation roving ignores links inside content panels; those links
+  remain normal anchors.
+- Navigation viewport and indicator state is exposed through deterministic
+  `data-state`, `data-motion`, and CSS variable hooks.
+- Listbox and searchable-listbox helpers are intentionally not reused for this
+  cluster.
+- Completion review found two behavior gaps before approval: sibling menubar
+  menus could remain open together, and navigation menu did not close when
+  focus left the widget. Both were fixed and covered with focused regression
+  assertions.
+
+## Conclusion
+
+Experiment 19 completes the Stage 4 menu/navigation cluster. Stage 4 remains
+open for `calendar`, `date-picker`, and `carousel`, which should reuse the
+orientation, roving-focus, and explicit state-hook lessons without inheriting
+menu, navigation-menu, listbox, or searchable-listbox semantics wholesale.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Fermat`.
+
+The initial review found two blocking behavior gaps: sibling top-level menubar
+menus could remain open together, and navigation menu content did not close
+when focus left the widget. Both findings were fixed with implementation
+changes and focused regression assertions.
+
+Fermat re-reviewed the fixes and approved the result with **Pass**. The final
+review confirmed sibling menubar close coordination, navigation focus-leave
+close behavior, focused test coverage, and vendor cleanliness.

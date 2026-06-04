@@ -476,6 +476,31 @@ committed work.
   Applies to: `combobox`, `command`, later high-risk widgets. Evidence:
   [Experiment 18](18-stage-4-searchable-listbox-combobox-command.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 19:** Menubar can reuse the Stage 3 menu overlay per
+  top-level menu, but needs a separate root layer for persistent menubar
+  orientation and trigger roving. Applies to: `menubar`, future menu-like
+  composites. Evidence:
+  [Experiment 19](19-stage-4-menubar-and-navigation-menu.md),
+  `packages/radcn/src/components/menubar.tsx`,
+  `packages/radcn/src/utils/menu-overlay.ts`.
+- **2026-06-04, Experiment 19:** Navigation menu is navigation/disclosure, not
+  menu or listbox: top-level roving ignores links inside open content panels,
+  while panel links remain real anchors. Applies to: `navigation-menu`,
+  future navigation composites. Evidence:
+  [Experiment 19](19-stage-4-menubar-and-navigation-menu.md),
+  `packages/radcn/src/components/navigation-menu.tsx`.
+- **2026-06-04, Experiment 19:** Navigation viewport and indicator state should
+  be explicit layout hooks with `data-state`, `data-motion`, and CSS variables,
+  not implicit React animation state. Applies to: `navigation-menu`,
+  `calendar`, `date-picker`, future animated composites. Evidence:
+  [Experiment 19](19-stage-4-menubar-and-navigation-menu.md),
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 19:** Stage 4 menu/navigation widgets should not
+  reuse listbox or searchable-listbox helpers unless they truly own a selected
+  option or query. Applies to: `menubar`, `navigation-menu`, `calendar`,
+  `date-picker`, `carousel`. Evidence:
+  [Experiment 19](19-stage-4-menubar-and-navigation-menu.md),
+  `fixtures/tests/menubar-navigation.spec.ts`.
 
 ## Five Porting Stages
 
@@ -734,4 +759,4 @@ This issue is complete when:
 - [Experiment 18: Stage 4 searchable listbox, combobox, and command](18-stage-4-searchable-listbox-combobox-command.md)
   — **Pass**
 - [Experiment 19: Stage 4 menubar and navigation menu](19-stage-4-menubar-and-navigation-menu.md)
-  — **Designed**
+  — **Pass**

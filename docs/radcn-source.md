@@ -1258,6 +1258,67 @@ should prioritize navigation/disclosure semantics. `calendar` and
 grid semantics and range/value policy. `carousel` should avoid listbox
 semantics unless a real selectable list is present.
 
+## Stage 4 Menu and Navigation Composite Foundation
+
+Experiment 19 adds the menu/navigation composite cluster:
+
+- `Menubar` and its menu, trigger, portal, content, item, checkbox item, radio
+  group/item, indicator, label, separator, shortcut, group, submenu trigger,
+  and submenu content parts
+- `NavigationMenu` and its list, item, trigger, content, link, indicator, and
+  viewport parts
+
+`Menubar` is not just `DropdownMenu` with a different trigger. Each
+`MenubarMenu` reuses the proven Stage 3 `setupMenuOverlay()` behavior for the
+popup content, menu item roving, typeahead, checked/radio state, submenus,
+portal capture, and clamping. The `Menubar` root adds the missing persistent
+menu-bar contract: horizontal or vertical roving between top-level triggers,
+orientation-aware Arrow key behavior, loop policy, and handoff to the owning
+menu popup.
+
+`NavigationMenu` is not a menubar and not generic disclosure. It is navigation
+first: links remain real anchors, trigger-owned panels are disclosure content,
+and the root renders navigation semantics. Its enhancer owns top-level roving
+between triggers/links, active content visibility, viewport open/closed state,
+indicator positioning, and delay/skip-delay hooks. Roving deliberately ignores
+links inside open content panels; those links are page navigation targets, not
+top-level navigation-menu controls.
+
+RadCN does not reuse listbox or searchable-listbox helpers for this cluster.
+Menubar activation follows menu semantics, including submenus and checked
+items. Navigation menu activation follows link/disclosure semantics. Neither
+component owns a selected form value or searchable query.
+
+Keyboard and pointer policy:
+
+- menubar root exposes `role="menubar"` and `aria-orientation`;
+- menubar triggers expose `role="menuitem"`, popup relationships, roving
+  `tabindex`, and orientation-aware root movement;
+- menubar content and submenus expose `role="menu"` and reuse menu item
+  movement, typeahead, Escape, Tab, checked/radio, and disabled-skip behavior;
+- navigation menu root exposes a labeled `nav`;
+- navigation triggers expose `aria-expanded` and `aria-controls`;
+- navigation links remain anchors with optional `aria-current="page"`;
+- navigation viewport and indicator are decorative/layout hooks with
+  `aria-hidden="true"`;
+- disabled top-level controls are skipped by roving and inactive.
+
+Approved divergences from Radix/shadcn:
+
+- Menubar composes one enhanced menu overlay per top-level menu instead of
+  copying Radix menubar internals.
+- Navigation menu uses inline root-owned content, viewport, and indicator
+  hooks instead of Radix context and animation state.
+- Viewport sizing is exposed through deterministic CSS variables from measured
+  content; artifact screenshots do not depend on React layout effects.
+- Content-panel links are not part of top-level roving focus.
+
+Later `calendar` and `date-picker` should reuse only the roving-focus
+discipline and explicit motion/state hooks. They need date-grid semantics,
+date value policy, range policy, and popover composition rather than menu item
+activation. `Carousel` should use its own slide/region semantics and should
+not borrow menu or listbox roles unless a true menu/listbox is present.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1315,6 +1376,10 @@ Navigation, collection, and typography probes continue that pattern:
 - `combobox/custom-token` overrides combobox panel border and highlight tokens.
 - `command/custom-token` overrides command panel border and highlighted item
   tokens.
+- `menubar/custom-token` overrides menubar border, panel, and highlighted item
+  tokens.
+- `navigation-menu/custom-token` overrides navigation menu border, panel, and
+  foreground tokens.
 
 ## Stage 1 Status
 

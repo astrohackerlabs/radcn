@@ -1177,6 +1177,90 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Command Token",
     description: "Command list customized through public tokens.",
   },
+  {
+    component: "menubar",
+    id: "default",
+    title: "Default Menubar",
+    description: "Horizontal menubar with trigger-owned menu content.",
+  },
+  {
+    component: "menubar",
+    id: "vertical",
+    title: "Vertical Menubar",
+    description: "Vertical menubar orientation and roving focus.",
+  },
+  {
+    component: "menubar",
+    id: "checkbox-radio",
+    title: "Menubar Checked Items",
+    description: "Menubar checkbox and radio item state hooks.",
+  },
+  {
+    component: "menubar",
+    id: "submenu",
+    title: "Menubar Submenu",
+    description: "Menubar submenu trigger and nested menu content.",
+  },
+  {
+    component: "menubar",
+    id: "keyboard-typeahead",
+    title: "Menubar Keyboard Typeahead",
+    description: "Menubar keyboard roving disabled skip and typeahead behavior.",
+  },
+  {
+    component: "menubar",
+    id: "disabled",
+    title: "Disabled Menubar",
+    description: "Menubar disabled trigger and item behavior.",
+  },
+  {
+    component: "menubar",
+    id: "custom-token",
+    title: "Custom Menubar Token",
+    description: "Menubar styling through public CSS variables.",
+  },
+  {
+    component: "navigation-menu",
+    id: "default",
+    title: "Default Navigation Menu",
+    description: "Navigation menu with trigger-owned content panels.",
+  },
+  {
+    component: "navigation-menu",
+    id: "links",
+    title: "Navigation Menu Links",
+    description: "Navigation menu with real anchor links.",
+  },
+  {
+    component: "navigation-menu",
+    id: "viewport",
+    title: "Navigation Menu Viewport",
+    description: "Navigation menu viewport state and sizing hooks.",
+  },
+  {
+    component: "navigation-menu",
+    id: "indicator",
+    title: "Navigation Menu Indicator",
+    description: "Navigation menu indicator positioning hook.",
+  },
+  {
+    component: "navigation-menu",
+    id: "vertical",
+    title: "Vertical Navigation Menu",
+    description: "Vertical navigation menu orientation and roving focus.",
+  },
+  {
+    component: "navigation-menu",
+    id: "disabled",
+    title: "Disabled Navigation Menu",
+    description: "Navigation menu disabled item behavior.",
+  },
+  {
+    component: "navigation-menu",
+    id: "custom-token",
+    title: "Custom Navigation Menu Token",
+    description: "Navigation menu styling through public CSS variables.",
+  },
 ]
 
 export function getFixtureScenario(

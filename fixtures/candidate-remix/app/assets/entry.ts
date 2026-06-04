@@ -7,6 +7,8 @@ import { enhanceDialog } from 'radcn/dialog'
 import { enhanceDrawer } from 'radcn/drawer'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 import { enhanceHoverCard } from 'radcn/hover-card'
+import { enhanceMenubar } from 'radcn/menubar'
+import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 import { enhancePopover } from 'radcn/popover'
 import { enhanceSelect } from 'radcn/select'
 import { enhanceSheet } from 'radcn/sheet'
@@ -33,6 +35,8 @@ enhanceCombobox()
 enhanceCommand()
 enhanceDropdownMenu()
 enhanceContextMenu()
+enhanceMenubar()
+enhanceNavigationMenu()
 enhancePopover()
 enhanceTooltip()
 enhanceHoverCard()

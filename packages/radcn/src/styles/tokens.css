@@ -3004,3 +3004,215 @@
   --radcn-command-bg: #f0fdfa;
   --radcn-command-fg: #134e4a;
 }
+
+.radcn-menubar,
+.radcn-navigation-menu {
+  font-family: var(--radcn-font);
+}
+
+.radcn-menubar {
+  display: inline-flex;
+  gap: 0.125rem;
+  align-items: center;
+  border: 1px solid var(--radcn-menubar-border, var(--radcn-border));
+  border-radius: var(--radcn-radius);
+  background: var(--radcn-menubar-bg, var(--radcn-background));
+  color: var(--radcn-menubar-fg, var(--radcn-foreground));
+  padding: 0.25rem;
+}
+
+.radcn-menubar[data-orientation="vertical"] {
+  display: inline-grid;
+  align-items: stretch;
+}
+
+.radcn-menubar-trigger,
+.radcn-navigation-menu-trigger,
+.radcn-navigation-menu-link {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: calc(var(--radcn-radius) - 0.125rem);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0.375rem 0.75rem;
+  text-decoration: none;
+  font: 500 0.875rem/1 var(--radcn-font);
+}
+
+.radcn-menubar-trigger[data-state="open"],
+.radcn-navigation-menu-trigger[data-state="open"],
+.radcn-navigation-menu-link[aria-current="page"] {
+  background: var(--radcn-menubar-highlight-bg, var(--radcn-secondary));
+  color: var(--radcn-menubar-highlight-fg, var(--radcn-foreground));
+}
+
+.radcn-menubar-trigger[data-disabled="true"],
+.radcn-menubar-item[data-disabled="true"],
+.radcn-menubar-checkbox-item[data-disabled="true"],
+.radcn-menubar-radio-item[data-disabled="true"],
+.radcn-navigation-menu-trigger[data-disabled="true"],
+.radcn-navigation-menu-link[data-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.radcn-menubar-portal[hidden],
+.radcn-menubar-content[hidden],
+.radcn-menubar-sub-content[hidden],
+.radcn-navigation-menu-content[hidden],
+.radcn-navigation-menu-indicator[hidden],
+.radcn-navigation-menu-viewport[hidden] {
+  display: none;
+}
+
+.radcn-menubar-content,
+.radcn-menubar-sub-content {
+  z-index: var(--radcn-menubar-z, 50);
+  display: grid;
+  min-width: 12rem;
+  max-height: min(var(--radcn-menubar-content-max-height, 18rem), var(--radcn-menu-available-height, 18rem));
+  overflow-y: auto;
+  gap: 0.125rem;
+  border: 1px solid var(--radcn-menubar-border, var(--radcn-border));
+  border-radius: var(--radcn-radius);
+  background: var(--radcn-menubar-content-bg, var(--radcn-popover));
+  color: var(--radcn-menubar-content-fg, var(--radcn-popover-foreground));
+  padding: 0.375rem;
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.16);
+  transform-origin: var(--radcn-menu-transform-origin, top left);
+  animation: radcn-select-in 120ms ease-out;
+}
+
+.radcn-menubar-item,
+.radcn-menubar-checkbox-item,
+.radcn-menubar-radio-item,
+.radcn-menubar-sub-trigger {
+  display: grid;
+  min-height: 2rem;
+  grid-template-columns: 1rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: calc(var(--radcn-radius) - 0.125rem);
+  background: transparent;
+  color: inherit;
+  cursor: default;
+  padding: 0.375rem 0.5rem;
+  text-align: left;
+  font: 400 0.875rem/1.25 var(--radcn-font);
+}
+
+.radcn-menubar-item[data-highlighted="true"],
+.radcn-menubar-checkbox-item[data-highlighted="true"],
+.radcn-menubar-radio-item[data-highlighted="true"],
+.radcn-menubar-sub-trigger[data-highlighted="true"] {
+  background: var(--radcn-menubar-highlight-bg, var(--radcn-secondary));
+  color: var(--radcn-menubar-highlight-fg, var(--radcn-foreground));
+}
+
+.radcn-menubar-label {
+  padding: 0.375rem 1.75rem 0.25rem;
+  color: var(--radcn-muted-foreground);
+  font: 600 0.75rem/1.2 var(--radcn-font);
+}
+
+.radcn-menubar-separator {
+  height: 1px;
+  margin: 0.25rem 0.375rem;
+  background: var(--radcn-border);
+}
+
+.radcn-menubar-shortcut,
+.radcn-menu-sub-caret {
+  color: var(--radcn-muted-foreground);
+  font: 500 0.75rem/1 var(--radcn-font);
+}
+
+.radcn-navigation-menu {
+  position: relative;
+  display: grid;
+  width: min(100%, var(--radcn-navigation-menu-width, 42rem));
+  gap: 0.5rem;
+  color: var(--radcn-navigation-menu-fg, var(--radcn-foreground));
+}
+
+.radcn-navigation-menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem;
+  border: 1px solid var(--radcn-navigation-menu-border, var(--radcn-border));
+  border-radius: var(--radcn-radius);
+  background: var(--radcn-navigation-menu-bg, var(--radcn-background));
+}
+
+.radcn-navigation-menu[data-orientation="vertical"] .radcn-navigation-menu-list {
+  display: inline-grid;
+  align-items: stretch;
+  justify-self: start;
+}
+
+.radcn-navigation-menu-item {
+  position: relative;
+}
+
+.radcn-navigation-menu-content {
+  display: grid;
+  min-width: 18rem;
+  gap: 0.5rem;
+  border: 1px solid var(--radcn-navigation-menu-border, var(--radcn-border));
+  border-radius: var(--radcn-radius);
+  background: var(--radcn-navigation-menu-panel-bg, var(--radcn-popover));
+  color: var(--radcn-navigation-menu-panel-fg, var(--radcn-popover-foreground));
+  padding: 1rem;
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.14);
+}
+
+.radcn-navigation-menu-viewport {
+  width: var(--radcn-navigation-menu-viewport-width, 18rem);
+  height: var(--radcn-navigation-menu-viewport-height, 8rem);
+  border-radius: var(--radcn-radius);
+  pointer-events: none;
+}
+
+.radcn-navigation-menu-indicator {
+  position: absolute;
+  top: 2.6rem;
+  left: var(--radcn-navigation-menu-indicator-left, 1rem);
+  width: 0.75rem;
+  height: 0.75rem;
+  transform: translateX(-50%) rotate(45deg);
+  background: var(--radcn-navigation-menu-panel-bg, var(--radcn-popover));
+  border-left: 1px solid var(--radcn-navigation-menu-border, var(--radcn-border));
+  border-top: 1px solid var(--radcn-navigation-menu-border, var(--radcn-border));
+}
+
+.radcn-fixture-navigation-panel {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.radcn-fixture-custom-menubar {
+  --radcn-menubar-border: #0f766e;
+  --radcn-menubar-bg: #f0fdfa;
+  --radcn-menubar-fg: #134e4a;
+  --radcn-menubar-content-bg: #f0fdfa;
+  --radcn-menubar-content-fg: #134e4a;
+  --radcn-menubar-highlight-bg: #ccfbf1;
+}
+
+.radcn-fixture-custom-navigation-menu {
+  --radcn-navigation-menu-border: #0f766e;
+  --radcn-navigation-menu-bg: #f0fdfa;
+  --radcn-navigation-menu-fg: #134e4a;
+  --radcn-navigation-menu-panel-bg: #f0fdfa;
+  --radcn-navigation-menu-panel-fg: #134e4a;
+  --radcn-menubar-highlight-bg: #ccfbf1;
+}
