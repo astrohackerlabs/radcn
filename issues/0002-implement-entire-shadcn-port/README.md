@@ -327,3 +327,5 @@ This issue is complete when:
 
 - [Experiment 1: Stage 1 source and native control foundation](01-stage-1-source-and-native-control-foundation.md)
   — **Pass**
+- [Experiment 2: Stage 1 static display primitives](02-stage-1-static-display-primitives.md)
+  — **Designed**
