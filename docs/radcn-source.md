@@ -1676,6 +1676,102 @@ route/action notifications should render initial `Toast` payloads into
 Install/source parity for `toast` is helper-based: the visual source is
 `radcn/sonner`, while `radcn/toast` is the optional dispatch adapter.
 
+## Stage 5 Application Shell
+
+Experiment 25 resolves the application-shell cluster:
+
+- `ResizablePanelGroup`
+- `ResizablePanel`
+- `ResizableHandle`
+- `SidebarProvider`
+- `Sidebar`
+- `SidebarTrigger`
+- `SidebarRail`
+- `SidebarInset`
+- `SidebarHeader`
+- `SidebarFooter`
+- `SidebarContent`
+- `SidebarGroup`
+- `SidebarGroupLabel`
+- `SidebarGroupAction`
+- `SidebarGroupContent`
+- `SidebarMenu`
+- `SidebarMenuItem`
+- `SidebarMenuButton`
+- `SidebarMenuAction`
+- `SidebarMenuBadge`
+- `SidebarMenuSkeleton`
+- `SidebarMenuSub`
+- `SidebarMenuSubItem`
+- `SidebarMenuSubButton`
+- `SidebarInput`
+- `SidebarSeparator`
+
+### Resizable
+
+`resizable` is a core RadCN layout primitive set, but it does not use
+`react-resizable-panels`. The upstream shadcn/ui module is a React wrapper
+around that package. RadCN replaces it with dependency-free panel markup plus a
+small browser enhancement.
+
+The supported contract is bounded to horizontal and vertical panel groups,
+percentage-sized adjacent panels, separator handles, pointer dragging, keyboard
+resizing with Arrow/Home/End keys, optional visible grip handles, and stable
+customization hooks.
+
+Resizable hooks include:
+
+- `data-radcn-resizable-panel-group`
+- `data-radcn-resizable-panel`
+- `data-radcn-resizable-handle`
+- `data-radcn-resizable-handle-grip`
+
+Approved divergences from `react-resizable-panels`:
+
+- RadCN does not add `react-resizable-panels` as a core dependency.
+- RadCN does not expose React callbacks, persistence APIs, imperative panel
+  handles, collapsible panel groups, or nested group orchestration in this
+  port.
+- Advanced resize persistence and app-specific layout state can be recipe code
+  layered on the emitted `radcn-resizable-change` event.
+
+### Sidebar
+
+`sidebar` is a core RadCN application-shell component set, but it does not use
+React context, Radix Slot, class-variance-authority, or a mobile detection hook.
+The upstream shadcn/ui module is a large client component composed from many
+React primitives. RadCN replaces that with server-rendered shell markup plus a
+small enhancement that owns collapsed state, trigger/rail toggles, and the
+`Cmd/Ctrl+B` shortcut.
+
+The supported contract includes left/right side placement, `sidebar`,
+`floating`, and `inset` variants, `none`, `icon`, and `offcanvas` collapsible
+modes, server-rendered default open state, menu slots, active/disabled/badge/
+action/submenu/skeleton states, and stable state hooks.
+
+Sidebar hooks include:
+
+- `data-radcn-sidebar-provider`
+- `data-radcn-sidebar`
+- `data-radcn-sidebar-trigger`
+- `data-radcn-sidebar-rail`
+- `data-radcn-sidebar-menu-button`
+- `data-radcn-sidebar-menu-badge`
+- `data-radcn-sidebar-menu-action`
+- `data-radcn-sidebar-menu-sub`
+- `data-radcn-sidebar-menu-skeleton`
+
+Approved divergences from shadcn/ui sidebar:
+
+- RadCN does not add React context, `@radix-ui/react-slot`,
+  `class-variance-authority`, React, React DOM, or a mobile hook dependency.
+- The responsive/mobile policy is deterministic CSS/offcanvas state rather than
+  a JavaScript media-query hook and cookie-backed React state provider.
+- Tooltip, sheet, and input behavior are represented through explicit sidebar
+  parts and existing RadCN styling hooks instead of hidden client composition.
+- Application-specific persistence can listen for `radcn-sidebar-change` and
+  write route, cookie, or storage state outside core RadCN.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1743,6 +1839,10 @@ Navigation, collection, and typography probes continue that pattern:
   tokens.
 - `sonner/custom-token` overrides notification border, background, foreground,
   icon, and action tokens.
+- `resizable/custom-token` overrides resizable border, panel background,
+  handle, and grip tokens.
+- `sidebar/custom-token` overrides sidebar background, foreground, border,
+  accent, and icon-width tokens.
 
 ## Stage 1 Status
 
@@ -1758,6 +1858,16 @@ Stage 2 is complete as of Experiment 11. Evidence is recorded in
 
 Stage 3 is complete as of Experiment 16. Evidence is recorded in
 `issues/0002-implement-entire-shadcn-port/stage-3-audit.md`.
+
+## Stage 4 Status
+
+Stage 4 is complete as of Experiment 21. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-4-audit.md`.
+
+## Stage 5 Status
+
+Stage 5 is complete as of Experiment 25. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-5-audit.md`.
 
 ## Interim Install and Copy Workflow
 

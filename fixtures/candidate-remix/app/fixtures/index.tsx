@@ -23,6 +23,7 @@ import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } fr
 import { renderMenubarFixture } from './menubar.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
 import { renderNavigationMenuFixture } from './navigation-menu.tsx'
+import { renderResizableFixture } from './resizable.tsx'
 import {
   renderCheckboxFixture,
   renderProgressFixture,
@@ -55,6 +56,7 @@ import { renderSliderFixture } from './slider.tsx'
 import { renderScrollAreaFixture } from './scroll-area.tsx'
 import { renderSelectFixture } from './select.tsx'
 import { renderSheetFixture } from './sheet.tsx'
+import { renderSidebarFixture } from './sidebar.tsx'
 import { renderSonnerFixture } from './sonner.tsx'
 import { renderToastFixture } from './toast.tsx'
 
@@ -134,6 +136,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderProgressFixture(fixture)
     case 'radio-group':
       return renderRadioGroupFixture(fixture)
+    case 'resizable':
+      return renderResizableFixture(fixture)
     case 'scroll-area':
       return renderScrollAreaFixture(fixture)
     case 'select':
@@ -144,6 +148,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderSeparatorFixture()
     case 'sheet':
       return renderSheetFixture(fixture)
+    case 'sidebar':
+      return renderSidebarFixture(fixture)
     case 'skeleton':
       return renderSkeletonFixture()
     case 'slider':

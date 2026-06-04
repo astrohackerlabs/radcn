@@ -596,6 +596,23 @@ committed work.
   events after enhancement. Applies to: `toast`, future app recipes. Evidence:
   [Experiment 24](24-stage-5-notifications.md),
   `packages/radcn/src/components/toast.ts`.
+- **2026-06-04, Experiment 25:** Resizable layout can be core without
+  `react-resizable-panels` when the contract is bounded to percentage panel
+  sizing, separator semantics, pointer drag, keyboard resize, and explicit
+  hooks. Applies to: `resizable`, future layout primitives. Evidence:
+  [Experiment 25](25-stage-5-application-shell-and-closure.md),
+  `packages/radcn/src/components/resizable.tsx`.
+- **2026-06-04, Experiment 25:** Application shells can keep shadcn-style slot
+  coverage without React context by rendering explicit server parts and using a
+  small enhancement for collapsed state, rail/trigger toggles, and shortcuts.
+  Applies to: `sidebar`, future application-shell components. Evidence:
+  [Experiment 25](25-stage-5-application-shell-and-closure.md),
+  `packages/radcn/src/components/sidebar.tsx`.
+- **2026-06-04, Experiment 25:** Closure audits must compare the package
+  surface against the Issue 1 inventory, not only the current stage target
+  list. Stage 5 is complete, but Issue 2 remains open because `direction` lacks
+  a final experiment/disposition record. Applies to: issue closure workflow.
+  Evidence: [Stage 5 audit](stage-5-audit.md).
 
 ## Five Porting Stages
 
@@ -866,4 +883,4 @@ This issue is complete when:
 - [Experiment 24: Stage 5 notifications](24-stage-5-notifications.md)
   — **Pass**
 - [Experiment 25: Stage 5 application shell and closure](25-stage-5-application-shell-and-closure.md)
-  — **Designed**
+  — **Pass**

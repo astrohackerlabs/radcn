@@ -14,8 +14,10 @@ import { enhanceInputOTP } from 'radcn/input-otp'
 import { enhanceMenubar } from 'radcn/menubar'
 import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 import { enhancePopover } from 'radcn/popover'
+import { enhanceResizable } from 'radcn/resizable'
 import { enhanceSelect } from 'radcn/select'
 import { enhanceSheet } from 'radcn/sheet'
+import { enhanceSidebar } from 'radcn/sidebar'
 import { enhanceSlider } from 'radcn/slider'
 import { enhanceToaster } from 'radcn/sonner'
 import { enhanceTabs } from 'radcn/tabs'
@@ -47,6 +49,8 @@ enhanceNavigationMenu()
 enhancePopover()
 enhanceTooltip()
 enhanceHoverCard()
+enhanceResizable()
+enhanceSidebar()
 enhanceSlider()
 enhanceToaster()
 enhanceToggle()

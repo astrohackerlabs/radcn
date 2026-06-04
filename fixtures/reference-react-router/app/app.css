@@ -3402,3 +3402,128 @@ body {
   background: #f0fdfa;
   color: #134e4a;
 }
+
+.reference-resizable {
+  display: flex;
+  width: min(100%, 512px);
+  min-height: 192px;
+  overflow: hidden;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+}
+
+.reference-resizable--vertical {
+  min-height: 288px;
+  flex-direction: column;
+}
+
+.reference-resizable-panel {
+  flex: 0 0 auto;
+}
+
+.reference-resizable-handle {
+  display: grid;
+  width: 8px;
+  place-items: center;
+  background: #d4d4d8;
+}
+
+.reference-resizable--vertical .reference-resizable-handle {
+  width: auto;
+  height: 8px;
+}
+
+.reference-fixture-panel {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+  padding: 16px;
+  font-weight: 600;
+}
+
+.reference-fixture-custom-resizable {
+  border-color: #0f766e;
+  background: #f0fdfa;
+}
+
+.reference-fixture-custom-resizable .reference-resizable-handle {
+  background: #0f766e;
+}
+
+.reference-sidebar-provider {
+  display: flex;
+  width: min(100%, 768px);
+  min-height: 320px;
+  overflow: hidden;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  font-family: system-ui, sans-serif;
+}
+
+.reference-sidebar {
+  flex: 0 0 256px;
+  border-right: 1px solid #d4d4d8;
+  background: #f4f4f5;
+}
+
+.reference-sidebar[data-side="right"] {
+  order: 2;
+  border-right: 0;
+  border-left: 1px solid #d4d4d8;
+}
+
+.reference-sidebar-provider[data-state="collapsed"] .reference-sidebar {
+  flex-basis: 56px;
+}
+
+.reference-sidebar-header,
+.reference-sidebar-footer,
+.reference-sidebar-group {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+}
+
+.reference-sidebar-menu,
+.reference-sidebar-sub {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 4px;
+  list-style: none;
+}
+
+.reference-sidebar-menu-button,
+.reference-sidebar-sub a {
+  display: flex;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #18181b;
+  padding: 8px;
+  text-decoration: none;
+}
+
+.reference-sidebar-menu-button[data-active="true"],
+.reference-sidebar-sub a[data-active="true"] {
+  background: #e4e4e7;
+}
+
+.reference-sidebar-inset {
+  flex: 1;
+  padding: 16px;
+}
+
+.reference-sidebar-skeleton {
+  height: 32px;
+  border-radius: 4px;
+  background: #e4e4e7;
+  color: transparent;
+}
+
+.reference-fixture-custom-sidebar .reference-sidebar {
+  border-color: #0f766e;
+  background: #f0fdfa;
+  color: #134e4a;
+}

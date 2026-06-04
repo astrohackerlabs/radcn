@@ -272,3 +272,84 @@ Feynman confirmed:
 - closure audit scope is correct because Issue 2 closes only if inventory-wide
   completion criteria are proven and independently reviewed;
 - verification criteria are sufficient for a plan commit under `AGENTS.md`.
+
+## Result
+
+**Result:** Pass
+
+Experiment 25 completed the Stage 5 application-shell cluster.
+
+`resizable` now has RadCN source, package/root exports, styles, candidate and
+reference fixtures, shared scenarios, focused tests, artifact coverage, and
+documentation. The implementation preserves the useful shadcn/ui contract with
+dependency-free panel markup, separator semantics, horizontal and vertical
+orientation, pointer resizing, keyboard resizing, grip handles, percentage
+sizing, and customization hooks. It does not add `react-resizable-panels`.
+
+`sidebar` now has RadCN source, package/root exports, styles, candidate and
+reference fixtures, shared scenarios, focused tests, artifact coverage, and
+documentation. The implementation preserves the useful shadcn/ui application
+shell surface with explicit server-rendered parts, side/variant/collapsible
+state hooks, trigger and rail toggles, `Cmd/Ctrl+B` shortcut behavior, menu
+slots, submenu/badge/action/skeleton states, and customization hooks. It does
+not add React context, React, React DOM, Radix Slot, class-variance-authority,
+or a mobile hook dependency.
+
+The Stage 5 audit was added in
+[stage-5-audit.md](stage-5-audit.md). Stage 5 is complete, but Issue 2 should
+not close yet. The inventory-wide closure audit found that `direction` appears
+in the Issue 1 inventory and still needs an explicit final experiment or
+approved no-export/native-attribute disposition in Issue 2.
+
+Verification passed:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck` with the existing React Router
+  `module.register()` deprecation warning
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/application-shell.spec.ts`
+  passed: 3 tests
+- `pnpm fixtures:artifacts` passed: 703 tests
+- `git status --short -- vendor` returned no output
+
+## Conclusion
+
+`resizable` and `sidebar` are complete RadCN outcomes, and Stage 5 is complete.
+The next experiment should resolve `direction` explicitly before Issue 2 is
+closed.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Sartre`.
+
+The first review found two blockers:
+
+- docs described a `radcn-resizable-change` event while the implementation used
+  `radcn-resizable-resize`, and pointer resizing did not emit the documented
+  event;
+- docs described a `radcn-sidebar-change` event while the sidebar enhancement
+  did not dispatch one.
+
+Both findings were fixed:
+
+- `resizable` now emits `radcn-resizable-change` from keyboard and pointer
+  resize paths;
+- `sidebar` now emits `radcn-sidebar-change` from trigger, rail, and shortcut
+  toggles;
+- `fixtures/tests/application-shell.spec.ts` now asserts both documented event
+  contracts.
+
+Verification after the fixes passed:
+
+- `pnpm radcn:typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm fixtures:reference:typecheck` with the existing React Router
+  `module.register()` deprecation warning
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/application-shell.spec.ts`
+  passed: 3 tests
+- `pnpm fixtures:artifacts` passed: 703 tests
+- `git diff --check`
+
+Sartre then returned **Pass**, confirming that the blockers were resolved and
+that the Stage 5 complete / Issue 2 still open boundary is correct because
+`direction` still needs its own final disposition.
