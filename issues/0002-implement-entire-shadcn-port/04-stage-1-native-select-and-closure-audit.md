@@ -159,3 +159,113 @@ for real select/option/optgroup elements, label association, disabled/invalid/
 size hooks, submit/reset, required validation, and customization checks,
 requires a concrete Stage 1 audit artifact, avoids vendor edits, and does not
 start Stage 2 unless the audit proves Stage 1 complete.
+
+## Result
+
+**Result:** Pass
+
+Experiment 4 ported the remaining Stage 1 component family into
+`packages/radcn`:
+
+- `NativeSelect`
+- `NativeSelectOption`
+- `NativeSelectOptGroup`
+
+The family is exported from the package root and from the `radcn/native-select`
+package subpath. The Remix 3 candidate fixture imports it from `radcn`, not from
+fixture-local placeholder components.
+
+Shared scenarios were added for:
+
+- `native-select/default`
+- `native-select/groups`
+- `native-select/disabled`
+- `native-select/invalid`
+- `native-select/sizes`
+- `native-select/custom-token`
+- `native-select/form-submit-reset`
+- `native-select/required-validation`
+
+The component checks live in `fixtures/tests/native-select.spec.ts`. They verify
+real `<select>`, `<option>`, and `<optgroup>` elements; wrapper, select, option,
+optgroup, and icon hooks; label association; disabled and invalid state; size
+hooks; customization tokens; native submit/reset behavior; and required
+constraint validation.
+
+Documentation was extended in `docs/radcn-source.md` to cover native select
+source shape, hooks, native form behavior, browser-rendering limitations, and
+customization.
+
+The Stage 1 closure audit was added at `stage-1-audit.md`. It lists every Stage
+1 component from Issue 2 and records source/export coverage, fixture/artifact
+coverage, component-specific checks, documentation, independent review coverage,
+and final disposition.
+
+Verification run on 2026-06-04:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm fixtures:artifacts
+```
+
+All commands passed. `pnpm fixtures:artifacts` reported `139 passed`. The
+artifact manifest contains 120 paired screenshot entries across 60 scenarios,
+including 8 native-select scenarios for both the reference and candidate apps.
+The reference app uses port `4601`, and the candidate app uses port `4602`.
+
+`git status --short -- vendor` was clean. Generated artifact and test-result
+outputs remain ignored.
+
+Warnings observed during verification:
+
+- Node reported `[DEP0205] DeprecationWarning: module.register() is deprecated`
+  during React Router and Playwright commands.
+- The fixture web servers reported that `NO_COLOR` is ignored when
+  `FORCE_COLOR` is set.
+
+Neither warning blocked the experiment result.
+
+Reusable discoveries were recorded in the issue `## Learnings` section:
+
+- Native select parity is scoped to the closed control, wrapper/icon hooks, real
+  option/optgroup markup, and native form behavior. Popup menu rendering remains
+  browser/OS-controlled.
+- Stage 1 is complete after `native-select` and the closure audit.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Plato`, which
+approved the completed experiment with **Pass**.
+
+The review confirmed that:
+
+- `NativeSelect`, `NativeSelectOption`, and `NativeSelectOptGroup` source exists;
+- package subpath exports and root exports exist;
+- candidate fixtures import the batch from `radcn`;
+- shared scenarios include all 8 required native-select probes;
+- reference and candidate route dispatch includes `native-select`;
+- Playwright checks cover the required native form, accessibility, state, size,
+  and customization behavior;
+- docs cover source shape, hooks, native behavior, browser limitations,
+  customization, and Stage 1 status;
+- the Stage 1 audit lists every Stage 1 component with required disposition
+  columns;
+- Issue 2 learnings include native-select behavior and Stage 1 closure;
+- `vendor/` is clean;
+- the artifact manifest contains 120 paired screenshots across 60 scenarios,
+  including all 8 native-select scenarios for both apps.
+
+Residual risks:
+
+- Screenshot artifacts still are not pixel-diff approval.
+- Native select popup/menu rendering remains browser and OS controlled; only the
+  closed control and markup/form behavior are portable parity surfaces.
+- `radcnStyles` and `tokens.css` remain duplicated, a known drift risk from
+  prior experiments.
+
+## Conclusion
+
+Experiment 4 completes `native-select` and closes Stage 1. The next experiment
+may begin Stage 2: bounded disclosure and feedback primitives.

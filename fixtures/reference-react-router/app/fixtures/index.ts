@@ -3,6 +3,7 @@ import type { FixtureScenario } from "../../../scenarios/types"
 import { renderAccordionFixture } from "./accordion"
 import { renderButtonFixture } from "./button"
 import { renderFieldFixture } from "./field"
+import { renderNativeSelectFixture } from "./native-select"
 import {
   renderBreadcrumbFixture,
   renderButtonGroupFixture,
@@ -52,6 +53,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderItemFixture(fixture.id)
     case "pagination":
       return renderPaginationFixture(fixture.id)
+    case "native-select":
+      return renderNativeSelectFixture(fixture.id)
     case "separator":
       return renderSeparatorFixture()
     case "skeleton":

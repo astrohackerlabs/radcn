@@ -11,6 +11,7 @@ export type FixtureComponent =
   | "field"
   | "kbd"
   | "item"
+  | "native-select"
   | "pagination"
   | "separator"
   | "skeleton"

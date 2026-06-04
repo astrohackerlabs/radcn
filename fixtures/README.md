@@ -118,6 +118,14 @@ Proof-set routes:
 - `/fixtures/typography/article`
 - `/fixtures/typography/inline`
 - `/fixtures/typography/custom-token`
+- `/fixtures/native-select/default`
+- `/fixtures/native-select/groups`
+- `/fixtures/native-select/disabled`
+- `/fixtures/native-select/invalid`
+- `/fixtures/native-select/sizes`
+- `/fixtures/native-select/custom-token`
+- `/fixtures/native-select/form-submit-reset`
+- `/fixtures/native-select/required-validation`
 - `/fixtures/accordion/single`
 - `/fixtures/accordion/multiple`
 - `/fixtures/accordion/disabled-item`

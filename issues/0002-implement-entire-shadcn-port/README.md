@@ -161,6 +161,19 @@ committed work.
   `packages/radcn/src/components/table.tsx`,
   `packages/radcn/src/components/item.tsx`,
   `packages/radcn/src/components/button-group.tsx`.
+- **2026-06-04, Experiment 4:** Native select parity is scoped to the closed
+  control, wrapper/icon hooks, real option/optgroup markup, and native form
+  behavior; popup menu rendering remains browser/OS-controlled and is not a
+  portable visual parity surface. Applies to: `native-select` and future native
+  form controls. Evidence:
+  [Experiment 4](04-stage-1-native-select-and-closure-audit.md),
+  `packages/radcn/src/components/native-select.tsx`,
+  `fixtures/tests/native-select.spec.ts`.
+- **2026-06-04, Experiment 4:** Stage 1 is complete after `native-select` and
+  the closure audit. The next experiment may begin Stage 2. Applies to:
+  `Stage 1`, `Stage 2`. Evidence:
+  [Stage 1 audit](stage-1-audit.md),
+  [Experiment 4](04-stage-1-native-select-and-closure-audit.md).
 
 ## Five Porting Stages
 
@@ -205,6 +218,9 @@ Stage 1 must answer:
 Stage 1 is complete only when all included components have reference fixtures,
 candidate RadCN implementations, artifact coverage, component-specific parity
 checks, documentation, and review.
+
+Stage 1 status: complete as of Experiment 4. See
+[the Stage 1 audit](stage-1-audit.md).
 
 ### Stage 2: Bounded Disclosure and Feedback Primitives
 
@@ -380,4 +396,4 @@ This issue is complete when:
 - [Experiment 3: Stage 1 navigation collection and typography primitives](03-stage-1-navigation-collection-and-typography-primitives.md)
   — **Pass**
 - [Experiment 4: Stage 1 native select and closure audit](04-stage-1-native-select-and-closure-audit.md)
-  — **Designed**
+  — **Pass**

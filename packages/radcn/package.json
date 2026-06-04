@@ -18,6 +18,7 @@
     "./item": "./src/components/item.tsx",
     "./kbd": "./src/components/kbd.tsx",
     "./label": "./src/components/label.tsx",
+    "./native-select": "./src/components/native-select.tsx",
     "./pagination": "./src/components/pagination.tsx",
     "./separator": "./src/components/separator.tsx",
     "./skeleton": "./src/components/skeleton.tsx",

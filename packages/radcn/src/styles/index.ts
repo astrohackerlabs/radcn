@@ -139,6 +139,16 @@ export const radcnStyles = String.raw`
 .radcn-typography-large{font-size:1.125rem;font-weight:600}
 .radcn-typography-small{font-size:.875rem;font-weight:500}
 .radcn-typography-muted{color:var(--radcn-typography-muted,var(--radcn-muted-foreground));font-size:.875rem}
+.radcn-native-select-wrapper{position:relative;display:inline-flex;width:fit-content;min-width:14rem;align-items:center;font-family:var(--radcn-font)}
+.radcn-native-select-wrapper:has(.radcn-native-select:disabled){opacity:.5}
+.radcn-native-select{width:100%;min-height:var(--radcn-control-height);appearance:none;border:1px solid var(--radcn-native-select-border,var(--radcn-input));border-radius:var(--radcn-radius);background:var(--radcn-native-select-bg,var(--radcn-background));color:var(--radcn-native-select-fg,var(--radcn-foreground));padding:0 2.25rem 0 .75rem;font:400 .875rem/1.35 var(--radcn-font);outline:none;transition:border-color 120ms ease,box-shadow 120ms ease}
+.radcn-native-select--sm{min-height:2rem;padding-left:.625rem;font-size:.8125rem}
+.radcn-native-select:focus-visible{border-color:var(--radcn-ring);box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-ring) 35%,transparent)}
+.radcn-native-select:disabled{cursor:not-allowed}
+.radcn-native-select[aria-invalid="true"]{border-color:var(--radcn-native-select-invalid,var(--radcn-destructive));box-shadow:0 0 0 3px color-mix(in srgb,var(--radcn-native-select-invalid,var(--radcn-destructive)) 20%,transparent)}
+.radcn-native-select-icon{pointer-events:none;position:absolute;right:.75rem;color:var(--radcn-muted-foreground);font:600 .75rem/1 var(--radcn-font)}
+.radcn-native-select-option,.radcn-native-select-optgroup{background:Canvas;color:CanvasText}
 .radcn-fixture-custom-breadcrumb{color:#0f766e}
 .radcn-fixture-custom-typography{--radcn-typography-h1-size:2.5rem;--radcn-typography-muted:#7c3aed}
+.radcn-fixture-custom-native-select{--radcn-native-select-border:#0f766e;--radcn-native-select-bg:#f0fdfa;--radcn-native-select-fg:#134e4a;--radcn-native-select-invalid:#7c3aed}
 `

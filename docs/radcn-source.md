@@ -34,6 +34,17 @@ These components are intentionally native-first. They preserve button, input,
 label, and textarea browser behavior instead of wrapping React-specific form
 state.
 
+Experiment 4 adds the remaining Stage 1 native form control:
+
+- `NativeSelect`
+- `NativeSelectOption`
+- `NativeSelectOptGroup`
+
+`NativeSelect` intentionally renders a real `<select>`. RadCN keeps native
+submission, reset, required validation, option groups, disabled state, labels,
+and browser keyboard behavior instead of replacing the control with a custom
+ARIA widget.
+
 Experiment 2 adds static/display primitives:
 
 - `Alert`
@@ -129,6 +140,25 @@ uses small named components for those recipe styles so Remix 3 apps can import
 and test them consistently while preserving semantic headings, paragraphs,
 lists, blockquotes, code, and supporting text elements.
 
+Native select uses a wrapper for styling and an icon hook, but the form control
+is the real select:
+
+- `data-radcn-native-select-wrapper`
+- `data-radcn-native-select`
+- `data-radcn-native-select-option`
+- `data-radcn-native-select-optgroup`
+- `data-radcn-native-select-icon`
+
+The wrapper exposes `data-size`; the select also exposes `data-size` and size
+modifier classes. Invalid state uses `aria-invalid="true"`, disabled state uses
+the native `disabled` attribute, and required state uses the native `required`
+attribute.
+
+Native select browser rendering varies by operating system and browser,
+especially for popup menus and option styling. RadCN only treats the closed
+control, wrapper/icon hooks, option/optgroup markup, form behavior, and
+documented tokens as portable parity surfaces.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -158,6 +188,13 @@ Navigation, collection, and typography probes continue that pattern:
 
 - `breadcrumb/custom-separator` customizes breadcrumb color and separator text.
 - `typography/custom-token` overrides heading size and muted text color.
+- `native-select/custom-token` overrides select border, background,
+  foreground, and invalid tokens.
+
+## Stage 1 Status
+
+Stage 1 is complete as of Experiment 4. Evidence is recorded in
+`issues/0002-implement-entire-shadcn-port/stage-1-audit.md`.
 
 ## Interim Install and Copy Workflow
 
