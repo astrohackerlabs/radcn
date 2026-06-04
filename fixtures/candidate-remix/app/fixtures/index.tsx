@@ -13,6 +13,9 @@ import { renderDatePickerFixture } from './date-picker.tsx'
 import { renderDialogFixture } from './dialog.tsx'
 import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
+import { renderFormFixture } from './form.tsx'
+import { renderInputGroupFixture } from './input-group.tsx'
+import { renderInputOTPFixture } from './input-otp.tsx'
 import { renderContextMenuFixture, renderDropdownMenuFixture } from './menu-overlays.tsx'
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from './positioned-overlays.tsx'
 import { renderMenubarFixture } from './menubar.tsx'
@@ -99,8 +102,14 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderEmptyFixture(fixture)
     case 'field':
       return renderFieldFixture(fixture)
+    case 'form':
+      return renderFormFixture(fixture)
     case 'hover-card':
       return renderHoverCardFixture(fixture)
+    case 'input-group':
+      return renderInputGroupFixture(fixture)
+    case 'input-otp':
+      return renderInputOTPFixture(fixture)
     case 'kbd':
       return renderKbdFixture()
     case 'item':

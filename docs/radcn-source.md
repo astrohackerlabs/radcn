@@ -1442,6 +1442,104 @@ systems and application blocks next: `chart`, `data-table`, `sonner`, `toast`,
 `resizable`, `sidebar`, `form`, `input-group`, `input-otp`, and any remaining
 recipe/block dispositions.
 
+## Stage 5 Form and Input Cluster
+
+Experiment 22 starts Stage 5 with the form/input cluster:
+
+- `InputGroup`
+- `InputOTP`
+- `form` disposition recipes
+
+This cluster resolves the pieces that are closest to existing RadCN native form
+controls before moving to larger systems such as charting, data tables,
+notifications, sidebars, and resizable panels.
+
+### Input Group
+
+`InputGroup` is a core RadCN component. It keeps shadcn/ui's author-facing
+parts:
+
+- `InputGroup`
+- `InputGroupAddon`
+- `InputGroupButton`
+- `InputGroupText`
+- `InputGroupInput`
+- `InputGroupTextarea`
+
+The implementation is mostly server-rendered markup and CSS. The root renders a
+real `role="group"` container with stable `data-radcn-input-group` hooks.
+Input and textarea slots render native controls, so names, values, disabled
+state, required state, keyboard behavior, form submission, and reset remain
+browser-owned.
+
+`enhanceInputGroup()` is intentionally small. It only restores the upstream
+addon affordance where clicking a non-interactive addon focuses the grouped
+input or textarea. It does not intercept clicks on nested buttons or links.
+
+Supported customization hooks:
+
+- root class and style hooks;
+- addon `data-align` for `inline-start`, `inline-end`, `block-start`, and
+  `block-end`;
+- `radcn-input-group-*` classes;
+- CSS variables such as `--radcn-input-group-border`,
+  `--radcn-input-group-bg`, and `--radcn-input-group-addon-fg`.
+
+### Input OTP
+
+`InputOTP` is a core RadCN component, but it does not use the React
+`input-otp` package. RadCN uses one real text input as the source of truth and
+mirrors that value into visible slots through `enhanceInputOTP()`.
+
+This preserves the important browser contract:
+
+- `name`, `value`, `required`, `pattern`, disabled state, submit, and reset live
+  on an actual form control;
+- visible slots are presentation/state hooks, not separate form controls;
+- paste and typing are filtered through the configured pattern;
+- Backspace, Delete, ArrowLeft, ArrowRight, Home, and End remain input editing
+  operations with mirrored slot/caret state;
+- slots expose deterministic `data-index`, `data-char`, `data-filled`, and
+  `data-active` hooks;
+- separators render `role="separator"`;
+- `radcn-input-otp-change` is emitted when the enhanced value changes.
+
+RadCN exports `REGEXP_ONLY_DIGITS` and `REGEXP_ONLY_DIGITS_AND_CHARS` to keep
+the common upstream examples portable without depending on the upstream React
+package.
+
+Approved divergences from the React `input-otp` package:
+
+- RadCN does not expose the package's React context or render-prop internals.
+- Slots mirror a native input value instead of receiving React context state.
+- Fake caret state is a CSS/data-hook projection from the input selection.
+
+### Form Disposition
+
+`form` is a recipe/disposition outcome, not a core RadCN package export.
+
+The upstream shadcn/ui `form` file is a React Hook Form adapter. It depends on
+React context, `Controller`, `useFormContext()`, `useFormState()`, generated
+React IDs, and Radix `Slot`. That API does not map cleanly to Remix 3's
+server-first form model, and copying it would make RadCN's core form story
+React-shaped.
+
+RadCN's replacement strategy is:
+
+- use native `<form>` elements;
+- use RadCN `Field`, `Label`, `Input`, `Textarea`, `Select`, `Checkbox`,
+  `RadioGroup`, `Switch`, `InputGroup`, and `InputOTP` as needed;
+- render server/action validation output as `FieldError`;
+- wire errors and descriptions through explicit `id`, `aria-describedby`, and
+  `aria-invalid`;
+- rely on native required/pattern validation where it is sufficient;
+- keep form orchestration in Remix routes/actions or recipe code rather than a
+  `radcn/form` adapter.
+
+Install/source parity for `form` is recipe-based: docs and fixtures demonstrate
+the supported composition, but `packages/radcn/package.json` intentionally does
+not export `./form`.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document

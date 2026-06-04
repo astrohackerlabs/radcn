@@ -91,6 +91,251 @@ body {
   --destructive: #7c3aed;
 }
 
+.reference-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.reference-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.reference-form-field {
+  display: grid;
+  gap: 8px;
+  max-width: 420px;
+}
+
+.reference-label {
+  color: var(--foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.reference-input,
+.reference-textarea {
+  width: 100%;
+  border: 1px solid var(--input);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+  font: 400 0.875rem/1.35 ui-sans-serif, system-ui, sans-serif;
+  outline: none;
+}
+
+.reference-input {
+  height: 2.25rem;
+  padding: 0 0.75rem;
+}
+
+.reference-textarea {
+  min-height: 5rem;
+  padding: 0.5rem 0.75rem;
+  resize: vertical;
+}
+
+.reference-input[aria-invalid="true"],
+.reference-textarea[aria-invalid="true"] {
+  border-color: var(--destructive);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.reference-field-description {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.reference-field-error {
+  margin: 0;
+  color: var(--destructive);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.reference-button {
+  display: inline-flex;
+  width: max-content;
+  min-height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.reference-button-outline {
+  border-color: var(--border);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.reference-input-group {
+  display: flex;
+  width: 100%;
+  max-width: 24rem;
+  min-height: 2.25rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid var(--reference-input-group-border, var(--input));
+  border-radius: var(--radius);
+  background: var(--reference-input-group-bg, var(--background));
+}
+
+.reference-input-group-disabled {
+  opacity: 0.6;
+}
+
+.reference-input-group-invalid {
+  --reference-input-group-border: var(--destructive);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--destructive) 20%, transparent);
+}
+
+.reference-input-group-input,
+.reference-input-group-textarea {
+  min-width: 0;
+  flex: 1 1 10rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--foreground);
+  font: 400 0.875rem/1.35 ui-sans-serif, system-ui, sans-serif;
+  outline: none;
+}
+
+.reference-input-group-input {
+  height: calc(2.25rem - 2px);
+  padding: 0 0.75rem;
+}
+
+.reference-input-group-textarea {
+  min-height: 5.5rem;
+  padding: 0.5rem 0.75rem;
+  resize: vertical;
+}
+
+.reference-input-group-addon {
+  display: inline-flex;
+  min-height: calc(2.25rem - 2px);
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0 0.75rem;
+  color: var(--reference-input-group-addon-fg, var(--muted-foreground));
+  cursor: text;
+  font-size: 0.875rem;
+  user-select: none;
+}
+
+.reference-input-group-addon--inline-start {
+  order: -1;
+  border-right: 1px solid var(--reference-input-group-border, var(--input));
+}
+
+.reference-input-group-addon--inline-end {
+  order: 1;
+  border-left: 1px solid var(--reference-input-group-border, var(--input));
+}
+
+.reference-input-group-addon--block-start,
+.reference-input-group-addon--block-end {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.reference-input-group-addon--block-start {
+  order: -2;
+  border-bottom: 1px solid var(--reference-input-group-border, var(--input));
+}
+
+.reference-input-group-addon--block-end {
+  order: 2;
+  border-top: 1px solid var(--reference-input-group-border, var(--input));
+}
+
+.reference-input-group-button {
+  min-height: 1.75rem;
+  border: 0;
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+.reference-fixture-custom-input-group {
+  --reference-input-group-border: #0f766e;
+  --reference-input-group-bg: #f0fdfa;
+  --reference-input-group-addon-fg: #134e4a;
+}
+
+.reference-input-otp,
+.reference-input-otp-group {
+  display: flex;
+  align-items: center;
+}
+
+.reference-input-otp-slot {
+  display: inline-flex;
+  width: 2.5rem;
+  height: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--reference-input-otp-border, var(--input));
+  background: var(--reference-input-otp-bg, var(--background));
+  color: var(--reference-input-otp-fg, var(--foreground));
+  font-weight: 500;
+  margin-left: -1px;
+}
+
+.reference-input-otp-slot:first-child {
+  margin-left: 0;
+  border-top-left-radius: var(--radius);
+  border-bottom-left-radius: var(--radius);
+}
+
+.reference-input-otp-slot:last-child {
+  border-top-right-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+}
+
+.reference-input-otp-invalid {
+  --reference-input-otp-border: var(--destructive);
+}
+
+.reference-input-otp-disabled {
+  opacity: 0.55;
+}
+
+.reference-input-otp-separator {
+  display: inline-flex;
+  width: 1rem;
+  justify-content: center;
+  color: var(--muted-foreground);
+}
+
+.reference-fixture-custom-input-otp {
+  --reference-input-otp-border: #7c3aed;
+  --reference-input-otp-bg: #faf5ff;
+  --reference-input-otp-fg: #581c87;
+}
+
+.reference-sr-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  opacity: 0;
+}
+
 .reference-alert {
   display: grid;
   gap: 0.375rem;

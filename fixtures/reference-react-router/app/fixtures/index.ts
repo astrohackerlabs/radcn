@@ -13,6 +13,9 @@ import { renderDatePickerFixture } from "./date-picker"
 import { renderDialogFixture } from "./dialog"
 import { renderDrawerFixture } from "./drawer"
 import { renderFieldFixture } from "./field"
+import { renderFormFixture } from "./form"
+import { renderInputGroupFixture } from "./input-group"
+import { renderInputOTPFixture } from "./input-otp"
 import { renderContextMenuFixture, renderDropdownMenuFixture } from "./menu-overlays"
 import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from "./positioned-overlays"
 import { renderMenubarFixture } from "./menubar"
@@ -99,8 +102,14 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderEmptyFixture(fixture.id)
     case "field":
       return renderFieldFixture(fixture.id)
+    case "form":
+      return renderFormFixture(fixture.id)
     case "hover-card":
       return renderHoverCardFixture(fixture.id)
+    case "input-group":
+      return renderInputGroupFixture(fixture.id)
+    case "input-otp":
+      return renderInputOTPFixture(fixture.id)
     case "kbd":
       return renderKbdFixture()
     case "item":

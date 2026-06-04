@@ -29,6 +29,8 @@
     "./field": "./src/components/field.tsx",
     "./hover-card": "./src/components/hover-card.tsx",
     "./input": "./src/components/input.tsx",
+    "./input-group": "./src/components/input-group.tsx",
+    "./input-otp": "./src/components/input-otp.tsx",
     "./item": "./src/components/item.tsx",
     "./kbd": "./src/components/kbd.tsx",
     "./label": "./src/components/label.tsx",

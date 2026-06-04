@@ -9,6 +9,8 @@ import { enhanceDialog } from 'radcn/dialog'
 import { enhanceDrawer } from 'radcn/drawer'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 import { enhanceHoverCard } from 'radcn/hover-card'
+import { enhanceInputGroup } from 'radcn/input-group'
+import { enhanceInputOTP } from 'radcn/input-otp'
 import { enhanceMenubar } from 'radcn/menubar'
 import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 import { enhancePopover } from 'radcn/popover'
@@ -47,3 +49,5 @@ enhanceHoverCard()
 enhanceSlider()
 enhanceToggle()
 enhanceToggleGroup()
+enhanceInputGroup()
+enhanceInputOTP()

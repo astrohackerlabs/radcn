@@ -553,6 +553,24 @@ committed work.
   should move to Stage 5 dispositions for React-heavy systems and blocks next.
   Applies to: `Stage 4`, `Stage 5`. Evidence:
   [Stage 4 audit](stage-4-audit.md).
+- **2026-06-04, Experiment 22:** Input adornment components can stay core when
+  they preserve native controls as the source of form truth; `InputGroup`
+  enhances only addon-to-control focus delegation. Applies to: `input-group`,
+  form-adjacent Stage 5 components. Evidence:
+  [Experiment 22](22-stage-5-form-input-cluster.md),
+  `packages/radcn/src/components/input-group.tsx`.
+- **2026-06-04, Experiment 22:** OTP entry should use one real input for value,
+  validation, submit, reset, and editing while visible slots mirror that state
+  through data hooks. Applies to: `input-otp`, future masked/segmented inputs.
+  Evidence:
+  [Experiment 22](22-stage-5-form-input-cluster.md),
+  `packages/radcn/src/components/input-otp.tsx`.
+- **2026-06-04, Experiment 22:** React form adapters are not core RadCN ports
+  when Remix native forms and explicit Field/ARIA wiring provide the supported
+  model. `form` is a recipe/disposition outcome with no `radcn/form` export.
+  Applies to: `form`, Stage 5 recipe/block policy. Evidence:
+  [Experiment 22](22-stage-5-form-input-cluster.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -817,4 +835,4 @@ This issue is complete when:
 - [Experiment 21: Stage 4 carousel and stage closure](21-stage-4-carousel-and-stage-closure.md)
   — **Pass**
 - [Experiment 22: Stage 5 form and input cluster](22-stage-5-form-input-cluster.md)
-  — **Designed**
+  — **Pass**

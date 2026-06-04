@@ -283,3 +283,72 @@ Non-blocking implementation note:
 - Since `required` is listed as an `InputOTP` API prop, implementation should
   treat required validation as mandatory unless a reviewed browser/platform
   limitation is discovered and documented.
+
+## Result
+
+**Result:** Pass
+
+Experiment 22 completed the Stage 5 form/input cluster.
+
+Implemented:
+
+- Added `packages/radcn/src/components/input-group.tsx` with `InputGroup`,
+  `InputGroupAddon`, `InputGroupButton`, `InputGroupText`, `InputGroupInput`,
+  `InputGroupTextarea`, prop types, public hooks, and `enhanceInputGroup()`.
+- Added `packages/radcn/src/components/input-otp.tsx` with `InputOTP`,
+  `InputOTPGroup`, `InputOTPSlot`, `InputOTPSeparator`, pattern constants, prop
+  types, and `enhanceInputOTP()`.
+- Exported `input-group` and `input-otp` through package subpaths and the root
+  RadCN index.
+- Did not add `radcn/form`; the `form` outcome is documented and tested as a
+  Remix 3-native recipe/disposition.
+- Loaded the new enhancements from the candidate Remix asset entry.
+- Added shared scenarios, candidate fixtures, reference fixtures, reference
+  styles, RadCN tokens, and focused Playwright tests for `input-group`,
+  `input-otp`, and `form`.
+- Documented the input-group port, native-input OTP strategy, React
+  `input-otp` divergence, React Hook Form divergence, and form recipe/install
+  policy in `docs/radcn-source.md`.
+- Added issue-level learnings for input adornments, OTP native input mirroring,
+  and React form adapter disposition.
+
+Verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed. It still prints the existing
+  React Router `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/form-input-cluster.spec.ts`
+  passed with 6 tests.
+- `pnpm fixtures:artifacts` passed with 610 tests.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+
+## Conclusion
+
+The first Stage 5 cluster is complete. `input-group` and `input-otp` are core
+RadCN ports with source, exports, fixtures, focused behavior tests, artifact
+coverage, docs, and reviewed dependency divergences. `form` has a final
+recipe/disposition outcome: use Remix 3 native forms plus RadCN field/control
+primitives, not a React Hook Form adapter or `radcn/form` package export.
+
+Stage 5 remains open. Later experiments still need final outcomes for `chart`,
+`data-table`, `sonner`, `toast`, `resizable`, `sidebar`, and any unresolved
+block dispositions.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Poincare` and
+returned **Pass**.
+
+Poincare confirmed that the form/input cluster has source for `input-group` and
+`input-otp`, package/root exports, candidate enhancement loading, required
+shared scenarios, paired candidate/reference fixtures, focused Playwright
+coverage, docs, issue learnings, and an intentional no-`radcn/form` recipe
+disposition. The review also confirmed vendor status is clean and
+`git diff --check` passes.
+
+Non-blocking hardening notes for later work:
+
+- Add an explicit OTP invalid-submission test for an empty required input.
+- Add a direct assertion for emitted `radcn-input-otp-change` events.
