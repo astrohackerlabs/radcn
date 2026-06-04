@@ -417,3 +417,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 5: Stage 2 native state and progress primitives](05-stage-2-native-state-and-progress-primitives.md)
   — **Pass**
+- [Experiment 6: Stage 2 accordion disclosure primitive](06-stage-2-accordion-disclosure-primitive.md)
+  — **Designed**
