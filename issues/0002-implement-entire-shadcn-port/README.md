@@ -344,6 +344,33 @@ committed work.
   [Experiment 13](13-stage-3-modal-variants-alert-dialog-and-sheet.md),
   `packages/radcn/src/components/sheet.tsx`,
   `fixtures/tests/modal-variants.spec.ts`.
+- **2026-06-04, Experiment 14:** Non-modal positioned overlays use a separate
+  `setupPositionedOverlay()` helper rather than reusing modal focus-trap or
+  scroll-lock behavior. Applies to: `popover`, `tooltip`, `hover-card`, later
+  positioned overlays. Evidence:
+  [Experiment 14](14-stage-3-positioned-overlay-foundation.md),
+  `packages/radcn/src/utils/positioned-overlay.ts`,
+  `fixtures/tests/positioned-overlays.spec.ts`.
+- **2026-06-04, Experiment 14:** Fixture-stage portal capture applies to
+  positioned overlays too; portal content moves into the nearest
+  `data-radcn-portal-root` inside `[data-fixture-stage]` so screenshot artifacts
+  include open floating content. Applies to: all future portal overlays.
+  Evidence: [Experiment 14](14-stage-3-positioned-overlay-foundation.md),
+  `packages/radcn/src/utils/positioned-overlay.ts`,
+  `fixtures/artifacts/manifest.json`.
+- **2026-06-04, Experiment 14:** Hover-triggered overlays need timer
+  cancellation and trigger/content hover-region tracking. Hover-card remains
+  open when moving from trigger to content and closes only after leaving both
+  regions; tooltip preserves content-hover behavior in this implementation.
+  Applies to: `hover-card`, `tooltip`, later hoverable overlays. Evidence:
+  [Experiment 14](14-stage-3-positioned-overlay-foundation.md),
+  `fixtures/tests/positioned-overlays.spec.ts`.
+- **2026-06-04, Experiment 14:** The first collision policy is stage-or-viewport
+  clamping with side/align/offset metadata and transform-origin CSS variables,
+  not a full floating-ui replacement. Applies to: `popover`, `tooltip`,
+  `hover-card`, and later overlay planning. Evidence:
+  [Experiment 14](14-stage-3-positioned-overlay-foundation.md),
+  `packages/radcn/src/utils/positioned-overlay.ts`.
 
 ## Five Porting Stages
 
@@ -589,4 +616,4 @@ This issue is complete when:
 - [Experiment 13: Stage 3 modal variants, alert dialog and sheet](13-stage-3-modal-variants-alert-dialog-and-sheet.md)
   — **Pass**
 - [Experiment 14: Stage 3 positioned overlay foundation](14-stage-3-positioned-overlay-foundation.md)
-  — **Designed**
+  — **Pass**

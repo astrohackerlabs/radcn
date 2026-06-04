@@ -804,6 +804,110 @@ remain unsolved because they need collision, anchoring, menu focus/typeahead,
 hover/focus delay, contextmenu events, or gesture handling beyond this modal
 variant layer.
 
+## Stage 3 Positioned Overlay Foundation
+
+Experiment 14 adds the non-modal positioned overlay foundation:
+
+- `Popover`
+- `PopoverTrigger`
+- `PopoverAnchor`
+- `PopoverPortal`
+- `PopoverContent`
+- `PopoverClose`
+- `PopoverHeader`
+- `PopoverTitle`
+- `PopoverDescription`
+- `TooltipProvider`
+- `Tooltip`
+- `TooltipTrigger`
+- `TooltipPortal`
+- `TooltipContent`
+- `TooltipArrow`
+- `HoverCard`
+- `HoverCardTrigger`
+- `HoverCardPortal`
+- `HoverCardContent`
+
+These components use server-rendered markup plus browser helpers from their
+package subpaths:
+
+```ts
+import { enhancePopover } from 'radcn/popover'
+import { enhanceTooltip } from 'radcn/tooltip'
+import { enhanceHoverCard } from 'radcn/hover-card'
+
+enhancePopover()
+enhanceTooltip()
+enhanceHoverCard()
+```
+
+All three helpers delegate to the shared non-modal
+`setupPositionedOverlay()` helper in
+`packages/radcn/src/utils/positioned-overlay.ts`. That helper owns portal
+movement, generated IDs, open/closed state, anchor geometry, side and align
+metadata, side offsets, fixture-stage or viewport collision clamping, Escape
+close, and transform-origin CSS variables.
+
+This helper is intentionally separate from `setupModal()`. Positioned overlays
+do not set `aria-modal`, do not trap focus, do not restore focus as a modal
+contract, and do not lock body scrolling. Popover uses click activation,
+`aria-expanded`, `aria-controls`, Escape close, close slots, and outside-pointer
+dismissal. Tooltip uses hover and focus activation, provider/root delay values,
+`role="tooltip"`, `aria-describedby`, Escape close, and an arrow hook.
+Hover-card uses hover and focus activation, open and close delays, Escape close,
+and trigger/content hover-region tracking so it stays open while the pointer
+moves into floating content and closes only after leaving both regions.
+
+Positioning policy:
+
+- `side="top" | "right" | "bottom" | "left"` chooses the preferred side.
+- `align="start" | "center" | "end"` aligns content along the anchor edge.
+- `sideOffset` adds gap from the trigger or anchor.
+- Content is clamped inside the nearest fixture stage when present, otherwise
+  inside the viewport.
+- Content receives `--radcn-overlay-transform-origin`,
+  `--radcn-overlay-available-width`, and
+  `--radcn-overlay-available-height` for styling and animation hooks.
+
+Public hooks:
+
+- `data-radcn-popover`, `data-radcn-popover-trigger`,
+  `data-radcn-popover-anchor`, `data-radcn-popover-portal`,
+  `data-radcn-popover-content`, `data-radcn-popover-close`,
+  `data-radcn-popover-header`, `data-radcn-popover-title`, and
+  `data-radcn-popover-description`
+- `data-radcn-tooltip-provider`, `data-radcn-tooltip`,
+  `data-radcn-tooltip-trigger`, `data-radcn-tooltip-portal`,
+  `data-radcn-tooltip-content`, and `data-radcn-tooltip-arrow`
+- `data-radcn-hover-card`, `data-radcn-hover-card-trigger`,
+  `data-radcn-hover-card-portal`, and `data-radcn-hover-card-content`
+
+Positioned overlay customization tokens:
+
+- `--radcn-positioned-overlay-z`
+- `--radcn-overlay-trigger-bg`
+- `--radcn-overlay-trigger-fg`
+- `--radcn-overlay-width`
+- `--radcn-overlay-border`
+- `--radcn-overlay-bg`
+- `--radcn-overlay-fg`
+- `--radcn-popover-close-border`
+- `--radcn-popover-close-bg`
+- `--radcn-popover-close-fg`
+- `--radcn-tooltip-width`
+- `--radcn-tooltip-bg`
+- `--radcn-tooltip-fg`
+- `--radcn-hover-card-width`
+- `--radcn-hover-card-avatar-bg`
+- `--radcn-hover-card-avatar-fg`
+
+The positioned overlay foundation now covers `popover`, `tooltip`, and
+`hover-card`. Dropdown menu and context menu remain unsolved because they need
+menu semantics, roving focus, typeahead, checked/radio item state, submenu
+coordination, and contextmenu triggers. Drawer remains unsolved because it
+needs a gesture and mobile interaction policy that should not be forced into
+the non-modal positioning helper.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -847,6 +951,11 @@ Navigation, collection, and typography probes continue that pattern:
 - `alert-dialog/custom-token` overrides alert-dialog overlay, panel, media, and
   action tokens.
 - `sheet/custom-token` overrides sheet overlay, panel, and action tokens.
+- `popover/custom-token` overrides positioned overlay border, background,
+  foreground, and close tokens.
+- `tooltip/custom-token` overrides tooltip background and foreground tokens.
+- `hover-card/custom-token` overrides positioned overlay panel and avatar
+  tokens.
 
 ## Stage 1 Status
 

@@ -258,3 +258,120 @@ trigger-to-content behavior coverage or a documented divergence.
 
 After the update, `Halley` approved the design with **Pass** and no remaining
 blocking findings.
+
+## Result
+
+**Result:** Pass
+
+Experiment 14 ports the non-modal positioned overlay family:
+
+- `popover`
+- `tooltip`
+- `hover-card`
+
+RadCN source was added for all three component families, plus a shared
+`setupPositionedOverlay()` helper under `packages/radcn/src/utils`. The helper
+owns non-modal portal movement, state, trigger/content relationships,
+side/align/offset geometry, stage-or-viewport collision clamping, Escape close,
+outside dismissal for popover, hover/focus delays for tooltip and hover-card,
+trigger-to-content hover persistence, close-timer cancellation, and
+AbortController-backed listener cleanup.
+
+The candidate Remix app imports real RadCN components and loads
+`enhancePopover()`, `enhanceTooltip()`, and `enhanceHoverCard()` from package
+subpaths. The React Router reference app has paired shadcn-inspired fixtures
+for the same scenarios.
+
+Shared scenarios now include:
+
+- `popover/default`
+- `popover/default-open`
+- `popover/side-align`
+- `popover/outside-dismiss`
+- `popover/custom-token`
+- `tooltip/default`
+- `tooltip/focus`
+- `tooltip/side`
+- `tooltip/delay`
+- `tooltip/content-hover`
+- `tooltip/custom-token`
+- `hover-card/default`
+- `hover-card/focus`
+- `hover-card/side-align`
+- `hover-card/delay`
+- `hover-card/content-hover`
+- `hover-card/custom-token`
+
+Verification commands run:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/positioned-overlays.spec.ts
+pnpm fixtures:artifacts
+```
+
+All verification commands passed. The focused positioned-overlays Playwright
+file ran 6 tests successfully. `pnpm fixtures:artifacts` ran 361 Playwright
+tests successfully.
+
+The generated artifact manifest contains:
+
+- 298 screenshot entries;
+- 149 shared scenarios;
+- 5 popover scenarios;
+- 6 tooltip scenarios;
+- 6 hover-card scenarios;
+- paired `reference` and `candidate` artifacts;
+- reference app on port 4601 and candidate app on port 4602.
+
+No files under `vendor/` were modified.
+
+## Completion Review
+
+**Reviewer:** Carson
+
+**Result:** Pass
+
+Carson initially found two blocking issues:
+
+- `setupPositionedOverlay()` did not implement the planned cleanup path for
+  timers and event handlers.
+- The fixtures exported `PopoverAnchor` but did not exercise or verify anchor
+  positioning.
+
+Both findings were fixed. `setupPositionedOverlay()` now registers listeners
+with an `AbortController`, clears open and close timers, stores a cleanup
+function on the root, deletes ready state during cleanup, and returns the
+cleanup function. The `popover/side-align` fixture now renders
+`PopoverAnchor`, the reference fixture mirrors the anchor marker, and the
+focused Playwright spec verifies content placement against the anchor rather
+than only the trigger.
+
+After the fixes, the verification commands were rerun:
+
+```bash
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm fixtures:reference:typecheck
+pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/positioned-overlays.spec.ts
+pnpm fixtures:artifacts
+```
+
+All rerun verification commands passed, and Carson approved the result with
+**Pass** and no remaining blocking findings.
+
+## Conclusion
+
+Experiment 14 completes the non-modal positioned overlay foundation for Stage
+3. Later non-modal overlays should start from `setupPositionedOverlay()` when
+they need anchor geometry, portal capture, side/align/offset hooks, and simple
+dismissal or hover/focus timing.
+
+This experiment does not complete Stage 3. The next Stage 3 experiment should
+handle menu-specific overlays such as `dropdown-menu` and `context-menu`, or
+separately design `drawer` gesture behavior. Menus should not be treated as
+just another positioned overlay because they still need roving focus, typeahead,
+checked/radio item state, submenu behavior, and menu-specific accessibility
+semantics.

@@ -7,6 +7,7 @@ import { renderButtonFixture } from './button.tsx'
 import { renderCollapsibleFixture } from './collapsible.tsx'
 import { renderDialogFixture } from './dialog.tsx'
 import { renderFieldFixture } from './field.tsx'
+import { renderHoverCardFixture, renderPopoverFixture, renderTooltipFixture } from './positioned-overlays.tsx'
 import { renderNativeSelectFixture } from './native-select.tsx'
 import {
   renderCheckboxFixture,
@@ -72,12 +73,16 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderEmptyFixture(fixture)
     case 'field':
       return renderFieldFixture(fixture)
+    case 'hover-card':
+      return renderHoverCardFixture(fixture)
     case 'kbd':
       return renderKbdFixture()
     case 'item':
       return renderItemFixture(fixture)
     case 'pagination':
       return renderPaginationFixture(fixture)
+    case 'popover':
+      return renderPopoverFixture(fixture)
     case 'progress':
       return renderProgressFixture(fixture)
     case 'radio-group':
@@ -108,6 +113,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderToggleFixture(fixture)
     case 'toggle-group':
       return renderToggleGroupFixture(fixture)
+    case 'tooltip':
+      return renderTooltipFixture(fixture)
     case 'typography':
       return renderTypographyFixture(fixture)
   }

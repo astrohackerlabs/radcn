@@ -14,10 +14,12 @@ export type FixtureComponent =
   | "dialog"
   | "empty"
   | "field"
+  | "hover-card"
   | "kbd"
   | "item"
   | "native-select"
   | "pagination"
+  | "popover"
   | "progress"
   | "radio-group"
   | "scroll-area"
@@ -32,6 +34,7 @@ export type FixtureComponent =
   | "textarea"
   | "toggle"
   | "toggle-group"
+  | "tooltip"
   | "typography"
 
 export interface FixtureScenario {
