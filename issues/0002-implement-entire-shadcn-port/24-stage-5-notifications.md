@@ -211,3 +211,82 @@ Newton confirmed:
 - the plan correctly excludes `resizable` and `sidebar`;
 - the verification criteria are concrete enough for a plan commit under
   `AGENTS.md`.
+
+## Result
+
+**Result:** Pass
+
+Experiment 24 completed the notification cluster.
+
+The implementation added a RadCN-native `sonner` source module with
+server-rendered `Toaster` and `Toast` parts, accessible notification region
+semantics, status/alert toast roles, explicit toast accessible labels, variant
+icons, action and dismiss controls, deterministic duration handling, stable
+`data-radcn-toast*` hooks, custom token styling, and `enhanceToaster()` for
+browser event dispatch.
+
+The implementation also added `radcn/toast` as a small dependency-free helper
+surface. `toast(payload)` and `createToastEvent(payload)` dispatch the
+`radcn-toast` browser event; they are not a second visual primitive. Server
+route/action feedback is represented by initial `Toaster` payloads, while
+client-only feedback dispatches events after the toaster enhancement is
+registered.
+
+Added scenario and fixture coverage:
+
+- `sonner/default`
+- `sonner/success`
+- `sonner/error`
+- `sonner/loading`
+- `sonner/action`
+- `sonner/dismiss`
+- `sonner/stack`
+- `sonner/custom-token`
+- `toast/event`
+- `toast/form-action`
+- `toast/no-js-initial`
+
+Documentation now explains the Sonner divergence, the RadCN toaster contract,
+the toast event/helper surface, server/action notification patterns, client
+dispatch patterns, dependency policy, install/source parity, and intentionally
+omitted Sonner behaviors. Issue learnings were updated with reusable
+notification and event-dispatch rules for later work.
+
+Verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/notifications.spec.ts`
+  passed 5 tests.
+- `pnpm fixtures:artifacts` passed 668 tests.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+
+## Conclusion
+
+The notification cluster is resolved. RadCN should provide a small
+server-rendered toaster core and a browser event helper rather than depending
+on the React Sonner runtime. Rich promise helpers, React element payloads,
+swipe physics, and external theme-manager integration remain outside core and
+can be handled as future recipe or application code if needed.
+
+Stage 5 remains open. Later experiments still need final outcomes for
+`resizable`, `sidebar`, and any remaining block dispositions.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Galileo` and
+returned **Pass**.
+
+Galileo confirmed:
+
+- the completed implementation satisfies the Experiment 24 verification
+  criteria and `AGENTS.md` workflow;
+- `sonner` and `toast` have the required source and export surfaces;
+- forbidden notification dependencies are absent from `packages/radcn`;
+- all required shared scenarios, candidate/reference fixture routing, focused
+  Playwright coverage, docs/disposition text, issue learnings, artifact
+  entries/screenshots, and vendor cleanliness are present;
+- no blocking findings remain before the result commit.

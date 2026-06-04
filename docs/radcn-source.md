@@ -1615,6 +1615,67 @@ composition, and custom tokens. Drag/drop persistence, schema validation,
 server-backed filtering, and notification side effects remain application-code
 responsibilities.
 
+## Stage 5 Notifications
+
+Experiment 24 resolves the notification cluster:
+
+- `sonner`
+- `toast`
+
+### Sonner
+
+`sonner` is a core RadCN notification component set, but it does not use the
+React `sonner` package or `next-themes`. The upstream shadcn/ui module is a
+small React wrapper around Sonner's toaster, icon slots, theme bridge, and CSS
+variable mapping. RadCN replaces that with dependency-free server-rendered
+notification markup plus an optional browser enhancement.
+
+Supported parts and helpers:
+
+- `Toaster`
+- `Toast`
+- `enhanceToaster`
+
+The core notification contract is intentionally bounded:
+
+- the toaster renders a named `role="region"` notification viewport;
+- initial notifications are plain server-rendered markup, so route/action
+  feedback and screenshots do not depend on client state;
+- each toast uses `role="status"` or `role="alert"` based on severity;
+- toast variants cover `default`, `success`, `info`, `warning`, `error`, and
+  `loading`;
+- title, description, action, dismiss, icon, state, and type hooks use stable
+  `data-radcn-toast*` attributes;
+- colors and shape come from RadCN CSS variables rather than an external theme
+  manager;
+- `enhanceToaster()` listens for `radcn-toast` events and can render
+  client-dispatched notifications after hydration.
+
+Approved divergences from Sonner:
+
+- RadCN does not expose Sonner's React component payloads, promise helpers,
+  swipe physics, rich positioning API, or external theme-manager bridge.
+- RadCN does not add `sonner` or `next-themes` as core dependencies.
+- Advanced notification orchestration can be future recipe or app code if a
+  later issue proves it is needed.
+
+### Toast Disposition
+
+`toast` is the event/helper surface for the toaster, not a second visual
+primitive. RadCN exposes a dependency-free `radcn/toast` helper with:
+
+- `RADCN_TOAST_EVENT`
+- `createToastEvent(payload)`
+- `toast(payload)`
+
+Applications may also dispatch a browser `CustomEvent` directly. Server-driven
+route/action notifications should render initial `Toast` payloads into
+`Toaster`; client-only notifications can use `toast()` after
+`enhanceToaster()` is registered.
+
+Install/source parity for `toast` is helper-based: the visual source is
+`radcn/sonner`, while `radcn/toast` is the optional dispatch adapter.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1680,6 +1741,8 @@ Navigation, collection, and typography probes continue that pattern:
   tokens.
 - `data-table/custom-token` overrides the recipe block border and background
   tokens.
+- `sonner/custom-token` overrides notification border, background, foreground,
+  icon, and action tokens.
 
 ## Stage 1 Status
 

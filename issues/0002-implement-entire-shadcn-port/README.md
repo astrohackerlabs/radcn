@@ -584,6 +584,18 @@ committed work.
   `data-table`, future blocks. Evidence:
   [Experiment 23](23-stage-5-data-display-and-table-block.md),
   `docs/radcn-source.md`.
+- **2026-06-04, Experiment 24:** Notifications can be core when the rendered
+  contract is bounded to accessible server markup plus a browser event
+  enhancement; the React Sonner runtime and external theme manager stay outside
+  core RadCN. Applies to: `sonner`, `toast`, future feedback systems. Evidence:
+  [Experiment 24](24-stage-5-notifications.md),
+  `packages/radcn/src/components/sonner.tsx`.
+- **2026-06-04, Experiment 24:** `toast` is an event/helper surface, not a
+  second visual primitive. Server route/action feedback should render initial
+  `Toaster` payloads, while client-only feedback can dispatch `radcn-toast`
+  events after enhancement. Applies to: `toast`, future app recipes. Evidence:
+  [Experiment 24](24-stage-5-notifications.md),
+  `packages/radcn/src/components/toast.ts`.
 
 ## Five Porting Stages
 
@@ -852,4 +864,4 @@ This issue is complete when:
 - [Experiment 23: Stage 5 data display and table block](23-stage-5-data-display-and-table-block.md)
   — **Pass**
 - [Experiment 24: Stage 5 notifications](24-stage-5-notifications.md)
-  — **Designed**
+  — **Pass**

@@ -55,6 +55,8 @@ import { renderSliderFixture } from './slider.tsx'
 import { renderScrollAreaFixture } from './scroll-area.tsx'
 import { renderSelectFixture } from './select.tsx'
 import { renderSheetFixture } from './sheet.tsx'
+import { renderSonnerFixture } from './sonner.tsx'
+import { renderToastFixture } from './toast.tsx'
 
 export function renderCandidateFixture(fixture: FixtureScenario) {
   switch (fixture.component) {
@@ -146,6 +148,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderSkeletonFixture()
     case 'slider':
       return renderSliderFixture(fixture)
+    case 'sonner':
+      return renderSonnerFixture(fixture)
     case 'spinner':
       return renderSpinnerFixture(fixture)
     case 'switch':
@@ -156,6 +160,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderTabsFixture(fixture)
     case 'textarea':
       return renderTextareaFixture(fixture)
+    case 'toast':
+      return renderToastFixture(fixture)
     case 'toggle':
       return renderToggleFixture(fixture)
     case 'toggle-group':

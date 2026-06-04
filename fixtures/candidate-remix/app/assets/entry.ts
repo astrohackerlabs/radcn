@@ -17,6 +17,7 @@ import { enhancePopover } from 'radcn/popover'
 import { enhanceSelect } from 'radcn/select'
 import { enhanceSheet } from 'radcn/sheet'
 import { enhanceSlider } from 'radcn/slider'
+import { enhanceToaster } from 'radcn/sonner'
 import { enhanceTabs } from 'radcn/tabs'
 import { enhanceToggle } from 'radcn/toggle'
 import { enhanceToggleGroup } from 'radcn/toggle-group'
@@ -47,6 +48,7 @@ enhancePopover()
 enhanceTooltip()
 enhanceHoverCard()
 enhanceSlider()
+enhanceToaster()
 enhanceToggle()
 enhanceToggleGroup()
 enhanceInputGroup()

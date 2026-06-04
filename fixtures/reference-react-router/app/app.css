@@ -3299,3 +3299,106 @@ body {
   background: #f0fdfa;
   color: #134e4a;
 }
+
+.reference-toaster,
+.reference-toast-recipe {
+  display: grid;
+  width: min(100%, 384px);
+  gap: 16px;
+  color: #18181b;
+  font-family: system-ui, sans-serif;
+}
+
+.reference-toaster-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  gap: 12px;
+  list-style: none;
+}
+
+.reference-toast {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: start;
+  gap: 12px;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  background: #fff;
+  color: #18181b;
+  padding: 14px;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+}
+
+.reference-toast-icon {
+  display: inline-grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
+  border-radius: 999px;
+  background: #f4f4f5;
+  color: #18181b;
+  font: 700 12px/1 system-ui, sans-serif;
+}
+
+.reference-toast-title {
+  font: 600 14px/1.25 system-ui, sans-serif;
+}
+
+.reference-toast-description {
+  margin-top: 4px;
+  color: #71717a;
+  font: 400 13px/1.4 system-ui, sans-serif;
+}
+
+.reference-toast-action,
+.reference-toast-dismiss {
+  border: 1px solid #d4d4d8;
+  border-radius: 4px;
+  background: #fff;
+  color: #18181b;
+  font: 500 13px/1 system-ui, sans-serif;
+}
+
+.reference-toast-action {
+  padding: 8px 10px;
+  text-decoration: none;
+}
+
+.reference-toast-dismiss {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  padding: 0;
+}
+
+.reference-toast--success .reference-toast-icon {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.reference-toast--info .reference-toast-icon {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.reference-toast--warning .reference-toast-icon {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.reference-toast--error {
+  border-color: #fecaca;
+}
+
+.reference-toast--error .reference-toast-icon {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.reference-fixture-custom-toaster .reference-toast {
+  border-color: #0f766e;
+  background: #f0fdfa;
+  color: #134e4a;
+}
