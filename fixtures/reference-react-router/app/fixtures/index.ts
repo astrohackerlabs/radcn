@@ -41,6 +41,7 @@ import { renderTabsFixture } from "./tabs"
 import { renderToggleFixture, renderToggleGroupFixture } from "./toggle"
 import { renderSliderFixture } from "./slider"
 import { renderScrollAreaFixture } from "./scroll-area"
+import { renderSelectFixture } from "./select"
 import { renderSheetFixture } from "./sheet"
 
 export function renderReferenceFixture(fixture: FixtureScenario) {
@@ -97,6 +98,8 @@ export function renderReferenceFixture(fixture: FixtureScenario) {
       return renderRadioGroupFixture(fixture.id)
     case "scroll-area":
       return renderScrollAreaFixture(fixture.id)
+    case "select":
+      return renderSelectFixture(fixture.id)
     case "native-select":
       return renderNativeSelectFixture(fixture.id)
     case "separator":

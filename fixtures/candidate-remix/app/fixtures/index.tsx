@@ -41,6 +41,7 @@ import { renderTabsFixture } from './tabs.tsx'
 import { renderToggleFixture, renderToggleGroupFixture } from './toggle.tsx'
 import { renderSliderFixture } from './slider.tsx'
 import { renderScrollAreaFixture } from './scroll-area.tsx'
+import { renderSelectFixture } from './select.tsx'
 import { renderSheetFixture } from './sheet.tsx'
 
 export function renderCandidateFixture(fixture: FixtureScenario) {
@@ -97,6 +98,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderRadioGroupFixture(fixture)
     case 'scroll-area':
       return renderScrollAreaFixture(fixture)
+    case 'select':
+      return renderSelectFixture(fixture)
     case 'native-select':
       return renderNativeSelectFixture(fixture)
     case 'separator':

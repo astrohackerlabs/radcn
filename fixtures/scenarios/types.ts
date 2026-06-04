@@ -26,6 +26,7 @@ export type FixtureComponent =
   | "progress"
   | "radio-group"
   | "scroll-area"
+  | "select"
   | "separator"
   | "sheet"
   | "skeleton"

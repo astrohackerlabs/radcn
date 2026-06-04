@@ -1091,6 +1091,98 @@ Stage 3 is complete after Experiment 16. Evidence is recorded in
 move next to composite widgets such as `select`, `combobox`, `command`,
 `menubar`, `navigation-menu`, `calendar`, `date-picker`, and `carousel`.
 
+## Stage 4 Select and Listbox Foundation
+
+Experiment 17 adds the first Stage 4 composite widget:
+
+- `Select`
+- `SelectTrigger`
+- `SelectValue`
+- `SelectPortal`
+- `SelectContent`
+- `SelectViewport`
+- `SelectGroup`
+- `SelectLabel`
+- `SelectItem`
+- `SelectItemIndicator`
+- `SelectSeparator`
+- `SelectScrollUpButton`
+- `SelectScrollDownButton`
+
+RadCN now has two select surfaces with different contracts. `NativeSelect`
+renders a real browser `<select>` and keeps native popup rendering, submission,
+reset, and constraint validation. Custom `Select` renders server markup plus a
+package-exported `enhanceSelect()` helper so authors can style the trigger,
+portal content, listbox viewport, options, indicators, separators, groups, and
+scroll buttons like shadcn/ui.
+
+The custom select intentionally does not chase Radix DOM equivalence. It
+preserves the visible and author-facing contract: a trigger opens positioned
+content, selected option text is reflected into the trigger, options expose
+listbox semantics, and stable `data-radcn-select-*` hooks plus CSS variables
+drive customization.
+
+Select reuses the Stage 3 portal and clamping policy rather than the menu
+helper. Portal content moves to the nearest fixture-stage portal root when one
+exists, otherwise to a document-level portal root. `position="item-aligned"`
+aligns content to the trigger. `position="popper"` uses `side`, `align`, and
+`sideOffset` metadata, clamps to the fixture stage or viewport, and exposes
+available-size and transform-origin CSS variables.
+
+The listbox behavior is new Stage 4 behavior, not menu behavior:
+
+- the trigger has `role="combobox"`, `aria-haspopup="listbox"`,
+  `aria-expanded`, `aria-controls`, and `aria-activedescendant` while open;
+- the viewport has `role="listbox"`;
+- items have `role="option"`, `aria-selected`, `aria-disabled`, `data-value`,
+  `data-selected`, `data-highlighted`, and `data-disabled`;
+- ArrowUp, ArrowDown, Home, and End rove highlighted options while skipping
+  disabled items;
+- typeahead searches enabled option text;
+- Enter, Space, and pointer selection update the selected value, visible
+  trigger text, selected hooks, hidden form value, and then close;
+- Escape closes and restores trigger focus;
+- outside pointer, Tab, and Shift+Tab close without changing selection.
+
+Custom select form integration uses a hidden input when `name` is supplied.
+The enhancement synchronizes the hidden input value on selection and restores
+the initial/default value on form reset. This is an approved divergence from
+native select constraint validation: the hidden input is for submission and
+reset synchronization, while native browser required-validation behavior
+belongs to `NativeSelect`.
+
+`SelectPortal`, `SelectViewport`, and `SelectItemIndicator` are public because
+the Remix 3 server-rendered compound shape needs explicit authored slots for
+portal capture, scrollable viewport customization, and selected indicators.
+They also make fixture probes and future install/copy output clear even though
+upstream shadcn currently hides some of these details behind Radix parts.
+
+Select customization tokens:
+
+- `--radcn-select-z`
+- `--radcn-select-trigger-width`
+- `--radcn-select-trigger-bg`
+- `--radcn-select-trigger-fg`
+- `--radcn-select-border`
+- `--radcn-select-invalid-border`
+- `--radcn-select-placeholder-fg`
+- `--radcn-select-icon-fg`
+- `--radcn-select-content-max-height`
+- `--radcn-select-bg`
+- `--radcn-select-fg`
+- `--radcn-select-highlight-bg`
+- `--radcn-select-highlight-fg`
+- `--radcn-select-indicator-fg`
+- `--radcn-select-separator-bg`
+
+Future `combobox`, `command`, `menubar`, and `navigation-menu` work should
+reuse the boundary, not blindly share the implementation. `combobox` and
+`command` can reuse listbox option state, typeahead/search, portal capture, and
+form synchronization ideas, but they need input/filtering ownership. `menubar`
+should reuse menu-style item activation and submenu policy instead of select's
+single-value listbox. `navigation-menu` needs navigation and disclosure
+semantics rather than selected form value semantics.
+
 ## Styles and Tokens
 
 RadCN exposes `radcnStyles` from `radcn/styles`. The candidate Remix document
@@ -1143,6 +1235,8 @@ Navigation, collection, and typography probes continue that pattern:
   tokens.
 - `dropdown-menu/custom-token` and `context-menu/custom-token` override menu
   panel, border, and item highlight tokens.
+- `select/custom-token` overrides custom select trigger, panel, highlight, and
+  indicator tokens.
 
 ## Stage 1 Status
 

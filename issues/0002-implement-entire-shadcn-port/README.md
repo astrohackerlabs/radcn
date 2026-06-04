@@ -414,6 +414,33 @@ committed work.
 - **2026-06-04, Experiment 16:** Stage 3 is complete after drawer. Later
   overlay work should be hardening, not prerequisite scope for Stage 4. Applies
   to: `Stage 3`, `Stage 4`. Evidence: [Stage 3 audit](stage-3-audit.md).
+- **2026-06-04, Experiment 17:** Custom `select` needs its own listbox helper
+  boundary instead of menu reuse: trigger focus stays on the combobox, options
+  are represented with `aria-activedescendant`, and selection updates visible
+  value, option state, and form value. Applies to: `select`, `combobox`,
+  `command`. Evidence:
+  [Experiment 17](17-stage-4-select-listbox-foundation.md),
+  `packages/radcn/src/components/select.tsx`,
+  `fixtures/tests/select.spec.ts`.
+- **2026-06-04, Experiment 17:** Custom select form integration uses a hidden
+  input for submission and reset synchronization, but native constraint
+  validation remains the job of `NativeSelect`. Applies to: `select`,
+  `combobox`, future custom form controls. Evidence:
+  [Experiment 17](17-stage-4-select-listbox-foundation.md),
+  `docs/radcn-source.md`.
+- **2026-06-04, Experiment 17:** Stage 3 portal capture and clamping can be
+  reused by Stage 4 overlays, but selection widgets should own their own
+  keyboard and value semantics. Applies to: `select`, `combobox`, `command`,
+  `navigation-menu`. Evidence:
+  [Experiment 17](17-stage-4-select-listbox-foundation.md),
+  `packages/radcn/src/components/select.tsx`,
+  `fixtures/artifacts/manifest.json`.
+- **2026-06-04, Experiment 17:** Public slots may be more explicit than
+  shadcn's exported surface when Remix 3 server markup needs authored portal,
+  viewport, or indicator boundaries. Applies to: `select`, future compound
+  widgets with portalled or scrollable parts. Evidence:
+  [Experiment 17](17-stage-4-select-listbox-foundation.md),
+  `docs/radcn-source.md`.
 
 ## Five Porting Stages
 
@@ -668,4 +695,4 @@ This issue is complete when:
 - [Experiment 16: Stage 3 drawer and closure audit](16-stage-3-drawer-and-closure-audit.md)
   — **Pass**
 - [Experiment 17: Stage 4 select listbox foundation](17-stage-4-select-listbox-foundation.md)
-  — **Designed**
+  — **Pass**

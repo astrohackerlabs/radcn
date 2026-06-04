@@ -5,14 +5,17 @@ const candidate = 'http://localhost:4602'
 async function openFreshTooltip(page: import('@playwright/test').Page, scenario = 'default') {
   await page.goto(`${candidate}/fixtures/tooltip/${scenario}`)
   let content = page.locator('[data-radcn-tooltip-content]')
+  let trigger = page.locator('[data-radcn-tooltip-trigger]')
   if (await content.isVisible()) {
+    await trigger.focus()
     await page.keyboard.press('Escape')
     await expect(content).toBeHidden()
+    await trigger.evaluate((element) => (element as HTMLElement).blur())
   }
   await page.mouse.move(20, 20)
   return {
     content,
-    trigger: page.locator('[data-radcn-tooltip-trigger]'),
+    trigger,
   }
 }
 

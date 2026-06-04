@@ -34,6 +34,7 @@
     "./progress": "./src/components/progress.tsx",
     "./radio-group": "./src/components/radio-group.tsx",
     "./scroll-area": "./src/components/scroll-area.tsx",
+    "./select": "./src/components/select.tsx",
     "./separator": "./src/components/separator.tsx",
     "./sheet": "./src/components/sheet.tsx",
     "./skeleton": "./src/components/skeleton.tsx",

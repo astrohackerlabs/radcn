@@ -1009,6 +1009,60 @@ export const fixtureScenarios: FixtureScenario[] = [
     title: "Custom Toggle Group Token",
     description: "Toggle group customized through public tokens.",
   },
+  {
+    component: "select",
+    id: "default",
+    title: "Default Select",
+    description: "Custom listbox select with an initial selected value.",
+  },
+  {
+    component: "select",
+    id: "placeholder",
+    title: "Select Placeholder",
+    description: "Custom select showing placeholder text before selection.",
+  },
+  {
+    component: "select",
+    id: "groups",
+    title: "Grouped Select",
+    description: "Custom select with labels groups separators and selected indicators.",
+  },
+  {
+    component: "select",
+    id: "disabled-invalid",
+    title: "Disabled and Invalid Select",
+    description: "Custom select disabled and invalid state hooks.",
+  },
+  {
+    component: "select",
+    id: "keyboard-typeahead",
+    title: "Select Keyboard Typeahead",
+    description: "Custom select keyboard roving disabled skip and typeahead behavior.",
+  },
+  {
+    component: "select",
+    id: "scrollable",
+    title: "Scrollable Select",
+    description: "Custom select long-list viewport and scroll button hooks.",
+  },
+  {
+    component: "select",
+    id: "popper-placement",
+    title: "Select Popper Placement",
+    description: "Custom select side align offset and fixture-stage clamping.",
+  },
+  {
+    component: "select",
+    id: "form-submit-reset",
+    title: "Select Form Submit Reset",
+    description: "Custom select hidden form value submission and reset behavior.",
+  },
+  {
+    component: "select",
+    id: "custom-token",
+    title: "Custom Select Token",
+    description: "Custom select styling through public CSS variables.",
+  },
 ]
 
 export function getFixtureScenario(

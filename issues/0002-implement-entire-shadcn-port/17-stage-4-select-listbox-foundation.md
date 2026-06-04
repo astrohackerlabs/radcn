@@ -245,3 +245,98 @@ Two non-blocking implementation notes were recorded:
 - if RadCN publicly exposes `SelectPortal`, `SelectViewport`, or
   `SelectItemIndicator`, record why those additional parts are public even
   though upstream shadcn currently exports only the outer select parts.
+
+## Result
+
+**Result:** Pass
+
+Implemented the RadCN custom select/listbox foundation and fixture coverage.
+
+Code changes:
+
+- `packages/radcn/src/components/select.tsx` adds the select component family
+  and `enhanceSelect()`.
+- `packages/radcn/package.json` and `packages/radcn/src/index.ts` export
+  `radcn/select` and the root select surface.
+- `fixtures/candidate-remix/app/assets/entry.ts` loads `enhanceSelect()`.
+- `packages/radcn/src/styles/tokens.css` and generated
+  `packages/radcn/src/styles/index.ts` add select styles and token hooks.
+- `fixtures/scenarios/*`, candidate fixtures, reference fixtures, and
+  `fixtures/tests/select.spec.ts` add all nine required select scenarios.
+- `fixtures/tests/positioned-overlays.spec.ts` hardens an existing tooltip
+  default-open cleanup path so full artifact capture stays deterministic.
+- `docs/radcn-source.md` documents the select/listbox strategy, custom-select
+  versus native-select boundary, approved divergences, and implications for
+  later Stage 4 widgets.
+- `issues/0002-implement-entire-shadcn-port/README.md` records reusable
+  learnings for listbox behavior, form control policy, portal/clamping reuse,
+  and explicit public slots.
+
+Verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/select.spec.ts`
+  passed with 6 tests.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/positioned-overlays.spec.ts`
+  passed with 6 tests after hardening tooltip cleanup.
+- `pnpm fixtures:artifacts` passed with 432 tests and 354 artifact manifest
+  entries, including 18 select entries for the nine paired reference/candidate
+  scenarios.
+- `git status --short vendor` produced no vendor modifications.
+
+The implementation uses a hidden input when `name` is supplied. This preserves
+submission and reset synchronization for the custom select, but native browser
+constraint validation remains an explicit `NativeSelect` responsibility. That
+is an approved divergence from native form-control parity for this custom
+surface.
+
+`SelectPortal`, `SelectViewport`, and `SelectItemIndicator` are public on
+purpose: Remix 3 server-rendered markup needs explicit author-controlled portal,
+scroll viewport, and selected-indicator boundaries, and the fixture harness
+needs stable public probes for those parts.
+
+## Conclusion
+
+Experiment 17 establishes the Stage 4 custom select/listbox foundation. Later
+`combobox` and `command` work should reuse the option state, typeahead,
+portal/clamping, and form synchronization decisions while adding their own input
+and filtering ownership. `menubar` and `navigation-menu` should not reuse the
+select selection model directly; they need menu or navigation-specific
+semantics.
+
+## Completion Review
+
+Independent AI completion review was performed by subagent `Franklin`.
+
+Initial review result was **Fail** with two blocking findings:
+
+- scroll up/down buttons rendered but did not scroll the viewport through
+  pointer or keyboard activation;
+- the reference `select/keyboard-typeahead` fixture did not match the candidate
+  option set, weakening the paired artifact evidence.
+
+Fixes applied:
+
+- `SelectScrollUpButton` and `SelectScrollDownButton` now render real buttons,
+  and `enhanceSelect()` scrolls the viewport on click, Enter, or Space.
+- `fixtures/tests/select.spec.ts` verifies scroll button pointer and keyboard
+  behavior.
+- `fixtures/reference-react-router/app/fixtures/select.tsx` now renders the
+  same Alpha, disabled Beta, Gamma, and Delta keyboard/typeahead option set as
+  the candidate fixture.
+
+Post-fix verification:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed.
+- `pnpm playwright test -c fixtures/playwright.config.ts fixtures/tests/select.spec.ts`
+  passed with 6 tests.
+- `pnpm fixtures:artifacts` passed with 432 tests.
+
+Post-fix review result was **Pass**. Franklin confirmed that scroll buttons are
+focusable buttons with pointer and Enter/Space scroll handlers, the select test
+exercises scroll behavior, the reference keyboard/typeahead fixture matches the
+candidate option set, and vendor status remains clean.
