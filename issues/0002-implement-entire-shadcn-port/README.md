@@ -733,3 +733,5 @@ This issue is complete when:
   — **Pass**
 - [Experiment 18: Stage 4 searchable listbox, combobox, and command](18-stage-4-searchable-listbox-combobox-command.md)
   — **Pass**
+- [Experiment 19: Stage 4 menubar and navigation menu](19-stage-4-menubar-and-navigation-menu.md)
+  — **Designed**
