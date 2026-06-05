@@ -167,6 +167,19 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 2, the regenerated inventory reports 58 RadCN public package
   subpaths and no missing upstream UI package APIs. The remaining docs-only
   outcomes are `date-picker` and `data-table`.
+- Experiment 3 shipped `radcn/date-picker` as a package-backed composition for
+  the three upstream shadcn date-picker example families: single date, presets,
+  and range.
+- Date-picker values use the existing calendar ISO convention:
+  `YYYY-MM-DD` for single values and `YYYY-MM-DD..YYYY-MM-DD` for ranges. This
+  keeps native form submission, server validation, and docs snippets independent
+  of third-party date formatting or calendar state packages.
+- `enhanceDatePicker` coordinates trigger labels, hidden inputs, preset selects,
+  form reset, and range completion with `enhanceCalendar` and `enhancePopover`.
+  Range pickers stay open after the first selected date and close after the range
+  is complete.
+- After Experiment 3, the regenerated inventory reports 59 RadCN public package
+  subpaths. The only remaining docs-only outcome is `data-table`.
 
 ## Experiments
 
@@ -175,4 +188,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 2: Ship Remix-native form parity](02-ship-remix-native-form-parity.md)
   — **Pass**
 - [Experiment 3: Resolve date-picker parity](03-resolve-date-picker-parity.md)
-  — **Designed**
+  — **Pass**

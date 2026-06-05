@@ -158,3 +158,115 @@ Findings:
   Experiment 2.
 
 Re-review result: approved with no blocker, major, or minor findings.
+
+## Result
+
+**Result:** Pass
+
+Resolved date-picker parity by shipping a package-backed `radcn/date-picker`
+composition and moving the docs page out of `not-shipped-yet`.
+
+Changed files:
+
+- `radcn/packages/radcn/src/components/date-picker.tsx`
+  - Added `DatePicker`, `enhanceDatePicker`, `DatePickerProps`, and
+    `DatePickerPreset`.
+  - Supports single values, range values, preset selects, hidden native inputs,
+    default reset state, disabled triggers, labels, and customization hooks.
+- `radcn/packages/radcn/src/components/calendar.tsx`
+  - Added range-aware selection and a `radcn-calendar-set-value` event so
+    composed package APIs can update calendar state without private DOM hacks.
+  - Avoided fixed caption IDs when no calendar `id` is provided, so multiple
+    date pickers can render on the same page without duplicate IDs.
+- `radcn/packages/radcn/src/components/popover.tsx`
+  - Added disabled support to `PopoverTrigger` so DatePicker can use the trigger
+    button directly without invalid nested buttons.
+- `radcn/packages/radcn/package.json` and `radcn/packages/radcn/src/index.ts`
+  - Added the public `./date-picker` export and root exports.
+- `radcn/packages/radcn/src/styles/tokens.css` and
+  `radcn/packages/radcn/src/styles/index.ts`
+  - Added date-picker layout/preset hooks and regenerated `radcnStyles`.
+- `radcn/fixtures/candidate-remix/app/assets/entry.ts`
+  - Wired `enhanceDatePicker` into the candidate browser entry.
+- `radcn/fixtures/candidate-remix/app/fixtures/date-picker.tsx`
+  - Replaced the local fixture recipe with the package API.
+- `radcn/fixtures/scenarios/index.ts`
+  - Added preset and range date-picker scenarios and updated date-picker
+    metadata from recipe language to package language.
+- `radcn/fixtures/tests/calendar-date-picker.spec.ts`
+  - Added package export, single, preset, range, hidden input, reset, disabled,
+    and customization coverage.
+- `radcn/apps/docs/app/content/components.tsx`
+  - Added a ready package-backed Date Picker docs page with single/preset/range
+    examples and divergence notes.
+- `radcn/apps/docs/tests/coverage.spec.ts`
+  - Removed `date-picker` from non-exported dispositions and added its preview
+    hook.
+  - Added duplicate-ID coverage for the docs Date Picker page, which renders
+    two DatePicker instances.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - Regenerated the inventory. It now reports 59 RadCN public package subpaths
+    and only `data-table` as a docs-only outcome.
+
+Verification:
+
+- `pnpm radcn:typecheck` — Pass.
+- `pnpm --dir radcn/apps/docs typecheck` — Pass.
+- `pnpm fixtures:candidate:typecheck` — Pass.
+- `pnpm fixtures:reference:typecheck` — Pass, with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts calendar-date-picker.spec.ts`
+  — Pass, 4 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — Pass, 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` — Pass.
+- Temporary regeneration check for `parity-inventory.md` — Pass, no diff.
+- `git diff --check` — Pass.
+- `git status --short` — Shows only expected implementation, docs, fixture,
+  issue, inventory, and test changes.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — Pass, no output.
+- `rg -n "from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|from ['\"]react['\"]|react-day-picker|date-fns|radix-ui|@radix-ui/react-slot|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json`
+  — Pass, exits 1 with no matches.
+
+## Conclusion
+
+Date Picker is no longer a docs-only gap. RadCN now exposes an importable
+`DatePicker` package API that covers the upstream shadcn single, preset, and
+range examples through Remix-native markup and browser enhancement.
+
+The next Issue 4 experiment should resolve `data-table`, the final current
+docs-only outcome. That work should decide whether Data Table becomes a package
+API or a documented recipe/block, and should cover sorting/filtering/selection
+behavior without assuming a React table library is part of RadCN.
+
+## Completion Review
+
+Reviewer: Kierkegaard (`019e9a11-0c08-7a13-b19f-d4780bc4446e`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: the initial implementation defaulted every DatePicker to the same
+  `id`, creating duplicate DatePicker, Popover, and Calendar caption IDs when
+  docs rendered two instances on one page. Fixed by omitting DatePicker and
+  Popover IDs unless the caller provides an explicit `id`, avoiding fixed
+  Calendar caption IDs when no calendar `id` is provided, and adding docs
+  Playwright coverage for duplicate IDs.
+- Minor: date-picker fixture scenario metadata still used recipe wording after
+  DatePicker became a package API. Fixed by updating date-picker scenario titles
+  and descriptions to package/component language.
+
+Fix verification:
+
+- `pnpm radcn:typecheck` — Pass.
+- `pnpm --dir radcn/apps/docs typecheck` — Pass.
+- `pnpm fixtures:candidate:typecheck` — Pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts calendar-date-picker.spec.ts`
+  — Pass, 4 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — Pass, 5 tests.
+- `git diff --check` — Pass.
+
+Re-review result: approved with no blocker findings. One remaining minor title
+cleanup was fixed after approval.

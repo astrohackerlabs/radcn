@@ -4,7 +4,7 @@ import path from 'node:path'
 import { expect, test } from '@playwright/test'
 
 const excludedExports = new Set(['.', './styles', './package.json'])
-const nonExportedDispositions = ['date-picker', 'data-table']
+const nonExportedDispositions = ['data-table']
 const publicPreviewHooks: Record<string, string> = {
   accordion: '[data-radcn-accordion]',
   alert: '[data-radcn-alert]',
@@ -24,6 +24,7 @@ const publicPreviewHooks: Record<string, string> = {
   combobox: '[data-radcn-combobox]',
   command: '[data-radcn-command]',
   'context-menu': '[data-radcn-context-menu]',
+  'date-picker': '[data-radcn-date-picker]',
   direction: '[data-radcn-direction-provider]',
   dialog: '[data-radcn-dialog-content]',
   drawer: '[data-radcn-drawer-content]',
@@ -125,6 +126,17 @@ test.describe('docs registry coverage', () => {
 
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()
+  })
+
+  test('date picker docs render multiple instances without duplicate ids', async ({
+    page,
+  }) => {
+    await page.goto('/docs/components/date-picker')
+    await expect(page.locator('[data-radcn-date-picker]')).toHaveCount(2)
+
+    let ids = await page.locator('[id]').evaluateAll((nodes) => nodes.map((node) => node.id))
+    let duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index)
+    expect(duplicateIds).toEqual([])
   })
 })
 

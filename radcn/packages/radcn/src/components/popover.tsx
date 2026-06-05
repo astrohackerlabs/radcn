@@ -22,6 +22,7 @@ export interface PopoverPartProps {
 
 export interface PopoverButtonProps extends PopoverPartProps {
   ariaLabel?: string
+  disabled?: boolean
 }
 
 export interface PopoverContentProps extends PopoverPartProps {
@@ -71,7 +72,7 @@ export function Popover(handle: Handle<PopoverProps>) {
 
 export function PopoverTrigger(handle: Handle<PopoverButtonProps>) {
   return () => {
-    let { ariaLabel, children, class: className, style } = handle.props
+    let { ariaLabel, children, class: className, disabled, style } = handle.props
 
     return (
       <button
@@ -81,6 +82,7 @@ export function PopoverTrigger(handle: Handle<PopoverButtonProps>) {
         class={classes('radcn-popover-trigger', className)}
         data-radcn-popover-trigger
         data-state="closed"
+        disabled={disabled}
         style={style}
         type="button"
       >

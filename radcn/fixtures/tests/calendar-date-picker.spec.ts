@@ -1,6 +1,17 @@
+import { readFile } from 'node:fs/promises'
+
 import { expect, test } from '@playwright/test'
 
 const candidate = 'http://localhost:4602'
+const repoRoot = new URL('../..', import.meta.url)
+
+async function packageJson() {
+  return JSON.parse(await readFile(new URL('packages/radcn/package.json', repoRoot), 'utf8')) as {
+    dependencies?: Record<string, string>
+    devDependencies?: Record<string, string>
+    exports?: Record<string, string>
+  }
+}
 
 test('candidate calendar exposes grid semantics and date state hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/calendar/selected`)
@@ -81,9 +92,15 @@ test('candidate calendar exposes disabled navigation and custom tokens', async (
   await expect(page.locator('[data-radcn-calendar]').first()).toHaveCSS('border-color', 'rgb(15, 118, 110)')
 })
 
-test('candidate date picker is a documented popover calendar recipe', async ({ page }) => {
+test('candidate date picker package covers single presets range and forms', async ({ page }) => {
+  let pkg = await packageJson()
+  expect(pkg.exports?.['./date-picker']).toBe('./src/components/date-picker.tsx')
+  expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('react-day-picker')
+  expect({ ...pkg.dependencies, ...pkg.devDependencies }).not.toHaveProperty('date-fns')
+
   await page.goto(`${candidate}/fixtures/date-picker/popover`)
-  await expect(page.locator('[data-radcn-date-picker-recipe]')).toHaveAttribute('data-value', '2026-06-12')
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-12')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 12, 2026')
   await expect(page.locator('[data-radcn-popover-content]')).toBeVisible()
   await expect(page.locator('[data-radcn-calendar]')).toBeVisible()
   await page.keyboard.press('Escape')
@@ -91,12 +108,33 @@ test('candidate date picker is a documented popover calendar recipe', async ({ p
 
   await page.goto(`${candidate}/fixtures/date-picker/form-submit-reset`)
   await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveValue('2026-06-12')
+  await page.getByRole('button', { name: /Jun 12, 2026/ }).click()
+  await page.getByRole('button', { name: /Monday, June 15, 2026/ }).click()
+  await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveValue('2026-06-15')
+  await page.getByRole('button', { name: 'Reset' }).click()
+  await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveValue('2026-06-12')
   await page.getByRole('button', { name: 'Submit' }).click()
   await expect(page).toHaveURL(/\/fixtures\/date-picker\/form-submit-reset\?date=2026-06-12&intent=submit$/)
+
+  await page.goto(`${candidate}/fixtures/date-picker/presets`)
+  await page.locator('[data-radcn-date-picker-preset-select]').selectOption('2026-06-15')
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-15')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 15, 2026')
+  await expect(page.locator('[data-radcn-calendar-day][data-selected="true"]')).toHaveAttribute('data-date', '2026-06-15')
+
+  await page.goto(`${candidate}/fixtures/date-picker/range`)
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-calendar-month]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 12, 2026 - Jun 18, 2026')
+  await page.getByRole('button', { name: /Wednesday, June 10, 2026/ }).click()
+  await page.getByRole('button', { name: /Sunday, June 14, 2026/ }).click()
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-10..2026-06-14')
+  await expect(page.locator('[data-radcn-calendar-day][data-range-start="true"]')).toHaveAttribute('data-date', '2026-06-10')
+  await expect(page.locator('[data-radcn-calendar-day][data-range-end="true"]')).toHaveAttribute('data-date', '2026-06-14')
 
   await page.goto(`${candidate}/fixtures/date-picker/disabled`)
   await expect(page.getByRole('button', { name: 'Pick a date' })).toBeDisabled()
 
   await page.goto(`${candidate}/fixtures/date-picker/custom-token`)
-  await expect(page.locator('[data-radcn-date-picker-recipe]').first()).toHaveClass(/radcn-fixture-custom-date-picker/)
+  await expect(page.locator('[data-radcn-date-picker]').first()).toHaveClass(/radcn-fixture-custom-date-picker/)
 })

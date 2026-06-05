@@ -3627,6 +3627,41 @@
   font-family: var(--radcn-font);
 }
 
+.radcn-date-picker {
+  display: inline-grid;
+  width: min(100%, var(--radcn-date-picker-width, 18rem));
+  gap: 0.5rem;
+  color: var(--radcn-foreground);
+  font-family: var(--radcn-font);
+}
+
+.radcn-date-picker-trigger {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.radcn-date-picker-icon {
+  color: var(--radcn-muted-foreground);
+  font: 600 0.75rem/1 var(--radcn-font);
+}
+
+.radcn-date-picker-content {
+  width: auto;
+  padding: 0.5rem;
+}
+
+.radcn-date-picker-preset-select {
+  width: 100%;
+  height: var(--radcn-control-height);
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--radcn-input);
+  border-radius: var(--radcn-radius);
+  background: var(--radcn-background);
+  color: var(--radcn-foreground);
+  padding: 0 0.75rem;
+  font: 400 0.875rem/1.35 var(--radcn-font);
+}
+
 .radcn-calendar-nav {
   display: flex;
   justify-content: space-between;

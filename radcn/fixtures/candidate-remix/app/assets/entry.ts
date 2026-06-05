@@ -5,6 +5,7 @@ import { enhanceCarousel } from 'radcn/carousel'
 import { enhanceCombobox } from 'radcn/combobox'
 import { enhanceCommand } from 'radcn/command'
 import { enhanceContextMenu } from 'radcn/context-menu'
+import { enhanceDatePicker } from 'radcn/date-picker'
 import { enhanceDialog } from 'radcn/dialog'
 import { enhanceDrawer } from 'radcn/drawer'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
@@ -39,6 +40,7 @@ enhanceSheet()
 enhanceDrawer()
 enhanceSelect()
 enhanceCalendar()
+enhanceDatePicker()
 enhanceCarousel()
 enhanceCombobox()
 enhanceCommand()

@@ -63,6 +63,14 @@ function selectedFor(props: CalendarProps) {
   return props.selected || props.defaultSelected || ''
 }
 
+function firstRangeValue(value: string) {
+  return value.split('..')[0] || value
+}
+
+function calendarCaptionId(props: CalendarProps, offset: number) {
+  return props.id ? `${props.id}-caption-${offset}` : undefined
+}
+
 function renderMonth(month: Date, props: CalendarProps, offset: number) {
   let selected = selectedFor(props)
   let [rangeStartValue, rangeEndValue] = selected.split('..')
@@ -84,8 +92,8 @@ function renderMonth(month: Date, props: CalendarProps, offset: number) {
 
   return (
     <div class="radcn-calendar-month" data-month={isoDate(month).slice(0, 7)} data-radcn-calendar-month>
-      <div class="radcn-calendar-caption" data-radcn-calendar-caption id={`radcn-calendar-caption-${offset}`}>{monthLabel(month)}</div>
-      <table aria-labelledby={`radcn-calendar-caption-${offset}`} class="radcn-calendar-grid" data-radcn-calendar-grid role="grid">
+      <div class="radcn-calendar-caption" data-radcn-calendar-caption id={calendarCaptionId(props, offset)}>{monthLabel(month)}</div>
+      <table aria-labelledby={calendarCaptionId(props, offset)} class="radcn-calendar-grid" data-radcn-calendar-grid role="grid">
         <thead>
           <tr class="radcn-calendar-weekdays" data-radcn-calendar-weekdays>
             {props.showWeekNumber && <th class="radcn-calendar-week-number-header" scope="col">Wk</th>}
@@ -124,7 +132,9 @@ export function enhanceCalendar(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>('[data-radcn-calendar]').forEach((calendar) => {
     if (calendar.dataset.radcnCalendarReady === 'true') return
     let hidden = calendar.querySelector<HTMLInputElement>('[data-radcn-calendar-hidden-input]')
+    let mode = calendar.dataset.mode || 'single'
     let selected = calendar.dataset.selected || calendar.dataset.defaultSelected || ''
+    let pendingRangeStart = ''
     let month = dateFromIso(calendar.dataset.month || calendar.dataset.defaultMonth || selected) || new Date()
     let showOutsideDays = calendar.dataset.showOutsideDays !== 'false'
     let showWeekNumber = calendar.dataset.showWeekNumber === 'true'
@@ -234,12 +244,37 @@ export function enhanceCalendar(root: ParentNode = document) {
       return selected ? calendar.querySelector<HTMLButtonElement>(`[data-radcn-calendar-day-button][data-date="${CSS.escape(selected)}"]`) : null
     }
 
-    function syncSelected(value: string) {
-      selected = value
+    function normalizeRange(nextValue: string) {
+      if (mode !== 'range') return nextValue
+      let [rangeStartValue, rangeEndValue] = selected.split('..')
+      if (!pendingRangeStart && rangeStartValue && !rangeEndValue) pendingRangeStart = rangeStartValue
+      if (!pendingRangeStart || rangeEndValue) {
+        pendingRangeStart = nextValue
+        return nextValue
+      }
+
+      let start = dateFromIso(pendingRangeStart)
+      let end = dateFromIso(nextValue)
+      if (start && end && end < start) {
+        let value = `${nextValue}..${pendingRangeStart}`
+        pendingRangeStart = ''
+        return value
+      }
+
+      let value = `${pendingRangeStart}..${nextValue}`
+      pendingRangeStart = ''
+      return value
+    }
+
+    function syncSelected(value: string, options: { emit?: boolean; normalize?: boolean } = {}) {
+      selected = options.normalize === false ? value : normalizeRange(value)
       calendar.dataset.selected = value
       renderVisibleMonths()
-      if (hidden) hidden.value = value
-      calendar.dispatchEvent(new CustomEvent('radcn-calendar-select', { bubbles: true, detail: { value } }))
+      calendar.dataset.selected = selected
+      if (hidden) hidden.value = selected
+      if (options.emit !== false) {
+        calendar.dispatchEvent(new CustomEvent('radcn-calendar-select', { bubbles: true, detail: { value: selected } }))
+      }
     }
 
     function focusButton(button: HTMLButtonElement | null) {
@@ -338,6 +373,16 @@ export function enhanceCalendar(root: ParentNode = document) {
         event.preventDefault()
         syncSelected(target.dataset.date || '')
       }
+    })
+
+    calendar.addEventListener('radcn-calendar-set-value', (event) => {
+      let detail = event instanceof CustomEvent ? event.detail : null
+      if (typeof detail?.value !== 'string') return
+      pendingRangeStart = ''
+      selected = detail.value
+      let visible = dateFromIso(firstRangeValue(selected))
+      if (visible) month = startOfMonth(visible)
+      syncSelected(selected, { emit: false, normalize: false })
     })
 
     hidden?.form?.addEventListener('reset', () => {

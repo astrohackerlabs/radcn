@@ -1,46 +1,80 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
-import { Button, Calendar, Popover, PopoverContent, PopoverPortal, PopoverTrigger } from 'radcn'
+import { Button } from 'radcn'
+import { DatePicker } from 'radcn/date-picker'
 
 const month = '2026-06-01'
 const selected = '2026-06-12'
+const range = '2026-06-12..2026-06-18'
 
-function DatePickerRecipe({ className, defaultOpen, disabled, name, value = selected }: { className?: string; defaultOpen?: boolean; disabled?: boolean; name?: string; value?: string }) {
+function DatePickerExample({
+  className,
+  defaultOpen,
+  disabled,
+  mode = 'single',
+  name,
+  numberOfMonths,
+  presets,
+  value = selected,
+}: {
+  className?: string
+  defaultOpen?: boolean
+  disabled?: boolean
+  mode?: 'single' | 'range'
+  name?: string
+  numberOfMonths?: number
+  presets?: { label: string; value: string }[]
+  value?: string
+}) {
   return (
-    <div class={className} data-radcn-date-picker-recipe data-value={value}>
-      {name && <input data-radcn-date-picker-hidden-input name={name} type="hidden" value={value} />}
-      <Popover defaultOpen={defaultOpen} id="candidate-date-picker-popover">
-        <PopoverTrigger><Button disabled={disabled} type="button">{value || 'Pick a date'}</Button></PopoverTrigger>
-        <PopoverPortal>
-          <PopoverContent>
-            <Calendar defaultMonth={month} defaultSelected={value} />
-          </PopoverContent>
-        </PopoverPortal>
-      </Popover>
-    </div>
+    <DatePicker
+      class={className}
+      defaultOpen={defaultOpen}
+      defaultValue={value}
+      disabled={disabled}
+      id="candidate-date-picker"
+      mode={mode}
+      month={month}
+      name={name}
+      numberOfMonths={numberOfMonths}
+      presets={presets}
+    />
   )
 }
 
 export function renderDatePickerFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
     case 'selected':
-      return DatePickerRecipe({ value: selected })
+      return DatePickerExample({ value: selected })
     case 'form-submit-reset':
       return (
         <form action="/fixtures/date-picker/form-submit-reset" method="get" style="display:grid;gap:12px">
-          {DatePickerRecipe({ name: 'date', value: selected })}
+          {DatePickerExample({ name: 'date', value: selected })}
           <div style="display:flex;gap:12px">
-            <button name="intent" type="submit" value="submit">Submit</button>
-            <button type="reset">Reset</button>
+            <Button name="intent" type="submit" value="submit">Submit</Button>
+            <Button type="reset" variant="outline">Reset</Button>
           </div>
         </form>
       )
     case 'popover':
-      return DatePickerRecipe({ defaultOpen: true, value: selected })
+      return DatePickerExample({ defaultOpen: true, value: selected })
+    case 'presets':
+      return DatePickerExample({
+        defaultOpen: true,
+        presets: [
+          { label: 'Today', value: '2026-06-12' },
+          { label: 'Tomorrow', value: '2026-06-13' },
+          { label: 'In 3 days', value: '2026-06-15' },
+          { label: 'In a week', value: '2026-06-19' },
+        ],
+        value: '',
+      })
+    case 'range':
+      return DatePickerExample({ defaultOpen: true, mode: 'range', numberOfMonths: 2, value: range })
     case 'disabled':
-      return DatePickerRecipe({ disabled: true, value: '' })
+      return DatePickerExample({ disabled: true, value: '' })
     case 'custom-token':
-      return DatePickerRecipe({ className: 'radcn-fixture-custom-date-picker', defaultOpen: true, value: selected })
+      return DatePickerExample({ className: 'radcn-fixture-custom-date-picker', defaultOpen: true, value: selected })
     default:
-      return DatePickerRecipe({ value: '' })
+      return DatePickerExample({ value: '' })
   }
 }
