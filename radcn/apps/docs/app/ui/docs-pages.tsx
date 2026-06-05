@@ -47,7 +47,7 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
               </div>
               <div mix={quickInstallStyle}>
                 <span mix={eyebrowStyle}>Import</span>
-                <code mix={inlineCodeStyle}>{`import { ${component.title} } from '${component.importPath}'`}</code>
+                <code mix={inlineCodeStyle}>{component.importExample}</code>
               </div>
             </header>
 
@@ -64,7 +64,7 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
               <p mix={paragraphStyle}>
                 Add RadCN to the Remix 3 workspace and import components from package subpaths.
               </p>
-              <CodeBlock code={`${component.install}\nimport { Button } from '${component.importPath}'`} />
+              <CodeBlock code={`${component.install}\n${component.importExample}`} />
             </InfoSection>
 
             <ListSection id="accessibility" title="Accessibility" items={component.accessibility} />
@@ -80,6 +80,7 @@ export function ComponentPage(handle: Handle<{ component: ComponentDoc }>) {
 function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>) {
   return () => {
     let { activeSlug, children } = handle.props
+    let groups = groupComponentDocs()
     let installHref = activeSlug
       ? `${routes.component.href({ slug: activeSlug })}#installation`
       : `${routes.component.href({ slug: 'button' })}#installation`
@@ -105,16 +106,21 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
             <div mix={sidebarStickyStyle}>
               <p mix={sidebarLabelStyle}>Components</p>
               <nav aria-label="Component navigation" mix={sidebarNavStyle}>
-                {componentDocs.map((component) => (
-                  <a
-                    key={component.slug}
-                    href={routes.component.href({ slug: component.slug })}
-                    data-active={component.slug === activeSlug ? 'true' : undefined}
-                    mix={sidebarLinkStyle}
-                  >
-                    <span>{component.title}</span>
-                    <span mix={sidebarMetaStyle}>{component.category}</span>
-                  </a>
+                {groups.map((group) => (
+                  <div key={group.category} mix={sidebarGroupStyle}>
+                    <p mix={sidebarGroupLabelStyle}>{group.category}</p>
+                    {group.components.map((component) => (
+                      <a
+                        key={component.slug}
+                        href={routes.component.href({ slug: component.slug })}
+                        data-active={component.slug === activeSlug ? 'true' : undefined}
+                        mix={sidebarLinkStyle}
+                      >
+                        <span>{component.title}</span>
+                        <span mix={sidebarMetaStyle}>{component.status}</span>
+                      </a>
+                    ))}
+                  </div>
                 ))}
               </nav>
             </div>
@@ -168,6 +174,22 @@ function Hero() {
       </div>
     </section>
   )
+}
+
+function groupComponentDocs() {
+  let groups: { category: string; components: ComponentDoc[] }[] = []
+
+  for (let component of componentDocs) {
+    let group = groups.find((item) => item.category === component.category)
+    if (!group) {
+      group = { category: component.category, components: [] }
+      groups.push(group)
+    }
+
+    group.components.push(component)
+  }
+
+  return groups
 }
 
 function SectionHeading(
@@ -342,7 +364,20 @@ const sidebarLabelStyle = css({
 
 const sidebarNavStyle = css({
   display: 'grid',
+  gap: '0.875rem',
+})
+
+const sidebarGroupStyle = css({
+  display: 'grid',
   gap: '0.25rem',
+})
+
+const sidebarGroupLabelStyle = css({
+  margin: '0 0 0.125rem',
+  color: docsBrand.color.muted,
+  fontSize: '0.6875rem',
+  fontWeight: 800,
+  textTransform: 'uppercase',
 })
 
 const sidebarLinkStyle = css({

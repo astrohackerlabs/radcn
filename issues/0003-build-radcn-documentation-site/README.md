@@ -153,7 +153,7 @@ site that:
 - [Experiment 4: Design RadCN visual identity and docs UI system](04-design-rad-visual-system.md)
   — **Pass**
 - [Experiment 5: Add representative component docs batch](05-representative-component-docs-batch.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -200,3 +200,18 @@ site that:
 - The current logo direction is a code-native SVG robot wearing sunglasses.
   It avoids external image/font dependencies and can render both as a top-bar
   mark and a larger homepage mascot.
+- The docs registry now needs explicit `importExample` metadata. Deriving an
+  import snippet from the component title only works for one-symbol exports and
+  breaks down for grouped surfaces such as `dialog`, `tabs`, and `sonner`.
+- Representative component pages can share one structured page renderer across
+  display, input, overlay, composite, and feedback surfaces. Category grouping
+  in the sidebar is the first navigation structure that should be preserved
+  when full coverage begins.
+- Overlay and composite docs previews sometimes need preview-only layout CSS to
+  make server-rendered package parts inspectable before browser enhancement
+  runs. Keep the source snippet as the real app usage pattern and record when a
+  preview is intentionally pinned into the page.
+- Explicit source strings remain workable for the first docs batch, but they
+  are already a synchronization risk. Full coverage should either generate
+  source snippets from example modules or establish a stricter review/test check
+  for snippet drift.
