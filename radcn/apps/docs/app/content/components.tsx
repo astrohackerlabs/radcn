@@ -436,6 +436,83 @@ export function FormPreview() {
   )
 }`
 
+const formControlsSource = `import { Button } from 'radcn/button'
+import { Checkbox } from 'radcn/checkbox'
+import { Form, FormDescription, FormField, FormLabel } from 'radcn/form'
+import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'radcn/select'
+import { Switch } from 'radcn/switch'
+import { Textarea } from 'radcn/textarea'
+
+export function FormControlsPreview() {
+  return (
+    <Form action="/settings" method="post">
+      <FormField name="language">
+        <FormLabel>Language</FormLabel>
+        <Select name="language" value="typescript">
+          <SelectTrigger ariaLabel="Language"><SelectValue>TypeScript</SelectValue></SelectTrigger>
+          <SelectContent><SelectItem value="typescript">TypeScript</SelectItem></SelectContent>
+        </Select>
+      </FormField>
+      <FormField name="plan">
+        <FormLabel>Plan</FormLabel>
+        <RadioGroup name="plan">
+          <label><RadioGroupItem checked name="plan" value="pro" /> Pro</label>
+        </RadioGroup>
+      </FormField>
+      <FormField name="notifications">
+        <FormLabel>Notifications</FormLabel>
+        <label><Checkbox checked name="notifications" value="deploys" /> Deploys</label>
+        <label><Switch checked name="security" value="enabled" /> Security alerts</label>
+      </FormField>
+      <FormField name="about">
+        <FormLabel>About</FormLabel>
+        <Textarea name="about" value="Server-rendered form controls." />
+        <FormDescription>Controls stay native and app-owned.</FormDescription>
+      </FormField>
+      <Button type="submit">Save settings</Button>
+    </Form>
+  )
+}`
+
+const formComplexSource = `import { Button } from 'radcn/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'radcn/card'
+import { Form, FormDescription, FormField, FormLabel, FormMessage } from 'radcn/form'
+import { Input } from 'radcn/input'
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from 'radcn/input-group'
+import { Progress } from 'radcn/progress'
+
+export function FormComplexPreview() {
+  return (
+    <Form action="/workspace" method="post">
+      <Card>
+        <CardHeader>
+          <CardTitle>Workspace</CardTitle>
+          <CardDescription>Arrays, password strength, and complex sections are app-owned.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <FormField name="emails">
+            <FormLabel>Team emails</FormLabel>
+            <Input name="emails" value="ada@example.com" />
+            <Input name="emails" value="grace@example.com" />
+            <FormDescription>Repeated fields submit as repeated native values.</FormDescription>
+          </FormField>
+          <FormField invalid name="password">
+            <FormLabel error>Password</FormLabel>
+            <InputGroup invalid>
+              <InputGroupInput name="password" value="radcn" />
+              <InputGroupAddon align="inline-end"><InputGroupText>Weak</InputGroupText></InputGroupAddon>
+            </InputGroup>
+            <Progress ariaLabel="Password strength" value={38} />
+            <FormMessage>Add a number and a symbol.</FormMessage>
+          </FormField>
+        </CardContent>
+      </Card>
+      <Button type="submit">Save workspace</Button>
+    </Form>
+  )
+}`
+
 const datePickerSource = `import { DatePicker } from 'radcn/date-picker'
 
 export function DatePickerPreview() {
@@ -653,6 +730,73 @@ function FormPreview() {
       </Form>
     )
   }
+}
+
+function FormControlsPreview() {
+  return () => (
+    <Form action="/docs/components/form" method="post" style="width: min(100%, 34rem);">
+      <FormField name="language">
+        <FormLabel>Language</FormLabel>
+        <Select name="language" value="typescript">
+          <SelectTrigger ariaLabel="Language"><SelectValue placeholder="Language">TypeScript</SelectValue></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="typescript">TypeScript</SelectItem>
+            <SelectItem value="go">Go</SelectItem>
+          </SelectContent>
+        </Select>
+        <FormDescription>Enhanced selects submit a hidden native value.</FormDescription>
+      </FormField>
+      <FormField name="plan">
+        <FormLabel>Plan</FormLabel>
+        <RadioGroup name="plan">
+          <label style="display:flex;gap:8px;align-items:center"><RadioGroupItem checked name="plan" value="pro" /> Pro</label>
+          <label style="display:flex;gap:8px;align-items:center"><RadioGroupItem name="plan" value="enterprise" /> Enterprise</label>
+        </RadioGroup>
+      </FormField>
+      <FormField name="notifications">
+        <FormLabel>Notifications</FormLabel>
+        <label style="display:flex;gap:8px;align-items:center"><Checkbox checked name="notifications" value="deploys" /> Deploys</label>
+        <label style="display:flex;gap:8px;align-items:center"><Switch checked name="security" value="enabled" /> Security alerts</label>
+      </FormField>
+      <FormField name="about">
+        <FormLabel>About</FormLabel>
+        <Textarea name="about" value="Server-rendered form controls." />
+        <FormDescription>Controls stay native and app-owned.</FormDescription>
+      </FormField>
+      <Button type="submit">Save settings</Button>
+    </Form>
+  )
+}
+
+function FormComplexPreview() {
+  return () => (
+    <Form action="/docs/components/form" method="post" style="width: min(100%, 34rem);">
+      <Card>
+        <CardHeader>
+          <CardTitle>Workspace</CardTitle>
+          <CardDescription>Arrays, password strength, and complex sections are app-owned.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <FormField name="emails">
+            <FormLabel>Team emails</FormLabel>
+            <Input name="emails" value="ada@example.com" />
+            <Input name="emails" value="grace@example.com" />
+            <FormDescription>Repeated fields submit as repeated native values.</FormDescription>
+          </FormField>
+          <FormField invalid name="password">
+            <FormLabel error>Password</FormLabel>
+            <InputGroup invalid>
+              <InputGroupInput name="password" value="radcn" />
+              <InputGroupAddon align="inline-end"><InputGroupText>Weak</InputGroupText></InputGroupAddon>
+            </InputGroup>
+            <Progress ariaLabel="Password strength" value={38} />
+            <FormMessage>Add a number and a symbol.</FormMessage>
+          </FormField>
+        </CardContent>
+      </Card>
+      <Button type="submit">Save workspace</Button>
+    </Form>
+  )
 }
 
 function DatePickerPreview() {
@@ -1494,6 +1638,22 @@ const richComponentDocs: ComponentDoc[] = [
         source: formSource,
         preview: <FormPreview />,
       },
+      {
+        slug: 'control-clusters',
+        title: 'Control Clusters',
+        description:
+          'Compose select, radio, checkbox, switch, and textarea fields without adopting a package-level form-state library.',
+        source: formControlsSource,
+        preview: <FormControlsPreview />,
+      },
+      {
+        slug: 'complex-and-array',
+        title: 'Complex and Array Fields',
+        description:
+          'Represent repeated values, password strength, and multi-section forms as native controls and app-owned state.',
+        source: formComplexSource,
+        preview: <FormComplexPreview />,
+      },
     ],
     accessibility: [
       'Renders a native form element, so browser validation and submission work without client JavaScript.',
@@ -1503,11 +1663,13 @@ const richComponentDocs: ComponentDoc[] = [
     customization: [
       'Form parts expose data-radcn-form, data-radcn-form-field, data-radcn-form-label, data-radcn-form-description, and data-radcn-form-message hooks.',
       'Invalid color and sizing inherit existing RadCN field tokens, including --radcn-field-error and --radcn-form-width.',
+      'Select, checkbox, radio, switch, textarea, repeated fields, and password-strength examples use existing package primitives and native control hooks.',
     ],
     divergence: [
       'shadcn/ui form is a React Hook Form adapter around context, Controller, Slot, and useFormState. RadCN does not port those React-only mechanics.',
       'The Remix 3 port makes field wiring explicit through helpers and native attributes so server actions, native validation, and future enhancement can share the same markup.',
       'Schema validation and form-state libraries remain app choices rather than RadCN package dependencies.',
+      'The upstream RHF, TanStack Form, Formisch, and Next examples map to behavior clusters in RadCN docs rather than one dependency-specific example per library.',
     ],
   },
   {

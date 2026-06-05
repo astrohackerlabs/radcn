@@ -183,6 +183,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "form",
+    id: "basic",
+    title: "Basic Form",
+    description: "Non-error form field with native submission values.",
+  },
+  {
+    component: "form",
     id: "native-validation",
     title: "Native Form Validation",
     description: "Remix-first form recipe using native required validation.",
@@ -204,6 +210,60 @@ export const fixtureScenarios: FixtureScenario[] = [
     id: "custom-token",
     title: "Custom Form Token",
     description: "Form recipe customized through existing field and input tokens.",
+  },
+  {
+    component: "form",
+    id: "textarea",
+    title: "Form Textarea",
+    description: "Textarea field wired through RadCN Form helpers.",
+  },
+  {
+    component: "form",
+    id: "select",
+    title: "Form Select",
+    description: "Select field with native hidden value submission.",
+  },
+  {
+    component: "form",
+    id: "checkbox-group",
+    title: "Form Checkbox Group",
+    description: "Multiple checkbox values in one Form field.",
+  },
+  {
+    component: "form",
+    id: "radio-group",
+    title: "Form Radio Group",
+    description: "Exclusive choice field inside RadCN Form.",
+  },
+  {
+    component: "form",
+    id: "switch",
+    title: "Form Switch",
+    description: "Boolean switch field with description and submitted value.",
+  },
+  {
+    component: "form",
+    id: "array-list",
+    title: "Form Array List",
+    description: "Repeated list inputs with app-owned add/remove state.",
+  },
+  {
+    component: "form",
+    id: "password-strength",
+    title: "Form Password Strength",
+    description: "Password input group with progress and error hints.",
+  },
+  {
+    component: "form",
+    id: "complex",
+    title: "Complex Form",
+    description: "Multi-section form combining text fields, choices, add-ons, and switch state.",
+  },
+  {
+    component: "form",
+    id: "server-errors-rich",
+    title: "Rich Form Server Errors",
+    description: "Multiple explicit server/action field errors.",
   },
   {
     component: "textarea",

@@ -204,9 +204,15 @@ Record cross-component discoveries here as experiments complete.
   example depth: basic non-error form, textarea, select, checkbox group, radio
   group, switch, repeated array/list fields, password strength, complex
   multi-section form, and richer server/action state.
-- The next recommended experiment is to implement that Form example parity
-  depth without changing `radcn/form` unless a specific missing reusable helper
-  is proven during implementation.
+- Experiment 6 implemented that Form example parity depth without changing the
+  `radcn/form` package API or adding form-state/schema dependencies.
+- Form parity now maps the upstream RHF, TanStack Form, Formisch, and Next
+  examples to RadCN behavior clusters with docs, candidate fixtures, and
+  Playwright coverage: basic form, textarea, select, checkbox group, radio
+  group, switch, repeated array/list fields, password strength, complex
+  multi-section composition, and richer server/action errors.
+- The next Issue 4 cluster should move past Form example parity to the next
+  unmapped example/block/chart depth in the regenerated inventory and docs.
 
 ## Experiments
 
@@ -221,4 +227,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 5: Audit form example parity](05-audit-form-example-parity.md)
   — **Pass**
 - [Experiment 6: Implement form example parity depth](06-implement-form-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -125,6 +125,10 @@ test('candidate input otp exposes separators invalid disabled and custom token h
 })
 
 test('candidate form package uses native RadCN primitives and explicit wiring', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/form/basic`)
+  await expect(page.locator('#candidate-form-workspace-form-item')).toHaveAttribute('required', '')
+  await expect(page.locator('#candidate-form-workspace-form-item')).toHaveValue('radcn')
+
   await page.goto(`${candidate}/fixtures/form/native-validation`)
   let nativeInput = page.locator('#candidate-form-native-email-form-item')
   await expect(nativeInput).toHaveAttribute('required', '')
@@ -149,4 +153,45 @@ test('candidate form package uses native RadCN primitives and explicit wiring', 
 
   await page.goto(`${candidate}/fixtures/form/custom-token`)
   await expect(page.locator('[data-radcn-form-message]')).toHaveCSS('color', 'rgb(124, 58, 237)')
+})
+
+test('candidate form examples cover control behavior clusters', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/form/textarea`)
+  await expect(page.locator('#candidate-form-about-form-item')).toHaveJSProperty('tagName', 'TEXTAREA')
+  await expect(page.locator('#candidate-form-about-form-item')).toHaveAttribute('aria-describedby', 'candidate-form-about-form-item-description')
+
+  await page.goto(`${candidate}/fixtures/form/select`)
+  await expect(page.locator('[data-radcn-select]')).toHaveAttribute('data-value', 'typescript')
+  await expect(page.locator('[data-radcn-select-input][name="language"]')).toHaveValue('typescript')
+
+  await page.goto(`${candidate}/fixtures/form/checkbox-group`)
+  await expect(page.locator('[data-radcn-checkbox-input][name="notifications"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-checkbox-input][value="deploys"]')).toBeChecked()
+  await expect(page.locator('[data-radcn-checkbox-input][value="reviews"]')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/form/radio-group`)
+  await expect(page.locator('[data-radcn-radio-group]')).toHaveAttribute('data-name', 'plan')
+  await expect(page.locator('#candidate-form-plan-basic')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/form/switch`)
+  await expect(page.locator('#candidate-form-two-factor-form-item')).toBeChecked()
+  await expect(page.locator('#candidate-form-two-factor-form-item')).toHaveAttribute('role', 'switch')
+
+  await page.goto(`${candidate}/fixtures/form/array-list`)
+  await expect(page.locator('input[name="emails"]')).toHaveCount(2)
+  await expect(page.locator('#candidate-form-email-0')).toHaveValue('ada@example.com')
+
+  await page.goto(`${candidate}/fixtures/form/password-strength`)
+  await expect(page.locator('[data-radcn-input-group]')).toHaveAttribute('data-invalid', 'true')
+  await expect(page.getByRole('progressbar', { name: 'Password strength' })).toHaveAttribute('value', '38')
+  await expect(page.locator('#candidate-form-password-form-item-message')).toHaveText('Add a number and a symbol.')
+
+  await page.goto(`${candidate}/fixtures/form/complex`)
+  await expect(page.locator('[data-radcn-card]')).toBeVisible()
+  await expect(page.locator('input[name="addons"][value="analytics"]')).toBeChecked()
+  await expect(page.locator('#candidate-form-complex-notifications')).toBeChecked()
+
+  await page.goto(`${candidate}/fixtures/form/server-errors-rich`)
+  await expect(page.locator('[data-radcn-form-message]')).toHaveCount(2)
+  await expect(page.locator('#candidate-form-rich-workspace-form-item-message')).toHaveText('That workspace is already taken.')
 })
