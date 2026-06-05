@@ -1,5 +1,7 @@
 import { clientEntry, css, on, type Handle, type SerializableProps } from 'remix/ui'
 
+import { CopyIcon } from '../ui/icons.tsx'
+
 const FADE_MS = 180
 const HOLD_MS = 1200
 
@@ -109,19 +111,6 @@ export const PromptButton = clientEntry(
   },
 )
 
-export function CopyIcon() {
-  return () => (
-    <svg viewBox="0 0 14 16.5" fill="none">
-      <path
-        d="M0.75 9.188L0.75 4.083C0.75 2.242 2.242 0.75 4.083 0.75L9.188 0.75M5.75 15.75L11.375 15.75C12.41 15.75 13.25 14.91 13.25 13.875L13.25 5.75C13.25 4.714 12.41 3.875 11.375 3.875L5.75 3.875C4.714 3.875 3.875 4.714 3.875 5.75L3.875 13.875C3.875 14.91 4.714 15.75 5.75 15.75Z"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-    </svg>
-  )
-}
-
 function wait(ms: number) {
   return new Promise<void>((resolve) => setTimeout(resolve, ms))
 }
@@ -158,6 +147,5 @@ const iconSlotStyle = css({
     width: '20px',
     height: '20px',
     display: 'block',
-    transform: 'rotate(180deg)',
   },
 })

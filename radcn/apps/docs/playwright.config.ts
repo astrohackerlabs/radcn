@@ -20,7 +20,7 @@ export default defineConfig({
     video: 'off',
   },
   webServer: {
-    command: 'pnpm --dir radcn/apps/docs dev',
+    command: 'pnpm dev',
     url: 'http://localhost:44100',
     reuseExistingServer: true,
     timeout: 120_000,

@@ -163,7 +163,7 @@ site that:
 - [Experiment 9: Add system theme mode](09-add-system-theme-mode.md) —
   **Pass**
 - [Experiment 10: Use Lucide icons uniformly](10-use-lucide-icons-uniformly.md) —
-  **Designed**
+  **Pass**
 
 ## Learnings
 
@@ -225,6 +225,11 @@ site that:
 - RadCN theme support separates preference mode from resolved theme. Docs store
   `system`, `light`, or `dark` as `data-radcn-theme-mode`; package tokens read
   the resolved `light` or `dark` value from `data-radcn-theme`.
+- Docs icon usage uses `lucide-static` for plain SVG strings, but imports only
+  individual icon modules from `lucide-static/dist/esm/icons/*.mjs`. The
+  docs-local `icons.tsx` wrapper renders trusted Lucide strings inline so icons
+  inherit `currentColor` without using sprites, icon fonts, URL assets, or
+  React icon components.
 - Explicit source strings remain workable for the first docs batch, but they
   are already a synchronization risk. Full coverage should either generate
   source snippets from example modules or establish a stricter review/test check

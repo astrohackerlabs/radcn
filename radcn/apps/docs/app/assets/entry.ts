@@ -140,7 +140,57 @@ function setupThemeModeControl() {
   })
 }
 
+function setupCodeCopyButtons() {
+  document
+    .querySelectorAll<HTMLButtonElement>('[data-radcn-code-copy-button]')
+    .forEach((button) => {
+      button.setAttribute('data-radcn-code-copy-ready', 'true')
+    })
+
+  document.addEventListener('click', async (event) => {
+    let target = event.target
+    if (!(target instanceof Element)) return
+
+    let button = target.closest<HTMLButtonElement>('[data-radcn-code-copy-button]')
+    if (!button) return
+
+    let frame = button.closest<HTMLElement>('[data-radcn-code-block]')
+    let code = frame?.querySelector('code')?.textContent
+    if (!code) return
+
+    event.preventDefault()
+    await copyCode(button, code)
+  })
+}
+
+async function copyCode(button: HTMLButtonElement, code: string) {
+  let label = button.querySelector<HTMLElement>('[data-radcn-code-copy-label]')
+
+  try {
+    await navigator.clipboard.writeText(code)
+    setCodeCopyState(button, label, 'copied', 'Copied to clipboard')
+  } catch {
+    setCodeCopyState(button, label, 'failed', 'Copy failed')
+  }
+
+  window.setTimeout(() => {
+    setCodeCopyState(button, label, 'idle', 'Copy code')
+  }, 1200)
+}
+
+function setCodeCopyState(
+  button: HTMLButtonElement,
+  label: HTMLElement | null,
+  state: 'copied' | 'failed' | 'idle',
+  text: string,
+) {
+  button.setAttribute('aria-label', text)
+  button.setAttribute('data-copy-state', state)
+  if (label) label.textContent = text
+}
+
 setupThemeModeControl()
+setupCodeCopyButtons()
 
 run({
   async loadModule(moduleUrl, exportName) {

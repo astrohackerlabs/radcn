@@ -8,6 +8,7 @@ import { componentDocs } from '../content/components.tsx'
 import { routes } from '../routes.ts'
 import { docsBrand, docsGridBackground } from './brand.ts'
 import { Document } from './document.tsx'
+import { CopyIcon, MonitorIcon, MoonIcon, SunIcon } from './icons.tsx'
 import { RadcnLogo } from './logo.tsx'
 
 export function HomePage() {
@@ -125,6 +126,7 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
                 tabIndex={0}
                 type="button"
               >
+                <MonitorIcon mix={themeModeIconStyle} />
                 System
               </button>
               <button
@@ -136,6 +138,7 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
                 tabIndex={-1}
                 type="button"
               >
+                <SunIcon mix={themeModeIconStyle} />
                 Light
               </button>
               <button
@@ -147,6 +150,7 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
                 tabIndex={-1}
                 type="button"
               >
+                <MoonIcon mix={themeModeIconStyle} />
                 Dark
               </button>
             </div>
@@ -317,9 +321,22 @@ function CodeBlock(handle: Handle<{ code: string }>) {
     let { code } = handle.props
 
     return (
-      <pre mix={codeBlockStyle}>
-        <code>{code}</code>
-      </pre>
+      <div data-radcn-code-block mix={codeBlockFrameStyle}>
+        <div mix={codeBlockActionStyle}>
+          <button
+            aria-label="Copy code"
+            data-radcn-code-copy-button
+            mix={codeCopyButtonStyle}
+            type="button"
+          >
+            <CopyIcon mix={codeCopyIconStyle} />
+            <span data-radcn-code-copy-label>Copy code</span>
+          </button>
+        </div>
+        <pre mix={codeBlockStyle}>
+          <code>{code}</code>
+        </pre>
+      </div>
     )
   }
 }
@@ -403,6 +420,9 @@ const themeModeOptionStyle = css({
   fontWeight: 700,
   lineHeight: 1,
   minHeight: '1.875rem',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.375rem',
   padding: '0.4375rem 0.625rem',
   '&:hover, &:focus-visible': {
     background: docsBrand.color.surfaceRaised,
@@ -418,6 +438,15 @@ const themeModeOptionStyle = css({
   '@media (max-width: 520px)': {
     fontSize: '0.75rem',
     paddingInline: '0.4375rem',
+  },
+})
+
+const themeModeIconStyle = css({
+  width: '1rem',
+  height: '1rem',
+  '@media (max-width: 520px)': {
+    width: '0.875rem',
+    height: '0.875rem',
   },
 })
 
@@ -730,13 +759,59 @@ const examplePreviewStyle = css({
   background: docsBrand.color.surface,
 })
 
+const codeBlockFrameStyle = css({
+  position: 'relative',
+  borderTop: `1px solid ${docsBrand.color.border}`,
+  background: docsBrand.color.code,
+})
+
+const codeBlockActionStyle = css({
+  position: 'absolute',
+  top: '0.625rem',
+  right: '0.625rem',
+  zIndex: 1,
+})
+
+const codeCopyButtonStyle = css({
+  appearance: 'none',
+  display: 'inline-flex',
+  minHeight: '2rem',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '0.375rem',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.sm,
+  background: docsBrand.color.surface,
+  color: docsBrand.color.inkSoft,
+  cursor: 'pointer',
+  font: 'inherit',
+  fontSize: '0.75rem',
+  fontWeight: 800,
+  lineHeight: 1,
+  padding: '0.375rem 0.5rem',
+  '&:hover, &:focus-visible': {
+    background: docsBrand.color.surfaceRaised,
+    color: docsBrand.color.ink,
+    outline: `2px solid ${docsBrand.color.accent}`,
+    outlineOffset: '2px',
+  },
+  '&[data-copy-state="copied"], &[data-copy-state="failed"]': {
+    background: docsBrand.color.surfaceRaised,
+    color: docsBrand.color.accentDeep,
+  },
+})
+
+const codeCopyIconStyle = css({
+  width: '1rem',
+  height: '1rem',
+})
+
 const codeBlockStyle = css({
   margin: 0,
   overflow: 'auto',
-  borderTop: `1px solid ${docsBrand.color.border}`,
   background: docsBrand.color.code,
   color: docsBrand.color.codeText,
-  padding: '1rem',
+  padding: '3.25rem 1rem 1rem',
   fontFamily: docsBrand.font.mono,
   fontSize: '0.8125rem',
   lineHeight: 1.6,

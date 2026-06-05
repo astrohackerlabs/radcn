@@ -131,3 +131,99 @@ Fixes:
   raw inline SVG imports are not available.
 
 Reviewer approval: Approved after the major clarification.
+
+## Result
+
+**Result:** Pass
+
+Installed `lucide-static` `^1.17.0` through the root pnpm catalog and added it
+as a docs app dependency. The docs app now has a local
+`radcn/apps/docs/app/ui/icons.tsx` wrapper that imports only the four individual
+Lucide SVG-string modules currently needed: copy, monitor, moon, and sun.
+
+The wrapper renders trusted Lucide SVG strings inline through Remix UI so icons
+inherit `currentColor`. It does not use React icon components, sprites, icon
+fonts, URL-style SVG assets, or `<img>` tags. A narrow declaration file covers
+the individual Lucide `.mjs` icon modules.
+
+The theme mode control now renders Lucide icons for System, Light, and Dark
+while preserving the three accessible radio option names. Code blocks now render
+a docs-owned copy button with the shared Lucide copy icon and browser behavior
+owned by `app/assets/entry.ts`.
+
+The old hand-written copy SVG in `prompt-button.tsx` was removed and replaced
+with the shared `CopyIcon` helper. During implementation, `PromptButton` was
+confirmed to be an unused scaffold component in the current docs app, so its
+existing layout and hydrated clipboard behavior were preserved rather than
+converted into the new compact docs code-copy command. The live rendered and
+clicked copy surface verified by Playwright is the code-block copy button.
+
+Verification run:
+
+- `pnpm install` — Pass
+- `pnpm list lucide-static --filter docs` — Pass; docs depends on
+  `lucide-static@1.17.0`
+- `pnpm --dir radcn/apps/docs typecheck` — Pass
+- `pnpm radcn:typecheck` — Pass
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` — Pass
+  (6 tests; verifies theme icons and the rendered code-block copy button)
+- `git diff --check` — Pass
+- Vendor dependency check — Pass; only `lucide-static` package references are in
+  `pnpm-workspace.yaml`, `pnpm-lock.yaml`, `radcn/apps/docs/package.json`, and
+  docs app imports. No `vendor/` dependency references were added.
+- `git status --short --ignored vendor` — Pass; vendor checkouts remain ignored
+  as `!! vendor/react-router/`, `!! vendor/remix/`, and `!! vendor/shadcn-ui/`
+- Visual spot check — Pass; desktop screenshot at 1280x900 showed the theme
+  icons aligned and readable in the top bar with no new control overlap.
+
+## Conclusion
+
+The docs app now has a uniform Lucide-backed icon path for compact controls and
+commands. Future docs icons should be added through `app/ui/icons.tsx` and
+should import individual `lucide-static/dist/esm/icons/*.mjs` modules rather
+than the package barrel, SVG URL assets, sprites, icon fonts, or React icon
+packages.
+
+## Completion Review
+
+Reviewer: Ramanujan (`019e9802-ff46-7770-a8b5-715c68b614da`)
+
+Fresh context: Yes (`fork_context: false`)
+
+Initial findings:
+
+- Blocker: `icons.tsx` and `lucide-static-icons.d.ts` were untracked and would
+  have been omitted from the result commit.
+- Major: `prompt-button.tsx` had changed layout and transition behavior instead
+  of preserving the existing prompt button while replacing only the icon source.
+- Major: the first result text did not clearly explain that `PromptButton` is
+  currently unused and that the rendered/clicked copy surface verified by
+  Playwright is the code-block copy button.
+- Minor: None
+
+Fixes:
+
+- Staged the full result set, including the new icon wrapper and Lucide module
+  declaration files.
+- Restored `prompt-button.tsx` to its original full-width, left-aligned,
+  16-pixel padded layout and resetting fade state while keeping the shared
+  `CopyIcon`.
+- Updated the result text to document that `PromptButton` is unused in the
+  current docs app and that code-block copy is the live verified copy surface.
+
+Re-review findings:
+
+- Blocker: None
+- Major: None
+- Minor: None
+
+Reviewer verification:
+
+- `git diff --cached --check` — Pass
+- `git diff --check` — Pass
+- `pnpm --dir radcn/apps/docs typecheck` — Pass
+- `pnpm radcn:typecheck` — Pass
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` — Pass
+  (6 tests)
+
+Reviewer approval: Approved.

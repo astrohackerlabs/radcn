@@ -14,6 +14,7 @@ export const assetServer = createAssetServer({
   },
   allow: [
     'app/assets/**',
+    'app/ui/icons.tsx',
     'node_modules/**',
     '../../../node_modules/.pnpm/**',
     path.join(workspaceDir, 'node_modules/.pnpm/**'),

@@ -10,7 +10,8 @@ test.describe('theme mode control', () => {
     await page.emulateMedia({ colorScheme: 'light' })
     await page.goto('/')
 
-    await expect(page.getByRole('radiogroup', { name: 'Theme' })).toBeVisible()
+    let themeControl = page.getByRole('radiogroup', { name: 'Theme' })
+    await expect(themeControl).toBeVisible()
     await expect(page.getByRole('radio', { name: 'System' })).toHaveAttribute(
       'aria-checked',
       'true',
@@ -24,6 +25,9 @@ test.describe('theme mode control', () => {
       'false',
     )
     await expect(page.locator('[data-radcn-theme-toggle]')).toHaveCount(0)
+    await expect(themeControl.locator('svg.lucide-monitor')).toHaveCount(1)
+    await expect(themeControl.locator('svg.lucide-sun')).toHaveCount(1)
+    await expect(themeControl.locator('svg.lucide-moon')).toHaveCount(1)
     await expect
       .poll(() => page.evaluate(themeState))
       .toEqual({ mode: 'system', theme: 'light' })
@@ -101,5 +105,35 @@ test.describe('theme mode control', () => {
     await expect
       .poll(() => page.evaluate(themeState))
       .toEqual({ mode: 'system', theme: 'light' })
+  })
+
+  test('code copy button renders a Lucide icon and can be clicked', async ({ page }) => {
+    let consoleErrors: string[] = []
+    page.on('console', (message) => {
+      if (message.type() === 'error') consoleErrors.push(message.text())
+    })
+
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'clipboard', {
+        configurable: true,
+        value: {
+          async writeText(text: string) {
+            window.localStorage.setItem('radcn-copy-test', text)
+          },
+        },
+      })
+    })
+    await page.goto('/')
+
+    let copyButton = page.locator('[data-radcn-code-copy-button]').first()
+    await expect(copyButton).toBeVisible()
+    await expect(copyButton).toHaveAttribute('aria-label', 'Copy code')
+    await expect(copyButton.locator('svg.lucide-copy')).toHaveCount(1)
+    await expect(copyButton).toHaveAttribute('data-radcn-code-copy-ready', 'true')
+
+    await copyButton.click()
+    await expect(copyButton).toHaveAttribute('aria-label', 'Copied to clipboard')
+    await expect.poll(() => page.evaluate(() => localStorage.getItem('radcn-copy-test'))).not.toBe('')
+    expect(consoleErrors).toEqual([])
   })
 })
