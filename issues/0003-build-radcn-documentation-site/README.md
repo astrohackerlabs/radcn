@@ -148,6 +148,8 @@ site that:
   — **Pass**
 - [Experiment 2: Create nested RadCN workspace and docs app](02-scaffold-docs-app-with-remix-cli.md)
   — **Pass**
+- [Experiment 3: Create docs shell and first component page](03-docs-shell-and-first-component-page.md)
+  — **Designed**
 
 ## Learnings
 
