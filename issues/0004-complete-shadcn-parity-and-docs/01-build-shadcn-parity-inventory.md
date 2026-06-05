@@ -77,9 +77,9 @@ Pass criteria:
 Commands:
 
 - `node scripts/audit-shadcn-parity.mjs`
-- `git diff --exit-code -- issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+- `tmpfile=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmpfile" && node scripts/audit-shadcn-parity.mjs && diff -u "$tmpfile" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md && rm "$tmpfile"`
 - `git diff --check`
-- `git diff --name-only HEAD` shows only:
+- `git status --short` shows only:
   - `issues/0004-complete-shadcn-parity-and-docs/README.md`;
   - `issues/0004-complete-shadcn-parity-and-docs/01-build-shadcn-parity-inventory.md`;
   - `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`;
@@ -117,9 +117,90 @@ Findings:
 Fixes:
 
 - Specified that the audit script writes the inventory file by default and added
-  `git diff --exit-code -- issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
-  after rerunning it.
+  a temporary-copy diff after rerunning it, so regenerated output is checked
+  even before the inventory file is staged.
 - Added an explicit changed-file scope check limiting the experiment result to
   the issue README, experiment file, generated inventory, and audit script.
+
+Reviewer approval: Approved; no blockers remained.
+
+## Result
+
+**Result:** Pass
+
+Added `scripts/audit-shadcn-parity.mjs`, a deterministic repository-local audit
+script that reads the vendored shadcn/ui v4 New York registry metadata, current
+RadCN package exports, and the RadCN docs registry. The script writes
+`issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md` by default.
+
+The generated inventory currently reports:
+
+- 57 upstream shadcn/ui registry UI items;
+- 244 upstream examples;
+- 27 upstream blocks;
+- 70 upstream chart examples;
+- 57 RadCN public package subpaths;
+- 60 RadCN docs routes.
+
+The audit found that `form` is the only upstream `ui/` component missing from
+RadCN package exports. It also confirmed the known docs-only outcomes:
+`form`, `date-picker`, and `data-table`. The inventory distinguishes
+`date-picker` and `data-table` from `form`: they are upstream example/block
+outcomes rather than upstream `ui/` package components in the v4 registry.
+
+The first recommended implementation cluster is form parity and Remix 3 form
+recipes. That cluster is the right next step because `form` is the only missing
+upstream UI package API and because date-picker/data-table/block work should
+depend on a stable form story.
+
+Verification run:
+
+- `node scripts/audit-shadcn-parity.mjs` — Pass; rewrote
+  `parity-inventory.md`.
+- `tmpfile=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmpfile" && node scripts/audit-shadcn-parity.mjs && diff -u "$tmpfile" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md && rm "$tmpfile"`
+  — Pass; regenerated output matched the prior generated file content.
+- `git diff --check` — Pass.
+- `git status --short` — Pass; only the issue README, experiment file,
+  generated inventory, and audit script were changed.
+- `git -C vendor/shadcn-ui status --short` — Pass, no output.
+- `git -C vendor/remix status --short` — Pass, no output.
+- `git -C vendor/react-router status --short` — Pass, no output.
+- `git diff --name-only HEAD -- radcn package.json pnpm-workspace.yaml pnpm-lock.yaml | rg '(^|/)vendor(/|$)'`
+  — Pass, no output.
+- `git diff HEAD -- radcn package.json pnpm-workspace.yaml pnpm-lock.yaml | rg 'npm publish|pnpm publish|publishConfig|"private": false|vendor/'`
+  — Pass, no output.
+
+## Conclusion
+
+The issue now has a generated parity inventory and a concrete next cluster.
+The next experiment should audit upstream `ui/form.tsx` and the form example
+families, then decide and implement the Remix 3-appropriate RadCN form outcome.
+
+## Completion Review
+
+Reviewer: Einstein (`019e99ed-2f97-78b3-9c9f-8de470457cc0`)
+
+Fresh context: Yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: The issue README still marked Experiment 1 as `Designed` after the
+  experiment result recorded `Pass`.
+- Major: The recorded `git diff --exit-code -- parity-inventory.md` check did
+  not prove an untracked generated file matched regenerated output.
+- Minor: None
+
+Fixes:
+
+- Updated the issue README experiment index to `Pass`.
+- Replaced the staged-file diff check with a temporary-copy diff that validates
+  the generated inventory before it is staged.
+
+Re-review:
+
+- The README experiment status now says `Pass`.
+- The experiment records the temporary-copy diff verification, which proves
+  regenerated inventory content even before the generated file is staged.
+- No new blocker was introduced by the fixes.
 
 Reviewer approval: Approved; no blockers remained.

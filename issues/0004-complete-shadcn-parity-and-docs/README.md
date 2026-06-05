@@ -134,7 +134,23 @@ This issue is complete when:
 
 Record cross-component discoveries here as experiments complete.
 
+- Experiment 1 generated `parity-inventory.md` from local source files. The
+  current vendored shadcn/ui v4 New York registry has 57 UI items, 244 examples,
+  27 blocks, and 70 chart examples. RadCN currently has 57 public package
+  subpaths and 60 docs routes.
+- `form` is the only upstream shadcn `ui/` item that is not a current RadCN
+  package export. It is documented today as a docs-only gap.
+- `date-picker` and `data-table` are not upstream `ui/` package components in
+  the v4 registry; they appear as examples/block outcomes and remain RadCN
+  docs-only gaps.
+- `typography` is a RadCN package export without an upstream `ui/` counterpart,
+  but the upstream registry has typography examples. Treat it as a recipe/API
+  parity surface, not a missing upstream component.
+- The first recommended implementation cluster is form parity and Remix 3 form
+  recipes, because form is the only missing upstream UI package API and later
+  date-picker/data-table/block work depends on a stable form story.
+
 ## Experiments
 
 - [Experiment 1: Build shadcn parity inventory](01-build-shadcn-parity-inventory.md)
-  — **Designed**
+  — **Pass**
