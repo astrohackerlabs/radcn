@@ -1,6 +1,7 @@
 +++
-status = "open"
+status = "closed"
 opened = "2026-06-04"
+closed = "2026-06-05"
 +++
 
 # Issue 3: Build the RadCN Documentation Site
@@ -293,3 +294,41 @@ that:
   preview-pinned state so users can inspect the surface without first opening a
   browser-enhanced overlay. Keep source snippets representative of normal app
   usage even when the docs preview pins content into view.
+
+## Conclusion
+
+Issue 3 is complete. The repository now contains a Remix 3 RadCN documentation
+site under `radcn/apps/docs` that runs from the repository root with
+`pnpm dev`, consumes the `radcn` workspace package, renders live RadCN
+component examples, and provides a polished navigable docs shell with homepage,
+component routes, visual identity, processed logo assets, system/light/dark
+theme mode support, Lucide icons, and copyable code snippets.
+
+The docs registry covers every current public RadCN package subpath except the
+reserved package/style metadata exports, plus the known Issue 3 block
+dispositions `form`, `date-picker`, and `data-table`. Exported pages are marked
+`ready` and include import guidance, aspirational install copy, package-backed
+examples, accessibility notes, customization/token notes, and Remix 3
+divergence notes. The non-shipped block pages remain honest
+`not-shipped-yet` dispositions and do not claim fake package imports.
+
+Final verification evidence:
+
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm radcn:typecheck` passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` passed
+  with 10 tests.
+- `pnpm --dir radcn/apps/docs exec remix doctor` passed with no warnings or
+  advice.
+- `pnpm --dir radcn/apps/docs exec remix routes` showed the home,
+  `/docs/components/:slug`, and asset routes.
+- `git diff --check` passed during the final experiment.
+- Vendor checkouts stayed clean and publish/vendor scope greps returned no
+  matches.
+- Manual Playwright viewport probes found no horizontal overflow on sampled
+  desktop and 390px mobile pages.
+
+The Remix 3 beta used here does not expose a `remix build` command. Build-like
+confidence for this issue therefore comes from TypeScript checks, `remix
+doctor`, route listing, and rendered Playwright coverage rather than a separate
+production build artifact.
