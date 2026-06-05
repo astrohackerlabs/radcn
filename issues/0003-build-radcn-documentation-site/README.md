@@ -170,6 +170,8 @@ that:
   — **Pass**
 - [Experiment 11: Complete docs registry coverage](11-complete-docs-registry-coverage.md)
   — **Pass**
+- [Experiment 12: Author full component docs](12-author-full-component-docs.md)
+  — **Designed**
 
 ## Learnings
 
