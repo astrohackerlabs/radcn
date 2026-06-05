@@ -133,3 +133,8 @@ This issue is complete when:
 ## Learnings
 
 Record cross-component discoveries here as experiments complete.
+
+## Experiments
+
+- [Experiment 1: Build shadcn parity inventory](01-build-shadcn-parity-inventory.md)
+  — **Designed**
