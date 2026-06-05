@@ -189,3 +189,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 3: Resolve date-picker parity](03-resolve-date-picker-parity.md)
   — **Pass**
+- [Experiment 4: Resolve data-table parity](04-resolve-data-table-parity.md)
+  — **Designed**
