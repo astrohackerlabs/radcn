@@ -213,6 +213,13 @@ Record cross-component discoveries here as experiments complete.
   multi-section composition, and richer server/action errors.
 - The next Issue 4 cluster should move past Form example parity to the next
   unmapped example/block/chart depth in the regenerated inventory and docs.
+- Experiment 7 added `resolved-clusters.json` so the generated inventory can
+  distinguish historical upstream coverage from unresolved Issue 4 work. The
+  inventory now keeps full upstream tables while excluding resolved clusters
+  from unresolved queues and recommendations.
+- After Experiment 7, the generated next recommendation is the `typography`
+  package outcome decision, because `typography` is a RadCN export without an
+  upstream `ui/` counterpart and is not yet marked resolved in Issue 4.
 
 ## Experiments
 
@@ -229,4 +236,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 6: Implement form example parity depth](06-implement-form-example-parity-depth.md)
   — **Pass**
 - [Experiment 7: Track resolved parity clusters](07-track-resolved-parity-clusters.md)
-  — **Designed**
+  — **Pass**

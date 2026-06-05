@@ -108,6 +108,22 @@ These are documented in RadCN but are not current package exports.
 
 - None.
 
+## Resolved Issue Clusters
+
+| Queue | Slug | Status | Evidence |
+| --- | --- | --- | --- |
+| examples | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/05-audit-form-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/06-implement-form-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md` |
+| packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
+| packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
+| packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
+
+## Unresolved Package Outcome Clusters
+
+RadCN exports without upstream `ui/` counterparts that still need an Issue 4
+parity decision.
+
+- `typography`
+
 ## Upstream Examples By Inferred Component
 
 | Component | Example count | Examples |
@@ -172,7 +188,102 @@ These are documented in RadCN but are not current package exports.
 | tooltip | 1 | `tooltip-demo` |
 | typography | 14 | `typography-blockquote`, `typography-demo`, `typography-h1`, `typography-h2`, `typography-h3`, `typography-h4`, `typography-inline-code`, `typography-large`, `typography-lead`, `typography-list`, `typography-muted`, `typography-p`, `typography-small`, `typography-table` |
 
+## Unresolved Example Clusters
+
+| Component | Example count | Examples |
+| --- | ---: | --- |
+| accordion | 1 | `accordion-demo` |
+| alert | 2 | `alert-demo`, `alert-destructive` |
+| alert-dialog | 1 | `alert-dialog-demo` |
+| aspect-ratio | 1 | `aspect-ratio-demo` |
+| avatar | 1 | `avatar-demo` |
+| badge | 4 | `badge-demo`, `badge-destructive`, `badge-outline`, `badge-secondary` |
+| breadcrumb | 6 | `breadcrumb-demo`, `breadcrumb-dropdown`, `breadcrumb-ellipsis`, `breadcrumb-link`, `breadcrumb-responsive`, `breadcrumb-separator` |
+| button | 13 | `button-as-child`, `button-default`, `button-demo`, `button-destructive`, `button-ghost`, `button-icon`, `button-link`, `button-loading`, `button-outline`, `button-rounded`, `button-secondary`, `button-size`, `button-with-icon` |
+| button-group | 11 | `button-group-demo`, `button-group-dropdown`, `button-group-input`, `button-group-input-group`, `button-group-nested`, `button-group-orientation`, `button-group-popover`, `button-group-select`, `button-group-separator`, `button-group-size`, `button-group-split` |
+| calendar | 2 | `calendar-demo`, `calendar-hijri` |
+| card | 2 | `card-demo`, `card-with-form` |
+| carousel | 6 | `carousel-api`, `carousel-demo`, `carousel-orientation`, `carousel-plugin`, `carousel-size`, `carousel-spacing` |
+| chart | 6 | `chart-bar-demo`, `chart-bar-demo-axis`, `chart-bar-demo-grid`, `chart-bar-demo-legend`, `chart-bar-demo-tooltip`, `chart-tooltip-demo` |
+| checkbox | 3 | `checkbox-demo`, `checkbox-disabled`, `checkbox-with-text` |
+| collapsible | 1 | `collapsible-demo` |
+| combobox | 4 | `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, `combobox-responsive` |
+| command | 2 | `command-demo`, `command-dialog` |
+| context-menu | 1 | `context-menu-demo` |
+| data-table | 1 | `data-table-demo` |
+| date-picker | 3 | `date-picker-demo`, `date-picker-with-presets`, `date-picker-with-range` |
+| dialog | 2 | `dialog-close-button`, `dialog-demo` |
+| drawer | 2 | `drawer-demo`, `drawer-dialog` |
+| dropdown-menu | 4 | `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, `dropdown-menu-radio-group` |
+| empty | 7 | `empty-avatar`, `empty-avatar-group`, `empty-background`, `empty-demo`, `empty-icon`, `empty-input-group`, `empty-outline` |
+| field | 12 | `field-checkbox`, `field-choice-card`, `field-demo`, `field-fieldset`, `field-group`, `field-input`, `field-radio`, `field-responsive`, `field-select`, `field-slider`, `field-switch`, `field-textarea` |
+| hover-card | 1 | `hover-card-demo` |
+| input | 6 | `input-demo`, `input-disabled`, `input-file`, `input-with-button`, `input-with-label`, `input-with-text` |
+| input-group | 11 | `input-group-button`, `input-group-button-group`, `input-group-custom`, `input-group-demo`, `input-group-dropdown`, `input-group-icon`, `input-group-label`, `input-group-spinner`, `input-group-text`, `input-group-textarea`, `input-group-tooltip` |
+| input-otp | 4 | `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, `input-otp-separator` |
+| item | 10 | `item-avatar`, `item-demo`, `item-dropdown`, `item-group`, `item-header`, `item-icon`, `item-image`, `item-link`, `item-size`, `item-variant` |
+| kbd | 5 | `kbd-button`, `kbd-demo`, `kbd-group`, `kbd-input-group`, `kbd-tooltip` |
+| label | 1 | `label-demo` |
+| menubar | 1 | `menubar-demo` |
+| mode-toggle | 1 | `mode-toggle` |
+| native-select | 4 | `native-select-demo`, `native-select-disabled`, `native-select-groups`, `native-select-invalid` |
+| navigation-menu | 1 | `navigation-menu-demo` |
+| pagination | 1 | `pagination-demo` |
+| popover | 1 | `popover-demo` |
+| progress | 1 | `progress-demo` |
+| radio-group | 1 | `radio-group-demo` |
+| resizable | 4 | `resizable-demo`, `resizable-demo-with-handle`, `resizable-handle`, `resizable-vertical` |
+| scroll-area | 2 | `scroll-area-demo`, `scroll-area-horizontal-demo` |
+| select | 2 | `select-demo`, `select-scrollable` |
+| separator | 1 | `separator-demo` |
+| sheet | 2 | `sheet-demo`, `sheet-side` |
+| skeleton | 2 | `skeleton-card`, `skeleton-demo` |
+| slider | 1 | `slider-demo` |
+| sonner | 2 | `sonner-demo`, `sonner-types` |
+| spinner | 10 | `spinner-badge`, `spinner-basic`, `spinner-button`, `spinner-color`, `spinner-custom`, `spinner-demo`, `spinner-empty`, `spinner-input-group`, `spinner-item`, `spinner-size` |
+| switch | 1 | `switch-demo` |
+| table | 1 | `table-demo` |
+| tabs | 1 | `tabs-demo` |
+| textarea | 5 | `textarea-demo`, `textarea-disabled`, `textarea-with-button`, `textarea-with-label`, `textarea-with-text` |
+| toast | 5 | `toast-demo`, `toast-destructive`, `toast-simple`, `toast-with-action`, `toast-with-title` |
+| toggle | 6 | `toggle-demo`, `toggle-disabled`, `toggle-lg`, `toggle-outline`, `toggle-sm`, `toggle-with-text` |
+| toggle-group | 7 | `toggle-group-demo`, `toggle-group-disabled`, `toggle-group-lg`, `toggle-group-outline`, `toggle-group-single`, `toggle-group-sm`, `toggle-group-spacing` |
+| tooltip | 1 | `tooltip-demo` |
+| typography | 14 | `typography-blockquote`, `typography-demo`, `typography-h1`, `typography-h2`, `typography-h3`, `typography-h4`, `typography-inline-code`, `typography-large`, `typography-lead`, `typography-list`, `typography-muted`, `typography-p`, `typography-small`, `typography-table` |
+
 ## Upstream Blocks Queue
+
+| Block | Categories | Registry dependencies |
+| --- | --- | --- |
+| dashboard-01 | `dashboard` | `avatar`, `badge`, `breadcrumb`, `button`, `card`, `chart`, `checkbox`, `drawer`, `dropdown-menu`, `input`, `label`, `select`, `separator`, `sheet`, `sidebar`, `sonner`, `table`, `tabs`, `toggle-group` |
+| login-01 | `authentication`, `login` | `button`, `card`, `field`, `input`, `label` |
+| login-02 | `authentication`, `login` | `button`, `field`, `input`, `label` |
+| login-03 | `authentication`, `login` | `button`, `card`, `field`, `input`, `label` |
+| login-04 | `authentication`, `login` | `button`, `card`, `field`, `input`, `label` |
+| login-05 | `authentication`, `login` | `button`, `field`, `input`, `label` |
+| sidebar-01 | `dashboard`, `sidebar` | `breadcrumb`, `dropdown-menu`, `label`, `separator`, `sidebar` |
+| sidebar-02 | `dashboard`, `sidebar` | `breadcrumb`, `dropdown-menu`, `label`, `separator`, `sidebar` |
+| sidebar-03 | `dashboard`, `sidebar` | `breadcrumb`, `sidebar` |
+| sidebar-04 | `dashboard`, `sidebar` | `breadcrumb`, `separator`, `sidebar` |
+| sidebar-05 | `dashboard`, `sidebar` | `breadcrumb`, `collapsible`, `label`, `separator`, `sidebar` |
+| sidebar-06 | `dashboard`, `sidebar` | `breadcrumb`, `card`, `dropdown-menu`, `separator`, `sidebar` |
+| sidebar-07 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `collapsible`, `dropdown-menu`, `separator`, `sidebar` |
+| sidebar-08 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `collapsible`, `dropdown-menu`, `separator`, `sidebar` |
+| sidebar-09 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `collapsible`, `dropdown-menu`, `label`, `separator`, `sidebar`, `switch` |
+| sidebar-10 | `dashboard`, `sidebar` | `breadcrumb`, `collapsible`, `dropdown-menu`, `popover`, `separator`, `sidebar` |
+| sidebar-11 | `dashboard`, `sidebar` | `breadcrumb`, `collapsible`, `separator`, `sidebar` |
+| sidebar-12 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `calendar`, `collapsible`, `dropdown-menu`, `separator`, `sidebar` |
+| sidebar-13 | `dashboard`, `sidebar` | `breadcrumb`, `button`, `dialog`, `sidebar` |
+| sidebar-14 | `dashboard`, `sidebar` | `breadcrumb`, `sidebar` |
+| sidebar-15 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `calendar`, `collapsible`, `dropdown-menu`, `popover`, `separator`, `sidebar` |
+| sidebar-16 | `dashboard`, `sidebar` | `avatar`, `breadcrumb`, `button`, `collapsible`, `dropdown-menu`, `label`, `separator`, `sidebar` |
+| signup-01 | `authentication`, `signup` | `button`, `card`, `input`, `label` |
+| signup-02 | `authentication`, `signup` | `button`, `field`, `input`, `label` |
+| signup-03 | `authentication`, `signup` | `button`, `card`, `field`, `input`, `label` |
+| signup-04 | `authentication`, `signup` | `button`, `card`, `field`, `input`, `label` |
+| signup-05 | `authentication`, `signup` | `button`, `input`, `label` |
+
+## Unresolved Block Clusters
 
 | Block | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -279,15 +390,90 @@ These are documented in RadCN but are not current package exports.
 | chart-tooltip-label-formatter | `charts`, `charts-tooltip` | `card`, `chart` |
 | chart-tooltip-label-none | `charts`, `charts-tooltip` | `card`, `chart` |
 
+## Unresolved Chart Clusters
+
+| Chart example | Categories | Registry dependencies |
+| --- | --- | --- |
+| chart-area-axes | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-default | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-gradient | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-icons | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-interactive | `charts`, `charts-area` | `card`, `chart`, `select` |
+| chart-area-legend | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-linear | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-stacked | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-stacked-expand | `charts`, `charts-area` | `card`, `chart` |
+| chart-area-step | `charts`, `charts-area` | `card`, `chart` |
+| chart-bar-active | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-default | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-horizontal | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-interactive | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-label | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-label-custom | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-mixed | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-multiple | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-negative | `charts`, `charts-bar` | `card`, `chart` |
+| chart-bar-stacked | `charts`, `charts-bar` | `card`, `chart` |
+| chart-line-default | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-dots | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-dots-colors | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-dots-custom | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-interactive | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-label | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-label-custom | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-linear | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-multiple | `charts`, `charts-line` | `card`, `chart` |
+| chart-line-step | `charts`, `charts-line` | `card`, `chart` |
+| chart-pie-donut | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-donut-active | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-donut-text | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-interactive | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-label | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-label-custom | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-label-list | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-legend | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-separator-none | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-simple | `charts`, `charts-pie` | `card`, `chart` |
+| chart-pie-stacked | `charts`, `charts-pie` | `card`, `chart` |
+| chart-radar-default | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-dots | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-circle | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-circle-fill | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-circle-no-lines | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-custom | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-fill | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-grid-none | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-icons | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-label-custom | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-legend | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-lines-only | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-multiple | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radar-radius | `charts`, `charts-radar` | `card`, `chart` |
+| chart-radial-grid | `charts`, `charts-radial` | `card`, `chart` |
+| chart-radial-label | `charts`, `charts-radial` | `card`, `chart` |
+| chart-radial-shape | `charts`, `charts-radial` | `card`, `chart` |
+| chart-radial-simple | `charts`, `charts-radial` | `card`, `chart` |
+| chart-radial-stacked | `charts`, `charts-radial` | `card`, `chart` |
+| chart-radial-text | `charts`, `charts-radial` | `card`, `chart` |
+| chart-tooltip-advanced | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-default | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-formatter | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-icons | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-indicator-line | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-indicator-none | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-label-custom | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-label-formatter | `charts`, `charts-tooltip` | `card`, `chart` |
+| chart-tooltip-label-none | `charts`, `charts-tooltip` | `card`, `chart` |
+
 ## First Recommended Cluster
 
-**Cluster:** Example parity for form
+**Cluster:** Package outcome decisions: typography
 
-No missing UI package API was found, so the next risk is example and behavior parity depth.
+These RadCN exports do not have upstream `ui/` counterparts and have not yet been recorded as resolved Issue 4 outcomes.
 
 Expected next experiment:
 
-- Audit upstream examples for form.
+- Resolve or document the typography package outcome.
 
 ## Notes
 

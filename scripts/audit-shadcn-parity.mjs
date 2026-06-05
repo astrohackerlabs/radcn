@@ -5,6 +5,7 @@ import path from 'node:path'
 const repo = process.cwd()
 const issueDir = path.join(repo, 'issues/0004-complete-shadcn-parity-and-docs')
 const outputPath = path.join(issueDir, 'parity-inventory.md')
+const resolvedClustersPath = path.join(issueDir, 'resolved-clusters.json')
 const registryRoot = path.join(repo, 'vendor/shadcn-ui/apps/v4/registry/new-york-v4')
 
 const uiRegistryPath = path.join(registryRoot, 'ui/_registry.ts')
@@ -16,13 +17,14 @@ const docsContentPath = path.join(repo, 'radcn/apps/docs/app/content/components.
 
 const knownOutcomeSlugs = ['form', 'date-picker', 'data-table']
 
-const [uiText, examplesText, blocksText, chartsText, packageText, docsText] = await Promise.all([
+const [uiText, examplesText, blocksText, chartsText, packageText, docsText, resolvedClusters] = await Promise.all([
   readFile(uiRegistryPath, 'utf8'),
   readFile(examplesRegistryPath, 'utf8'),
   readFile(blocksRegistryPath, 'utf8'),
   readFile(chartsRegistryPath, 'utf8'),
   readFile(radcnPackagePath, 'utf8'),
   readFile(docsContentPath, 'utf8'),
+  readResolvedClusters(resolvedClustersPath),
 ])
 
 const uiItems = parseRegistryItems(uiText)
@@ -42,8 +44,25 @@ const extraExports = radcnExports.filter((slug) => !uiNames.includes(slug))
 const docsOnlyOutcomes = knownOutcomeSlugs.filter((slug) => docsSlugs.includes(slug) && !radcnExports.includes(slug))
 const blockNames = blocks.map((item) => item.name).sort()
 const chartNames = charts.map((item) => item.name).sort()
+const resolvedExampleSlugs = resolvedSlugs(resolvedClusters.examples)
+const resolvedBlockSlugs = resolvedSlugs(resolvedClusters.blocks)
+const resolvedChartSlugs = resolvedSlugs(resolvedClusters.charts)
+const resolvedPackageOutcomeSlugs = resolvedSlugs(resolvedClusters.packageOutcomes)
+const unresolvedExampleGroups = Object.fromEntries(
+  Object.entries(exampleGroups).filter(([slug]) => !resolvedExampleSlugs.includes(slug)),
+)
+const unresolvedBlockNames = blockNames.filter((name) => !resolvedBlockSlugs.includes(name))
+const unresolvedChartNames = chartNames.filter((name) => !resolvedChartSlugs.includes(name))
+const unresolvedPackageOutcomeSlugs = extraExports.filter((slug) => !resolvedPackageOutcomeSlugs.includes(slug))
 
-const firstCluster = chooseFirstCluster({ docsOnlyOutcomes, exampleGroups, missingUi })
+const firstCluster = chooseFirstCluster({
+  docsOnlyOutcomes,
+  missingUi,
+  unresolvedBlockNames,
+  unresolvedChartNames,
+  unresolvedExampleGroups,
+  unresolvedPackageOutcomeSlugs,
+})
 const generatedAt = new Date().toISOString().slice(0, 10)
 
 const lines = [
@@ -104,6 +123,19 @@ const lines = [
   '',
   ...bulletList(docsOnlyOutcomes, 'None.'),
   '',
+  '## Resolved Issue Clusters',
+  '',
+  '| Queue | Slug | Status | Evidence |',
+  '| --- | --- | --- | --- |',
+  ...resolvedClusterRows(resolvedClusters),
+  '',
+  '## Unresolved Package Outcome Clusters',
+  '',
+  'RadCN exports without upstream `ui/` counterparts that still need an Issue 4',
+  'parity decision.',
+  '',
+  ...bulletList(unresolvedPackageOutcomeSlugs, 'None.'),
+  '',
   '## Upstream Examples By Inferred Component',
   '',
   '| Component | Example count | Examples |',
@@ -112,6 +144,16 @@ const lines = [
     let names = exampleGroups[slug].map((item) => item.name).sort()
     return `| ${slug} | ${names.length} | ${names.map((name) => `\`${name}\``).join(', ')} |`
   }),
+  '',
+  '## Unresolved Example Clusters',
+  '',
+  '| Component | Example count | Examples |',
+  '| --- | ---: | --- |',
+  ...Object.keys(unresolvedExampleGroups).sort().map((slug) => {
+    let names = unresolvedExampleGroups[slug].map((item) => item.name).sort()
+    return `| ${slug} | ${names.length} | ${names.map((name) => `\`${name}\``).join(', ')} |`
+  }),
+  ...(Object.keys(unresolvedExampleGroups).length === 0 ? ['| None | 0 |  |'] : []),
   '',
   '## Upstream Blocks Queue',
   '',
@@ -122,6 +164,16 @@ const lines = [
     return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
   }),
   '',
+  '## Unresolved Block Clusters',
+  '',
+  '| Block | Categories | Registry dependencies |',
+  '| --- | --- | --- |',
+  ...unresolvedBlockNames.map((name) => {
+    let item = blocks.find((block) => block.name === name)
+    return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
+  }),
+  ...(unresolvedBlockNames.length === 0 ? ['| None |  |  |'] : []),
+  '',
   '## Upstream Chart Examples Queue',
   '',
   '| Chart example | Categories | Registry dependencies |',
@@ -130,6 +182,16 @@ const lines = [
     let item = charts.find((chart) => chart.name === name)
     return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
   }),
+  '',
+  '## Unresolved Chart Clusters',
+  '',
+  '| Chart example | Categories | Registry dependencies |',
+  '| --- | --- | --- |',
+  ...unresolvedChartNames.map((name) => {
+    let item = charts.find((chart) => chart.name === name)
+    return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
+  }),
+  ...(unresolvedChartNames.length === 0 ? ['| None |  |  |'] : []),
   '',
   '## First Recommended Cluster',
   '',
@@ -221,7 +283,51 @@ function inferPrimarySlug(item, knownSlugs) {
   return item.name.replace(/-(demo|default|destructive|outline|secondary|example)$/, '')
 }
 
-function chooseFirstCluster({ docsOnlyOutcomes, exampleGroups, missingUi }) {
+async function readResolvedClusters(filePath) {
+  try {
+    let text = await readFile(filePath, 'utf8')
+    let data = JSON.parse(text)
+    return {
+      blocks: Array.isArray(data.blocks) ? data.blocks : [],
+      charts: Array.isArray(data.charts) ? data.charts : [],
+      examples: Array.isArray(data.examples) ? data.examples : [],
+      packageOutcomes: Array.isArray(data.packageOutcomes) ? data.packageOutcomes : [],
+    }
+  } catch (error) {
+    if (error?.code === 'ENOENT') {
+      return { blocks: [], charts: [], examples: [], packageOutcomes: [] }
+    }
+    throw error
+  }
+}
+
+function resolvedSlugs(items = []) {
+  return items.map((item) => item.slug).filter(Boolean).sort()
+}
+
+function resolvedClusterRows(clusters) {
+  let rows = []
+  for (let queue of ['examples', 'blocks', 'charts', 'packageOutcomes']) {
+    for (let item of clusters[queue] ?? []) {
+      rows.push(`| ${queue} | ${item.slug} | ${item.status ?? 'resolved'} | ${formatEvidence(item.evidence)} |`)
+    }
+  }
+  return rows.length > 0 ? rows : ['| None |  |  |  |']
+}
+
+function formatEvidence(items = []) {
+  if (!Array.isArray(items) || items.length === 0) return ''
+  return items.map((item) => `\`${item}\``).join('<br>')
+}
+
+function chooseFirstCluster({
+  docsOnlyOutcomes,
+  missingUi,
+  unresolvedBlockNames,
+  unresolvedChartNames,
+  unresolvedExampleGroups,
+  unresolvedPackageOutcomeSlugs,
+}) {
   if (missingUi.includes('form')) {
     return {
       title: 'Form parity and Remix 3 form recipes',
@@ -244,11 +350,47 @@ function chooseFirstCluster({ docsOnlyOutcomes, exampleGroups, missingUi }) {
     }
   }
 
-  let largestExampleGroup = Object.entries(exampleGroups).sort((a, b) => b[1].length - a[1].length)[0]
+  if (unresolvedPackageOutcomeSlugs.length > 0) {
+    return {
+      title: `Package outcome decisions: ${unresolvedPackageOutcomeSlugs.join(', ')}`,
+      reason:
+        'These RadCN exports do not have upstream `ui/` counterparts and have not yet been recorded as resolved Issue 4 outcomes.',
+      steps: unresolvedPackageOutcomeSlugs.map((slug) => `Resolve or document the ${slug} package outcome.`),
+    }
+  }
+
+  let largestExampleGroup = Object.entries(unresolvedExampleGroups).sort((a, b) => b[1].length - a[1].length)[0]
+  if (largestExampleGroup) {
+    return {
+      title: `Example parity for ${largestExampleGroup[0]}`,
+      reason:
+        'No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.',
+      steps: [`Audit upstream examples for ${largestExampleGroup[0]}.`],
+    }
+  }
+
+  if (unresolvedBlockNames.length > 0) {
+    let firstBlock = unresolvedBlockNames[0]
+    return {
+      title: `Block parity for ${firstBlock}`,
+      reason: 'All example clusters are resolved or empty, so the next unresolved queue is upstream blocks.',
+      steps: [`Audit upstream block ${firstBlock} and decide package, docs block, recipe, or divergence outcome.`],
+    }
+  }
+
+  if (unresolvedChartNames.length > 0) {
+    let firstChart = unresolvedChartNames[0]
+    return {
+      title: `Chart example parity for ${firstChart}`,
+      reason: 'Examples and blocks are resolved or empty, so the next unresolved queue is chart examples.',
+      steps: [`Audit upstream chart example ${firstChart} and decide chart API, recipe, or divergence outcome.`],
+    }
+  }
+
   return {
-    title: `Example parity for ${largestExampleGroup?.[0] ?? 'component docs'}`,
-    reason: 'No missing UI package API was found, so the next risk is example and behavior parity depth.',
-    steps: [`Audit upstream examples for ${largestExampleGroup?.[0] ?? 'the largest example group'}.`],
+    title: 'No unresolved parity clusters',
+    reason: 'All tracked package, example, block, and chart queues are resolved.',
+    steps: ['Close Issue 4 with a final verification pass.'],
   }
 }
 

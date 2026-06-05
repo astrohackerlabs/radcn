@@ -98,3 +98,70 @@ Findings:
   resolved section and does not appear in the unresolved example section.
 
 Re-review result: approved with no blocker, major, or minor findings.
+
+## Result
+
+**Result:** Pass
+
+Added Issue 4 resolved-cluster tracking and updated the parity inventory
+generator so completed clusters no longer keep reappearing as the next
+recommendation.
+
+Changed files:
+
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json`
+  - Added machine-readable resolved queues for examples, blocks, charts, and
+    package outcomes.
+  - Recorded Form example parity as resolved, and recorded Form, Date Picker,
+    and Data Table package outcomes as resolved.
+- `scripts/audit-shadcn-parity.mjs`
+  - Reads `resolved-clusters.json` when present.
+  - Emits resolved issue clusters, unresolved package outcome clusters,
+    unresolved example clusters, unresolved block clusters, and unresolved chart
+    clusters.
+  - Chooses the first recommended cluster after excluding resolved queues.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - Regenerated with full historical upstream tables plus the new unresolved
+    queues.
+  - Now recommends `typography` package outcome decisions instead of repeating
+    Form example parity.
+- `issues/0004-complete-shadcn-parity-and-docs/README.md`
+  - Recorded the resolved-cluster tracking learning and next recommendation.
+
+Verification:
+
+- `node scripts/audit-shadcn-parity.mjs` — Pass.
+- `tmp=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmp" && node scripts/audit-shadcn-parity.mjs >/tmp/radcn-parity-regen.log && diff -u "$tmp" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md; regen_status=$?; rm "$tmp"; cat /tmp/radcn-parity-regen.log; exit $regen_status`
+  — Pass; no diff.
+- `rg -n "\\| form \\| 30 \\|" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  — Pass; the historical upstream examples table still includes Form.
+- `node -e "const fs=require('node:fs'); const text=fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md','utf8'); const section=(name)=>text.split('## '+name)[1].split('\\n## ')[0]; if (!/\\| form \\|/.test(section('Resolved Issue Clusters'))) process.exit(1); if (/\\| form \\|/.test(section('Unresolved Example Clusters'))) process.exit(2); if (!/## Unresolved Block Clusters/.test(text) || !/## Unresolved Chart Clusters/.test(text)) process.exit(3)"`
+  — Pass.
+- `node -e "const fs=require('node:fs'); const data=JSON.parse(fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json','utf8')); for (const key of ['examples','blocks','charts','packageOutcomes']) if (!Array.isArray(data[key])) process.exit(1)"`
+  — Pass.
+- `rg -n "Example parity for form|Audit upstream examples for form" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  — Pass; exited 1 with no matches.
+- `git diff --check` — Pass.
+- `git status --short` — Pass; only expected script, issue, JSON, and
+  inventory files are modified.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — Pass; no output.
+
+## Conclusion
+
+Issue 4 now has a machine-readable way to remember completed parity clusters.
+The generated inventory remains complete for historical upstream coverage, but
+the unresolved queues and first recommendation now skip resolved work.
+
+The next experiment should resolve the `typography` package outcome decision.
+
+## Completion Review
+
+Reviewer: Avicenna (`019e9a37-fcb7-7801-b3e1-1a23e3f7251e`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- None.
+
+Review result: approved with no blocker, major, or minor findings.

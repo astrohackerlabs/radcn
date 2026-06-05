@@ -1,0 +1,38 @@
+{
+  "examples": [
+    {
+      "slug": "form",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/05-audit-form-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/06-implement-form-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md"
+      ]
+    }
+  ],
+  "blocks": [],
+  "charts": [],
+  "packageOutcomes": [
+    {
+      "slug": "form",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md"
+      ]
+    },
+    {
+      "slug": "date-picker",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md"
+      ]
+    },
+    {
+      "slug": "data-table",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md"
+      ]
+    }
+  ]
+}
