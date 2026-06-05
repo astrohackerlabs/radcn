@@ -25,7 +25,7 @@ export function Document(handle: Handle<DocumentProps>) {
           <meta name="theme-color" content="#ff2d20" media="(prefers-color-scheme: light)" />
           <meta name="theme-color" content="#ff4a3d" media="(prefers-color-scheme: dark)" />
           <meta name="color-scheme" content="light dark" />
-          <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+          <link rel="icon" type="image/png" href="/favicon.ico" />
           <title>{title}</title>
           <InitialThemeScript />
           <RadcnStyle />

@@ -10,9 +10,11 @@
     "fixtures:candidate:dev": "pnpm --dir radcn/fixtures/candidate-remix dev",
     "fixtures:reference:typecheck": "pnpm --dir radcn/fixtures/reference-react-router typecheck",
     "fixtures:candidate:typecheck": "pnpm --dir radcn/fixtures/candidate-remix typecheck",
+    "icons": "node scripts/process-icons.mjs",
     "radcn:typecheck": "pnpm --dir radcn/packages/radcn typecheck"
   },
   "devDependencies": {
-    "@playwright/test": "catalog:"
+    "@playwright/test": "catalog:",
+    "sharp": "^0.34.5"
   }
 }
