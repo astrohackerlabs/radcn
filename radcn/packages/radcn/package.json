@@ -23,6 +23,7 @@
     "./combobox": "./src/components/combobox.tsx",
     "./command": "./src/components/command.tsx",
     "./context-menu": "./src/components/context-menu.tsx",
+    "./data-table": "./src/components/data-table.tsx",
     "./date-picker": "./src/components/date-picker.tsx",
     "./direction": "./src/components/direction.tsx",
     "./dialog": "./src/components/dialog.tsx",

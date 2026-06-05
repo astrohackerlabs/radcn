@@ -34,6 +34,8 @@ export { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, Comma
 export type { CommandDialogProps, CommandInputProps, CommandItemProps, CommandPartProps, CommandProps } from './components/command.tsx'
 export { ContextMenu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuPortal, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger, enhanceContextMenu } from './components/context-menu.tsx'
 export type { ContextMenuItemVariant, ContextMenuProps, ContextMenuTriggerProps } from './components/context-menu.tsx'
+export { DataTable, DataTableBody, DataTableCaption, DataTableCell, DataTableColumnControls, DataTableContent, DataTableDetail, DataTableEmpty, DataTableFilter, DataTableHeader, DataTableHeaderCell, DataTablePagination, DataTableRow, DataTableRowActions, DataTableSelectionSummary, DataTableToolbar } from './components/data-table.tsx'
+export type { DataTableContentProps, DataTableEmptyProps, DataTableFilterProps, DataTableHeaderCellProps, DataTablePaginationProps, DataTablePartProps, DataTableProps, DataTableRowProps, DataTableSelectionSummaryProps } from './components/data-table.tsx'
 export { DatePicker, enhanceDatePicker } from './components/date-picker.tsx'
 export type { DatePickerPreset, DatePickerProps } from './components/date-picker.tsx'
 export { Direction, DirectionProvider } from './components/direction.tsx'

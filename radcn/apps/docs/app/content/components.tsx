@@ -71,6 +71,22 @@ import {
   CommandShortcut,
 } from 'radcn/command'
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from 'radcn/context-menu'
+import {
+  DataTable,
+  DataTableBody,
+  DataTableCell,
+  DataTableColumnControls,
+  DataTableContent,
+  DataTableDetail,
+  DataTableFilter,
+  DataTableHeader,
+  DataTableHeaderCell,
+  DataTablePagination,
+  DataTableRow,
+  DataTableRowActions,
+  DataTableSelectionSummary,
+  DataTableToolbar,
+} from 'radcn/data-table'
 import { DatePicker } from 'radcn/date-picker'
 import {
   Dialog,
@@ -438,6 +454,75 @@ export function DatePickerPreview() {
   )
 }`
 
+const dataTableSource = `import { Badge } from 'radcn/badge'
+import { Button } from 'radcn/button'
+import { Checkbox } from 'radcn/checkbox'
+import {
+  DataTable,
+  DataTableBody,
+  DataTableCell,
+  DataTableColumnControls,
+  DataTableContent,
+  DataTableFilter,
+  DataTableHeader,
+  DataTableHeaderCell,
+  DataTablePagination,
+  DataTableRow,
+  DataTableRowActions,
+  DataTableSelectionSummary,
+  DataTableToolbar,
+} from 'radcn/data-table'
+import { Input } from 'radcn/input'
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from 'radcn/pagination'
+
+export function DataTablePreview() {
+  return (
+    <DataTable caption="Payments" rowCount={3} selectedCount={1}>
+      <form action="/payments" method="get">
+        <DataTableToolbar>
+          <DataTableFilter label="Filter emails">
+            <Input name="email" value="ada" />
+          </DataTableFilter>
+          <DataTableColumnControls>
+            <Button variant="outline">Columns</Button>
+          </DataTableColumnControls>
+        </DataTableToolbar>
+      </form>
+      <DataTableContent caption="Recent payments" dense>
+        <DataTableHeader>
+          <DataTableRow>
+            <DataTableHeaderCell>Select</DataTableHeaderCell>
+            <DataTableHeaderCell ariaSort="ascending" href="/payments?sort=email">Email</DataTableHeaderCell>
+            <DataTableHeaderCell>Status</DataTableHeaderCell>
+            <DataTableHeaderCell>Amount</DataTableHeaderCell>
+          </DataTableRow>
+        </DataTableHeader>
+        <DataTableBody>
+          <DataTableRow selected>
+            <DataTableCell><Checkbox checked name="rows" value="pay-1" /></DataTableCell>
+            <DataTableCell>ada@example.com</DataTableCell>
+            <DataTableCell><Badge variant="secondary">Success</Badge></DataTableCell>
+            <DataTableCell>$316.00</DataTableCell>
+          </DataTableRow>
+        </DataTableBody>
+      </DataTableContent>
+      <DataTablePagination page={1} pageCount={2}>
+        <DataTableSelectionSummary rowCount={3} selectedCount={1} />
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem><PaginationLink href="/payments?page=1" isActive>1</PaginationLink></PaginationItem>
+            <PaginationItem><PaginationLink href="/payments?page=2">2</PaginationLink></PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </DataTablePagination>
+      <DataTableRowActions>
+        <Button variant="outline">Open row</Button>
+        <Button variant="ghost">Duplicate</Button>
+      </DataTableRowActions>
+    </DataTable>
+  )
+}`
+
 const dialogSource = `import {
   Dialog,
   DialogClose,
@@ -592,6 +677,69 @@ function DatePickerPreview() {
         numberOfMonths={2}
       />
     </div>
+  )
+}
+
+function DataTablePreview() {
+  return () => (
+    <DataTable caption="Payments" rowCount={3} selectedCount={1} style="width: min(100%, 46rem);">
+      <form action="/docs/components/data-table" method="get">
+        <DataTableToolbar>
+          <DataTableFilter label="Filter emails">
+            <Input name="email" value="ada" />
+          </DataTableFilter>
+          <DataTableColumnControls>
+            <Button variant="outline">Columns</Button>
+            <Button variant="outline">Add payment</Button>
+          </DataTableColumnControls>
+        </DataTableToolbar>
+      </form>
+      <DataTableContent caption="Recent payments" dense>
+        <DataTableHeader>
+          <DataTableRow>
+            <DataTableHeaderCell>Select</DataTableHeaderCell>
+            <DataTableHeaderCell ariaSort="ascending" href="/docs/components/data-table?sort=email">
+              Email
+            </DataTableHeaderCell>
+            <DataTableHeaderCell>Status</DataTableHeaderCell>
+            <DataTableHeaderCell>Amount</DataTableHeaderCell>
+          </DataTableRow>
+        </DataTableHeader>
+        <DataTableBody>
+          <DataTableRow selected>
+            <DataTableCell><Checkbox checked name="rows" value="pay-1" /></DataTableCell>
+            <DataTableCell>ada@example.com</DataTableCell>
+            <DataTableCell><Badge variant="secondary">Success</Badge></DataTableCell>
+            <DataTableCell>$316.00</DataTableCell>
+          </DataTableRow>
+          <DataTableRow>
+            <DataTableCell><Checkbox name="rows" value="pay-2" /></DataTableCell>
+            <DataTableCell>grace@example.com</DataTableCell>
+            <DataTableCell><Badge variant="outline">Processing</Badge></DataTableCell>
+            <DataTableCell>$242.00</DataTableCell>
+          </DataTableRow>
+        </DataTableBody>
+      </DataTableContent>
+      <DataTablePagination page={1} pageCount={2}>
+        <DataTableSelectionSummary rowCount={3} selectedCount={1} />
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem><PaginationLink href="/docs/components/data-table?page=1" isActive>1</PaginationLink></PaginationItem>
+            <PaginationItem><PaginationLink href="/docs/components/data-table?page=2">2</PaginationLink></PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </DataTablePagination>
+      <DataTableRowActions>
+        <Button variant="outline">Open row</Button>
+        <Button variant="ghost">Duplicate</Button>
+      </DataTableRowActions>
+      <DataTableDetail>
+        <strong>ada@example.com</strong>
+        <p style="margin: 0.25rem 0 0; color: var(--radcn-muted-foreground);">
+          Detail and editing panels remain app-owned composition.
+        </p>
+      </DataTableDetail>
+    </DataTable>
   )
 }
 
@@ -1400,6 +1548,44 @@ const richComponentDocs: ComponentDoc[] = [
     ],
   },
   {
+    slug: 'data-table',
+    title: 'Data Table',
+    category: 'Blocks',
+    kind: 'block',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A package-backed Data Table composition for sortable, filterable, selectable, paginated, and action-oriented table screens.',
+    importPath: 'radcn/data-table',
+    importExample:
+      "import { DataTable, DataTableContent, DataTableToolbar } from 'radcn/data-table'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'native-table-workflow',
+        title: 'Native Table Workflow',
+        description:
+          'Compose native filter forms, sortable links, selection checkboxes, pagination, row actions, and detail panels with package-owned Data Table slots.',
+        source: dataTableSource,
+        preview: <DataTablePreview />,
+      },
+    ],
+    accessibility: [
+      'Keeps the core output as a semantic table with captions, table headers, table rows, and table cells.',
+      'Uses aria-sort on sortable header cells and real links/forms for server-owned filtering, sorting, and pagination.',
+      'Selection is represented by native checkbox controls and visible summary text rather than hidden client state.',
+    ],
+    customization: [
+      'Exposes data-radcn-data-table, toolbar, filter, column-controls, content, row, selection-summary, pagination, row-actions, detail, and empty hooks.',
+      'Data operations remain explicit in route state, query strings, and submitted form values so apps can use any data layer.',
+    ],
+    divergence: [
+      'shadcn/ui demonstrates Data Table with React state and TanStack Table. RadCN ships composition slots, not a React table engine.',
+      'Column visibility, sorting, filtering, pagination, row editing, and row actions are app-owned controls built from native forms, links, and existing RadCN primitives.',
+      'Dashboard-only drag/reorder and chart detail patterns stay as recipe/block composition until a later experiment proves a reusable package behavior is needed.',
+    ],
+  },
+  {
     slug: 'dialog',
     title: 'Dialog',
     category: 'Overlays',
@@ -1574,7 +1760,6 @@ const registrySeeds: RegistrySeed[] = [
   { slug: 'toggle-group', title: 'Toggle Group', category: 'Inputs', importNames: ['ToggleGroup', 'ToggleGroupItem'] },
   { slug: 'tooltip', title: 'Tooltip', category: 'Overlays', importNames: ['Tooltip', 'TooltipTrigger', 'TooltipContent'] },
   { slug: 'typography', title: 'Typography', category: 'Recipes', kind: 'recipe', disposition: 'recipe', importNames: ['TypographyH1', 'TypographyP', 'TypographyInlineCode'] },
-  { slug: 'data-table', title: 'Data Table', category: 'Blocks', kind: 'block', disposition: 'not-shipped-yet', status: 'draft', importNames: [] },
 ]
 
 const richSlugs = new Set(richComponentDocs.map((component) => component.slug))

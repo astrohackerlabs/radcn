@@ -180,6 +180,21 @@ Record cross-component discoveries here as experiments complete.
   is complete.
 - After Experiment 3, the regenerated inventory reports 59 RadCN public package
   subpaths. The only remaining docs-only outcome is `data-table`.
+- Experiment 4 shipped `radcn/data-table` as a package-backed composition layer
+  over existing RadCN primitives. It intentionally does not port TanStack Table,
+  React state, drag-and-drop libraries, chart libraries, schema validation, or
+  toast dependencies.
+- Data Table parity maps upstream filtering, sorting, row selection,
+  pagination, column controls, row actions, responsive detail, empty state, and
+  row-editing patterns to native forms, links, checkboxes, buttons, explicit
+  props, and package-owned slots. Apps remain responsible for route/query state,
+  data operations, persistence, and dashboard-specific behavior.
+- After Experiment 4, the regenerated inventory reports 60 RadCN public package
+  subpaths and no known docs-only outcomes. `data-table`, `date-picker`, and
+  `typography` are RadCN package exports without upstream `ui/` counterparts,
+  but each now has a documented parity decision.
+- The next recommended cluster from the inventory is example parity depth,
+  beginning with upstream form examples.
 
 ## Experiments
 
@@ -190,4 +205,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 3: Resolve date-picker parity](03-resolve-date-picker-parity.md)
   — **Pass**
 - [Experiment 4: Resolve data-table parity](04-resolve-data-table-parity.md)
-  — **Designed**
+  — **Pass**

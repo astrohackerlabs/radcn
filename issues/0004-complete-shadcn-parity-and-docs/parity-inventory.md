@@ -23,7 +23,7 @@ registry.
 | shadcn/ui registry examples | 244 |
 | shadcn/ui registry blocks | 27 |
 | shadcn/ui registry chart examples | 70 |
-| RadCN public package subpaths | 59 |
+| RadCN public package subpaths | 60 |
 | RadCN docs routes | 60 |
 
 ## Upstream UI Components
@@ -98,6 +98,7 @@ These exports may be Remix 3 helpers, documented divergences, or RadCN-specific
 package structure. They still need parity decisions where upstream has related
 examples or blocks.
 
+- `data-table`
 - `date-picker`
 - `typography`
 
@@ -105,7 +106,7 @@ examples or blocks.
 
 These are documented in RadCN but are not current package exports.
 
-- `data-table`
+- None.
 
 ## Upstream Examples By Inferred Component
 
@@ -280,13 +281,13 @@ These are documented in RadCN but are not current package exports.
 
 ## First Recommended Cluster
 
-**Cluster:** Docs-only outcomes: data-table
+**Cluster:** Example parity for form
 
-These outcomes are already visible in the docs as gaps, so they are the most user-facing parity work left after package UI parity.
+No missing UI package API was found, so the next risk is example and behavior parity depth.
 
 Expected next experiment:
 
-- Resolve the data-table outcome as a package API, recipe, block, or intentional divergence.
+- Audit upstream examples for form.
 
 ## Notes
 

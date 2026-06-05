@@ -4,6 +4,21 @@ import {
   Badge,
   Button,
   Checkbox,
+  DataTable,
+  DataTableBody,
+  DataTableCell,
+  DataTableColumnControls,
+  DataTableContent,
+  DataTableDetail,
+  DataTableEmpty,
+  DataTableFilter,
+  DataTableHeader,
+  DataTableHeaderCell,
+  DataTablePagination,
+  DataTableRow,
+  DataTableRowActions,
+  DataTableSelectionSummary,
+  DataTableToolbar,
   Input,
   Pagination,
   PaginationContent,
@@ -14,13 +29,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
 } from 'radcn'
 
 const rows = [
@@ -31,39 +39,43 @@ const rows = [
 
 function DataTableShell({ children, custom = false }: { children: RemixNode; custom?: boolean }) {
   return (
-    <section class={custom ? 'radcn-data-table-recipe radcn-fixture-custom-data-table' : 'radcn-data-table-recipe'} data-radcn-data-table-recipe>
+    <DataTable
+      caption="Dashboard tasks"
+      class={custom ? 'radcn-fixture-custom-data-table' : undefined}
+      rowCount={rows.length}
+      selectedCount={1}
+    >
       {children}
-    </section>
+    </DataTable>
   )
 }
 
-function TaskTable({ selected = false, sort = false }: { selected?: boolean; sort?: boolean }) {
+function TaskTable({ empty = false, selected = false, sort = false }: { empty?: boolean; selected?: boolean; sort?: boolean }) {
   return (
-    <Table dense>
-      <TableCaption>Dashboard tasks recipe block.</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Select</TableHead>
-          <TableHead ariaSort={sort ? 'ascending' : undefined}>
-            {sort ? <a data-radcn-data-table-sort href="/fixtures/data-table/sort-filter?sort=task">Task ↑</a> : 'Task'}
-          </TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Owner</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {rows.map((row, index) => (
-          <TableRow class={selected && index === 0 ? 'radcn-data-table-row--selected' : undefined}>
-            <TableCell>
+    <DataTableContent caption="Dashboard tasks recipe block." dense>
+      <DataTableHeader>
+        <DataTableRow>
+          <DataTableHeaderCell>Select</DataTableHeaderCell>
+          <DataTableHeaderCell ariaSort={sort ? 'ascending' : undefined} href={sort ? '/fixtures/data-table/sort-filter?sort=task' : undefined}>
+            {sort ? 'Task ↑' : 'Task'}
+          </DataTableHeaderCell>
+          <DataTableHeaderCell>Status</DataTableHeaderCell>
+          <DataTableHeaderCell>Owner</DataTableHeaderCell>
+        </DataTableRow>
+      </DataTableHeader>
+      <DataTableBody>
+        {empty ? <DataTableEmpty colSpan={4}>No tasks match this filter.</DataTableEmpty> : rows.map((row, index) => (
+          <DataTableRow reorderable={index === 0} selected={selected && index === 0}>
+            <DataTableCell>
               <Checkbox checked={selected && index === 0} name="rows" value={row.id} />
-            </TableCell>
-            <TableCell>{row.task}</TableCell>
-            <TableCell><Badge variant={row.status === 'Done' ? 'secondary' : 'outline'}>{row.status}</Badge></TableCell>
-            <TableCell>{row.owner}</TableCell>
-          </TableRow>
+            </DataTableCell>
+            <DataTableCell>{row.task}</DataTableCell>
+            <DataTableCell><Badge variant={row.status === 'Done' ? 'secondary' : 'outline'}>{row.status}</Badge></DataTableCell>
+            <DataTableCell>{row.owner}</DataTableCell>
+          </DataTableRow>
         ))}
-      </TableBody>
-    </Table>
+      </DataTableBody>
+    </DataTableContent>
   )
 }
 
@@ -72,14 +84,106 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
     return DataTableShell({
       children: (
         <>
-          <form action="/fixtures/data-table/sort-filter" method="get" style="display:flex;gap:12px;align-items:end;flex-wrap:wrap">
-            <label style="display:grid;gap:6px">
-              <span>Filter tasks</span>
-              <Input name="q" value="port" />
-            </label>
-            <Button name="intent" type="submit" value="filter">Apply</Button>
+          <form action="/fixtures/data-table/sort-filter" method="get">
+            <DataTableToolbar>
+              <DataTableFilter label="Filter tasks">
+                <Input name="q" value="port" />
+              </DataTableFilter>
+              <Button name="intent" type="submit" value="filter">Apply</Button>
+            </DataTableToolbar>
           </form>
           {TaskTable({ sort: true })}
+        </>
+      ),
+    })
+  }
+
+  if (fixture.id === 'empty') {
+    return DataTableShell({
+      children: (
+        <>
+          <DataTableToolbar>
+            <DataTableFilter label="Filter tasks">
+              <Input name="q" value="missing" />
+            </DataTableFilter>
+            <Button name="intent" type="submit" value="filter">Apply</Button>
+          </DataTableToolbar>
+          {TaskTable({ empty: true })}
+        </>
+      ),
+    })
+  }
+
+  if (fixture.id === 'row-editing') {
+    return DataTableShell({
+      children: (
+        <>
+          {TaskTable({ selected: true })}
+          <DataTableDetail>
+            <form style="display:grid;gap:10px">
+              <label style="display:grid;gap:6px">
+                <span>Task</span>
+                <Input name="task" value="Port chart" />
+              </label>
+              <label style="display:grid;gap:6px">
+                <span>Status</span>
+                <Select value="done">
+                  <SelectTrigger ariaLabel="Task status"><SelectValue placeholder="Done">Done</SelectValue></SelectTrigger>
+                  <SelectContent><SelectItem value="done">Done</SelectItem></SelectContent>
+                </Select>
+              </label>
+              <Button type="submit">Save row</Button>
+            </form>
+          </DataTableDetail>
+        </>
+      ),
+    })
+  }
+
+  if (fixture.id === 'column-controls') {
+    return DataTableShell({
+      children: (
+        <>
+          <DataTableToolbar>
+            <strong>Dashboard tasks</strong>
+            <DataTableColumnControls>
+              <Button variant="outline">Columns</Button>
+              <Button variant="outline">Add row</Button>
+            </DataTableColumnControls>
+          </DataTableToolbar>
+          {TaskTable({})}
+        </>
+      ),
+    })
+  }
+
+  if (fixture.id === 'dashboard-composition') {
+    return DataTableShell({
+      children: (
+        <>
+          <DataTableToolbar>
+            <Select value="outline">
+              <SelectTrigger ariaLabel="View"><SelectValue placeholder="Outline">Outline</SelectValue></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="outline">Outline</SelectItem>
+                <SelectItem value="review">Review</SelectItem>
+              </SelectContent>
+            </Select>
+            <DataTableColumnControls>
+              <Button variant="outline">Columns</Button>
+              <Button variant="outline">Add section</Button>
+            </DataTableColumnControls>
+          </DataTableToolbar>
+          {TaskTable({ selected: true })}
+          <DataTablePagination page={1} pageCount={2}>
+            <DataTableSelectionSummary rowCount={rows.length} selectedCount={1} />
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem><PaginationLink href="/fixtures/data-table/dashboard-composition?page=1" isActive>1</PaginationLink></PaginationItem>
+                <PaginationItem><PaginationLink href="/fixtures/data-table/dashboard-composition?page=2">2</PaginationLink></PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </DataTablePagination>
         </>
       ),
     })
@@ -89,7 +193,7 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
     return DataTableShell({
       children: (
         <>
-          <p data-radcn-data-table-selection-summary>1 row selected</p>
+          <DataTableSelectionSummary>1 row selected</DataTableSelectionSummary>
           {TaskTable({ selected: true })}
         </>
       ),
@@ -101,12 +205,14 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
       children: (
         <>
           {TaskTable({})}
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem><PaginationLink href="/fixtures/data-table/pagination?page=1" isActive>1</PaginationLink></PaginationItem>
-              <PaginationItem><PaginationLink href="/fixtures/data-table/pagination?page=2">2</PaginationLink></PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          <DataTablePagination page={1} pageCount={2}>
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem><PaginationLink href="/fixtures/data-table/pagination?page=1" isActive>1</PaginationLink></PaginationItem>
+                <PaginationItem><PaginationLink href="/fixtures/data-table/pagination?page=2">2</PaginationLink></PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          </DataTablePagination>
         </>
       ),
     })
@@ -117,10 +223,10 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
       children: (
         <>
           {TaskTable({})}
-          <div data-radcn-data-table-row-actions style="display:flex;gap:12px">
+          <DataTableRowActions>
             <Button variant="outline">Open row</Button>
             <Button variant="ghost">Duplicate</Button>
-          </div>
+          </DataTableRowActions>
         </>
       ),
     })
@@ -131,10 +237,10 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
       children: (
         <>
           {TaskTable({ selected: true })}
-          <aside data-radcn-data-table-detail style="border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);padding:12px">
+          <DataTableDetail>
             <strong>Port chart</strong>
             <p style="margin:6px 0 0;color:var(--radcn-muted-foreground)">Responsive detail panels are recipe code composed beside the table.</p>
-          </aside>
+          </DataTableDetail>
         </>
       ),
     })
@@ -147,7 +253,7 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
   return DataTableShell({
     children: (
       <>
-        <div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap">
+        <DataTableToolbar>
           <strong>Dashboard tasks</strong>
           <Select value="all">
             <SelectTrigger ariaLabel="Status filter"><SelectValue placeholder="All statuses">All statuses</SelectValue></SelectTrigger>
@@ -156,7 +262,7 @@ export function renderDataTableFixture(fixture: FixtureScenario) {
               <SelectItem value="done">Done</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+        </DataTableToolbar>
         {TaskTable({})}
       </>
     ),

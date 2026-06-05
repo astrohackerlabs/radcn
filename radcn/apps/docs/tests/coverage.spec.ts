@@ -4,7 +4,7 @@ import path from 'node:path'
 import { expect, test } from '@playwright/test'
 
 const excludedExports = new Set(['.', './styles', './package.json'])
-const nonExportedDispositions = ['data-table']
+const nonExportedDispositions: string[] = []
 const publicPreviewHooks: Record<string, string> = {
   accordion: '[data-radcn-accordion]',
   alert: '[data-radcn-alert]',
@@ -24,6 +24,7 @@ const publicPreviewHooks: Record<string, string> = {
   combobox: '[data-radcn-combobox]',
   command: '[data-radcn-command]',
   'context-menu': '[data-radcn-context-menu]',
+  'data-table': '[data-radcn-data-table]',
   'date-picker': '[data-radcn-date-picker]',
   direction: '[data-radcn-direction-provider]',
   dialog: '[data-radcn-dialog-content]',

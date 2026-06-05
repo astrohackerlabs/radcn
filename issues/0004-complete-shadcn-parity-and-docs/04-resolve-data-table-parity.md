@@ -175,3 +175,96 @@ Findings:
   drag/reorder and chart-detail behavior to stay in recipe/block composition.
 
 Re-review result: approved with no blocker, major, or minor findings.
+
+## Result
+
+**Result:** Pass
+
+Resolved Data Table parity by shipping an importable `radcn/data-table`
+composition API and moving the docs page out of the docs-only
+`not-shipped-yet` disposition.
+
+Changed files:
+
+- `radcn/packages/radcn/src/components/data-table.tsx`
+  - Added `DataTable`, `DataTableToolbar`, `DataTableFilter`,
+    `DataTableColumnControls`, `DataTableContent`, `DataTableHeaderCell`,
+    `DataTableRow`, `DataTableSelectionSummary`, `DataTablePagination`,
+    `DataTableRowActions`, `DataTableDetail`, `DataTableEmpty`, table-part
+    aliases, and public prop types.
+  - Keeps table behavior app-owned and server/native friendly; the package
+    owns structure, slots, accessibility hooks, and styling hooks.
+- `radcn/packages/radcn/package.json` and `radcn/packages/radcn/src/index.ts`
+  - Added the public `./data-table` export and root exports/types.
+- `radcn/packages/radcn/src/styles/tokens.css` and
+  `radcn/packages/radcn/src/styles/index.ts`
+  - Added package-level Data Table styles and regenerated `radcnStyles`.
+- `radcn/fixtures/candidate-remix/app/fixtures/data-table.tsx`
+  - Replaced the local recipe shell with the package API.
+  - Added package-backed coverage scenarios for filter/sort, selection,
+    pagination, column controls, row actions, responsive detail, empty state,
+    row editing, dashboard-style composition, and custom tokens.
+- `radcn/fixtures/scenarios/index.ts`
+  - Updated Data Table scenario descriptions from local recipe language to
+    package-backed behavior and added the new scenario entries.
+- `radcn/fixtures/tests/data-display.spec.ts`
+  - Now requires `./data-table` to be exported and checks the Data Table package
+    hooks and controls while preserving negative dependency assertions.
+- `radcn/apps/docs/app/content/components.tsx`
+  - Added a rich Data Table docs page with live package-backed examples,
+    source, accessibility notes, customization notes, and Remix 3 divergence
+    documentation.
+- `radcn/apps/docs/tests/coverage.spec.ts`
+  - Removed Data Table from non-exported dispositions and added the exported
+    docs preview hook.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - Regenerated the inventory. It now reports 60 RadCN public package subpaths
+    and no known docs-only outcomes.
+
+Verification:
+
+- `pnpm radcn:typecheck` — Pass.
+- `pnpm --dir radcn/apps/docs typecheck` — Pass.
+- `pnpm fixtures:candidate:typecheck` — Pass.
+- `pnpm fixtures:reference:typecheck` — Pass, with the existing React Router
+  `module.register()` deprecation warning.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts data-display.spec.ts`
+  — Pass, 5 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — Pass, 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` — Pass; inventory regenerated.
+- `tmp=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmp" && node scripts/audit-shadcn-parity.mjs >/tmp/radcn-parity-regen.log && diff -u "$tmp" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md; regen_status=$?; rm "$tmp"; cat /tmp/radcn-parity-regen.log; exit $regen_status`
+  — Pass; no diff.
+- `git diff --check` — Pass.
+- `git status --short` — Pass; only expected source, docs, fixture, issue, and
+  inventory files are modified.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — Pass; no output.
+- `rg -n "from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|from ['\"]react['\"]|from ['\"](@tanstack/react-table|@dnd-kit/[^'\"]+|zod|recharts|sonner|radix-ui|@radix-ui/react-slot)['\"]|\"(@tanstack/react-table|@dnd-kit/[^'\"]+|zod|recharts|sonner|radix-ui|@radix-ui/react-slot)\"\\s*:" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json`
+  — Pass; exited 1 with no matches.
+
+## Conclusion
+
+Data Table is no longer an unexplained docs-only gap. RadCN now treats it as a
+package-backed composition surface: the package owns semantic slots, styling
+hooks, selected/empty/detail/action affordances, and docs examples, while apps
+own route state, data transforms, persistence, and any dashboard-specific
+drag/reorder or chart-detail behavior.
+
+The next Issue 4 experiment should move from unresolved package outcomes to
+example parity depth. The regenerated inventory recommends starting with form
+examples.
+
+## Completion Review
+
+Reviewer: Heisenberg (`019e9a1f-b1c1-73b3-a4da-d8cd477995fd`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Minor: `radcn/apps/docs/app/content/components.tsx` still had a stale
+  `registrySeeds` entry for `data-table` with `not-shipped-yet` disposition,
+  even though the rich docs entry was ready. Fixed by removing the stale seed
+  entry so the registry source has only the ready Data Table outcome.
+
+Re-review result: approved with no blocker, major, or minor findings.

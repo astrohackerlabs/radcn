@@ -478,14 +478,14 @@ export const fixtureScenarios: FixtureScenario[] = [
   {
     component: "data-table",
     id: "default",
-    title: "Data Table Block",
-    description: "Bounded data-table recipe using existing RadCN primitives.",
+    title: "Default Data Table",
+    description: "Package-backed Data Table shell using semantic table parts.",
   },
   {
     component: "data-table",
     id: "sort-filter",
     title: "Data Table Sort and Filter",
-    description: "Recipe surface for sorting and filtering table data.",
+    description: "Package Data Table surface for native sorting links and filter forms.",
   },
   {
     component: "data-table",
@@ -515,7 +515,31 @@ export const fixtureScenarios: FixtureScenario[] = [
     component: "data-table",
     id: "custom-token",
     title: "Custom Data Table Token",
-    description: "Data-table block customized through public recipe hooks.",
+    description: "Data-table package customized through public styling hooks.",
+  },
+  {
+    component: "data-table",
+    id: "column-controls",
+    title: "Data Table Column Controls",
+    description: "Column visibility and table-level action controls.",
+  },
+  {
+    component: "data-table",
+    id: "empty",
+    title: "Data Table Empty State",
+    description: "Empty table result state with semantic colspan output.",
+  },
+  {
+    component: "data-table",
+    id: "row-editing",
+    title: "Data Table Row Editing",
+    description: "Detail editing form composed beside a selected table row.",
+  },
+  {
+    component: "data-table",
+    id: "dashboard-composition",
+    title: "Data Table Dashboard Composition",
+    description: "Dashboard-style Data Table composition with view and pagination controls.",
   },
   {
     component: "direction",
