@@ -154,3 +154,130 @@ Result:
 
 - Halley approved the design with no blockers. The real major and minor
   findings were fixed before the plan commit.
+
+## Result
+
+**Result:** Pass
+
+Implemented the workspace migration so the repository root is now the pnpm
+workspace boundary and `pnpm dev` from `/Users/ryan/dev/radcn` runs the docs
+site.
+
+Workspace changes:
+
+- Added repository-root `package.json` with root-relative scripts for the docs
+  app, fixtures, artifact generation, and RadCN package typecheck.
+- Preserved `packageManager: "pnpm@11.5.2"` in the new root manifest.
+- Moved `pnpm-workspace.yaml` to the repository root with explicit package
+  globs only:
+  - `radcn/apps/*`
+  - `radcn/packages/*`
+  - `radcn/fixtures/*`
+- Recorded `allowBuilds.esbuild = true` in `pnpm-workspace.yaml` so pnpm 11's
+  build-script approval policy is deterministic.
+- Moved/regenerated `pnpm-lock.yaml` at the repository root.
+- Removed the nested `radcn/package.json`, `radcn/pnpm-workspace.yaml`, and
+  `radcn/pnpm-lock.yaml` workspace-owner files.
+- Removed the stale ignored workspace-level `radcn/node_modules` directory
+  after the root install succeeded. pnpm still creates expected per-package
+  `node_modules` directories under workspace projects.
+
+Docs runtime change:
+
+- Updated `radcn/apps/docs/app/assets.ts` so the docs asset server resolves
+  pnpm virtual-store asset URLs to the root install location:
+  `../../../node_modules/.pnpm/*path`.
+- Kept the explicit `/assets/node_modules/.pnpm/...` fileMap entry. The earlier
+  Remix browser-entry 404 fix still applies; only the physical store location
+  changed.
+
+Verification run from `/Users/ryan/dev/radcn` on 2026-06-05:
+
+```sh
+pnpm install
+# Pass: root install completed with pnpm v11.5.2
+
+pnpm list -r --depth -1
+# Pass: listed only:
+# - radcn-workspace /Users/ryan/dev/radcn
+# - docs /Users/ryan/dev/radcn/radcn/apps/docs
+# - radcn-candidate-remix /Users/ryan/dev/radcn/radcn/fixtures/candidate-remix
+# - radcn-reference-react-router /Users/ryan/dev/radcn/radcn/fixtures/reference-react-router
+# - radcn@0.0.0 /Users/ryan/dev/radcn/radcn/packages/radcn
+
+rg -n "vendor/|\\.\\./vendor|link:.*vendor|file:.*vendor" pnpm-lock.yaml package.json pnpm-workspace.yaml
+# Pass: no output
+
+git status --short -- vendor
+# Pass: no output
+
+find vendor -maxdepth 2 -name node_modules -type d -print
+# Pass: no output
+
+pnpm radcn:typecheck
+# Pass: pnpm --dir radcn/packages/radcn typecheck
+
+pnpm --dir radcn/apps/docs typecheck
+# Pass: tsc --noEmit
+
+pnpm fixtures:candidate:typecheck
+# Pass: tsc
+
+pnpm fixtures:reference:typecheck
+# Pass: react-router typegen && tsc
+# Note: emitted the known React Router module.register() deprecation warning.
+
+PORT=5175 pnpm dev
+# Pass: started docs through pnpm --dir radcn/apps/docs dev
+
+curl -s -o /dev/null -w 'home %{http_code}\n' http://localhost:5175/ | rg '^home 200$'
+curl -s -o /dev/null -w 'button %{http_code}\n' http://localhost:5175/docs/components/button | rg '^button 200$'
+curl -s -o /dev/null -w 'missing %{http_code}\n' http://localhost:5175/docs/components/not-a-component | rg '^missing 404$'
+# Pass
+
+entry=$(curl -s http://localhost:5175/assets/app/assets/entry.ts | sed -n '1p' | sed -E 's/^import \{ run \} from "([^"]+)";.*/\1/')
+curl -s -o /dev/null -w 'entry-dependency %{http_code}\n' "http://localhost:5175${entry}" | rg '^entry-dependency 200$'
+# Pass: transformed Remix dependency under /assets/node_modules/.pnpm/... returned 200
+```
+
+The untracked `raw-icons/` directory remains unrelated and unstaged.
+
+## Conclusion
+
+Experiment 7 moves RadCN's package-manager boundary to the repository root
+without changing the code layout under `radcn/`. Developers can now run the
+docs website with `pnpm dev` from `/Users/ryan/dev/radcn`.
+
+The important constraint is that the root workspace must remain explicit. pnpm
+sees only the RadCN apps, packages, and fixtures because the workspace globs are
+limited to `radcn/apps/*`, `radcn/packages/*`, and `radcn/fixtures/*`.
+`vendor/` remains outside workspace membership and outside lockfile dependency
+resolution.
+
+The docs app still emits browser asset URLs under
+`/assets/node_modules/.pnpm/...`, but those URLs now map to the root virtual
+store at `node_modules/.pnpm`.
+
+## Completion Review
+
+Fresh-context completion review was performed by Codex subagent `Descartes`
+(`019e97cf-9046-7cb2-af2e-f8e30469b9c2`) on 2026-06-05 with
+`fork_context: false`.
+
+Findings:
+
+- **Minor:** The Issue 3 README still had an older learning that said RadCN's
+  pnpm workspace lived under `radcn/` and that pnpm commands should be run from
+  that directory. That contradicted the new Experiment 7 root-workspace
+  learning.
+
+Resolution:
+
+- Revised the older learning to say Experiment 2 originally put the workspace
+  under `radcn/`, and Experiment 7 superseded that by moving the pnpm workspace
+  to the repository root.
+
+Result:
+
+- Descartes approved the completed experiment with no blockers or major
+  findings. The real minor finding was fixed before the result commit.

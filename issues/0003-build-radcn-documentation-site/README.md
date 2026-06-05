@@ -157,13 +157,14 @@ site that:
 - [Experiment 6: Add dark mode support](06-add-dark-mode-support.md)
   — **Pass**
 - [Experiment 7: Promote root pnpm workspace](07-promote-root-pnpm-workspace.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
-- RadCN's pnpm workspace now lives under `radcn/`. Run pnpm commands from that
-  directory. The repository root remains the process, issue, skill, and vendor
-  reference root.
+- Experiment 2 originally put RadCN's pnpm workspace under `radcn/`, with the
+  repository root reserved for process, issue, skill, and vendor references.
+  Experiment 7 superseded this: the pnpm workspace now lives at the repository
+  root.
 - `vendor/` must stay outside every pnpm workspace include. Published package
   dependencies, not vendored workspace links, should satisfy Remix dependencies
   for RadCN code.
@@ -236,3 +237,13 @@ site that:
   package style change. This experiment updated the string directly; future
   style-heavy work should consider a small generator to remove that manual
   synchronization step.
+- RadCN's pnpm workspace now lives at the repository root. Run normal workspace
+  commands from `/Users/ryan/dev/radcn`; `pnpm dev` starts the docs app through
+  `radcn/apps/docs`.
+- Root workspace package globs must stay explicit:
+  `radcn/apps/*`, `radcn/packages/*`, and `radcn/fixtures/*`. Do not use broad
+  globs that can enroll `vendor/`.
+- With the root install location, the docs asset server maps
+  `/assets/node_modules/.pnpm/...` to `../../../node_modules/.pnpm/*path` from
+  `radcn/apps/docs`. The URL prefix is still app-local, but the real virtual
+  store is now at the repository root.

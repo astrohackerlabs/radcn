@@ -1,0 +1,18 @@
+{
+  "name": "radcn-workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.5.2",
+  "scripts": {
+    "dev": "pnpm --dir radcn/apps/docs dev",
+    "fixtures:artifacts": "playwright test -c radcn/fixtures/playwright.config.ts",
+    "fixtures:reference:dev": "pnpm --dir radcn/fixtures/reference-react-router dev",
+    "fixtures:candidate:dev": "pnpm --dir radcn/fixtures/candidate-remix dev",
+    "fixtures:reference:typecheck": "pnpm --dir radcn/fixtures/reference-react-router typecheck",
+    "fixtures:candidate:typecheck": "pnpm --dir radcn/fixtures/candidate-remix typecheck",
+    "radcn:typecheck": "pnpm --dir radcn/packages/radcn typecheck"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:"
+  }
+}
