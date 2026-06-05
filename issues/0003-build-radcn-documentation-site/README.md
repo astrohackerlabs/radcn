@@ -152,6 +152,8 @@ site that:
   — **Pass**
 - [Experiment 4: Design RadCN visual identity and docs UI system](04-design-rad-visual-system.md)
   — **Pass**
+- [Experiment 5: Add representative component docs batch](05-representative-component-docs-batch.md)
+  — **Designed**
 
 ## Learnings
 
