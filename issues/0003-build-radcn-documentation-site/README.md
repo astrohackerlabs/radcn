@@ -144,3 +144,5 @@ site that:
 
 - [Experiment 1: Import Remix docs site skills](01-import-remix-docs-site-skills.md)
   — **Pass**
+- [Experiment 2: Scaffold docs app with Remix CLI](02-scaffold-docs-app-with-remix-cli.md)
+  — **Designed**
