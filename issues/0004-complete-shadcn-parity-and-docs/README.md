@@ -220,3 +220,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 5: Audit form example parity](05-audit-form-example-parity.md)
   — **Pass**
+- [Experiment 6: Implement form example parity depth](06-implement-form-example-parity-depth.md)
+  — **Designed**
