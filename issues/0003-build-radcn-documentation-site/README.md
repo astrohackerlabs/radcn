@@ -156,6 +156,8 @@ site that:
   — **Pass**
 - [Experiment 6: Add dark mode support](06-add-dark-mode-support.md)
   — **Pass**
+- [Experiment 7: Promote root pnpm workspace](07-promote-root-pnpm-workspace.md)
+  — **Designed**
 
 ## Learnings
 
