@@ -45,8 +45,52 @@ The result should answer:
 - how the homepage and first component page should look on desktop and mobile;
 - what later docs-page experiments should preserve.
 
+## Research Method
+
+Before implementing the visual system, perform and record a short research
+pass. The research should be practical and directional, not an open-ended brand
+study.
+
+Research must include:
+
+- an internet search on what "rad" can mean visually, with attention to surf,
+  skate, neon, punk/zine, early-web, lo-fi, and 1980s/1990s design references;
+- an internet search on how mature design systems structure foundations,
+  tokens, color, layout, spacing, typography, elevation, documentation, and
+  component boundaries;
+- at least three "rad" visual reference sources;
+- at least three design-system reference sources;
+- a short synthesis that separates:
+  - brand attitude the RadCN docs site can use;
+  - design-system rules that should govern implementation;
+  - anti-patterns to avoid;
+  - decisions that affect later docs-page work.
+
+Suggested starting sources:
+
+- CARI Institute, Rad Dog / Neon Surf:
+  https://www.cari.institute/aesthetics/rad-dog-neon-surf
+- SDSU Humanities Hub, zine design history:
+  https://humanitieshub.sdsu.edu/omeka/exhibits/show/designhistory/zines
+- Material Design color system:
+  https://m2.material.io/guidelines/style/color.html
+- Material Design layout guidance:
+  https://m2.material.io/design/layout/understanding-layout.html
+- Atlassian Design System foundations:
+  https://atlassian.design/foundations/
+- Adobe Spectrum design tokens:
+  https://spectrum.adobe.com/page/design-tokens/
+- IBM Design Language color:
+  https://www.ibm.com/design/language/color
+
+The implementation does not need to copy these sources. It should use them to
+make explicit choices about RadCN's own docs identity.
+
 ## Changes
 
+- `issues/0003-build-radcn-documentation-site/04-design-rad-visual-system.md`
+  - Record the research sources, synthesis, implementation result,
+    verification output, screenshot paths, conclusion, and completion review.
 - `radcn/apps/docs/app/ui/brand.ts`
   - Add a small docs-site brand token module for color, typography, spacing,
     border, shadow, and reusable measurements.
@@ -79,9 +123,6 @@ The result should answer:
 - `issues/0003-build-radcn-documentation-site/README.md`
   - Record learnings about the chosen brand direction, logo constraints, token
     system, and visual rules that later component-page work must preserve.
-- `issues/0003-build-radcn-documentation-site/04-design-rad-visual-system.md`
-  - Record implementation result, verification output, screenshot paths,
-    conclusion, and completion review.
 
 Do not broaden this into full site content coverage, search, command menus,
 copy buttons, theme switching, animation systems, or generated brand campaigns.
@@ -92,6 +133,10 @@ exist.
 
 The experiment passes when all of these are true:
 
+- The experiment result records the research sources used for "rad" visual
+  direction and design-system structure.
+- The result includes a synthesis of research findings and explains how the
+  implementation applies or rejects those findings.
 - The docs site has a recognizable RadCN visual identity based on "rad" without
   copying shadcn/ui's exact site design.
 - A robot-with-sunglasses logo or mascot mark appears in the docs shell and
@@ -164,3 +209,23 @@ Result:
 
 - Bacon approved the experiment design with no blockers, major findings, or
   minor findings.
+
+Revised design review was performed by Codex subagent `Hilbert` on 2026-06-05
+with `fork_context: false` after the user identified that the original design
+did not include explicit research criteria.
+
+Findings:
+
+- **Blocker:** The revised research requirements were added after Bacon's
+  approval, but the Design Review section did not distinguish the original
+  approval from the revised-plan review.
+
+Resolution:
+
+- Added this revised-plan review record so the experiment history clearly shows
+  that the research-method revision requires approval and a separate revised
+  plan commit before implementation.
+
+Result:
+
+- Hilbert re-reviewed the fix and approved the revised experiment design.
