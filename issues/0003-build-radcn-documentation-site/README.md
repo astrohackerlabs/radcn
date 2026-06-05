@@ -151,7 +151,7 @@ site that:
 - [Experiment 3: Create docs shell and first component page](03-docs-shell-and-first-component-page.md)
   — **Pass**
 - [Experiment 4: Design RadCN visual identity and docs UI system](04-design-rad-visual-system.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -187,3 +187,14 @@ site that:
   Remix UI preview nodes. That is sufficient for the first vertical slice, but
   later experiments should decide whether source snippets need generation or
   stronger synchronization before broad component coverage.
+- RadCN's docs identity should keep brand attitude at the docs-shell layer:
+  robot mark, grid, hard shadow, high-energy accent, and sticker-like labels.
+  Live component preview surfaces should stay neutral so users can evaluate the
+  RadCN package components accurately.
+- Keep docs visual decisions in `radcn/apps/docs/app/ui/brand.ts` and reusable
+  UI helpers instead of scattering one-off colors and measurements through
+  page components. This keeps later component pages aligned and makes future
+  theme changes tractable.
+- The current logo direction is a code-native SVG robot wearing sunglasses.
+  It avoids external image/font dependencies and can render both as a top-bar
+  mark and a larger homepage mascot.

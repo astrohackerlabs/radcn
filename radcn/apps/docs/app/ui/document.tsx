@@ -3,6 +3,7 @@ import { createElement, css } from 'remix/ui'
 import { radcnStyles } from 'radcn/styles'
 
 import { routes } from '../routes.ts'
+import { docsBrand } from './brand.ts'
 
 export interface DocumentProps {
   children?: RemixNode
@@ -21,6 +22,8 @@ export function Document(handle: Handle<DocumentProps>) {
         <head>
           <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta name="theme-color" content={docsBrand.color.accent} />
+          <meta name="color-scheme" content="light" />
           <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
           <title>{title}</title>
           <RadcnStyle />

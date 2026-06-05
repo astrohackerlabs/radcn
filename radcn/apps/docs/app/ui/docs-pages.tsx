@@ -6,12 +6,9 @@ import { Button } from 'radcn/button'
 import type { ComponentDoc, ComponentExample } from '../content/components.tsx'
 import { componentDocs } from '../content/components.tsx'
 import { routes } from '../routes.ts'
+import { docsBrand, docsGridBackground } from './brand.ts'
 import { Document } from './document.tsx'
-
-const fontStack =
-  'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'
-const monoStack =
-  '"SF Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace'
+import { RadcnLogo } from './logo.tsx'
 
 export function HomePage() {
   return () => (
@@ -91,8 +88,7 @@ function DocsShell(handle: Handle<{ activeSlug?: string; children: RemixNode }>)
       <main mix={shellStyle}>
         <header mix={topbarStyle}>
           <a href={routes.home.href()} mix={brandStyle} aria-label="RadCN home">
-            <span mix={markStyle}>R</span>
-            <span>RadCN</span>
+            <RadcnLogo label />
           </a>
           <nav aria-label="Primary" mix={topNavStyle}>
             <a href={routes.component.href({ slug: 'button' })} mix={topNavLinkStyle}>
@@ -148,6 +144,10 @@ function Hero() {
         </div>
       </div>
       <div mix={heroPreviewStyle} aria-label="RadCN component preview">
+        <div mix={heroLogoDockStyle}>
+          <RadcnLogo size="hero" />
+          <span mix={stickerStyle}>RADICAL WEB UI</span>
+        </div>
         <div mix={previewToolbarStyle}>
           <span />
           <span />
@@ -249,9 +249,11 @@ function CodeBlock(handle: Handle<{ code: string }>) {
 
 const shellStyle = css({
   minHeight: '100vh',
-  background: '#fbfbfa',
-  color: '#18181b',
-  fontFamily: fontStack,
+  backgroundColor: docsBrand.color.canvas,
+  backgroundImage: docsGridBackground,
+  backgroundSize: '32px 32px',
+  color: docsBrand.color.ink,
+  fontFamily: docsBrand.font.sans,
   fontSize: '15px',
   lineHeight: 1.55,
   '& *, & *::before, & *::after': { boxSizing: 'border-box' },
@@ -266,8 +268,8 @@ const topbarStyle = css({
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: '1rem',
-  borderBottom: '1px solid #e5e7eb',
-  background: 'rgb(251 251 250 / 0.94)',
+  borderBottom: `1px solid ${docsBrand.color.border}`,
+  background: docsBrand.color.topbar,
   padding: '0 1.5rem',
   backdropFilter: 'blur(16px)',
 })
@@ -276,21 +278,9 @@ const brandStyle = css({
   display: 'inline-flex',
   alignItems: 'center',
   gap: '0.625rem',
-  color: '#111827',
+  color: docsBrand.color.ink,
   fontWeight: 700,
   textDecoration: 'none',
-})
-
-const markStyle = css({
-  display: 'inline-grid',
-  width: '2rem',
-  height: '2rem',
-  placeItems: 'center',
-  border: '1px solid #111827',
-  borderRadius: '0.375rem',
-  background: '#111827',
-  color: '#ffffff',
-  fontWeight: 800,
 })
 
 const topNavStyle = css({
@@ -302,13 +292,13 @@ const topNavStyle = css({
 })
 
 const topNavLinkStyle = css({
-  borderRadius: '0.375rem',
-  color: '#374151',
+  borderRadius: docsBrand.radius.sm,
+  color: docsBrand.color.inkSoft,
   padding: '0.5rem 0.75rem',
   textDecoration: 'none',
   '&:hover, &:focus-visible': {
-    background: '#f3f4f6',
-    color: '#111827',
+    background: docsBrand.color.rail,
+    color: docsBrand.color.ink,
     outline: 'none',
   },
 })
@@ -323,11 +313,11 @@ const layoutStyle = css({
 })
 
 const sidebarStyle = css({
-  borderRight: '1px solid #e5e7eb',
-  background: '#f6f7f9',
+  borderRight: `1px solid ${docsBrand.color.border}`,
+  background: docsBrand.color.rail,
   '@media (max-width: 860px)': {
     borderRight: 0,
-    borderBottom: '1px solid #e5e7eb',
+    borderBottom: `1px solid ${docsBrand.color.border}`,
   },
 })
 
@@ -344,7 +334,7 @@ const sidebarStickyStyle = css({
 
 const sidebarLabelStyle = css({
   margin: 0,
-  color: '#6b7280',
+  color: docsBrand.color.muted,
   fontSize: '0.75rem',
   fontWeight: 700,
   textTransform: 'uppercase',
@@ -358,25 +348,28 @@ const sidebarNavStyle = css({
 const sidebarLinkStyle = css({
   display: 'grid',
   gap: '0.125rem',
-  borderRadius: '0.375rem',
-  color: '#374151',
+  borderRadius: docsBrand.radius.sm,
+  color: docsBrand.color.inkSoft,
   padding: '0.625rem 0.75rem',
   textDecoration: 'none',
   '&[data-active="true"], &:hover, &:focus-visible': {
-    background: '#ffffff',
-    color: '#111827',
-    outline: '1px solid #e5e7eb',
+    background: docsBrand.color.surface,
+    color: docsBrand.color.ink,
+    outline: `1px solid ${docsBrand.color.border}`,
+  },
+  '&[data-active="true"]': {
+    boxShadow: `inset 3px 0 0 ${docsBrand.color.accent}`,
   },
 })
 
 const sidebarMetaStyle = css({
-  color: '#6b7280',
+  color: docsBrand.color.muted,
   fontSize: '0.75rem',
 })
 
 const contentStyle = css({
   minWidth: 0,
-  padding: '2rem clamp(1rem, 4vw, 4rem) 4rem',
+  padding: `2rem ${docsBrand.space.pageX} 4rem`,
 })
 
 const articleStyle = css({
@@ -407,7 +400,7 @@ const heroCopyStyle = css({
 const heroTitleStyle = css({
   maxWidth: '13ch',
   margin: 0,
-  color: '#111827',
+  color: docsBrand.color.ink,
   fontSize: 'clamp(2.5rem, 8vw, 5.5rem)',
   letterSpacing: 0,
   lineHeight: 0.95,
@@ -422,11 +415,44 @@ const heroActionsStyle = css({
 const heroPreviewStyle = css({
   display: 'grid',
   gap: '1rem',
-  border: '1px solid #d1d5db',
-  borderRadius: '0.5rem',
-  background: '#ffffff',
+  border: `1px solid ${docsBrand.color.borderStrong}`,
+  borderRadius: docsBrand.radius.md,
+  background: docsBrand.color.surface,
   padding: '1rem',
-  boxShadow: '0 24px 60px rgb(17 24 39 / 0.12)',
+  boxShadow: docsBrand.shadow.hard,
+})
+
+const heroLogoDockStyle = css({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1rem',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.sm,
+  background:
+    `linear-gradient(135deg, ${docsBrand.color.surfaceRaised}, ${docsBrand.color.surface})`,
+  padding: '1rem',
+  '@media (max-width: 520px)': {
+    alignItems: 'flex-start',
+    flexDirection: 'column',
+  },
+})
+
+const stickerStyle = css({
+  display: 'inline-flex',
+  width: 'max-content',
+  maxWidth: '100%',
+  transform: 'rotate(-2deg)',
+  border: `2px solid ${docsBrand.color.ink}`,
+  borderRadius: docsBrand.radius.xs,
+  background: docsBrand.color.lime,
+  color: docsBrand.color.ink,
+  padding: '0.25rem 0.5rem',
+  fontFamily: docsBrand.font.mono,
+  fontSize: '0.75rem',
+  fontWeight: 800,
+  letterSpacing: 0,
+  boxShadow: `3px 3px 0 ${docsBrand.color.ink}`,
 })
 
 const previewToolbarStyle = css({
@@ -436,25 +462,25 @@ const previewToolbarStyle = css({
     width: '0.625rem',
     height: '0.625rem',
     borderRadius: '999px',
-    background: '#ef4444',
+    background: docsBrand.color.accent,
   },
-  '& span:nth-child(2)': { background: '#f59e0b' },
-  '& span:nth-child(3)': { background: '#10b981' },
+  '& span:nth-child(2)': { background: docsBrand.color.yellow },
+  '& span:nth-child(3)': { background: docsBrand.color.cyan },
 })
 
 const tokenGridStyle = css({
   display: 'grid',
   gridTemplateColumns: 'minmax(0, 1fr) auto',
   gap: '0.75rem',
-  border: '1px solid #e5e7eb',
-  borderRadius: '0.375rem',
-  background: '#f8fafc',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.sm,
+  background: docsBrand.color.surfaceRaised,
   padding: '1rem',
-  color: '#475569',
-  fontFamily: monoStack,
+  color: docsBrand.color.inkSoft,
+  fontFamily: docsBrand.font.mono,
   fontSize: '0.8125rem',
   '& strong': {
-    color: '#0f172a',
+    color: docsBrand.color.ink,
   },
 })
 
@@ -463,7 +489,7 @@ const pageHeaderStyle = css({
   gridTemplateColumns: 'minmax(0, 1fr) minmax(18rem, 24rem)',
   gap: '2rem',
   alignItems: 'end',
-  borderBottom: '1px solid #e5e7eb',
+  borderBottom: `1px solid ${docsBrand.color.border}`,
   paddingBottom: '2rem',
   '@media (max-width: 900px)': {
     gridTemplateColumns: '1fr',
@@ -473,9 +499,9 @@ const pageHeaderStyle = css({
 const quickInstallStyle = css({
   display: 'grid',
   gap: '0.5rem',
-  border: '1px solid #e5e7eb',
-  borderRadius: '0.5rem',
-  background: '#ffffff',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.md,
+  background: docsBrand.color.surface,
   padding: '1rem',
 })
 
@@ -493,7 +519,7 @@ const sectionHeadingStyle = css({
 })
 
 const eyebrowStyle = css({
-  color: '#b42318',
+  color: docsBrand.color.accentDeep,
   fontSize: '0.75rem',
   fontWeight: 800,
   textTransform: 'uppercase',
@@ -501,7 +527,7 @@ const eyebrowStyle = css({
 
 const h1Style = css({
   margin: 0,
-  color: '#111827',
+  color: docsBrand.color.ink,
   fontSize: 'clamp(2.25rem, 6vw, 4.5rem)',
   letterSpacing: 0,
   lineHeight: 1,
@@ -509,7 +535,7 @@ const h1Style = css({
 
 const h2Style = css({
   margin: 0,
-  color: '#111827',
+  color: docsBrand.color.ink,
   fontSize: '1.5rem',
   letterSpacing: 0,
   lineHeight: 1.15,
@@ -517,7 +543,7 @@ const h2Style = css({
 
 const h3Style = css({
   margin: 0,
-  color: '#111827',
+  color: docsBrand.color.ink,
   fontSize: '1rem',
   letterSpacing: 0,
   lineHeight: 1.25,
@@ -526,34 +552,34 @@ const h3Style = css({
 const leadStyle = css({
   maxWidth: '42rem',
   margin: 0,
-  color: '#4b5563',
+  color: docsBrand.color.inkSoft,
   fontSize: '1.125rem',
 })
 
 const paragraphStyle = css({
   margin: 0,
-  color: '#4b5563',
+  color: docsBrand.color.inkSoft,
 })
 
 const smallTextStyle = css({
   margin: '0.25rem 0 0',
-  color: '#6b7280',
+  color: docsBrand.color.muted,
   fontSize: '0.875rem',
 })
 
 const inlineCodeStyle = css({
   overflowWrap: 'anywhere',
-  color: '#111827',
-  fontFamily: monoStack,
+  color: docsBrand.color.ink,
+  fontFamily: docsBrand.font.mono,
   fontSize: '0.875rem',
 })
 
 const examplePanelStyle = css({
   display: 'grid',
   overflow: 'hidden',
-  border: '1px solid #d1d5db',
-  borderRadius: '0.5rem',
-  background: '#ffffff',
+  border: `1px solid ${docsBrand.color.border}`,
+  borderRadius: docsBrand.radius.md,
+  background: docsBrand.color.surface,
 })
 
 const exampleHeaderStyle = css({
@@ -561,7 +587,7 @@ const exampleHeaderStyle = css({
   alignItems: 'start',
   justifyContent: 'space-between',
   gap: '1rem',
-  borderBottom: '1px solid #e5e7eb',
+  borderBottom: `1px solid ${docsBrand.color.border}`,
   padding: '1rem',
 })
 
@@ -570,17 +596,17 @@ const examplePreviewStyle = css({
   display: 'grid',
   placeItems: 'center',
   padding: '2rem',
-  background: '#fcfcfd',
+  background: docsBrand.color.surface,
 })
 
 const codeBlockStyle = css({
   margin: 0,
   overflow: 'auto',
-  borderTop: '1px solid #e5e7eb',
-  background: '#111827',
-  color: '#e5e7eb',
+  borderTop: `1px solid ${docsBrand.color.border}`,
+  background: docsBrand.color.code,
+  color: docsBrand.color.codeText,
   padding: '1rem',
-  fontFamily: monoStack,
+  fontFamily: docsBrand.font.mono,
   fontSize: '0.8125rem',
   lineHeight: 1.6,
 })
@@ -590,5 +616,5 @@ const listStyle = css({
   gap: '0.75rem',
   margin: 0,
   paddingLeft: '1.25rem',
-  color: '#4b5563',
+  color: docsBrand.color.inkSoft,
 })

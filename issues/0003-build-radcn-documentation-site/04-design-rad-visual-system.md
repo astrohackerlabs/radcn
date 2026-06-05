@@ -229,3 +229,181 @@ Resolution:
 Result:
 
 - Hilbert re-reviewed the fix and approved the revised experiment design.
+
+## Result
+
+**Result:** Pass
+
+Implemented the RadCN docs visual identity system.
+
+### Research Sources
+
+"Rad" visual direction:
+
+- CARI Institute, Rad Dog / Neon Surf:
+  https://cari.institute/aesthetics/rad-dog-neon-surf
+- SDSU Humanities Hub, Zines:
+  https://humanitieshub.sdsu.edu/omeka/exhibits/show/designhistory/zines
+- Web Design Museum, Web Design in the 90s:
+  https://www.webdesignmuseum.org/exhibitions/web-design-in-the-90s
+- MoMA, Zine:
+  https://www.moma.org/collection/terms/zine
+
+Design-system structure:
+
+- U.S. Web Design System, Design Tokens:
+  https://designsystem.digital.gov/design-tokens/
+- Atlassian Design System, Foundations:
+  https://atlassian.design/foundations/
+- Material Design, Color System:
+  https://m2.material.io/guidelines/style/color.html
+- Material Design, Understanding Layout:
+  https://m2.material.io/design/layout/understanding-layout.html
+- Adobe Spectrum, Design Tokens:
+  https://spectrum.adobe.com/page/design-tokens/
+- IBM Design Language, Color:
+  https://www.ibm.com/design/language/color
+
+### Research Synthesis
+
+Brand attitude RadCN can use:
+
+- "Rad" can borrow late-1980s and early-1990s surf/skate energy: hard contrast,
+  neon accents, playful marks, and confident graphic shapes.
+- Zine and punk references support a restrained DIY layer: labels, hard edges,
+  off-kilter sticker treatments, and visible grid structure.
+- Early-web references support a crisp technical grid and product-forward
+  composition, but not novelty nostalgia that reduces readability.
+
+Design-system rules that govern implementation:
+
+- Foundational decisions should be tokenized first: color, typography, spacing,
+  radius, border, elevation, and page measurements.
+- Brand colors should be semantic enough to reuse, not scattered as isolated
+  hex values in page styles.
+- Layout and component surfaces should use consistent spacing and border rules.
+- Accessibility and readability should win over decorative treatment, especially
+  in docs navigation, code blocks, and component examples.
+
+Anti-patterns rejected:
+
+- No purple/blue gradient brand shell.
+- No over-branded component previews.
+- No external logo image or font dependency for first render.
+- No zine chaos that makes component documentation harder to scan.
+- No changes to `radcn/packages/radcn` package component tokens.
+
+Decisions that affect later docs-page work:
+
+- Brand attitude belongs in the docs shell, homepage, logo, labels, and callout
+  surfaces.
+- Component preview areas should remain neutral and use real package-rendered
+  RadCN components.
+- Future pages should import docs tokens from `app/ui/brand.ts` rather than
+  inventing local palettes.
+
+### Changes Made
+
+- `radcn/apps/docs/app/ui/brand.ts`
+  - Added docs-site tokens for color, typography, radius, spacing, shadow, and
+    grid background.
+- `radcn/apps/docs/app/ui/logo.tsx`
+  - Added a code-native SVG robot-with-sunglasses RadCN mark.
+  - Added `data-radcn-logo` for runtime verification.
+  - Supports compact navigation usage and larger homepage usage.
+- `radcn/apps/docs/app/ui/docs-pages.tsx`
+  - Applied the tokenized visual system across the docs shell, top navigation,
+    sidebar, homepage hero, preview panel, code block, labels, and button page.
+  - Added a high-energy but restrained "RADICAL WEB UI" sticker in the homepage
+    preview panel.
+  - Kept component examples neutral and package-rendered.
+- `radcn/apps/docs/app/ui/document.tsx`
+  - Added light color-scheme metadata and theme color from the brand token.
+  - Preserved the raw RadCN package style insertion from Experiment 3.
+- `radcn/apps/docs/app/ui/scaffold-home-page.tsx`
+  - Removed the unused Remix starter homepage source.
+- `issues/0003-build-radcn-documentation-site/README.md`
+  - Recorded visual-system learnings for later docs work.
+
+### Verification
+
+Verification run:
+
+```sh
+cd radcn
+pnpm --dir apps/docs typecheck
+PORT=5175 pnpm --dir apps/docs start
+curl -I http://localhost:5175/
+curl -s http://localhost:5175/ | rg 'RadCN|button|docs|data-radcn-logo'
+curl -I http://localhost:5175/docs/components/button
+curl -s http://localhost:5175/docs/components/button | rg 'Button|radcn/button|Accessibility|Customization|Remix 3|data-radcn-logo'
+curl -I http://localhost:5175/docs/components/not-a-component
+pnpm exec playwright screenshot --viewport-size=1440,1000 http://localhost:5175/ /tmp/radcn-exp4-home-desktop.png
+pnpm exec playwright screenshot --viewport-size=390,844 http://localhost:5175/ /tmp/radcn-exp4-home-mobile.png
+pnpm exec playwright screenshot --viewport-size=1440,1000 http://localhost:5175/docs/components/button /tmp/radcn-exp4-button-desktop.png
+pnpm exec playwright screenshot --viewport-size=390,844 http://localhost:5175/docs/components/button /tmp/radcn-exp4-button-mobile.png
+git diff --check
+git status --short -- vendor
+git diff --name-only -- radcn/packages/radcn
+```
+
+Outcomes:
+
+- `pnpm --dir apps/docs typecheck` passed.
+- The homepage returned `HTTP/1.1 200`.
+- The homepage body contained `RadCN`, `button`, `docs`, and
+  `data-radcn-logo`.
+- `/docs/components/button` returned `HTTP/1.1 200`.
+- The button page body contained `Button`, `radcn/button`, `Accessibility`,
+  `Customization`, `Remix 3`, and `data-radcn-logo`.
+- `/docs/components/not-a-component` returned `HTTP/1.1 404`.
+- Playwright screenshots were captured at:
+  - `/tmp/radcn-exp4-home-desktop.png`
+  - `/tmp/radcn-exp4-home-mobile.png`
+  - `/tmp/radcn-exp4-button-desktop.png`
+  - `/tmp/radcn-exp4-button-mobile.png`
+- Screenshot inspection checked top-bar logo legibility, homepage first viewport,
+  component page header/import block, preview/code contrast, and mobile fit.
+  No obvious text overlap, clipped labels, unreadable code blocks, or incoherent
+  UI overlap was found.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+- `git diff --name-only -- radcn/packages/radcn` returned no output, confirming
+  the package component tokens were not changed.
+- The docs server was stopped after verification, and no process remained
+  listening on port `5175`.
+
+## Conclusion
+
+The RadCN docs site now has a first recognizable visual identity: a code-native
+robot-with-sunglasses mark, a sharp grid-backed documentation shell, hard
+graphic shadows, a high-energy red/cyan/lime/yellow accent set, and reusable
+brand tokens.
+
+The design keeps the brand attitude around the documentation experience while
+preserving neutral, readable component previews. Future docs-page experiments
+should reuse `app/ui/brand.ts` and `app/ui/logo.tsx`, and should avoid changing
+package-level component tokens as part of docs-site branding.
+
+## Completion Review
+
+Fresh-context completion review was performed by Codex subagent `Lagrange` on
+2026-06-05 with `fork_context: false`.
+
+Findings:
+
+- None.
+
+Verification repeated by the reviewer:
+
+- `pnpm --dir apps/docs typecheck` passed.
+- `git diff --check` passed.
+- `git status --short -- vendor` returned no output.
+- `git diff --name-only -- radcn/packages/radcn` returned no output.
+- Route checks matched the recorded `200` and `404` outcomes.
+- Desktop and mobile screenshots showed no obvious overlap or clipped text.
+
+Result:
+
+- Lagrange approved the completed experiment with no blockers, major findings,
+  or minor findings.
