@@ -154,6 +154,8 @@ site that:
   — **Pass**
 - [Experiment 5: Add representative component docs batch](05-representative-component-docs-batch.md)
   — **Pass**
+- [Experiment 6: Add dark mode support](06-add-dark-mode-support.md)
+  — **Designed**
 
 ## Learnings
 
