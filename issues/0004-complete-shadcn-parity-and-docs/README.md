@@ -195,6 +195,18 @@ Record cross-component discoveries here as experiments complete.
   but each now has a documented parity decision.
 - The next recommended cluster from the inventory is example parity depth,
   beginning with upstream form examples.
+- Experiment 5 mapped all 30 upstream form examples into
+  `form-example-inventory.md`. The audit confirms that RadCN should not port
+  React Hook Form, TanStack Form, Formisch, Valibot, Zod, or Next action
+  mechanics as package dependencies.
+- Current Form parity is strong at the package-wiring level and across
+  individual control fixtures, but the Form docs and Form fixture need broader
+  example depth: basic non-error form, textarea, select, checkbox group, radio
+  group, switch, repeated array/list fields, password strength, complex
+  multi-section form, and richer server/action state.
+- The next recommended experiment is to implement that Form example parity
+  depth without changing `radcn/form` unless a specific missing reusable helper
+  is proven during implementation.
 
 ## Experiments
 
@@ -207,4 +219,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 4: Resolve data-table parity](04-resolve-data-table-parity.md)
   — **Pass**
 - [Experiment 5: Audit form example parity](05-audit-form-example-parity.md)
-  — **Designed**
+  — **Pass**

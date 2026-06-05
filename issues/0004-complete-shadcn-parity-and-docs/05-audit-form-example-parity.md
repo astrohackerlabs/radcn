@@ -55,7 +55,7 @@ artifact and issue learnings.
   - `radcn/apps/docs/app/content/components.tsx`
   - `radcn/fixtures/candidate-remix/app/fixtures/form.tsx`
   - `radcn/fixtures/scenarios/index.ts`
-  - `radcn/fixtures/tests/form-input.spec.ts`
+  - `radcn/fixtures/tests/form-input-cluster.spec.ts`
 - Update Issue 4 learnings.
   - Record the form example parity map summary.
   - Record whether the next experiment should implement missing form examples,
@@ -111,3 +111,61 @@ Review result: approved with no blocker or major findings.
 
 Re-review result: approved; the exact-set verification resolves the prior
 minor finding without introducing a blocker.
+
+## Result
+
+**Result:** Pass
+
+Created `form-example-inventory.md` and mapped all 30 upstream shadcn form
+examples to RadCN outcomes.
+
+Changed files:
+
+- `issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md`
+  - Added the form example audit artifact.
+  - Grouped the upstream examples by behavior rather than form-state library.
+  - Recorded current RadCN package/docs/fixture coverage and missing proof
+    surfaces.
+- `issues/0004-complete-shadcn-parity-and-docs/README.md`
+  - Added learnings for the form example parity map and next recommended
+    implementation cluster.
+
+Verification:
+
+- `issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md`
+  exists and maps all 30 upstream form examples listed in the parity inventory.
+- `test "$(rg -o "form-(rhf|next|tanstack|formisch)-[a-z0-9-]+" issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md | sort -u | wc -l | tr -d ' ')" = "30"`
+  — Pass.
+- `diff -u <(rg -o "form-(rhf|next|tanstack|formisch)-[a-z0-9-]+" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md | sort -u) <(rg -o "form-(rhf|next|tanstack|formisch)-[a-z0-9-]+" issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md | sort -u)`
+  — Pass; no diff.
+- `rg -n "from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|from ['\"]react['\"]|react-hook-form|@tanstack/react-form|from ['\"]formisch['\"]|\"(react-hook-form|@tanstack/react-form|formisch|zod)\"\\s*:|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json`
+  — Pass; exited 1 with no matches.
+- `git diff --check` — Pass.
+- `git status --short` — Pass; only expected issue documentation changes are
+  modified.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  — Pass; no output.
+
+## Conclusion
+
+The upstream form examples are mostly repeated demonstrations of app-owned
+form-state libraries around the same shadcn field/control patterns. RadCN
+should keep those libraries out of the package and prove parity through native
+forms, explicit field wiring, server/action state, and package primitive
+composition.
+
+The next experiment should implement the missing Form example depth in docs,
+candidate fixtures, and Playwright coverage: basic non-error form, textarea,
+select, checkbox group, radio group, switch, repeated array/list fields,
+password strength, complex multi-section form, and richer server/action state.
+
+## Completion Review
+
+Reviewer: Fermat (`019e9a28-2920-7961-9dd9-2f30c5f6df4b`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- None.
+
+Review result: approved with no blocker, major, or minor findings.
