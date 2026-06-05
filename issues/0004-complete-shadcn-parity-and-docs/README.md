@@ -154,3 +154,5 @@ Record cross-component discoveries here as experiments complete.
 
 - [Experiment 1: Build shadcn parity inventory](01-build-shadcn-parity-inventory.md)
   — **Pass**
+- [Experiment 2: Ship Remix-native form parity](02-ship-remix-native-form-parity.md)
+  — **Designed**
