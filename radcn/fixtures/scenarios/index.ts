@@ -2583,6 +2583,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "calendar",
+    id: "demo",
+    title: "Calendar Demo",
+    description: "Named upstream calendar-demo parity with dropdown captions and single selection.",
+  },
+  {
+    component: "calendar",
+    id: "hijri-intentional-divergence",
+    title: "Calendar Hijri Intentional Divergence",
+    description: "Named upstream calendar-hijri boundary recorded as app-owned alternate calendar work.",
+  },
+  {
+    component: "calendar",
     id: "default",
     title: "Default Calendar",
     description: "Calendar date grid in the default month.",

@@ -139,6 +139,7 @@ These are documented in RadCN but are not current package exports.
 | examples | checkbox | resolved | `issues/0004-complete-shadcn-parity-and-docs/53-audit-checkbox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/54-implement-checkbox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/checkbox-example-inventory.md` |
 | examples | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/55-audit-date-picker-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/56-implement-date-picker-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/date-picker-example-inventory.md` |
 | examples | alert | resolved | `issues/0004-complete-shadcn-parity-and-docs/57-audit-alert-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/58-implement-alert-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/alert-example-inventory.md` |
+| examples | calendar | resolved | `issues/0004-complete-shadcn-parity-and-docs/59-audit-calendar-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/60-resolve-calendar-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -223,7 +224,6 @@ parity decision.
 | alert-dialog | 1 | `alert-dialog-demo` |
 | aspect-ratio | 1 | `aspect-ratio-demo` |
 | avatar | 1 | `avatar-demo` |
-| calendar | 2 | `calendar-demo`, `calendar-hijri` |
 | card | 2 | `card-demo`, `card-with-form` |
 | collapsible | 1 | `collapsible-demo` |
 | command | 2 | `command-demo`, `command-dialog` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for calendar
+**Cluster:** Example parity for card
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for calendar.
+- Audit upstream examples for card.
 
 ## Notes
 

@@ -310,3 +310,91 @@ is justified by `calendar-demo`, the Hijri outcome is defensibly recorded as an
 intentional divergence with required docs/fixture/test evidence, and the plan
 avoids React, `react-day-picker`, `react-day-picker/persian`, `next/font`,
 `lucide-react`, Tailwind, and vendor dependencies.
+
+## Result
+
+**Result:** Pass
+
+Implemented dependency-free Calendar caption dropdown support in
+`radcn/calendar`. The new `captionLayout` prop defaults to `label` and supports
+`captionLayout="dropdown"` with native month/year selects exposed through
+`data-radcn-calendar-month-select` and
+`data-radcn-calendar-year-select`. The browser enhancer synchronizes dropdown
+changes with `data-month`, visible grids, selected state, hidden inputs, and
+month-change events while preserving previous/next navigation, keyboard and
+pointer selection, range state, multi-month rendering, form reset, public hooks,
+and Date Picker composition.
+
+Promoted Calendar to an authored rich docs page with named
+`calendar-demo` and `calendar-hijri` evidence. `calendar-demo` now renders the
+package-backed dropdown Calendar with selected/default ISO values, grid
+semantics, public hooks, and custom token styling. `calendar-hijri` is recorded
+as an intentional divergence: Persian/Hijri calendar engines, app fonts such as
+`Vazirmatn`, RTL chevrons, and icon presentation are app-owned recipes that may
+reuse RadCN tokens and hooks without adding `react-day-picker/persian`,
+`next/font`, or `lucide-react`.
+
+Added named candidate fixture routes and Playwright coverage for
+`calendar/demo` and `calendar/hijri-intentional-divergence`. Updated the
+Calendar inventory, resolved cluster metadata, regenerated parity inventory,
+and Issue 4 learnings. The regenerated first recommendation is now example
+parity for `card`.
+
+Verification run on 2026-06-06:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts calendar-date-picker.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node inventory check for calendar-demo/calendar-hijri outcomes
+node resolved-clusters.json check for calendar evidence
+node scripts/audit-shadcn-parity.mjs and generated recommendation check
+node forbidden import check
+node forbidden dependency check
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The fixture Playwright run reported 6 passed tests; the
+docs Playwright run reported 5 passed tests. The vendor status loop printed no
+output.
+
+## Conclusion
+
+Calendar example parity is resolved for this cluster. `calendar-demo` is a
+covered package-backed example with dropdown captions, and `calendar-hijri` is
+an intentional Remix/web-first divergence rather than a fake package feature.
+Later components can reuse the same pattern: ship dependency-free package
+behavior when it provides reusable value, and record app-owned upstream example
+dependencies as explicit docs/fixture/test-backed divergences when they do not.
+
+## Completion Review
+
+Reviewer: Volta the 2nd (`019e9c5e-8f3b-7540-aa69-a1331e4bfeb7`) with fresh
+context (`fork_context: false`).
+
+Findings:
+
+- None.
+
+Approval: Approved. The reviewer confirmed that the implementation matches the
+approved scope, the experiment has Result and Conclusion, Issue 4 marks
+Experiment 60 as `Pass`, Calendar learnings and the next `card` recommendation
+are recorded, `calendar-demo` is `Covered`, `calendar-hijri` is
+`Intentional divergence`, the result commit had not been made before review,
+`git diff --check` passed, vendor status was clean, and no ignored vendor source
+was staged.
+
+The reviewer independently reran and passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts calendar-date-picker.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+deterministic inventory/resolved-cluster checks
+manifest forbidden dependency check
+```

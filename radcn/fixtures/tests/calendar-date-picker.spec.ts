@@ -92,6 +92,46 @@ test('candidate calendar exposes disabled navigation and custom tokens', async (
   await expect(page.locator('[data-radcn-calendar]').first()).toHaveCSS('border-color', 'rgb(15, 118, 110)')
 })
 
+test('candidate calendar covers named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/calendar/demo`)
+  let calendar = page.locator('[data-radcn-calendar]').first()
+  let monthSelect = page.locator('[data-radcn-calendar-month-select]').first()
+  let yearSelect = page.locator('[data-radcn-calendar-year-select]').first()
+  let hidden = page.locator('[data-radcn-calendar-hidden-input]')
+
+  await expect(calendar).toHaveAttribute('data-caption-layout', 'dropdown')
+  await expect(calendar).toHaveAttribute('data-month', '2026-06')
+  await expect(monthSelect).toHaveValue('5')
+  await expect(yearSelect).toHaveValue('2026')
+  await expect(page.locator('[data-radcn-calendar-grid]').first()).toHaveAttribute('role', 'grid')
+  await expect(page.getByRole('button', { name: /Friday, June 12, 2026/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-calendar-day][data-selected="true"]')).toHaveAttribute('data-date', '2026-06-12')
+  await expect(hidden).toHaveValue('2026-06-12')
+
+  await monthSelect.selectOption('6')
+  await expect(calendar).toHaveAttribute('data-month', '2026-07')
+  await expect(monthSelect).toHaveValue('6')
+  await expect(page.getByRole('button', { name: /Sunday, July 12, 2026/ })).toBeVisible()
+
+  await yearSelect.selectOption('2027')
+  await expect(calendar).toHaveAttribute('data-month', '2027-07')
+  await expect(yearSelect).toHaveValue('2027')
+  await expect(page.getByRole('button', { name: /Monday, July 12, 2027/ })).toBeVisible()
+
+  await page.getByRole('button', { name: 'Previous month' }).click()
+  await expect(calendar).toHaveAttribute('data-month', '2027-06')
+  await expect(monthSelect).toHaveValue('5')
+  await page.getByRole('button', { name: /Saturday, June 12, 2027/ }).click()
+  await expect(hidden).toHaveValue('2027-06-12')
+
+  await page.goto(`${candidate}/fixtures/calendar/hijri-intentional-divergence`)
+  await expect(page.locator('[data-radcn-calendar-hijri-divergence]')).toBeVisible()
+  await expect(page.getByText('calendar-hijri is an intentional RadCN divergence')).toBeVisible()
+  await expect(page.getByText('Persian and Hijri rendering is app-owned alternate-calendar work.')).toBeVisible()
+  await expect(page.getByText('react-day-picker/persian, next/font, or lucide-react')).toBeVisible()
+  await expect(page.locator('[data-radcn-calendar]')).toHaveCount(0)
+})
+
 test('candidate date picker package covers single presets range and forms', async ({ page }) => {
   let pkg = await packageJson()
   expect(pkg.exports?.['./date-picker']).toBe('./src/components/date-picker.tsx')

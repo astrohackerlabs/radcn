@@ -1035,6 +1035,28 @@ export function FormComplexPreview() {
   )
 }`
 
+const calendarSource = `import { Calendar } from 'radcn/calendar'
+
+export function CalendarExamples() {
+  return (
+    <>
+      <Calendar
+        captionLayout="dropdown"
+        defaultMonth="2026-06-01"
+        defaultSelected="2026-06-12"
+        max="2030-12-31"
+        min="2020-01-01"
+        name="release_date"
+      />
+
+      <p>
+        Alternate Persian or Hijri calendar engines remain app-owned recipes
+        that can reuse RadCN tokens and hooks.
+      </p>
+    </>
+  )
+}`
+
 const datePickerSource = `import { DatePicker } from 'radcn/date-picker'
 
 export function DatePickerExamples() {
@@ -3162,6 +3184,33 @@ function FormComplexPreview() {
       </Card>
       <Button type="submit">Save workspace</Button>
     </Form>
+  )
+}
+
+function CalendarPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-calendar-family="calendar-demo">
+        <Calendar
+          captionLayout="dropdown"
+          class="radcn-docs-calendar-demo"
+          defaultMonth="2026-06-01"
+          defaultSelected="2026-06-12"
+          max="2030-12-31"
+          min="2020-01-01"
+          name="docs-calendar-demo"
+          style="--radcn-calendar-border:#0f766e;--radcn-calendar-cell-size:2.35rem;width:min(100%,24rem);"
+        />
+      </div>
+
+      <div data-radcn-docs-calendar-family="calendar-hijri">
+        <div data-radcn-docs-calendar-divergence="calendar-hijri" style="border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);padding:1rem;width:min(100%,34rem);">
+          <h3>calendar-hijri is an intentional divergence</h3>
+          <p>Persian and Hijri rendering is app-owned alternate-calendar work that may compose its own engine with RadCN tokens and hooks.</p>
+          <p>RadCN does not depend on react-day-picker/persian, next/font, or lucide-react.</p>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -5534,6 +5583,47 @@ const richComponentDocs: ComponentDoc[] = [
       'The Remix 3 port makes field wiring explicit through helpers and native attributes so server actions, native validation, and future enhancement can share the same markup.',
       'Schema validation and form-state libraries remain app choices rather than RadCN package dependencies.',
       'The upstream RHF, TanStack Form, Formisch, and Next examples map to behavior clusters in RadCN docs rather than one dependency-specific example per library.',
+    ],
+  },
+  {
+    slug: 'calendar',
+    title: 'Calendar',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A package-backed date grid with native selection state, optional dropdown captions, and explicit alternate-calendar boundaries.',
+    importPath: 'radcn/calendar',
+    importExample: "import { Calendar } from 'radcn/calendar'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'calendar-demo',
+        title: 'Calendar Demo',
+        description:
+          'Render upstream calendar-demo as a single-selection Calendar with dropdown captions, ISO values, grid semantics, hidden form state, and custom styling hooks.',
+        source: calendarSource,
+        preview: <CalendarPreview />,
+      },
+    ],
+    accessibility: [
+      'Calendar renders a role="grid" table with day buttons named by full dates.',
+      'Selection is reflected through data-selected, aria-selected, and a native hidden input when name is provided.',
+      'captionLayout="dropdown" renders native month and year select controls in the caption area without replacing previous/next navigation.',
+    ],
+    customization: [
+      'Use class, style, CSS variables, and data-radcn-calendar* hooks instead of className, classNames, data-slot, cva, or Tailwind utilities.',
+      'defaultMonth maps to defaultMonth/month ISO props; selected and onSelect map to selected/defaultSelected props, hidden input values, and radcn-calendar-select events.',
+      'captionLayout maps to package-owned label or dropdown captions with data-radcn-calendar-month-select and data-radcn-calendar-year-select hooks.',
+      'Button composition stays inside the Calendar day and navigation controls; Date Picker composition remains separate package evidence.',
+    ],
+    divergence: [
+      'react-day-picker, DayPicker, DayButton, and getDefaultClassNames map to RadCN package-owned calendar markup and browser enhancement.',
+      'buttonVariants, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, and lucide-react map to package classes or app-owned presentation rather than package dependencies.',
+      'react-day-picker/persian, next/font/google, Vazirmatn, and RTL chevron behavior are app-owned alternate-calendar recipes, not RadCN package dependencies.',
+      'Calendar examples document block/sidebar separation: layout demos stay in docs or app composition while the package owns reusable calendar behavior.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

@@ -17,7 +17,7 @@ export type { ButtonProps, ButtonSize, ButtonVariant } from './components/button
 export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from './components/button-group.tsx'
 export type { ButtonGroupOrientation, ButtonGroupPartProps, ButtonGroupProps, ButtonGroupSeparatorProps } from './components/button-group.tsx'
 export { Calendar, CalendarCaption, CalendarDay, CalendarDayButton, CalendarGrid, CalendarMonth, CalendarNav, CalendarNext, CalendarPrevious, CalendarWeek, CalendarWeekdays, enhanceCalendar } from './components/calendar.tsx'
-export type { CalendarDayProps, CalendarMode, CalendarMonthProps, CalendarNavButtonProps, CalendarPartProps, CalendarProps } from './components/calendar.tsx'
+export type { CalendarCaptionLayout, CalendarDayProps, CalendarMode, CalendarMonthProps, CalendarNavButtonProps, CalendarPartProps, CalendarProps } from './components/calendar.tsx'
 export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, enhanceCarousel } from './components/carousel.tsx'
 export type { CarouselContentProps, CarouselControlProps, CarouselItemProps, CarouselOrientation, CarouselProps } from './components/carousel.tsx'
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/card.tsx'

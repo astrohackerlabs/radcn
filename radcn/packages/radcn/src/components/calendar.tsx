@@ -4,8 +4,10 @@ import { classes } from '../utils/classes.ts'
 import { addDays, addMonths, dateFromIso, daysInCalendarMonth, fullDateLabel, isBetween, isoDate, monthLabel, sameDay, startOfMonth, weekNumber } from '../utils/date.ts'
 
 export type CalendarMode = 'single' | 'range'
+export type CalendarCaptionLayout = 'label' | 'dropdown'
 
 export interface CalendarProps {
+  captionLayout?: CalendarCaptionLayout
   children?: RemixNode
   class?: string
   defaultMonth?: string
@@ -71,6 +73,53 @@ function calendarCaptionId(props: CalendarProps, offset: number) {
   return props.id ? `${props.id}-caption-${offset}` : undefined
 }
 
+const monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+]
+
+function yearsFor(month: Date, props: Pick<CalendarProps, 'max' | 'min'>) {
+  let min = dateFromIso(props.min)
+  let max = dateFromIso(props.max)
+  let start = min ? min.getFullYear() : month.getFullYear() - 10
+  let end = max ? max.getFullYear() : month.getFullYear() + 10
+  return Array.from({ length: end - start + 1 }).map((_, index) => start + index)
+}
+
+function captionLayoutFor(props: CalendarProps): CalendarCaptionLayout {
+  return props.captionLayout || 'label'
+}
+
+function renderCaption(month: Date, props: CalendarProps, offset: number) {
+  let id = calendarCaptionId(props, offset)
+  if (captionLayoutFor(props) !== 'dropdown') {
+    return <div class="radcn-calendar-caption" data-radcn-calendar-caption id={id}>{monthLabel(month)}</div>
+  }
+
+  return (
+    <div class="radcn-calendar-caption" data-radcn-calendar-caption id={id}>
+      <div class="radcn-calendar-caption-dropdowns" data-radcn-calendar-caption-dropdowns>
+        <select aria-label="Month" class="radcn-calendar-month-select" data-month-offset={String(offset)} data-radcn-calendar-month-select value={String(month.getMonth())}>
+          {monthNames.map((name, index) => <option selected={index === month.getMonth()} value={String(index)}>{name}</option>)}
+        </select>
+        <select aria-label="Year" class="radcn-calendar-year-select" data-month-offset={String(offset)} data-radcn-calendar-year-select value={String(month.getFullYear())}>
+          {yearsFor(month, props).map((year) => <option selected={year === month.getFullYear()} value={String(year)}>{year}</option>)}
+        </select>
+      </div>
+    </div>
+  )
+}
+
 function renderMonth(month: Date, props: CalendarProps, offset: number) {
   let selected = selectedFor(props)
   let [rangeStartValue, rangeEndValue] = selected.split('..')
@@ -92,7 +141,7 @@ function renderMonth(month: Date, props: CalendarProps, offset: number) {
 
   return (
     <div class="radcn-calendar-month" data-month={isoDate(month).slice(0, 7)} data-radcn-calendar-month>
-      <div class="radcn-calendar-caption" data-radcn-calendar-caption id={calendarCaptionId(props, offset)}>{monthLabel(month)}</div>
+      {renderCaption(month, props, offset)}
       <table aria-labelledby={calendarCaptionId(props, offset)} class="radcn-calendar-grid" data-radcn-calendar-grid role="grid">
         <thead>
           <tr class="radcn-calendar-weekdays" data-radcn-calendar-weekdays>
@@ -138,6 +187,7 @@ export function enhanceCalendar(root: ParentNode = document) {
     let month = dateFromIso(calendar.dataset.month || calendar.dataset.defaultMonth || selected) || new Date()
     let showOutsideDays = calendar.dataset.showOutsideDays !== 'false'
     let showWeekNumber = calendar.dataset.showWeekNumber === 'true'
+    let captionLayout = calendar.dataset.captionLayout || 'label'
     let disabled = disabledSet(calendar.dataset.disabledDates)
     let min = dateFromIso(calendar.dataset.min)
     let max = dateFromIso(calendar.dataset.max)
@@ -178,6 +228,31 @@ export function enhanceCalendar(root: ParentNode = document) {
       }
     }
 
+    function syncCaption(monthElement: HTMLElement, visibleMonth: Date) {
+      let caption = monthElement.querySelector<HTMLElement>('[data-radcn-calendar-caption]')
+      if (!caption) return
+      if (captionLayout !== 'dropdown') {
+        caption.textContent = monthLabel(visibleMonth)
+        return
+      }
+
+      let monthSelect = caption.querySelector<HTMLSelectElement>('[data-radcn-calendar-month-select]')
+      let yearSelect = caption.querySelector<HTMLSelectElement>('[data-radcn-calendar-year-select]')
+      if (monthSelect) monthSelect.value = String(visibleMonth.getMonth())
+      if (yearSelect) {
+        let currentYear = String(visibleMonth.getFullYear())
+        yearSelect.textContent = ''
+        let years = yearsFor(visibleMonth, { max: calendar.dataset.max, min: calendar.dataset.min })
+        years.forEach((year) => {
+          let option = document.createElement('option')
+          option.value = String(year)
+          option.textContent = String(year)
+          yearSelect.append(option)
+        })
+        yearSelect.value = currentYear
+      }
+    }
+
     function renderVisibleMonths() {
       let today = new Date()
       calendar.dataset.month = isoDate(month).slice(0, 7)
@@ -188,7 +263,7 @@ export function enhanceCalendar(root: ParentNode = document) {
         let caption = monthElement.querySelector<HTMLElement>('[data-radcn-calendar-caption]')
         let body = monthElement.querySelector<HTMLTableSectionElement>('tbody')
         monthElement.dataset.month = monthIso
-        if (caption) caption.textContent = monthLabel(visibleMonth)
+        syncCaption(monthElement, visibleMonth)
         if (!body) return
         body.textContent = ''
         Array.from({ length: Math.ceil(days.length / 7) }).forEach((_, weekIndex) => {
@@ -340,6 +415,29 @@ export function enhanceCalendar(root: ParentNode = document) {
       }
     })
 
+    calendar.addEventListener('change', (event) => {
+      let target = event.target
+      if (!(target instanceof Element)) return
+      let monthSelect = target.closest<HTMLSelectElement>('[data-radcn-calendar-month-select]')
+      let yearSelect = target.closest<HTMLSelectElement>('[data-radcn-calendar-year-select]')
+      let select = monthSelect || yearSelect
+      if (!select) return
+
+      event.preventDefault()
+      let offset = Number(select.dataset.monthOffset || '0')
+      let visibleMonth = addMonths(month, offset)
+      let owningCaption = select.closest<HTMLElement>('[data-radcn-calendar-caption]')
+      let nextMonthIndex = monthSelect
+        ? Number(monthSelect.value)
+        : Number(owningCaption?.querySelector<HTMLSelectElement>('[data-radcn-calendar-month-select]')?.value ?? visibleMonth.getMonth())
+      let nextYear = yearSelect
+        ? Number(yearSelect.value)
+        : Number(owningCaption?.querySelector<HTMLSelectElement>('[data-radcn-calendar-year-select]')?.value ?? visibleMonth.getFullYear())
+      month = startOfMonth(new Date(nextYear, nextMonthIndex - offset, 1))
+      renderVisibleMonths()
+      calendar.dispatchEvent(new CustomEvent('radcn-calendar-month-change', { bubbles: true, detail: { month: calendar.dataset.month } }))
+    })
+
     calendar.addEventListener('keydown', (event) => {
       let target = event.target
       if (!(target instanceof HTMLButtonElement) || !target.matches('[data-radcn-calendar-day-button]')) return
@@ -400,8 +498,9 @@ export function Calendar(handle: Handle<CalendarProps>) {
     let month = monthFor(props)
     let selected = selectedFor(props)
     let numberOfMonths = props.numberOfMonths || 1
+    let captionLayout = captionLayoutFor(props)
     return (
-      <div aria-label="Calendar" class={classes('radcn-calendar', props.class)} data-default-month={props.defaultMonth} data-default-selected={props.defaultSelected} data-disabled-dates={props.disabledDates} data-max={props.max} data-min={props.min} data-mode={props.mode || 'single'} data-month={isoDate(month).slice(0, 7)} data-radcn-calendar data-selected={selected} data-show-outside-days={props.showOutsideDays === false ? 'false' : 'true'} data-show-week-number={props.showWeekNumber ? 'true' : 'false'} id={props.id} style={props.style}>
+      <div aria-label="Calendar" class={classes('radcn-calendar', props.class)} data-caption-layout={captionLayout} data-default-month={props.defaultMonth} data-default-selected={props.defaultSelected} data-disabled-dates={props.disabledDates} data-max={props.max} data-min={props.min} data-mode={props.mode || 'single'} data-month={isoDate(month).slice(0, 7)} data-radcn-calendar data-selected={selected} data-show-outside-days={props.showOutsideDays === false ? 'false' : 'true'} data-show-week-number={props.showWeekNumber ? 'true' : 'false'} id={props.id} style={props.style}>
         {props.name && <input data-radcn-calendar-hidden-input name={props.name} required={props.required} type="hidden" value={selected} />}
         <div class="radcn-calendar-nav" data-radcn-calendar-nav>
           <button aria-label="Previous month" class="radcn-calendar-previous" data-radcn-calendar-previous type="button">‹</button>

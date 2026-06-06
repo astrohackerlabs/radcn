@@ -241,6 +241,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/58-implement-alert-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/alert-example-inventory.md"
       ]
+    },
+    {
+      "slug": "calendar",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/59-audit-calendar-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/60-resolve-calendar-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

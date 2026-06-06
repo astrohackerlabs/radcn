@@ -157,6 +157,34 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Alert Dialog is a separate component surface').first()).toBeVisible()
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/calendar')
+    for (let slug of [
+      'calendar-demo',
+      'calendar-hijri',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-calendar-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar]')).toHaveAttribute('data-caption-layout', 'dropdown')
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar-month-select]')).toHaveValue('5')
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar-year-select]')).toHaveValue('2026')
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar-hidden-input]')).toHaveValue('2026-06-12')
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar-grid]')).toHaveAttribute('role', 'grid')
+    await expect(page.getByRole('button', { name: /Friday, June 12, 2026/ }).first()).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-demo"] [data-radcn-calendar-day][data-selected="true"]')).toHaveAttribute('data-date', '2026-06-12')
+    await expect(page.locator('[data-radcn-docs-calendar-family="calendar-hijri"] [data-radcn-docs-calendar-divergence="calendar-hijri"]')).toBeVisible()
+    await expect(page.getByText('calendar-hijri is an intentional divergence').first()).toBeVisible()
+    await expect(page.getByText('defaultMonth maps to defaultMonth/month ISO props').first()).toBeVisible()
+    await expect(page.getByText('selected and onSelect map to selected/defaultSelected props').first()).toBeVisible()
+    await expect(page.getByText('captionLayout maps to package-owned label or dropdown captions').first()).toBeVisible()
+    await expect(page.getByText('className, classNames, data-slot, cva, or Tailwind utilities').first()).toBeVisible()
+    await expect(page.getByText('react-day-picker, DayPicker, DayButton, and getDefaultClassNames').first()).toBeVisible()
+    await expect(page.getByText('buttonVariants, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, and lucide-react').first()).toBeVisible()
+    await expect(page.getByText('react-day-picker/persian, next/font/google, Vazirmatn, and RTL chevron behavior').first()).toBeVisible()
+    await expect(page.getByText('Button composition stays inside the Calendar day and navigation controls').first()).toBeVisible()
+    await expect(page.getByText('Date Picker composition remains separate package evidence').first()).toBeVisible()
+    await expect(page.getByText('block/sidebar separation').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/checkbox')
     for (let slug of [
       'checkbox-demo',

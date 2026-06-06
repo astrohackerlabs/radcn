@@ -840,6 +840,20 @@ Record cross-component discoveries here as experiments complete.
   `calendar-hijri` needs an explicit support-or-divergence decision for
   Persian/Hijri rendering without adopting React, `react-day-picker/persian`,
   `next/font`, `lucide-react`, Tailwind, or vendor dependencies.
+- Experiment 60 completed Calendar example parity depth. `radcn/calendar` now
+  supports dependency-free `captionLayout="dropdown"` month/year controls while
+  preserving label captions as the default, previous/next navigation, selected
+  state, hidden input values, keyboard/pointer selection, range behavior,
+  multi-month rendering, form reset, public hooks, and Date Picker composition.
+- `calendar-demo` is now covered by named docs, candidate fixtures, and
+  Playwright evidence. `calendar-hijri` is recorded as an intentional
+  divergence: alternate Persian/Hijri calendar engines, `Vazirmatn`/font
+  loading, RTL chevron behavior, and icon presentation remain app-owned recipes
+  that may reuse RadCN tokens and hooks without adding `react-day-picker`,
+  `react-day-picker/persian`, `next/font`, `lucide-react`, Tailwind, or vendor
+  dependencies to RadCN.
+- After Experiment 60, `calendar` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `card` next.
 
 ## Experiments
 
@@ -962,4 +976,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 59: Audit calendar example parity](59-audit-calendar-example-parity.md)
   — **Partial**
 - [Experiment 60: Resolve calendar example parity depth](60-resolve-calendar-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

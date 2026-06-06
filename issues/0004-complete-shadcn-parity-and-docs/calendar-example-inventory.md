@@ -33,8 +33,8 @@ package-backed composition.
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `calendar-demo` | Renders a single-selection Calendar initialized to `new Date()`, updates selected date through React `useState`, uses `mode="single"`, `selected`, `onSelect`, `className="rounded-md border shadow-sm"`, and `captionLayout="dropdown"`. | `radcn/calendar` supports single selection through `selected`/`defaultSelected` ISO strings, default month, hidden input values, grid semantics, day accessible names, pointer and keyboard selection, month navigation, outside days, disabled dates, range state, multi-month rendering, public hooks, and custom `class`/`style`/token styling. Docs and fixtures currently prove generic Calendar behavior, selected state, custom tokens, and Date Picker composition, but do not prove this named upstream example id or caption dropdown behavior. | Partial | Add named docs, candidate fixture, and Playwright evidence for `calendar-demo`. Decide whether shadcn `captionLayout="dropdown"` maps to existing RadCN month navigation, a new package caption/dropdown API, or an intentional documented divergence. |
-| `calendar-hijri` | Renders a Persian/Hijri calendar example using `react-day-picker/persian`, `Vazirmatn` from `next/font/google`, local example-only Calendar implementation, `defaultMonth`/`selected` initialized to `new Date(2025, 5, 12)`, React `useState`, `onSelect`, `className="rounded-lg border shadow-sm"`, `lucide-react` chevrons, RTL chevron styling, and Button styling. | Current RadCN Calendar renders Gregorian `Date` grids with English month/day labels and ISO `YYYY-MM-DD` values. It has strong grid, selection, navigation, disabled, range, multi-month, form, and token coverage, but no Persian calendar system, Hijri/Persian labels, RTL calendar mechanics, alternate `DayPicker` calendar adapter, or app-font example. No docs/fixture/Playwright evidence records `calendar-hijri` as supported or intentionally divergent. | Partial | Decide and document the Hijri outcome. If supported, add package/docs/fixture/test evidence for alternate calendar rendering without adopting React, `react-day-picker/persian`, `next/font`, or `lucide-react` as mandatory dependencies. If not supported, record an intentional divergence with a defensible Remix/web-first reason and docs guidance for app-owned alternate-calendar implementations. |
+| `calendar-demo` | Renders a single-selection Calendar initialized to `new Date()`, updates selected date through React `useState`, uses `mode="single"`, `selected`, `onSelect`, `className="rounded-md border shadow-sm"`, and `captionLayout="dropdown"`. | `radcn/calendar` now supports single selection through `selected`/`defaultSelected` ISO strings, default month, hidden input values, grid semantics, day accessible names, pointer and keyboard selection, month navigation, outside days, disabled dates, range state, multi-month rendering, public hooks, custom `class`/`style`/token styling, and `captionLayout="dropdown"` month/year controls. Docs and fixtures prove the named `calendar-demo` route and page with dropdown controls, selected state, hidden input values, public hooks, and Playwright browser behavior. | Covered | Keep caption dropdown controls dependency-free and preserve label captions as the default behavior. |
+| `calendar-hijri` | Renders a Persian/Hijri calendar example using `react-day-picker/persian`, `Vazirmatn` from `next/font/google`, local example-only Calendar implementation, `defaultMonth`/`selected` initialized to `new Date(2025, 5, 12)`, React `useState`, `onSelect`, `className="rounded-lg border shadow-sm"`, `lucide-react` chevrons, RTL chevron styling, and Button styling. | RadCN Calendar intentionally remains a Gregorian ISO date-grid package. Docs, fixtures, and Playwright coverage record `calendar-hijri` as an intentional divergence: Persian/Hijri rendering, alternate calendar engines, app fonts such as `Vazirmatn`, and RTL/icon presentation are app-owned recipes that may reuse RadCN tokens and hooks without adding `react-day-picker/persian`, `next/font`, or `lucide-react` to RadCN. | Intentional divergence | Revisit only if a future issue designs a dependency-free alternate-calendar adapter API with real package value beyond app composition. |
 
 ## Capability Matrix
 
@@ -54,13 +54,13 @@ package-backed composition.
 | Multi-month rendering | Supported | `numberOfMonths` renders multiple `data-radcn-calendar-month` elements. |
 | Public hooks | Supported | Calendar exposes `data-radcn-calendar`, nav, month, caption, grid, week, day, and day-button hooks. |
 | Custom classes/styles/tokens | Supported | Props accept `class` and `style`; custom-token fixture proves CSS variable styling. |
-| Caption dropdown behavior | Partial | Upstream `calendar-demo` uses `captionLayout="dropdown"`. RadCN currently has text captions plus previous/next buttons, not month/year dropdown controls. |
-| Persian/Hijri rendering | Missing or intentional divergence pending | Current Calendar renders Gregorian dates and English labels only. No Persian calendar API or documented divergence exists yet. |
-| RTL behavior | Partial | RadCN uses plain previous/next buttons and can inherit document direction for layout, but no Calendar-specific RTL chevron or Persian calendar behavior is proven. |
-| App-owned font styling | Supported as generic styling, not example-proven | `class`/`style` and CSS variables can carry app font choices, but `Vazirmatn`/Persian font guidance is not documented for Calendar. |
-| Docs evidence | Partial | Docs have a generic Calendar preview, not named `calendar-demo` or `calendar-hijri` evidence. |
-| Candidate fixture evidence | Partial | Fixture routes prove generic Calendar mechanics but not the two named upstream example ids. |
-| Playwright evidence | Partial | `calendar-date-picker.spec.ts` proves broad Calendar mechanics but not named Calendar example parity or Hijri outcome. |
+| Caption dropdown behavior | Supported | `captionLayout="dropdown"` renders native month/year selects with stable hooks and browser enhancement keeps data-month, grids, hidden inputs, and previous/next navigation synchronized. |
+| Persian/Hijri rendering | Intentional divergence | Docs, fixtures, and Playwright record alternate calendar systems as app-owned recipes rather than RadCN package dependencies. |
+| RTL behavior | Intentional divergence for Calendar-specific icons | Direction and icon presentation remain app-owned for alternate-calendar recipes; RadCN Calendar keeps dependency-free previous/next controls. |
+| App-owned font styling | Supported and documented | `class`/`style` and CSS variables can carry app font choices; `Vazirmatn`/Next font loading is explicitly app/framework-owned. |
+| Docs evidence | Supported | Calendar is an authored rich docs page with named `calendar-demo` and `calendar-hijri` evidence. |
+| Candidate fixture evidence | Supported | Fixture routes include `calendar/demo` and `calendar/hijri-intentional-divergence`. |
+| Playwright evidence | Supported | `calendar-date-picker.spec.ts` and docs coverage prove the named Calendar demo and Hijri intentional divergence outcomes. |
 
 ## Mapping Decisions
 
@@ -69,28 +69,26 @@ package-backed composition.
 | React `useState`, `selected`, and `onSelect` | Map to explicit `selected`/`defaultSelected` ISO props, native hidden inputs, and dependency-free browser enhancement events. |
 | `mode="single"` | Preserve as `mode="single"` where needed; single mode is also RadCN's default. |
 | `defaultMonth` | Map to ISO `defaultMonth`/`month` props such as `2026-06-01`. |
-| `captionLayout="dropdown"` | Not currently equivalent. Follow-up must decide whether to add a caption dropdown API or document navigation buttons as the intentional RadCN mapping. |
+| `captionLayout="dropdown"` | Supported as RadCN package-owned native month/year selects with `data-radcn-calendar-month-select` and `data-radcn-calendar-year-select`; label captions remain the default. |
 | `className` and `classNames` | `className` maps to `class`; granular `classNames` maps to public `data-radcn-calendar-*` hooks, package classes, `style`, and CSS variables. |
 | `data-slot` | Map to public `data-radcn-calendar-*` hooks. DOM attribute names may differ if behavior and customization remain equivalent. |
 | cva, `cn`, Tailwind utilities | Implementation details only. RadCN owns package CSS and CSS variables instead of depending on these utilities. |
-| `react-day-picker`, `DayPicker`, `DayButton`, `getDefaultClassNames` | Upstream implementation dependencies. RadCN currently owns dependency-free calendar rendering and enhancement. |
-| `react-day-picker/persian` | Not a RadCN dependency. Its alternate calendar behavior is the key unresolved `calendar-hijri` outcome. |
-| `buttonVariants` and Button composition | Upstream styling implementation. RadCN Calendar owns its own nav/day buttons; app composition can wrap Calendar where needed. |
-| `ChevronDownIcon`, `ChevronLeftIcon`, `ChevronRightIcon`, `lucide-react` | App-owned icon presentation. RadCN must not add `lucide-react` as a Calendar dependency. |
-| `next/font/google` and `Vazirmatn` | App/framework-owned font loading. RadCN should not depend on Next font APIs. |
-| RTL chevron behavior | App-owned direction/icon presentation unless a concrete Calendar package behavior gap is proven. |
+| `react-day-picker`, `DayPicker`, `DayButton`, `getDefaultClassNames` | Upstream implementation dependencies. RadCN owns dependency-free calendar rendering and enhancement. |
+| `react-day-picker/persian` | Not a RadCN dependency. Alternate calendar systems are app-owned recipes unless a future package adapter issue proves reusable value. |
+| `buttonVariants` and Button composition | Upstream styling implementation. RadCN Calendar owns nav/day button behavior and package classes; app composition can wrap Calendar where needed. |
+| `ChevronDownIcon`, `ChevronLeftIcon`, `ChevronRightIcon`, `lucide-react` | App-owned icon presentation. RadCN does not add `lucide-react` as a Calendar dependency. |
+| `next/font/google` and `Vazirmatn` | App/framework-owned font loading. RadCN does not depend on Next font APIs. |
+| RTL chevron behavior | App-owned direction/icon presentation for alternate-calendar recipes. |
 | Date Picker references | Separate resolved composition that reuses Calendar; not part of Calendar example parity rows. |
 | Sidebar/block Calendar references | Out-of-cluster block usage; not part of this example audit. |
 | Vendor source | Read-only reference. No RadCN package or app code may import from `vendor/`. |
 
 ## Decision
 
-Calendar package mechanics are strong, but the active Calendar example cluster
-is still partial. `calendar-demo` lacks named docs/fixture/Playwright proof and
-needs an explicit decision for `captionLayout="dropdown"`. `calendar-hijri`
-requires a product decision: implement alternate Persian/Hijri calendar support
-in a dependency-free RadCN-appropriate way, or document it as an intentional
-divergence with app-owned guidance. The next experiment should resolve these
-two example outcomes without adding React, `react-day-picker`,
-`react-day-picker/persian`, `next/font`, `lucide-react`, Tailwind, or vendor
-dependencies.
+The Calendar example cluster is resolved. `calendar-demo` is covered by
+package-owned `captionLayout="dropdown"` controls plus named docs, fixture, and
+Playwright evidence. `calendar-hijri` is an intentional divergence: alternate
+Persian/Hijri calendar engines, app fonts, RTL chevrons, and icon presentation
+belong to app-owned recipes that may reuse RadCN hooks and tokens. RadCN did
+not add React, `react-day-picker`, `react-day-picker/persian`, `next/font`,
+`lucide-react`, Tailwind, or vendor dependencies.
