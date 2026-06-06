@@ -1216,3 +1216,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 79: Audit accordion example parity](79-audit-accordion-example-parity.md)
   — **Partial**
+- [Experiment 80: Implement accordion example parity depth](80-implement-accordion-example-parity-depth.md)
+  — **Designed**
