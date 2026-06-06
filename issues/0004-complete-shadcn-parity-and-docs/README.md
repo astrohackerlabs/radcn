@@ -1014,6 +1014,15 @@ Record cross-component discoveries here as experiments complete.
   `skeleton-example-inventory.md` marks both rows `Covered`,
   `resolved-clusters.json` records `skeleton` as resolved, and the regenerated
   parity inventory recommends auditing `sonner` examples next.
+- Experiment 77 audited Sonner example parity in
+  `sonner-example-inventory.md`. RadCN already covers Toaster-owned
+  notification rendering, accessible regions, status/alert roles, aria-live
+  behavior, initial toasts, event-dispatched toasts, default/success/error/
+  loading variants, action and dismiss controls, stacks, custom tokens, and
+  dependency absence for React/Sonner/next-themes. The cluster remains partial
+  because docs, fixtures, and tests do not yet prove the named `sonner-demo`
+  and `sonner-types` upstream Button trigger compositions, exact messages,
+  action label, all six type triggers, or promise-loading flow.
 
 ## Experiments
 
@@ -1170,4 +1179,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 76: Implement skeleton example parity depth](76-implement-skeleton-example-parity-depth.md)
   — **Pass**
 - [Experiment 77: Audit sonner example parity](77-audit-sonner-example-parity.md)
-  — **Designed**
+  — **Partial**

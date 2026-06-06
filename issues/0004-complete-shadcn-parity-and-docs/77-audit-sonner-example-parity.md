@@ -164,3 +164,63 @@ Experiment 77 as `Designed`, active New York v4 Sonner example ids are
 concrete pass/fail and hygiene checks, `git diff --check` passed, vendor
 checkouts are clean, only expected issue-doc changes exist, and no blockers
 remain.
+
+## Result
+
+**Result:** Partial
+
+Created `sonner-example-inventory.md` and audited the two active upstream
+Sonner examples: `sonner-demo` and `sonner-types`.
+
+RadCN already covers the core notification behavior: Toaster region semantics,
+toast list/items, static initial toasts, event-dispatched toasts, default,
+success, error, loading, action, dismiss, stack, custom tokens, status/alert
+roles, aria-live behavior, and dependency absence for React, Sonner,
+next-themes, and React DOM. Current fixtures also include info and warning
+toasts in a stack.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic notification
+behavior rather than the named upstream Button trigger compositions and exact
+messages. `sonner-demo` still needs exact `Show Toast`, `Event has been
+created`, date description, and `Undo` action evidence. `sonner-types` still
+needs exact `Default`, `Success`, `Info`, `Warning`, `Error`, and `Promise`
+trigger labels/messages and a decision for the promise loading/success/error
+flow.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `sonner-demo: 1`, `sonner-types: 1`.
+- `rg -n "sonner-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Sonner example parity is partial. The package API likely already owns the
+needed Toaster and browser event behavior, but named docs, fixtures, and
+Playwright coverage are still needed to prove `sonner-demo` and `sonner-types`
+with exact upstream messages, trigger labels, action behavior, and promise-flow
+mapping. The next experiment should implement that parity depth without adding
+React, Sonner, next-themes, lucide-react, Tailwind, `cn`, or vendor
+dependencies.
+
+## Completion Review
+
+Reviewer: Kuhn the 2nd (`019e9d24-b8f9-7c01-9b7a-5f79ee43aee1`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the result stayed audit-only, the
+Issue 4 README marks Experiment 77 as `Partial`, the issue learning records
+remaining Sonner gaps, inventory rows cover exactly `sonner-demo` and
+`sonner-types`, upstream ids and behavior match vendor evidence, current RadCN
+evidence is represented accurately, `git diff --check` passed, vendor
+checkouts are clean, and the result commit had not been made before review.
