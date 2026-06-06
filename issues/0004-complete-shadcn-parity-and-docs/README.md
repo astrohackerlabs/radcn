@@ -664,6 +664,18 @@ Record cross-component discoveries here as experiments complete.
   RadCN still does not depend on React, `lucide-react`, Tailwind,
   `useMediaQuery`, or vendor source. The regenerated parity inventory now
   recommends auditing `dropdown-menu` examples next.
+- Experiment 45 generated `dropdown-menu-example-inventory.md` for the four
+  upstream Dropdown Menu examples in the active parity cluster. RadCN's
+  Dropdown Menu primitive is strong, covering trigger semantics, menu roles,
+  portal movement, labels, groups, separators, shortcuts, disabled items,
+  destructive variants, checkbox items, radio groups/items, submenus, roving
+  focus, typeahead, pointer highlight, close-on-select, collision/stage
+  clamping, and public hooks. Example parity remains partial because the docs,
+  candidate fixtures, and Playwright tests do not yet prove named coverage for
+  `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, and
+  `dropdown-menu-radio-group`. The next experiment should implement those named
+  examples without changing the Dropdown Menu package API unless a concrete
+  package-level gap appears.
 
 ## Experiments
 
@@ -756,4 +768,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 44: Implement combobox example parity depth](44-implement-combobox-example-parity-depth.md)
   — **Pass**
 - [Experiment 45: Audit dropdown-menu example parity](45-audit-dropdown-menu-example-parity.md)
-  — **Designed**
+  — **Pass**

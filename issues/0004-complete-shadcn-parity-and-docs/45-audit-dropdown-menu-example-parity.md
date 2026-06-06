@@ -168,3 +168,105 @@ README links this experiment with status `Designed`, the experiment includes
 the required sections, the scope is audit-only, verification has concrete
 pass/fail criteria and hygiene checks, and vendor checkouts are not part of the
 write scope.
+
+## Result
+
+**Result:** Pass
+
+Created `dropdown-menu-example-inventory.md` and audited all four active
+upstream Dropdown Menu examples:
+
+- `dropdown-menu-checkboxes`
+- `dropdown-menu-demo`
+- `dropdown-menu-dialog`
+- `dropdown-menu-radio-group`
+
+The audit found strong RadCN primitive coverage for Dropdown Menu semantics:
+trigger behavior, menu role wiring, portal movement, side/align placement,
+labels, groups, separators, shortcuts, disabled items, destructive item
+variants, checkbox items, radio groups/items, submenus, roving focus,
+typeahead, pointer highlight, close-on-select, outside close, collision/stage
+clamping, and custom class/style/data hooks.
+
+The example cluster remains partially covered because the docs, candidate
+fixtures, and Playwright tests do not yet prove the four named upstream example
+ids as user-facing compositions. No current evidence requires changing the
+`radcn/dropdown-menu` package API.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/dropdown-menu-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'dropdown-menu-checkboxes',
+  'dropdown-menu-demo',
+  'dropdown-menu-dialog',
+  'dropdown-menu-radio-group',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+dropdown-menu-checkboxes: 1
+dropdown-menu-demo: 1
+dropdown-menu-dialog: 1
+dropdown-menu-radio-group: 1
+```
+
+Additional verification:
+
+```text
+rg -n "dropdown-menu-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`rg` found the new learning. `git diff --check` passed. `git status --short`
+showed only expected Issue 4 documentation changes before the result commit.
+The vendor status loop printed no output.
+
+## Conclusion
+
+Dropdown Menu primitive parity is strong, but named Dropdown Menu example
+parity is not complete. The next experiment should implement docs, candidate
+fixtures, and Playwright coverage for the four upstream examples without
+adding React, Radix, `lucide-react`, Tailwind, or vendor dependencies.
+
+## Completion Review
+
+Reviewer: Jason the 2nd (`019e9bcd-545c-7ce2-9f7d-83791f213eb5`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the result
+matches the audit-only scope, the result commit had not yet been made, the
+changed files were limited to Issue 4 documentation, `git diff --check` passed,
+vendor cleanliness was checked, the inventory row check covered the four
+Dropdown Menu example ids exactly once, and the Issue 4 README records the
+matching `Pass` status and follow-up learning.
