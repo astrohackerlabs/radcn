@@ -493,6 +493,26 @@ export function AlertDialogDemo() {
   )
 }`
 
+const aspectRatioImageSrc = 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
+
+const aspectRatioDemoSource = `import { AspectRatio } from 'radcn/aspect-ratio'
+
+const imageSrc =
+  'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
+
+export function AspectRatioDemo() {
+  return (
+    <AspectRatio class="rounded-lg bg-muted" ratio="16 / 9">
+      <img
+        alt="Photo by Drew Beamer"
+        class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+        src={imageSrc}
+        style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover;"
+      />
+    </AspectRatio>
+  )
+}`
+
 const previewMediaStyle = css({
   display: 'grid',
   minHeight: '8rem',
@@ -503,6 +523,23 @@ const previewMediaStyle = css({
     'linear-gradient(135deg, color-mix(in oklab, var(--radcn-primary) 18%, transparent), color-mix(in oklab, var(--radcn-accent) 34%, transparent))',
   color: 'var(--radcn-foreground)',
   fontWeight: 800,
+})
+
+const aspectRatioDemoStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  width: 'min(100%, 34rem)',
+  '& [data-radcn-docs-aspect-ratio-image]': {
+    display: 'block',
+    width: '100%',
+    height: '100%',
+    borderRadius: 'inherit',
+    objectFit: 'cover',
+    filter: 'none',
+  },
+  '&[data-radcn-theme="dark"] [data-radcn-docs-aspect-ratio-image]': {
+    filter: 'brightness(0.2) grayscale(1)',
+  },
 })
 
 const previewConstrainedStyle = css({
@@ -5455,6 +5492,27 @@ function AlertDialogDemoPreview() {
   )
 }
 
+function AspectRatioDemoPreview() {
+  return () => (
+    <div data-radcn-docs-aspect-ratio-family="aspect-ratio-demo" data-radcn-theme="dark" mix={aspectRatioDemoStyle}>
+      <AspectRatio class="rounded-lg bg-muted radcn-docs-aspect-ratio-demo" ratio="16 / 9" style="width:100%;">
+        <img
+          alt="Photo by Drew Beamer"
+          class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"
+          data-radcn-docs-aspect-ratio-image
+          data-radcn-docs-image-source="remote-unsplash"
+          src={aspectRatioImageSrc}
+          style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover;"
+        />
+      </AspectRatio>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        Next Image fill maps to a native img that fills the RadCN aspect-ratio
+        box; the exact upstream remote URL is used as read-only demo content.
+      </p>
+    </div>
+  )
+}
+
 function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
   return () => {
     let { slug, title } = handle.props
@@ -6274,6 +6332,49 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, data-slot maps to data-radcn-alert-dialog* hooks, and cn maps to explicit class composition.',
       'Tailwind fixed positioning, overlay/content animation utilities, responsive layout utilities, and size classes map to RadCN package CSS, data-state hooks, data-size, class, style, and CSS variables.',
       'AlertDialogMedia is intentionally omitted because upstream alert-dialog-demo has no media block.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'aspect-ratio',
+    title: 'Aspect Ratio',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free CSS aspect-ratio wrapper for responsive media, art, and arbitrary fixed-ratio content.',
+    importPath: 'radcn/aspect-ratio',
+    importExample: "import { AspectRatio } from 'radcn/aspect-ratio'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'aspect-ratio-demo',
+        title: 'Aspect Ratio Demo',
+        description:
+          'Render the upstream 16:9 Drew Beamer photo example with rounded muted root styling, full-cover image sizing, exact alt text, and dark-mode image filters.',
+        source: aspectRatioDemoSource,
+        preview: <AspectRatioDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'AspectRatio is a layout wrapper and does not alter the semantics of its child content.',
+      'Meaningful image content keeps its accessible name on the native img alt attribute.',
+      'The wrapper exposes data-radcn-aspect-ratio for tests and composition without introducing ARIA noise.',
+      'Dark-mode image treatment is visual only and does not change the image accessible name.',
+    ],
+    customization: [
+      'Use ratio="16 / 9" for the upstream demo ratio; custom ratios remain string CSS aspect-ratio values.',
+      'Root rounded/muted styling maps to package CSS by default and can be changed with class, style, and CSS variables.',
+      'Next Image fill maps to native img width, height, border-radius, and object-fit styling inside the AspectRatio wrapper.',
+      'Dark-mode brightness and grayscale utilities map to app-owned CSS under data-radcn-theme="dark".',
+    ],
+    divergence: [
+      'React client component markers and Radix AspectRatio map to dependency-free CSS aspect-ratio markup.',
+      'Next Image is not a RadCN dependency; the demo uses a native img with the exact upstream remote URL.',
+      'data-slot="aspect-ratio" maps to data-radcn-aspect-ratio, and className maps to class.',
+      'Tailwind rounded-lg, bg-muted, h-full, w-full, object-cover, dark:brightness-[0.2], and dark:grayscale utilities map to package CSS, class, style, CSS variables, and theme-scoped app CSS.',
+      'Remote image loading remains app-owned; RadCN owns the ratio wrapper, not image optimization or hosting policy.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

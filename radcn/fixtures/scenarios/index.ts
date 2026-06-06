@@ -555,6 +555,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "aspect-ratio",
+    id: "demo",
+    title: "Aspect Ratio Demo",
+    description: "Named upstream aspect-ratio-demo parity with full-cover Drew Beamer photo composition.",
+  },
+  {
+    component: "aspect-ratio",
     id: "default",
     title: "Default Aspect Ratio",
     description: "Media container using a 16 by 9 ratio.",

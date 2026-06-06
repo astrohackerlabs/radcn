@@ -12,16 +12,17 @@ ratio layout sizing, public `data-radcn-aspect-ratio` hooks, class/style
 customization, full-size child styling, overflow clipping, border radius, and
 muted background tokens.
 
-The named upstream example is still partial because current docs, fixtures, and
-tests do not prove the exact `aspect-ratio-demo` composition: the Unsplash
-photo URL, alt text `Photo by Drew Beamer`, rounded muted root styling, full
-cover image behavior, and dark-mode brightness/grayscale image filters.
+The named upstream example is now covered by docs, candidate fixtures, and
+Playwright tests that prove the exact `aspect-ratio-demo` composition: the
+Unsplash photo URL, alt text `Photo by Drew Beamer`, rounded muted root
+styling, full-cover image behavior, and dark-mode brightness/grayscale image
+filters.
 
 ## Examples
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `aspect-ratio-demo` | `AspectRatio ratio={16 / 9}` with root `className="rounded-lg bg-muted"`. The child is Next `Image` with `src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"`, `alt="Photo by Drew Beamer"`, `fill`, and `className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"`. The upstream UI uses a React client component marker, Radix AspectRatio primitive, `data-slot="aspect-ratio"`, `className`, Tailwind rounded/background/sizing/object-fit utilities, dark-mode image filters, Next remote image mechanics, and app-owned image presentation. | `radcn/packages/radcn/src/components/aspect-ratio.tsx` renders `data-radcn-aspect-ratio` with configurable string `ratio`, class, style, and default `16 / 9`. `radcn/packages/radcn/src/styles/tokens.css` gives the root `display:block`, `width:100%`, `overflow:hidden`, token border radius, muted background, and full-size direct children. `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` covers default `16 / 9` and custom `1 / 1` ratio fixtures with placeholder media. `radcn/fixtures/tests/static-display.spec.ts` verifies 420px by 236.25px and 240px by 240px layout outcomes. `radcn/apps/docs/app/content/components.tsx` renders a generic 16:9 preview and source snippet with a local RadCN logo image. `radcn/apps/docs/tests/coverage.spec.ts` verifies the docs route renders an AspectRatio hook through generic coverage. No current docs/fixture/test proves the named upstream remote image URL, exact alt text, rounded/muted root classes, object-cover image sizing, dark-mode brightness/grayscale filters, or Next Image mapping for `aspect-ratio-demo`. | Partial | Add named docs, candidate fixture, and Playwright coverage for `aspect-ratio-demo` with the exact remote image URL or a documented local deterministic equivalent, exact alt text, 16:9 root, rounded/muted root styling, full-cover child image, object-fit cover, dark-mode brightness/grayscale styling, public root hook evidence, and mapping copy for React, Radix, Next Image, `data-slot`, `className`, Tailwind utilities, remote image handling, and vendor source. |
+| `aspect-ratio-demo` | `AspectRatio ratio={16 / 9}` with root `className="rounded-lg bg-muted"`. The child is Next `Image` with `src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"`, `alt="Photo by Drew Beamer"`, `fill`, and `className="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale"`. The upstream UI uses a React client component marker, Radix AspectRatio primitive, `data-slot="aspect-ratio"`, `className`, Tailwind rounded/background/sizing/object-fit utilities, dark-mode image filters, Next remote image mechanics, and app-owned image presentation. | `radcn/apps/docs/app/content/components.tsx` promotes Aspect Ratio to a rich docs page with `data-radcn-docs-aspect-ratio-family="aspect-ratio-demo"`, exact upstream remote image URL, exact alt text, `ratio="16 / 9"`, rounded/muted root class evidence, native full-cover image styling, dark-mode filter styling under `data-radcn-theme="dark"`, public root hook evidence, and mapping copy for React, Radix, Next Image, `data-slot`, `className`, Tailwind rounded/background/sizing/object-fit/dark utilities, remote image handling, package CSS, public hooks, custom tokens, and vendor source. `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` adds `aspect-ratio/demo` with the exact remote URL, exact alt text, 16:9 layout, rounded/muted root classes, native image fill/object-fit styling, and theme-scoped brightness/grayscale filter. `radcn/fixtures/tests/static-display.spec.ts` verifies exact alt text, remote source strategy, 420px by 236.25px layout, root hooks/classes/computed styling, image fill dimensions, object-fit cover, and dark-mode filter. `radcn/apps/docs/tests/coverage.spec.ts` verifies the docs proof surface and divergence copy. | Covered | None. |
 
 ## Decisions
 
@@ -34,10 +35,9 @@ cover image behavior, and dark-mode brightness/grayscale image filters.
 - Upstream `rounded-lg bg-muted` maps to existing RadCN package CSS by default,
   plus optional app/docs classes, styles, or CSS variables when a page needs a
   larger radius or different muted token.
-- Next `Image fill` is not a RadCN dependency. The named example can use native
-  `img` markup or a deterministic docs asset as long as the full-cover visual,
-  alt text, sizing, and modifiability are equivalent and any remote-image
-  divergence is documented.
+- Next `Image fill` is not a RadCN dependency. The named example uses native
+  `img` markup with the exact upstream remote URL, exact alt text, full-cover
+  sizing, and app-owned object-fit/filter styling.
 - Upstream `h-full w-full object-cover` maps to RadCN full-size child CSS plus
   app-owned `object-fit: cover` image styling.
 - Upstream `dark:brightness-[0.2] dark:grayscale` maps to app/docs CSS under

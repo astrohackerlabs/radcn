@@ -1106,6 +1106,16 @@ Record cross-component discoveries here as experiments complete.
   image behavior, dark-mode brightness/grayscale image filters, and the Next
   Image/Radix/Tailwind mapping. The next experiment should implement named
   `aspect-ratio-demo` docs, candidate fixture, and Playwright coverage.
+- Experiment 84 resolved Aspect Ratio example parity for
+  `aspect-ratio-demo`. Docs, candidate fixtures, and Playwright now prove the
+  exact upstream remote image URL, alt text `Photo by Drew Beamer`, 16:9 root
+  layout, rounded/muted root styling, public root hook evidence, native
+  full-cover image sizing, `object-fit: cover`, dark-mode
+  brightness/grayscale image filter behavior, and the React/Radix/Next
+  Image/Tailwind mapping. The final image strategy uses a native `img` with
+  the exact upstream remote URL; RadCN remains responsible only for the ratio
+  wrapper, while remote image loading and optimization stay app-owned. The
+  regenerated parity inventory recommends auditing `avatar` examples next.
 
 ## Experiments
 
@@ -1276,4 +1286,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 83: Audit aspect-ratio example parity](83-audit-aspect-ratio-example-parity.md)
   — **Partial**
 - [Experiment 84: Implement aspect-ratio example parity depth](84-implement-aspect-ratio-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

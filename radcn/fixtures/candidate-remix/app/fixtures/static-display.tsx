@@ -169,6 +169,26 @@ export function renderAlertFixture(fixture: FixtureScenario) {
 }
 
 export function renderAspectRatioFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    let imageSrc = 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
+
+    return (
+      <div data-radcn-theme="dark">
+        <style>{'[data-radcn-theme="dark"] .radcn-fixture-aspect-ratio-demo-image{filter:brightness(0.2) grayscale(1)}'}</style>
+        <AspectRatio class="rounded-lg bg-muted radcn-fixture-aspect-ratio-demo" ratio="16 / 9" style="width:420px">
+          <img
+            alt="Photo by Drew Beamer"
+            class="h-full w-full rounded-lg object-cover dark:brightness-[0.2] dark:grayscale radcn-fixture-aspect-ratio-demo-image"
+            data-radcn-fixture-aspect-ratio-image
+            data-radcn-fixture-image-source="remote-unsplash"
+            src={imageSrc}
+            style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover;"
+          />
+        </AspectRatio>
+      </div>
+    )
+  }
+
   let isSquare = fixture.id === 'custom-ratio'
 
   return (

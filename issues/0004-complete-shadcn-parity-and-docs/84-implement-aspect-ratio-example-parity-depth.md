@@ -284,3 +284,121 @@ Approval: approved. The reviewer confirmed the Issue 4 README links
 Experiment 84 as `Designed`, implementation has not started, vendor checkouts
 are clean, and the plan is narrow enough to resolve the Experiment 83
 `aspect-ratio-demo` parity gap without adding forbidden dependencies.
+
+## Result
+
+**Result:** Pass
+
+Implemented named upstream `aspect-ratio-demo` parity without changing
+`radcn/packages/radcn` and without adding React, Radix, Next, Tailwind,
+lucide-react, `cn`, class-variance-authority, image optimization libraries, or
+vendor dependencies.
+
+Changes made:
+
+- `radcn/apps/docs/app/content/components.tsx`
+  - promoted Aspect Ratio from a generated seed doc to a rich docs page;
+  - added `aspectRatioDemoSource` with the native `img` mapping;
+  - added `AspectRatioDemoPreview` with
+    `data-radcn-docs-aspect-ratio-family="aspect-ratio-demo"`;
+  - rendered exact upstream image URL and alt text;
+  - rendered `ratio="16 / 9"`, rounded/muted root class evidence, native
+    full-cover image styling, object-fit cover, and dark-mode filter styling
+    under `data-radcn-theme="dark"`;
+  - documented React, Radix, Next Image, `data-slot`, `className`,
+    Tailwind rounded/background/sizing/object-fit/dark utilities, remote image
+    handling, package CSS, public hooks, custom tokens, and vendor-source
+    mappings.
+- `radcn/fixtures/scenarios/index.ts`
+  - added the named `aspect-ratio/demo` scenario.
+- `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx`
+  - added the named demo route with exact upstream remote URL, exact alt text,
+    16:9 layout, rounded/muted root classes, native full-cover image styling,
+    object-fit cover, and theme-scoped brightness/grayscale filtering.
+- `radcn/fixtures/tests/static-display.spec.ts`
+  - added browser coverage for the named fixture's exact alt text, remote image
+    source strategy, 420px by 236.25px layout, public root hook/classes,
+    computed overflow/background/radius, image fill dimensions, object-fit
+    cover, and dark-mode filter.
+- `radcn/apps/docs/tests/coverage.spec.ts`
+  - added docs coverage for the named family hook, exact image URL and alt
+    text, rounded/muted class evidence, full-cover image evidence, dark-mode
+    filter evidence, and divergence copy.
+- `issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md`
+  - marked `aspect-ratio-demo` `Covered` with concrete docs, fixture, and test
+    evidence.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json`
+  - recorded `aspect-ratio` as a resolved example cluster with Experiment 83,
+    Experiment 84, and inventory evidence.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - regenerated the inventory; Aspect Ratio is no longer unresolved and the
+    next recommendation is `avatar`.
+- `issues/0004-complete-shadcn-parity-and-docs/README.md`
+  - updated Experiment 84 to `Pass` and recorded the Aspect Ratio learning.
+
+The image strategy uses the exact upstream remote URL on a native `img`.
+RadCN owns the ratio wrapper and public hooks; remote loading and optimization
+remain app-owned, and Next Image is not a package or docs dependency.
+
+Verification performed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+```
+
+Additional deterministic checks passed:
+
+- `aspect-ratio-example-inventory.md` has exactly one upstream example row,
+  `aspect-ratio-demo`, and it is `Covered`.
+- `resolved-clusters.json` includes an `examples` entry for `aspect-ratio` with
+  `status = "resolved"` and evidence for Experiment 83, Experiment 84, and
+  `aspect-ratio-example-inventory.md`.
+- `parity-inventory.md` no longer lists `aspect-ratio` under unresolved
+  example clusters, and the first recommendation is now `avatar`.
+- forbidden import scan over `radcn/packages/radcn`, `radcn/apps/docs`, and
+  `radcn/fixtures/candidate-remix` passed.
+- manifest forbidden dependency scan passed.
+- `git diff --exit-code -- pnpm-lock.yaml` passed.
+- `git diff --check` passed.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+The first fixture Playwright run failed because the named demo test expected
+the light muted token background. The fixture intentionally places the demo
+under `data-radcn-theme="dark"` to prove dark-mode image filtering, so the
+root background correctly resolves to the dark muted token `rgb(39, 39, 42)`.
+The test was corrected and the rerun passed.
+
+## Completion Review
+
+Reviewer: Fermat the 2nd (`019e9d70-1164-76c0-9920-63e7d900125d`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the completed experiment matches
+the approved scope, docs add the named `aspect-ratio-demo` page and preview,
+the candidate fixture adds `aspect-ratio/demo`, fixture and docs tests cover
+the claimed behavior, the experiment has result and conclusion records, Issue 4
+records the learning and marks Experiment 84 `Pass`, and the result commit had
+not been made before review. The reviewer also independently reran package,
+docs, and fixture typechecks; fixture and docs Playwright coverage;
+`git diff --check`; lockfile, vendor cleanliness, nested-git, resolved-cluster,
+inventory, forbidden import, and manifest dependency checks. All passed.
+
+## Conclusion
+
+Aspect Ratio example parity is resolved. The existing dependency-free package
+primitive already provided the required layout behavior; the missing work was
+named docs, fixture, tests, and inventory evidence for the photo composition.
+
+The next Issue 4 experiment should audit upstream `avatar` examples.

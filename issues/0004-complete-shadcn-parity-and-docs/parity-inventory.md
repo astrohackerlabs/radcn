@@ -151,6 +151,7 @@ These are documented in RadCN but are not current package exports.
 | examples | sonner | resolved | `issues/0004-complete-shadcn-parity-and-docs/77-audit-sonner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/78-implement-sonner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/sonner-example-inventory.md` |
 | examples | accordion | resolved | `issues/0004-complete-shadcn-parity-and-docs/79-audit-accordion-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/80-implement-accordion-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/accordion-example-inventory.md` |
 | examples | alert-dialog | resolved | `issues/0004-complete-shadcn-parity-and-docs/81-audit-alert-dialog-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/82-implement-alert-dialog-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md` |
+| examples | aspect-ratio | resolved | `issues/0004-complete-shadcn-parity-and-docs/83-audit-aspect-ratio-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/84-implement-aspect-ratio-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -231,7 +232,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| aspect-ratio | 1 | `aspect-ratio-demo` |
 | avatar | 1 | `avatar-demo` |
 | collapsible | 1 | `collapsible-demo` |
 | context-menu | 1 | `context-menu-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for aspect-ratio
+**Cluster:** Example parity for avatar
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for aspect-ratio.
+- Audit upstream examples for avatar.
 
 ## Notes
 
