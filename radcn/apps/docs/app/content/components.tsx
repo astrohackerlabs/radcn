@@ -3143,6 +3143,167 @@ function DraftPreview(handle: { props: { title: string; importPath: string; disp
   }
 }
 
+const chartDemoLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+const chartDemoSeries = [
+  { name: 'desktop', label: 'Desktop', values: [186, 305, 237, 73, 209, 214] },
+  { name: 'mobile', label: 'Mobile', values: [80, 200, 120, 190, 130, 140] },
+]
+const chartDemoConfig = {
+  desktop: { color: '#2563eb', label: 'Desktop' },
+  mobile: { color: '#60a5fa', label: 'Mobile' },
+}
+
+function chartExample({
+  children,
+  description,
+  title,
+}: {
+  children: RemixNode
+  description: string
+  title: string
+}) {
+  return (
+    <Card class="radcn-chart-example-card">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+    </Card>
+  )
+}
+
+function ChartPreview() {
+  return () => (
+    <div class="radcn-chart-docs-grid">
+      {chartExample({
+        title: 'Default',
+        description: 'Grouped bars share one dependency-free SVG coordinate system.',
+        children: (
+        <ChartContainer ariaLabel="Device traffic chart" config={chartDemoConfig} title="Device traffic">
+          <ChartBarSeries labels={chartDemoLabels} name="desktop" series={chartDemoSeries} values={[]} />
+        </ChartContainer>
+        ),
+      })}
+      {chartExample({
+        title: 'Grid',
+        description: 'Grid lines are package-owned SVG marks.',
+        children: (
+        <ChartContainer ariaLabel="Device traffic chart with grid" config={chartDemoConfig} title="Device traffic">
+          <ChartBarSeries labels={chartDemoLabels} name="desktop" series={chartDemoSeries} showGrid values={[]} />
+        </ChartContainer>
+        ),
+      })}
+      {chartExample({
+        title: 'Axis',
+        description: 'Month ticks are rendered as accessible server HTML/SVG.',
+        children: (
+        <ChartContainer ariaLabel="Device traffic chart with axis" config={chartDemoConfig} title="Device traffic">
+          <ChartBarSeries labels={chartDemoLabels} name="desktop" series={chartDemoSeries} showGrid showXAxis values={[]} />
+        </ChartContainer>
+        ),
+      })}
+      {chartExample({
+        title: 'Legend',
+        description: 'Legend rows compose beside the chart instead of reading a Recharts payload.',
+        children: (
+        <ChartContainer ariaLabel="Device traffic chart with legend" config={chartDemoConfig} title="Device traffic">
+          <ChartBarSeries labels={chartDemoLabels} name="desktop" series={chartDemoSeries} showGrid showXAxis values={[]} />
+          <ChartLegend>
+            <ChartLegendItem color="#2563eb" name="desktop">Desktop</ChartLegendItem>
+            <ChartLegendItem color="#60a5fa" name="mobile">Mobile</ChartLegendItem>
+          </ChartLegend>
+        </ChartContainer>
+        ),
+      })}
+      {chartExample({
+        title: 'Tooltip',
+        description: 'Tooltip rows are explicit RadCN content.',
+        children: (
+        <ChartContainer ariaLabel="Device traffic chart with tooltip" config={chartDemoConfig} title="Device traffic">
+          <ChartBarSeries labels={chartDemoLabels} name="desktop" series={chartDemoSeries} showGrid showXAxis values={[]} />
+          <ChartTooltip label="June">
+            <ChartTooltipItem color="#2563eb" indicator="line" label="Desktop" name="desktop" value="214 visitors" />
+            <ChartTooltipItem color="#60a5fa" indicator="line" label="Mobile" name="mobile" value="140 visitors" />
+          </ChartTooltip>
+        </ChartContainer>
+        ),
+      })}
+      {chartExample({
+        title: 'Tooltip Anatomy',
+        description: 'Indicators, hidden labels, and formatted values are explicit props.',
+        children: (
+        <div class="radcn-chart-tooltip-demo">
+          <ChartTooltip label="Page Views">
+            <ChartTooltipItem color="#2563eb" indicator="dot" label="Desktop" name="desktop" value="12,486" />
+            <ChartTooltipItem color="#60a5fa" indicator="dot" label="Mobile" name="mobile" value="8,420" />
+          </ChartTooltip>
+          <ChartTooltip hideLabel label="Browser">
+            <ChartTooltipItem color="#22c55e" indicator="dashed" label="Chrome" name="chrome" value="1,286" />
+          </ChartTooltip>
+          <ChartTooltip label="Single metric">
+            <ChartTooltipItem color="#7c3aed" indicator="line" label="Desktop" name="desktop" value="12,486" />
+          </ChartTooltip>
+          <ChartTooltip hideLabel label="Hidden indicator">
+            <ChartTooltipItem hideIndicator label="Chrome" name="chrome" value="1,286" />
+          </ChartTooltip>
+        </div>
+        ),
+      })}
+    </div>
+  )
+}
+
+const chartSource = `import {
+  ChartBarSeries,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendItem,
+  ChartTooltip,
+  ChartTooltipItem,
+  type ChartConfig,
+  type ChartSeries,
+} from 'radcn/chart'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'radcn/card'
+
+const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+const series: ChartSeries[] = [
+  { name: 'desktop', label: 'Desktop', values: [186, 305, 237, 73, 209, 214] },
+  { name: 'mobile', label: 'Mobile', values: [80, 200, 120, 190, 130, 140] },
+]
+const config: ChartConfig = {
+  desktop: { color: '#2563eb', label: 'Desktop' },
+  mobile: { color: '#60a5fa', label: 'Mobile' },
+}
+
+export function ChartPreview() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Device traffic</CardTitle>
+        <CardDescription>January - June 2024</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer ariaLabel="Device traffic chart" config={config} title="Device traffic">
+          <ChartBarSeries labels={labels} name="desktop" series={series} showGrid showXAxis values={[]} />
+          <ChartTooltip label="June">
+            <ChartTooltipItem color="#2563eb" indicator="line" label="Desktop" name="desktop" value="214 visitors" />
+            <ChartTooltipItem color="#60a5fa" indicator="line" label="Mobile" name="mobile" value="140 visitors" />
+          </ChartTooltip>
+          <ChartLegend>
+            <ChartLegendItem color="#2563eb" name="desktop">Desktop</ChartLegendItem>
+            <ChartLegendItem color="#60a5fa" name="mobile">Mobile</ChartLegendItem>
+          </ChartLegend>
+        </ChartContainer>
+        <ChartTooltip hideLabel label="Browser">
+          <ChartTooltipItem color="#22c55e" indicator="dashed" label="Chrome" name="chrome" value="1,286" />
+          <ChartTooltipItem hideIndicator label="Firefox" name="firefox" value="1,000" />
+        </ChartTooltip>
+      </CardContent>
+    </Card>
+  )
+}`
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'button',
@@ -3299,6 +3460,47 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'The Remix 3 badge is a host element component, not a React slot wrapper.',
       'RadCN keeps link behavior explicit with href rather than forwarding arbitrary React children through asChild.',
+    ],
+  },
+  {
+    slug: 'chart',
+    title: 'Chart',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'Dependency-free SVG chart primitives for grouped bars, grid lines, axis ticks, legends, and explicit tooltip content.',
+    importPath: 'radcn/chart',
+    importExample:
+      "import { ChartBarSeries, ChartContainer, ChartLegend, ChartTooltip } from 'radcn/chart'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'component-examples',
+        title: 'Component Examples',
+        description:
+          'Render the six shadcn Chart component examples as Remix 3-native SVG and explicit content composition.',
+        source: chartSource,
+        preview: <ChartPreview />,
+      },
+    ],
+    accessibility: [
+      'ChartContainer renders a named figure with role="img", visible title text, and optional description wiring.',
+      'Bars, ticks, grid lines, legends, and tooltips are server-rendered SVG/HTML, so the chart is inspectable without client JavaScript.',
+      'Tooltip content is authored explicitly, which keeps labels and values visible to assistive technology instead of depending on a hover payload.',
+    ],
+    customization: [
+      'ChartContainer config writes chart-scoped CSS variables, so multiple series can share stable colors across bars, legends, and tooltips.',
+      'ChartBarSeries supports grouped multi-series bars, optional grid lines, optional x-axis ticks, and the existing single-series values API.',
+      'ChartTooltipItem supports dot, line, dashed, and hidden indicators with public data hooks for app CSS.',
+      'Charts compose naturally inside Card, CardHeader, CardContent, and CardFooter without making Card a Chart dependency.',
+    ],
+    divergence: [
+      'RadCN does not depend on Recharts. Recharts ResponsiveContainer maps to SVG viewBox sizing and RadCN CSS constraints.',
+      'React payload objects, formatter callbacks, and chart context map to explicit props, formatted values, and app-owned state.',
+      'lucide icons and upstream callout SVGs are presentation choices for apps, not Chart package dependencies.',
+      'The 70 chart gallery examples remain unresolved and will be implemented family by family after the component example surface is stable.',
     ],
   },
   {

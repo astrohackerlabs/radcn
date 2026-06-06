@@ -106,6 +106,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/28-implement-carousel-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md"
       ]
+    },
+    {
+      "slug": "chart",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/29-audit-chart-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/30-implement-chart-component-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

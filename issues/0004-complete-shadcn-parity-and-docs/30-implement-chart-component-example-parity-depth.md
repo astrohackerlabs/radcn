@@ -235,3 +235,288 @@ still catch forbidden manifest dependencies. Linnaeus also confirmed the Issue
 sections, scope is limited to the 6 component Chart examples, the 70 chart
 gallery examples remain explicitly unresolved, vendor status is clean, and
 current git status shows only plan documentation changes.
+
+## Result
+
+**Result:** Pass
+
+Implemented Chart component example parity depth for the 6 upstream component
+Chart examples: `chart-bar-demo`, `chart-bar-demo-axis`,
+`chart-bar-demo-grid`, `chart-bar-demo-legend`, `chart-bar-demo-tooltip`, and
+`chart-tooltip-demo`.
+
+Package changes:
+
+- `ChartBarSeries` now supports grouped multi-series vertical bars in one SVG
+  coordinate system while preserving the existing single-series `values`,
+  `labels`, `name`, and `color` prop path.
+- `ChartBarSeries` now supports optional grid lines and x-axis tick labels.
+- `ChartTooltip` supports `hideLabel`.
+- `ChartTooltipItem` supports `indicator="dot" | "line" | "dashed" | "none"`,
+  `hideIndicator`, `name`, explicit formatted values, and stable data hooks.
+- Styles now cover grid lines, ticks, grouped bars, tooltip indicator variants,
+  and shared docs/fixture chart-example layouts.
+
+Docs and fixture changes:
+
+- Added named candidate fixture routes for `/fixtures/chart/bar-demo`,
+  `/fixtures/chart/bar-demo-axis`, `/fixtures/chart/bar-demo-grid`,
+  `/fixtures/chart/bar-demo-legend`, `/fixtures/chart/bar-demo-tooltip`, and
+  `/fixtures/chart/tooltip-demo`.
+- Expanded the Chart docs page to rich authored content with live examples and
+  source for default bars, grid, axis, legend, tooltip, and tooltip anatomy.
+- Added Chart-specific docs Playwright coverage and fixture Playwright coverage.
+- Marked only the 6 component example rows `Covered` in
+  `chart-example-inventory.md`.
+- Added `chart` to the `examples` queue in `resolved-clusters.json`; the
+  `charts` queue remains empty so all 70 chart gallery examples remain
+  unresolved.
+- Regenerated `parity-inventory.md`; the first recommended cluster is now
+  `Example parity for input`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+```
+
+Output:
+
+```text
+$ pnpm --dir radcn/packages/radcn typecheck
+$ tsc
+```
+
+```text
+pnpm --dir radcn/apps/docs typecheck
+```
+
+Output:
+
+```text
+$ tsc --noEmit
+```
+
+```text
+pnpm fixtures:candidate:typecheck
+```
+
+Output:
+
+```text
+$ pnpm --dir radcn/fixtures/candidate-remix typecheck
+$ tsc
+```
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts data-display.spec.ts
+```
+
+Output:
+
+```text
+6 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Output:
+
+```text
+5 passed
+```
+
+Deterministic checks:
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Output:
+
+```text
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+```
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const css = fs.readFileSync('radcn/packages/radcn/src/styles/tokens.css', 'utf8')
+const index = fs.readFileSync('radcn/packages/radcn/src/styles/index.ts', 'utf8')
+const expected = `export const radcnStyles = ${JSON.stringify(css)}\n`
+if (index !== expected) process.exit(1)
+NODE
+```
+
+Passed with no output.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = [
+  'chart-bar-demo',
+  'chart-bar-demo-axis',
+  'chart-bar-demo-grid',
+  'chart-bar-demo-legend',
+  'chart-bar-demo-tooltip',
+  'chart-tooltip-demo',
+]
+let failed = false
+for (const id of ids) {
+  const row = text.match(new RegExp('\\| `'+id+'` \\|[^\n]+', 'g')) ?? []
+  console.log(`${id}: ${row.length} ${row[0] ?? ''}`)
+  if (row.length !== 1 || !row[0].includes('| Covered |')) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Confirmed each of the 6 component example rows appears exactly once and is
+`Covered`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const registry = fs.readFileSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/charts/_registry.ts', 'utf8')
+const inventory = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md', 'utf8')
+const ids = [...registry.matchAll(/name: "([^"]+)"/g)].map((match) => match[1])
+let covered = 0
+let failed = ids.length !== 70
+console.log(`registry ids: ${ids.length}`)
+for (const id of ids) {
+  const row = inventory.match(new RegExp('\\| `'+id+'` \\|[^\n]+', 'g')) ?? []
+  if (row[0]?.includes('| Covered |')) covered++
+  if (row.length !== 1) failed = true
+}
+console.log(`covered gallery rows: ${covered}`)
+if (covered === ids.length) failed = true
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+registry ids: 70
+covered gallery rows: 0
+```
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const resolved = JSON.parse(fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json', 'utf8'))
+const hasChartExample = resolved.examples.some((item) => item.slug === 'chart' && item.status === 'resolved')
+const hasChartEntries = resolved.charts.length > 0
+console.log(`chart example resolved: ${hasChartExample}`)
+console.log(`charts queue entries: ${resolved.charts.length}`)
+if (!hasChartExample || hasChartEntries) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+chart example resolved: true
+charts queue entries: 0
+```
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md', 'utf8')
+function section(name) {
+  const start = text.indexOf(`## ${name}`)
+  if (start < 0) return ''
+  const next = text.indexOf('\n## ', start + 4)
+  return text.slice(start, next < 0 ? text.length : next)
+}
+const unresolvedExamples = section('Unresolved Example Clusters')
+const unresolvedCharts = section('Unresolved Chart Clusters')
+const first = section('First Recommended Cluster')
+console.log(first.match(/\*\*Cluster:\*\*[^\n]+/)?.[0] ?? 'no cluster')
+if (/\| chart \|/.test(unresolvedExamples)) process.exit(1)
+if (!/chart-bar-default/.test(unresolvedCharts)) process.exit(1)
+if (/Example parity for chart/.test(first)) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+**Cluster:** Example parity for input
+```
+
+Dependency and hygiene checks:
+
+```text
+rg -n "from ['\"]react|from ['\"]recharts|from ['\"]lucide-react|@radix-ui|from ['\"][^'\"]*vendor|vendor/" radcn/packages/radcn/src radcn/fixtures/candidate-remix/app/fixtures/chart.tsx radcn/apps/docs/app/content/components.tsx
+```
+
+Passed with no matches.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const manifests = [
+  'package.json',
+  'radcn/packages/radcn/package.json',
+  'radcn/apps/docs/package.json',
+  'radcn/fixtures/candidate-remix/package.json',
+]
+const forbidden = ['react', 'recharts', 'lucide-react', '@radix-ui/react-slot', 'tailwindcss']
+let failed = false
+for (const file of manifests) {
+  const pkg = JSON.parse(fs.readFileSync(file, 'utf8'))
+  const deps = { ...pkg.dependencies, ...pkg.devDependencies, ...pkg.peerDependencies }
+  for (const name of forbidden) {
+    if (Object.prototype.hasOwnProperty.call(deps, name)) {
+      console.log(`${file}: forbidden dependency ${name}`)
+      failed = true
+    }
+  }
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Passed with no output.
+
+```text
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Both passed with no output.
+
+## Conclusion
+
+Chart component example parity is complete. The next Issue 4 experiment should
+follow the regenerated inventory and audit `input` example parity. The chart
+gallery remains open in the `charts` queue and can be addressed later by
+family, starting with bar and tooltip gallery examples because they can reuse
+the primitives established here.
+
+## Completion Review
+
+Reviewer: Noether (`019e9b36-d433-7be3-8bb4-9816e09cdf92`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: `chart-example-inventory.md` still had stale summary/current-evidence
+  prose saying the next implementation should start with the 6 component chart
+  examples. Fixed by updating the inventory summary and current evidence table
+  to say component example parity is complete and only chart gallery family work
+  remains.
+
+Approval result: approved. Noether verified package/docs/fixture typechecks,
+fixture Playwright, docs Playwright, `git diff --check`, vendor cleanliness,
+style export synchronization, the 6 covered component example rows, the 70
+uncovered gallery rows, the empty `charts` queue, and the uncommitted result
+state before the result commit.

@@ -93,6 +93,12 @@ Proof-set routes:
 - `/fixtures/card/default`
 - `/fixtures/card/compact`
 - `/fixtures/card/custom-token`
+- `/fixtures/chart/bar-demo`
+- `/fixtures/chart/bar-demo-axis`
+- `/fixtures/chart/bar-demo-grid`
+- `/fixtures/chart/bar-demo-legend`
+- `/fixtures/chart/bar-demo-tooltip`
+- `/fixtures/chart/tooltip-demo`
 - `/fixtures/empty/default`
 - `/fixtures/empty/icon`
 - `/fixtures/kbd/default`

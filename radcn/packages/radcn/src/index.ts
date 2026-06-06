@@ -23,7 +23,7 @@ export type { CarouselContentProps, CarouselControlProps, CarouselItemProps, Car
 export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/card.tsx'
 export type { CardPartProps, CardProps, CardSize } from './components/card.tsx'
 export { ChartBarSeries, ChartContainer, ChartLegend, ChartLegendItem, ChartLineSeries, ChartTooltip, ChartTooltipItem } from './components/chart.tsx'
-export type { ChartBarSeriesProps, ChartConfig, ChartContainerProps, ChartLegendItemProps, ChartLegendProps, ChartLineSeriesProps, ChartSeriesConfig, ChartTooltipItemProps, ChartTooltipProps } from './components/chart.tsx'
+export type { ChartBarSeriesProps, ChartConfig, ChartContainerProps, ChartLegendItemProps, ChartLegendProps, ChartLineSeriesProps, ChartSeries, ChartSeriesConfig, ChartTooltipIndicator, ChartTooltipItemProps, ChartTooltipProps } from './components/chart.tsx'
 export { Checkbox } from './components/checkbox.tsx'
 export type { CheckboxProps, CheckboxState } from './components/checkbox.tsx'
 export { Collapsible, CollapsibleContent, CollapsibleTrigger } from './components/collapsible.tsx'

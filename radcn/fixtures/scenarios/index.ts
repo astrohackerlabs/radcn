@@ -531,6 +531,42 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "chart",
+    id: "bar-demo",
+    title: "Chart Bar Demo",
+    description: "Two-series grouped bar chart matching the upstream Chart demo.",
+  },
+  {
+    component: "chart",
+    id: "bar-demo-grid",
+    title: "Chart Bar Grid",
+    description: "Grouped bar chart with horizontal grid lines.",
+  },
+  {
+    component: "chart",
+    id: "bar-demo-axis",
+    title: "Chart Bar Axis",
+    description: "Grouped bar chart with month tick labels and grid lines.",
+  },
+  {
+    component: "chart",
+    id: "bar-demo-legend",
+    title: "Chart Bar Legend",
+    description: "Grouped bar chart with legend and tooltip rows.",
+  },
+  {
+    component: "chart",
+    id: "bar-demo-tooltip",
+    title: "Chart Bar Tooltip",
+    description: "Grouped bar chart with explicit tooltip content.",
+  },
+  {
+    component: "chart",
+    id: "tooltip-demo",
+    title: "Chart Tooltip Demo",
+    description: "Tooltip anatomy with labels, values, and indicator variants.",
+  },
+  {
+    component: "chart",
     id: "bar",
     title: "Bar Chart",
     description: "Dependency-free SVG bar chart with accessible summary.",

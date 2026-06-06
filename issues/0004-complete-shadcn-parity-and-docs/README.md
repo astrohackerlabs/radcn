@@ -497,6 +497,22 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 29, the next recommended implementation cluster is Chart
   component example parity depth, covering the six component examples first:
   bar defaults, axes, grid, legend, tooltip, and standalone tooltip anatomy.
+- Experiment 30 completed Chart component example parity depth for the 6
+  upstream component examples. `radcn/chart` now supports grouped multi-series
+  vertical bars in one SVG coordinate system, optional grid lines, optional
+  x-axis tick labels, chart config color variables, tooltip label hiding,
+  tooltip indicator variants (`dot`, `line`, `dashed`, and hidden), explicit
+  formatted values, Card composition proof, docs examples, fixture routes, and
+  Playwright coverage.
+- Chart remains dependency-free. Recharts `BarChart`, `CartesianGrid`, `XAxis`,
+  `ChartTooltipContent`, `ChartLegendContent`, payload objects, formatter
+  callbacks, React state/context, lucide callouts, Tailwind utilities, and Card
+  framing map to RadCN SVG primitives, explicit props, app-authored formatted
+  values, app-owned presentation, CSS/classes, and composition rather than
+  package dependencies.
+- After Experiment 30, `chart` is marked resolved in the example queue only.
+  The 70 upstream chart gallery examples remain unresolved in the `charts`
+  queue. The regenerated inventory recommends example parity for `input` next.
 
 ## Experiments
 
@@ -559,4 +575,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 29: Audit chart example parity](29-audit-chart-example-parity.md)
   — **Pass**
 - [Experiment 30: Implement chart component example parity depth](30-implement-chart-component-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

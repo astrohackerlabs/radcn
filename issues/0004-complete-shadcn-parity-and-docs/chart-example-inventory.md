@@ -6,10 +6,12 @@ inventory only; it does not implement chart APIs.
 
 ## Summary
 
-RadCN currently has dependency-free SVG chart primitives for basic bars, lines,
-legends, tooltips, accessible figure labeling, and CSS-variable customization:
-`ChartContainer`, `ChartBarSeries`, `ChartLineSeries`, `ChartLegend`,
-`ChartLegendItem`, `ChartTooltip`, and `ChartTooltipItem`.
+RadCN now has dependency-free SVG chart primitives for accessible figure
+labeling, single-series bars, grouped multi-series vertical bars, grid lines,
+x-axis ticks, lines, legends, tooltip anatomy, indicator variants, hidden
+tooltip labels/indicators, explicit formatted values, and CSS-variable
+customization: `ChartContainer`, `ChartBarSeries`, `ChartLineSeries`,
+`ChartLegend`, `ChartLegendItem`, `ChartTooltip`, and `ChartTooltipItem`.
 
 Upstream shadcn/ui's chart surface is much broader. Its `ChartContainer` wraps
 Recharts `ResponsiveContainer`, injects chart-scoped CSS variables from
@@ -18,20 +20,19 @@ labels, legends, tooltips, active shapes, responsive sizing, formatter
 callbacks, React state/effects, lucide icons, Tailwind utilities, and Card
 composition.
 
-Chart parity is not complete. The next implementation should start with the 6
-component chart examples because they define the public docs component surface:
-bar defaults, grid, axes, legend, tooltip, and tooltip content variants. The 70
-chart gallery examples should then be solved by family in later experiments:
-bar, tooltip, line, area, pie, radar, and radial.
+Chart component example parity is complete for the 6 public component examples.
+Chart gallery parity is not complete. The remaining 70 chart gallery examples
+should be solved by family in later experiments: bar, tooltip, line, area, pie,
+radar, and radial.
 
 ## Current RadCN Evidence
 
 | Surface | Evidence | Current coverage |
 | --- | --- | --- |
-| Package API | `radcn/packages/radcn/src/components/chart.tsx` | Basic `figure role="img"` container, config color variables, bar SVG, line SVG, legend item, static tooltip item |
-| Package styles | `radcn/packages/radcn/src/styles/tokens.css` | Chart shell, SVG surface, axis, bar, line, point, legend, tooltip, custom tokens |
-| Docs | `radcn/apps/docs/app/content/components.tsx` | One compact Chart preview and source snippet |
-| Candidate fixture | `radcn/fixtures/candidate-remix/app/fixtures/chart.tsx` | Bar, line, legend, tooltip, accessibility, custom-token fixtures |
+| Package API | `radcn/packages/radcn/src/components/chart.tsx` | `figure role="img"` container, config color variables, single-series and grouped bar SVG, grid, x-axis ticks, line SVG, legend item, tooltip anatomy and indicators |
+| Package styles | `radcn/packages/radcn/src/styles/tokens.css` | Chart shell, SVG surface, axis, grid, ticks, grouped bars, line, point, legend, tooltip indicators, custom tokens |
+| Docs | `radcn/apps/docs/app/content/components.tsx` | Rich Chart docs covering default bars, grid, axis, legend, tooltip, and tooltip anatomy |
+| Candidate fixture | `radcn/fixtures/candidate-remix/app/fixtures/chart.tsx` | Bar component examples, line, legend, tooltip, accessibility, custom-token fixtures |
 | Reference fixture | `radcn/fixtures/reference-react-router/app/fixtures/chart.tsx` | Comparable basic bar/line/legend/tooltip fixtures |
 | Playwright | `radcn/fixtures/tests/data-display.spec.ts` | Basic SVG counts, legend/tooltip presence, ARIA, custom-token styling, no `recharts` dependency |
 
@@ -73,12 +74,12 @@ bar, tooltip, line, area, pie, radar, and radial.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `chart-bar-demo` | Responsive two-series vertical bar chart with rounded bars and config colors. | Recharts `BarChart`, two `Bar` series, `ChartContainer`, `ChartConfig`, `accessibilityLayer`, `var(--color-*)`. | Basic bar fixture renders one series; `ChartBarSeries` accepts one `values` array and one color. | Partial | Add multi-series bar support or composable repeated series, prove config color mapping, and add named docs/fixture route. |
-| `chart-bar-demo-axis` | Two-series vertical bar chart with hidden axis line, short month ticks, and grid. | Recharts `CartesianGrid`, `XAxis`, two `Bar` series. | RadCN draws one baseline axis but has no tick labels or grid primitive. | Missing | Add axis/tick/grid behavior or document a deliberate simpler axis strategy, then test labels and grid. |
-| `chart-bar-demo-grid` | Two-series vertical bar chart with horizontal grid and no x-axis labels. | Recharts `CartesianGrid vertical={false}`, two `Bar` series. | No grid primitive or grid styling hook beyond baseline axis. | Missing | Add grid rendering/customization or record divergence; prove visible grid lines. |
-| `chart-bar-demo-legend` | Two-series bar chart with axis, grid, tooltip, and legend content from config labels. | Recharts `ChartTooltip`, `ChartTooltipContent`, `ChartLegend`, `ChartLegendContent`. | Static `ChartLegendItem` and `ChartTooltipItem` exist, but not config-driven legend or integrated tooltip content variants. | Partial | Add docs/fixture proof for composed legend and tooltip, plus package support if config-driven labels are reusable. |
-| `chart-bar-demo-tooltip` | Two-series bar chart with axis, grid, and tooltip content. | Recharts `ChartTooltip` with `ChartTooltipContent`. | Static tooltip exists; no hover/payload integration or tooltip content options. | Partial | Add static and enhanced tooltip examples covering label/value rows and indicators. |
-| `chart-tooltip-demo` | Standalone tooltip anatomy showing label, name, value, indicator variants, hidden label, and formatting. | React local `TooltipDemo`, Tailwind layout, inline SVG callouts, indicator `dot`/`line`/`dashed`. | `ChartTooltip` and `ChartTooltipItem` cover label and rows only. | Missing | Implement or document RadCN tooltip content anatomy: label, hidden label, hidden indicator, dot/line/dashed indicators, formatted values, and source docs. |
+| `chart-bar-demo` | Responsive two-series vertical bar chart with rounded bars and config colors. | Recharts `BarChart`, two `Bar` series, `ChartContainer`, `ChartConfig`, `accessibilityLayer`, `var(--color-*)`. | Experiment 30 adds grouped multi-series `ChartBarSeries` support, config color mapping, docs examples, fixture route `/fixtures/chart/bar-demo`, and Playwright proof. | Covered | Recharts `BarChart` maps to dependency-free RadCN SVG bars. |
+| `chart-bar-demo-axis` | Two-series vertical bar chart with hidden axis line, short month ticks, and grid. | Recharts `CartesianGrid`, `XAxis`, two `Bar` series. | Experiment 30 adds optional grid and x-axis tick rendering, fixture route `/fixtures/chart/bar-demo-axis`, docs coverage, and Playwright proof. | Covered | Recharts axis/grid primitives map to explicit SVG grid lines and text ticks. |
+| `chart-bar-demo-grid` | Two-series vertical bar chart with horizontal grid and no x-axis labels. | Recharts `CartesianGrid vertical={false}`, two `Bar` series. | Experiment 30 adds optional grid rendering, fixture route `/fixtures/chart/bar-demo-grid`, docs coverage, and Playwright proof. | Covered | Recharts grid maps to RadCN `data-radcn-chart-grid` SVG lines. |
+| `chart-bar-demo-legend` | Two-series bar chart with axis, grid, tooltip, and legend content from config labels. | Recharts `ChartTooltip`, `ChartTooltipContent`, `ChartLegend`, `ChartLegendContent`. | Experiment 30 proves composed `ChartLegend`, explicit `ChartTooltip`, grouped bars, docs examples, fixture route `/fixtures/chart/bar-demo-legend`, and Playwright coverage. | Covered | Recharts payload/context maps to explicit legend and tooltip rows. |
+| `chart-bar-demo-tooltip` | Two-series bar chart with axis, grid, and tooltip content. | Recharts `ChartTooltip` with `ChartTooltipContent`. | Experiment 30 adds tooltip row indicator variants, formatted value text, fixture route `/fixtures/chart/bar-demo-tooltip`, docs coverage, and Playwright proof. | Covered | Tooltip payload values map to explicit authored RadCN tooltip rows. |
+| `chart-tooltip-demo` | Standalone tooltip anatomy showing label, name, value, indicator variants, hidden label, and formatting. | React local `TooltipDemo`, Tailwind layout, inline SVG callouts, indicator `dot`/`line`/`dashed`. | Experiment 30 adds `ChartTooltip hideLabel`, `ChartTooltipItem indicator`, `hideIndicator`, formatted values, docs examples, fixture route `/fixtures/chart/tooltip-demo`, and Playwright proof. | Covered | Upstream callout SVGs remain app-owned presentation and are not package dependencies. |
 
 ## Chart Gallery By Family
 
@@ -189,24 +190,19 @@ bar, tooltip, line, area, pie, radar, and radial.
 
 ## Outcome
 
-Chart example parity is not complete.
+Chart component example parity is complete for the 6 upstream component
+examples. Chart gallery parity is not complete.
 
-Current RadCN chart primitives cover the beginning of the surface: accessible
-containers, basic vertical bars, basic line charts with points, static legends,
-static tooltips, and custom tokens. They do not yet cover upstream's complete
-bar examples, tooltip content anatomy, grid/axis/tick behavior, multi-series
-coordinate systems, horizontal/stacked/negative bars, area charts, pie/donut
-charts, radar charts, radial charts, active states, formatter callbacks, or
-interactive select/range examples.
+Current RadCN chart primitives now cover accessible containers, single-series
+vertical bars, grouped multi-series vertical bars, basic line charts with
+points, grid lines, x-axis tick labels, static legends, tooltip label/value
+rows, tooltip indicator variants, hidden indicators, formatted values, Card
+composition proof, and custom tokens.
 
-The next implementation cluster should be **Chart component example parity
-depth**. It should focus on the six component examples first:
-`chart-bar-demo`, `chart-bar-demo-axis`, `chart-bar-demo-grid`,
-`chart-bar-demo-legend`, `chart-bar-demo-tooltip`, and `chart-tooltip-demo`.
-That cluster should establish the reusable chart grammar needed by later chart
-gallery work: multi-series bars, axis ticks, grid lines, config color mapping,
-responsive sizing, Card composition proof, tooltip content variants, indicator
-variants, and Playwright checks.
+The remaining chart work is the 70 upstream chart gallery examples. They still
+need family-by-family implementation for horizontal/stacked/negative bars,
+line variants, area charts, pie/donut charts, radar charts, radial charts,
+active states, formatter callbacks, and interactive select/range examples.
 
-After that, later experiments can resolve the chart gallery by family, starting
-with the bar and tooltip gallery rows because they reuse the same primitives.
+The next chart-gallery experiment should start with the bar and tooltip gallery
+rows because they reuse the component-example primitives from Experiment 30.

@@ -56,6 +56,45 @@ test('candidate chart exposes legend tooltip details accessibility and custom to
   await expect(page.locator('[data-radcn-chart-svg]')).toHaveCSS('background-color', 'rgb(240, 253, 250)')
 })
 
+test('candidate chart covers shadcn component example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/chart/bar-demo`)
+  await expect(page.getByRole('img', { name: 'Device traffic chart' })).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-svg]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-chart-bar]')).toHaveCount(12)
+  await expect(page.locator('[data-radcn-chart-bar][data-series="desktop"]')).toHaveCount(6)
+  await expect(page.locator('[data-radcn-chart-bar][data-series="mobile"]')).toHaveCount(6)
+  await expect(page.locator('[data-radcn-chart-bar][data-series="desktop"]').first()).toHaveAttribute('fill', 'var(--radcn-chart-desktop, var(--radcn-primary))')
+  await expect(page.locator('[data-radcn-chart-bar][data-series="mobile"]').first()).toHaveAttribute('fill', 'var(--radcn-chart-mobile, var(--radcn-primary))')
+
+  await page.goto(`${candidate}/fixtures/chart/bar-demo-grid`)
+  await expect(page.getByRole('img', { name: 'Device traffic chart with grid' })).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(5)
+
+  await page.goto(`${candidate}/fixtures/chart/bar-demo-axis`)
+  await expect(page.getByRole('img', { name: 'Device traffic chart with axis' })).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-tick]')).toHaveCount(6)
+  await expect(page.locator('[data-radcn-chart-tick]').first()).toHaveText('Jan')
+
+  await page.goto(`${candidate}/fixtures/chart/bar-demo-legend`)
+  await expect(page.getByRole('img', { name: 'Device traffic chart with legend' })).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-legend-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-chart-tooltip-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-chart-tooltip-label]')).toHaveText('June')
+
+  await page.goto(`${candidate}/fixtures/chart/bar-demo-tooltip`)
+  await expect(page.getByRole('img', { name: 'Device traffic chart with tooltip' })).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="line"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-chart-tooltip-value]').first()).toHaveText('214 visitors')
+
+  await page.goto(`${candidate}/fixtures/chart/tooltip-demo`)
+  await expect(page.locator('[data-radcn-chart-tooltip-demo]')).toBeVisible()
+  await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="dot"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="dashed"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="line"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="none"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-chart-tooltip][data-hide-label="true"]')).toHaveCount(2)
+})
+
 test('candidate data-table recipe renders semantic table selection and pagination', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/data-table/default`)
   await expect(page.locator('[data-radcn-data-table]')).toHaveCount(1)

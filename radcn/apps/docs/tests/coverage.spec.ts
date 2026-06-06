@@ -127,6 +127,13 @@ test.describe('docs registry coverage', () => {
 
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()
+
+    await page.goto('/docs/components/chart')
+    await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
+    await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)
+    await expect(page.locator('[data-radcn-chart-tick]')).toHaveCount(18)
+    await expect(page.locator('[data-radcn-chart-tooltip-item][data-indicator="line"]').first()).toBeVisible()
+    await expect(page.getByText('ChartTooltipItem').first()).toBeVisible()
   })
 
   test('date picker docs render multiple instances without duplicate ids', async ({
