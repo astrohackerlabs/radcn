@@ -123,6 +123,10 @@ fixture app.
 - The local flow should be close enough to the eventual published flow that the
   local command, config, registry, and generated source can translate directly
   to the public npm-backed version later.
+- The install proof should use a dedicated disposable Remix 3 consumer fixture
+  at `radcn/fixtures/install-target/`. This fixture is not the docs app and is
+  not RadCN package source; it exists only to prove that RadCN can initialize
+  and install components into an external target app.
 
 ## Scope
 
@@ -137,7 +141,7 @@ In scope:
   - `radcn add button`
   - eventually `radcn add <component>`
 - A target Remix 3 fixture app that proves initialization and component
-  installation.
+  installation. The preferred path is `radcn/fixtures/install-target/`.
 - A Button installation proof that writes project-local source and makes it
   usable from the target app.
 - TypeScript-only generated output.
@@ -187,7 +191,9 @@ The likely architecture mirrors shadcn/ui:
   - avoids reading from or installing from `vendor/`;
   - can run in a local workspace without npm publication.
 - Remix 3 proof app:
-  - starts as a target consumer app, not as the RadCN source package itself;
+  - lives at `radcn/fixtures/install-target/`;
+  - starts as a target consumer app, not as the RadCN source package itself or
+    the RadCN docs app;
   - runs the local CLI against the app;
   - imports the installed Button from the generated local path;
   - renders and verifies the Button in a browser or deterministic route test.
@@ -210,7 +216,9 @@ This issue is complete when:
 - the proof uses `components.json`;
 - generated output is TypeScript-only;
 - generated default paths are compatible with standard Remix 3 app structure;
-- a Remix 3 target fixture can run an init flow;
+- `radcn/fixtures/install-target/` exists as a disposable Remix 3 consumer
+  fixture;
+- that fixture can run an init flow;
 - the same target can run an add-component flow for Button;
 - generated config and source files are deterministic and documented;
 - registry item validation, recursive dependency resolution, and safe file
@@ -218,7 +226,7 @@ This issue is complete when:
 - rerunning `add button` is deterministic: unchanged files are skipped or
   overwrite behavior is explicit and tested;
 - the installed Button can be imported and rendered from the target Remix 3
-  app;
+  fixture from its own generated local source;
 - the flow does not read from or install dependencies from `vendor/`;
 - verification proves the flow works without npm publication;
 - the local flow maps directly to the eventual published flow without changing
