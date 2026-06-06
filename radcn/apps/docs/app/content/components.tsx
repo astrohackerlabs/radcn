@@ -203,8 +203,12 @@ import { ScrollArea, ScrollAreaCorner, ScrollAreaThumb, ScrollAreaViewport, Scro
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectPortal,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
   SelectTrigger,
   SelectValue,
   SelectViewport,
@@ -1484,6 +1488,109 @@ export function ScrollAreaPreview() {
         </ScrollAreaViewport>
         <ScrollBar orientation="horizontal"><ScrollAreaThumb /></ScrollBar>
       </ScrollArea>
+    </>
+  )
+}`
+
+const selectSource = `import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+} from 'radcn/select'
+
+const fruits = [
+  ['apple', 'Apple'],
+  ['banana', 'Banana'],
+  ['blueberry', 'Blueberry'],
+  ['grapes', 'Grapes'],
+  ['pineapple', 'Pineapple'],
+]
+
+const timezones = [
+  ['North America', [
+    ['est', 'Eastern Standard Time (EST)'],
+    ['cst', 'Central Standard Time (CST)'],
+    ['mst', 'Mountain Standard Time (MST)'],
+    ['pst', 'Pacific Standard Time (PST)'],
+    ['akst', 'Alaska Standard Time (AKST)'],
+    ['hst', 'Hawaii Standard Time (HST)'],
+  ]],
+  ['Europe & Africa', [
+    ['gmt', 'Greenwich Mean Time (GMT)'],
+    ['cet', 'Central European Time (CET)'],
+    ['eet', 'Eastern European Time (EET)'],
+    ['west', 'Western European Summer Time (WEST)'],
+    ['cat', 'Central Africa Time (CAT)'],
+    ['eat', 'East Africa Time (EAT)'],
+  ]],
+  ['Asia', [
+    ['msk', 'Moscow Time (MSK)'],
+    ['ist', 'India Standard Time (IST)'],
+    ['cst_china', 'China Standard Time (CST)'],
+    ['jst', 'Japan Standard Time (JST)'],
+    ['kst', 'Korea Standard Time (KST)'],
+    ['ist_indonesia', 'Indonesia Central Standard Time (WITA)'],
+  ]],
+  ['Australia & Pacific', [
+    ['awst', 'Australian Western Standard Time (AWST)'],
+    ['acst', 'Australian Central Standard Time (ACST)'],
+    ['aest', 'Australian Eastern Standard Time (AEST)'],
+    ['nzst', 'New Zealand Standard Time (NZST)'],
+    ['fjt', 'Fiji Time (FJT)'],
+  ]],
+  ['South America', [
+    ['art', 'Argentina Time (ART)'],
+    ['bot', 'Bolivia Time (BOT)'],
+    ['brt', 'Brasilia Time (BRT)'],
+    ['clt', 'Chile Standard Time (CLT)'],
+  ]],
+]
+
+export function SelectPreview() {
+  return (
+    <>
+      <Select name="fruit" style="width:180px;">
+        <SelectTrigger ariaLabel="Fruit">
+          <SelectValue placeholder="Select a fruit" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectViewport>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              {fruits.map(([value, label]) => (
+                <SelectItem textValue={label} value={value}>{label}</SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectViewport>
+        </SelectContent>
+      </Select>
+
+      <Select name="timezone" style="width:280px;">
+        <SelectTrigger ariaLabel="Timezone">
+          <SelectValue placeholder="Select a timezone" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectScrollUpButton />
+          <SelectViewport style="max-height:12rem;overflow:auto;">
+            {timezones.map(([group, options]) => (
+              <SelectGroup>
+                <SelectLabel>{group}</SelectLabel>
+                {options.map(([value, label]) => (
+                  <SelectItem textValue={label} value={value}>{label}</SelectItem>
+                ))}
+              </SelectGroup>
+            ))}
+          </SelectViewport>
+          <SelectScrollDownButton />
+        </SelectContent>
+      </Select>
     </>
   )
 }`
@@ -3940,6 +4047,69 @@ const scrollAreaArtworks = [
   },
 ]
 
+const selectFruits = [
+  ['apple', 'Apple'],
+  ['banana', 'Banana'],
+  ['blueberry', 'Blueberry'],
+  ['grapes', 'Grapes'],
+  ['pineapple', 'Pineapple'],
+] as const
+
+const selectTimezoneGroups = [
+  {
+    label: 'North America',
+    options: [
+      ['est', 'Eastern Standard Time (EST)'],
+      ['cst', 'Central Standard Time (CST)'],
+      ['mst', 'Mountain Standard Time (MST)'],
+      ['pst', 'Pacific Standard Time (PST)'],
+      ['akst', 'Alaska Standard Time (AKST)'],
+      ['hst', 'Hawaii Standard Time (HST)'],
+    ],
+  },
+  {
+    label: 'Europe & Africa',
+    options: [
+      ['gmt', 'Greenwich Mean Time (GMT)'],
+      ['cet', 'Central European Time (CET)'],
+      ['eet', 'Eastern European Time (EET)'],
+      ['west', 'Western European Summer Time (WEST)'],
+      ['cat', 'Central Africa Time (CAT)'],
+      ['eat', 'East Africa Time (EAT)'],
+    ],
+  },
+  {
+    label: 'Asia',
+    options: [
+      ['msk', 'Moscow Time (MSK)'],
+      ['ist', 'India Standard Time (IST)'],
+      ['cst_china', 'China Standard Time (CST)'],
+      ['jst', 'Japan Standard Time (JST)'],
+      ['kst', 'Korea Standard Time (KST)'],
+      ['ist_indonesia', 'Indonesia Central Standard Time (WITA)'],
+    ],
+  },
+  {
+    label: 'Australia & Pacific',
+    options: [
+      ['awst', 'Australian Western Standard Time (AWST)'],
+      ['acst', 'Australian Central Standard Time (ACST)'],
+      ['aest', 'Australian Eastern Standard Time (AEST)'],
+      ['nzst', 'New Zealand Standard Time (NZST)'],
+      ['fjt', 'Fiji Time (FJT)'],
+    ],
+  },
+  {
+    label: 'South America',
+    options: [
+      ['art', 'Argentina Time (ART)'],
+      ['bot', 'Bolivia Time (BOT)'],
+      ['brt', 'Brasilia Time (BRT)'],
+      ['clt', 'Chile Standard Time (CLT)'],
+    ],
+  },
+] as const
+
 function ScrollAreaPreview() {
   return () => (
     <div mix={previewStackStyle}>
@@ -3996,6 +4166,52 @@ function ScrollAreaPreview() {
           </ScrollBar>
           <ScrollAreaCorner />
         </ScrollArea>
+      </div>
+    </div>
+  )
+}
+
+function SelectPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-select-family="select-demo">
+        <Select defaultOpen name="fruit" style="width:180px;">
+          <SelectTrigger ariaLabel="Fruit" style="width:180px;">
+            <SelectValue placeholder="Select a fruit" />
+          </SelectTrigger>
+          <SelectContent style="width:180px;">
+            <SelectViewport>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                {selectFruits.map(([value, label]) => (
+                  <SelectItem textValue={label} value={value}>{label}</SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectViewport>
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div data-radcn-docs-select-family="select-scrollable">
+        <Select defaultOpen name="timezone" style="width:280px;">
+          <SelectTrigger ariaLabel="Timezone" style="width:280px;">
+            <SelectValue placeholder="Select a timezone" />
+          </SelectTrigger>
+          <SelectContent style="width:280px;">
+            <SelectScrollUpButton />
+            <SelectViewport style="max-height:12rem;overflow:auto;">
+              {selectTimezoneGroups.map((group) => (
+                <SelectGroup>
+                  <SelectLabel>{group.label}</SelectLabel>
+                  {group.options.map(([value, label]) => (
+                    <SelectItem textValue={label} value={value}>{label}</SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
+            </SelectViewport>
+            <SelectScrollDownButton />
+          </SelectContent>
+        </Select>
       </div>
     </div>
   )
@@ -5733,6 +5949,49 @@ const richComponentDocs: ComponentDoc[] = [
       'Tailwind utilities map to class, containerClass, style, CSS variables, and app-authored CSS.',
       'className maps to class, containerClassName maps to containerClass, data-slot maps to data-radcn-input-otp-* hooks, and vendor source remains read-only evidence.',
       'input-otp-form and otp-* block recipes are adjacent form/block evidence rather than part of this four-example cluster.',
+    ],
+  },
+  {
+    slug: 'select',
+    title: 'Select',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A custom select primitive with trigger, value, grouped options, selected indicators, scroll affordances, and native hidden form values.',
+    importPath: 'radcn/select',
+    importExample:
+      "import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'radcn/select'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'select-demo-and-scrollable',
+        title: 'Demo and Scrollable',
+        description:
+          'Render the upstream fruit Select and grouped timezone Select examples with RadCN package primitives and app-owned option data.',
+        source: selectSource,
+        preview: <SelectPreview />,
+      },
+    ],
+    accessibility: [
+      'SelectTrigger renders a button with combobox semantics after enhancement while SelectViewport owns listbox semantics.',
+      'SelectItem renders role="option" with aria-selected and selected indicator hooks.',
+      'SelectGroup and SelectLabel provide visible grouping for fruit and timezone option sets.',
+      'When name is provided, Select synchronizes the selected value to a native hidden input for form submission and reset behavior.',
+    ],
+    customization: [
+      'Select exposes root, trigger, value, content, viewport, group, label, item, indicator, separator, scroll button, and hidden input hooks through data-radcn-select* attributes.',
+      'Trigger widths such as w-[180px] and w-[280px] map to class, style, CSS variables, or app CSS rather than Tailwind utilities.',
+      'Fruit options, timezone groups, option labels, submitted values, and selected display text remain app-owned data rendered through RadCN item primitives.',
+      'Scroll buttons, viewport height, popper placement, custom classes, styles, and tokens are explicit RadCN props or app CSS extension points.',
+    ],
+    divergence: [
+      'React props, Radix SelectPrimitive, className, data-slot, Tailwind utilities, cn, and vendor source map to explicit RadCN props, class, public data hooks, package CSS, inline style, and CSS variables.',
+      'CheckIcon, ChevronDownIcon, ChevronUpIcon, and lucide-react are presentation choices; RadCN provides dependency-free indicators and trigger glyphs.',
+      'Portal behavior is supported through SelectPortal when an app needs it, but the named docs examples keep content scoped for visible documentation evidence.',
+      'React state and onValueChange map to package-owned browser enhancement, native hidden values, route state, or app-owned event handling.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

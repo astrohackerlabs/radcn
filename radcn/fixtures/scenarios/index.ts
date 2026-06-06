@@ -2355,6 +2355,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "select",
+    id: "demo",
+    title: "Select Demo",
+    description: "Named upstream select-demo parity with fruit options.",
+  },
+  {
+    component: "select",
+    id: "scrollable-demo",
+    title: "Scrollable Select Demo",
+    description: "Named upstream select-scrollable parity with grouped timezone options.",
+  },
+  {
+    component: "select",
     id: "default",
     title: "Default Select",
     description: "Custom listbox select with an initial selected value.",

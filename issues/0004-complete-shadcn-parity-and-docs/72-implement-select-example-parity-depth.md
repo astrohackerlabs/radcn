@@ -294,3 +294,86 @@ sections, keeps scope to the two Select examples, carries forward Experiment
 71's findings, requires all 27 upstream timezone options, and avoids React,
 Radix, `lucide-react`, Tailwind, `cn`, `class-variance-authority`, and vendor
 dependencies unless a real package gap is recorded.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Select example parity depth for `select-demo` and
+`select-scrollable`.
+
+The docs site now has an authored Select page that renders stable
+`data-radcn-docs-select-family` hooks for both upstream examples, exact
+placeholder copy, trigger width evidence, the `Fruits` label, all five fruit
+options and values, all five timezone group labels, all 27 timezone options and
+values, scroll button and viewport evidence, hidden values, public hooks, and
+mapping copy for React/Radix/Tailwind/icon/vendor non-dependencies.
+
+The candidate fixture app now exposes `select/demo` and
+`select/scrollable-demo` routes. Playwright coverage verifies opening,
+selection, selected display, selected indicators, hidden input synchronization,
+scroll mutation, typeahead selection, exact option values, and the required
+trigger widths. No `radcn/select` package API change was needed.
+
+`select-example-inventory.md` now marks both active upstream Select examples
+`Covered`. `resolved-clusters.json` records `select` as a resolved example
+cluster, and the regenerated parity inventory recommends example parity for
+`sheet` next.
+
+Verification run:
+
+- `pnpm radcn:typecheck`
+- `pnpm --dir radcn/apps/docs typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts select.spec.ts`
+  - Passed with the existing Node `module.register()` deprecation warning and
+    `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  - Passed with the existing Node `module.register()` deprecation warning and
+    `NO_COLOR`/`FORCE_COLOR` web-server warnings.
+- `node scripts/audit-shadcn-parity.mjs`
+- Deterministic `select-example-inventory.md` row/status check:
+  `select-demo: 1 ... | Covered |`,
+  `select-scrollable: 1 ... | Covered |`.
+- Deterministic `resolved-clusters.json` check for `slug = "select"`,
+  `status = "resolved"`, and Experiment 71, Experiment 72, plus inventory
+  evidence.
+- Deterministic regenerated `parity-inventory.md` check confirmed `select` is
+  absent from unresolved example clusters and the first recommendation is no
+  longer `Example parity for select`.
+- Dependency import guard for `radcn/packages/radcn`, `radcn/apps/docs`, and
+  `radcn/fixtures/candidate-remix`.
+- Manifest dependency guard for RadCN manifests.
+- `git diff --exit-code -- pnpm-lock.yaml`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Select example parity is resolved. RadCN maps the two upstream shadcn/ui Select
+examples to package-backed Remix 3 compositions with equivalent user-facing
+behavior and author-facing customization, without adding React, Radix Select
+primitives, `lucide-react`, Tailwind, `cn`, `class-variance-authority`, or
+vendor dependencies. The next Issue 4 experiment should audit the generated
+next recommendation: `sheet`.
+
+## Completion Review
+
+Reviewer: Avicenna the 2nd (`019e9ceb-dce2-7560-975e-acae1e97eff5`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the implementation matches the
+approved scope, Experiment 72 has result and conclusion sections, Issue 4
+records the `Pass` status and Sheet recommendation, the Select inventory lists
+exactly `select-demo` and `select-scrollable` as `Covered`, all 27 timezone
+options match the upstream source, `resolved-clusters.json` records Select
+evidence, the regenerated parity inventory now recommends Sheet, verification
+commands passed, vendor checkouts are clean, the lockfile is unchanged, and no
+result commit was made before review.

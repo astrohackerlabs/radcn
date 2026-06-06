@@ -295,6 +295,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/70-implement-scroll-area-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/scroll-area-example-inventory.md"
       ]
+    },
+    {
+      "slug": "select",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/71-audit-select-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/72-implement-select-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/select-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

@@ -604,6 +604,92 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('deterministic non-network artwork data').first()).toBeVisible()
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/select')
+    for (let slug of [
+      'select-demo',
+      'select-scrollable',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-select-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    let selectDemo = page.locator('[data-radcn-docs-select-family="select-demo"]')
+    await expect(selectDemo.locator('[data-radcn-select]')).toHaveAttribute('data-name', 'fruit')
+    await expect(selectDemo.locator('[data-radcn-select-trigger]')).toHaveCSS('width', '180px')
+    await expect(selectDemo.locator('[data-radcn-select-value]')).toHaveText('Select a fruit')
+    await expect(selectDemo.locator('[data-radcn-select-label]')).toHaveText('Fruits')
+    await expect(selectDemo.locator('[data-radcn-select-item]')).toHaveCount(5)
+    await expect(selectDemo.locator('[data-radcn-select-item-text]')).toHaveText([
+      'Apple',
+      'Banana',
+      'Blueberry',
+      'Grapes',
+      'Pineapple',
+    ])
+    for (let [value, label] of [
+      ['apple', 'Apple'],
+      ['banana', 'Banana'],
+      ['blueberry', 'Blueberry'],
+      ['grapes', 'Grapes'],
+      ['pineapple', 'Pineapple'],
+    ]) {
+      await expect(selectDemo.locator(`[data-radcn-select-item][data-value="${value}"]`)).toContainText(label)
+    }
+
+    let selectScrollable = page.locator('[data-radcn-docs-select-family="select-scrollable"]')
+    await expect(selectScrollable.locator('[data-radcn-select]')).toHaveAttribute('data-name', 'timezone')
+    await expect(selectScrollable.locator('[data-radcn-select-trigger]')).toHaveCSS('width', '280px')
+    await expect(selectScrollable.locator('[data-radcn-select-value]')).toHaveText('Select a timezone')
+    await expect(selectScrollable.locator('[data-radcn-select-label]')).toHaveText([
+      'North America',
+      'Europe & Africa',
+      'Asia',
+      'Australia & Pacific',
+      'South America',
+    ])
+    let timezoneOptions = [
+      ['est', 'Eastern Standard Time (EST)'],
+      ['cst', 'Central Standard Time (CST)'],
+      ['mst', 'Mountain Standard Time (MST)'],
+      ['pst', 'Pacific Standard Time (PST)'],
+      ['akst', 'Alaska Standard Time (AKST)'],
+      ['hst', 'Hawaii Standard Time (HST)'],
+      ['gmt', 'Greenwich Mean Time (GMT)'],
+      ['cet', 'Central European Time (CET)'],
+      ['eet', 'Eastern European Time (EET)'],
+      ['west', 'Western European Summer Time (WEST)'],
+      ['cat', 'Central Africa Time (CAT)'],
+      ['eat', 'East Africa Time (EAT)'],
+      ['msk', 'Moscow Time (MSK)'],
+      ['ist', 'India Standard Time (IST)'],
+      ['cst_china', 'China Standard Time (CST)'],
+      ['jst', 'Japan Standard Time (JST)'],
+      ['kst', 'Korea Standard Time (KST)'],
+      ['ist_indonesia', 'Indonesia Central Standard Time (WITA)'],
+      ['awst', 'Australian Western Standard Time (AWST)'],
+      ['acst', 'Australian Central Standard Time (ACST)'],
+      ['aest', 'Australian Eastern Standard Time (AEST)'],
+      ['nzst', 'New Zealand Standard Time (NZST)'],
+      ['fjt', 'Fiji Time (FJT)'],
+      ['art', 'Argentina Time (ART)'],
+      ['bot', 'Bolivia Time (BOT)'],
+      ['brt', 'Brasilia Time (BRT)'],
+      ['clt', 'Chile Standard Time (CLT)'],
+    ]
+    await expect(selectScrollable.locator('[data-radcn-select-item]')).toHaveCount(27)
+    await expect(selectScrollable.locator('[data-radcn-select-item-text]')).toHaveText(timezoneOptions.map(([, label]) => label))
+    for (let [value, label] of timezoneOptions) {
+      await expect(selectScrollable.locator(`[data-radcn-select-item][data-value="${value}"]`)).toContainText(label)
+    }
+    await expect(selectScrollable.locator('[data-radcn-select-scroll-up-button]')).toHaveCount(1)
+    await expect(selectScrollable.locator('[data-radcn-select-scroll-down-button]')).toHaveCount(1)
+    await expect(selectScrollable.locator('[data-radcn-select-viewport]')).toHaveAttribute('style', /max-height:12rem;overflow:auto/)
+    await expect(page.getByText('React props, Radix SelectPrimitive').first()).toBeVisible()
+    await expect(page.getByText('className, data-slot, Tailwind utilities, cn').first()).toBeVisible()
+    await expect(page.getByText('CheckIcon, ChevronDownIcon, ChevronUpIcon, and lucide-react').first()).toBeVisible()
+    await expect(page.getByText('Trigger widths such as w-[180px] and w-[280px]').first()).toBeVisible()
+    await expect(page.getByText('Fruit options, timezone groups, option labels').first()).toBeVisible()
+    await expect(page.getByText('Portal behavior is supported through SelectPortal').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()
 

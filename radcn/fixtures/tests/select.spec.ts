@@ -2,6 +2,69 @@ import { expect, test } from '@playwright/test'
 
 const candidate = 'http://localhost:4602'
 
+const fruitItems = [
+  ['apple', 'Apple'],
+  ['banana', 'Banana'],
+  ['blueberry', 'Blueberry'],
+  ['grapes', 'Grapes'],
+  ['pineapple', 'Pineapple'],
+] as const
+
+const timezoneGroups = [
+  {
+    label: 'North America',
+    options: [
+      ['est', 'Eastern Standard Time (EST)'],
+      ['cst', 'Central Standard Time (CST)'],
+      ['mst', 'Mountain Standard Time (MST)'],
+      ['pst', 'Pacific Standard Time (PST)'],
+      ['akst', 'Alaska Standard Time (AKST)'],
+      ['hst', 'Hawaii Standard Time (HST)'],
+    ],
+  },
+  {
+    label: 'Europe & Africa',
+    options: [
+      ['gmt', 'Greenwich Mean Time (GMT)'],
+      ['cet', 'Central European Time (CET)'],
+      ['eet', 'Eastern European Time (EET)'],
+      ['west', 'Western European Summer Time (WEST)'],
+      ['cat', 'Central Africa Time (CAT)'],
+      ['eat', 'East Africa Time (EAT)'],
+    ],
+  },
+  {
+    label: 'Asia',
+    options: [
+      ['msk', 'Moscow Time (MSK)'],
+      ['ist', 'India Standard Time (IST)'],
+      ['cst_china', 'China Standard Time (CST)'],
+      ['jst', 'Japan Standard Time (JST)'],
+      ['kst', 'Korea Standard Time (KST)'],
+      ['ist_indonesia', 'Indonesia Central Standard Time (WITA)'],
+    ],
+  },
+  {
+    label: 'Australia & Pacific',
+    options: [
+      ['awst', 'Australian Western Standard Time (AWST)'],
+      ['acst', 'Australian Central Standard Time (ACST)'],
+      ['aest', 'Australian Eastern Standard Time (AEST)'],
+      ['nzst', 'New Zealand Standard Time (NZST)'],
+      ['fjt', 'Fiji Time (FJT)'],
+    ],
+  },
+  {
+    label: 'South America',
+    options: [
+      ['art', 'Argentina Time (ART)'],
+      ['bot', 'Bolivia Time (BOT)'],
+      ['brt', 'Brasilia Time (BRT)'],
+      ['clt', 'Chile Standard Time (CLT)'],
+    ],
+  },
+] as const
+
 async function freshSelect(page: import('@playwright/test').Page, scenario = 'default') {
   await page.goto(`${candidate}/fixtures/select/${scenario}`)
   let content = page.locator('[data-radcn-select-content]').first()
@@ -24,6 +87,71 @@ async function freshSelect(page: import('@playwright/test').Page, scenario = 'de
 async function highlighted(page: import('@playwright/test').Page) {
   return page.locator('[data-radcn-select-item][data-highlighted="true"]')
 }
+
+test('candidate select renders named fruit demo parity', async ({ page }) => {
+  let opened = await freshSelect(page, 'demo')
+  await expect(opened.root).toHaveAttribute('data-name', 'fruit')
+  await expect(opened.value).toHaveText('Select a fruit')
+  await expect(opened.trigger).toHaveAttribute('data-placeholder', 'true')
+  let triggerBox = await opened.trigger.boundingBox()
+  expect(triggerBox).not.toBeNull()
+  expect(Math.round(triggerBox!.width)).toBe(180)
+
+  await opened.trigger.click()
+  await expect(opened.content).toBeVisible()
+  await expect(page.locator('[data-radcn-select-group]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-select-label]')).toHaveText('Fruits')
+  await expect(page.locator('[data-radcn-select-item]')).toHaveCount(fruitItems.length)
+  await expect(page.locator('[data-radcn-select-item-text]')).toHaveText(fruitItems.map(([, label]) => label))
+  for (let [value, label] of fruitItems) {
+    await expect(page.locator(`[data-radcn-select-item][data-value="${value}"] [data-radcn-select-item-text]`)).toHaveText(label)
+  }
+
+  await page.getByRole('option', { name: 'Blueberry' }).click()
+  await expect(opened.value).toHaveText('Blueberry')
+  await expect(opened.input).toHaveValue('blueberry')
+  await opened.trigger.click()
+  await expect(page.locator('[data-radcn-select-item][data-value="blueberry"]')).toHaveAttribute('aria-selected', 'true')
+  await expect(page.locator('[data-radcn-select-item][data-value="blueberry"] [data-radcn-select-item-indicator]')).toBeVisible()
+})
+
+test('candidate select renders named scrollable timezone parity', async ({ page }) => {
+  let opened = await freshSelect(page, 'scrollable-demo')
+  await expect(opened.root).toHaveAttribute('data-name', 'timezone')
+  await expect(opened.value).toHaveText('Select a timezone')
+  let triggerBox = await opened.trigger.boundingBox()
+  expect(triggerBox).not.toBeNull()
+  expect(Math.round(triggerBox!.width)).toBe(280)
+
+  await opened.trigger.click()
+  await expect(opened.content).toBeVisible()
+  await expect(page.locator('[data-radcn-select-group]')).toHaveCount(timezoneGroups.length)
+  await expect(page.locator('[data-radcn-select-label]')).toHaveText(timezoneGroups.map((group) => group.label))
+  let allOptions = timezoneGroups.flatMap((group) => group.options)
+  await expect(page.locator('[data-radcn-select-item]')).toHaveCount(allOptions.length)
+  await expect(page.locator('[data-radcn-select-item-text]')).toHaveText(allOptions.map(([, label]) => label))
+  for (let [value, label] of allOptions) {
+    await expect(page.locator(`[data-radcn-select-item][data-value="${value}"] [data-radcn-select-item-text]`)).toHaveText(label)
+  }
+
+  await expect(page.locator('[data-radcn-select-scroll-up-button]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-select-scroll-down-button]')).toHaveCount(1)
+  let viewport = page.locator('[data-radcn-select-viewport]')
+  await expect.poll(() => viewport.evaluate((element) => element.scrollHeight > element.clientHeight)).toBe(true)
+  let beforeScroll = await viewport.evaluate((element) => element.scrollTop)
+  await page.locator('[data-radcn-select-scroll-down-button]').click()
+  await expect.poll(() => viewport.evaluate((element) => element.scrollTop)).toBeGreaterThan(beforeScroll)
+
+  await opened.trigger.focus()
+  await page.keyboard.press('j')
+  await expect(await highlighted(page)).toContainText('Japan Standard Time (JST)')
+  await page.keyboard.press('Enter')
+  await expect(opened.value).toHaveText('Japan Standard Time (JST)')
+  await expect(opened.input).toHaveValue('jst')
+  await opened.trigger.click()
+  await expect(page.locator('[data-radcn-select-item][data-value="jst"]')).toHaveAttribute('aria-selected', 'true')
+  await expect(page.locator('[data-radcn-select-item][data-value="jst"] [data-radcn-select-item-indicator]')).toBeVisible()
+})
 
 test('candidate select opens with portal listbox semantics and deterministic highlight', async ({ page }) => {
   let opened = await freshSelect(page)

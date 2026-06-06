@@ -967,6 +967,15 @@ Record cross-component discoveries here as experiments complete.
   label and the full timezone grouped scrollable list. The next experiment
   should implement named docs examples, candidate fixture routes, and Playwright
   coverage for `select-demo` and `select-scrollable`.
+- Experiment 72 resolved Select example parity. Docs, candidate fixtures, and
+  Playwright now prove named `select-demo` and `select-scrollable` examples
+  with exact placeholders, trigger width evidence, `Fruits` label, five fruit
+  options/values, five timezone group labels, all 27 timezone options/values,
+  scroll buttons, scrollable viewport behavior, typeahead selection, selected
+  indicators, hidden values, public hooks, and mapping copy. No Select package
+  API change was needed. `select-example-inventory.md` marks both rows
+  `Covered`, `resolved-clusters.json` records `select` as resolved, and the
+  regenerated parity inventory recommends example parity for `sheet` next.
 
 ## Experiments
 
@@ -1113,4 +1122,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 71: Audit select example parity](71-audit-select-example-parity.md)
   — **Partial**
 - [Experiment 72: Implement select example parity depth](72-implement-select-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

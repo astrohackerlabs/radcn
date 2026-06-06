@@ -5,24 +5,22 @@
 Upstream shadcn/ui New York v4 has two active Select examples: `select-demo`
 and `select-scrollable`. RadCN already ships `radcn/select` with the core
 selection, overlay, keyboard, typeahead, grouping, scrolling, and form behavior
-needed for both examples, but current docs, fixtures, and Playwright tests do
-not yet prove the named upstream example compositions.
+needed for both examples. Experiment 72 added named docs, candidate fixtures,
+and Playwright coverage for both upstream example compositions.
 
-**Audit outcome:** Partial.
+**Implementation outcome:** Covered.
 
-The next experiment should add named docs, candidate fixture routes, and
-Playwright coverage for `select-demo` and `select-scrollable`. The audit found
-no mandatory Select package API change yet. React, Radix Select primitives,
-`className`, `data-slot`, Tailwind, `cn`, lucide icons, and vendor source
-remain non-dependencies unless a later implementation pass discovers and
-records a concrete RadCN package gap.
+React, Radix Select primitives, `className`, `data-slot`, Tailwind, `cn`,
+lucide icons, and vendor source remain non-dependencies. Trigger width,
+option data, group labels, scroll behavior, selected indicators, and hidden
+values are proven through package primitives plus app/docs composition.
 
 ## Examples
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `select-demo` | Basic Select with trigger width `w-[180px]`, placeholder `Select a fruit`, one group labelled `Fruits`, and five fruit options: Apple, Banana, Blueberry, Grapes, Pineapple. Uses Radix Select primitives, React props, `className`, Tailwind width utility, `SelectValue`, `SelectContent`, `SelectGroup`, `SelectLabel`, and `SelectItem`. | `radcn/select` supports root, trigger, value placeholder/display, portal/content/viewport, groups, labels, items, item indicators, hidden input, opening/closing, keyboard selection, typeahead, selected state, disabled skip behavior, custom classes/styles/tokens, and docs/fixture coverage generically. Current fixtures render framework option sets and grouped examples, but no docs/fixture/test evidence renders the named fruit option set, exact `Select a fruit` placeholder, `Fruits` label, `w-[180px]`-equivalent trigger width, or named upstream example id. | Partial | Add named docs and candidate fixture evidence for `select-demo`; cover exact placeholder, fruit group label, five option labels/values, trigger width evidence, opening/selection behavior, selected item indicator, hidden input value if a name is used, public hooks, and mapping copy. |
-| `select-scrollable` | Select with trigger width `w-[280px]`, placeholder `Select a timezone`, five labelled groups: North America, Europe & Africa, Asia, Australia & Pacific, and South America. Contains 27 timezone options, scrollable content, and scroll up/down affordances from upstream Select. | `radcn/select` supports grouped items, labels, scroll up/down buttons, scrollable viewport, keyboard navigation, typeahead, selected indicators, portal/content hooks, and generic scrollable fixture coverage. Current scrollable fixture uses 18 generic `Option N` items rather than the named timezone groups and options, so it does not prove the upstream example composition. | Partial | Add named docs and candidate fixture evidence for `select-scrollable`; cover exact placeholder, trigger width evidence, five group labels, all 27 timezone options and values, scroll up/down buttons, scrollable viewport mutation, keyboard/typeahead behavior within the timezone list, public hooks, and mapping copy. |
+| `select-demo` | Basic Select with trigger width `w-[180px]`, placeholder `Select a fruit`, one group labelled `Fruits`, and five fruit options: Apple, Banana, Blueberry, Grapes, Pineapple. Uses Radix Select primitives, React props, `className`, Tailwind width utility, `SelectValue`, `SelectContent`, `SelectGroup`, `SelectLabel`, and `SelectItem`. | `radcn/select` supports root, trigger, value placeholder/display, content/viewport, groups, labels, items, item indicators, hidden input, opening/closing, keyboard selection, typeahead, selected state, disabled skip behavior, custom classes/styles/tokens, and named docs/fixture/test evidence. Experiment 72 docs render `data-radcn-docs-select-family="select-demo"` with exact placeholder, `Fruits` label, all five fruit labels/values, 180px trigger evidence, public hooks, and mapping copy. Fixture tests cover `select/demo` opening, selection, selected display, selected indicator, and hidden `fruit` value. | Covered | No follow-up for this row. Portal, React props, Radix primitives, `className`, Tailwind width, `cn`, lucide icons, and vendor source remain mapped non-dependencies. |
+| `select-scrollable` | Select with trigger width `w-[280px]`, placeholder `Select a timezone`, five labelled groups: North America, Europe & Africa, Asia, Australia & Pacific, and South America. Contains 27 timezone options, scrollable content, and scroll up/down affordances from upstream Select. | `radcn/select` supports grouped items, labels, scroll up/down buttons, scrollable viewport, keyboard navigation, typeahead, selected indicators, content hooks, and named docs/fixture/test evidence. Experiment 72 docs render `data-radcn-docs-select-family="select-scrollable"` with exact placeholder, all five group labels, all 27 timezone labels/values, 280px trigger evidence, scroll buttons, scrollable viewport evidence, public hooks, and mapping copy. Fixture tests cover `select/scrollable-demo` scroll mutation, typeahead to Japan Standard Time, selection, selected display, selected indicator, and hidden `timezone` value. | Covered | No follow-up for this row. Portal, React props, Radix primitives, `className`, Tailwind width, `cn`, lucide icons, and vendor source remain mapped non-dependencies. |
 
 ## Capability Mapping
 
@@ -77,11 +75,10 @@ records a concrete RadCN package gap.
 
 ## Decision
 
-The Select example cluster is not resolved yet. RadCN has the core package
-behavior needed for both upstream examples, and no mandatory React, Radix,
-`lucide-react`, Tailwind, `cn`, or vendor dependency was identified. The
-missing proof is named parity depth: docs, candidate fixtures, and Playwright
-should render and test `select-demo` and `select-scrollable` with exact
+The Select example cluster is resolved. RadCN has the core package behavior
+needed for both upstream examples, and named docs, candidate fixtures, and
+Playwright coverage now prove `select-demo` and `select-scrollable` with exact
 placeholder copy, fruit/timezone option sets, group labels, trigger width
-evidence, scrollable timezone behavior, selection behavior, public hooks, and
-mapping copy.
+evidence, scrollable timezone behavior, selection behavior, public hooks,
+hidden value evidence, and mapping copy. No mandatory React, Radix,
+`lucide-react`, Tailwind, `cn`, or vendor dependency was identified.

@@ -23,6 +23,69 @@ const baseItems = [
   ['vue', 'Vue'],
 ] as const
 
+const fruitItems = [
+  ['apple', 'Apple'],
+  ['banana', 'Banana'],
+  ['blueberry', 'Blueberry'],
+  ['grapes', 'Grapes'],
+  ['pineapple', 'Pineapple'],
+] as const
+
+const timezoneGroups = [
+  {
+    label: 'North America',
+    options: [
+      ['est', 'Eastern Standard Time (EST)'],
+      ['cst', 'Central Standard Time (CST)'],
+      ['mst', 'Mountain Standard Time (MST)'],
+      ['pst', 'Pacific Standard Time (PST)'],
+      ['akst', 'Alaska Standard Time (AKST)'],
+      ['hst', 'Hawaii Standard Time (HST)'],
+    ],
+  },
+  {
+    label: 'Europe & Africa',
+    options: [
+      ['gmt', 'Greenwich Mean Time (GMT)'],
+      ['cet', 'Central European Time (CET)'],
+      ['eet', 'Eastern European Time (EET)'],
+      ['west', 'Western European Summer Time (WEST)'],
+      ['cat', 'Central Africa Time (CAT)'],
+      ['eat', 'East Africa Time (EAT)'],
+    ],
+  },
+  {
+    label: 'Asia',
+    options: [
+      ['msk', 'Moscow Time (MSK)'],
+      ['ist', 'India Standard Time (IST)'],
+      ['cst_china', 'China Standard Time (CST)'],
+      ['jst', 'Japan Standard Time (JST)'],
+      ['kst', 'Korea Standard Time (KST)'],
+      ['ist_indonesia', 'Indonesia Central Standard Time (WITA)'],
+    ],
+  },
+  {
+    label: 'Australia & Pacific',
+    options: [
+      ['awst', 'Australian Western Standard Time (AWST)'],
+      ['acst', 'Australian Central Standard Time (ACST)'],
+      ['aest', 'Australian Eastern Standard Time (AEST)'],
+      ['nzst', 'New Zealand Standard Time (NZST)'],
+      ['fjt', 'Fiji Time (FJT)'],
+    ],
+  },
+  {
+    label: 'South America',
+    options: [
+      ['art', 'Argentina Time (ART)'],
+      ['bot', 'Bolivia Time (BOT)'],
+      ['brt', 'Brasilia Time (BRT)'],
+      ['clt', 'Chile Standard Time (CLT)'],
+    ],
+  },
+] as const
+
 function SelectShell({
   children,
   className,
@@ -97,8 +160,62 @@ function manyItems() {
   })
 }
 
+function SelectDemoFixture() {
+  return (
+    <div style="display:grid;gap:8px;max-width:360px">
+      <Label for="candidate-select-demo-trigger">Fruit</Label>
+      <Select id="candidate-select-demo" name="fruit">
+        <SelectTrigger ariaLabel="Fruit" id="candidate-select-demo-trigger" style="width:180px;">
+          <SelectValue placeholder="Select a fruit" />
+        </SelectTrigger>
+        <SelectPortal>
+          <SelectContent style="width:180px;">
+            <SelectViewport>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                {fruitItems.map(([value, label]) => <SelectItem textValue={label} value={value}>{label}</SelectItem>)}
+              </SelectGroup>
+            </SelectViewport>
+          </SelectContent>
+        </SelectPortal>
+      </Select>
+    </div>
+  )
+}
+
+function SelectScrollableDemoFixture() {
+  return (
+    <div style="display:grid;gap:8px;max-width:360px">
+      <Label for="candidate-select-scrollable-demo-trigger">Timezone</Label>
+      <Select id="candidate-select-scrollable-demo" name="timezone">
+        <SelectTrigger ariaLabel="Timezone" id="candidate-select-scrollable-demo-trigger" style="width:280px;">
+          <SelectValue placeholder="Select a timezone" />
+        </SelectTrigger>
+        <SelectPortal>
+          <SelectContent style="width:280px;">
+            <SelectScrollUpButton />
+            <SelectViewport style="max-height:12rem;overflow:auto;">
+              {timezoneGroups.map((group) => (
+                <SelectGroup>
+                  <SelectLabel>{group.label}</SelectLabel>
+                  {group.options.map(([value, label]) => <SelectItem textValue={label} value={value}>{label}</SelectItem>)}
+                </SelectGroup>
+              ))}
+            </SelectViewport>
+            <SelectScrollDownButton />
+          </SelectContent>
+        </SelectPortal>
+      </Select>
+    </div>
+  )
+}
+
 export function renderSelectFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return SelectDemoFixture()
+    case 'scrollable-demo':
+      return SelectScrollableDemoFixture()
     case 'placeholder':
       return SelectShell({ id: 'candidate-select-placeholder', placeholder: 'Choose framework' })
     case 'groups':
