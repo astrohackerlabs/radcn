@@ -1223,6 +1223,42 @@ export function ToggleGroupPreview() {
   )
 }`
 
+const toggleSource = `import { Toggle } from 'radcn/toggle'
+
+function Icon({ label, color }: { label: string; color?: string }) {
+  return (
+    <span
+      aria-hidden="true"
+      class="radcn-toggle-icon"
+      style={color ? \`--radcn-toggle-icon-on-fg:\${color}\` : undefined}
+    >
+      {label}
+    </span>
+  )
+}
+
+export function TogglePreview() {
+  return (
+    <div class="toggle-preview">
+      <Toggle
+        ariaLabel="Toggle bookmark"
+        class="bookmark-toggle"
+        size="sm"
+        variant="outline"
+      >
+        <Icon label="B" color="#3b82f6" />
+        Bookmark
+      </Toggle>
+
+      <Toggle ariaLabel="Toggle italic" disabled><Icon label="U" /></Toggle>
+      <Toggle ariaLabel="Toggle italic" size="lg"><Icon label="I" /></Toggle>
+      <Toggle ariaLabel="Toggle italic" variant="outline"><Icon label="I" /></Toggle>
+      <Toggle ariaLabel="Toggle italic" size="sm"><Icon label="I" /></Toggle>
+      <Toggle ariaLabel="Toggle italic"><Icon label="I" /> Italic</Toggle>
+    </div>
+  )
+}`
+
 const carouselSource = `import { Card, CardContent } from 'radcn/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'radcn/carousel'
 
@@ -2416,6 +2452,48 @@ function EmptyPreview() {
           </EmptyHeader>
           <EmptyContent><Button size="sm" variant="outline">Refresh</Button></EmptyContent>
         </Empty>
+      </div>
+    </div>
+  )
+}
+
+function toggleIcon(label: string, style?: string) {
+  return <span aria-hidden="true" class="radcn-toggle-icon" style={style}>{label}</span>
+}
+
+function TogglePreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 42rem);">
+      <div data-radcn-docs-toggle-family="toggle-demo" mix={previewRowStyle}>
+        <Toggle
+          ariaLabel="Toggle bookmark"
+          class="radcn-docs-toggle-bookmark"
+          size="sm"
+          variant="outline"
+        >
+          {toggleIcon('B', '--radcn-toggle-icon-on-fg:#3b82f6')}
+          Bookmark
+        </Toggle>
+      </div>
+
+      <div data-radcn-docs-toggle-family="toggle-disabled" mix={previewRowStyle}>
+        <Toggle ariaLabel="Toggle italic" disabled>{toggleIcon('U')}</Toggle>
+      </div>
+
+      <div data-radcn-docs-toggle-family="toggle-lg" mix={previewRowStyle}>
+        <Toggle ariaLabel="Toggle italic" size="lg">{toggleIcon('I')}</Toggle>
+      </div>
+
+      <div data-radcn-docs-toggle-family="toggle-outline" mix={previewRowStyle}>
+        <Toggle ariaLabel="Toggle italic" variant="outline">{toggleIcon('I')}</Toggle>
+      </div>
+
+      <div data-radcn-docs-toggle-family="toggle-sm" mix={previewRowStyle}>
+        <Toggle ariaLabel="Toggle italic" size="sm">{toggleIcon('I')}</Toggle>
+      </div>
+
+      <div data-radcn-docs-toggle-family="toggle-with-text" mix={previewRowStyle}>
+        <Toggle ariaLabel="Toggle italic">{toggleIcon('I')} Italic</Toggle>
       </div>
     </div>
   )
@@ -4052,6 +4130,47 @@ const richComponentDocs: ComponentDoc[] = [
       'Embla, useEmblaCarousel, opts, plugins, and embla-carousel-autoplay are upstream implementation mechanics, not RadCN dependencies.',
       'Lucide arrows are presentation choices; RadCN controls use package-owned glyphs or app-owned children with accessible button labels.',
       'Tailwind width, max-width, aspect-square, padding, negative margin, basis, height, and responsive utilities map to RadCN classes, inline styles, or CSS variables.',
+    ],
+  },
+  {
+    slug: 'toggle',
+    title: 'Toggle',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native pressed-state button for icon, text, disabled, size, and outline toggle actions.',
+    importPath: 'radcn/toggle',
+    importExample: "import { Toggle } from 'radcn/toggle'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the six plain shadcn Toggle examples with native button semantics and app-owned icon presentation.',
+        source: toggleSource,
+        preview: <TogglePreview />,
+      },
+    ],
+    accessibility: [
+      'Toggle renders a native button with aria-pressed and data-state so pressed state is visible in server HTML and browser-enhanced DOM.',
+      'Icon-only toggles use ariaLabel for an accessible name while app-owned icon spans stay aria-hidden.',
+      'Disabled toggles use the native disabled attribute plus aria-disabled and data-disabled hooks.',
+      'Icon plus text examples keep visible text in the button content so the action remains understandable without icon assets.',
+    ],
+    customization: [
+      'Use size="sm" and size="lg" for shadcn-style compact and large toggle buttons.',
+      'Use variant="outline" for border styling without adding a wrapper or dependency.',
+      'Selected-state icon styling can target data-state="on" and the app-owned radcn-toggle-icon hook.',
+      'Icons are app presentation. Use spans, inline SVG, or any app icon system without changing radcn/toggle.',
+    ],
+    divergence: [
+      'Radix Toggle maps to RadCN native button markup plus explicit enhanceToggle browser behavior.',
+      'lucide icons are not RadCN package dependencies; examples use decorative app-owned glyph spans.',
+      'Tailwind selected-state utilities map to data-state, class hooks, inline styles, and CSS variables.',
+      'Toggle owns pressed button behavior but does not own icon packages, bookmark state persistence, editor formatting state, or ToggleGroup selection.',
     ],
   },
   {

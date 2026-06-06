@@ -185,3 +185,150 @@ and explicitly excludes `toggle-group`, the technical plan matches Experiment
 33's audit gaps, verification has concrete pass/fail criteria and hygiene
 checks, dependency policy is covered, vendor cleanliness is checked, and no
 implementation has started.
+
+## Result
+
+**Result:** Pass
+
+Toggle example parity depth is implemented for all 6 plain upstream examples:
+`toggle-demo`, `toggle-disabled`, `toggle-lg`, `toggle-outline`, `toggle-sm`,
+and `toggle-with-text`.
+
+Implementation changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now has a rich Toggle docs page
+  with package-imported `Toggle`, app-owned decorative icon spans, stable
+  `data-radcn-docs-toggle-family` hooks for all 6 examples, and divergence copy
+  for Radix Toggle, lucide icons, Tailwind selected-state utilities, and
+  app-owned state.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks all 6 Toggle docs examples
+  plus source/API text for `ariaLabel`, `size="sm"`, `size="lg"`,
+  `variant="outline"`, `data-state`, lucide, and Radix mappings.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/toggle.tsx` add named candidate
+  routes for `demo`, `disabled`, `lg`, `outline`, `sm`, and `with-text`.
+- `radcn/fixtures/tests/toggle.spec.ts` verifies the bookmark demo's small
+  outline variant, visible text, accessible label, decorative icon, and
+  selected-state icon styling, plus disabled, large, outline, small, and
+  with-text routes.
+- `radcn/packages/radcn/src/styles/tokens.css` adds a small
+  `.radcn-toggle-icon` presentation hook with selected-state color support, and
+  `radcn/packages/radcn/src/styles/index.ts` was regenerated. This avoids using
+  ToggleGroup-specific icon classes for plain Toggle examples while keeping
+  icon assets app-owned.
+- `toggle-example-inventory.md` marks all 6 upstream rows `Covered`.
+- `resolved-clusters.json` marks `toggle` resolved in the example queue, and
+  the regenerated `parity-inventory.md` now recommends example parity for
+  `kbd`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm --dir radcn/apps/docs typecheck
+```
+
+All three commands passed.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts toggle.spec.ts
+```
+
+The first run failed because the new test expected a nonexistent `data-size`
+attribute on `Toggle`; `Toggle` exposes size through public classes and CSS.
+The test was corrected to assert `.radcn-toggle--sm` and `min-height`.
+
+Final output summary:
+
+```text
+7 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Output summary:
+
+```text
+5 passed
+```
+
+The Playwright commands emitted the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` warning.
+
+Additional deterministic checks passed:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const css = fs.readFileSync('radcn/packages/radcn/src/styles/tokens.css', 'utf8')
+const index = fs.readFileSync('radcn/packages/radcn/src/styles/index.ts', 'utf8')
+const expected = `export const radcnStyles = ${JSON.stringify(css)}\n`
+if (index !== expected) process.exit(1)
+NODE
+```
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Output:
+
+```text
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+```
+
+Deterministic inventory checks proved all 6 rows appear exactly once in
+`toggle-example-inventory.md` with `Covered` outcomes, `resolved-clusters.json`
+contains the `toggle` resolved example entry with Experiment 33, Experiment 34,
+and inventory evidence, `toggle` is absent from unresolved example clusters,
+and the first recommended cluster is no longer `Example parity for toggle`.
+
+Dependency and hygiene checks passed:
+
+```text
+rg -n "from ['\"]react['\"]|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*radix-ui|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The dependency `rg` exited 1 with no matches. `git diff --check` and vendor
+status produced no output.
+
+The ToggleGroup scope scan:
+
+```text
+rg -n "toggle-group" issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md radcn/apps/docs/app/content/components.tsx radcn/fixtures/candidate-remix/app/fixtures/toggle.tsx
+```
+
+returned only existing ToggleGroup docs/fixture sections plus the inventory
+statement that this experiment avoided changing `toggle-group`. No result
+claims ToggleGroup work as part of plain Toggle parity.
+
+## Completion Review
+
+Reviewer: Hegel (`019e9b5a-9d8d-7cb0-88ef-af1df1ec684f`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Hegel verified that Result and Conclusion are
+present, the README marks Experiment 34 `Pass` and records learnings, all 6
+Toggle docs hooks exist, fixture routes cover the 6 plain Toggle examples,
+fixture Playwright proves the requested plain Toggle behaviors while keeping
+ToggleGroup coverage, `resolved-clusters.json` resolves `toggle` with
+Experiment 33, Experiment 34, and inventory evidence, all 6 inventory rows are
+`Covered` exactly once, typechecks and Playwright verification passed,
+dependency and hygiene checks are clean, vendor status is clean, and the result
+commit had not been made before completion review.
+
+## Conclusion
+
+Plain Toggle example parity is resolved. The next experiment should follow the
+regenerated inventory recommendation and audit example parity for `kbd`.

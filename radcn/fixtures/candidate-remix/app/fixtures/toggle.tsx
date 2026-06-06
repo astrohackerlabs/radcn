@@ -7,12 +7,41 @@ function glyph(label: string, style?: string) {
   return <span aria-hidden="true" class="radcn-toggle-group-icon" style={style}>{label}</span>
 }
 
+function toggleGlyph(label: string, style?: string) {
+  return <span aria-hidden="true" class="radcn-toggle-icon" style={style}>{label}</span>
+}
+
 export function renderToggleFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <Toggle
+          ariaLabel="Toggle bookmark"
+          class="radcn-fixture-toggle-bookmark"
+          size="sm"
+          variant="outline"
+        >
+          {toggleGlyph('B', '--radcn-toggle-icon-on-fg:#3b82f6')}
+          Bookmark
+        </Toggle>
+      )
     case 'pressed':
       return <Toggle pressed>Bold</Toggle>
     case 'disabled':
-      return <Toggle disabled>Muted</Toggle>
+      return <Toggle ariaLabel="Toggle italic" disabled>{toggleGlyph('U')}</Toggle>
+    case 'lg':
+      return <Toggle ariaLabel="Toggle italic" size="lg">{toggleGlyph('I')}</Toggle>
+    case 'outline':
+      return <Toggle ariaLabel="Toggle italic" variant="outline">{toggleGlyph('I')}</Toggle>
+    case 'sm':
+      return <Toggle ariaLabel="Toggle italic" size="sm">{toggleGlyph('I')}</Toggle>
+    case 'with-text':
+      return (
+        <Toggle ariaLabel="Toggle italic">
+          {toggleGlyph('I')}
+          Italic
+        </Toggle>
+      )
     case 'variants-sizes':
       return (
         <div style={row}>

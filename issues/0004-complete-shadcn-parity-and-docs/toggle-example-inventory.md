@@ -11,14 +11,10 @@ RadCN `Toggle` is a dependency-free native button primitive with `aria-pressed`,
 `variant="outline"`, custom class/style hooks, and browser enhancement that
 updates pressed state on pointer and keyboard activation.
 
-Toggle example parity is not complete. The package behavior needed by the
-upstream examples mostly exists, but the current proof is general Toggle
-coverage (`default`, `pressed`, `disabled`, `variants-sizes`, and
-`custom-token`) rather than named docs, fixture, and Playwright proof for the 6
-upstream example ids. The likely implementation gap is selected-state icon
-styling for the `toggle-demo` bookmark example; that should remain app-authored
-CSS/class styling and should not add lucide, Radix Toggle, Tailwind, or vendor
-dependencies.
+Toggle example parity is complete for the 6 plain upstream Toggle examples.
+Experiment 34 added named docs examples, candidate fixture routes, Playwright
+proof, and app-authored selected-state icon styling for the bookmark demo while
+preserving the dependency-free native button model.
 
 ## Current RadCN Evidence
 
@@ -26,9 +22,9 @@ dependencies.
 | --- | --- | --- |
 | Package API | `radcn/packages/radcn/src/components/toggle.tsx` | Native button with `ariaLabel`, disabled, pressed/default state, `size`, `variant`, class/style hooks, and `enhanceToggle` state updates |
 | Package styles | `radcn/packages/radcn/src/styles/tokens.css` | Toggle base, default/outline variants, sm/lg sizes, disabled state, pressed state, focus-visible, and custom token hooks |
-| Docs | `radcn/apps/docs/app/content/components.tsx` | Seed Toggle docs route generated from the public component spec; not a rich named-example parity page yet |
-| Candidate fixtures | `radcn/fixtures/candidate-remix/app/fixtures/toggle.tsx` | General Toggle routes for default, pressed, disabled, variants/sizes, and custom token behavior |
-| Playwright | `radcn/fixtures/tests/toggle.spec.ts` | General Toggle behavior checks for button semantics, pointer/keyboard state changes, disabled state, size/variant classes, and custom tokens |
+| Docs | `radcn/apps/docs/app/content/components.tsx` | Rich Toggle docs page with all 6 named plain Toggle examples, package-imported `Toggle`, app-owned icons, and divergence notes |
+| Candidate fixtures | `radcn/fixtures/candidate-remix/app/fixtures/toggle.tsx` | Focused Toggle routes for demo, disabled, lg, outline, sm, and with-text examples plus existing general routes |
+| Playwright | `radcn/fixtures/tests/toggle.spec.ts` | General Toggle behavior checks plus focused parity checks for all 6 upstream plain Toggle examples |
 
 ## Mapping Decisions
 
@@ -55,20 +51,19 @@ dependencies.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `toggle-demo` | Small outline bookmark toggle with icon, visible "Bookmark" text, accessible label, and selected-state icon color/fill styling. | `<Toggle aria-label="Toggle bookmark" size="sm" variant="outline" className="data-[state=on]:...">` with lucide `BookmarkIcon`. | `Toggle` supports `ariaLabel`, `size="sm"`, `variant="outline"`, text children, class hooks, and `data-state`; fixture tests prove size/variant/state generally. No named bookmark demo route or selected-state icon styling proof exists. | Partial | Add named docs/fixture/Playwright proof for small outline icon-plus-text toggle and app-authored selected-state icon styling. |
-| `toggle-disabled` | Disabled icon-only underline toggle with accessible label. | `<Toggle aria-label="Toggle italic" disabled>` with lucide `Underline`. | `Toggle` supports `ariaLabel` and `disabled`; fixture tests prove disabled behavior generally. No named upstream disabled icon-only docs/fixture proof exists. | Partial | Add named docs/fixture/Playwright proof for disabled icon-only toggle with accessible name. |
-| `toggle-lg` | Large icon-only italic toggle with accessible label. | `<Toggle size="lg" aria-label="Toggle italic">` with lucide `Italic`. | `Toggle` supports `size="lg"` and `ariaLabel`; fixture tests prove lg class sizing generally. No named upstream large icon-only docs/fixture proof exists. | Partial | Add named docs/fixture/Playwright proof for large icon-only toggle. |
-| `toggle-outline` | Outline icon-only italic toggle with accessible label. | `<Toggle variant="outline" aria-label="Toggle italic">` with lucide `Italic`. | `Toggle` supports `variant="outline"` and `ariaLabel`; fixture tests prove outline variant generally. No named upstream outline icon-only docs/fixture proof exists. | Partial | Add named docs/fixture/Playwright proof for outline icon-only toggle. |
-| `toggle-sm` | Small icon-only italic toggle with accessible label. | `<Toggle size="sm" aria-label="Toggle italic">` with lucide `Italic`. | `Toggle` supports `size="sm"` and `ariaLabel`; fixture tests prove sm class sizing generally. No named upstream small icon-only docs/fixture proof exists. | Partial | Add named docs/fixture/Playwright proof for small icon-only toggle. |
-| `toggle-with-text` | Default icon plus visible "Italic" text with accessible label. | `<Toggle aria-label="Toggle italic">` with lucide `Italic` and text `Italic`. | `Toggle` supports `ariaLabel`, text children, and arbitrary children; fixture default routes prove text children generally. No named upstream icon-plus-text docs/fixture proof exists. | Partial | Add named docs/fixture/Playwright proof for icon plus text toggle. |
+| `toggle-demo` | Small outline bookmark toggle with icon, visible "Bookmark" text, accessible label, and selected-state icon color/fill styling. | `<Toggle aria-label="Toggle bookmark" size="sm" variant="outline" className="data-[state=on]:...">` with lucide `BookmarkIcon`. | Docs render `data-radcn-docs-toggle-family="toggle-demo"`; candidate route `/fixtures/toggle/demo` renders small outline bookmark toggle with app-owned icon; `toggle.spec.ts` verifies label, size, variant, text, decorative icon, press state, and selected-state icon styling. | Covered | Covered by Experiment 34. |
+| `toggle-disabled` | Disabled icon-only underline toggle with accessible label. | `<Toggle aria-label="Toggle italic" disabled>` with lucide `Underline`. | Docs render `data-radcn-docs-toggle-family="toggle-disabled"`; candidate route `/fixtures/toggle/disabled` renders disabled icon-only toggle; `toggle.spec.ts` verifies disabled state, `aria-disabled`, accessible name, and decorative icon. | Covered | Covered by Experiment 34. |
+| `toggle-lg` | Large icon-only italic toggle with accessible label. | `<Toggle size="lg" aria-label="Toggle italic">` with lucide `Italic`. | Docs render `data-radcn-docs-toggle-family="toggle-lg"`; candidate route `/fixtures/toggle/lg` renders large icon-only toggle; `toggle.spec.ts` verifies accessible name, lg class, and large sizing. | Covered | Covered by Experiment 34. |
+| `toggle-outline` | Outline icon-only italic toggle with accessible label. | `<Toggle variant="outline" aria-label="Toggle italic">` with lucide `Italic`. | Docs render `data-radcn-docs-toggle-family="toggle-outline"`; candidate route `/fixtures/toggle/outline` renders outline icon-only toggle; `toggle.spec.ts` verifies accessible name, outline variant hook, and outline class. | Covered | Covered by Experiment 34. |
+| `toggle-sm` | Small icon-only italic toggle with accessible label. | `<Toggle size="sm" aria-label="Toggle italic">` with lucide `Italic`. | Docs render `data-radcn-docs-toggle-family="toggle-sm"`; candidate route `/fixtures/toggle/sm` renders small icon-only toggle; `toggle.spec.ts` verifies accessible name, sm class, and small sizing. | Covered | Covered by Experiment 34. |
+| `toggle-with-text` | Default icon plus visible "Italic" text with accessible label. | `<Toggle aria-label="Toggle italic">` with lucide `Italic` and text `Italic`. | Docs render `data-radcn-docs-toggle-family="toggle-with-text"`; candidate route `/fixtures/toggle/with-text` renders icon plus visible text; `toggle.spec.ts` verifies accessible name, visible text, and decorative icon. | Covered | Covered by Experiment 34. |
 
 ## Outcome
 
-Toggle example parity is not complete.
+Toggle example parity is complete for the 6 plain upstream Toggle examples.
 
-The next implementation cluster should be **Toggle example parity depth**. It
-should add named docs examples, candidate fixture routes, and Playwright
-coverage for all 6 upstream examples. It should preserve the dependency-free
-native button model, keep lucide/Radix/Tailwind as documented mappings, prove
-app-authored selected-state icon styling through `data-state`, and avoid
-touching `toggle-group`.
+Experiment 34 added named docs examples, candidate fixture routes, and
+Playwright coverage for all 6 upstream examples. It preserved the
+dependency-free native button model, kept lucide/Radix/Tailwind as documented
+mappings, proved app-authored selected-state icon styling through `data-state`,
+and avoided changing `toggle-group`.

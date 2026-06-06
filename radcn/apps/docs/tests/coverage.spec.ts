@@ -143,6 +143,26 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()
 
+    await page.goto('/docs/components/toggle')
+    await expect(page.locator('[data-radcn-toggle]').first()).toBeVisible()
+    for (let slug of [
+      'toggle-demo',
+      'toggle-disabled',
+      'toggle-lg',
+      'toggle-outline',
+      'toggle-sm',
+      'toggle-with-text',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-toggle-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.getByText('ariaLabel').first()).toBeVisible()
+    await expect(page.getByText('size="sm"').first()).toBeVisible()
+    await expect(page.getByText('size="lg"').first()).toBeVisible()
+    await expect(page.getByText('variant="outline"').first()).toBeVisible()
+    await expect(page.getByText('data-state').first()).toBeVisible()
+    await expect(page.getByText('lucide icons are not RadCN package dependencies').first()).toBeVisible()
+    await expect(page.getByText('Radix Toggle maps to RadCN native button markup').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)

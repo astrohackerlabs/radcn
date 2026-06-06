@@ -126,6 +126,7 @@ These are documented in RadCN but are not current package exports.
 | examples | carousel | resolved | `issues/0004-complete-shadcn-parity-and-docs/27-audit-carousel-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/28-implement-carousel-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/carousel-example-inventory.md` |
 | examples | chart | resolved | `issues/0004-complete-shadcn-parity-and-docs/29-audit-chart-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/30-implement-chart-component-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md` |
 | examples | input | resolved | `issues/0004-complete-shadcn-parity-and-docs/31-audit-input-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/32-implement-input-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md` |
+| examples | toggle | resolved | `issues/0004-complete-shadcn-parity-and-docs/33-audit-toggle-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/34-implement-toggle-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -249,7 +250,6 @@ parity decision.
 | tabs | 1 | `tabs-demo` |
 | textarea | 5 | `textarea-demo`, `textarea-disabled`, `textarea-with-button`, `textarea-with-label`, `textarea-with-text` |
 | toast | 5 | `toast-demo`, `toast-destructive`, `toast-simple`, `toast-with-action`, `toast-with-title` |
-| toggle | 6 | `toggle-demo`, `toggle-disabled`, `toggle-lg`, `toggle-outline`, `toggle-sm`, `toggle-with-text` |
 | tooltip | 1 | `tooltip-demo` |
 
 ## Upstream Blocks Queue
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for toggle
+**Cluster:** Example parity for kbd
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for toggle.
+- Audit upstream examples for kbd.
 
 ## Notes
 

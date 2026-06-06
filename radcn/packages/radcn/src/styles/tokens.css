@@ -2255,6 +2255,21 @@
   opacity: 0.5;
 }
 
+.radcn-toggle-icon {
+  display: inline-grid;
+  width: var(--radcn-toggle-icon-size, 1rem);
+  height: var(--radcn-toggle-icon-size, 1rem);
+  flex: none;
+  place-items: center;
+  color: var(--radcn-toggle-icon-fg, currentColor);
+  font: 600 0.6875rem/1 var(--radcn-font);
+  transition: color 120ms ease, transform 120ms ease;
+}
+
+.radcn-toggle[data-state="on"] .radcn-toggle-icon {
+  color: var(--radcn-toggle-icon-on-fg, currentColor);
+}
+
 .radcn-toggle-group {
   display: inline-flex;
   width: fit-content;

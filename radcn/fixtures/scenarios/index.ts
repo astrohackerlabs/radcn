@@ -1947,6 +1947,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "toggle",
+    id: "demo",
+    title: "Toggle Demo",
+    description: "Small outline bookmark toggle with icon, text, and selected-state icon styling.",
+  },
+  {
+    component: "toggle",
     id: "pressed",
     title: "Pressed Toggle",
     description: "Pressed toggle button state.",
@@ -1955,7 +1961,31 @@ export const fixtureScenarios: FixtureScenario[] = [
     component: "toggle",
     id: "disabled",
     title: "Disabled Toggle",
-    description: "Disabled toggle button behavior.",
+    description: "Disabled icon-only toggle button behavior.",
+  },
+  {
+    component: "toggle",
+    id: "lg",
+    title: "Large Toggle",
+    description: "Large icon-only toggle with an accessible name.",
+  },
+  {
+    component: "toggle",
+    id: "outline",
+    title: "Outline Toggle",
+    description: "Outline icon-only toggle with an accessible name.",
+  },
+  {
+    component: "toggle",
+    id: "sm",
+    title: "Small Toggle",
+    description: "Small icon-only toggle with an accessible name.",
+  },
+  {
+    component: "toggle",
+    id: "with-text",
+    title: "Toggle With Text",
+    description: "Icon plus visible text toggle composition.",
   },
   {
     component: "toggle",

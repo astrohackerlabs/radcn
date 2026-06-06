@@ -57,6 +57,42 @@ test('candidate toggle exposes custom token hooks', async ({ page }) => {
   await expect(toggle(page)).toHaveCSS('color', 'rgb(255, 255, 255)')
 })
 
+test('candidate toggle covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/toggle/demo`)
+  let bookmark = page.getByRole('button', { name: 'Toggle bookmark' })
+  await expect(bookmark).toHaveClass(/radcn-toggle--sm/)
+  await expect(bookmark).toHaveCSS('min-height', '32px')
+  await expect(bookmark).toHaveAttribute('data-variant', 'outline')
+  await expect(bookmark).toContainText('Bookmark')
+  await expect(bookmark.locator('.radcn-toggle-icon')).toHaveAttribute('aria-hidden', 'true')
+  await bookmark.click()
+  await expect(bookmark).toHaveAttribute('data-state', 'on')
+  await expect(bookmark.locator('.radcn-toggle-icon')).toHaveCSS('color', 'rgb(59, 130, 246)')
+
+  await page.goto(`${candidate}/fixtures/toggle/disabled`)
+  let disabled = page.getByRole('button', { name: 'Toggle italic' })
+  await expect(disabled).toBeDisabled()
+  await expect(disabled).toHaveAttribute('aria-disabled', 'true')
+  await expect(disabled.locator('.radcn-toggle-icon')).toHaveAttribute('aria-hidden', 'true')
+
+  await page.goto(`${candidate}/fixtures/toggle/lg`)
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveClass(/radcn-toggle--lg/)
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveCSS('min-height', '44px')
+
+  await page.goto(`${candidate}/fixtures/toggle/outline`)
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveAttribute('data-variant', 'outline')
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveClass(/radcn-toggle--outline/)
+
+  await page.goto(`${candidate}/fixtures/toggle/sm`)
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveClass(/radcn-toggle--sm/)
+  await expect(page.getByRole('button', { name: 'Toggle italic' })).toHaveCSS('min-height', '32px')
+
+  await page.goto(`${candidate}/fixtures/toggle/with-text`)
+  let withText = page.getByRole('button', { name: 'Toggle italic' })
+  await expect(withText).toContainText('Italic')
+  await expect(withText.locator('.radcn-toggle-icon')).toHaveAttribute('aria-hidden', 'true')
+})
+
 test('candidate toggle group supports single and multiple pressed state', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/toggle-group/single`)
 

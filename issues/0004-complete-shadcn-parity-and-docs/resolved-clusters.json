@@ -124,6 +124,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/32-implement-input-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md"
       ]
+    },
+    {
+      "slug": "toggle",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/33-audit-toggle-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/34-implement-toggle-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

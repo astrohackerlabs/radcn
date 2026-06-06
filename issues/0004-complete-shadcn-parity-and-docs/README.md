@@ -554,6 +554,18 @@ Record cross-component discoveries here as experiments complete.
   decorative and text visible.
 - After Experiment 33, the next recommended implementation cluster is Toggle
   example parity depth.
+- Experiment 34 completed Toggle example parity depth for all 6 plain upstream
+  examples. The docs page now has stable named examples for demo, disabled, lg,
+  outline, sm, and with-text; candidate fixtures expose matching routes; and
+  Playwright proves accessible names, size/variant evidence, disabled behavior,
+  decorative icons, visible text, and selected-state bookmark icon styling.
+- Toggle remains dependency-free: Radix Toggle, lucide icons, Tailwind selected
+  selectors, and vendor source map to RadCN native button behavior, app-owned
+  glyph spans, `data-state`, public classes, CSS variables, and docs/fixture
+  composition. A small `.radcn-toggle-icon` style hook was added so app-authored
+  selected-state icon styling does not reuse ToggleGroup-specific classes.
+- After Experiment 34, `toggle` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `kbd` next.
 
 ## Experiments
 
@@ -624,4 +636,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 33: Audit toggle example parity](33-audit-toggle-example-parity.md)
   — **Pass**
 - [Experiment 34: Implement toggle example parity depth](34-implement-toggle-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
