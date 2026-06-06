@@ -423,6 +423,57 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Label htmlFor maps to RadCN Label for while preserving native label/input association.').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
 
+    await page.goto('/docs/components/table')
+    let tableDemo = page.locator('[data-radcn-docs-table-family="table-demo"]')
+    await expect(tableDemo).toBeVisible()
+    await expect(tableDemo.locator('[data-radcn-table-container]')).toHaveCount(1)
+    await expect(tableDemo.locator('table[data-radcn-table]')).toHaveCount(1)
+    await expect(tableDemo.locator('caption[data-radcn-table-caption]')).toHaveText('A list of your recent invoices.')
+    await expect(tableDemo.locator('thead[data-radcn-table-header]')).toHaveCount(1)
+    await expect(tableDemo.locator('tbody[data-radcn-table-body]')).toHaveCount(1)
+    await expect(tableDemo.locator('tfoot[data-radcn-table-footer]')).toHaveCount(1)
+    let tableRows = tableDemo.locator('tbody[data-radcn-table-body] tr[data-radcn-table-row]')
+    await expect(tableRows).toHaveCount(7)
+    await expect(tableDemo.getByRole('columnheader', { name: 'Invoice' })).toHaveAttribute('scope', 'col')
+    await expect(tableDemo.getByRole('columnheader', { name: 'Invoice' })).toHaveClass(/w-\[100px\]/)
+    await expect(tableDemo.getByRole('columnheader', { name: 'Invoice' })).toHaveCSS('width', '100px')
+    await expect(tableDemo.getByRole('columnheader', { name: 'Status' })).toBeVisible()
+    await expect(tableDemo.getByRole('columnheader', { name: 'Method' })).toBeVisible()
+    await expect(tableDemo.getByRole('columnheader', { name: 'Amount' })).toHaveClass(/text-right/)
+    await expect(tableDemo.getByRole('columnheader', { name: 'Amount' })).toHaveCSS('text-align', 'right')
+    for (let [index, [invoice, status, method, amount]] of [
+      ['INV001', 'Paid', 'Credit Card', '$250.00'],
+      ['INV002', 'Pending', 'PayPal', '$150.00'],
+      ['INV003', 'Unpaid', 'Bank Transfer', '$350.00'],
+      ['INV004', 'Paid', 'Credit Card', '$450.00'],
+      ['INV005', 'Paid', 'PayPal', '$550.00'],
+      ['INV006', 'Pending', 'Bank Transfer', '$200.00'],
+      ['INV007', 'Unpaid', 'Credit Card', '$300.00'],
+    ].entries()) {
+      let row = tableRows.nth(index)
+      await expect(row.locator('[data-radcn-table-cell]').nth(0)).toHaveText(invoice)
+      await expect(row.locator('[data-radcn-table-cell]').nth(0)).toHaveClass(/font-medium/)
+      await expect(row.locator('[data-radcn-table-cell]').nth(0)).toHaveCSS('font-weight', '500')
+      await expect(row.locator('[data-radcn-table-cell]').nth(1)).toHaveText(status)
+      await expect(row.locator('[data-radcn-table-cell]').nth(2)).toHaveText(method)
+      await expect(row.locator('[data-radcn-table-cell]').nth(3)).toHaveText(amount)
+      await expect(row.locator('[data-radcn-table-cell]').nth(3)).toHaveClass(/text-right/)
+      await expect(row.locator('[data-radcn-table-cell]').nth(3)).toHaveCSS('text-align', 'right')
+    }
+    let tableFooterCells = tableDemo.locator('tfoot[data-radcn-table-footer] [data-radcn-table-cell]')
+    await expect(tableFooterCells.nth(0)).toHaveText('Total')
+    await expect(tableFooterCells.nth(0)).toHaveAttribute('colspan', '3')
+    await expect(tableFooterCells.nth(1)).toHaveText('$2,500.00')
+    await expect(tableFooterCells.nth(1)).toHaveClass(/text-right/)
+    await expect(tableFooterCells.nth(1)).toHaveCSS('text-align', 'right')
+    await expect(page.getByText('export function TableDemo()').first()).toBeVisible()
+    await expect(page.getByText('<TableCell colSpan={3}>Total</TableCell>').first()).toBeVisible()
+    await expect(page.getByText('use client and React intrinsic ComponentProps aliases map to explicit Remix UI props and native table elements.').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to public data-radcn-table-container').first()).toBeVisible()
+    await expect(page.getByText('className maps to class, cn maps to explicit class composition, and Tailwind utilities map to package CSS').first()).toBeVisible()
+    await expect(page.getByText('radcn/data-table is related composition evidence, not a substitute for direct plain Table example parity.').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
+
     await page.goto('/docs/components/slider')
     let sliderDemo = page.locator('[data-radcn-docs-slider-family="slider-demo"]')
     let sliderRoot = sliderDemo.locator('[data-radcn-slider]')

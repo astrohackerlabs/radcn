@@ -1185,6 +1185,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "table",
+    id: "demo",
+    title: "Table Demo",
+    description: "Direct shadcn invoice table demo parity.",
+  },
+  {
+    component: "table",
     id: "default",
     title: "Default Table",
     description: "Semantic table with caption, head, body, rows, and cells.",

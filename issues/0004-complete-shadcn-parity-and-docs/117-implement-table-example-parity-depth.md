@@ -223,3 +223,90 @@ diff hygiene, lockfile, tracked-vendor, and nested vendor checks, the plan
 does not treat `radcn/data-table` as direct Table proof, and the issue scope
 excludes upstream blocks and chart-gallery examples while retaining ordinary
 `radcn/chart` package scope.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `table-demo` parity across the docs site, candidate fixture,
+fixture Playwright coverage, docs Playwright coverage, inventory bookkeeping,
+and generated parity inventory.
+
+The docs page now has a rich Table example that renders the exact upstream
+invoice table: caption `A list of your recent invoices.`, headers `Invoice`,
+`Status`, `Method`, and `Amount`, seven invoice rows `INV001` through
+`INV007`, exact statuses, payment methods, amounts, footer `Total`, footer
+amount `$2,500.00`, `class="w-[100px]"` plus width style, `class="text-right"`
+plus text-align style, `class="font-medium"` plus font-weight style, native
+`colspan="3"`, semantic table structure, and public Table hooks. The docs
+source and copy record the Remix 3 mappings for upstream React intrinsic
+`ComponentProps`, `data-slot`, `className`, Tailwind utilities, `cn`,
+responsive overflow container, DataTable non-substitution, and vendor source.
+
+The candidate fixture now has `table/demo` with the same invoice table and
+public-hook evidence. `navigation-collection.spec.ts` proves the named route,
+semantic table parts, exact invoice content, width/right-align/font/colspan
+mappings, and the existing generic Table scenarios. `table-example-inventory.md`
+marks `table-demo` as `Covered`, `resolved-clusters.json` marks `table`
+resolved, and the regenerated parity inventory now recommends example parity
+for `tabs`.
+
+The implementation also added `TableCell colSpan` to `radcn/table`. This
+package change was necessary because the upstream footer Total cell requires
+native colspan support on the plain Table API.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic check for table-example-inventory row count and Covered outcome
+node deterministic check for resolved-clusters table evidence
+node deterministic check that table left unresolved examples and the next recommendation is tabs
+rg -n 'Experiment 117|table-example-inventory|example parity for `tabs`|example parity for tabs' issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+node deterministic forbidden import/dependency scan over changed implementation files and relevant manifests
+git status --short
+```
+
+All checks passed after one correction. The first Playwright run failed because
+the tests looked for test-only custom `data-*` props on Table parts, but those
+props are not part of the typed Table API and are intentionally not rendered.
+The implementation and tests were corrected to use public Table hooks and
+native table structure instead. The passing Playwright runs reported 9 passed
+tests for `navigation-collection.spec.ts` and 5 passed tests for docs
+`coverage.spec.ts`.
+
+## Conclusion
+
+Table direct example parity is complete. The current in-scope unresolved
+example clusters are `tabs` and `tooltip`. The next experiment should audit
+upstream `tabs-demo` parity before implementation.
+
+## Completion Review
+
+Reviewer: Pasteur the 3rd (`019e9ee7-2b96-7830-b333-3767e75b6fb4`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the implementation matches the approved
+scope, `TableCell colSpan` was added to the package API and exported, docs
+and fixture render direct plain Table `table-demo` evidence, Playwright covers
+the exact caption, rows, style mappings, public hooks, and `colspan`, the
+experiment has `Result` and `Conclusion`, Issue 4 records the learning and
+marks Experiment 117 `Pass`, `table-demo` is marked `Covered` with docs,
+fixture, and Playwright evidence, `radcn/data-table` is not treated as direct
+proof, `git diff --check`, lockfile, tracked-vendor, and nested vendor checks
+passed, and the result commit had not been made before review.

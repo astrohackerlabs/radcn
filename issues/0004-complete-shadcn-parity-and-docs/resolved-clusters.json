@@ -501,6 +501,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/115-implement-switch-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/switch-example-inventory.md"
       ]
+    },
+    {
+      "slug": "table",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/116-audit-table-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/117-implement-table-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/table-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

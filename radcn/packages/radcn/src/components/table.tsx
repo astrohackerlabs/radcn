@@ -15,6 +15,10 @@ export interface TablePartProps {
   style?: string
 }
 
+export interface TableCellProps extends TablePartProps {
+  colSpan?: number
+}
+
 export interface TableHeadProps extends TablePartProps {
   ariaSort?: 'ascending' | 'descending' | 'none' | 'other'
 }
@@ -73,11 +77,11 @@ export function TableHead(handle: Handle<TableHeadProps>) {
   }
 }
 
-export function TableCell(handle: Handle<TablePartProps>) {
+export function TableCell(handle: Handle<TableCellProps>) {
   return () => {
-    let { children, class: className, style } = handle.props
+    let { children, class: className, colSpan, style } = handle.props
 
-    return <td class={classes('radcn-table-cell', className)} data-radcn-table-cell style={style}>{children}</td>
+    return <td class={classes('radcn-table-cell', className)} colspan={colSpan} data-radcn-table-cell style={style}>{children}</td>
   }
 }
 

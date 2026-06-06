@@ -273,7 +273,7 @@ import { Toaster } from 'radcn/sonner'
 import { Spinner } from 'radcn/spinner'
 import { Switch } from 'radcn/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'radcn/table'
+import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from 'radcn/table'
 import { Textarea } from 'radcn/textarea'
 import { createToastEvent } from 'radcn/toast'
 import { Toggle } from 'radcn/toggle'
@@ -7637,6 +7637,103 @@ function SwitchDemoPreview() {
   )
 }
 
+const tableInvoices = [
+  ['INV001', 'Paid', 'Credit Card', '$250.00'],
+  ['INV002', 'Pending', 'PayPal', '$150.00'],
+  ['INV003', 'Unpaid', 'Bank Transfer', '$350.00'],
+  ['INV004', 'Paid', 'Credit Card', '$450.00'],
+  ['INV005', 'Paid', 'PayPal', '$550.00'],
+  ['INV006', 'Pending', 'Bank Transfer', '$200.00'],
+  ['INV007', 'Unpaid', 'Credit Card', '$300.00'],
+] as const
+
+const tableDemoSource = `import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from 'radcn/table'
+
+const invoices = [
+  ['INV001', 'Paid', 'Credit Card', '$250.00'],
+  ['INV002', 'Pending', 'PayPal', '$150.00'],
+  ['INV003', 'Unpaid', 'Bank Transfer', '$350.00'],
+  ['INV004', 'Paid', 'Credit Card', '$450.00'],
+  ['INV005', 'Paid', 'PayPal', '$550.00'],
+  ['INV006', 'Pending', 'Bank Transfer', '$200.00'],
+  ['INV007', 'Unpaid', 'Credit Card', '$300.00'],
+] as const
+
+export function TableDemo() {
+  return (
+    <Table>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead class="w-[100px]" style="width:100px;">Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead class="text-right" style="text-align:right;">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.map(([invoice, status, method, amount]) => (
+          <TableRow>
+            <TableCell class="font-medium" style="font-weight:500;">{invoice}</TableCell>
+            <TableCell>{status}</TableCell>
+            <TableCell>{method}</TableCell>
+            <TableCell class="text-right" style="text-align:right;">{amount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell class="text-right" style="text-align:right;">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  )
+}`
+
+function TableDemoPreview() {
+  return () => (
+    <div data-radcn-docs-table-family="table-demo" style="width:100%;overflow-x:auto;">
+      <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead class="w-[100px]" style="width:100px;">Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead class="text-right" style="text-align:right;">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {tableInvoices.map(([invoice, status, method, amount]) => (
+            <TableRow>
+              <TableCell class="font-medium" style="font-weight:500;">{invoice}</TableCell>
+              <TableCell>{status}</TableCell>
+              <TableCell>{method}</TableCell>
+              <TableCell class="text-right" style="text-align:right;">{amount}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell class="text-right" style="text-align:right;">$2,500.00</TableCell>
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </div>
+  )
+}
+
 const radioGroupDemoSource = `import { Label } from 'radcn/label'
 import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
 
@@ -9107,6 +9204,51 @@ const richComponentDocs: ComponentDoc[] = [
       'The upstream single-value array defaultValue maps to a scalar number because RadCN currently models a single native range input.',
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-slider* hooks.',
       'Tailwind w-[60%], relative, flex, touch, select, disabled, orientation, track, range, thumb, border, focus, hover, transition, and sizing utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'table',
+    title: 'Table',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'Semantic table primitives for captions, column headers, body rows, footers, responsive containers, and app-owned formatting.',
+    importPath: 'radcn/table',
+    importExample:
+      "import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from 'radcn/table'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'table-demo',
+        title: 'Table Demo',
+        description:
+          'Render the upstream invoice table with seven rows, caption, aligned amounts, and a footer total.',
+        source: tableDemoSource,
+        preview: <TableDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Table renders native table, caption, thead, tbody, tfoot, tr, th, and td elements so browser table semantics are present in server HTML.',
+      'TableHead renders scope="col" for column headers while caption text describes the invoice table.',
+      'The named demo keeps the upstream caption, headers, seven invoice rows, and footer total as plain semantic table content.',
+      'Native colspan on the footer Total cell preserves the intended footer grouping without React or table-state dependencies.',
+    ],
+    customization: [
+      'Container, table, caption, header, body, footer, row, head, and cell parts expose public data-radcn-table hooks and package classes.',
+      'TableHead className="w-[100px]" maps to class plus explicit width:100px style evidence on the Invoice header.',
+      'text-right maps to class plus explicit text-align:right style evidence on Amount header, body cells, and footer amount cell.',
+      'font-medium maps to class plus explicit font-weight:500 style evidence on invoice id cells.',
+      'Existing dense and footer fixtures remain evidence for broader Table modifiability, while DataTable remains a separate composition layer.',
+    ],
+    divergence: [
+      'use client and React intrinsic ComponentProps aliases map to explicit Remix UI props and native table elements.',
+      'data-slot maps to public data-radcn-table-container, data-radcn-table, data-radcn-table-caption, data-radcn-table-header, data-radcn-table-body, data-radcn-table-footer, data-radcn-table-row, data-radcn-table-head, and data-radcn-table-cell hooks.',
+      'className maps to class, cn maps to explicit class composition, and Tailwind utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'The upstream responsive overflow container maps to RadCN table container markup and overflow styling.',
+      'radcn/data-table is related composition evidence, not a substitute for direct plain Table example parity.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

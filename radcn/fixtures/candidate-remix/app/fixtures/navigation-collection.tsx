@@ -861,6 +861,50 @@ export function renderPaginationFixture(fixture: FixtureScenario) {
 }
 
 export function renderTableFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    let invoices = [
+      ['INV001', 'Paid', 'Credit Card', '$250.00'],
+      ['INV002', 'Pending', 'PayPal', '$150.00'],
+      ['INV003', 'Unpaid', 'Bank Transfer', '$350.00'],
+      ['INV004', 'Paid', 'Credit Card', '$450.00'],
+      ['INV005', 'Paid', 'PayPal', '$550.00'],
+      ['INV006', 'Pending', 'Bank Transfer', '$200.00'],
+      ['INV007', 'Unpaid', 'Credit Card', '$300.00'],
+    ] as const
+
+    return (
+      <div data-radcn-fixture-table-family="table-demo" style="width:100%;overflow-x:auto;">
+        <Table>
+          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableHeader>
+            <TableRow>
+              <TableHead class="w-[100px]" style="width:100px;">Invoice</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Method</TableHead>
+              <TableHead class="text-right" style="text-align:right;">Amount</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {invoices.map(([invoice, status, method, amount]) => (
+              <TableRow>
+                <TableCell class="font-medium" style="font-weight:500;">{invoice}</TableCell>
+                <TableCell>{status}</TableCell>
+                <TableCell>{method}</TableCell>
+                <TableCell class="text-right" style="text-align:right;">{amount}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell class="text-right" style="text-align:right;">$2,500.00</TableCell>
+            </TableRow>
+          </TableFooter>
+        </Table>
+      </div>
+    )
+  }
+
   let dense = fixture.id === 'dense'
   let footer = fixture.id === 'footer'
 

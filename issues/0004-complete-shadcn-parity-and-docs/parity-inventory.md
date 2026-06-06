@@ -168,6 +168,7 @@ These are documented in RadCN but are not current package exports.
 | examples | separator | resolved | `issues/0004-complete-shadcn-parity-and-docs/110-audit-separator-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/111-implement-separator-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/separator-example-inventory.md` |
 | examples | slider | resolved | `issues/0004-complete-shadcn-parity-and-docs/112-audit-slider-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/113-implement-slider-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/slider-example-inventory.md` |
 | examples | switch | resolved | `issues/0004-complete-shadcn-parity-and-docs/114-audit-switch-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/115-implement-switch-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/switch-example-inventory.md` |
+| examples | table | resolved | `issues/0004-complete-shadcn-parity-and-docs/116-audit-table-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/117-implement-table-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/table-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -248,7 +249,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| table | 1 | `table-demo` |
 | tabs | 1 | `tabs-demo` |
 | tooltip | 1 | `tooltip-demo` |
 
@@ -481,13 +481,13 @@ These chart-gallery clusters are intentionally excluded from the current Issue
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for table
+**Cluster:** Example parity for tabs
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for table.
+- Audit upstream examples for tabs.
 
 ## Notes
 

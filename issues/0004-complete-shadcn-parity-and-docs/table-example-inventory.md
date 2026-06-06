@@ -7,9 +7,8 @@ RadCN already has strong semantic Table substrate and fixture coverage for the
 container, table, caption, header, body, footer, row, head, and cell hooks,
 plus dense spacing and generic footer behavior.
 
-The current outcome is `Partial`. The next experiment should add named
-`table-demo` parity across the docs page, candidate fixture route, and
-Playwright coverage before marking Table resolved.
+The current outcome is `Covered`. Experiment 117 added named `table-demo`
+parity across the docs page, candidate fixture route, and Playwright coverage.
 
 Current RadCN evidence compared in this audit:
 
@@ -23,20 +22,24 @@ Current RadCN evidence compared in this audit:
   `.radcn-table-footer`, and dense spacing styles.
 - `radcn/packages/radcn/src/index.ts` re-exports Table parts.
 - `radcn/packages/radcn/package.json` exposes the `./table` package subpath.
-- `radcn/apps/docs/app/content/components.tsx` includes a generic Table docs
-  route and preview seed, plus a rich `radcn/data-table` page. It does not
-  include a named direct `table-demo` invoice table.
-- `radcn/apps/docs/tests/coverage.spec.ts` checks generic docs hook presence
-  for `[data-radcn-table]` and rich `data-table` behavior, but not named
-  direct `table-demo` parity.
-- `radcn/fixtures/scenarios/index.ts` lists generic Table scenarios for
-  default, dense, and footer.
+- `radcn/apps/docs/app/content/components.tsx` includes a named direct
+  `table-demo` invoice table with exact caption, headers, seven invoice rows,
+  footer total, width/right-align/font/colspan mappings, source snippet,
+  public hooks, semantic table evidence, DataTable non-substitution copy, and
+  dependency-divergence copy.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks named `table-demo` docs
+  parity, exact invoice content, semantic table structure, public hooks,
+  width/right-align/font/colspan mappings, source snippet, DataTable
+  non-substitution copy, and divergence copy.
+- `radcn/fixtures/scenarios/index.ts` lists the named `demo` route plus
+  generic Table scenarios for default, dense, and footer.
 - `radcn/fixtures/candidate-remix/app/fixtures/navigation-collection.tsx`
-  renders generic Table fixture scenarios through `renderTableFixture`, but
-  not a named `demo` invoice table route.
+  renders the named `demo` invoice table route and generic Table fixture
+  scenarios through `renderTableFixture`.
 - `radcn/fixtures/tests/navigation-collection.spec.ts` asserts generic Table
-  container, semantic table sections, caption, first cell text, dense state,
-  and footer behavior.
+  container, semantic table sections, caption, exact invoice demo content,
+  width/right-align/font/colspan mappings, first cell text, dense state, and
+  footer behavior.
 - `radcn/fixtures/tests/native-state.spec.ts` has no direct Table-specific
   assertions; the relevant existing plain Table assertions live in
   `navigation-collection.spec.ts`.
@@ -48,7 +51,7 @@ Current RadCN evidence compared in this audit:
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `table-demo` | Renders a plain invoice table with caption `A list of your recent invoices.`, header cells `Invoice`, `Status`, `Method`, and right-aligned `Amount`, seven invoice rows `INV001` through `INV007`, exact statuses, payment methods, and amounts, and a footer row with `Total` plus right-aligned `$2,500.00`. Upstream uses `TableHead className="w-[100px]"`, `TableHead className="text-right"`, `TableCell className="font-medium"`, right-aligned amount cells, and `TableCell colSpan={3}`. Upstream package mechanics include `"use client"`, React props, `React.ComponentProps<"table">`, `React.ComponentProps<"thead">`, `React.ComponentProps<"tbody">`, `React.ComponentProps<"tfoot">`, `React.ComponentProps<"tr">`, `React.ComponentProps<"th">`, `React.ComponentProps<"td">`, `React.ComponentProps<"caption">`, `data-slot`, `className`, Tailwind utilities, `cn`, responsive overflow table container, semantic table accessibility, and vendor source. | RadCN exports dependency-free semantic Table primitives with container/table/caption/header/body/footer/row/head/cell hooks, native table elements, `scope="col"` on heads, `ariaSort`, class/style customization, dense spacing, footer, and generic fixture coverage. Current fixtures prove semantic sections, generic caption, generic body rows, dense hook, and generic footer, and docs prove only generic Table preview plus unrelated rich DataTable coverage. No current named docs, fixture, or Playwright evidence proves the exact invoice data, caption, seven rows, right alignment, width 100px mapping, font-medium invoice ids, footer colspan, source snippet, or React/Tailwind/`cn`/`className`/`data-slot` divergence copy for the direct upstream `table-demo`. | Partial | Add named `table-demo` docs, candidate fixture, and Playwright evidence. The implementation should preserve the exact caption, headers, seven invoice rows, statuses, methods, amounts, footer total, `colSpan={3}` mapping, `w-[100px]` width mapping, `text-right` alignment mapping, `font-medium` mapping, public table part hooks, semantic table accessibility, source snippet, DataTable non-substitution note, and mapping copy for React component props, className/Tailwind/cn/data-slot divergences, responsive container, custom tokens, and vendor source. |
+| `table-demo` | Renders a plain invoice table with caption `A list of your recent invoices.`, header cells `Invoice`, `Status`, `Method`, and right-aligned `Amount`, seven invoice rows `INV001` through `INV007`, exact statuses, payment methods, and amounts, and a footer row with `Total` plus right-aligned `$2,500.00`. Upstream uses `TableHead className="w-[100px]"`, `TableHead className="text-right"`, `TableCell className="font-medium"`, right-aligned amount cells, and `TableCell colSpan={3}`. Upstream package mechanics include `"use client"`, React props, `React.ComponentProps<"table">`, `React.ComponentProps<"thead">`, `React.ComponentProps<"tbody">`, `React.ComponentProps<"tfoot">`, `React.ComponentProps<"tr">`, `React.ComponentProps<"th">`, `React.ComponentProps<"td">`, `React.ComponentProps<"caption">`, `data-slot`, `className`, Tailwind utilities, `cn`, responsive overflow table container, semantic table accessibility, and vendor source. | RadCN exports dependency-free semantic Table primitives with container/table/caption/header/body/footer/row/head/cell hooks, native table elements, `scope="col"` on heads, `ariaSort`, class/style customization, dense spacing, footer, and native `TableCell colSpan` support. Named docs and candidate fixtures now render `table-demo` with exact caption, headers, seven invoice rows, statuses, payment methods, amounts, footer total, `colspan="3"`, `class="w-[100px]"` plus width style, `class="text-right"` plus text-align style, `class="font-medium"` plus font-weight style, and public table hooks. `radcn/apps/docs/tests/coverage.spec.ts` proves the docs source snippet, semantic structure, public hooks, exact content, width/right-align/font/colspan mappings, DataTable non-substitution copy, and dependency-divergence copy. `radcn/fixtures/tests/navigation-collection.spec.ts` proves the named fixture route, exact invoice content, semantic table parts, and existing generic Table scenarios. | Covered | No follow-up. |
 
 ## Decisions
 

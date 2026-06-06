@@ -1550,6 +1550,17 @@ Record cross-component discoveries here as experiments complete.
   `radcn/data-table` evidence is related composition work, not direct plain
   Table example parity. The next experiment should implement named
   `table-demo` docs, fixture, and Playwright parity.
+- Experiment 117 completed Table direct example parity and updated
+  `table-example-inventory.md` to `Covered`. The docs site now has a rich
+  Table page with named `table-demo` evidence for exact caption text, headers,
+  seven invoice rows, statuses, methods, amounts, footer total, native
+  `colspan="3"`, `w-[100px]` width mapping, right-aligned Amount cells,
+  `font-medium` invoice ids, source snippet, semantic table structure, public
+  table hooks, DataTable non-substitution copy, and React/Tailwind/`cn`/
+  `className`/`data-slot`/vendor divergences. Because the upstream footer
+  Total cell requires native colspan support, `radcn/table` now exposes
+  `TableCell colSpan`. `table` is resolved in the example queue; the next
+  generated recommendation is example parity for `tabs`.
 
 ## Experiments
 
@@ -1786,4 +1797,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 116: Audit table example parity](116-audit-table-example-parity.md)
   — **Partial**
 - [Experiment 117: Implement table example parity depth](117-implement-table-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
