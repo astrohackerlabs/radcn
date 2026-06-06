@@ -1287,6 +1287,21 @@ Record cross-component discoveries here as experiments complete.
   `data-slot`, group disabled, `peer-disabled`, and vendor-source mapping.
   Package code did not need changes. After regenerating parity inventory, the
   next generated recommendation is example parity for `menubar`.
+- Experiment 97 audited direct Menubar example parity in
+  `menubar-example-inventory.md`. The examples registry has one direct
+  `menubar` example, `menubar-demo`. RadCN already covers Menubar package
+  exports, explicit Menubar parts, role/ARIA markup, browser enhancement,
+  portal-backed content, keyboard/typeahead behavior, hover switching, submenu
+  behavior, checkbox/radio item state, disabled state, inset classes, shortcut
+  hooks, custom tokens, generic docs, candidate/reference fixtures, and
+  Playwright coverage. The direct example remains partial because no named
+  Menubar docs/fixture/test surface proves the exact upstream four-menu
+  composition (`File`, `Edit`, `View`, `Profiles`), all item/submenu/checkbox/
+  radio/inset/disabled/shortcut text, checked `Always Show Full URLs`, radio
+  value `benoit`, public hooks for every part, mapping copy, and a deliberate
+  decision for upstream `sideOffset={8}` versus RadCN's current
+  `sideOffset={4}` default. The next experiment should implement named
+  `menubar-demo` docs, candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1483,4 +1498,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 96: Implement label example parity depth](96-implement-label-example-parity-depth.md)
   — **Pass**
 - [Experiment 97: Audit menubar example parity](97-audit-menubar-example-parity.md)
-  — **Designed**
+  — **Partial**

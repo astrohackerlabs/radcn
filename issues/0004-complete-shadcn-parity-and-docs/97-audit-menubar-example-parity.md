@@ -220,3 +220,68 @@ status `Designed`, the plan has the required sections including
 started before the plan commit, verification includes concrete pass/fail
 criteria and hygiene checks, vendor checkouts are clean, and the technical
 plan is likely to achieve the Menubar audit goal.
+
+## Result
+
+**Result:** Partial
+
+Experiment 97 added `menubar-example-inventory.md` and audited the direct
+upstream Menubar example cluster, `menubar-demo`.
+
+The audit found that RadCN already has strong package and substrate evidence
+for Menubar: package exports, explicit Menubar parts, server-rendered
+role/ARIA markup, `enhanceMenubar`, portal-backed content, roving trigger
+focus, keyboard/typeahead behavior, hover switching, submenu behavior,
+checkbox/radio item state, disabled state, inset classes, shortcut hooks,
+custom tokens, generic docs coverage, candidate/reference fixtures, and
+Playwright coverage.
+
+The direct example remains partial because current Menubar docs and fixtures do
+not prove the named upstream four-menu demo composition: `File`, `Edit`,
+`View`, and `Profiles`; all upstream item, submenu, checkbox, radio, inset,
+disabled, and shortcut text; checked `Always Show Full URLs`; radio value
+`benoit`; exact submenu contents; exact `sideOffset={8}` placement or an
+intentional RadCN offset decision; public hooks for every Menubar part; and the
+React/Radix/lucide/`className`/Tailwind/`cn`/`data-slot`/portal/keyboard/
+pointer/vendor-source mapping on the Menubar page and fixture route.
+
+Verification passed:
+
+```text
+required inventory headings and terms check
+deterministic menubar direct-cluster/dependency/file/inventory row-count check
+deterministic row outcome/follow-up check
+rg -n "Experiment 97|menubar-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`git status --short` showed only audit-scope issue documentation changes:
+modified Experiment 97 after result recording, modified Issue 4 `README.md`,
+and new `menubar-example-inventory.md`.
+
+## Conclusion
+
+The direct Menubar example cluster is partial. The next experiment should
+implement named `menubar-demo` docs, candidate fixture, and Playwright coverage
+for the exact upstream four-menu composition, including a deliberate decision
+for the upstream `sideOffset={8}` behavior versus RadCN's current
+`sideOffset={4}` default.
+
+## Completion Review
+
+Reviewer: Meitner the 3rd
+(`019e9e0e-5d19-7dd0-9e20-a9e290b59d98`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment has Result and Conclusion, the
+Issue 4 README marks Experiment 97 as `Partial`, README learnings record the
+Menubar audit outcome and next step, deterministic inventory checks passed,
+`git diff --check` passed, vendor checkouts were clean, the dirty state was
+limited to audit-scope issue docs, and the result commit had not yet been made.
