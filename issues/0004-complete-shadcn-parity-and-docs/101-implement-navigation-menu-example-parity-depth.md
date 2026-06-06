@@ -296,3 +296,82 @@ enhancement, candidate fixture route, Playwright proof, `useIsMobile`/
 viewport mapping, `navigationMenuTriggerStyle` decision, responsive sections,
 dependency constraints, issue learnings, resolved-cluster bookkeeping,
 regenerated inventory, and hygiene checks.
+
+## Result
+
+**Result:** Pass
+
+Experiment 101 resolved the direct upstream `navigation-menu-demo` example
+without package code changes.
+
+- `radcn/apps/docs/app/content/components.tsx` now provides a rich Navigation
+  Menu docs page with a named `navigation-menu-demo` example, exact upstream
+  top-level controls and panel copy, icon-link affordances, desktop-only
+  responsive sections, explicit viewport and indicator parts, source snippet,
+  and React/Next/Radix/`useIsMobile`/`cva`/lucide/`className`/Tailwind/`cn`/
+  `data-slot`/viewport/responsive/custom-token/vendor-source mapping copy.
+- `radcn/apps/docs/app/assets/entry.ts` enhances the named docs example with
+  `enhanceNavigationMenu`.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/navigation-menu.tsx` add the
+  candidate `/fixtures/navigation-menu/demo` route.
+- `radcn/apps/docs/tests/coverage.spec.ts` and
+  `radcn/fixtures/tests/menubar-navigation.spec.ts` verify the named docs and
+  fixture examples, exact copy, public hooks, six top-level controls, Home/
+  Components/List/Simple/With Icon panels, icon-link affordances, desktop-only
+  responsive hooks, trigger-style Docs link, viewport state, indicator state,
+  keyboard behavior, Escape/focusout close, and mapping copy.
+- `navigation-menu-example-inventory.md` now marks the single direct
+  Navigation Menu example as `Covered`, and `resolved-clusters.json` marks
+  `navigation-menu` resolved in the examples queue.
+- `node scripts/audit-shadcn-parity.mjs` regenerated
+  `parity-inventory.md`; the next generated recommendation is example parity
+  for `pagination`.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menubar-navigation.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+deterministic navigation-menu inventory, resolved-cluster, parity recommendation, README, dependency, manifest, lockfile, diff, and vendor checks
+```
+
+## Conclusion
+
+The direct Navigation Menu example cluster is resolved. RadCN's existing
+Navigation Menu package substrate was sufficient; the missing work was named
+docs, docs browser enhancement, a named fixture route, exact upstream copy and
+panel coverage, icon-link affordance evidence, explicit viewport and
+trigger-style link mapping, and resolved-cluster bookkeeping. The next Issue 4
+experiment should audit example parity for `pagination`.
+
+## Completion Review
+
+**Reviewer:** Noether the 3rd (`019e9e44-b813-7042-945b-c997a700ec5c`)
+**Fresh-context status:** fresh Codex subagent
+**Result:** Approved with one major coverage finding
+
+Findings:
+
+- Blocker: none.
+- Major: The named `/fixtures/navigation-menu/demo` Playwright test did not
+  verify pointer-open behavior even though Experiment 101 pass criteria and
+  result wording claimed pointer/focus behavior on the named route. Fixed by
+  dispatching `PointerEvent('pointerenter', { bubbles: true })` on the
+  `Components` trigger in the named fixture test, then asserting the trigger
+  opens, its content is visible, and the viewport/indicator state is open and
+  visible.
+- Minor: none.
+
+After the fix,
+`pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menubar-navigation.spec.ts`
+passed with 7 tests.
+
+Re-review approved the fix. The reviewer confirmed the named demo now dispatches
+`PointerEvent('pointerenter')` on the `Components` trigger and asserts the
+trigger opens, its content is visible, the viewport is open, and the indicator
+is visible. No new blocker was introduced.

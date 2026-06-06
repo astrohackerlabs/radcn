@@ -1341,6 +1341,19 @@ Record cross-component discoveries here as experiments complete.
   named `navigation-menu-demo` docs, candidate fixture, and Playwright
   coverage, and decide whether `navigationMenuTriggerStyle` should become a
   RadCN helper or stay a documented class/token equivalent.
+- Experiment 101 completed direct Navigation Menu example parity for
+  `navigation-menu-demo`. `navigation-menu-example-inventory.md` now marks the
+  single direct Navigation Menu example covered. Docs and candidate fixtures
+  render the exact upstream top-level controls (`Home`, `Components`, `Docs`,
+  `List`, `Simple`, `With Icon`), Home/Components/List/Simple/With Icon panel
+  copy, icon-link affordances, desktop-only responsive hooks, explicit viewport
+  and indicator parts, and trigger-style `Docs` link evidence. The docs app now
+  enhances the named demo with `enhanceNavigationMenu`. Package code did not
+  need changes; `navigationMenuTriggerStyle()` maps to public
+  `NavigationMenuLink` class/token behavior, and upstream `useIsMobile`/
+  `viewport={isMobile}` maps to explicit `NavigationMenuViewport` composition
+  plus app-owned responsive CSS. After regenerating parity inventory, the next
+  generated recommendation is example parity for `pagination`.
 
 ## Experiments
 
@@ -1545,4 +1558,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 100: Audit navigation-menu example parity](100-audit-navigation-menu-example-parity.md)
   — **Partial**
 - [Experiment 101: Implement navigation-menu example parity depth](101-implement-navigation-menu-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

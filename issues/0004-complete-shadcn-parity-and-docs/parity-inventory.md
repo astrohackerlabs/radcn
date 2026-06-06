@@ -160,6 +160,7 @@ These are documented in RadCN but are not current package exports.
 | examples | label | resolved | `issues/0004-complete-shadcn-parity-and-docs/95-audit-label-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/96-implement-label-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/label-example-inventory.md` |
 | examples | menubar | resolved | `issues/0004-complete-shadcn-parity-and-docs/97-audit-menubar-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/98-implement-menubar-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/menubar-example-inventory.md` |
 | examples | mode-toggle | resolved | `issues/0004-complete-shadcn-parity-and-docs/99-audit-mode-toggle-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/mode-toggle-example-inventory.md` |
+| examples | navigation-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/100-audit-navigation-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/101-implement-navigation-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/navigation-menu-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -240,7 +241,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| navigation-menu | 1 | `navigation-menu-demo` |
 | pagination | 1 | `pagination-demo` |
 | popover | 1 | `popover-demo` |
 | progress | 1 | `progress-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for navigation-menu
+**Cluster:** Example parity for pagination
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for navigation-menu.
+- Audit upstream examples for pagination.
 
 ## Notes
 

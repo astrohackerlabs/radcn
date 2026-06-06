@@ -197,6 +197,96 @@ test('candidate navigation menu exposes links viewport indicator and keyboard be
   await expect(page.getByRole('button', { name: 'Docs' })).toBeFocused()
 })
 
+test('candidate navigation menu covers named upstream demo composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/navigation-menu/demo`)
+  let demo = page.locator('[data-candidate-navigation-menu-family="navigation-menu-demo"]')
+  let root = demo.locator('[data-radcn-navigation-menu]')
+  await expect(demo).toBeVisible()
+  await expect(root).toHaveAttribute('aria-label', 'Main navigation')
+  await expect(root).toHaveAttribute('data-value', 'home')
+  await expect(demo.locator('[data-radcn-navigation-menu-item]')).toHaveCount(6)
+  await expect(demo.locator('[data-radcn-navigation-menu-trigger]')).toHaveText([
+    'Home',
+    'Components',
+    'List',
+    'Simple',
+    'With Icon',
+  ])
+  await expect(demo.getByRole('link', { name: 'Docs' })).toHaveClass(/radcn-navigation-menu-link/)
+  await expect(demo.getByRole('link', { name: 'Docs' })).toHaveClass(/radcn-candidate-navigation-menu-trigger-link/)
+  await expect(demo.locator('.radcn-candidate-navigation-menu-desktop-only')).toHaveCount(3)
+  await expect(demo.locator('[data-radcn-navigation-menu-viewport]')).toHaveAttribute('data-state', 'open')
+  await expect(demo.locator('[data-radcn-navigation-menu-indicator]')).toHaveAttribute('data-state', 'visible')
+
+  let home = demo.getByRole('button', { name: 'Home' })
+  let homeContent = page.locator(`#${await home.getAttribute('aria-controls')}`)
+  await expect(home).toHaveAttribute('aria-expanded', 'true')
+  await expect(homeContent).toBeVisible()
+  await expect(homeContent.getByText('shadcn/ui')).toBeVisible()
+  await expect(homeContent.getByText('Beautifully designed components built with Tailwind CSS.')).toBeVisible()
+  await expect(homeContent.getByRole('link', { name: /Introduction/ })).toBeVisible()
+  await expect(homeContent.getByText('Re-usable components built using Radix UI and Tailwind CSS.')).toBeVisible()
+  await expect(homeContent.getByRole('link', { name: /Installation/ })).toBeVisible()
+  await expect(homeContent.getByText('How to install dependencies and structure your app.')).toBeVisible()
+  await expect(homeContent.getByRole('link', { name: /Typography/ })).toBeVisible()
+  await expect(homeContent.getByText('Styles for headings, paragraphs, lists...etc')).toBeVisible()
+
+  let components = demo.getByRole('button', { name: 'Components' })
+  let componentsContent = page.locator(`#${await components.getAttribute('aria-controls')}`)
+  await components.evaluate((element) => {
+    element.dispatchEvent(new PointerEvent('pointerenter', { bubbles: true }))
+  })
+  await expect(components).toHaveAttribute('aria-expanded', 'true')
+  await expect(componentsContent).toBeVisible()
+  await expect(demo.locator('[data-radcn-navigation-menu-viewport]')).toHaveAttribute('data-state', 'open')
+  await expect(demo.locator('[data-radcn-navigation-menu-indicator]')).toHaveAttribute('data-state', 'visible')
+  for (let [title, description] of [
+    ['Alert Dialog', 'A modal dialog that interrupts the user with important content and expects a response.'],
+    ['Hover Card', 'For sighted users to preview content available behind a link.'],
+    ['Progress', 'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.'],
+    ['Scroll-area', 'Visually or semantically separates content.'],
+    ['Tabs', 'A set of layered sections of content—known as tab panels—that are displayed one at a time.'],
+    ['Tooltip', 'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.'],
+  ]) {
+    await expect(componentsContent.getByRole('link', { name: new RegExp(title) })).toBeVisible()
+    await expect(componentsContent.getByText(description)).toBeVisible()
+  }
+
+  await demo.getByRole('button', { name: 'List' }).focus()
+  let list = demo.getByRole('button', { name: 'List' })
+  let listContent = page.locator(`#${await list.getAttribute('aria-controls')}`)
+  await expect(listContent.getByRole('link', { name: /Components/ })).toBeVisible()
+  await expect(listContent.getByText('Browse all components in the library.')).toBeVisible()
+  await expect(listContent.getByRole('link', { name: /Documentation/ })).toBeVisible()
+  await expect(listContent.getByText('Learn how to use the library.')).toBeVisible()
+  await expect(listContent.getByRole('link', { name: /Blog/ })).toBeVisible()
+  await expect(listContent.getByText('Read our latest blog posts.')).toBeVisible()
+
+  await demo.getByRole('button', { name: 'Simple' }).focus()
+  let simple = demo.getByRole('button', { name: 'Simple' })
+  let simpleContent = page.locator(`#${await simple.getAttribute('aria-controls')}`)
+  await expect(simpleContent.getByRole('link', { name: 'Components' })).toBeVisible()
+  await expect(simpleContent.getByRole('link', { name: 'Documentation' })).toBeVisible()
+  await expect(simpleContent.getByRole('link', { name: 'Blocks' })).toBeVisible()
+
+  await demo.getByRole('button', { name: 'With Icon' }).focus()
+  let withIcon = demo.getByRole('button', { name: 'With Icon' })
+  let withIconContent = page.locator(`#${await withIcon.getAttribute('aria-controls')}`)
+  await expect(withIconContent.getByRole('link', { name: 'Backlog' })).toBeVisible()
+  await expect(withIconContent.getByRole('link', { name: 'To Do' })).toBeVisible()
+  await expect(withIconContent.getByRole('link', { name: 'Done' })).toBeVisible()
+  await expect(withIconContent.locator('[data-candidate-navigation-menu-icon]')).toHaveText(['?', 'o', '✓'])
+
+  await page.keyboard.press('Home')
+  await expect(home).toBeFocused()
+  await page.keyboard.press('End')
+  await expect(demo.getByRole('button', { name: 'With Icon' })).toBeFocused()
+  await page.keyboard.press('Escape')
+  await expect(demo.locator('[data-radcn-navigation-menu-viewport]')).toBeHidden()
+  await demo.getByRole('button', { name: 'After navigation' }).focus()
+  await expect(demo.locator('[data-radcn-navigation-menu-viewport]')).toBeHidden()
+})
+
 test('candidate navigation menu handles disabled and custom token hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/navigation-menu/disabled`)
   await expect(page.getByRole('button', { name: 'Disabled' })).toBeDisabled()

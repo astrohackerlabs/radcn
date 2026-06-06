@@ -209,6 +209,83 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('The named demo passes sideOffset={8} to match upstream MenubarContent placement without changing the package default.').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
 
+    await page.goto('/docs/components/navigation-menu')
+    let navigationMenuDemo = page.locator('[data-radcn-docs-navigation-menu-family="navigation-menu-demo"]')
+    let navigationMenuRoot = navigationMenuDemo.locator('[data-radcn-navigation-menu]')
+    await expect(navigationMenuDemo).toBeVisible()
+    await expect(navigationMenuRoot).toHaveAttribute('aria-label', 'Main navigation')
+    await expect(navigationMenuRoot).toHaveAttribute('data-value', 'home')
+    await expect(navigationMenuDemo.locator('[data-radcn-navigation-menu-item]')).toHaveCount(6)
+    await expect(navigationMenuDemo.locator('[data-radcn-navigation-menu-trigger]')).toHaveText([
+      'Home',
+      'Components',
+      'List',
+      'Simple',
+      'With Icon',
+    ])
+    await expect(navigationMenuDemo.getByRole('link', { name: 'Docs' })).toHaveClass(/radcn-navigation-menu-link/)
+    await expect(navigationMenuDemo.getByRole('link', { name: 'Docs' })).toHaveClass(/radcn-docs-navigation-menu-trigger-link/)
+    await expect(navigationMenuDemo.locator('.radcn-docs-navigation-menu-desktop-only')).toHaveCount(3)
+    await expect(navigationMenuDemo.locator('[data-radcn-navigation-menu-viewport]')).toHaveAttribute('data-state', 'open')
+    await expect(navigationMenuDemo.locator('[data-radcn-navigation-menu-indicator]')).toHaveAttribute('data-state', 'visible')
+
+    let docsNavigationHome = navigationMenuDemo.getByRole('button', { name: 'Home' })
+    let docsNavigationHomeContent = page.locator(`#${await docsNavigationHome.getAttribute('aria-controls')}`)
+    await expect(docsNavigationHome).toHaveAttribute('aria-expanded', 'true')
+    await expect(docsNavigationHomeContent.getByText('shadcn/ui')).toBeVisible()
+    await expect(docsNavigationHomeContent.getByText('Beautifully designed components built with Tailwind CSS.')).toBeVisible()
+    await expect(docsNavigationHomeContent.getByRole('link', { name: /Introduction/ })).toBeVisible()
+    await expect(docsNavigationHomeContent.getByText('Re-usable components built using Radix UI and Tailwind CSS.')).toBeVisible()
+    await expect(docsNavigationHomeContent.getByRole('link', { name: /Installation/ })).toBeVisible()
+    await expect(docsNavigationHomeContent.getByText('How to install dependencies and structure your app.')).toBeVisible()
+    await expect(docsNavigationHomeContent.getByRole('link', { name: /Typography/ })).toBeVisible()
+    await expect(docsNavigationHomeContent.getByText('Styles for headings, paragraphs, lists...etc')).toBeVisible()
+
+    await navigationMenuDemo.getByRole('button', { name: 'Components' }).focus()
+    let docsNavigationComponents = navigationMenuDemo.getByRole('button', { name: 'Components' })
+    let docsNavigationComponentsContent = page.locator(`#${await docsNavigationComponents.getAttribute('aria-controls')}`)
+    for (let [title, description] of [
+      ['Alert Dialog', 'A modal dialog that interrupts the user with important content and expects a response.'],
+      ['Hover Card', 'For sighted users to preview content available behind a link.'],
+      ['Progress', 'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.'],
+      ['Scroll-area', 'Visually or semantically separates content.'],
+      ['Tabs', 'A set of layered sections of content—known as tab panels—that are displayed one at a time.'],
+      ['Tooltip', 'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.'],
+    ]) {
+      await expect(docsNavigationComponentsContent.getByRole('link', { name: new RegExp(title) })).toBeVisible()
+      await expect(docsNavigationComponentsContent.getByText(description)).toBeVisible()
+    }
+
+    await navigationMenuDemo.getByRole('button', { name: 'List' }).focus()
+    let docsNavigationList = navigationMenuDemo.getByRole('button', { name: 'List' })
+    let docsNavigationListContent = page.locator(`#${await docsNavigationList.getAttribute('aria-controls')}`)
+    await expect(docsNavigationListContent.getByText('Browse all components in the library.')).toBeVisible()
+    await expect(docsNavigationListContent.getByText('Learn how to use the library.')).toBeVisible()
+    await expect(docsNavigationListContent.getByText('Read our latest blog posts.')).toBeVisible()
+
+    await navigationMenuDemo.getByRole('button', { name: 'Simple' }).focus()
+    let docsNavigationSimple = navigationMenuDemo.getByRole('button', { name: 'Simple' })
+    let docsNavigationSimpleContent = page.locator(`#${await docsNavigationSimple.getAttribute('aria-controls')}`)
+    await expect(docsNavigationSimpleContent.getByRole('link', { name: 'Components' })).toBeVisible()
+    await expect(docsNavigationSimpleContent.getByRole('link', { name: 'Documentation' })).toBeVisible()
+    await expect(docsNavigationSimpleContent.getByRole('link', { name: 'Blocks' })).toBeVisible()
+
+    await navigationMenuDemo.getByRole('button', { name: 'With Icon' }).focus()
+    let docsNavigationWithIcon = navigationMenuDemo.getByRole('button', { name: 'With Icon' })
+    let docsNavigationWithIconContent = page.locator(`#${await docsNavigationWithIcon.getAttribute('aria-controls')}`)
+    await expect(docsNavigationWithIconContent.getByRole('link', { name: 'Backlog' })).toBeVisible()
+    await expect(docsNavigationWithIconContent.getByRole('link', { name: 'To Do' })).toBeVisible()
+    await expect(docsNavigationWithIconContent.getByRole('link', { name: 'Done' })).toBeVisible()
+    await expect(docsNavigationWithIconContent.locator('[data-radcn-docs-navigation-menu-icon]')).toHaveText(['?', 'o', '✓'])
+    await page.keyboard.press('Escape')
+    await expect(navigationMenuDemo.locator('[data-radcn-navigation-menu-viewport]')).toBeHidden()
+    await expect(page.getByText('The Docs link uses the public NavigationMenuLink class as the RadCN equivalent of upstream navigationMenuTriggerStyle().').first()).toBeVisible()
+    await expect(page.getByText('The upstream viewport={isMobile} recipe maps to explicit NavigationMenuViewport composition plus documented app-owned responsive behavior.').first()).toBeVisible()
+    await expect(page.getByText('use client, React state, Next Link, useIsMobile, Radix Navigation Menu, and cva map to server-rendered RadCN markup plus scoped enhanceNavigationMenu browser behavior.').first()).toBeVisible()
+    await expect(page.getByText('lucide ChevronDownIcon, CircleHelpIcon, CircleIcon, and CircleCheckIcon remain app presentation and are not RadCN dependencies.').first()).toBeVisible()
+    await expect(page.getByText('NavigationMenuIndicator is package capability evidence; the upstream demo relies on root-rendered viewport behavior rather than explicitly rendering an indicator.').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
+
     await page.goto('/docs/components/data-table')
     let dataTableDemo = page.locator('[data-radcn-docs-data-table-family="data-table-demo"]')
     await expect(dataTableDemo).toBeVisible()

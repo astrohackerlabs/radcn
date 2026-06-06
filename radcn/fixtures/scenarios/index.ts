@@ -2709,6 +2709,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "navigation-menu",
+    id: "demo",
+    title: "Navigation Menu Demo",
+    description: "Upstream navigation-menu-demo composition with panels, links, viewport, and icon affordances.",
+  },
+  {
+    component: "navigation-menu",
     id: "default",
     title: "Default Navigation Menu",
     description: "Navigation menu with trigger-owned content panels.",

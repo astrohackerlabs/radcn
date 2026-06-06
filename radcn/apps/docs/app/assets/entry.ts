@@ -3,6 +3,7 @@ import { enhanceContextMenu } from 'radcn/context-menu'
 import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 import { enhanceHoverCard } from 'radcn/hover-card'
 import { enhanceMenubar } from 'radcn/menubar'
+import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -282,3 +283,6 @@ document
 document
   .querySelectorAll<HTMLElement>('[data-radcn-docs-menubar-family="menubar-demo"]')
   .forEach((example) => enhanceMenubar(example))
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-navigation-menu-family="navigation-menu-demo"]')
+  .forEach((example) => enhanceNavigationMenu(example))

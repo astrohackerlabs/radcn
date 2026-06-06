@@ -207,10 +207,12 @@ import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from 'radcn/na
 import {
   NavigationMenu,
   NavigationMenuContent,
+  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  NavigationMenuViewport,
 } from 'radcn/navigation-menu'
 import {
   Pagination,
@@ -6988,6 +6990,380 @@ function MenubarDemoPreview() {
   )
 }
 
+const navigationMenuDemoStyle = css({
+  width: 'min(100%, 48rem)',
+  '& .radcn-docs-navigation-menu-desktop-only': {
+    display: 'none',
+  },
+  '@media (min-width: 768px)': {
+    '& .radcn-docs-navigation-menu-desktop-only': {
+      display: 'block',
+    },
+  },
+})
+
+const navigationMenuPanelStyle = css({
+  display: 'grid',
+  gap: '0.5rem',
+  width: 'min(100%, var(--radcn-docs-navigation-menu-panel-width, 32rem))',
+})
+
+const navigationMenuHomePanelStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  width: 'min(100%, 32rem)',
+  '@media (min-width: 768px)': {
+    gridTemplateColumns: '0.75fr 1fr',
+  },
+})
+
+const navigationMenuFeatureLinkStyle = css({
+  display: 'flex',
+  minHeight: '10rem',
+  flexDirection: 'column',
+  justifyContent: 'flex-end',
+  borderRadius: 'var(--radcn-radius)',
+  background: 'linear-gradient(180deg, color-mix(in srgb, var(--radcn-muted) 55%, transparent), var(--radcn-muted))',
+  padding: '1rem',
+  textDecoration: 'none',
+  outline: 'none',
+  '@media (min-width: 768px)': {
+    minHeight: '100%',
+    padding: '1.5rem',
+  },
+  '& [data-radcn-docs-navigation-menu-title]': {
+    marginBlockEnd: '0.5rem',
+    color: 'var(--radcn-foreground)',
+    fontSize: '1.125rem',
+    fontWeight: 500,
+  },
+  '& p': {
+    margin: 0,
+    color: 'var(--radcn-muted-foreground)',
+    fontSize: '0.875rem',
+    lineHeight: 1.25,
+  },
+})
+
+const navigationMenuComponentsPanelStyle = css({
+  display: 'grid',
+  gap: '0.5rem',
+  width: 'min(100%, 38rem)',
+  '@media (min-width: 768px)': {
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  },
+})
+
+const navigationMenuLinkTitleStyle = css({
+  color: 'var(--radcn-foreground)',
+  fontSize: '0.875rem',
+  fontWeight: 600,
+  lineHeight: 1,
+})
+
+const navigationMenuLinkDescriptionStyle = css({
+  margin: '0.25rem 0 0',
+  color: 'var(--radcn-muted-foreground)',
+  fontSize: '0.875rem',
+  lineHeight: 1.35,
+})
+
+const navigationMenuIconStyle = css({
+  display: 'inline-grid',
+  width: '1rem',
+  height: '1rem',
+  flex: '0 0 auto',
+  placeItems: 'center',
+  color: 'var(--radcn-muted-foreground)',
+  fontSize: '0.75rem',
+  lineHeight: 1,
+})
+
+const navigationMenuDemoSource = `import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+} from 'radcn/navigation-menu'
+
+const components = [
+  {
+    title: 'Alert Dialog',
+    href: '/docs/primitives/alert-dialog',
+    description:
+      'A modal dialog that interrupts the user with important content and expects a response.',
+  },
+  {
+    title: 'Hover Card',
+    href: '/docs/primitives/hover-card',
+    description: 'For sighted users to preview content available behind a link.',
+  },
+  {
+    title: 'Progress',
+    href: '/docs/primitives/progress',
+    description:
+      'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+  },
+  {
+    title: 'Scroll-area',
+    href: '/docs/primitives/scroll-area',
+    description: 'Visually or semantically separates content.',
+  },
+  {
+    title: 'Tabs',
+    href: '/docs/primitives/tabs',
+    description:
+      'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+  },
+  {
+    title: 'Tooltip',
+    href: '/docs/primitives/tooltip',
+    description:
+      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+  },
+]
+
+export function NavigationMenuDemo() {
+  return (
+    <NavigationMenu defaultValue="home" id="navigation-menu-demo">
+      <NavigationMenuList class="flex-wrap">
+        <NavigationMenuItem value="home">
+          <NavigationMenuTrigger>Home</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div class="navigation-menu-home-grid">
+              <NavigationMenuLink href="/">
+                <div>shadcn/ui</div>
+                <p>Beautifully designed components built with Tailwind CSS.</p>
+              </NavigationMenuLink>
+              <div>
+                <ListItem href="/docs" title="Introduction">
+                  Re-usable components built using Radix UI and Tailwind CSS.
+                </ListItem>
+                <ListItem href="/docs/installation" title="Installation">
+                  How to install dependencies and structure your app.
+                </ListItem>
+                <ListItem href="/docs/primitives/typography" title="Typography">
+                  Styles for headings, paragraphs, lists...etc
+                </ListItem>
+              </div>
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="components">
+          <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <div class="navigation-menu-components-grid">
+              {components.map((component) => (
+                <ListItem href={component.href} title={component.title}>
+                  {component.description}
+                </ListItem>
+              ))}
+            </div>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem value="docs">
+          <NavigationMenuLink href="/docs">Docs</NavigationMenuLink>
+        </NavigationMenuItem>
+        <NavigationMenuItem class="desktop-only" value="list">
+          <NavigationMenuTrigger>List</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ListItem href="#" title="Components">Browse all components in the library.</ListItem>
+            <ListItem href="#" title="Documentation">Learn how to use the library.</ListItem>
+            <ListItem href="#" title="Blog">Read our latest blog posts.</ListItem>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem class="desktop-only" value="simple">
+          <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuLink href="#">Components</NavigationMenuLink>
+            <NavigationMenuLink href="#">Documentation</NavigationMenuLink>
+            <NavigationMenuLink href="#">Blocks</NavigationMenuLink>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem class="desktop-only" value="with-icon">
+          <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <NavigationMenuLink href="#">? Backlog</NavigationMenuLink>
+            <NavigationMenuLink href="#">o To Do</NavigationMenuLink>
+            <NavigationMenuLink href="#">✓ Done</NavigationMenuLink>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+      <NavigationMenuIndicator />
+      <NavigationMenuViewport />
+    </NavigationMenu>
+  )
+}
+
+function ListItem({ children, href, title }) {
+  return (
+    <NavigationMenuLink href={href}>
+      <div>{title}</div>
+      <p>{children}</p>
+    </NavigationMenuLink>
+  )
+}`
+
+function NavigationMenuDemoPreview() {
+  return () => (
+    <div
+      data-radcn-docs-navigation-menu-family="navigation-menu-demo"
+      mix={navigationMenuDemoStyle}
+    >
+      <NavigationMenu defaultValue="home" id="docs-navigation-menu-demo">
+        <NavigationMenuList class="flex-wrap">
+          <NavigationMenuItem value="home">
+            <NavigationMenuTrigger>Home</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div mix={navigationMenuHomePanelStyle}>
+                <NavigationMenuLink href="/">
+                  <div mix={navigationMenuFeatureLinkStyle}>
+                    <div data-radcn-docs-navigation-menu-title>shadcn/ui</div>
+                    <p>Beautifully designed components built with Tailwind CSS.</p>
+                  </div>
+                </NavigationMenuLink>
+                <div mix={navigationMenuPanelStyle}>
+                  {NavigationMenuListItem({
+                    href: '/docs',
+                    title: 'Introduction',
+                    children: 'Re-usable components built using Radix UI and Tailwind CSS.',
+                  })}
+                  {NavigationMenuListItem({
+                    href: '/docs/installation',
+                    title: 'Installation',
+                    children: 'How to install dependencies and structure your app.',
+                  })}
+                  {NavigationMenuListItem({
+                    href: '/docs/primitives/typography',
+                    title: 'Typography',
+                    children: 'Styles for headings, paragraphs, lists...etc',
+                  })}
+                </div>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="components">
+            <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div mix={navigationMenuComponentsPanelStyle}>
+                {navigationMenuComponents.map((component) =>
+                  NavigationMenuListItem({
+                    href: component.href,
+                    title: component.title,
+                    children: component.description,
+                  }),
+                )}
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem value="docs">
+            <NavigationMenuLink class="radcn-docs-navigation-menu-trigger-link" href="/docs">Docs</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem class="radcn-docs-navigation-menu-desktop-only" value="list">
+            <NavigationMenuTrigger>List</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div mix={navigationMenuPanelStyle} style="--radcn-docs-navigation-menu-panel-width: 19rem;">
+                {NavigationMenuListItem({
+                  href: '#',
+                  title: 'Components',
+                  children: 'Browse all components in the library.',
+                })}
+                {NavigationMenuListItem({
+                  href: '#',
+                  title: 'Documentation',
+                  children: 'Learn how to use the library.',
+                })}
+                {NavigationMenuListItem({
+                  href: '#',
+                  title: 'Blog',
+                  children: 'Read our latest blog posts.',
+                })}
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem class="radcn-docs-navigation-menu-desktop-only" value="simple">
+            <NavigationMenuTrigger>Simple</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div mix={navigationMenuPanelStyle} style="--radcn-docs-navigation-menu-panel-width: 13rem;">
+                <NavigationMenuLink href="#">Components</NavigationMenuLink>
+                <NavigationMenuLink href="#">Documentation</NavigationMenuLink>
+                <NavigationMenuLink href="#">Blocks</NavigationMenuLink>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem class="radcn-docs-navigation-menu-desktop-only" value="with-icon">
+            <NavigationMenuTrigger>With Icon</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <div mix={navigationMenuPanelStyle} style="--radcn-docs-navigation-menu-panel-width: 13rem;">
+                <NavigationMenuLink href="#" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:0.5rem">
+                  <span aria-hidden="true" data-radcn-docs-navigation-menu-icon="help" mix={navigationMenuIconStyle}>?</span>
+                  Backlog
+                </NavigationMenuLink>
+                <NavigationMenuLink href="#" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:0.5rem">
+                  <span aria-hidden="true" data-radcn-docs-navigation-menu-icon="circle" mix={navigationMenuIconStyle}>o</span>
+                  To Do
+                </NavigationMenuLink>
+                <NavigationMenuLink href="#" style="flex-direction:row;align-items:center;justify-content:flex-start;gap:0.5rem">
+                  <span aria-hidden="true" data-radcn-docs-navigation-menu-icon="check" mix={navigationMenuIconStyle}>✓</span>
+                  Done
+                </NavigationMenuLink>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+        <NavigationMenuIndicator />
+        <NavigationMenuViewport />
+      </NavigationMenu>
+    </div>
+  )
+}
+
+function NavigationMenuListItem({ children, href, title }: { children: RemixNode; href: string; title: string }) {
+  return (
+    <NavigationMenuLink href={href}>
+      <div mix={navigationMenuLinkTitleStyle}>{title}</div>
+      <p mix={navigationMenuLinkDescriptionStyle}>{children}</p>
+    </NavigationMenuLink>
+  )
+}
+
+const navigationMenuComponents = [
+  {
+    title: 'Alert Dialog',
+    href: '/docs/primitives/alert-dialog',
+    description: 'A modal dialog that interrupts the user with important content and expects a response.',
+  },
+  {
+    title: 'Hover Card',
+    href: '/docs/primitives/hover-card',
+    description: 'For sighted users to preview content available behind a link.',
+  },
+  {
+    title: 'Progress',
+    href: '/docs/primitives/progress',
+    description: 'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
+  },
+  {
+    title: 'Scroll-area',
+    href: '/docs/primitives/scroll-area',
+    description: 'Visually or semantically separates content.',
+  },
+  {
+    title: 'Tabs',
+    href: '/docs/primitives/tabs',
+    description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+  },
+  {
+    title: 'Tooltip',
+    href: '/docs/primitives/tooltip',
+    description: 'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+  },
+]
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8101,6 +8477,51 @@ const richComponentDocs: ComponentDoc[] = [
       'lucide CheckIcon, ChevronRightIcon, and CircleIcon map to RadCN-owned text indicators and app-owned presentation, not a package dependency.',
       'data-slot maps to public data-radcn-menubar* hooks and shared data-radcn-menu-* hooks.',
       'Radix Portal maps to explicit MenubarPortal content moved into data-radcn-portal-root by the browser enhancer.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'navigation-menu',
+    title: 'Navigation Menu',
+    category: 'Navigation',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free navigation menu with trigger-owned panels, link triggers, viewport sizing, indicator hooks, and keyboard navigation.',
+    importPath: 'radcn/navigation-menu',
+    importExample:
+      "import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from 'radcn/navigation-menu'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'navigation-menu-demo',
+        title: 'Navigation Menu Demo',
+        description:
+          'Render the upstream docs-style navigation menu with exact panel copy, responsive sections, icon links, and viewport behavior.',
+        source: navigationMenuDemoSource,
+        preview: <NavigationMenuDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'NavigationMenu renders a labelled nav landmark and native list structure for top-level controls.',
+      'Triggers receive aria-controls and aria-expanded during enhanceNavigationMenu, while content panels stay associated with their owning item.',
+      'Links remain native anchors, so the Docs trigger-style link keeps normal link behavior.',
+      'Keyboard movement covers horizontal roving focus, Home, End, Enter or Space opening, Escape close, and focusout close without React state.',
+    ],
+    customization: [
+      'Root, list, item, trigger, content, link, viewport, and indicator parts expose public data-radcn-navigation-menu hooks and package classes.',
+      'The Docs link uses the public NavigationMenuLink class as the RadCN equivalent of upstream navigationMenuTriggerStyle().',
+      'The upstream viewport={isMobile} recipe maps to explicit NavigationMenuViewport composition plus documented app-owned responsive behavior.',
+      'Responsive desktop-only sections use app-owned CSS over public item classes, preserving the upstream hidden md:block behavior without Tailwind.',
+      'Icon links are app-owned presentation over NavigationMenuLink; apps may use text glyphs, inline SVG, or an icon package without changing RadCN.',
+    ],
+    divergence: [
+      'use client, React state, Next Link, useIsMobile, Radix Navigation Menu, and cva map to server-rendered RadCN markup plus scoped enhanceNavigationMenu browser behavior.',
+      'lucide ChevronDownIcon, CircleHelpIcon, CircleIcon, and CircleCheckIcon remain app presentation and are not RadCN dependencies.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-navigation-menu* hooks.',
+      'Tailwind grid, width, gap, flex-wrap, rounded, muted, transition, hidden md:block, and text utilities map to package CSS, docs-owned styles, CSS variables, and media queries.',
+      'NavigationMenuIndicator is package capability evidence; the upstream demo relies on root-rendered viewport behavior rather than explicitly rendering an indicator.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
