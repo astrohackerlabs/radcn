@@ -1012,3 +1012,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 63: Audit command example parity](63-audit-command-example-parity.md)
   — **Partial**
+- [Experiment 64: Implement command example parity depth](64-implement-command-example-parity-depth.md)
+  — **Designed**
