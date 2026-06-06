@@ -914,6 +914,12 @@ Record cross-component discoveries here as experiments complete.
   positioned as top-right icon closes. `dialog-example-inventory.md` marks both
   rows `Covered`, `resolved-clusters.json` records `dialog` as resolved, and
   the regenerated parity inventory recommends example parity for `drawer` next.
+- Experiment 67 will audit Drawer example parity in
+  `drawer-example-inventory.md` before implementation. The current expected
+  upstream rows are `drawer-demo` and `drawer-dialog`; the audit must
+  distinguish Drawer-owned modal/edge-panel behavior from app-owned goal
+  state, chart rendering, responsive Dialog/Drawer branching, Button, Input,
+  Label, icons, and native form composition.
 
 ## Experiments
 
@@ -1049,3 +1055,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 66: Implement dialog example parity depth](66-implement-dialog-example-parity-depth.md)
   — **Pass**
+- [Experiment 67: Audit drawer example parity](67-audit-drawer-example-parity.md)
+  — **Designed**
