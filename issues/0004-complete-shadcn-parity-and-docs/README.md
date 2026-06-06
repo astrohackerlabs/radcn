@@ -1,6 +1,7 @@
 +++
-status = "open"
+status = "closed"
 opened = "2026-06-05"
+closed = "2026-06-06"
 +++
 
 # Issue 4: Complete shadcn/ui Parity and Docs
@@ -1862,4 +1863,20 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 121: Implement tooltip example parity depth](121-implement-tooltip-example-parity-depth.md)
   — **Pass**
 - [Experiment 122: Close Issue 4 with final verification](122-close-issue-final-verification.md)
-  — **Designed**
+  — **Pass**
+
+## Conclusion
+
+Issue 4 is closed. RadCN now has in-scope shadcn/ui package and direct example
+parity recorded through the Issue 4 inventories, docs pages, candidate
+fixtures, Playwright coverage, and resolved-cluster bookkeeping.
+
+The final generated parity inventory reports no unresolved in-scope package
+outcome clusters and no unresolved in-scope example clusters. Upstream blocks
+and chart-gallery examples remain explicitly out of scope for Issue 4, while
+the ordinary `radcn/chart` package component remains retained and resolved.
+
+Final verification passed for package, docs, and candidate fixture typechecks;
+focused positioned-overlay fixture Playwright coverage; docs Playwright
+coverage; parity inventory regeneration; issue index regeneration; lockfile,
+vendor, and whitespace hygiene checks.
