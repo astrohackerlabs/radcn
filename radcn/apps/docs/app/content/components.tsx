@@ -189,10 +189,18 @@ import { Kbd, KbdGroup } from 'radcn/kbd'
 import { Label } from 'radcn/label'
 import {
   Menubar,
+  MenubarCheckboxItem,
   MenubarContent,
   MenubarItem,
   MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
   MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
   MenubarTrigger,
 } from 'radcn/menubar'
 import { NativeSelect, NativeSelectOptGroup, NativeSelectOption } from 'radcn/native-select'
@@ -6793,6 +6801,193 @@ function LabelDemoPreview() {
   )
 }
 
+const menubarDemoSource = `import {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from 'radcn/menubar'
+
+export function MenubarDemo() {
+  return (
+    <Menubar id="menubar-demo">
+      <MenubarMenu value="file">
+        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarPortal>
+          <MenubarContent sideOffset={8}>
+            <MenubarItem textValue="New Tab">New Tab <MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+            <MenubarItem textValue="New Window">New Window <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+            <MenubarItem disabled textValue="New Incognito Window">New Incognito Window</MenubarItem>
+            <MenubarSeparator />
+            <MenubarSub>
+              <MenubarSubTrigger textValue="Share">Share</MenubarSubTrigger>
+              <MenubarSubContent>
+                <MenubarItem textValue="Email link">Email link</MenubarItem>
+                <MenubarItem textValue="Messages">Messages</MenubarItem>
+                <MenubarItem textValue="Notes">Notes</MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
+            <MenubarSeparator />
+            <MenubarItem textValue="Print...">Print... <MenubarShortcut>⌘P</MenubarShortcut></MenubarItem>
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+      <MenubarMenu value="edit">
+        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarPortal>
+          <MenubarContent sideOffset={8}>
+            <MenubarItem textValue="Undo">Undo <MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+            <MenubarItem textValue="Redo">Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+            <MenubarSeparator />
+            <MenubarSub>
+              <MenubarSubTrigger textValue="Find">Find</MenubarSubTrigger>
+              <MenubarSubContent>
+                <MenubarItem textValue="Search the web">Search the web</MenubarItem>
+                <MenubarSeparator />
+                <MenubarItem textValue="Find...">Find...</MenubarItem>
+                <MenubarItem textValue="Find Next">Find Next</MenubarItem>
+                <MenubarItem textValue="Find Previous">Find Previous</MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
+            <MenubarSeparator />
+            <MenubarItem textValue="Cut">Cut</MenubarItem>
+            <MenubarItem textValue="Copy">Copy</MenubarItem>
+            <MenubarItem textValue="Paste">Paste</MenubarItem>
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+      <MenubarMenu value="view">
+        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarPortal>
+          <MenubarContent sideOffset={8}>
+            <MenubarCheckboxItem textValue="Always Show Bookmarks Bar">Always Show Bookmarks Bar</MenubarCheckboxItem>
+            <MenubarCheckboxItem checked textValue="Always Show Full URLs">Always Show Full URLs</MenubarCheckboxItem>
+            <MenubarSeparator />
+            <MenubarItem inset textValue="Reload">Reload <MenubarShortcut>⌘R</MenubarShortcut></MenubarItem>
+            <MenubarItem disabled inset textValue="Force Reload">Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut></MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem inset textValue="Toggle Fullscreen">Toggle Fullscreen</MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem inset textValue="Hide Sidebar">Hide Sidebar</MenubarItem>
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+      <MenubarMenu value="profiles">
+        <MenubarTrigger>Profiles</MenubarTrigger>
+        <MenubarPortal>
+          <MenubarContent sideOffset={8}>
+            <MenubarRadioGroup value="benoit">
+              <MenubarRadioItem value="andy" textValue="Andy">Andy</MenubarRadioItem>
+              <MenubarRadioItem value="benoit" textValue="Benoit">Benoit</MenubarRadioItem>
+              <MenubarRadioItem value="Luis" textValue="Luis">Luis</MenubarRadioItem>
+            </MenubarRadioGroup>
+            <MenubarSeparator />
+            <MenubarItem inset textValue="Edit...">Edit...</MenubarItem>
+            <MenubarSeparator />
+            <MenubarItem inset textValue="Add Profile...">Add Profile...</MenubarItem>
+          </MenubarContent>
+        </MenubarPortal>
+      </MenubarMenu>
+    </Menubar>
+  )
+}`
+
+function MenubarDemoPreview() {
+  return () => (
+    <div data-radcn-docs-menubar-family="menubar-demo">
+      <Menubar id="docs-menubar-demo">
+        <MenubarMenu value="file">
+          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent sideOffset={8}>
+              <MenubarItem textValue="New Tab">New Tab <MenubarShortcut>⌘T</MenubarShortcut></MenubarItem>
+              <MenubarItem textValue="New Window">New Window <MenubarShortcut>⌘N</MenubarShortcut></MenubarItem>
+              <MenubarItem disabled textValue="New Incognito Window">New Incognito Window</MenubarItem>
+              <MenubarSeparator />
+              <MenubarSub>
+                <MenubarSubTrigger textValue="Share">Share</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem textValue="Email link">Email link</MenubarItem>
+                  <MenubarItem textValue="Messages">Messages</MenubarItem>
+                  <MenubarItem textValue="Notes">Notes</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSeparator />
+              <MenubarItem textValue="Print...">Print... <MenubarShortcut>⌘P</MenubarShortcut></MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+        <MenubarMenu value="edit">
+          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent sideOffset={8}>
+              <MenubarItem textValue="Undo">Undo <MenubarShortcut>⌘Z</MenubarShortcut></MenubarItem>
+              <MenubarItem textValue="Redo">Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut></MenubarItem>
+              <MenubarSeparator />
+              <MenubarSub>
+                <MenubarSubTrigger textValue="Find">Find</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem textValue="Search the web">Search the web</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem textValue="Find...">Find...</MenubarItem>
+                  <MenubarItem textValue="Find Next">Find Next</MenubarItem>
+                  <MenubarItem textValue="Find Previous">Find Previous</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSeparator />
+              <MenubarItem textValue="Cut">Cut</MenubarItem>
+              <MenubarItem textValue="Copy">Copy</MenubarItem>
+              <MenubarItem textValue="Paste">Paste</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+        <MenubarMenu value="view">
+          <MenubarTrigger>View</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent sideOffset={8}>
+              <MenubarCheckboxItem textValue="Always Show Bookmarks Bar">Always Show Bookmarks Bar</MenubarCheckboxItem>
+              <MenubarCheckboxItem checked textValue="Always Show Full URLs">Always Show Full URLs</MenubarCheckboxItem>
+              <MenubarSeparator />
+              <MenubarItem inset textValue="Reload">Reload <MenubarShortcut>⌘R</MenubarShortcut></MenubarItem>
+              <MenubarItem disabled inset textValue="Force Reload">Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut></MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem inset textValue="Toggle Fullscreen">Toggle Fullscreen</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem inset textValue="Hide Sidebar">Hide Sidebar</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+        <MenubarMenu value="profiles">
+          <MenubarTrigger>Profiles</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent sideOffset={8}>
+              <MenubarRadioGroup value="benoit">
+                <MenubarRadioItem value="andy" textValue="Andy">Andy</MenubarRadioItem>
+                <MenubarRadioItem value="benoit" textValue="Benoit">Benoit</MenubarRadioItem>
+                <MenubarRadioItem value="Luis" textValue="Luis">Luis</MenubarRadioItem>
+              </MenubarRadioGroup>
+              <MenubarSeparator />
+              <MenubarItem inset textValue="Edit...">Edit...</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem inset textValue="Add Profile...">Add Profile...</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+      </Menubar>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -7863,6 +8058,49 @@ const richComponentDocs: ComponentDoc[] = [
       'Radix Label remains a non-dependency because browser label semantics provide the required association and activation.',
       'Tailwind text-sm, leading-none, font-medium, and select-none styling maps to package CSS plus app-owned class/style overrides.',
       'group-data disabled and peer-disabled behavior map to explicit disabled props, native disabled controls, and app-owned composition.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'menubar',
+    title: 'Menubar',
+    category: 'Navigation',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free application menubar with trigger-owned menus, portal content, submenus, checked items, radio groups, and keyboard navigation.',
+    importPath: 'radcn/menubar',
+    importExample:
+      "import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarPortal, MenubarTrigger } from 'radcn/menubar'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'menubar-demo',
+        title: 'Menubar Demo',
+        description:
+          'Render the upstream four-menu browser-style demo with exact menu copy, shortcuts, checked state, submenus, and sideOffset parity.',
+        source: menubarDemoSource,
+        preview: <MenubarDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Menubar renders role="menubar" with aria-orientation and trigger role="menuitem" semantics.',
+      'Triggers expose aria-haspopup, aria-controls, and aria-expanded when enhanced in the browser.',
+      'Menu content renders role="menu"; checkbox and radio items expose menuitemcheckbox and menuitemradio states.',
+      'Keyboard movement, typeahead, Escape close, submenu focus, disabled skip, and hover switching are browser-enhanced without React state.',
+    ],
+    customization: [
+      'Root, menu, trigger, portal, content, items, separators, submenus, checkbox items, radio groups, radio items, indicators, and shortcuts expose public data-radcn hooks.',
+      'The named demo passes sideOffset={8} to match upstream MenubarContent placement without changing the package default.',
+      'Shortcut glyphs, check marks, radio dots, and submenu carets are app-owned presentation over package hooks.',
+      'className, Tailwind utilities, and cn map to class, style, CSS variables, package classes, and data-radcn-menubar hooks.',
+    ],
+    divergence: [
+      'use client and Radix Menubar primitives map to server-rendered Menubar markup plus scoped enhanceMenubar browser behavior.',
+      'lucide CheckIcon, ChevronRightIcon, and CircleIcon map to RadCN-owned text indicators and app-owned presentation, not a package dependency.',
+      'data-slot maps to public data-radcn-menubar* hooks and shared data-radcn-menu-* hooks.',
+      'Radix Portal maps to explicit MenubarPortal content moved into data-radcn-portal-root by the browser enhancer.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

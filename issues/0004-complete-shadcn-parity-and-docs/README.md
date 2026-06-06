@@ -1302,6 +1302,19 @@ Record cross-component discoveries here as experiments complete.
   decision for upstream `sideOffset={8}` versus RadCN's current
   `sideOffset={4}` default. The next experiment should implement named
   `menubar-demo` docs, candidate fixture, and Playwright coverage.
+- Experiment 98 completed direct Menubar example parity for `menubar-demo`.
+  `menubar-example-inventory.md` now marks the single direct Menubar example
+  covered. Docs and candidate fixtures render the exact four-menu composition
+  with `File`, `Edit`, `View`, and `Profiles`; all upstream item, submenu,
+  checkbox, radio, inset, disabled, and shortcut text; checked
+  `Always Show Full URLs`; radio value `benoit`; public hooks for every used
+  Menubar part; portal movement; submenu behavior; Escape close; keyboard
+  disabled skip; and `sideOffset={8}` placement evidence. The Menubar docs
+  record the React `"use client"`, Radix Menubar, lucide icon, `className`,
+  Tailwind, `cn`, `data-slot`, portal, keyboard/pointer, custom-token, and
+  vendor-source mapping. Package code did not need changes. After regenerating
+  parity inventory, the next generated recommendation is example parity for
+  `mode-toggle`.
 
 ## Experiments
 
@@ -1500,4 +1513,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 97: Audit menubar example parity](97-audit-menubar-example-parity.md)
   — **Partial**
 - [Experiment 98: Implement menubar example parity depth](98-implement-menubar-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

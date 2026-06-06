@@ -2661,6 +2661,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "menubar",
+    id: "demo",
+    title: "Menubar Demo",
+    description: "Named upstream Menubar demo with four menus, submenus, checked items, radio items, and shortcuts.",
+  },
+  {
+    component: "menubar",
     id: "default",
     title: "Default Menubar",
     description: "Horizontal menubar with trigger-owned menu content.",

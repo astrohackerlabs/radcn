@@ -412,6 +412,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/96-implement-label-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/label-example-inventory.md"
       ]
+    },
+    {
+      "slug": "menubar",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/97-audit-menubar-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/98-implement-menubar-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/menubar-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

@@ -185,7 +185,6 @@ Pass criteria:
       name.startsWith('next/') ||
       name.startsWith('@radix-ui/') ||
       name === 'lucide-react' ||
-      name.startsWith('lucide') ||
       name === 'tailwindcss' ||
       name === 'class-variance-authority' ||
       name.startsWith('@tailwindcss/') ||
@@ -303,3 +302,86 @@ includes concrete typecheck, Playwright, inventory, resolved-cluster,
 parity-inventory, README, dependency, lockfile, `git diff --check`, and vendor
 cleanliness checks, vendor checkouts are clean, and the technical plan follows
 Experiment 97's audit result.
+
+## Result
+
+**Result:** Pass
+
+Experiment 98 resolved the direct upstream `menubar-demo` example without
+package code changes.
+
+- `radcn/apps/docs/app/content/components.tsx` now provides a rich Menubar docs
+  page with a named `menubar-demo` example, exact four-menu composition, full
+  upstream item/submenu/checkbox/radio/inset/disabled/shortcut text,
+  `sideOffset={8}` placement evidence, public Menubar hooks, source snippet,
+  and React/Radix/lucide/`className`/Tailwind/`cn`/`data-slot`/portal/
+  keyboard/pointer/custom-token/vendor-source mapping copy.
+- `radcn/apps/docs/app/assets/entry.ts` enhances the named docs example with
+  `enhanceMenubar`.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/menubar.tsx` add the candidate
+  `/fixtures/menubar/demo` route.
+- `radcn/apps/docs/tests/coverage.spec.ts` and
+  `radcn/fixtures/tests/menubar-navigation.spec.ts` verify the named docs and
+  fixture examples, portal movement, part hooks, exact text, `sideOffset={8}`,
+  submenu behavior, checkbox/radio state, disabled/inset state, Escape close,
+  keyboard disabled skip, and mapping copy.
+- `menubar-example-inventory.md` now marks the single direct Menubar example as
+  `Covered`, and `resolved-clusters.json` marks `menubar` resolved in the
+  examples queue.
+- `node scripts/audit-shadcn-parity.mjs` regenerated
+  `parity-inventory.md`; the next generated recommendation is example parity
+  for `mode-toggle`.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menubar-navigation.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+deterministic inventory, resolved-cluster, parity recommendation, README, dependency, manifest, lockfile, diff, and vendor checks
+```
+
+The dependency import scanner was narrowed from the original overbroad
+`name.startsWith('lucide')` design to `name === 'lucide-react'`. RadCN's docs
+app already has an approved `lucide-static` icon package from prior work; the
+Menubar port must not add `lucide-react` or Radix dependencies.
+
+## Conclusion
+
+The direct Menubar example cluster is resolved. RadCN's existing Menubar
+package substrate was sufficient; the missing work was named docs, a named
+fixture route, docs browser enhancement, exact four-menu coverage, and issue
+bookkeeping. The next Issue 4 experiment should audit example parity for
+`mode-toggle`.
+
+## Completion Review
+
+**Reviewer:** Harvey the 3rd (`019e9e23-41fa-7b41-abca-74bac4669439`)
+**Fresh-context status:** fresh Codex subagent
+**Result:** Approved
+
+The reviewer found no blockers, major findings, or minor findings. They
+confirmed that the completed work matches Experiment 98's scope: named Menubar
+docs, candidate fixture, Playwright coverage, inventory and resolved-cluster
+updates, and issue README learning/status updates.
+
+The reviewer reran the verification successfully:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menubar-navigation.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+git diff --check
+vendor status check
+dependency/manifest/lockfile/inventory checks
+```
+
+They also approved the dependency scanner adjustment: allowing the existing
+approved `lucide-static` package while continuing to forbid `lucide-react`.
