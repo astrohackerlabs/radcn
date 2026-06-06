@@ -304,6 +304,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/72-implement-select-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/select-example-inventory.md"
       ]
+    },
+    {
+      "slug": "sheet",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/73-audit-sheet-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/74-implement-sheet-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/sheet-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

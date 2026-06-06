@@ -5,25 +5,22 @@
 Upstream shadcn/ui New York v4 has two active Sheet examples: `sheet-demo` and
 `sheet-side`. RadCN already ships `radcn/sheet` with the core modal, portal,
 overlay, side placement, focus, dismissal, and close behavior needed for both
-examples, but current docs, fixtures, and Playwright tests do not yet prove the
-named upstream example compositions.
+examples. Experiment 74 added named docs, candidate fixtures, and Playwright
+coverage for both upstream example compositions.
 
-**Audit outcome:** Partial.
+**Implementation outcome:** Covered.
 
-The next experiment should add named docs, candidate fixture routes, and
-Playwright coverage for `sheet-demo` and `sheet-side`. The audit found no
-mandatory Sheet package API change yet. React, Radix/Dialog primitives,
-`asChild`, `className`, `data-slot`, Tailwind, `cn`, Button/Input/Label
-composition, layout grids, form actions, repeated side mapping, and vendor
-source remain non-dependencies unless a later implementation pass discovers and
-records a concrete RadCN package gap.
+React, Radix/Dialog primitives, `asChild`, `className`, `data-slot`, Tailwind,
+`cn`, layout grids, form actions, repeated side mapping, and vendor source
+remain non-dependencies. Button, Input, and Label composition is app/docs
+composition over separate RadCN package surfaces, not a Sheet dependency.
 
 ## Examples
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `sheet-demo` | Right-side Sheet opened by an outline `Open` Button. Content has title `Edit profile`, description `Make changes to your profile here. Click save when you're done.`, two labelled inputs with ids `sheet-demo-name` and `sheet-demo-username`, default values `Pedro Duarte` and `@peduarte`, footer submit Button `Save changes`, and outline close Button `Close`. Uses `SheetTrigger asChild`, `SheetClose asChild`, Button, Input, Label, React props, `className`, Tailwind grid/flex/gap/padding utilities, and Radix/Dialog mechanics through shadcn Sheet. | `radcn/sheet` supports root, trigger, portal, overlay, right-side content by default, header, title, description, footer, close controls, default close button, modal role/ARIA wiring, focus trap, focus restoration, Escape dismissal, overlay dismissal, custom classes/styles/tokens, and generic docs/fixture/Playwright coverage. Current fixtures render `Team settings`, `Adjust project settings from a side panel.`, one `Team name` input with value `Design Systems`, and `Save changes`, but no docs/fixture/test evidence renders the named profile form, exact title/description, two input labels/default values, `Open`, `Save changes`, `Close`, or named upstream example id. | Partial | Add named docs and candidate fixture evidence for `sheet-demo`; cover exact trigger text, title, description, labels, input ids/default values, footer actions, close behavior, right-side default, modal ARIA/focus behavior, public hooks, and mapping copy. |
-| `sheet-side` | Renders four outline triggers labelled `top`, `right`, `bottom`, and `left` from `SHEET_SIDES`. Each opens SheetContent with matching `side`, title `Edit profile`, same profile description, two labelled inputs `Name` and `Username` with values `Pedro Duarte` and `@peduarte`, and footer `Save changes` wrapped in `SheetClose asChild`. Uses React client component marker, array mapping, React keys, repeated fixed ids `name` and `username`, Button/Input/Label composition, `SheetClose asChild`, `className`, Tailwind grid/col-span/text-right utilities, and Radix/Dialog mechanics. | `radcn/sheet` supports `side="top"`, `side="right"`, `side="bottom"`, and `side="left"`; current candidate fixtures expose separate `right`, `left`, `top`, and `bottom` routes and Playwright verifies side placement, modal role, focus trap, body scroll lock, Escape close, overlay close, and focus restoration. Current evidence does not render one named `sheet-side` composition with four triggers, exact lowercase trigger labels, profile title/description, two profile inputs/values, repeated-side layout, or `Save changes` close behavior for the named upstream example id. | Partial | Add named docs and candidate fixture evidence for `sheet-side`; cover all four trigger labels in one composition or a defensible equivalent, exact side values, title/description, labels, values, footer close action, focus behavior per side, public hooks, and mapping copy. |
+| `sheet-demo` | Right-side Sheet opened by an outline `Open` Button. Content has title `Edit profile`, description `Make changes to your profile here. Click save when you're done.`, two labelled inputs with ids `sheet-demo-name` and `sheet-demo-username`, default values `Pedro Duarte` and `@peduarte`, footer submit Button `Save changes`, and outline close Button `Close`. Uses `SheetTrigger asChild`, `SheetClose asChild`, Button, Input, Label, React props, `className`, Tailwind grid/flex/gap/padding utilities, and Radix/Dialog mechanics through shadcn Sheet. | `radcn/sheet` supports root, trigger, portal, overlay, right-side content by default, header, title, description, footer, close controls, default close button, modal role/ARIA wiring, focus trap, focus restoration, Escape dismissal, overlay dismissal, custom classes/styles/tokens, and named docs/fixture/test evidence. Experiment 74 docs render `data-radcn-docs-sheet-family="sheet-demo"` with exact trigger text, title, description, two labels, input ids/default values, footer actions, right-side content, public hooks, and mapping copy. Fixture tests cover `sheet/demo` modal ARIA/focus behavior, right-side placement, footer close behavior, and focus restoration. | Covered | No follow-up for this row. `asChild`, React, Radix/Dialog primitives, `className`, Tailwind utilities, `cn`, layout grids, form actions, and vendor source remain mapped non-dependencies. |
+| `sheet-side` | Renders four outline triggers labelled `top`, `right`, `bottom`, and `left` from `SHEET_SIDES`. Each opens SheetContent with matching `side`, title `Edit profile`, same profile description, two labelled inputs `Name` and `Username` with values `Pedro Duarte` and `@peduarte`, and footer `Save changes` wrapped in `SheetClose asChild`. Uses React client component marker, array mapping, React keys, repeated fixed ids `name` and `username`, Button/Input/Label composition, `SheetClose asChild`, `className`, Tailwind grid/col-span/text-right utilities, and Radix/Dialog mechanics. | `radcn/sheet` supports `side="top"`, `side="right"`, `side="bottom"`, and `side="left"`. Experiment 74 docs render `data-radcn-docs-sheet-family="sheet-side"` with four triggers, all side values, profile title/description, labelled profile inputs with deterministic unique ids, footer close action, public hooks, and mapping copy. Fixture tests cover `sheet/side` opening each side, side placement, modal ARIA/focus behavior, profile copy, input values, footer close behavior, and focus restoration. | Covered | No follow-up for this row. `SHEET_SIDES`, React keys, duplicate fixed upstream ids, `asChild`, React, Radix/Dialog primitives, Tailwind utilities, `cn`, layout grids, form actions, and vendor source remain mapped non-dependencies. |
 
 ## Capability Mapping
 
@@ -76,11 +73,10 @@ records a concrete RadCN package gap.
 
 ## Decision
 
-The Sheet example cluster is not resolved yet. RadCN has the core package
-behavior needed for both upstream examples, and no mandatory React, Radix,
-`asChild`, Tailwind, `cn`, Button/Input/Label, layout, form-action, or vendor
-dependency was identified. The missing proof is named parity depth: docs,
-candidate fixtures, and Playwright should render and test `sheet-demo` and
-`sheet-side` with exact trigger labels, profile copy, labels, input default
-values, side values, footer close actions, modal behavior, public hooks, and
-mapping copy.
+The Sheet example cluster is resolved. RadCN has the core package behavior
+needed for both upstream examples, and named docs, candidate fixtures, and
+Playwright coverage now prove `sheet-demo` and `sheet-side` with exact trigger
+labels, profile copy, labels, input default values, side values, footer close
+actions, modal behavior, public hooks, and mapping copy. No mandatory React,
+Radix/Dialog primitives, `asChild`, Tailwind, `cn`, Button/Input/Label, layout,
+form-action, or vendor dependency was identified.

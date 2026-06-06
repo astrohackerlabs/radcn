@@ -121,7 +121,7 @@ export function SheetContent(handle: Handle<SheetContentProps>) {
       >
         {children}
         {showCloseButton && (
-          <button aria-label="Close" class="radcn-sheet-close" data-radcn-sheet-close type="button">
+          <button aria-label="Close" class="radcn-sheet-close radcn-sheet-close--icon" data-radcn-sheet-close type="button">
             <span aria-hidden="true">x</span>
           </button>
         )}

@@ -545,6 +545,74 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('responsive Dialog/Drawer example is proven with deterministic desktop and mobile branch fixtures').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/sheet')
+    for (let slug of [
+      'sheet-demo',
+      'sheet-side',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-sheet-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    let sheetDemo = page.locator('[data-radcn-docs-sheet-family="sheet-demo"]')
+    await expect(sheetDemo.locator('[data-radcn-sheet-trigger]')).toHaveText('Open')
+    await expect(sheetDemo.locator('[data-radcn-sheet-trigger]')).toHaveClass(/radcn-button--outline/)
+    await expect(sheetDemo.locator('[data-radcn-sheet-portal]')).toBeAttached()
+    await expect(sheetDemo.locator('[data-radcn-sheet-overlay]')).toBeAttached()
+    await expect(sheetDemo.locator('[data-radcn-sheet-content]')).toHaveAttribute('data-side', 'right')
+    await expect(sheetDemo.locator('[data-radcn-sheet-content]')).toHaveClass(/radcn-docs-sheet-demo-content/)
+    await expect(sheetDemo.locator('[data-radcn-sheet-header]')).toBeAttached()
+    await expect(sheetDemo.locator('[data-radcn-sheet-title]')).toHaveText('Edit profile')
+    await expect(sheetDemo.locator('[data-radcn-sheet-description]')).toHaveText("Make changes to your profile here. Click save when you're done.")
+    await expect(sheetDemo.locator('[data-radcn-docs-sheet-form] [data-radcn-label]')).toHaveText(['Name', 'Username'])
+    await expect(sheetDemo.locator('#sheet-demo-name')).toHaveValue('Pedro Duarte')
+    await expect(sheetDemo.locator('#sheet-demo-username')).toHaveValue('@peduarte')
+    await expect(sheetDemo.locator('[data-radcn-sheet-content] > [data-radcn-sheet-close][aria-label="Close"]')).toHaveClass(/radcn-sheet-close--icon/)
+    await expect(sheetDemo.locator('[data-radcn-sheet-content] > [data-radcn-sheet-close][aria-label="Close"]')).toHaveCSS('position', 'absolute')
+    await expect(sheetDemo.locator('[data-radcn-sheet-footer] [data-radcn-button]')).toHaveText('Save changes')
+    await expect(sheetDemo.locator('[data-radcn-sheet-footer] [data-radcn-sheet-close]')).toHaveText('Close')
+    await expect(sheetDemo.locator('[data-radcn-sheet-footer] [data-radcn-sheet-close]')).toHaveCSS('position', 'static')
+
+    let sheetSide = page.locator('[data-radcn-docs-sheet-family="sheet-side"]')
+    await expect(sheetSide.locator('[data-radcn-docs-sheet-side-triggers] [data-radcn-sheet-trigger]')).toHaveText([
+      'top',
+      'right',
+      'bottom',
+      'left',
+    ])
+    await expect(sheetSide.locator('[data-radcn-sheet-content]')).toHaveCount(4)
+    await expect(sheetSide.locator('[data-radcn-sheet-content]').nth(0)).toHaveAttribute('data-side', 'top')
+    await expect(sheetSide.locator('[data-radcn-sheet-content]').nth(1)).toHaveAttribute('data-side', 'right')
+    await expect(sheetSide.locator('[data-radcn-sheet-content]').nth(2)).toHaveAttribute('data-side', 'bottom')
+    await expect(sheetSide.locator('[data-radcn-sheet-content]').nth(3)).toHaveAttribute('data-side', 'left')
+    await expect(sheetSide.locator('[data-radcn-sheet-title]')).toHaveText([
+      'Edit profile',
+      'Edit profile',
+      'Edit profile',
+      'Edit profile',
+    ])
+    await expect(sheetSide.locator('[data-radcn-sheet-description]')).toHaveText([
+      "Make changes to your profile here. Click save when you're done.",
+      "Make changes to your profile here. Click save when you're done.",
+      "Make changes to your profile here. Click save when you're done.",
+      "Make changes to your profile here. Click save when you're done.",
+    ])
+    for (let side of ['top', 'right', 'bottom', 'left']) {
+      let sideContent = sheetSide.locator(`[data-radcn-sheet-content][data-side="${side}"]`)
+      await expect(sideContent.locator(`#sheet-side-${side}-name`)).toHaveValue('Pedro Duarte')
+      await expect(sideContent.locator(`#sheet-side-${side}-username`)).toHaveValue('@peduarte')
+      await expect(sideContent.locator('[data-radcn-label]')).toHaveText(['Name', 'Username'])
+      await expect(sideContent.locator(':scope > [data-radcn-sheet-close][aria-label="Close"]')).toHaveClass(/radcn-sheet-close--icon/)
+      await expect(sideContent.locator(':scope > [data-radcn-sheet-close][aria-label="Close"]')).toHaveCSS('position', 'absolute')
+      await expect(sideContent.locator('[data-radcn-sheet-footer] [data-radcn-sheet-close]')).toHaveText('Save changes')
+      await expect(sideContent.locator('[data-radcn-sheet-footer] [data-radcn-sheet-close]')).toHaveCSS('position', 'static')
+    }
+    await expect(page.getByText('React props, Radix Dialog primitives').first()).toBeVisible()
+    await expect(page.getByText('className, data-slot, Tailwind utilities, cn').first()).toBeVisible()
+    await expect(page.getByText('asChild maps to explicit SheetTrigger and SheetClose').first()).toBeVisible()
+    await expect(page.getByText('SHEET_SIDES, React keys, and repeated rendering').first()).toBeVisible()
+    await expect(page.getByText('Button, Input, and Label composition stays app-owned').first()).toBeVisible()
+    await expect(page.getByText('Form submit actions, profile persistence, and input state remain app-owned').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/scroll-area')
     for (let slug of [
       'scroll-area-demo',

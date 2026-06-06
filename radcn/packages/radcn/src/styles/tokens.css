@@ -2779,6 +2779,10 @@
 }
 
 .radcn-sheet-close {
+  cursor: pointer;
+}
+
+.radcn-sheet-close--icon {
   position: absolute;
   top: 0.75rem;
   right: 0.75rem;
@@ -2791,11 +2795,10 @@
   border-radius: var(--radcn-radius);
   background: transparent;
   color: var(--radcn-muted-foreground);
-  cursor: pointer;
   font: 600 1rem/1 var(--radcn-font);
 }
 
-.radcn-sheet-close:hover {
+.radcn-sheet-close--icon:hover {
   background: var(--radcn-secondary);
   color: var(--radcn-foreground);
 }

@@ -293,3 +293,110 @@ Experiment 73's conclusion, both upstream Sheet examples and all four
 `sheet-side` values are covered by the plan, verification has concrete
 pass/fail criteria and hygiene checks, no implementation started before the
 plan commit, vendor checkouts are clean, and no blockers remain.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Sheet example parity for `sheet-demo` and `sheet-side`.
+The docs page now renders rich Sheet examples with stable
+`data-radcn-docs-sheet-family` hooks, exact upstream profile copy, `Open` and
+four side triggers, labelled `Name` and `Username` inputs with Pedro Duarte
+values, footer actions, all public Sheet part hooks, source snippets, and
+mapping copy for React/Radix/Dialog, `asChild`, Tailwind, `cn`, `data-slot`,
+Button/Input/Label composition, repeated side mapping, valid unique ids, and
+vendor source.
+
+Candidate fixtures now expose `/fixtures/sheet/demo` and
+`/fixtures/sheet/side`. Fixture Playwright coverage proves modal role/ARIA
+wiring, focus behavior, side placement, footer close behavior, focus
+restoration, exact profile copy, labels, input ids/default values, and all four
+side values while preserving the existing generic Sheet behavior tests.
+
+Implementation discovered one real package-level Sheet gap. The shared
+`.radcn-sheet-close` style made every authored `SheetClose` icon-sized and
+absolute-positioned at the top-right of the Sheet content, so footer close
+actions overlaid the default close affordance and intercepted clicks. The
+package now keeps `data-radcn-sheet-close` and `.radcn-sheet-close` as behavior
+hooks, adds `.radcn-sheet-close--icon` to the default direct child close
+button, and scopes icon sizing, placement, and icon hover styling to that
+modifier. Authored footer `SheetClose` controls can now use normal Button
+composition.
+
+`sheet-example-inventory.md` now marks both upstream Sheet rows `Covered`,
+`resolved-clusters.json` records `sheet` as resolved, and
+`parity-inventory.md` now recommends example parity for `skeleton` next.
+
+Verification:
+
+- `pnpm radcn:typecheck` — pass.
+- `pnpm --dir radcn/apps/docs typecheck` — pass.
+- `pnpm fixtures:candidate:typecheck` — pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts modal-variants.spec.ts`
+  — pass, 7 passed. The named Sheet tests assert default close controls use
+  `.radcn-sheet-close--icon` with absolute positioning and footer
+  `SheetClose` controls are static, wider than 2rem text buttons.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — pass, 5 passed. Docs coverage asserts the same default-icon versus
+  footer-close positioning contract on the public Sheet page.
+- `node scripts/audit-shadcn-parity.mjs` — pass; regenerated
+  `parity-inventory.md`.
+- Sheet inventory deterministic check — pass; `sheet-demo` and `sheet-side`
+  each appear once and are `Covered`.
+- Resolved-cluster deterministic check — pass; `sheet` has status `resolved`
+  and evidence for Experiment 73, Experiment 74, and
+  `sheet-example-inventory.md`.
+- Parity recommendation check — pass; `sheet` is absent from unresolved
+  example clusters and the first recommended cluster is `skeleton`.
+- Forbidden import check — pass; checked 135 TypeScript/JavaScript files under
+  package, docs, and candidate fixture roots.
+- Manifest dependency check — pass; checked 4 manifests and found no forbidden
+  React, Radix, Tailwind, class-variance-authority, or vendor dependencies.
+- `git diff --exit-code -- pnpm-lock.yaml` — pass; lockfile unchanged.
+- `git diff --check` — pass.
+- Vendor cleanliness loop for `vendor/shadcn-ui`, `vendor/remix`, and
+  `vendor/react-router` — pass; no output.
+
+Known warnings: Playwright web servers still print the existing Node
+`module.register()` deprecation warning and the existing `NO_COLOR` /
+`FORCE_COLOR` warning. These warnings were present before this experiment and
+did not affect the pass/fail result.
+
+## Conclusion
+
+Sheet example parity is resolved. The important cross-component lesson is that
+part classes used by both default affordances and authored controls must not
+force placement globally; placement belongs to the default direct-child
+affordance or an explicit composition wrapper. The next Issue 4 experiment
+should audit upstream `skeleton` examples, which is the regenerated parity
+inventory's first recommendation.
+
+## Completion Review
+
+Reviewer: Erdos the 2nd (`019e9d0a-b28d-7d51-947e-99f592759401`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Initial findings:
+
+- Blocker: `.radcn-sheet-close` still owned 2rem icon sizing, so authored
+  footer `SheetClose` controls were clickable but still styled as icon buttons.
+  Required fix: split default icon close styling from authored close behavior
+  and add coverage proving footer close controls are not 2rem icon buttons.
+- Major: none.
+- Minor: none.
+
+Fixes:
+
+- Added `.radcn-sheet-close--icon` to the default direct child close button in
+  `SheetContent`.
+- Reduced `.radcn-sheet-close` to the shared close behavior hook and moved icon
+  sizing, absolute positioning, icon presentation, and icon hover styling to
+  `.radcn-sheet-close--icon`.
+- Added fixture and docs Playwright assertions that the default close is
+  icon-positioned while footer `SheetClose` controls are static text buttons.
+- Reran affected package/docs/fixture typechecks, fixture modal Playwright,
+  docs coverage Playwright, diff hygiene, lockfile, and vendor checks.
+
+Re-review result: approved. The reviewer confirmed the prior blocker is
+resolved, no new blocker was introduced, `git diff --check` passed, and no
+major or minor findings remain.

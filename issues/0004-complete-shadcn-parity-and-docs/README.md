@@ -985,6 +985,16 @@ Record cross-component discoveries here as experiments complete.
   tests do not yet prove the named `sheet-demo` and `sheet-side` upstream
   compositions: profile form copy, two labelled inputs with Pedro Duarte values,
   `Open`/side triggers, footer close actions, and one four-side example.
+- Experiment 74 resolved Sheet example parity. Docs, candidate fixtures, and
+  Playwright now prove named `sheet-demo` and `sheet-side` examples with exact
+  profile copy, labelled Pedro Duarte inputs, `Open` and four side triggers,
+  footer actions, all side values, modal ARIA/focus behavior, close behavior,
+  public Sheet hooks, and mapping copy. The package needed one narrow styling
+  fix: only the default direct child Sheet close button is absolutely
+  positioned, so authored `SheetClose` controls inside footers behave like
+  normal buttons. `sheet-example-inventory.md` marks both rows `Covered`,
+  `resolved-clusters.json` records `sheet` as resolved, and the regenerated
+  parity inventory recommends auditing `skeleton` examples next.
 
 ## Experiments
 
@@ -1135,4 +1145,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 73: Audit sheet example parity](73-audit-sheet-example-parity.md)
   — **Partial**
 - [Experiment 74: Implement sheet example parity depth](74-implement-sheet-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -1863,6 +1863,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "sheet",
+    id: "demo",
+    title: "Sheet Demo",
+    description: "Named upstream sheet-demo parity with profile form fields.",
+  },
+  {
+    component: "sheet",
+    id: "side",
+    title: "Sheet Side",
+    description: "Named upstream sheet-side parity with all four side triggers.",
+  },
+  {
+    component: "sheet",
     id: "right",
     title: "Right Sheet",
     description: "Sheet opened from the right edge.",

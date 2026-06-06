@@ -221,6 +221,8 @@ import {
   SheetDescription,
   SheetFooter,
   SheetHeader,
+  SheetOverlay,
+  SheetPortal,
   SheetTitle,
   SheetTrigger,
 } from 'radcn/sheet'
@@ -349,6 +351,12 @@ const forceVisiblePreviewStyle = css({
     inset: 'auto !important',
     position: 'static !important',
     zIndex: 'auto !important',
+    width: '100%',
+  },
+  '& [data-radcn-sheet-portal][hidden]': {
+    display: 'grid !important',
+    gap: '0.75rem',
+    position: 'static !important',
     width: '100%',
   },
   '& [data-radcn-dialog-content][hidden]': {
@@ -1591,6 +1599,73 @@ export function SelectPreview() {
           <SelectScrollDownButton />
         </SelectContent>
       </Select>
+    </>
+  )
+}`
+
+const sheetSource = `import { Button } from 'radcn/button'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  SheetTrigger,
+} from 'radcn/sheet'
+
+const sheetSides = ['top', 'right', 'bottom', 'left'] as const
+
+export function SheetPreview() {
+  return (
+    <>
+      <Sheet id="profile-sheet">
+        <SheetTrigger class="radcn-button radcn-button--outline">Open</SheetTrigger>
+        <SheetPortal>
+          <SheetOverlay />
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
+            </SheetHeader>
+            <Label for="sheet-demo-name">Name</Label>
+            <Input id="sheet-demo-name" value="Pedro Duarte" />
+            <Label for="sheet-demo-username">Username</Label>
+            <Input id="sheet-demo-username" value="@peduarte" />
+            <SheetFooter>
+              <Button type="submit">Save changes</Button>
+              <SheetClose class="radcn-button radcn-button--outline">Close</SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </SheetPortal>
+      </Sheet>
+
+      <div>
+        {sheetSides.map((side) => (
+          <Sheet id={\`profile-sheet-\${side}\`}>
+            <SheetTrigger class="radcn-button radcn-button--outline">{side}</SheetTrigger>
+            <SheetPortal>
+              <SheetOverlay />
+              <SheetContent side={side}>
+                <SheetHeader>
+                  <SheetTitle>Edit profile</SheetTitle>
+                  <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
+                </SheetHeader>
+                <Label for={\`sheet-side-\${side}-name\`}>Name</Label>
+                <Input id={\`sheet-side-\${side}-name\`} value="Pedro Duarte" />
+                <Label for={\`sheet-side-\${side}-username\`}>Username</Label>
+                <Input id={\`sheet-side-\${side}-username\`} value="@peduarte" />
+                <SheetFooter><SheetClose>Save changes</SheetClose></SheetFooter>
+              </SheetContent>
+            </SheetPortal>
+          </Sheet>
+        ))}
+      </div>
     </>
   )
 }`
@@ -4110,6 +4185,8 @@ const selectTimezoneGroups = [
   },
 ] as const
 
+const sheetSides = ['top', 'right', 'bottom', 'left'] as const
+
 function ScrollAreaPreview() {
   return () => (
     <div mix={previewStackStyle}>
@@ -4166,6 +4243,70 @@ function ScrollAreaPreview() {
           </ScrollBar>
           <ScrollAreaCorner />
         </ScrollArea>
+      </div>
+    </div>
+  )
+}
+
+function SheetProfileFields({ prefix }: { prefix: string }) {
+  return (
+    <div data-radcn-docs-sheet-form style="display:grid;gap:0.75rem;padding:1rem 0;">
+      <div style="display:grid;gap:0.375rem;">
+        <Label for={`${prefix}-name`}>Name</Label>
+        <Input id={`${prefix}-name`} value="Pedro Duarte" />
+      </div>
+      <div style="display:grid;gap:0.375rem;">
+        <Label for={`${prefix}-username`}>Username</Label>
+        <Input id={`${prefix}-username`} value="@peduarte" />
+      </div>
+    </div>
+  )
+}
+
+function SheetPreview() {
+  return () => (
+    <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+      <div data-radcn-docs-sheet-family="sheet-demo">
+        <Sheet id="docs-sheet-demo">
+          <SheetTrigger class="radcn-button radcn-button--outline">Open</SheetTrigger>
+          <SheetPortal>
+            <SheetOverlay />
+            <SheetContent class="radcn-docs-sheet-demo-content">
+              <SheetHeader>
+                <SheetTitle>Edit profile</SheetTitle>
+                <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
+              </SheetHeader>
+              {SheetProfileFields({ prefix: 'sheet-demo' })}
+              <SheetFooter>
+                <Button type="submit">Save changes</Button>
+                <SheetClose class="radcn-button radcn-button--outline">Close</SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </SheetPortal>
+        </Sheet>
+      </div>
+
+      <div data-radcn-docs-sheet-family="sheet-side">
+        <div data-radcn-docs-sheet-side-triggers style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.5rem;width:min(100%,18rem);">
+          {sheetSides.map((side) => (
+            <Sheet id={`docs-sheet-side-${side}`}>
+              <SheetTrigger class="radcn-button radcn-button--outline">{side}</SheetTrigger>
+              <SheetPortal>
+                <SheetOverlay />
+                <SheetContent class="radcn-docs-sheet-side-content" side={side}>
+                  <SheetHeader>
+                    <SheetTitle>Edit profile</SheetTitle>
+                    <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
+                  </SheetHeader>
+                  {SheetProfileFields({ prefix: `sheet-side-${side}` })}
+                  <SheetFooter>
+                    <SheetClose class="radcn-button">Save changes</SheetClose>
+                  </SheetFooter>
+                </SheetContent>
+              </SheetPortal>
+            </Sheet>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -5991,6 +6132,49 @@ const richComponentDocs: ComponentDoc[] = [
       'CheckIcon, ChevronDownIcon, ChevronUpIcon, and lucide-react are presentation choices; RadCN provides dependency-free indicators and trigger glyphs.',
       'Portal behavior is supported through SelectPortal when an app needs it, but the named docs examples keep content scoped for visible documentation evidence.',
       'React state and onValueChange map to package-owned browser enhancement, native hidden values, route state, or app-owned event handling.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'sheet',
+    title: 'Sheet',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A modal side panel primitive with trigger, portal, overlay, side placement, header, footer, close controls, and focus management.',
+    importPath: 'radcn/sheet',
+    importExample:
+      "import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from 'radcn/sheet'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'sheet-demo-and-side',
+        title: 'Demo and Side',
+        description:
+          'Render the upstream profile Sheet and four-side Sheet examples with RadCN modal primitives and app-owned form controls.',
+        source: sheetSource,
+        preview: <SheetPreview />,
+      },
+    ],
+    accessibility: [
+      'SheetContent is enhanced with role="dialog", aria-modal, aria-labelledby, and aria-describedby from visible title and description parts.',
+      'Sheet focus is trapped while open, returns to the trigger when closed, and locks body scrolling during the modal session.',
+      'Escape, overlay pointer dismissal, default close button, and explicit SheetClose controls close dismissible sheets.',
+      'Profile inputs and labels remain native Input and Label composition inside the sheet surface.',
+    ],
+    customization: [
+      'Sheet exposes root, trigger, portal, overlay, content, header, title, description, footer, and close hooks through data-radcn-sheet* attributes.',
+      'Side placement maps to side="top", side="right", side="bottom", and side="left" on SheetContent.',
+      'Button, Input, and Label composition stays app-owned while Sheet owns the modal side panel behavior.',
+      'Grid layout, padding, text alignment, widths, and repeated side examples map to class, style, CSS variables, or app CSS rather than Tailwind utilities.',
+    ],
+    divergence: [
+      'React props, Radix Dialog primitives, className, data-slot, Tailwind utilities, cn, and vendor source map to explicit RadCN props, class, public data hooks, package CSS, inline style, and CSS variables.',
+      'asChild maps to explicit SheetTrigger and SheetClose composition with RadCN Button styling instead of React Slot behavior.',
+      'SHEET_SIDES, React keys, and repeated rendering map to deterministic server-rendered markup with valid unique ids.',
+      'Form submit actions, profile persistence, and input state remain app-owned; Sheet owns the modal surface and close behavior.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
