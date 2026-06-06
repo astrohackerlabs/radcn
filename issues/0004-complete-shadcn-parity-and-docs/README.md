@@ -1265,6 +1265,18 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 94, the regenerated parity inventory marks `hover-card`
   resolved in the example queue. The next generated recommendation is example
   parity for `label`.
+- Experiment 95 audited direct Label example parity in
+  `label-example-inventory.md`. The examples registry has one direct `label`
+  example, `label-demo`. RadCN already covers native Label package exports,
+  `for` wiring, disabled state, public hooks, Label/Checkbox composition, exact
+  `Accept terms and conditions` text in Checkbox docs/fixtures, and native
+  label click activation in fixture Playwright. The direct example remains
+  partial because the Label docs and fixtures do not yet expose a named
+  `label-demo` route/example with exact `Checkbox id="terms"`,
+  `Label for="terms"`, flex/spacing layout evidence, and the
+  React/Radix/`htmlFor`/Tailwind/`cn`/`data-slot`/peer-disabled mapping.
+  The next experiment should implement named `label-demo` docs, candidate
+  fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1457,4 +1469,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 94: Implement hover-card example parity depth](94-implement-hover-card-example-parity-depth.md)
   — **Pass**
 - [Experiment 95: Audit label example parity](95-audit-label-example-parity.md)
-  — **Designed**
+  — **Partial**

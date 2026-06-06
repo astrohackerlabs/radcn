@@ -79,15 +79,19 @@ Pass criteria:
     `Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up`;
   - `## Decisions`.
 - A deterministic check proves the direct upstream vendor Label example
-  registry entry count is exactly one, the matching file-glob count is exactly
-  one, and the inventory table contains exactly one matching row:
+  cluster count is exactly one by the same filename-prefix rule used by
+  `scripts/audit-shadcn-parity.mjs`, the matching file-glob count is exactly
+  one, and the inventory table contains exactly one matching row. Other
+  examples may include `label` in `registryDependencies`, but they belong to
+  their own primary example clusters such as `input`, `textarea`, or
+  `dropdown-menu`.
 
   ```text
   node - <<'NODE'
   const fs = require('fs')
   const registry = fs.readFileSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples/_registry.ts', 'utf8')
   const registryEntries = [...registry.matchAll(/\{\s*name: "([^"]+)",\s*type: "registry:example",\s*registryDependencies: \[([^\]]*)\],[\s\S]*?path: "examples\/([^"]+)"/g)]
-    .filter((match) => match[2].includes('"label"'))
+    .filter((match) => match[1] === 'label' || match[1].startsWith('label-'))
     .map((match) => match[1])
     .sort()
   const files = fs.readdirSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples')
@@ -191,3 +195,70 @@ audit-only, implementation has not started before the plan commit,
 verification includes concrete pass/fail criteria and repo hygiene checks,
 vendor checkouts are clean, and the vendor source supports the one-example
 premise.
+
+## Result
+
+**Result:** Partial
+
+Experiment 95 added `label-example-inventory.md` and audited the direct
+upstream Label example cluster, `label-demo`.
+
+The audit found that RadCN already has strong package and substrate evidence
+for Label: native `label` markup, `for` wiring, disabled state, package
+classes, public hooks, package exports, Checkbox composition, exact
+`Accept terms and conditions` text in existing Checkbox docs/fixtures, and
+native label click activation in `native-state` Playwright coverage.
+
+The direct example is still partial because existing Label docs, fixture
+scenarios, and tests do not prove the named upstream `label-demo` composition:
+`Checkbox id="terms"`, `Label for="terms"`, exact text
+`Accept terms and conditions`, flex/spacing layout evidence, public Label and
+Checkbox hooks, native label activation on the named route, and the
+React/Radix/`htmlFor`/`className`/Tailwind/`cn`/`data-slot`/peer-disabled/
+vendor-source mapping for the Label page.
+
+Verification passed:
+
+```text
+deterministic label direct-cluster/file/inventory row-count check
+deterministic row outcome/follow-up check
+deterministic required upstream terms/text check
+rg -n "Experiment 95|label-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The initial row-count check exposed that many upstream examples include
+`label` in `registryDependencies`. The audit was corrected to use the same
+filename/inferred-cluster ownership rule as `scripts/audit-shadcn-parity.mjs`,
+where only `label-demo` belongs to the direct Label example cluster.
+
+`git status --short` showed only audit-scope issue documentation changes:
+modified `95-audit-label-example-parity.md`, modified Issue 4 `README.md`,
+and new `label-example-inventory.md`.
+
+## Conclusion
+
+Label should move to a named implementation experiment next. The next
+experiment should implement `label-demo` docs, candidate fixture, and
+Playwright coverage for the exact upstream Checkbox/Label composition while
+preserving RadCN's native Label and Checkbox primitives.
+
+## Completion Review
+
+Reviewer: Poincare the 3rd
+(`019e9dfa-c799-7a22-bbde-dfdd892b14ec`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the completed audit matches the audit-only
+scope, the Partial result is supported by upstream and RadCN evidence, the
+experiment has Result and Conclusion, the Issue 4 README learning and status
+match the result, `git diff --check` passed, vendor statuses were clean, no
+ignored vendor sources or nested git repositories were committed, and the
+result commit had not been made before review.
