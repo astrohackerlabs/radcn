@@ -227,6 +227,11 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 8, `typography` is marked resolved in both the package
   outcome and example queues. The next generated recommendation is example
   parity for `button`.
+- Experiment 9 audited all 13 upstream button examples in
+  `button-example-inventory.md`. Button example parity is not complete yet:
+  RadCN needs `link`, `icon-sm`, and `icon-lg` Button support, an accessible
+  name prop for icon-only buttons, and docs/fixture/Playwright proof for link,
+  loading, icon-with-text, icon-only, rounded, and size examples.
 
 ## Experiments
 
@@ -247,4 +252,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 8: Resolve typography outcome](08-resolve-typography-outcome.md)
   — **Pass**
 - [Experiment 9: Audit button example parity](09-audit-button-example-parity.md)
-  — **Designed**
+  — **Pass**

@@ -113,3 +113,77 @@ Approval result: approved with no blockers. The reviewer confirmed the plan
 audits all 13 upstream button examples, covers the known false-coverage risks,
 references current RadCN files accurately, and has enough criteria to decide
 the next experiment.
+
+## Result
+
+**Result:** Pass
+
+Experiment 9 created `button-example-inventory.md` and audited all 13 upstream
+button examples. The audit keeps `button` unresolved because RadCN's current
+Button API and examples do not yet cover the full upstream example surface.
+
+Confirmed current coverage:
+
+- default, secondary, destructive, outline, and ghost variants exist.
+- `href` renders anchor semantics and is the RadCN equivalent for shadcn's
+  React-only `asChild` slot pattern.
+- disabled state, form submit/reset behavior, and author classes already have
+  package and fixture evidence.
+
+Confirmed gaps:
+
+- `variant="link"` is missing from RadCN Button.
+- `icon-sm` and `icon-lg` are missing from RadCN Button sizes.
+- icon-only Button examples need an accessible-name prop such as `ariaLabel`.
+- docs, fixtures, and Playwright coverage need explicit proof for link,
+  loading, icon-with-text, icon-only, rounded, and full size examples.
+
+Verification run:
+
+- `button-example-inventory.md` exists.
+- A deterministic Node check proved all 13 upstream button example ids appear
+  in `button-example-inventory.md`.
+- A deterministic Node check proved the inventory has exactly one outcome row
+  for each upstream id.
+- A deterministic Node check proved the inventory explicitly discusses
+  `asChild`, `href`, `variant="link"`, `icon-sm`, `icon-lg`, `Spinner`,
+  `lucide-react`, `@tabler/icons-react`, and rounded customization.
+- The no-vendor/no-React/no-publish scope grep exited 1 with no matches.
+- `git diff --check` passed.
+- Vendor status checks for shadcn/ui, Remix, and React Router printed no
+  output.
+- `git status --short` showed only the expected Issue 4 experiment, README,
+  and `button-example-inventory.md` changes before completion review.
+
+## Conclusion
+
+Button example parity needs a follow-up implementation experiment. The next
+experiment should add `link`, `icon-sm`, `icon-lg`, and accessible icon-button
+support to `radcn/button`, then expand docs, fixtures, and Playwright coverage
+for the audited example set before marking `button` resolved.
+
+## Completion Review
+
+Reviewer: Dalton (`019e9a47-dabe-7de2-99ee-b778454af74a`)
+Fresh context: yes (`fork_context: false`)
+
+Result: approved with no blockers.
+
+Findings:
+
+- Non-blocking note: the recorded `git status --short` evidence originally
+  named only the README and `button-example-inventory.md`, while the current
+  status also included the experiment file itself after result recording. Fixed
+  by naming the experiment file in the evidence.
+
+Approval evidence:
+
+- `button-example-inventory.md` has exactly one row for each of the 13 upstream
+  button ids.
+- The audit records the expected Button gaps: `link`, `icon-sm`, `icon-lg`,
+  icon-only accessible name, and missing docs/fixture/Playwright proof.
+- `button` remains unresolved in `parity-inventory.md`, and
+  `resolved-clusters.json` was not changed.
+- README learning and experiment status are consistent.
+- No implementation files changed.
+- Scope grep, `git diff --check`, and vendor status checks passed.
