@@ -637,3 +637,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 34: Implement toggle example parity depth](34-implement-toggle-example-parity-depth.md)
   — **Pass**
+- [Experiment 35: Audit kbd example parity](35-audit-kbd-example-parity.md)
+  — **Designed**
