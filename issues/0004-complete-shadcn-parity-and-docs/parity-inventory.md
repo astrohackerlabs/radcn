@@ -119,6 +119,7 @@ These are documented in RadCN but are not current package exports.
 | examples | button-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/13-audit-button-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/14-implement-button-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md` |
 | examples | input-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/15-audit-input-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/16-implement-input-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md` |
 | examples | item | resolved | `issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/18-implement-item-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md` |
+| examples | spinner | resolved | `issues/0004-complete-shadcn-parity-and-docs/19-audit-spinner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/20-implement-spinner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -242,7 +243,6 @@ parity decision.
 | skeleton | 2 | `skeleton-card`, `skeleton-demo` |
 | slider | 1 | `slider-demo` |
 | sonner | 2 | `sonner-demo`, `sonner-types` |
-| spinner | 10 | `spinner-badge`, `spinner-basic`, `spinner-button`, `spinner-color`, `spinner-custom`, `spinner-demo`, `spinner-empty`, `spinner-input-group`, `spinner-item`, `spinner-size` |
 | switch | 1 | `switch-demo` |
 | table | 1 | `table-demo` |
 | tabs | 1 | `tabs-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for spinner
+**Cluster:** Example parity for empty
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for spinner.
+- Audit upstream examples for empty.
 
 ## Notes
 

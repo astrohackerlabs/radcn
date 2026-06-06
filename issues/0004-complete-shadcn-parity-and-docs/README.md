@@ -344,6 +344,21 @@ Record cross-component discoveries here as experiments complete.
   inline styles, or CSS variables rather than package dependencies.
 - After Experiment 19, the next recommended implementation cluster is Spinner
   example parity depth.
+- Experiment 20 completed Spinner example parity depth without changing the
+  Spinner package API. Existing `class`, `style`, `ariaLabel`,
+  `--radcn-spinner-size`, and `--radcn-spinner-color` were enough to cover
+  upstream size, color, status, and app-owned custom presentation needs.
+- Spinner docs, fixtures, and Playwright coverage now prove all 10 upstream
+  Spinner example families: badge, basic, button, color, custom, demo, empty,
+  input-group, item, and size. The recorded divergences are stable for later
+  components: lucide `LoaderIcon`/`Loader2Icon` maps to RadCN's package-owned
+  SVG or app-owned custom icons; React SVG prop spreading maps to deliberate
+  Remix UI props; Tailwind `size-*`/`text-*` utility classes map to RadCN
+  classes, inline styles, or CSS variables; and composed loading state remains
+  owned by Button, Badge, InputGroup, Empty, Item, Progress, forms, routes, or
+  app code rather than Spinner.
+- After Experiment 20, `spinner` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `empty` next.
 
 ## Experiments
 
@@ -386,4 +401,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 19: Audit spinner example parity](19-audit-spinner-example-parity.md)
   — **Pass**
 - [Experiment 20: Implement spinner example parity depth](20-implement-spinner-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

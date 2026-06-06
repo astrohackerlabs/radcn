@@ -33,48 +33,32 @@ Generated during Experiment 19 on 2026-06-06.
 
 ## Summary
 
-Spinner example parity is not complete yet. RadCN currently exports a package
+Spinner example parity is covered after Experiment 20. RadCN currently exports a package
 `Spinner` that renders an SVG with `role="status"`, a default accessible name
 of `Loading`, public `data-radcn-spinner` and part hooks, and CSS-variable
 customization through `--radcn-spinner-size` and `--radcn-spinner-color`.
-Existing fixtures prove the default status semantics and one custom-size/color
-class.
+Docs and fixtures now prove standalone status semantics, Button loading rows,
+Badge loading rows, InputGroup loading addons, Empty loading composition, Item
+loading rows, Progress footer composition, size and color matrices, and
+app-owned custom spinner replacement mapping.
 
-That coverage proves the primitive, but it does not yet cover the full upstream
-Spinner example surface.
-
-The missing Spinner parity depth is:
-
-- richer docs and fixture proof for Spinner inside Button loading rows;
-- Badge loading composition;
-- Spinner color and size matrices;
-- custom spinner replacement mapping;
-- Spinner inside Empty media;
-- Spinner inside Item media with secondary amount/duration-style content;
-- Spinner inside Item media plus Progress footer composition;
-- richer InputGroup loading evidence tied to the Spinner cluster, while
-  recognizing that `input-group-spinner` was already covered during
-  InputGroup parity;
-- documented mappings for lucide `LoaderIcon`/`Loader2Icon`, React SVG props,
-  and Tailwind `size-*`/`text-*` utility classes.
-
-Do not mark the `spinner` example cluster resolved yet. The next experiment
-should implement Spinner example parity depth.
+The `spinner` example cluster can be marked resolved in
+`resolved-clusters.json` and excluded from the unresolved recommendation queue.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `spinner-badge` | Three Badges with Spinner plus loading text across default, secondary, and outline badge variants. | RadCN has `Badge` and `Spinner`, but current Spinner fixtures/docs do not prove Spinner composition inside Badge variants. | Partial | Add docs/fixtures/Playwright proof for Spinner inside default, secondary, and outline Badges with loading text. |
-| `spinner-basic` | Standalone centered Spinner with default status semantics. | Current package renders `role="status"` with default `aria-label="Loading"`, and `/fixtures/spinner/default` plus `static-display.spec.ts` prove those semantics. | Covered | None for primitive behavior; include the standalone example in richer docs for completeness if implementing the cluster. |
-| `spinner-button` | Disabled small Buttons in default, outline, and secondary variants containing Spinner and loading text. | RadCN has Button disabled state, variants, sizes, and Spinner, but current Spinner fixtures do not prove Button loading composition. | Partial | Add docs/fixtures/Playwright proof for disabled Button loading rows with Spinner and text across the relevant variants. |
-| `spinner-color` | Multiple Spinners with the same size and different foreground colors. | Current custom-size fixture proves one CSS-variable color override, but not a color matrix or docs guidance for color customization. | Partial | Add color matrix proof using RadCN classes, styles, or CSS variables without depending on Tailwind utility names. |
-| `spinner-custom` | A locally defined custom Spinner using lucide `LoaderIcon`, `role="status"`, and `aria-label="Loading"`. | RadCN package intentionally owns its own SVG and does not depend on lucide. Current docs do not document custom replacement behavior. | Partial | Document custom Spinner replacement as app-owned presentation: keep status semantics and accessible labels, but do not add lucide as a package dependency. |
-| `spinner-demo` | Muted Item row with Spinner in ItemMedia, primary title, and secondary amount content. | RadCN has Item, ItemMedia, secondary ItemContent, muted variant, and Spinner, but current Spinner fixtures do not prove this composition. | Partial | Add Spinner-specific Item demo proof with secondary content and accessible status naming. |
-| `spinner-empty` | Empty state with Spinner inside `EmptyMedia variant="icon"`, title, description, and Cancel Button. | RadCN has Empty, EmptyMedia, Button, and Spinner, but current Spinner fixtures/docs do not prove Empty loading composition. | Missing | Add docs/fixtures/Playwright proof for Spinner inside Empty media with title, description, and action. |
-| `spinner-input-group` | Disabled InputGroup examples with Spinner in addons and an InputGroupButton send action. | Experiment 16 covered InputGroup spinner loading behavior and disabled inputs. Spinner-specific docs/fixtures do not yet connect that evidence to the Spinner cluster. | Partial | Reuse or add focused Spinner-cluster proof for InputGroup loading composition, and record the related `input-group-spinner` upstream example as prior InputGroup evidence. |
-| `spinner-item` | Outline Item with Spinner icon media, title, description, Cancel Button action, and Progress footer. | RadCN has Item, Button, Progress, and Spinner, but current Spinner fixtures do not prove Spinner plus Progress composition inside Item. | Partial | Add docs/fixtures/Playwright proof for Spinner in ItemMedia, Cancel Button action, and Progress footer. |
-| `spinner-size` | Spinners rendered at several sizes. | Current custom-size fixture proves one `--radcn-spinner-size` value of 2rem; it does not prove a size matrix. | Partial | Add size matrix proof using class/style/CSS variables and visible computed dimensions. |
+| `spinner-badge` | Three Badges with Spinner plus loading text across default, secondary, and outline badge variants. | Covered by rich Spinner docs, `/fixtures/spinner/badge`, and Playwright proof for Spinner inside default, secondary, and outline Badges with loading text. | Covered | None. |
+| `spinner-basic` | Standalone centered Spinner with default status semantics. | Covered by package default `role="status"` and `aria-label="Loading"`, rich Spinner docs, `/fixtures/spinner/basic`, `/fixtures/spinner/default`, and Playwright proof. | Covered | None. |
+| `spinner-button` | Disabled small Buttons in default, outline, and secondary variants containing Spinner and loading text. | Covered by rich Spinner docs, `/fixtures/spinner/button`, and Playwright proof for disabled Button loading rows with Spinner and text across default, outline, and secondary variants. | Covered | None. |
+| `spinner-color` | Multiple Spinners with the same size and different foreground colors. | Covered by rich Spinner docs, `/fixtures/spinner/color`, and Playwright computed-color proof using `--radcn-spinner-color`, without Tailwind utility dependencies. | Covered | None. |
+| `spinner-custom` | A locally defined custom Spinner using lucide `LoaderIcon`, `role="status"`, and `aria-label="Loading"`. | Covered as an intentional mapping: RadCN keeps its package-owned SVG and docs/fixtures prove app-owned custom status SVG replacement without lucide. | Covered | None. |
+| `spinner-demo` | Muted Item row with Spinner in ItemMedia, primary title, and secondary amount content. | Covered by rich Spinner docs, `/fixtures/spinner/demo`, and Playwright proof for muted Item row, Spinner media, and secondary amount content. | Covered | None. |
+| `spinner-empty` | Empty state with Spinner inside `EmptyMedia variant="icon"`, title, description, and Cancel Button. | Covered by rich Spinner docs, `/fixtures/spinner/empty`, and Playwright proof for Spinner inside Empty media with title, description, and Cancel Button. | Covered | None. |
+| `spinner-input-group` | Disabled InputGroup examples with Spinner in addons and an InputGroupButton send action. | Covered by rich Spinner docs, direct `/fixtures/spinner/input-group` proof, prior Experiment 16 InputGroup evidence, and Playwright proof for disabled controls, addon Spinners, loading text, and send action. | Covered | None. |
+| `spinner-item` | Outline Item with Spinner icon media, title, description, Cancel Button action, and Progress footer. | Covered by rich Spinner docs, `/fixtures/spinner/item`, and Playwright proof for Spinner in ItemMedia, Cancel Button action, and Progress footer. | Covered | None. |
+| `spinner-size` | Spinners rendered at several sizes. | Covered by rich Spinner docs, `/fixtures/spinner/size`, and Playwright computed-width proof using `--radcn-spinner-size`, without Tailwind utility dependencies. | Covered | None. |
 
 ## Mapping Decisions
 
@@ -88,6 +72,8 @@ should implement Spinner example parity depth.
 - Tailwind `size-*` and `text-*` classes map to RadCN public class hooks,
   inline `style`, or CSS variables such as `--radcn-spinner-size` and
   `--radcn-spinner-color`; RadCN should not depend on Tailwind utility names.
+- custom Spinner replacement is app-owned presentation, not a RadCN package
+  dependency.
 - Default standalone Spinner semantics are already covered: `role="status"` and
   default `aria-label="Loading"`.
 - Loading text such as `Loading...`, `Please wait`, and `Processing` is
@@ -108,16 +94,6 @@ should implement Spinner example parity depth.
 
 ## Next Recommendation
 
-Implement Spinner example parity depth:
-
-- add docs and candidate fixtures for the missing or partial Spinner examples;
-- add focused Playwright coverage for Button, Badge, InputGroup, Empty, Item,
-  Progress, size, color, custom replacement, and standalone status semantics;
-- decide whether the existing CSS-variable customization is enough for
-  upstream size/color parity or whether Spinner needs explicit size/color
-  props;
-- record intentional divergences for lucide icons, React SVG prop spreading,
-  Tailwind utility classes, custom spinner replacement, and ownership of
-  composed loading states;
-- then mark `spinner` resolved in `resolved-clusters.json` and regenerate
-  `parity-inventory.md`.
+Regenerate `parity-inventory.md` with `spinner` recorded in
+`resolved-clusters.json`, then follow the generated first recommendation for
+the next unresolved example, block, chart, or package outcome cluster.

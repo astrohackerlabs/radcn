@@ -20,8 +20,23 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
   Kbd,
   KbdGroup,
+  Progress,
   Separator,
   Skeleton,
   Spinner,
@@ -164,6 +179,128 @@ export function renderSkeletonFixture() {
 }
 
 export function renderSpinnerFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'badge') {
+    return (
+      <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+        <Badge><Spinner ariaLabel="Syncing" /> Syncing</Badge>
+        <Badge variant="secondary"><Spinner ariaLabel="Updating" /> Updating</Badge>
+        <Badge variant="outline"><Spinner ariaLabel="Processing" /> Processing</Badge>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'basic') {
+    return <Spinner />
+  }
+
+  if (fixture.id === 'button') {
+    return (
+      <div style="display:grid;gap:12px;align-items:start;width:220px">
+        <Button disabled size="sm"><Spinner ariaLabel="Loading" /> Loading...</Button>
+        <Button disabled size="sm" variant="outline"><Spinner ariaLabel="Please wait" /> Please wait</Button>
+        <Button disabled size="sm" variant="secondary"><Spinner ariaLabel="Processing" /> Processing</Button>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'color') {
+    return (
+      <div style="display:flex;gap:18px;align-items:center">
+        <Spinner ariaLabel="Red loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#dc2626" />
+        <Spinner ariaLabel="Green loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#16a34a" />
+        <Spinner ariaLabel="Blue loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
+        <Spinner ariaLabel="Yellow loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#ca8a04" />
+        <Spinner ariaLabel="Purple loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#9333ea" />
+      </div>
+    )
+  }
+
+  if (fixture.id === 'custom') {
+    return (
+      <svg
+        aria-label="Custom loading"
+        data-radcn-custom-spinner
+        fill="none"
+        role="status"
+        style="width:1.5rem;height:1.5rem;animation:radcn-spin 1s linear infinite;color:#0f766e"
+        viewBox="0 0 24 24"
+      >
+        <path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-linecap="round" stroke-width="4" />
+      </svg>
+    )
+  }
+
+  if (fixture.id === 'demo') {
+    return (
+      <ItemGroup>
+        <Item variant="muted">
+          <ItemMedia><Spinner ariaLabel="Processing payment" /></ItemMedia>
+          <ItemContent><ItemTitle>Processing payment...</ItemTitle></ItemContent>
+          <ItemContent class="radcn-fixture-spinner-meta"><ItemTitle>$100.00</ItemTitle></ItemContent>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'empty') {
+    return (
+      <Empty style="width:min(100%, 32rem)">
+        <EmptyHeader>
+          <EmptyMedia variant="icon"><Spinner ariaLabel="Processing request" /></EmptyMedia>
+          <EmptyTitle>Processing your request</EmptyTitle>
+          <EmptyDescription>Please wait while we process your request. Do not refresh the page.</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent><Button size="sm" variant="outline">Cancel</Button></EmptyContent>
+      </Empty>
+    )
+  }
+
+  if (fixture.id === 'input-group') {
+    return (
+      <div style="display:grid;gap:12px;width:min(100%, 420px)">
+        <InputGroup disabled ariaLabel="Searching">
+          <InputGroupInput disabled name="search" placeholder="Searching..." />
+          <InputGroupAddon align="inline-end"><Spinner ariaLabel="Searching" /></InputGroupAddon>
+        </InputGroup>
+        <InputGroup disabled ariaLabel="Validating message">
+          <InputGroupTextarea disabled name="message" placeholder="Send a message..." rows={3} />
+          <InputGroupAddon align="block-end">
+            <Spinner ariaLabel="Validating" />
+            <InputGroupText>Validating...</InputGroupText>
+            <InputGroupButton ariaLabel="Send message" size="icon-xs" variant="default">^</InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'item') {
+    return (
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia variant="icon"><Spinner ariaLabel="Downloading" /></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Downloading...</ItemTitle>
+            <ItemDescription>129 MB / 1000 MB</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Cancel</Button></ItemActions>
+          <ItemFooter><Progress ariaLabel="Download progress" value={75} /></ItemFooter>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'size') {
+    return (
+      <div style="display:flex;gap:18px;align-items:center">
+        <Spinner ariaLabel="Small loading" style="--radcn-spinner-size:0.75rem" />
+        <Spinner ariaLabel="Default loading" style="--radcn-spinner-size:1rem" />
+        <Spinner ariaLabel="Medium loading" style="--radcn-spinner-size:1.5rem" />
+        <Spinner ariaLabel="Large loading" style="--radcn-spinner-size:2rem" />
+      </div>
+    )
+  }
+
   if (fixture.id === 'custom-size') {
     return <Spinner class="radcn-fixture-custom-spinner" ariaLabel="Loading report" />
   }

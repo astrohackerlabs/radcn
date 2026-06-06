@@ -1012,6 +1012,37 @@ export function SonnerPreview() {
   )
 }`
 
+const spinnerSource = `import { Badge } from 'radcn/badge'
+import { Button } from 'radcn/button'
+import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
+import { InputGroup, InputGroupAddon, InputGroupInput } from 'radcn/input-group'
+import { Item, ItemContent, ItemFooter, ItemGroup, ItemMedia, ItemTitle } from 'radcn/item'
+import { Progress } from 'radcn/progress'
+import { Spinner } from 'radcn/spinner'
+
+export function SpinnerPreview() {
+  return (
+    <div class="spinner-preview">
+      <Spinner />
+      <Spinner style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
+      <Button disabled size="sm"><Spinner ariaLabel="Loading" /> Loading...</Button>
+      <Badge variant="outline"><Spinner ariaLabel="Processing" /> Processing</Badge>
+      <InputGroup disabled><InputGroupInput disabled placeholder="Searching..." /><InputGroupAddon align="inline-end"><Spinner /></InputGroupAddon></InputGroup>
+      <Empty>
+        <EmptyHeader><EmptyMedia variant="icon"><Spinner /></EmptyMedia><EmptyTitle>Processing your request</EmptyTitle></EmptyHeader>
+        <EmptyContent><Button size="sm" variant="outline">Cancel</Button></EmptyContent>
+      </Empty>
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia variant="icon"><Spinner /></ItemMedia>
+          <ItemContent><ItemTitle>Downloading...</ItemTitle></ItemContent>
+          <ItemFooter><Progress value={75} /></ItemFooter>
+        </Item>
+      </ItemGroup>
+    </div>
+  )
+}`
+
 function ButtonPreview() {
   return () => (
     <div mix={previewRowStyle}>
@@ -1784,6 +1815,100 @@ function SonnerPreview() {
           },
         ]}
       />
+    </div>
+  )
+}
+
+function SpinnerPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 42rem);">
+      <div data-radcn-docs-spinner-family="basic" mix={previewRowStyle}>
+        <Spinner />
+        <span>Basic</span>
+      </div>
+
+      <div data-radcn-docs-spinner-family="size" mix={previewRowStyle}>
+        <Spinner ariaLabel="Small loading" style="--radcn-spinner-size:0.75rem" />
+        <Spinner ariaLabel="Default loading" style="--radcn-spinner-size:1rem" />
+        <Spinner ariaLabel="Medium loading" style="--radcn-spinner-size:1.5rem" />
+        <Spinner ariaLabel="Large loading" style="--radcn-spinner-size:2rem" />
+        <span>Size</span>
+      </div>
+
+      <div data-radcn-docs-spinner-family="color" mix={previewRowStyle}>
+        <Spinner ariaLabel="Red loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#dc2626" />
+        <Spinner ariaLabel="Green loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#16a34a" />
+        <Spinner ariaLabel="Blue loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
+        <span>Color</span>
+      </div>
+
+      <div data-radcn-docs-spinner-family="button" mix={previewStackStyle}>
+        <Button disabled size="sm"><Spinner ariaLabel="Loading" /> Loading...</Button>
+        <Button disabled size="sm" variant="outline"><Spinner ariaLabel="Please wait" /> Please wait</Button>
+        <Button disabled size="sm" variant="secondary"><Spinner ariaLabel="Processing" /> Processing</Button>
+      </div>
+
+      <div data-radcn-docs-spinner-family="badge" mix={previewRowStyle}>
+        <Badge><Spinner ariaLabel="Syncing" /> Syncing</Badge>
+        <Badge variant="secondary"><Spinner ariaLabel="Updating" /> Updating</Badge>
+        <Badge variant="outline"><Spinner ariaLabel="Processing" /> Processing</Badge>
+      </div>
+
+      <div data-radcn-docs-spinner-family="input-group">
+        <InputGroup disabled ariaLabel="Searching docs" style="width: min(100%, 28rem);">
+          <InputGroupInput disabled name="search" placeholder="Searching..." />
+          <InputGroupAddon align="inline-end"><Spinner ariaLabel="Searching" /></InputGroupAddon>
+        </InputGroup>
+      </div>
+
+      <div data-radcn-docs-spinner-family="empty">
+        <Empty style="width: min(100%, 30rem);">
+          <EmptyHeader>
+            <EmptyMedia variant="icon"><Spinner ariaLabel="Processing request" /></EmptyMedia>
+            <EmptyTitle>Processing your request</EmptyTitle>
+            <EmptyDescription>Please wait while we process your request.</EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent><Button size="sm" variant="outline">Cancel</Button></EmptyContent>
+        </Empty>
+      </div>
+
+      <div data-radcn-docs-spinner-family="demo">
+        <ItemGroup style="width: min(100%, 30rem);">
+          <Item variant="muted">
+            <ItemMedia><Spinner ariaLabel="Processing payment" /></ItemMedia>
+            <ItemContent><ItemTitle>Processing payment...</ItemTitle></ItemContent>
+            <ItemContent><ItemTitle>$100.00</ItemTitle></ItemContent>
+          </Item>
+        </ItemGroup>
+      </div>
+
+      <div data-radcn-docs-spinner-family="item">
+        <ItemGroup style="width: min(100%, 30rem);">
+          <Item variant="outline">
+            <ItemMedia variant="icon"><Spinner ariaLabel="Downloading" /></ItemMedia>
+            <ItemContent>
+              <ItemTitle>Downloading...</ItemTitle>
+              <ItemDescription>129 MB / 1000 MB</ItemDescription>
+            </ItemContent>
+            <ItemActions><Button size="sm" variant="outline">Cancel</Button></ItemActions>
+            <ItemFooter><Progress ariaLabel="Download progress" value={75} /></ItemFooter>
+          </Item>
+        </ItemGroup>
+      </div>
+
+      <div data-radcn-docs-spinner-family="custom" mix={previewRowStyle}>
+        <svg
+          aria-label="Custom loading"
+          data-radcn-docs-custom-spinner
+          fill="none"
+          role="status"
+          style="width:1.5rem;height:1.5rem;animation:radcn-spin 1s linear infinite;color:#0f766e"
+          viewBox="0 0 24 24"
+        >
+          <path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-linecap="round" stroke-width="4" />
+        </svg>
+        <span>Custom</span>
+      </div>
     </div>
   )
 }
@@ -2833,6 +2958,47 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'RadCN keeps the event bridge explicit with enhanceToaster and the RadCN toast event instead of React context.',
       'Initial toasts can be server-rendered, while later notifications are appended by browser enhancement.',
+    ],
+  },
+  {
+    slug: 'spinner',
+    title: 'Spinner',
+    category: 'Feedback',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'An accessible loading status indicator for standalone feedback and composed loading states.',
+    importPath: 'radcn/spinner',
+    importExample: "import { Spinner } from 'radcn/spinner'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render standalone, sized, colored, button, badge, input-group, empty, item, progress, and custom presentation examples without React or icon-package dependencies.',
+        source: spinnerSource,
+        preview: <SpinnerPreview />,
+      },
+    ],
+    accessibility: [
+      'Spinner renders role="status" with a default Loading accessible name.',
+      'Use ariaLabel when the loading state needs a more specific status name.',
+      'Loading text belongs beside Spinner in Button, Badge, InputGroup, Empty, and Item compositions.',
+      'Custom app-owned spinner replacements should preserve role="status" and an accessible name.',
+    ],
+    customization: [
+      'Use class, style, --radcn-spinner-size, and --radcn-spinner-color for size and color customization.',
+      'Spinner track and head parts expose package classes for token-driven styling.',
+      'Button, Badge, InputGroup, Empty, Item, and Progress compositions keep their own public hooks and state.',
+    ],
+    divergence: [
+      'Upstream lucide LoaderIcon and Loader2Icon map to RadCN package-owned SVG by default; app-owned custom icons can replace the visual glyph when needed.',
+      'React SVG prop spreading maps to deliberate Remix UI props, public classes, inline styles, and CSS variables.',
+      'Tailwind size-* and text-* utilities map to RadCN classes, style, --radcn-spinner-size, or --radcn-spinner-color.',
+      'Custom spinner replacement is app-owned presentation, not a RadCN package dependency.',
+      'Spinner does not own Button, Badge, InputGroup, Empty, Item, Progress, form, or async state.',
     ],
   },
 ]

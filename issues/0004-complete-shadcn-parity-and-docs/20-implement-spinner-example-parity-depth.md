@@ -185,3 +185,126 @@ Findings:
 Approval result: approved. Turing confirmed there were no blockers, the plan
 follows the issue workflow, is linked as `Designed`, includes required sections
 and hygiene checks, and does not start implementation before the plan commit.
+
+## Result
+
+**Result:** Pass
+
+Implemented Spinner example parity depth without changing the Spinner package
+API.
+
+- `radcn/apps/docs/app/content/components.tsx` now has rich Spinner docs with a
+  live package-backed example matrix for `badge`, `basic`, `button`, `color`,
+  `custom`, `demo`, `empty`, `input-group`, `item`, and `size`.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` now expose
+  direct `/fixtures/spinner/*` scenarios for all 10 upstream Spinner example
+  families.
+- `radcn/fixtures/tests/static-display.spec.ts` now proves standalone status
+  semantics, custom labels, size and color matrices, disabled Button loading
+  rows, Badge loading rows, InputGroup addon loading rows, Empty loading
+  composition, Item secondary content, Item Progress footer composition, and
+  app-owned custom status SVG replacement.
+- `issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md`
+  now marks all 10 upstream Spinner examples `Covered` and preserves mapping
+  decisions for lucide icons, React SVG prop spreading, Tailwind utility
+  mapping, custom Spinner replacement, and composed loading-state ownership.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json` marks
+  the `spinner` example cluster resolved, and regenerated
+  `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md` no longer
+  lists `spinner` as unresolved. The first generated recommendation is now
+  example parity for `empty`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`
+  passed: 7 tests passed. The run printed the existing Node
+  `module.register()` deprecation warning.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 tests passed. The run printed the existing Node
+  `module.register()` deprecation warning.
+- `node scripts/audit-shadcn-parity.mjs` passed and regenerated
+  `parity-inventory.md`.
+- The parity regeneration no-diff check passed after regeneration.
+- Deterministic Node checks passed for:
+  - all 10 upstream Spinner example ids appearing exactly once in
+    `spinner-example-inventory.md`;
+  - every upstream Spinner example row having a final outcome of `Covered` or
+    `Intentional divergence`;
+  - `resolved-clusters.json` containing `examples` entry `slug = "spinner"`,
+    `status = "resolved"`, and evidence for Experiment 19, Experiment 20, and
+    `spinner-example-inventory.md`;
+  - `spinner` being absent from `## Unresolved Example Clusters` and not the
+    `## First Recommended Cluster`;
+  - `radcn/apps/docs/app/content/components.tsx` containing all 10 Spinner docs
+    family hooks and required mapping copy for lucide, React SVG props,
+    Tailwind utilities, custom spinner replacement, and app-owned composed
+    loading states;
+  - `spinner-example-inventory.md` retaining mapping records for lucide
+    `LoaderIcon`/`Loader2Icon`, React SVG prop spreading, Tailwind
+    `size-*`/`text-*` utilities, custom Spinner replacement, and composed
+    loading-state ownership.
+- The targeted Tailwind-avoidance check passed for Spinner docs, fixture
+  markup, and tests: no implementation example uses `size-3`, `size-4`,
+  `size-6`, `size-8`, `text-red-500`, `text-green-500`, `text-blue-500`,
+  `text-yellow-500`, or `text-purple-500`.
+- The dependency and scope scan passed:
+  - `rg -n "from ['\"]react['\"]|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*@tabler/icons-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json`
+    exited 1 with no matches.
+- `git diff --check` passed.
+- `git status --short` showed only expected docs, fixture, test, issue,
+  resolved-cluster, and generated-inventory changes before result recording.
+  No `radcn/packages/radcn/src/components/spinner.tsx` change was needed.
+- After result recording, the current pre-review status was:
+  ```text
+   M issues/0004-complete-shadcn-parity-and-docs/20-implement-spinner-example-parity-depth.md
+   M issues/0004-complete-shadcn-parity-and-docs/README.md
+   M issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+   M issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json
+   M issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md
+   M radcn/apps/docs/app/content/components.tsx
+   M radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx
+   M radcn/fixtures/scenarios/index.ts
+   M radcn/fixtures/tests/static-display.spec.ts
+  ```
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+## Conclusion
+
+Spinner example parity depth is complete. The existing Spinner API was enough:
+`ariaLabel`, `class`, `style`, `--radcn-spinner-size`, and
+`--radcn-spinner-color` cover the upstream user-facing size, color, status, and
+customization needs without React, lucide, Tailwind, vendor imports, or custom
+spinner replacement as a package dependency. The cluster is resolved in the
+generated parity inventory, and the next Issue 4 experiment should audit the
+generated first recommendation: `empty` example parity.
+
+## Completion Review
+
+Reviewer: Zeno (`019e9ac9-edc1-70d1-b1a1-f1f50370aeb5`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Zeno confirmed the implementation satisfies the
+approved scope and RadCN workflow contract; the experiment has `## Result` and
+`## Conclusion`; the Issue 4 README status is `Pass` and records learnings;
+Spinner docs include direct family coverage; fixture tests directly cover
+Spinner parity; and the result commit had not been made before review.
+
+Zeno independently reran the main verification checks:
+`pnpm radcn:typecheck`, `pnpm --dir radcn/apps/docs typecheck`,
+`pnpm fixtures:candidate:typecheck`,
+`pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`,
+`pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`,
+`node scripts/audit-shadcn-parity.mjs`, `git diff --check`, vendor status
+checks, forbidden React/lucide/vendor/publish scan, and the targeted Tailwind
+utility scan. All passed.
