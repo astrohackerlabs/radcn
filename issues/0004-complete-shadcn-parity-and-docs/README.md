@@ -1337,3 +1337,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 87: Audit collapsible example parity](87-audit-collapsible-example-parity.md)
   — **Partial**
+- [Experiment 88: Implement collapsible example parity depth](88-implement-collapsible-example-parity-depth.md)
+  — **Designed**
