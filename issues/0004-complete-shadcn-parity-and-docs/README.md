@@ -1712,3 +1712,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 111: Implement separator example parity depth](111-implement-separator-example-parity-depth.md)
   — **Pass**
+- [Experiment 112: Audit slider example parity](112-audit-slider-example-parity.md)
+  — **Designed**
