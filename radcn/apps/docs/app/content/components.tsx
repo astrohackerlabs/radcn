@@ -612,6 +612,34 @@ const avatarDemoStyle = css({
   },
 })
 
+const collapsibleDemoStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  width: 'min(100%, 42rem)',
+  '& .radcn-docs-collapsible-demo [data-radcn-collapsible-icon]': {
+    display: 'none',
+  },
+  '& .radcn-docs-collapsible-demo [data-radcn-collapsible-trigger-text]': {
+    display: 'flex',
+    width: '100%',
+    flexDirection: 'column',
+    gap: '0.5rem',
+  },
+  '& .radcn-docs-collapsible-demo-header': {
+    display: 'flex',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: '1rem',
+  },
+  '& .radcn-docs-collapsible-demo [data-radcn-collapsible-content-inner]': {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+    padding: 0,
+  },
+})
+
 const previewConstrainedStyle = css({
   width: 'min(100%, 34rem)',
   minWidth: 0,
@@ -3495,6 +3523,99 @@ function CheckboxPreview() {
           <FieldDescription>You agree to our Terms of Service and Privacy Policy.</FieldDescription>
         </div>
       </div>
+    </div>
+  )
+}
+
+const collapsibleDemoSource = `import { Collapsible, CollapsibleContent, CollapsibleTrigger } from 'radcn/collapsible'
+
+function RepositoryRow({ ariaHidden, children }: { ariaHidden?: boolean; children: string }) {
+  return (
+    <div
+      aria-hidden={ariaHidden ? 'true' : undefined}
+      class="rounded-md border px-4 py-2 font-mono text-sm"
+    >
+      {children}
+    </div>
+  )
+}
+
+export function CollapsibleDemo() {
+  return (
+    <Collapsible class="flex w-[350px] flex-col gap-2">
+      <CollapsibleTrigger class="flex w-[350px] flex-col gap-2">
+        <span class="flex items-center justify-between gap-4 px-4">
+          <h4 aria-hidden="true" class="text-sm font-semibold">
+            @peduarte starred 3 repositories
+          </h4>
+          <span class="radcn-button radcn-button--ghost radcn-button--icon size-8">
+            <span class="radcn-sr-only">Toggle</span>
+            <span aria-hidden="true">⇵</span>
+          </span>
+        </span>
+        <RepositoryRow ariaHidden>@radix-ui/primitives</RepositoryRow>
+      </CollapsibleTrigger>
+      <CollapsibleContent class="flex flex-col gap-2">
+        <RepositoryRow>@radix-ui/colors</RepositoryRow>
+        <RepositoryRow>@stitches/react</RepositoryRow>
+      </CollapsibleContent>
+    </Collapsible>
+  )
+}`
+
+function CollapsibleRepositoryRow({ ariaHidden, children }: { ariaHidden?: boolean; children: string }) {
+  return (
+    <div
+      aria-hidden={ariaHidden ? 'true' : undefined}
+      class="rounded-md border px-4 py-2 font-mono text-sm"
+      data-radcn-docs-collapsible-row
+      style='border:1px solid var(--radcn-border);border-radius:calc(var(--radcn-radius) - 0.125rem);padding:0.5rem 1rem;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-size:0.875rem;line-height:1.25rem;'
+    >
+      {children}
+    </div>
+  )
+}
+
+function CollapsibleDemoPreview() {
+  return () => (
+    <div data-radcn-docs-collapsible-family="collapsible-demo" mix={collapsibleDemoStyle}>
+      <Collapsible
+        class="flex w-[350px] flex-col gap-2 radcn-docs-collapsible-demo"
+        style="display:flex;width:350px;max-width:100%;flex-direction:column;gap:0.5rem;border:0;background:transparent;color:var(--radcn-foreground);"
+      >
+        <CollapsibleTrigger
+          class="flex w-[350px] flex-col gap-2 radcn-docs-collapsible-demo-trigger"
+          style="display:flex;width:350px;max-width:100%;flex-direction:column;gap:0.5rem;padding:0;"
+        >
+          <span
+            class="flex items-center justify-between gap-4 px-4 radcn-docs-collapsible-demo-header"
+            data-radcn-docs-collapsible-header
+            style="display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0;padding-inline:1rem;"
+          >
+            <h4 aria-hidden="true" style="margin:0;font-size:0.875rem;font-weight:600;line-height:1.25rem;">@peduarte starred 3 repositories</h4>
+            <span
+              class="radcn-button radcn-button--ghost radcn-button--icon size-8"
+              data-radcn-docs-collapsible-icon-button
+              style="width:2rem;min-height:2rem;height:2rem;flex:0 0 auto;justify-content:center;gap:0;padding:0;border-radius:calc(var(--radcn-radius) - 0.125rem);"
+            >
+              <span class="radcn-sr-only">Toggle</span>
+              <span aria-hidden="true" data-radcn-docs-collapsible-chevrons style="font-size:1rem;line-height:1;">
+                ⇵
+              </span>
+            </span>
+          </span>
+          {CollapsibleRepositoryRow({ ariaHidden: true, children: '@radix-ui/primitives' })}
+        </CollapsibleTrigger>
+        <CollapsibleContent class="flex flex-col gap-2" style="display:flex;flex-direction:column;gap:0.5rem;border-top:0;color:inherit;">
+          {CollapsibleRepositoryRow({ children: '@radix-ui/colors' })}
+          {CollapsibleRepositoryRow({ children: '@stitches/react' })}
+        </CollapsibleContent>
+      </Collapsible>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        React useState(false), open, and onOpenChange map to native
+        details/summary open state for this example; apps can add browser
+        enhancement if they need synchronized state outside the disclosure.
+      </p>
     </div>
   )
 }
@@ -6595,6 +6716,52 @@ const richComponentDocs: ComponentDoc[] = [
       'CheckIcon and lucide-react are presentation details; RadCN keeps a dependency-free package indicator that apps can restyle.',
       'Tailwind peer and has selectors map to app CSS using RadCN hooks, class, style, and CSS variables.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'collapsible',
+    title: 'Collapsible',
+    category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native details/summary disclosure primitive for single-panel reveal patterns with app-owned trigger presentation.',
+    importPath: 'radcn/collapsible',
+    importExample:
+      "import { Collapsible, CollapsibleContent, CollapsibleTrigger } from 'radcn/collapsible'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'collapsible-demo',
+        title: 'Collapsible Demo',
+        description:
+          'Render the upstream @peduarte repository disclosure with default closed state, icon-only Toggle trigger, and exact repository rows.',
+        source: collapsibleDemoSource,
+        preview: <CollapsibleDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Collapsible renders native details and summary markup, so disclosure state, keyboard toggling, and content association stay browser-owned.',
+      'The icon-only trigger preserves the upstream screen-reader text Toggle inside the summary while the app-owned chevrons icon is aria-hidden.',
+      'The default demo starts closed, leaving @radix-ui/primitives visible and @radix-ui/colors plus @stitches/react hidden until the user toggles the summary.',
+      'Public data-radcn-collapsible, data-radcn-collapsible-trigger, and data-radcn-collapsible-content hooks are present for tests and app-owned styling.',
+    ],
+    customization: [
+      'Root width/flex/gap maps from flex w-[350px] flex-col gap-2 to class, style, and package tokens on the Collapsible root.',
+      'Header layout maps from flex items-center justify-between gap-4 px-4 to app-owned wrapper class/style around the trigger.',
+      'Rounded bordered monospace repository rows map from rounded-md border px-4 py-2 font-mono text-sm to ordinary app markup composed inside Collapsible.',
+      'Button ghost and size="icon" composition maps to explicit radcn-button, radcn-button--ghost, radcn-button--icon, and size-8 classes on the app-owned icon presentation inside CollapsibleTrigger.',
+      'Custom tokens remain available through Collapsible CSS variables and public content/trigger hooks.',
+    ],
+    divergence: [
+      'React client component markers and Radix Collapsible map to dependency-free native details/summary markup plus package hooks.',
+      'React useState(false), open, and onOpenChange map to native details[open] state for this example; synchronized external state can be app-owned enhancement.',
+      'data-slot maps to public data-radcn-collapsible* hooks, className maps to class, and cn maps to explicit class composition.',
+      'Tailwind width, flex, gap, spacing, border, rounded, and font utilities map to class, style, CSS variables, and app CSS over public hooks.',
+      'CollapsibleTrigger asChild and Button composition map to styling the summary trigger directly; RadCN does not need a Slot dependency for this example.',
+      'lucide ChevronsUpDown maps to app-owned decorative chevrons icon markup instead of lucide-react.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

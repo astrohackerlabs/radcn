@@ -2229,6 +2229,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "collapsible",
+    id: "demo",
+    title: "Collapsible Demo",
+    description: "Named shadcn collapsible-demo repository list with an icon-only trigger.",
+  },
+  {
+    component: "collapsible",
     id: "default",
     title: "Default Collapsible",
     description: "Closed single-panel disclosure.",

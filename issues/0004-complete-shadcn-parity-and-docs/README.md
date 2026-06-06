@@ -1160,6 +1160,21 @@ Record cross-component discoveries here as experiments complete.
   bordered monospace row styling, app-owned chevrons icon, and the
   React/Radix/lucide/Tailwind mapping. The next experiment should implement
   named `collapsible-demo` docs, candidate fixture, and Playwright coverage.
+- Experiment 88 resolved Collapsible example parity for `collapsible-demo`.
+  Docs, candidate fixtures, and Playwright now prove the exact
+  `@peduarte starred 3 repositories` heading, `Toggle` screen-reader text,
+  app-owned chevrons icon, visible `@radix-ui/primitives` row, hidden/toggled
+  `@radix-ui/colors` and `@stitches/react` rows, default closed state, native
+  details/summary toggling, 350px flex-column root, header row layout, rounded
+  bordered monospace repository row styling, public Collapsible/Trigger/Content
+  hooks, and the React/Radix/`data-slot`/`className`/Tailwind/Button
+  `asChild`/lucide/custom-token/vendor-source mapping. The implementation
+  recorded one important native-details constraint for later components:
+  closed `details` exposes only `summary`, so user-facing content that must
+  remain visible while closed must live inside the summary presentation, while
+  toggled content stays in the content region. The regenerated parity inventory
+  marks `collapsible` resolved and recommends auditing `context-menu`
+  examples next.
 
 ## Experiments
 
@@ -1338,4 +1353,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 87: Audit collapsible example parity](87-audit-collapsible-example-parity.md)
   — **Partial**
 - [Experiment 88: Implement collapsible example parity depth](88-implement-collapsible-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -310,3 +310,85 @@ around the single upstream `collapsible-demo` example, implementation has not
 started before the plan commit, package changes are conditional, verification
 has concrete typecheck/test/dependency/lockfile/hygiene criteria, and vendor
 checkouts are clean.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `collapsible-demo` parity without changing the
+`radcn/collapsible` package API or adding dependencies. The docs page now
+renders rich Collapsible documentation with
+`data-radcn-docs-collapsible-family="collapsible-demo"`, exact upstream
+heading/repository/Toggle text, public Collapsible/Trigger/Content hooks,
+350px flex-column layout evidence, header row layout evidence, rounded
+bordered monospace repository rows, an app-owned chevrons icon, and mapping
+copy for React state, Radix, `data-slot`, `className`, Tailwind utilities,
+Button `asChild`, lucide, native `details`/`summary`, custom tokens, and
+vendor source.
+
+The candidate fixture now exposes `collapsible/demo`, and Playwright verifies
+that it starts closed, uses native `details`/`summary`, shows
+`@radix-ui/primitives` before opening, hides `@radix-ui/colors` and
+`@stitches/react` until toggled, and preserves the icon trigger's accessible
+`Toggle` text.
+
+One implementation discovery changed the final composition: closed native
+`details` exposes only the `summary`. To keep `@peduarte starred 3
+repositories` and `@radix-ui/primitives` visible while closed, the summary
+owns the visible header and always-visible row presentation. Toggled rows
+remain inside `CollapsibleContent`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts collapsible.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic collapsible inventory check
+node deterministic resolved-clusters check
+node deterministic parity recommendation check
+node deterministic forbidden import check
+node deterministic manifest dependency check
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The first Playwright runs failed while the demo placed
+visible closed content outside `summary`; that was corrected by moving the
+visible closed-state presentation into the summary and rerunning the focused
+suites successfully.
+
+## Conclusion
+
+Collapsible example parity is resolved. The package primitives were sufficient
+as-is, and the final docs/fixture/tests document the web-native mapping from
+Radix controlled Collapsible to native disclosure markup. Later native
+`details`-based components should account for the same constraint: any content
+that must remain visible while closed belongs in `summary`; only toggled
+content belongs outside it.
+
+The regenerated parity inventory marks `collapsible` resolved and recommends
+auditing `context-menu` examples next.
+
+## Completion Review
+
+Reviewer: Socrates the 2nd
+(`019e9da5-da6a-7ac2-ab89-eda0c6394b45`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the implementation matches the
+approved Experiment 88 scope, the recorded verification commands pass, the
+experiment file has Result and Conclusion, the Issue 4 README records the
+learning and marks Experiment 88 `Pass`, `git diff --check` passed, vendor
+cleanliness was checked, no ignored vendor sources or nested repositories were
+committed, and the result commit had not been made before the review.

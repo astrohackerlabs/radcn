@@ -153,6 +153,7 @@ These are documented in RadCN but are not current package exports.
 | examples | alert-dialog | resolved | `issues/0004-complete-shadcn-parity-and-docs/81-audit-alert-dialog-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/82-implement-alert-dialog-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md` |
 | examples | aspect-ratio | resolved | `issues/0004-complete-shadcn-parity-and-docs/83-audit-aspect-ratio-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/84-implement-aspect-ratio-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md` |
 | examples | avatar | resolved | `issues/0004-complete-shadcn-parity-and-docs/85-audit-avatar-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/86-implement-avatar-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/avatar-example-inventory.md` |
+| examples | collapsible | resolved | `issues/0004-complete-shadcn-parity-and-docs/87-audit-collapsible-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/88-implement-collapsible-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -233,7 +234,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| collapsible | 1 | `collapsible-demo` |
 | context-menu | 1 | `context-menu-demo` |
 | data-table | 1 | `data-table-demo` |
 | hover-card | 1 | `hover-card-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for collapsible
+**Cluster:** Example parity for context-menu
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for collapsible.
+- Audit upstream examples for context-menu.
 
 ## Notes
 
