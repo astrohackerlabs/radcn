@@ -166,3 +166,96 @@ Approval: approved. The reviewer confirmed the Issue 4 README links
 Experiment 83 as `Designed`, implementation has not started, vendor status is
 clean, the scope is narrow enough for one audit experiment, and no blockers
 remain.
+
+## Result
+
+**Result:** Partial
+
+Created `aspect-ratio-example-inventory.md` for the single upstream New York v4
+Aspect Ratio example, `aspect-ratio-demo`. The audit confirms RadCN already
+covers dependency-free CSS aspect-ratio layout, default 16:9 layout, custom 1:1
+layout, overflow clipping, border radius, muted background, full-size direct
+children, public `data-radcn-aspect-ratio` hooks, class/style customization,
+and generic docs route coverage.
+
+The cluster remains partial because current docs, fixtures, and tests do not
+prove the exact named upstream `aspect-ratio-demo` composition: the Unsplash
+remote image URL, alt text `Photo by Drew Beamer`, rounded muted root styling,
+full-cover object-fit image behavior, dark-mode brightness/grayscale image
+filters, and the Next Image/Radix/Tailwind mapping.
+
+Verification commands run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const vendor = fs.readdirSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples')
+  .filter((file) => /^aspect-ratio.*\.tsx$/.test(file))
+  .map((file) => file.replace(/\.tsx$/, ''))
+  .sort()
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md', 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|[^\n]+/gm)].map((match) => match[1]).sort()
+console.log(`vendor: ${vendor.join(', ')}`)
+console.log(`inventory: ${rows.join(', ')}`)
+if (vendor.length !== 1 || vendor[0] !== 'aspect-ratio-demo') process.exit(1)
+if (rows.length !== 1 || rows[0] !== 'aspect-ratio-demo') process.exit(1)
+NODE
+```
+
+Passed with `vendor: aspect-ratio-demo` and
+`inventory: aspect-ratio-demo`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md', 'utf8')
+const row = text.match(/^\| `aspect-ratio-demo` \|([^\n]+)$/m)?.[0]
+if (!row) process.exit(1)
+const cells = row.split('|').map((cell) => cell.trim())
+const outcome = cells[4]
+const followUp = cells[5]
+console.log(`outcome: ${outcome}`)
+console.log(`follow-up: ${followUp}`)
+if (!['Covered', 'Partial', 'Missing', 'Intentional divergence'].includes(outcome)) process.exit(1)
+if (outcome !== 'Covered' && (!followUp || followUp === 'No follow-up.')) process.exit(1)
+NODE
+```
+
+Passed with `outcome: Partial` and a non-empty follow-up.
+
+```text
+rg -n "Experiment 83|aspect-ratio-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The README check found the Experiment 83 learning and index entry,
+`git diff --check` passed, and the vendor cleanliness check printed no output.
+
+## Completion Review
+
+Reviewer: Boyle the 2nd (`019e9d65-89dc-78d3-b542-54eb89a6fccb`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the scope stayed audit-only, the
+result and conclusion are present, the issue README learning and experiment
+status match `Partial`, the inventory records the exact upstream gap and
+follow-up, vendor source confirms the audited mechanics, deterministic checks
+passed, `git diff --check` passed, vendor cleanliness was checked, and the
+result commit had not been made before review.
+
+## Conclusion
+
+Aspect Ratio example parity remains partial. The package primitive is strong
+enough for the upstream behavior, but named docs, fixture, and Playwright
+evidence still need to prove the image composition and styling details.
+
+The next Issue 4 experiment should implement named `aspect-ratio-demo` parity
+without adding React, Radix, Next Image, Tailwind, or vendor dependencies.

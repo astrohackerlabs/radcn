@@ -1095,6 +1095,17 @@ Record cross-component discoveries here as experiments complete.
   makes Cancel the first focused control in the named destructive confirmation,
   with Tab moving to Continue. The regenerated parity inventory recommends
   auditing `aspect-ratio` examples next.
+- Experiment 83 audited Aspect Ratio example parity in
+  `aspect-ratio-example-inventory.md`. RadCN already covers dependency-free
+  CSS aspect-ratio layout, default 16:9 sizing, custom 1:1 sizing, overflow
+  clipping, border radius, muted background, full-size direct children, public
+  root hooks, class/style customization, and generic docs coverage. The cluster
+  remains partial because docs, fixtures, and tests do not yet prove the named
+  upstream `aspect-ratio-demo` composition: the Unsplash image URL, alt text
+  `Photo by Drew Beamer`, rounded muted root styling, full-cover object-fit
+  image behavior, dark-mode brightness/grayscale image filters, and the Next
+  Image/Radix/Tailwind mapping. The next experiment should implement named
+  `aspect-ratio-demo` docs, candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1263,4 +1274,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 82: Implement alert-dialog example parity depth](82-implement-alert-dialog-example-parity-depth.md)
   — **Pass**
 - [Experiment 83: Audit aspect-ratio example parity](83-audit-aspect-ratio-example-parity.md)
-  — **Designed**
+  — **Partial**
