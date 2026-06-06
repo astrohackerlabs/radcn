@@ -140,3 +140,119 @@ present, and the upstream Item surface is covered, including all 10 ids plus
 `asChild`/Slot, fragments/arrays, Next Image, external images, lucide icons,
 Avatar, Button, DropdownMenu, ItemGroup/Separator, header/footer/media/size/
 variant/link semantics, and current RadCN evidence.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md` as an
+audit-only inventory for all 10 upstream Item examples: `item-avatar`,
+`item-demo`, `item-dropdown`, `item-group`, `item-header`, `item-icon`,
+`item-image`, `item-link`, `item-size`, and `item-variant`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `item` resolved,
+because the examples need package/docs/fixture/test depth beyond the current
+primitive coverage.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['item-avatar','item-demo','item-dropdown','item-group','item-header','item-icon','item-image','item-link','item-size','item-variant']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+item-avatar: 1
+item-demo: 1
+item-dropdown: 1
+item-group: 1
+item-header: 1
+item-icon: 1
+item-image: 1
+item-link: 1
+item-size: 1
+item-variant: 1
+```
+
+```text
+rg -n 'item-avatar|item-demo|item-dropdown|item-group|item-header|item-icon|item-image|item-link|item-size|item-variant|asChild|Radix Slot|React fragments|Next `Image`|external image|lucide|Avatar|DropdownMenu|ItemGroup|ItemSeparator|ItemHeader|link-like|anchor|size|variant|media' issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: basic composition, sizes, variants, icon media, image media, Avatar and
+stacked-avatar composition, ItemGroup lists, ItemSeparator, ItemHeader image
+cards, DropdownMenu composition, link-like Items, anchor semantics, Button and
+icon-button actions, shadcn `asChild`/Radix Slot, React fragments/arrays, Next
+`Image`, external images, lucide icons, and current RadCN evidence.
+
+Additional verification:
+
+```text
+rg -n "item-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:307:  `item-example-inventory.md`. Item example parity is not complete yet: RadCN
+```
+
+`git diff --check` passed with no output. `git status --short` showed only the
+expected issue documentation changes:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md
+```
+
+The vendor status loop printed no output.
+
+## Conclusion
+
+Item parity is not resolved yet. RadCN has the base Item package API and
+primitive fixture evidence, but upstream example parity requires a depth
+implementation pass for link-like Items, Avatar media, stacked-avatar media,
+DropdownMenu Item rows, image header cards, image row lists, secondary metadata
+content, richer size and variant matrices, and icon-only Button actions.
+
+The next experiment should implement Item example parity depth, then mark
+`item` resolved only after docs, fixtures, Playwright coverage, and the
+inventory prove all 10 upstream examples are covered or intentionally diverged.
+
+## Completion Review
+
+Reviewer: Herschel (`019e9aa1-e8c3-7713-88e1-ef3b0f975d87`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Herschel confirmed the experiment is audit-only,
+the working tree only shows the expected issue documentation changes, the
+result and conclusion are present, the README status is `Pass`, all 10
+required Item ids appear exactly once as table rows, `git diff --check` passed,
+vendor status checks printed no output, and the result commit had not been made
+before review.

@@ -303,6 +303,20 @@ Record cross-component discoveries here as experiments complete.
   labeled text inputs while preserving user-facing search behavior.
 - After Experiment 16, `input-group` is marked resolved in the example queue.
   The regenerated inventory recommends example parity for `item` next.
+- Experiment 17 audited all 10 upstream Item examples in
+  `item-example-inventory.md`. Item example parity is not complete yet: RadCN
+  has the base package slots and primitive fixture proof, but it needs broader
+  docs/fixture/Playwright coverage for link-like Items, Avatar media,
+  stacked-avatar media, DropdownMenu rows, image header cards, image row lists,
+  secondary metadata content, richer size/variant matrices, and icon-only
+  Button actions.
+- Item remains a layout/content primitive. shadcn `asChild`/Radix Slot, React
+  fragments/arrays, Next `Image`, remote image URLs, and lucide icon choices
+  should map to explicit RadCN composition, native anchors or a deliberate
+  anchor API, server-rendered repeated rows, docs/app-owned image choices, and
+  presentation-only glyphs/assets rather than package dependencies.
+- After Experiment 17, the next recommended implementation cluster is Item
+  example parity depth.
 
 ## Experiments
 
@@ -339,4 +353,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 16: Implement input-group example parity depth](16-implement-input-group-example-parity-depth.md)
   — **Pass**
 - [Experiment 17: Audit item example parity](17-audit-item-example-parity.md)
-  — **Designed**
+  — **Pass**
