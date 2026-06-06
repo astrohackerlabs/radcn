@@ -573,6 +573,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "avatar",
+    id: "demo",
+    title: "Avatar Demo",
+    description: "Named upstream avatar-demo parity with exact GitHub images, fallbacks, rounded square avatar, and stacked grayscale group.",
+  },
+  {
+    component: "avatar",
     id: "default",
     title: "Default Avatar",
     description: "Avatar image with hidden fallback initials.",

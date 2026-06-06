@@ -358,6 +358,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/84-implement-aspect-ratio-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/aspect-ratio-example-inventory.md"
       ]
+    },
+    {
+      "slug": "avatar",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/85-audit-avatar-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/86-implement-avatar-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/avatar-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

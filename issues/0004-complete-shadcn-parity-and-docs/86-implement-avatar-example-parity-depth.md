@@ -312,3 +312,136 @@ Experiment 86 outcome, Avatar inventory evidence, resolved Avatar status, and
 next generated recommendation. No new blocker was introduced.
 
 Approval: approved.
+
+## Result
+
+**Result:** Pass
+
+Resolved direct Avatar example parity for `avatar-demo`.
+
+Docs now render a rich `/docs/components/avatar` page with stable
+`data-radcn-docs-avatar-family="avatar-demo"` evidence, exact upstream GitHub
+image URLs, alt texts `@shadcn`, `@evilrabbit`, and `@maxleiter`, fallback
+texts `CN`, `ER`, and `LR`, default circular Avatar shape, rounded-square
+class/style customization, a stacked AvatarGroup, negative spacing, ring
+box-shadow evidence, grayscale image treatment, public
+Avatar/Image/Fallback/Group hooks, and mapping copy for React, Radix Avatar,
+`data-slot`, `data-size`, `className`, `cn`, Tailwind utilities, remote image
+handling, custom tokens, and vendor source.
+
+The candidate Remix fixture now exposes `avatar/demo` with the same named
+composition. Tests verify stable attributes and computed CSS, not remote image
+decoding.
+
+Implementation discovered one package-level styling gap: AvatarGroup overlap
+rules used the child combinator, but injected `radcnStyles` escapes `>` to
+`&gt;`, causing the browser to drop the rule. The package token stylesheet and
+generated `radcnStyles` export now use descendant/public-hook selectors, and a
+plain `avatar/group` fixture test verifies package-provided first-avatar reset,
+negative spacing, and ring box-shadow behavior without inline overlap styles.
+The named demo also uses explicit Avatar root styles for deterministic
+negative-spacing and ring evidence.
+
+`avatar-example-inventory.md` now marks `avatar-demo` as `Covered`,
+`resolved-clusters.json` marks `avatar` resolved, and the regenerated parity
+inventory recommends auditing `collapsible` examples next.
+
+Verification commands run:
+
+```text
+pnpm radcn:typecheck
+```
+
+Passed.
+
+```text
+pnpm --dir radcn/apps/docs typecheck
+```
+
+Passed.
+
+```text
+pnpm fixtures:candidate:typecheck
+```
+
+Passed.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts avatar-scroll-area.spec.ts
+```
+
+Initially failed because the AvatarGroup overlap CSS did not produce computed
+negative spacing in the named demo. A completion-review follow-up added a
+plain AvatarGroup package-CSS assertion, exposed the escaped child-combinator
+root cause, and verified the descendant-selector fix. The final run passed
+with 7 tests.
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Passed with 5 tests.
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Passed and regenerated `parity-inventory.md`; the first recommended cluster is
+now `Example parity for collapsible`.
+
+Deterministic checks passed for:
+
+- `avatar-example-inventory.md` has exactly one direct row, `avatar-demo`, and
+  it is `Covered`;
+- `resolved-clusters.json` includes `avatar` with `status = "resolved"` and
+  Experiment 85, Experiment 86, and inventory evidence;
+- `avatar` is absent from direct unresolved example clusters and the first
+  recommendation no longer says `Example parity for avatar`;
+- forbidden import scan across package, docs, and candidate fixture source;
+- forbidden manifest dependency scan;
+- `radcn/packages/radcn/src/styles/index.ts` exactly serializes
+  `tokens.css`;
+- `git diff --exit-code -- pnpm-lock.yaml`;
+- `git diff --check`;
+- clean vendor checkout status for `vendor/shadcn-ui`, `vendor/remix`, and
+  `vendor/react-router`.
+
+The required README check passed:
+
+```text
+rg -n "Experiment 86|avatar-example-inventory|Avatar example parity|resolved.*avatar|next generated recommendation" issues/0004-complete-shadcn-parity-and-docs/README.md
+```
+
+## Conclusion
+
+Avatar direct example parity is complete. The next experiment should audit the
+`collapsible` example cluster recommended by the regenerated parity inventory.
+
+## Completion Review
+
+Reviewer: McClintock the 2nd (`019e9d88-c4d2-72e1-9d0f-596341957807`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: the first review found the package-level AvatarGroup CSS change was
+  not behaviorally verified because the named demo used explicit inline
+  overlap/ring styles. Fixed by extending the plain `avatar/group` fixture
+  test to assert package-provided first-avatar reset, negative spacing, and
+  ring box-shadow behavior without inline overlap styles. That test exposed
+  the root cause: child-combinator selectors were escaped from `>` to `&gt;`
+  in injected `radcnStyles`. Fixed package CSS by replacing child-combinator
+  AvatarGroup rules with descendant/public-hook selectors and regenerating
+  `radcn/packages/radcn/src/styles/index.ts`.
+- Minor: none.
+
+Re-review: the reviewer confirmed the Major finding is resolved. The plain
+`avatar/group` fixture test now verifies package CSS on the non-demo path:
+first Avatar `margin-left: 0px`, second Avatar `margin-left: -8px`, and
+second Avatar `box-shadow` not `none`. The package CSS uses
+descendant/public-hook selectors with a first-child reset, and
+`styles/index.ts` is synchronized with `tokens.css`. No new blocker was
+introduced.
+
+Approval: approved.

@@ -5,23 +5,24 @@
 Upstream shadcn/ui New York v4 exposes one direct Avatar example:
 `avatar-demo`.
 
-RadCN already ships `radcn/avatar` with Avatar, AvatarImage, AvatarFallback,
-AvatarBadge, AvatarGroup, and AvatarGroupCount exports. Current package,
-fixture, and Playwright evidence proves image alt text, visible and hidden
-fallback behavior, badge hooks, group hooks, group count hooks, size variants,
-custom token styling, and Avatar composition inside Item and Empty examples.
+RadCN ships `radcn/avatar` with Avatar, AvatarImage, AvatarFallback,
+AvatarBadge, AvatarGroup, and AvatarGroupCount exports. Package, docs,
+fixture, and Playwright evidence now proves image alt/src/loading props,
+visible and hidden fallback behavior, badge hooks, group hooks, group count
+hooks, size variants, custom token styling, Avatar composition inside Item and
+Empty examples, and the exact named upstream `avatar-demo` composition.
 
-The named upstream example is still partial because current docs, fixtures, and
-tests do not prove the exact `avatar-demo` composition: GitHub remote images
-for `@shadcn`, `@evilrabbit`, and `@maxleiter`; fallback text `CN`, `ER`, and
-`LR`; a rounded-square Avatar; a flex/wrapped/gap-12 wrapper; and a stacked
-negative-space group with ring and grayscale image treatment.
+Experiment 86 resolved the direct Avatar cluster by adding named docs,
+candidate fixture, and browser coverage for the exact GitHub image URLs,
+fallback text `CN`, `ER`, and `LR`, a rounded-square Avatar, a flex/wrapped
+`gap-12` wrapper, and a stacked negative-space group with ring and grayscale
+image treatment.
 
 ## Examples
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `avatar-demo` | Wrapper `div` uses flex row, wrapping, centered items, and `gap-12`. First Avatar is the default circular shape with image `https://github.com/shadcn.png`, alt `@shadcn`, and fallback `CN`. Second Avatar adds `className="rounded-lg"` for a rounded-square shape with image `https://github.com/evilrabbit.png`, alt `@evilrabbit`, and fallback `ER`. Third section is a stacked avatar group using negative spacing, ring styling, and grayscale image treatment for avatars `@shadcn`/`CN`, `@maxleiter`/`LR`, and `@evilrabbit`/`ER`. The upstream UI uses a React client component marker, Radix Avatar primitive, `data-slot`, `data-size`, `className`, `cn`, Tailwind size/shape/flex/ring/group selectors, and app-owned remote GitHub image mechanics. | `radcn/packages/radcn/src/components/avatar.tsx` exports Avatar, AvatarImage, AvatarFallback, AvatarBadge, AvatarGroup, and AvatarGroupCount with public `data-radcn-avatar*` hooks, `data-size`, class/style props, native `img` alt/src/loading/width/height props, and explicit fallback `ariaHidden` control. `radcn/packages/radcn/src/styles/tokens.css` covers root sizing, circular shape, overflow clipping, image fill/object-fit, fallback layout, badge size, group negative spacing, ring-like border via pseudo-element, group count, and custom tokens. `radcn/fixtures/candidate-remix/app/fixtures/avatar.tsx` covers default image+hidden fallback with deterministic data URI, visible fallback, badge, group count, and custom tokens. `radcn/fixtures/tests/avatar-scroll-area.spec.ts` verifies image alt text, hidden and visible fallback behavior, badge hooks, group accessible name/count, and custom token styling. `radcn/apps/docs/app/content/components.tsx` and `radcn/apps/docs/tests/coverage.spec.ts` prove a generic docs preview for Avatar. `item-example-inventory.md` and `empty-example-inventory.md` record related Avatar composition in Item and Empty examples. No current docs/fixture/test proves the named upstream `avatar-demo` wrapper layout, exact GitHub image URLs, exact alt/fallback triplets, rounded-square Avatar, or stacked group ring/grayscale treatment. | Partial | Add named docs, candidate fixture, and Playwright coverage for `avatar-demo` with the exact wrapper layout, three exact GitHub image URLs, exact alt and fallback texts, default circular Avatar, rounded-square Avatar, stacked negative-space group, ring styling evidence, grayscale image treatment, public Avatar/Image/Fallback/Group hooks, and mapping copy for React, Radix, `data-slot`, `data-size`, `className`, `cn`, Tailwind utilities, remote image handling, custom tokens, and vendor source. |
+| `avatar-demo` | Wrapper `div` uses flex row, wrapping, centered items, and `gap-12`. First Avatar is the default circular shape with image `https://github.com/shadcn.png`, alt `@shadcn`, and fallback `CN`. Second Avatar adds `className="rounded-lg"` for a rounded-square shape with image `https://github.com/evilrabbit.png`, alt `@evilrabbit`, and fallback `ER`. Third section is a stacked avatar group using negative spacing, ring styling, and grayscale image treatment for avatars `@shadcn`/`CN`, `@maxleiter`/`LR`, and `@evilrabbit`/`ER`. The upstream UI uses a React client component marker, Radix Avatar primitive, `data-slot`, `data-size`, `className`, `cn`, Tailwind size/shape/flex/ring/group selectors, and app-owned remote GitHub image mechanics. | `radcn/apps/docs/app/content/components.tsx` now renders rich `avatar-demo` docs with `data-radcn-docs-avatar-family="avatar-demo"`, exact remote GitHub image URLs, exact alt/fallback triplets, default circular shape, rounded-square class/style evidence, stacked AvatarGroup, negative spacing class/style evidence, ring box-shadow evidence through package/public CSS and explicit root styles, grayscale image style/class evidence, and mapping copy for React, Radix, `data-slot`, `data-size`, `className`, `cn`, Tailwind utilities, remote images, custom tokens, and vendor source. `radcn/apps/docs/tests/coverage.spec.ts` verifies the same docs evidence. `radcn/fixtures/candidate-remix/app/fixtures/avatar.tsx` exposes `avatar/demo` with the exact named composition, and `radcn/fixtures/tests/avatar-scroll-area.spec.ts` verifies the five image elements, exact `src`/`alt` attributes, fallback texts with deliberate `aria-hidden`, wrapper flex/gap layout, circular and rounded-square computed shape evidence, group accessible label, negative spacing, ring box-shadow, grayscale image class/style, and public Avatar/Image/Fallback/Group hooks. `radcn/packages/radcn/src/components/avatar.tsx` and `radcn/packages/radcn/src/styles/tokens.css` continue to provide dependency-free Avatar parts, public hooks, native image props, fallback control, circular sizing, group overlap, ring-like border/box-shadow, and custom tokens. Related Item and Empty Avatar examples remain covered by their own inventories. | Covered | No follow-up. |
 
 ## Related Examples
 
@@ -45,9 +46,9 @@ negative-space group with ring and grayscale image treatment.
   `data-size` maps to RadCN `data-size` plus size classes.
 - Upstream `className` and `cn` map to explicit `class`, `style`, CSS
   variables, and package classes.
-- Remote GitHub image loading remains app-owned content. A follow-up may use
-  the exact upstream remote URLs for markup parity, while tests should verify
-  attributes and CSS behavior rather than depend on network image decoding.
+- Remote GitHub image loading remains app-owned content. The named docs and
+  fixture use the exact upstream remote URLs for markup parity, while tests
+  verify attributes and CSS behavior rather than network image decoding.
 - Upstream fallback texts `CN`, `ER`, and `LR` should be included in named
   docs/fixtures even when images are present. Use `ariaHidden` deliberately
   when fallback text is only visual backup behind an accessible image.
@@ -56,6 +57,13 @@ negative-space group with ring and grayscale image treatment.
 - Upstream stacked `-space-x-2`, ring utilities, and grayscale image treatment
   map to AvatarGroup package behavior plus explicit app/docs classes, styles,
   CSS variables, or scoped CSS over public hooks.
+- AvatarGroup package CSS must avoid child-combinator selectors in exported
+  `radcnStyles` because the current style injection path escapes `>` to
+  `&gt;`; descendant/public-hook selectors are verified by the plain
+  `avatar/group` fixture.
+- Image-backed named-demo fallbacks use `ariaHidden={true}` because the native
+  image `alt` attributes provide the accessible names and the initials are
+  visual fallback content.
 - AvatarBadge is not used by `avatar-demo`; badge evidence remains useful
   package coverage but should not be required for this direct example row.
 - `AvatarGroupCount` is not used by `avatar-demo`; count evidence remains

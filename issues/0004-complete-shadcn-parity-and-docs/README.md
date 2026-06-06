@@ -1128,6 +1128,25 @@ Record cross-component discoveries here as experiments complete.
   `gap-12` wrapper layout, and stacked negative-space group ring/grayscale
   treatment. Related `item-avatar`, `empty-avatar`, and `empty-avatar-group`
   examples remain owned by the already resolved Item and Empty clusters.
+- Experiment 86 resolved Avatar example parity for `avatar-demo`. Docs,
+  candidate fixtures, and Playwright now prove the exact GitHub image URLs,
+  alt texts `@shadcn`, `@evilrabbit`, and `@maxleiter`, fallback texts `CN`,
+  `ER`, and `LR`, circular default shape, rounded-square class/style
+  customization, flex/wrapped `gap-12` wrapper layout, stacked AvatarGroup
+  composition, negative spacing, ring box-shadow evidence, grayscale image
+  treatment, public Avatar/Image/Fallback/Group hooks, and the
+  React/Radix/`data-slot`/`data-size`/`className`/`cn`/Tailwind/remote-image
+  mapping. Image-backed named-demo fallbacks use `ariaHidden={true}` because
+  the native image alt text provides the accessible name. Implementation also
+  exposed a package-level styling gap: AvatarGroup overlap rules used the
+  child combinator, but injected `radcnStyles` escapes `>` to `&gt;`, causing
+  the browser to drop the rule. AvatarGroup now uses descendant/public-hook
+  selectors that survive style injection, and plain `avatar/group` fixture
+  tests prove the package supplies first-avatar reset, negative spacing, and
+  ring box-shadow behavior without inline styles. The named demo still uses
+  explicit root styles for deterministic overlap and ring evidence. The
+  regenerated parity inventory marks `avatar` resolved and recommends auditing
+  `collapsible` examples next.
 
 ## Experiments
 
@@ -1302,4 +1321,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 85: Audit avatar example parity](85-audit-avatar-example-parity.md)
   — **Partial**
 - [Experiment 86: Implement avatar example parity depth](86-implement-avatar-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

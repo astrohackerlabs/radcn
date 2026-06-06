@@ -494,6 +494,9 @@ export function AlertDialogDemo() {
 }`
 
 const aspectRatioImageSrc = 'https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80'
+const avatarShadcnSrc = 'https://github.com/shadcn.png'
+const avatarEvilrabbitSrc = 'https://github.com/evilrabbit.png'
+const avatarMaxleiterSrc = 'https://github.com/maxleiter.png'
 
 const aspectRatioDemoSource = `import { AspectRatio } from 'radcn/aspect-ratio'
 
@@ -510,6 +513,55 @@ export function AspectRatioDemo() {
         style="display:block;width:100%;height:100%;border-radius:inherit;object-fit:cover;"
       />
     </AspectRatio>
+  )
+}`
+
+const avatarDemoSource = `import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from 'radcn/avatar'
+
+export function AvatarDemo() {
+  return (
+    <div class="flex flex-row flex-wrap items-center gap-12">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback ariaHidden={true}>CN</AvatarFallback>
+      </Avatar>
+      <Avatar class="rounded-lg" style="border-radius:var(--radcn-radius);">
+        <AvatarImage src="https://github.com/evilrabbit.png" alt="@evilrabbit" />
+        <AvatarFallback ariaHidden={true}>ER</AvatarFallback>
+      </Avatar>
+      <AvatarGroup
+        ariaLabel="RadCN contributors"
+        class="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale"
+      >
+        <Avatar style="box-shadow:0 0 0 2px var(--radcn-background);">
+          <AvatarImage
+            src="https://github.com/shadcn.png"
+            alt="@shadcn"
+            class="grayscale"
+            style="filter:grayscale(1);"
+          />
+          <AvatarFallback ariaHidden={true}>CN</AvatarFallback>
+        </Avatar>
+        <Avatar style="margin-left:-0.5rem;box-shadow:0 0 0 2px var(--radcn-background);">
+          <AvatarImage
+            src="https://github.com/maxleiter.png"
+            alt="@maxleiter"
+            class="grayscale"
+            style="filter:grayscale(1);"
+          />
+          <AvatarFallback ariaHidden={true}>LR</AvatarFallback>
+        </Avatar>
+        <Avatar style="margin-left:-0.5rem;box-shadow:0 0 0 2px var(--radcn-background);">
+          <AvatarImage
+            src="https://github.com/evilrabbit.png"
+            alt="@evilrabbit"
+            class="grayscale"
+            style="filter:grayscale(1);"
+          />
+          <AvatarFallback ariaHidden={true}>ER</AvatarFallback>
+        </Avatar>
+      </AvatarGroup>
+    </div>
   )
 }`
 
@@ -539,6 +591,24 @@ const aspectRatioDemoStyle = css({
   },
   '&[data-radcn-theme="dark"] [data-radcn-docs-aspect-ratio-image]': {
     filter: 'brightness(0.2) grayscale(1)',
+  },
+})
+
+const avatarDemoStyle = css({
+  display: 'grid',
+  gap: '0.75rem',
+  '& [data-radcn-docs-avatar-row]': {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: '3rem',
+  },
+  '& .radcn-docs-avatar-rounded': {
+    borderRadius: 'var(--radcn-radius)',
+  },
+  '& .radcn-docs-avatar-stack-image': {
+    filter: 'grayscale(1)',
   },
 })
 
@@ -5513,6 +5583,66 @@ function AspectRatioDemoPreview() {
   )
 }
 
+function AvatarDemoPreview() {
+  return () => (
+    <div data-radcn-docs-avatar-family="avatar-demo" mix={avatarDemoStyle}>
+      <div
+        class="flex flex-row flex-wrap items-center gap-12"
+        data-radcn-docs-avatar-row
+      >
+        <Avatar>
+          <AvatarImage alt="@shadcn" src={avatarShadcnSrc} />
+          <AvatarFallback ariaHidden={true}>CN</AvatarFallback>
+        </Avatar>
+        <Avatar
+          class="rounded-lg radcn-docs-avatar-rounded"
+          style="border-radius:var(--radcn-radius);"
+        >
+          <AvatarImage alt="@evilrabbit" src={avatarEvilrabbitSrc} />
+          <AvatarFallback ariaHidden={true}>ER</AvatarFallback>
+        </Avatar>
+        <AvatarGroup
+          ariaLabel="RadCN contributors"
+          class="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale"
+        >
+          <Avatar style="box-shadow:0 0 0 2px var(--radcn-background);">
+            <AvatarImage
+              alt="@shadcn"
+              class="grayscale radcn-docs-avatar-stack-image"
+              src={avatarShadcnSrc}
+              style="filter:grayscale(1);"
+            />
+            <AvatarFallback ariaHidden={true}>CN</AvatarFallback>
+          </Avatar>
+          <Avatar style="margin-left:-0.5rem;box-shadow:0 0 0 2px var(--radcn-background);">
+            <AvatarImage
+              alt="@maxleiter"
+              class="grayscale radcn-docs-avatar-stack-image"
+              src={avatarMaxleiterSrc}
+              style="filter:grayscale(1);"
+            />
+            <AvatarFallback ariaHidden={true}>LR</AvatarFallback>
+          </Avatar>
+          <Avatar style="margin-left:-0.5rem;box-shadow:0 0 0 2px var(--radcn-background);">
+            <AvatarImage
+              alt="@evilrabbit"
+              class="grayscale radcn-docs-avatar-stack-image"
+              src={avatarEvilrabbitSrc}
+              style="filter:grayscale(1);"
+            />
+            <AvatarFallback ariaHidden={true}>ER</AvatarFallback>
+          </Avatar>
+        </AvatarGroup>
+      </div>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        Remote GitHub avatar images are app-owned content; RadCN owns the
+        Avatar, Image, Fallback, and Group hooks plus class/style
+        customization.
+      </p>
+    </div>
+  )
+}
+
 function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
   return () => {
     let { slug, title } = handle.props
@@ -6375,6 +6505,52 @@ const richComponentDocs: ComponentDoc[] = [
       'data-slot="aspect-ratio" maps to data-radcn-aspect-ratio, and className maps to class.',
       'Tailwind rounded-lg, bg-muted, h-full, w-full, object-cover, dark:brightness-[0.2], and dark:grayscale utilities map to package CSS, class, style, CSS variables, and theme-scoped app CSS.',
       'Remote image loading remains app-owned; RadCN owns the ratio wrapper, not image optimization or hosting policy.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'avatar',
+    title: 'Avatar',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free avatar primitive for image-backed identities, fallbacks, badges, and stacked groups.',
+    importPath: 'radcn/avatar',
+    importExample:
+      "import { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from 'radcn/avatar'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'avatar-demo',
+        title: 'Avatar Demo',
+        description:
+          'Render the upstream Avatar demo with exact GitHub image URLs, alt text, fallbacks, rounded-square styling, and a stacked grayscale group.',
+        source: avatarDemoSource,
+        preview: <AvatarDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Meaningful image-backed avatars keep their accessible names on native img alt attributes.',
+      'Fallback initials remain in the DOM for visual backup and can be aria-hidden when an image alt already names the person.',
+      'AvatarGroup can receive an ariaLabel when the stacked set needs a group label in application context.',
+      'Avatar exposes data-radcn-avatar, AvatarImage exposes data-radcn-avatar-image, AvatarFallback exposes data-radcn-avatar-fallback, and AvatarGroup exposes data-radcn-avatar-group for stable tests and composition.',
+    ],
+    customization: [
+      'Default Avatar shape is circular through package CSS, matching the first upstream avatar.',
+      'The upstream rounded-lg Avatar maps to class plus style or CSS variables on the Avatar root; no package-specific shape prop is required.',
+      'Stacked negative spacing and ring treatment map to AvatarGroup package CSS and public class/style hooks.',
+      'Grayscale image treatment maps to app-owned class/style on AvatarImage, while image URLs, loading strategy, and hosting remain app-owned content.',
+      'Custom tokens remain available through package CSS variables such as --radcn-avatar-bg, --radcn-avatar-fg, --radcn-avatar-border, and --radcn-avatar-size.',
+    ],
+    divergence: [
+      'React client component markers and Radix Avatar primitives map to dependency-free native img and span/div markup.',
+      'data-slot="avatar", data-slot="avatar-image", and data-slot="avatar-fallback" map to data-radcn-avatar, data-radcn-avatar-image, and data-radcn-avatar-fallback.',
+      'data-size maps to RadCN data-size plus size classes, while className maps to class and cn maps to explicit class composition.',
+      'Tailwind flex, flex-row, flex-wrap, items-center, gap-12, rounded-lg, -space-x-2, ring, ring-background, and grayscale utilities map to RadCN package CSS, class, style, CSS variables, and docs/app CSS.',
+      'Remote GitHub avatar images are content choices and are tested by stable attributes rather than network image decoding.',
+      'AvatarBadge and AvatarGroupCount are package capabilities, but they are not required by the direct avatar-demo example.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

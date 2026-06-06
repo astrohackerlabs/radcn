@@ -2410,14 +2410,18 @@
   isolation: isolate;
 }
 
-.radcn-avatar-group > .radcn-avatar,
-.radcn-avatar-group > .radcn-avatar-group-count {
+.radcn-avatar-group .radcn-avatar,
+.radcn-avatar-group .radcn-avatar-group-count,
+.radcn-avatar-group [data-radcn-avatar],
+.radcn-avatar-group [data-radcn-avatar-group-count] {
   margin-left: -0.5rem;
   box-shadow: 0 0 0 2px var(--radcn-background);
 }
 
-.radcn-avatar-group > .radcn-avatar:first-child,
-.radcn-avatar-group > .radcn-avatar-group-count:first-child {
+.radcn-avatar-group .radcn-avatar:first-child,
+.radcn-avatar-group .radcn-avatar-group-count:first-child,
+.radcn-avatar-group [data-radcn-avatar]:first-child,
+.radcn-avatar-group [data-radcn-avatar-group-count]:first-child {
   margin-left: 0;
 }
 
