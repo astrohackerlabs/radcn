@@ -478,6 +478,25 @@ Record cross-component discoveries here as experiments complete.
   variables.
 - After Experiment 28, `carousel` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `chart` next.
+- Experiment 29 audited all 6 upstream component Chart examples and all 70
+  upstream chart gallery examples in `chart-example-inventory.md`. Chart parity
+  is not complete yet: RadCN currently covers accessible chart containers,
+  single-series vertical bars, single-series lines with points, static legends,
+  static tooltips, and custom tokens, but it does not yet cover upstream's full
+  bar examples, tooltip anatomy, grid/axis/tick behavior, multi-series
+  coordinate systems, horizontal/stacked/negative bars, area charts, pie/donut
+  charts, radar charts, radial charts, active states, formatter callbacks, or
+  interactive select/range examples.
+- Chart's stable mapping decision is that `recharts` remains out of the RadCN
+  package dependency graph for this issue. Recharts `ResponsiveContainer`,
+  chart family primitives, axes, grids, labels, legends, tooltips, active
+  indexes, formatter callbacks, React state/effects, lucide icons, Tailwind
+  utilities, and Card composition map to RadCN SVG primitives, CSS variables,
+  docs recipes, app-owned state/enhancement, app-owned glyphs, classes/styles,
+  and composed RadCN primitives rather than mandatory package dependencies.
+- After Experiment 29, the next recommended implementation cluster is Chart
+  component example parity depth, covering the six component examples first:
+  bar defaults, axes, grid, legend, tooltip, and standalone tooltip anatomy.
 
 ## Experiments
 
@@ -538,4 +557,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 28: Implement carousel example parity depth](28-implement-carousel-example-parity-depth.md)
   — **Pass**
 - [Experiment 29: Audit chart example parity](29-audit-chart-example-parity.md)
-  — **Designed**
+  — **Pass**
