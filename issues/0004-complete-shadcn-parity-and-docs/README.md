@@ -785,6 +785,18 @@ Record cross-component discoveries here as experiments complete.
   `resolved-clusters.json` records `checkbox` as resolved, and the regenerated
   parity inventory recommends auditing `date-picker` examples next. No
   Checkbox package API change was needed.
+- Experiment 55 audited Date Picker example parity in
+  `date-picker-example-inventory.md`. RadCN already has strong package,
+  fixture, and Playwright coverage for single selection, range selection,
+  preset selection, trigger label formatting, placeholder state, Popover/
+  Calendar coordination, two-month range display, hidden input submission,
+  form reset, disabled state, public hooks, and dependency-free enhancement.
+  The active upstream examples remain partially covered because docs,
+  candidate fixtures, and Playwright tests do not yet prove the three named
+  upstream example ids and exact compositions: `date-picker-demo`,
+  `date-picker-with-presets`, and `date-picker-with-range`. The next
+  experiment should implement those named examples without changing the Date
+  Picker package API unless a concrete package-level gap appears.
 
 ## Experiments
 
@@ -897,4 +909,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 54: Implement checkbox example parity depth](54-implement-checkbox-example-parity-depth.md)
   — **Pass**
 - [Experiment 55: Audit date-picker example parity](55-audit-date-picker-example-parity.md)
-  — **Designed**
+  — **Partial**

@@ -171,3 +171,116 @@ inventory reclassifies it, verification includes concrete row-count, README,
 `git diff --check`, status, and vendor checks, dependency policy is preserved
 for React, `date-fns`, `react-day-picker`, `lucide-react`, Tailwind, and vendor
 source, and the current diff is plan-only.
+
+## Result
+
+**Result:** Partial
+
+Created `date-picker-example-inventory.md` and audited all three active
+upstream Date Picker examples:
+
+- `date-picker-demo`
+- `date-picker-with-presets`
+- `date-picker-with-range`
+
+The audit found strong RadCN package and fixture coverage for Date Picker
+behavior: importable package API, single selection, range selection, preset
+selection, trigger label formatting, placeholder state, Popover and Calendar
+coordination, two-month range display, hidden native input submission, form
+reset, disabled trigger state, custom class/token hooks, public Date Picker/
+Popover/Calendar hooks, dependency-free enhancement, and Playwright behavior
+coverage.
+
+The example cluster remains partially covered because current docs, candidate
+fixtures, and Playwright tests do not yet prove the three named upstream
+example ids or exact user-facing compositions. `date-picker-demo` needs named
+single-picker proof, `date-picker-with-presets` needs named proof for the
+upstream preset labels and behavior, and `date-picker-with-range` needs named
+range proof with two visible months and formatted range label.
+
+No current evidence requires changing the `radcn/date-picker` package API.
+shadcn React state and `onSelect` map to RadCN explicit props and enhancement,
+`date-fns` maps to ISO values and deterministic package labels,
+`react-day-picker` range objects map to `YYYY-MM-DD..YYYY-MM-DD`, `className`
+maps to `class`, `asChild` maps to explicit package trigger composition, and
+`CalendarIcon`/`lucide-react`/Tailwind/fixed widths remain presentation or
+app-owned styling rather than package dependencies.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/date-picker-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'date-picker-demo',
+  'date-picker-with-presets',
+  'date-picker-with-range',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+
+rg -n "date-picker-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The deterministic inventory check reported each active Date Picker example id
+exactly once. `rg` found the README learning. `git diff --check` passed. Vendor
+status printed no output. `git status --short` showed only expected Issue 4
+documentation changes for the audit result.
+
+## Conclusion
+
+Date Picker example parity is not yet resolved. The next experiment should
+implement named Date Picker example parity depth across docs, candidate
+fixtures, and Playwright coverage for `date-picker-demo`,
+`date-picker-with-presets`, and `date-picker-with-range`, without changing the
+package API unless a direct blocker appears during implementation.
+
+## Completion Review
+
+Reviewer: Darwin the 2nd (`019e9c2c-62ed-7f51-9dce-d175d7399ade`) with fresh
+context (`fork_context: false`).
+
+Initial findings:
+
+- **Blocker:** The experiment recorded `**Result:** Pass` and the Issue 4
+  README marked Experiment 55 `Pass`, but the audit evidence and
+  `date-picker-example-inventory.md` rows show the Date Picker example cluster
+  remains partially covered.
+
+Fixes:
+
+- Changed the experiment result to `**Result:** Partial`.
+- Changed the Issue 4 README Experiment 55 status to `Partial`.
+- Preserved the conclusion and follow-up language that the next experiment
+  should implement named Date Picker example parity depth.
+
+Re-review findings:
+
+- Prior blocker resolved. The reviewer confirmed the experiment result and
+  README status now both say `Partial`, the follow-up language was preserved,
+  and no new blocker was introduced.
+
+Approval: Approved for result commit.
