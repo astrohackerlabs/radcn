@@ -1646,3 +1646,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 106: Audit progress example parity](106-audit-progress-example-parity.md)
   — **Partial**
+- [Experiment 107: Implement progress example parity depth](107-implement-progress-example-parity-depth.md)
+  — **Designed**
