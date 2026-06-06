@@ -836,6 +836,18 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Loading placeholder blocks.",
   },
   {
+    component: "skeleton",
+    id: "card",
+    title: "Skeleton Card",
+    description: "Named upstream card loading placeholder.",
+  },
+  {
+    component: "skeleton",
+    id: "demo",
+    title: "Skeleton Demo",
+    description: "Named upstream avatar and text loading row.",
+  },
+  {
     component: "spinner",
     id: "default",
     title: "Default Spinner",

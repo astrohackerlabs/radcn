@@ -593,7 +593,31 @@ export function renderSeparatorFixture() {
   )
 }
 
-export function renderSkeletonFixture() {
+export function renderSkeletonFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'card') {
+    return (
+      <div data-radcn-skeleton-card style="display:flex;flex-direction:column;gap:12px">
+        <Skeleton style="width:250px;height:125px;border-radius:12px" />
+        <div style="display:grid;gap:8px">
+          <Skeleton style="width:250px;height:16px" />
+          <Skeleton style="width:200px;height:16px" />
+        </div>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'demo') {
+    return (
+      <div data-radcn-skeleton-demo style="display:flex;align-items:center;gap:16px">
+        <Skeleton style="width:48px;height:48px;border-radius:999px" />
+        <div style="display:grid;gap:8px">
+          <Skeleton style="width:250px;height:16px" />
+          <Skeleton style="width:200px;height:16px" />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style="display:grid;gap:12px;width:320px">
       <Skeleton style="width:56px;height:56px;border-radius:999px" />

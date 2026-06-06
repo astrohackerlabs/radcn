@@ -1004,6 +1004,16 @@ Record cross-component discoveries here as experiments complete.
   avatar, and text-line dimensions/shapes. No package API change appears
   necessary; the next experiment should implement named docs examples,
   candidate fixture routes, and Playwright coverage for both upstream examples.
+- Experiment 76 resolved Skeleton example parity. Docs, candidate fixtures, and
+  Playwright now prove named `skeleton-card` and `skeleton-demo` examples with
+  exact media, avatar, and text-line dimensions, rounded-xl and rounded-full
+  shapes, `aria-hidden`, `data-radcn-skeleton`, pulse animation, public hooks,
+  and mapping copy. No Skeleton package API change was needed; fixed
+  dimensions, layout wrappers, Tailwind utilities, `className`, `data-slot`,
+  `cn`, React props, and vendor source remain app/docs mappings.
+  `skeleton-example-inventory.md` marks both rows `Covered`,
+  `resolved-clusters.json` records `skeleton` as resolved, and the regenerated
+  parity inventory recommends auditing `sonner` examples next.
 
 ## Experiments
 
@@ -1158,4 +1168,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 75: Audit skeleton example parity](75-audit-skeleton-example-parity.md)
   — **Partial**
 - [Experiment 76: Implement skeleton example parity depth](76-implement-skeleton-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

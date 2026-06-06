@@ -277,3 +277,91 @@ narrow and follows the Skeleton audit, verification has concrete pass/fail and
 hygiene checks, `git diff --check` passed, vendor checkouts are clean, no
 implementation files were changed before the plan commit, and no blockers
 remain.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Skeleton example parity for `skeleton-card` and
+`skeleton-demo`.
+
+The docs page now renders rich Skeleton examples with stable
+`data-radcn-docs-skeleton-family` hooks, exact upstream card media, avatar, and
+text-line dimensions, rounded-xl-equivalent media shape, rounded-full avatar
+shape, public `data-radcn-skeleton` hooks, `aria-hidden`, pulse animation
+evidence, source snippets, and mapping copy for React props, `className`,
+`data-slot`, Tailwind utilities, `cn`, fixed dimensions, layout wrappers,
+custom styles/classes/tokens, and vendor source.
+
+Candidate fixtures now expose `/fixtures/skeleton/card` and
+`/fixtures/skeleton/demo` while preserving `/fixtures/skeleton/default`.
+Fixture Playwright coverage proves exact dimensions, shapes, `aria-hidden`,
+`radcn-pulse`, and public hooks for the named examples while preserving the
+generic Skeleton behavior test.
+
+No `radcn/skeleton` package API change was needed. The package already owns the
+reusable placeholder behavior; card media, avatar circles, text lines, flex
+wrappers, and fixed dimensions remain app/docs composition.
+
+`skeleton-example-inventory.md` now marks both upstream Skeleton rows
+`Covered`, `resolved-clusters.json` records `skeleton` as resolved, and
+`parity-inventory.md` now recommends example parity for `sonner` next.
+
+Verification:
+
+- `pnpm radcn:typecheck` — pass.
+- `pnpm --dir radcn/apps/docs typecheck` — pass.
+- `pnpm fixtures:candidate:typecheck` — pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`
+  — pass, 11 passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  — pass, 5 passed.
+- `node scripts/audit-shadcn-parity.mjs` — pass; regenerated
+  `parity-inventory.md`.
+- Skeleton inventory deterministic check — pass; `skeleton-card` and
+  `skeleton-demo` each appear once and are `Covered`.
+- Resolved-cluster deterministic check — pass; `skeleton` has status
+  `resolved` and evidence for Experiment 75, Experiment 76, and
+  `skeleton-example-inventory.md`.
+- Parity recommendation check — pass; `skeleton` is absent from unresolved
+  example clusters and the first recommended cluster is `sonner`.
+- Forbidden import check — pass; checked 135 TypeScript/JavaScript files under
+  package, docs, and candidate fixture roots.
+- Manifest dependency check — pass; checked 4 manifests and found no forbidden
+  React, Tailwind, class-variance-authority, or vendor dependencies.
+- `git diff --exit-code -- pnpm-lock.yaml` — pass; lockfile unchanged.
+- `git diff --check` — pass.
+- Vendor cleanliness loop for `vendor/shadcn-ui`, `vendor/remix`, and
+  `vendor/react-router` — pass; no output.
+
+Known warnings: Playwright web servers still print the existing Node
+`module.register()` deprecation warning and the existing `NO_COLOR` /
+`FORCE_COLOR` warning. These warnings were present before this experiment and
+did not affect the pass/fail result.
+
+## Conclusion
+
+Skeleton example parity is resolved. The reusable package surface did not need
+to grow; exact loading shapes and dimensions are example-owned composition
+using the existing `Skeleton` primitive. The next Issue 4 experiment should
+audit upstream `sonner` examples, which is the regenerated parity inventory's
+first recommendation.
+
+## Completion Review
+
+Reviewer: Ptolemy the 2nd (`019e9d1c-e8cf-72a1-8ee2-1b55d3151d20`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the implementation matches
+Experiment 76 scope, docs and fixtures provide named Skeleton evidence,
+Playwright assertions cover both upstream examples, inventory and
+resolved-cluster evidence are present, no package API or dependency changes
+were added, verification passed, `git diff --check` passed, vendor checkouts
+are clean, no ignored vendor source is staged or committed, and the result
+commit had not been made before review.

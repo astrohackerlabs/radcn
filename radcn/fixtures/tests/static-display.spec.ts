@@ -2,6 +2,17 @@ import { expect, test } from '@playwright/test'
 
 const candidate = 'http://localhost:4602'
 
+async function expectSkeletonBlock(
+  locator: import('@playwright/test').Locator,
+  width: string,
+  height: string,
+) {
+  await expect(locator).toHaveAttribute('aria-hidden', 'true')
+  await expect(locator).toHaveCSS('animation-name', 'radcn-pulse')
+  await expect(locator).toHaveCSS('width', width)
+  await expect(locator).toHaveCSS('height', height)
+}
+
 test('candidate alert exposes role variant and custom token hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/alert/demo`)
   await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert]')).toHaveCount(3)
@@ -272,6 +283,24 @@ test('candidate separator spinner and skeleton expose expected semantics', async
   let skeleton = page.locator('[data-radcn-skeleton]').first()
   await expect(skeleton).toHaveAttribute('aria-hidden', 'true')
   await expect(skeleton).toHaveCSS('animation-name', 'radcn-pulse')
+})
+
+test('candidate skeleton covers named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/skeleton/card`)
+  let card = page.locator('[data-radcn-skeleton-card]')
+  await expect(card.locator('[data-radcn-skeleton]')).toHaveCount(3)
+  await expectSkeletonBlock(card.locator('[data-radcn-skeleton]').nth(0), '250px', '125px')
+  await expect(card.locator('[data-radcn-skeleton]').nth(0)).toHaveCSS('border-radius', '12px')
+  await expectSkeletonBlock(card.locator('[data-radcn-skeleton]').nth(1), '250px', '16px')
+  await expectSkeletonBlock(card.locator('[data-radcn-skeleton]').nth(2), '200px', '16px')
+
+  await page.goto(`${candidate}/fixtures/skeleton/demo`)
+  let demo = page.locator('[data-radcn-skeleton-demo]')
+  await expect(demo.locator('[data-radcn-skeleton]')).toHaveCount(3)
+  await expectSkeletonBlock(demo.locator('[data-radcn-skeleton]').nth(0), '48px', '48px')
+  await expect(demo.locator('[data-radcn-skeleton]').nth(0)).toHaveCSS('border-radius', '999px')
+  await expectSkeletonBlock(demo.locator('[data-radcn-skeleton]').nth(1), '250px', '16px')
+  await expectSkeletonBlock(demo.locator('[data-radcn-skeleton]').nth(2), '200px', '16px')
 })
 
 test('candidate spinner covers shadcn example parity depth', async ({ page }) => {

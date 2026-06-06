@@ -157,7 +157,7 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
     case 'sidebar':
       return renderSidebarFixture(fixture)
     case 'skeleton':
-      return renderSkeletonFixture()
+      return renderSkeletonFixture(fixture)
     case 'slider':
       return renderSliderFixture(fixture)
     case 'sonner':

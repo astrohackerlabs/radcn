@@ -4263,6 +4263,52 @@ function SheetProfileFields({ prefix }: { prefix: string }) {
   )
 }
 
+const skeletonSource = `import { Skeleton } from 'radcn/skeleton'
+
+export function SkeletonPreview() {
+  return (
+    <>
+      <div style="display:flex;flex-direction:column;gap:0.75rem;">
+        <Skeleton style="height:125px;width:250px;border-radius:0.75rem;" />
+        <div style="display:grid;gap:0.5rem;">
+          <Skeleton style="height:1rem;width:250px;" />
+          <Skeleton style="height:1rem;width:200px;" />
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <Skeleton style="height:48px;width:48px;border-radius:999px;" />
+        <div style="display:grid;gap:0.5rem;">
+          <Skeleton style="height:1rem;width:250px;" />
+          <Skeleton style="height:1rem;width:200px;" />
+        </div>
+      </div>
+    </>
+  )
+}`
+
+function SkeletonPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-skeleton-family="skeleton-card" style="display:flex;flex-direction:column;gap:0.75rem;">
+        <Skeleton class="radcn-docs-skeleton-card-media" style="height:125px;width:250px;border-radius:0.75rem;" />
+        <div data-radcn-docs-skeleton-card-lines style="display:grid;gap:0.5rem;">
+          <Skeleton style="height:1rem;width:250px;" />
+          <Skeleton style="height:1rem;width:200px;" />
+        </div>
+      </div>
+
+      <div data-radcn-docs-skeleton-family="skeleton-demo" style="display:flex;align-items:center;gap:1rem;">
+        <Skeleton class="radcn-docs-skeleton-demo-avatar" style="height:48px;width:48px;border-radius:999px;" />
+        <div data-radcn-docs-skeleton-demo-lines style="display:grid;gap:0.5rem;">
+          <Skeleton style="height:1rem;width:250px;" />
+          <Skeleton style="height:1rem;width:200px;" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function SheetPreview() {
   return () => (
     <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
@@ -6175,6 +6221,48 @@ const richComponentDocs: ComponentDoc[] = [
       'asChild maps to explicit SheetTrigger and SheetClose composition with RadCN Button styling instead of React Slot behavior.',
       'SHEET_SIDES, React keys, and repeated rendering map to deterministic server-rendered markup with valid unique ids.',
       'Form submit actions, profile persistence, and input state remain app-owned; Sheet owns the modal surface and close behavior.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'skeleton',
+    title: 'Skeleton',
+    category: 'Feedback',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free loading placeholder primitive with hidden semantics, pulse animation, and app-owned dimensions and shapes.',
+    importPath: 'radcn/skeleton',
+    importExample: "import { Skeleton } from 'radcn/skeleton'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'skeleton-card-and-demo',
+        title: 'Card and Demo',
+        description:
+          'Render the upstream card loading placeholder and avatar/list loading row with exact dimensions and shapes.',
+        source: skeletonSource,
+        preview: <SkeletonPreview />,
+      },
+    ],
+    accessibility: [
+      'Skeleton renders aria-hidden="true" because it is decorative loading affordance, not readable content.',
+      'Loading status text should be supplied by the surrounding application when users need an announced status.',
+      'The primitive emits data-radcn-skeleton so apps and tests can identify placeholders without relying on DOM shape.',
+      'Pulse animation is visual only; content structure and loading announcements remain app-owned.',
+    ],
+    customization: [
+      'Skeleton exposes data-radcn-skeleton plus class and style for exact width, height, border radius, and layout composition.',
+      'Card media, avatar circles, and text lines are app-owned uses of the same Skeleton primitive.',
+      'Use CSS variables such as --radcn-skeleton-bg or ordinary app CSS to adjust placeholder color.',
+      'Flex, grid, spacing, fixed dimensions, rounded-full, and rounded-xl wrappers belong to examples or app markup.',
+    ],
+    divergence: [
+      'React props, className, data-slot, Tailwind utilities, cn, and vendor source map to explicit RadCN props, class, public data hooks, package CSS, inline style, and CSS variables.',
+      'data-slot="skeleton" maps to data-radcn-skeleton.',
+      'The package does not add card, avatar, text-line, flex, or spacing-specific APIs; those are composition details.',
+      'Fixed dimensions and rounded shapes remain app-owned style choices rather than Skeleton package dependencies.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
