@@ -910,3 +910,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 55: Audit date-picker example parity](55-audit-date-picker-example-parity.md)
   — **Partial**
+- [Experiment 56: Implement date-picker example parity depth](56-implement-date-picker-example-parity-depth.md)
+  — **Designed**
