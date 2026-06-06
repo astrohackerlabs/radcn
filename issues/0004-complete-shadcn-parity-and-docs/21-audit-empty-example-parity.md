@@ -143,3 +143,122 @@ concrete pass/fail checks, includes repo hygiene and vendor cleanliness checks,
 and explicitly prevents treating `asChild`, icon packages, Tailwind utilities,
 remote GitHub images, vendor imports, or npm publishing as required RadCN
 dependencies.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md` as an
+audit-only inventory for all 7 upstream Empty examples: `empty-avatar`,
+`empty-avatar-group`, `empty-background`, `empty-demo`, `empty-icon`,
+`empty-input-group`, and `empty-outline`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `empty` resolved,
+because the examples need package/docs/fixture/test depth beyond the current
+primitive coverage.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['empty-avatar','empty-avatar-group','empty-background','empty-demo','empty-icon','empty-input-group','empty-outline']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+empty-avatar: 1
+empty-avatar-group: 1
+empty-background: 1
+empty-demo: 1
+empty-icon: 1
+empty-input-group: 1
+empty-outline: 1
+```
+
+```text
+rg -n "default Empty|multiple action|link-style|icon grid|Avatar|AvatarGroup|InputGroup|Kbd|outline|dashed|muted|background|Button|asChild|lucide|Tabler|Tailwind|remote GitHub|local/static|Playwright" issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: default multi-action Empty composition, icon grids, Avatar media,
+stacked Avatar media, InputGroup search composition, Kbd addon composition,
+outline/dashed styling, muted/background styling, Button composition,
+link-style actions, shadcn `asChild`, lucide icons, Tabler icons, Tailwind
+utilities, remote GitHub avatar images, local/static/app-owned image mapping,
+and current RadCN package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "empty-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:363:  `empty-example-inventory.md`. Empty example parity is not complete yet: RadCN
+```
+
+`git diff --check` passed with no output. Before result recording,
+`git status --short` showed only the expected issue documentation changes:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md
+```
+
+After result recording, the current pre-review status was:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/21-audit-empty-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md
+```
+
+The vendor cleanliness check printed no output.
+
+## Conclusion
+
+Empty example parity is not complete yet. RadCN has the core Empty parts and
+basic fixture coverage, but the docs and fixtures need broader example proof
+for the full upstream Empty surface. The next experiment should implement Empty
+example parity depth without adding React `asChild`, lucide, Tabler, Tailwind,
+remote GitHub image, vendor, or npm publishing dependencies.
+
+## Completion Review
+
+Reviewer: Godel (`019e9ad1-e61a-7782-9b4e-07abe22af281`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Godel confirmed the experiment file has `## Result`
+and `## Conclusion`; the Issue 4 README marks Experiment 21 as `Pass` and
+records the learning plus next Empty cluster; the inventory has exactly one
+table row for each of the 7 upstream Empty ids; the upstream registry lists the
+same 7 Empty examples; `git diff --check` passed; vendor cleanliness printed no
+output; current `git status --short` shows only issue documentation changes and
+the new inventory file; no package/docs app/fixture/test source files changed;
+and the result commit had not been made before review.

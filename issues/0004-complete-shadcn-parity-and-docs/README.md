@@ -359,6 +359,20 @@ Record cross-component discoveries here as experiments complete.
   app code rather than Spinner.
 - After Experiment 20, `spinner` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `empty` next.
+- Experiment 21 audited all 7 upstream Empty examples in
+  `empty-example-inventory.md`. Empty example parity is not complete yet: RadCN
+  has the base package slots, default media proof, icon media proof, and one
+  Spinner loading composition, but it needs broader docs/fixture/Playwright
+  coverage for multi-action default states, icon grids, Avatar media, stacked
+  Avatar media, InputGroup/Kbd search composition, support links,
+  outline/dashed styling, and muted/background styling.
+- Empty remains a layout/content primitive. shadcn `asChild`, lucide icons,
+  Tabler icons, Tailwind utility classes, and remote GitHub avatar images
+  should map to explicit RadCN link/Button APIs, app-owned glyphs/assets,
+  public classes/styles/CSS variables, and local/static/app-owned images rather
+  than package dependencies.
+- After Experiment 21, the next recommended implementation cluster is Empty
+  example parity depth.
 
 ## Experiments
 
@@ -403,4 +417,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 20: Implement spinner example parity depth](20-implement-spinner-example-parity-depth.md)
   — **Pass**
 - [Experiment 21: Audit empty example parity](21-audit-empty-example-parity.md)
-  — **Designed**
+  — **Pass**
