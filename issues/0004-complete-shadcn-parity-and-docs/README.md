@@ -8,9 +8,15 @@ opened = "2026-06-05"
 ## Goal
 
 Complete RadCN's shadcn/ui parity for Remix 3: every shadcn component, helper,
-recipe, block, and meaningful example should either exist in RadCN with
-equivalent user-facing functionality or be explicitly documented as not
-applicable to Remix 3 with a defensible reason.
+recipe, and meaningful primitive/component example should either exist in
+RadCN with equivalent user-facing functionality or be explicitly documented as
+not applicable to Remix 3 with a defensible reason.
+
+Upstream shadcn blocks and chart-gallery examples are no longer in scope for
+this issue. If RadCN already added block or chart-gallery surfaces for this
+issue, a later cleanup experiment must remove them from the project. The
+ordinary `radcn/chart` package component remains in scope as a retained
+component surface.
 
 The documentation website should become the proof surface for that parity. It
 must show the completed RadCN APIs, explain Remix 3 divergences, and keep
@@ -33,10 +39,12 @@ Primary local references:
 
 - `vendor/shadcn-ui/apps/v4/registry/new-york-v4/ui/` — shadcn/ui v4 component
   source of truth for the New York style.
-- `vendor/shadcn-ui/apps/v4/registry/new-york-v4/blocks/` — shadcn blocks that
-  may map to RadCN blocks, recipes, or docs-only examples.
-- `vendor/shadcn-ui/apps/v4/registry/new-york-v4/charts/` — chart examples and
-  variants that may exceed the current RadCN `chart` primitive.
+- `vendor/shadcn-ui/apps/v4/registry/new-york-v4/blocks/` — out-of-scope
+  shadcn block references. Use only to identify and remove any already-added
+  RadCN block work from this issue.
+- `vendor/shadcn-ui/apps/v4/registry/new-york-v4/charts/` — out-of-scope
+  chart-gallery references. Use only to distinguish chart-gallery work from
+  the retained `radcn/chart` package component.
 - `vendor/shadcn-ui/apps/v4/registry.json` and registry index files — metadata
   for the upstream registry surface.
 - `radcn/packages/radcn/` — current RadCN package exports and implementation.
@@ -54,11 +62,12 @@ Vendor checkouts are references only. Do not make RadCN code depend on
 This issue includes:
 
 - auditing the complete current vendored shadcn/ui v4 registry surface;
-- comparing shadcn components, helpers, blocks, recipes, and examples against
+- comparing shadcn components, helpers, recipes, and primitive/component
+  examples against
   RadCN package exports and docs pages;
 - implementing missing RadCN package APIs where a reusable package surface makes
   sense for Remix 3;
-- implementing recipe/block documentation where a package export does not make
+- implementing recipe documentation where a package export does not make
   sense;
 - completing the currently missing `form`, `date-picker`, and `data-table`
   outcomes;
@@ -73,6 +82,8 @@ This issue does not include:
 
 - publishing RadCN to npm;
 - making external `pnpm add radcn` installation work;
+- implementing or retaining shadcn blocks;
+- implementing or retaining shadcn chart-gallery examples;
 - replacing Remix 3 web-first APIs with React-only shadcn implementation
   details;
 - treating DOM equivalence as required when visual behavior, accessibility, and
@@ -88,8 +99,9 @@ For each upstream shadcn surface, experiments should decide:
 - **Helper:** package utility or event API, such as toast helpers.
 - **Recipe:** documented composition of RadCN primitives, not necessarily a new
   package export.
-- **Block:** larger application pattern that belongs in docs and examples, and
-  may later become copyable/generated code.
+- **Out of scope:** upstream blocks and chart-gallery examples. They are not
+  RadCN parity deliverables for this issue; if any were already added for Issue
+  4, remove them from the project.
 - **Not applicable:** intentionally omitted because the shadcn behavior depends
   on React-only semantics or a product assumption that does not fit Remix 3.
 
@@ -99,10 +111,11 @@ current RadCN export map, then identify the first coherent implementation
 cluster. Later experiments should implement one coherent cluster at a time and
 record discoveries needed by later clusters in `## Learnings`.
 
-The docs website remains the public verification surface. When a component or
-block becomes complete, its docs page should render a real RadCN example,
-include representative source, describe installation/import intent, and explain
-accessibility, customization, and Remix 3 divergence details.
+The docs website remains the public verification surface. When a retained
+component, helper, recipe, or primitive/component example becomes complete, its
+docs page should render a real RadCN example, include representative source,
+describe installation/import intent, and explain accessibility, customization,
+and Remix 3 divergence details.
 
 Installation instructions must stay aspirational while RadCN is private and not
 published to npm. Docs may show the intended future command, but they must not
@@ -114,13 +127,17 @@ This issue is complete when:
 
 - the vendored shadcn/ui v4 registry has been audited and mapped to RadCN
   outcomes;
-- every shadcn component/helper/recipe/block has a RadCN outcome: shipped
-  package API, docs recipe/block, or documented not-applicable divergence;
+- every in-scope shadcn component/helper/recipe/example has a RadCN outcome:
+  shipped package API, docs recipe, covered example parity, or documented
+  not-applicable divergence;
+- upstream blocks and chart-gallery examples are excluded from the completion
+  queue, and any block/chart-gallery work already added for Issue 4 has been
+  removed from the project;
 - `form`, `date-picker`, and `data-table` are no longer unexplained gaps;
 - all implemented RadCN package surfaces have package exports, TypeScript
   coverage, docs pages, live docs examples, and Playwright coverage where
   rendered behavior matters;
-- docs clearly identify recipes/blocks that are not package imports;
+- docs clearly identify recipes that are not package imports;
 - docs installation copy remains aspirational and says RadCN is not published to
   npm yet;
 - no RadCN package or app code depends on `vendor/`;
@@ -138,6 +155,11 @@ Record cross-component discoveries here as experiments complete.
   time, the vendored shadcn/ui v4 New York registry had 57 UI items, 244
   examples, 27 blocks, and 70 chart examples, while RadCN had 57 public package
   subpaths and 60 docs routes.
+- Scope revision: upstream shadcn blocks and chart-gallery examples are no
+  longer Issue 4 deliverables. Retain all other components, helpers, recipes,
+  and primitive/component examples, including the `radcn/chart` package
+  component. Any block or chart-gallery work already added for Issue 4 should
+  be removed from the project before closing the issue.
 - `form` is the only upstream shadcn `ui/` item that is not a current RadCN
   package export. It is documented today as a docs-only gap.
 - `date-picker` and `data-table` are not upstream `ui/` package components in
@@ -1375,6 +1397,18 @@ Record cross-component discoveries here as experiments complete.
   href sequence, while existing `active` and `custom-labels` scenarios preserve
   modifiability evidence. `pagination` is resolved in the example queue; the
   next generated recommendation is example parity for `popover`.
+- Experiment 104 audited direct Popover example parity in
+  `popover-example-inventory.md`. RadCN already has strong Popover package and
+  behavior substrate: root/trigger/anchor/portal/content/close/header/title/
+  description exports, explicit portal composition, align and sideOffset props,
+  default-open state, non-modal click behavior, outside dismissal, Escape close,
+  focus movement, placement/anchor behavior, custom-token hooks, generic docs,
+  candidate fixtures, and Playwright coverage. The direct example remains
+  partial because no named docs/fixture/test surface proves the exact upstream
+  `popover-demo` dimensions form (`Open popover`, `Dimensions`,
+  `Set the dimensions for the layer.`, four labelled inputs, and default
+  values). The next experiment should implement named `popover-demo` docs,
+  candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1585,4 +1619,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 103: Implement pagination example parity depth](103-implement-pagination-example-parity-depth.md)
   — **Pass**
 - [Experiment 104: Audit popover example parity](104-audit-popover-example-parity.md)
-  — **Designed**
+  — **Partial**

@@ -252,7 +252,11 @@ parity decision.
 | tabs | 1 | `tabs-demo` |
 | tooltip | 1 | `tooltip-demo` |
 
-## Upstream Blocks Queue
+## Out-of-Scope Upstream Blocks Queue
+
+Blocks are not Issue 4 deliverables after the scope revision. This queue is
+kept only as historical/reference data and to identify any already-added block
+work that should be removed from the project before closing the issue.
 
 | Block | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -284,7 +288,9 @@ parity decision.
 | signup-04 | `authentication`, `signup` | `button`, `card`, `field`, `input`, `label` |
 | signup-05 | `authentication`, `signup` | `button`, `input`, `label` |
 
-## Unresolved Block Clusters
+## Out-of-Scope Block Clusters
+
+Blocks are intentionally excluded from the Issue 4 completion queue.
 
 | Block | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -316,7 +322,11 @@ parity decision.
 | signup-04 | `authentication`, `signup` | `button`, `card`, `field`, `input`, `label` |
 | signup-05 | `authentication`, `signup` | `button`, `input`, `label` |
 
-## Upstream Chart Examples Queue
+## Out-of-Scope Chart Examples Queue
+
+Chart-gallery examples are not Issue 4 deliverables after the scope revision.
+The retained `radcn/chart` package component remains in scope, but upstream
+chart-gallery parity is excluded.
 
 | Chart example | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -391,7 +401,10 @@ parity decision.
 | chart-tooltip-label-formatter | `charts`, `charts-tooltip` | `card`, `chart` |
 | chart-tooltip-label-none | `charts`, `charts-tooltip` | `card`, `chart` |
 
-## Unresolved Chart Clusters
+## Out-of-Scope Chart Clusters
+
+Chart-gallery examples are intentionally excluded from the Issue 4 completion
+queue.
 
 | Chart example | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -482,4 +495,3 @@ Expected next experiment:
 - `vendor/` is used only as a reference source for this audit.
 - Parity means equivalent user-facing behavior, accessibility, visual
   modifiability, and documentation, not literal React or DOM equivalence.
-

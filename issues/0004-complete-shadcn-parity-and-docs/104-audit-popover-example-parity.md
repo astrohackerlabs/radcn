@@ -233,3 +233,42 @@ regenerated Popover recommendation.
 Re-review approved. The reviewer confirmed the tracked-vendor/lockfile checks
 resolve the prior major finding, the non-covered follow-up wording now matches
 the verification check, and no new blockers were introduced.
+
+## Result
+
+**Result:** Partial
+
+Experiment 104 added `popover-example-inventory.md` and audited the single
+direct upstream Popover example cluster, `popover-demo`.
+
+The audit found that RadCN already has strong Popover package and behavior
+substrate: dependency-free root/trigger/anchor/portal/content/close/header/
+title/description exports, explicit portal composition, align and sideOffset
+props, default-open state, non-modal click behavior, outside dismissal, Escape
+close, focus movement, placement and anchor behavior, custom-token hooks,
+generic docs, candidate fixtures, and Playwright coverage.
+
+The direct example remains partial because current docs and tests do not prove
+a named upstream dimensions form. Existing fixtures render generic deployment
+status content and behavior scenarios, not the exact upstream `Open popover`,
+`Dimensions`, `Set the dimensions for the layer.`, four labelled inputs, and
+default values.
+
+Verification passed:
+
+```text
+deterministic popover registry/file/inventory count check
+deterministic popover outcome/follow-up check
+rg -n "Experiment 104|popover-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+tracked vendor source check
+vendor cleanliness check
+```
+
+## Conclusion
+
+The direct Popover example cluster needs a named implementation experiment. The
+next Issue 4 experiment should implement `popover-demo` in the docs and
+candidate fixture/test surface, add exact Playwright coverage, and document the
+React/Radix/`asChild`/Button/Input/Label/Tailwind/`cn`/`data-slot` mappings.
