@@ -349,6 +349,7 @@ const forceVisiblePreviewStyle = css({
   },
   '& [data-radcn-dialog-content][hidden]': {
     color: 'var(--radcn-foreground) !important',
+    display: 'grid !important',
     left: 'auto !important',
     opacity: '1 !important',
     position: 'static !important',
@@ -1268,30 +1269,72 @@ const dialogSource = `import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
   DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from 'radcn/dialog'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
 
 export function DialogPreview() {
   return (
-    <Dialog defaultOpen id="docs-dialog-preview">
-      <DialogTrigger>Open dialog</DialogTrigger>
-      <DialogPortal>
-        <DialogContent showCloseButton={false}>
+    <>
+      <Dialog defaultOpen={true} id="profile-dialog">
+        <DialogTrigger class="radcn-button radcn-button--outline">
+          Open Dialog
+        </DialogTrigger>
+        <DialogPortal>
+          <DialogOverlay />
+          <DialogContent class="radcn-docs-dialog-demo-content" style="width:min(100%,425px);">
+            <form method="post">
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you're done.
+                </DialogDescription>
+              </DialogHeader>
+              <div style="display:grid;gap:1rem;">
+                <Label for="name-1">Name</Label>
+                <Input id="name-1" name="name" value="Pedro Duarte" />
+                <Label for="username-1">Username</Label>
+                <Input id="username-1" name="username" value="@peduarte" />
+              </div>
+              <DialogFooter>
+                <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+                <button class="radcn-button radcn-button--default" type="submit">
+                  Save changes
+                </button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </DialogPortal>
+      </Dialog>
+
+      <Dialog defaultOpen={true} id="share-dialog">
+        <DialogTrigger class="radcn-button radcn-button--outline">Share</DialogTrigger>
+        <DialogPortal>
+          <DialogOverlay />
+          <DialogContent class="radcn-docs-dialog-close-button-content" style="width:min(100%,448px);">
           <DialogHeader>
-            <DialogTitle>Publish component docs?</DialogTitle>
+            <DialogTitle>Share link</DialogTitle>
             <DialogDescription>
-              This server-rendered dialog markup is ready for RadCN enhancement.
+              Anyone who has this link will be able to view this.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
-            <DialogClose>Cancel</DialogClose>
-            <button type="button">Publish</button>
+            <Label class="radcn-sr-only" for="share-link">Link</Label>
+            <Input
+              id="share-link"
+              readOnly
+              value="https://ui.shadcn.com/docs/installation"
+            />
+          <DialogFooter class="radcn-docs-dialog-footer-start" style="justify-content:flex-start;">
+            <DialogClose class="radcn-button radcn-button--secondary">Close</DialogClose>
           </DialogFooter>
         </DialogContent>
       </DialogPortal>
     </Dialog>
+    </>
   )
 }`
 
@@ -3552,26 +3595,60 @@ function DataTablePreview() {
 function DialogPreview() {
   return () => (
     <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
-      <Dialog id="docs-dialog-preview">
-        <DialogTrigger>Open dialog</DialogTrigger>
-      </Dialog>
-      <DialogContent
-        showCloseButton={false}
-        style="width: min(100%, 28rem);"
-      >
-        <DialogHeader>
-          <DialogTitle>Publish component docs?</DialogTitle>
-          <DialogDescription>
-            This server-rendered dialog markup is ready for RadCN enhancement.
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <DialogClose style="position: static; width: auto; height: auto; padding: 0.5rem 1rem;">
-            Cancel
-          </DialogClose>
-          <Button>Publish</Button>
-        </DialogFooter>
-      </DialogContent>
+      <div data-radcn-docs-dialog-family="dialog-demo">
+        <Dialog defaultOpen={true} id="docs-dialog-demo">
+          <DialogTrigger class="radcn-button radcn-button--outline">Open Dialog</DialogTrigger>
+          <DialogPortal>
+            <DialogOverlay />
+            <DialogContent class="radcn-docs-dialog-demo-content" style="width:min(100%,425px);">
+              <form action="/docs/components/dialog" method="post" data-radcn-docs-dialog-form="profile">
+                <DialogHeader>
+                  <DialogTitle>Edit profile</DialogTitle>
+                  <DialogDescription>Make changes to your profile here. Click save when you're done.</DialogDescription>
+                </DialogHeader>
+                <div style="display:grid;gap:1rem;">
+                  <div style="display:grid;gap:0.5rem;">
+                    <Label for="docs-dialog-name">Name</Label>
+                    <Input id="docs-dialog-name" name="name" value="Pedro Duarte" />
+                  </div>
+                  <div style="display:grid;gap:0.5rem;">
+                    <Label for="docs-dialog-username">Username</Label>
+                    <Input id="docs-dialog-username" name="username" value="@peduarte" />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+                  <Button type="submit">Save changes</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </DialogPortal>
+        </Dialog>
+      </div>
+
+      <div data-radcn-docs-dialog-family="dialog-close-button">
+        <Dialog defaultOpen={true} id="docs-dialog-close-button">
+          <DialogTrigger class="radcn-button radcn-button--outline">Share</DialogTrigger>
+          <DialogPortal>
+            <DialogOverlay />
+            <DialogContent class="radcn-docs-dialog-close-button-content" style="width:min(100%,448px);">
+              <DialogHeader>
+                <DialogTitle>Share link</DialogTitle>
+                <DialogDescription>Anyone who has this link will be able to view this.</DialogDescription>
+              </DialogHeader>
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                <div style="display:grid;flex:1;gap:0.5rem;">
+                  <Label class="radcn-sr-only" for="docs-dialog-share-link">Link</Label>
+                  <Input id="docs-dialog-share-link" readOnly value="https://ui.shadcn.com/docs/installation" />
+                </div>
+              </div>
+              <DialogFooter class="radcn-docs-dialog-footer-start" style="justify-content:flex-start;">
+                <DialogClose class="radcn-button radcn-button--secondary">Close</DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </DialogPortal>
+        </Dialog>
+      </div>
     </div>
   )
 }
@@ -6047,10 +6124,10 @@ const richComponentDocs: ComponentDoc[] = [
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'open-preview',
-        title: 'Open Preview',
+        slug: 'dialog-demo-and-close-button',
+        title: 'Demo and Close Button',
         description:
-          'The docs render the package dialog parts in an open static preview while browser enhancement owns runtime focus behavior.',
+          'Render the upstream edit-profile Dialog and share-link Dialog examples with native form, labelled inputs, read-only link input, and explicit close actions.',
         source: dialogSource,
         preview: <DialogPreview />,
       },
@@ -6063,10 +6140,16 @@ const richComponentDocs: ComponentDoc[] = [
     customization: [
       'Overlay, content, header, footer, title, description, trigger, and close parts all expose RadCN classes and data hooks.',
       'Use CSS variables and part classes to tune surface, shadow, radius, and spacing without replacing the primitive.',
+      'DialogTrigger and DialogClose are native buttons, so shadcn asChild Button composition maps to Button classes or app-owned styling on the Dialog part.',
+      'Input, Label, Button, native form shells, sr-only labels, read-only fields, and share-link presentation remain composed surfaces outside Dialog.',
     ],
     divergence: [
       'RadCN separates server markup from browser enhancement through enhanceDialog instead of depending on React state.',
-      'The docs preview pins the dialog content into the page so users can inspect styling without opening a real modal.',
+      'React open/onOpenChange, Radix DialogPrimitive, className, data-slot, cn, Tailwind utilities, XIcon, and lucide-react are upstream implementation details rather than RadCN Dialog dependencies.',
+      'DialogFooter showCloseButton is an upstream convenience API that the active examples do not use; RadCN composes explicit DialogClose actions in the footer.',
+      'The share-link example displays a read-only URL only. RadCN does not add copy-to-clipboard behavior for this row.',
+      'The docs preview keeps hidden dialog content inspectable so users can review styling; isolated fixture tests prove runtime focus and dismissal behavior.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

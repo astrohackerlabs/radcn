@@ -904,11 +904,16 @@ Record cross-component discoveries here as experiments complete.
   `dialog-close-button` upstream compositions: edit-profile form copy/default
   values/footer actions and share-link sr-only label/read-only input/secondary
   close action.
-- Experiment 66 should resolve Dialog example parity by adding named docs,
-  candidate fixtures, and Playwright coverage for `dialog-demo` and
-  `dialog-close-button`. The audit found no necessary Dialog package API
-  change; React, Radix, `asChild`, Tailwind, `cn`, `lucide-react`, clipboard,
-  form-state, and vendor dependencies remain out of scope.
+- Experiment 66 resolved Dialog example parity. Docs, candidate fixtures, and
+  Playwright now prove named `dialog-demo` and `dialog-close-button` examples
+  with exact upstream copy, edit-profile form composition, labelled/default
+  inputs, share-link sr-only label/read-only input, footer actions, sizing and
+  alignment evidence, public hooks, and mapping copy. The implementation found
+  and fixed a package styling gap by adding `radcn-dialog-close--icon` for the
+  generated default close button, so footer `DialogClose` actions are no longer
+  positioned as top-right icon closes. `dialog-example-inventory.md` marks both
+  rows `Covered`, `resolved-clusters.json` records `dialog` as resolved, and
+  the regenerated parity inventory recommends example parity for `drawer` next.
 
 ## Experiments
 
@@ -1043,4 +1048,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 65: Audit dialog example parity](65-audit-dialog-example-parity.md)
   — **Partial**
 - [Experiment 66: Implement dialog example parity depth](66-implement-dialog-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

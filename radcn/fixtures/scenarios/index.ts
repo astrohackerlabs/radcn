@@ -1797,6 +1797,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "dialog",
+    id: "demo",
+    title: "Dialog Demo",
+    description: "Named upstream dialog-demo parity with edit-profile form composition.",
+  },
+  {
+    component: "dialog",
+    id: "close-button-demo",
+    title: "Dialog Close Button Demo",
+    description: "Named upstream dialog-close-button parity with share-link composition.",
+  },
+  {
+    component: "dialog",
     id: "outside-dismiss",
     title: "Dialog Outside Dismiss",
     description: "Dismissible dialog closed by interacting outside content.",

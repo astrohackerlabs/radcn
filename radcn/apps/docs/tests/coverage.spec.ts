@@ -27,7 +27,7 @@ const publicPreviewHooks: Record<string, string> = {
   'data-table': '[data-radcn-data-table]',
   'date-picker': '[data-radcn-date-picker]',
   direction: '[data-radcn-direction-provider]',
-  dialog: '[data-radcn-dialog-content]',
+  dialog: '[data-radcn-dialog-trigger]',
   drawer: '[data-radcn-drawer-content]',
   'dropdown-menu': '[data-radcn-dropdown-menu]',
   empty: '[data-radcn-empty]',
@@ -463,7 +463,37 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('does not depend on React, Sonner, lucide, next-themes').first()).toBeVisible()
 
     await page.goto('/docs/components/dialog')
-    await expect(page.locator('[data-radcn-dialog-content]').first()).toBeVisible()
+    for (let slug of [
+      'dialog-demo',
+      'dialog-close-button',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-dialog-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-trigger]')).toHaveText('Open Dialog')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-content]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-content]')).toHaveClass(/radcn-docs-dialog-demo-content/)
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-title]')).toHaveText('Edit profile')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-description]')).toHaveText("Make changes to your profile here. Click save when you're done.")
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] form[data-radcn-docs-dialog-form="profile"]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-label]')).toHaveText(['Name', 'Username'])
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-input]').nth(0)).toHaveValue('Pedro Duarte')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-input]').nth(1)).toHaveValue('@peduarte')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-dialog-footer] [data-radcn-dialog-close]')).toHaveText('Cancel')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-demo"] [data-radcn-button]')).toHaveText('Save changes')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-trigger]')).toHaveText('Share')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-content]')).toBeAttached()
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-content]')).toHaveClass(/radcn-docs-dialog-close-button-content/)
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-title]')).toHaveText('Share link')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-description]')).toHaveText('Anyone who has this link will be able to view this.')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] label[for="docs-dialog-share-link"]')).toHaveClass(/radcn-sr-only/)
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-input]')).toHaveValue('https://ui.shadcn.com/docs/installation')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-input]')).toHaveAttribute('readonly', '')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] .radcn-docs-dialog-footer-start')).toHaveCSS('justify-content', 'flex-start')
+    await expect(page.locator('[data-radcn-docs-dialog-family="dialog-close-button"] [data-radcn-dialog-footer] [data-radcn-dialog-close]')).toHaveText('Close')
+    await expect(page.getByText('asChild Button composition maps to Button classes').first()).toBeVisible()
+    await expect(page.getByText('React open/onOpenChange, Radix DialogPrimitive').first()).toBeVisible()
+    await expect(page.getByText('DialogFooter showCloseButton is an upstream convenience API').first()).toBeVisible()
+    await expect(page.getByText('does not add copy-to-clipboard behavior').first()).toBeVisible()
 
     await page.goto('/docs/components/tabs')
     await expect(page.locator('[data-radcn-tabs]').first()).toBeVisible()

@@ -321,7 +321,7 @@ export function DialogContent(handle: Handle<DialogContentProps>) {
       >
         {children}
         {showCloseButton && (
-          <button aria-label="Close" class="radcn-dialog-close" data-radcn-dialog-close type="button">
+          <button aria-label="Close" class="radcn-dialog-close radcn-dialog-close--icon" data-radcn-dialog-close type="button">
             <span aria-hidden="true">x</span>
           </button>
         )}

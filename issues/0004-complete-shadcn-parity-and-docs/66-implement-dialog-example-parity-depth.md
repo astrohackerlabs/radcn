@@ -331,3 +331,86 @@ customization. The plan correctly avoids adding React, Radix, `asChild`,
 Tailwind, `cn`, `lucide-react`, clipboard behavior, form-state libraries,
 package API work, or vendor dependencies unless a real package-level gap is
 found and recorded.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Dialog example parity for the two active upstream examples:
+`dialog-demo` and `dialog-close-button`.
+
+Docs now render named Dialog examples with stable
+`data-radcn-docs-dialog-family` hooks, exact upstream copy, edit-profile form
+composition, labelled Name/Username inputs with upstream default values,
+share-link read-only input composition, sr-only label evidence, footer actions,
+Button-style trigger/close classes, sizing/alignment classes, and mapping copy
+for React/Radix/Tailwind/non-dependency decisions.
+
+Candidate fixtures now expose `dialog/demo` and `dialog/close-button-demo`
+routes. Playwright coverage proves trigger opening, role/ARIA relationships,
+focus behavior, Escape close, explicit close/focus restoration, the named form
+and share-link content, no copy-to-clipboard action, and that the existing
+generic Dialog behavior still passes.
+
+Implementation discovered one package-level styling gap: the base
+`.radcn-dialog-close` class was positioning every close action as the absolute
+top-right icon close, which could block footer close buttons in fuller dialog
+compositions. The package now adds `radcn-dialog-close--icon` only to the
+generated default close button and scopes absolute/icon chrome to that modifier.
+Footer `DialogClose` buttons remain normal inline controls and can receive
+Button-style classes without an API change.
+
+`dialog-example-inventory.md` now marks both rows `Covered`,
+`resolved-clusters.json` records `dialog` as resolved, and the regenerated
+parity inventory recommends example parity for `drawer` next.
+
+Verification run:
+
+- `pnpm radcn:typecheck`
+- `pnpm --dir radcn/apps/docs typecheck`
+- `pnpm fixtures:candidate:typecheck`
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts dialog.spec.ts`
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+- deterministic `dialog-example-inventory.md` row/status check
+- deterministic `resolved-clusters.json` check for `dialog`
+- deterministic `parity-inventory.md` check proving `dialog` is no longer
+  unresolved and the first recommendation is no longer Dialog
+- forbidden import scope check
+- manifest and lockfile diff dependency-scope check
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+All verification passed. `git status --short` showed only expected package,
+docs app, fixture, test, and Issue 4 documentation changes. Vendor status
+printed no output.
+
+## Conclusion
+
+Dialog example parity is resolved. The package owns modal behavior and the
+default icon close styling; Button, Input, Label, native forms, sr-only label
+styling, read-only share-link display, and footer actions remain composition
+surfaces. RadCN did not add React, Radix, `asChild`, Tailwind, `cn`,
+`lucide-react`, clipboard behavior, form-state libraries, or vendor
+dependencies.
+
+## Completion Review
+
+Reviewer: Hubble the 2nd (`019e9ca6-ac68-70d0-bf04-41fcfd1cd379`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed that the implementation matches
+Experiment 66's scope, `dialog-demo` and `dialog-close-button` are covered in
+docs, candidate fixtures, and Playwright assertions, and the package styling
+change is justified and recorded. The reviewer also confirmed that default
+icon-close styling moved to `radcn-dialog-close--icon`, footer `DialogClose`
+buttons remain inline author-styled controls, Issue 4 metadata does not
+overclaim, Dialog is removed from unresolved example clusters, Drawer is now
+the first recommendation, vendor status is clean, and the result commit had not
+been made before review.
