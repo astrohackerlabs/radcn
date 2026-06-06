@@ -388,6 +388,21 @@ Record cross-component discoveries here as experiments complete.
   icon-package, or support-link state.
 - After Experiment 22, `empty` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `toggle-group` next.
+- Experiment 23 audited all 7 upstream Toggle Group examples in
+  `toggle-group-example-inventory.md`. Toggle Group example parity is not
+  complete yet: RadCN has strong primitive behavior for single/multiple
+  selection, selected state hooks, roving focus, disabled item skip behavior,
+  vertical orientation, and custom tokens, but it needs broader docs/fixture/
+  Playwright coverage for icon-only groups, icon+label spacing, group-level
+  disabled behavior, small/large sizing, outline variants, spacing, and
+  selected icon styling.
+- Toggle Group remains a native button group plus browser enhancement. React,
+  Radix ToggleGroup, lucide icons, Tailwind size utilities, and Tailwind
+  selected-state selectors should map to RadCN enhancement, app-owned glyphs,
+  public classes/styles/CSS variables, and data-state hooks rather than package
+  dependencies.
+- After Experiment 23, the next recommended implementation cluster is Toggle
+  Group example parity depth.
 
 ## Experiments
 
@@ -436,4 +451,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 22: Implement empty example parity depth](22-implement-empty-example-parity-depth.md)
   — **Pass**
 - [Experiment 23: Audit toggle-group example parity](23-audit-toggle-group-example-parity.md)
-  — **Designed**
+  — **Pass**

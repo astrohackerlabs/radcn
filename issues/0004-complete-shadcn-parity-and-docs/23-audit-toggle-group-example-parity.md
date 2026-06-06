@@ -146,3 +146,127 @@ group-level disabled/size/variant/spacing, icon-only and icon+label examples,
 `aria-label`, selected state hooks, keyboard/orientation behavior,
 lucide/Tailwind/Radix mappings, and current package/docs/fixture/Playwright
 evidence.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md`
+as an audit-only inventory for all 7 upstream Toggle Group examples:
+`toggle-group-demo`, `toggle-group-disabled`, `toggle-group-lg`,
+`toggle-group-outline`, `toggle-group-single`, `toggle-group-sm`, and
+`toggle-group-spacing`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `toggle-group`
+resolved, because the examples need package/docs/fixture/test depth beyond the
+current primitive coverage.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['toggle-group-demo','toggle-group-disabled','toggle-group-lg','toggle-group-outline','toggle-group-single','toggle-group-sm','toggle-group-spacing']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+toggle-group-demo: 1
+toggle-group-disabled: 1
+toggle-group-lg: 1
+toggle-group-outline: 1
+toggle-group-single: 1
+toggle-group-sm: 1
+toggle-group-spacing: 1
+```
+
+```text
+rg -n "multiple-selection|single-selection|group-level disabled|disabled item|small|large|outline variant|item-level variant|spacing|icon\\+label|aria-label|aria-pressed|data-state|data-value|keyboard|orientation|lucide|Tailwind|Radix|Playwright" issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: multiple-selection icon-only groups, single-selection icon-only groups,
+group-level disabled behavior, disabled item behavior, small and large sizing,
+group-level outline variants, item-level size/variant mapping, spacing,
+icon+label examples, `aria-label`, `aria-pressed`, `data-state`, `data-value`,
+keyboard focus, orientation, lucide icons, Tailwind utility/state selector
+mapping, Radix ToggleGroup mapping, and current RadCN
+package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "toggle-group-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:392:  `toggle-group-example-inventory.md`. Toggle Group example parity is not
+```
+
+`git diff --check` passed with no output. `git status --short` showed only the
+expected issue documentation changes:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/23-audit-toggle-group-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md
+```
+
+The vendor cleanliness check printed no output.
+
+## Conclusion
+
+Toggle Group example parity is not complete yet. RadCN has strong primitive
+coverage for single/multiple state, selected hooks, roving focus, disabled item
+skip behavior, vertical orientation, and custom tokens, but the docs and
+fixtures need broader example proof for the full upstream Toggle Group
+surface. The next experiment should implement Toggle Group example parity
+depth and decide whether group-level `size`, `variant`, `disabled`, and
+`spacing` should become narrow RadCN APIs or documented item-level/style
+mappings.
+
+## Completion Review
+
+Reviewer: Franklin (`019e9ae6-3993-74b1-a6a6-d294859e5e66`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: the recorded `git status --short` output was inaccurate after adding
+  `## Result` and `## Conclusion`; it omitted the modified experiment file.
+  Fixed by updating the recorded status output to include
+  `23-audit-toggle-group-example-parity.md`, `README.md`, and the new
+  `toggle-group-example-inventory.md`.
+- Minor: none.
+
+Review result: approved. Franklin confirmed all 7 upstream Toggle Group
+examples are represented exactly once; the inventory keeps `toggle-group`
+unresolved; group-level disabled/size/variant/spacing plus
+lucide/Tailwind/Radix mappings are addressed; only issue documentation is
+changed; `git diff --check` and vendor cleanliness checks pass; and the result
+commit had not been made before review.
+
+Re-review result: approved. Franklin confirmed the recorded
+`git status --short` output now includes all three expected paths and that the
+completion-review section accurately records the prior Major finding, the fix,
+and the approval result. No new blocker was introduced.
