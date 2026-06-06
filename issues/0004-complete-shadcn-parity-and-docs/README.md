@@ -689,3 +689,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 38: Implement textarea example parity depth](38-implement-textarea-example-parity-depth.md)
   — **Pass**
+- [Experiment 39: Audit toast example parity](39-audit-toast-example-parity.md)
+  — **Designed**
