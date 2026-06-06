@@ -1232,3 +1232,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 80: Implement accordion example parity depth](80-implement-accordion-example-parity-depth.md)
   — **Pass**
+- [Experiment 81: Audit alert-dialog example parity](81-audit-alert-dialog-example-parity.md)
+  — **Designed**
