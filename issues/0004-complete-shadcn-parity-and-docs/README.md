@@ -330,6 +330,20 @@ Record cross-component discoveries here as experiments complete.
   choices rather than package dependencies.
 - After Experiment 18, `item` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `spinner` next.
+- Experiment 19 audited all 10 upstream Spinner examples in
+  `spinner-example-inventory.md`. Spinner example parity is not complete yet:
+  RadCN has strong primitive coverage for standalone `role="status"` semantics
+  and CSS-variable customization, but it needs broader docs/fixture/Playwright
+  coverage for Button loading rows, Badge loading rows, InputGroup loading
+  addons, Empty media, Item loading rows, Progress footer composition, size and
+  color matrices, and custom spinner replacement mapping.
+- Spinner remains a status/presentation primitive. Upstream lucide
+  `LoaderIcon`/`Loader2Icon`, React SVG prop spreading, and Tailwind
+  `size-*`/`text-*` utility classes should map to RadCN's package-owned SVG,
+  deliberate Remix UI props, app-owned custom icons, and public classes,
+  inline styles, or CSS variables rather than package dependencies.
+- After Experiment 19, the next recommended implementation cluster is Spinner
+  example parity depth.
 
 ## Experiments
 
@@ -370,4 +384,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 18: Implement item example parity depth](18-implement-item-example-parity-depth.md)
   — **Pass**
 - [Experiment 19: Audit spinner example parity](19-audit-spinner-example-parity.md)
-  — **Designed**
+  — **Pass**

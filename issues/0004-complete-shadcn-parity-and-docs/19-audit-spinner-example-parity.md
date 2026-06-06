@@ -158,3 +158,134 @@ checks, vendor paths are only inspected as read-only references, the upstream
 Spinner example set matches the generated parity inventory and registry
 evidence, and current git status showed only the issue README modification and
 new experiment file.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md` as
+an audit-only inventory for all 10 upstream Spinner examples:
+`spinner-badge`, `spinner-basic`, `spinner-button`, `spinner-color`,
+`spinner-custom`, `spinner-demo`, `spinner-empty`, `spinner-input-group`,
+`spinner-item`, and `spinner-size`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `spinner` resolved,
+because the examples need package/docs/fixture/test depth beyond the current
+primitive status coverage.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['spinner-badge','spinner-basic','spinner-button','spinner-color','spinner-custom','spinner-demo','spinner-empty','spinner-input-group','spinner-item','spinner-size']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+spinner-badge: 1
+spinner-basic: 1
+spinner-button: 1
+spinner-color: 1
+spinner-custom: 1
+spinner-demo: 1
+spinner-empty: 1
+spinner-input-group: 1
+spinner-item: 1
+spinner-size: 1
+```
+
+```text
+rg -n "standalone|role=\"status\"|aria-label|Loading|size|color|custom spinner|Button loading|Badge|InputGroup|input-group-spinner|Empty|Item|Progress|lucide|React SVG|Tailwind|CSS variables|Playwright" issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: standalone status semantics, default accessible labels, size
+customization, color customization, custom spinner replacement, Button loading
+composition, Badge composition, InputGroup composition and related
+`input-group-spinner` evidence, Empty composition, Item composition, Progress
+composition, lucide icon mapping, React SVG prop mapping, Tailwind utility
+mapping, CSS variable customization, and current RadCN evidence.
+
+Additional verification:
+
+```text
+rg -n "spinner-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:334:  `spinner-example-inventory.md`. Spinner example parity is not complete yet:
+```
+
+`git diff --check` passed with no output. Before result recording,
+`git status --short` showed only the expected issue documentation changes:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md
+```
+
+After result recording, the current pre-review status was:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/19-audit-spinner-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md
+```
+
+The vendor cleanliness check printed no output.
+
+## Conclusion
+
+Spinner example parity is not complete yet. RadCN's primitive Spinner already
+has good accessible status semantics and CSS-variable size/color
+customization, but the docs and fixtures need broader example proof for the
+full upstream Spinner surface. The next experiment should implement Spinner
+example parity depth without adding React, lucide, Tailwind, or custom spinner
+replacement as package dependencies.
+
+## Completion Review
+
+Reviewer: Hooke (`019e9abc-46eb-7ad0-b468-428dc39d9df4`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: the first result record included a `git status --short` output that
+  was accurate before appending the result, but inaccurate for the current
+  completion-review state because it omitted the modified experiment file.
+  Fixed by distinguishing the before-result-recording status from the current
+  pre-review status and including the modified experiment file.
+- Major: none.
+- Minor: none.
+
+Review result: approved after the blocker fix. Hooke confirmed the audit stayed
+audit-only, no package/docs/fixture/test source files changed,
+`git diff --check` passed, vendor worktrees were clean, the inventory contains
+exactly one row for each of the 10 upstream Spinner example ids, the experiment
+has `## Result` and `## Conclusion`, the Issue 4 README status is `Pass`,
+later-work learnings are recorded, and the result commit had not been made
+before review.
+
+Re-review result: approved. Hooke confirmed the inaccurate status record was
+resolved, no new blocker was introduced by the fix, `git diff --check` passed,
+and current `git status --short` matched the recorded pre-review status.
