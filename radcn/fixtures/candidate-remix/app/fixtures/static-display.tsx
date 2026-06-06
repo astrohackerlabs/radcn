@@ -52,8 +52,86 @@ import {
   TooltipTrigger,
 } from 'radcn'
 
+function AlertFixtureIcon({ kind }: { kind: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      data-radcn-fixture-alert-icon={kind}
+      fill="none"
+      style="width:1rem;height:1rem;margin-top:0.125rem;color:currentColor"
+      viewBox="0 0 24 24"
+    >
+      {kind === 'popcorn' ? (
+        <>
+          <path d="M7 9h10l-1 10H8L7 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="2" />
+          <path d="M8 9 7 5l3 2 2-3 2 3 3-2-1 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        </>
+      ) : kind === 'alert-circle' ? (
+        <>
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+          <path d="M12 8v5" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+          <path d="M12 16h.01" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+        </>
+      ) : (
+        <>
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+          <path d="m8.5 12.5 2.25 2.25L15.5 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        </>
+      )}
+    </svg>
+  )
+}
+
 export function renderAlertFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div data-radcn-alert-demo style="display:grid;gap:1rem;width:min(100%,36rem)">
+          <Alert style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start">
+            {AlertFixtureIcon({ kind: 'check-circle' })}
+            <div style="display:grid;gap:0.375rem">
+              <AlertTitle>Success! Your changes have been saved</AlertTitle>
+              <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
+            </div>
+          </Alert>
+          <Alert style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start">
+            {AlertFixtureIcon({ kind: 'popcorn' })}
+            <div style="display:grid;gap:0.375rem">
+              <AlertTitle>This Alert has a title and an icon. No description.</AlertTitle>
+            </div>
+          </Alert>
+          <Alert
+            style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start"
+            variant="destructive"
+          >
+            {AlertFixtureIcon({ kind: 'alert-circle' })}
+            <div style="display:grid;gap:0.375rem">
+              <AlertTitle>Unable to process your payment.</AlertTitle>
+              <AlertDescription>
+                <p style="margin:0">Please verify your billing information and try again.</p>
+                <ul style="margin:0;padding-left:1.25rem">
+                  <li>Check your card details</li>
+                  <li>Ensure sufficient funds</li>
+                  <li>Verify billing address</li>
+                </ul>
+              </AlertDescription>
+            </div>
+          </Alert>
+        </div>
+      )
+    case 'destructive-upstream':
+      return (
+        <Alert
+          style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start"
+          variant="destructive"
+        >
+          {AlertFixtureIcon({ kind: 'alert-circle' })}
+          <div style="display:grid;gap:0.375rem">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+          </div>
+        </Alert>
+      )
     case 'destructive':
       return (
         <Alert variant="destructive">

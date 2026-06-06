@@ -119,6 +119,44 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/button')
     await expect(page.locator('[data-radcn-button]').first()).toBeVisible()
 
+    await page.goto('/docs/components/alert')
+    for (let slug of [
+      'alert-demo',
+      'alert-destructive',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-alert-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert][role="alert"]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert][data-variant="default"]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert][data-variant="destructive"]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert-title]')).toHaveText([
+      'Success! Your changes have been saved',
+      'This Alert has a title and an icon. No description.',
+      'Unable to process your payment.',
+    ])
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-alert-description]')).toContainText([
+      'This is an alert with icon, title and description.',
+      'Please verify your billing information and try again.Check your card detailsEnsure sufficient fundsVerify billing address',
+    ])
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] li')).toHaveText([
+      'Check your card details',
+      'Ensure sufficient funds',
+      'Verify billing address',
+    ])
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-demo"] [data-radcn-docs-alert-icon]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-destructive"] [data-radcn-alert]')).toHaveAttribute('data-variant', 'destructive')
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-destructive"] [data-radcn-alert]')).toHaveAttribute('role', 'alert')
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-destructive"] [data-radcn-alert-title]')).toHaveText('Error')
+    await expect(page.locator('[data-radcn-docs-alert-family="alert-destructive"] [data-radcn-alert-description]')).toHaveText('Your session has expired. Please log in again.')
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-alert* hooks').first()).toBeVisible()
+    await expect(page.getByText('cva and Tailwind utilities map to RadCN package classes').first()).toBeVisible()
+    await expect(page.getByText('AlertCircleIcon, CheckCircle2Icon, PopcornIcon, and lucide-react').first()).toBeVisible()
+    await expect(page.getByText('Icon grid and SVG layout stay in docs or application markup').first()).toBeVisible()
+    await expect(page.getByText('Alert Dialog is a separate component surface').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/checkbox')
     for (let slug of [
       'checkbox-demo',

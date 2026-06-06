@@ -32,8 +32,8 @@ the separate `alert-dialog` component surface.
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `alert-demo` | Renders three Alerts in a stacked max-width grid: a default success alert with `CheckCircle2Icon`, title `Success! Your changes have been saved`, and description `This is an alert with icon, title and description.`; a default title-only alert with `PopcornIcon` and title `This Alert has a title and an icon. No description.`; and a destructive alert with `AlertCircleIcon`, title `Unable to process your payment.`, paragraph `Please verify your billing information and try again.`, and list items `Check your card details`, `Ensure sufficient funds`, and `Verify billing address`. | `radcn/alert` supports default/destructive variants, `role="alert"`, title and description parts, arbitrary description children including paragraphs/lists, public `data-radcn-*` hooks, custom classes/styles, and app-owned icon composition through children. Docs and fixtures currently prove only generic default/destructive/custom-token Alert behavior, not this named three-alert composition or exact upstream copy. | Partial | Add docs, candidate fixture, and Playwright evidence for a named `alert-demo` family that renders the three upstream compositions, exact titles/descriptions/list items, destructive variant, and app-owned icons without adding `lucide-react` or package API dependencies. |
-| `alert-destructive` | Renders one destructive Alert with `AlertCircleIcon`, title `Error`, and description `Your session has expired. Please log in again.` | `radcn/alert` supports the destructive variant and role semantics. The candidate fixture and Playwright test prove a destructive Alert, but with RadCN-specific copy `Unable to save changes` / `Review the highlighted fields and try again.` rather than the named upstream example id and copy. | Partial | Add named docs, fixture, and Playwright evidence for `alert-destructive` with exact upstream title/description and app-owned icon composition. |
+| `alert-demo` | Renders three Alerts in a stacked max-width grid: a default success alert with `CheckCircle2Icon`, title `Success! Your changes have been saved`, and description `This is an alert with icon, title and description.`; a default title-only alert with `PopcornIcon` and title `This Alert has a title and an icon. No description.`; and a destructive alert with `AlertCircleIcon`, title `Unable to process your payment.`, paragraph `Please verify your billing information and try again.`, and list items `Check your card details`, `Ensure sufficient funds`, and `Verify billing address`. | `radcn/alert` supports default/destructive variants, `role="alert"`, title and description parts, arbitrary description children including paragraphs/lists, public `data-radcn-*` hooks, custom classes/styles, and app-owned icon composition through children. Docs now render `data-radcn-docs-alert-family="alert-demo"` with the three exact upstream compositions and mapping copy. Candidate fixtures expose `/fixtures/alert/demo`; Playwright asserts the three Alerts, variants, role hooks, icon hooks, exact titles/descriptions, and list items. | Covered | None. |
+| `alert-destructive` | Renders one destructive Alert with `AlertCircleIcon`, title `Error`, and description `Your session has expired. Please log in again.` | `radcn/alert` supports the destructive variant and role semantics. Docs now render `data-radcn-docs-alert-family="alert-destructive"` with exact upstream copy and mapping evidence. Candidate fixtures expose `/fixtures/alert/destructive-upstream`; Playwright asserts destructive variant, role semantics, exact title/description, and app-owned icon hook. | Covered | None. |
 
 ## Capability Matrix
 
@@ -44,14 +44,14 @@ the separate `alert-dialog` component surface.
 | Alert role semantics | Supported | `Alert` renders `role="alert"`; candidate tests assert the role. |
 | Title part | Supported | `AlertTitle` renders `data-radcn-alert-title`; docs and fixtures use it. |
 | Description part | Supported | `AlertDescription` renders `data-radcn-alert-description`; docs and fixtures use it. |
-| Description paragraphs/lists | Supported by composition, not yet example-proven | `AlertDescription` accepts arbitrary children, so paragraphs and lists are app markup. No current named Alert example proves the upstream list content. |
+| Description paragraphs/lists | Supported and example-proven | `AlertDescription` accepts arbitrary children; docs and candidate fixtures now prove the upstream paragraph and list content for `alert-demo`. |
 | Action composition | Supported beyond upstream examples | `AlertAction` exists and the default candidate fixture composes a `Button` action. Upstream Alert examples do not require an action. |
 | Public hooks | Supported | Alert parts expose `data-radcn-alert`, `data-radcn-alert-title`, `data-radcn-alert-description`, and `data-radcn-alert-action`. |
 | Custom classes/styles/tokens | Supported | Alert props accept `class` and `style`; the custom-token fixture and Playwright test prove public CSS variable customization. |
-| Icon composition | Supported by app-owned children | The package accepts arbitrary children before title/description. Current docs/fixtures do not yet prove the exact three upstream icon cases. |
-| Docs evidence | Partial | The docs route renders a generic Alert preview and source snippet, not named upstream Alert examples. |
-| Candidate fixture evidence | Partial | The fixture app covers generic default, destructive, and custom-token Alert scenarios, not exact upstream example ids/copy. |
-| Playwright evidence | Partial | Static fixture tests prove role, destructive variant, title hook, and custom-token styling, but not `alert-demo` or `alert-destructive` parity. |
+| Icon composition | Supported and example-proven by app-owned children | The package accepts arbitrary children before title/description; docs and fixtures now prove app-owned hooks for the check-circle, popcorn, and alert-circle icon roles. |
+| Docs evidence | Covered | The docs route renders named `alert-demo` and `alert-destructive` examples with stable hooks and mapping copy. |
+| Candidate fixture evidence | Covered | The fixture app covers generic default/destructive/custom-token routes plus named `demo` and `destructive-upstream` Alert routes. |
+| Playwright evidence | Covered | Static fixture tests and docs coverage prove role, variants, title/description hooks, exact upstream copy, list content, app-owned icon hooks, custom-token styling, and mapping copy. |
 
 ## Mapping Decisions
 
@@ -70,10 +70,8 @@ the separate `alert-dialog` component surface.
 
 ## Decision
 
-The Alert package API appears sufficient for the two active upstream Alert
-examples. The remaining gap is example parity depth: RadCN needs named docs,
-candidate fixture, and Playwright coverage for `alert-demo` and
-`alert-destructive` with exact user-facing copy and compositions. The next
-experiment should implement those named Alert examples without changing the
-package API unless a concrete package-level issue appears during
-implementation.
+The Alert package API is sufficient for the two active upstream Alert examples.
+RadCN covers `alert-demo` and `alert-destructive` with package support, named
+docs examples, candidate fixture routes, Playwright coverage, exact upstream
+copy, app-owned icon composition, and recorded non-dependency mappings. No
+Alert package API change was needed.

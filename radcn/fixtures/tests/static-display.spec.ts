@@ -3,6 +3,35 @@ import { expect, test } from '@playwright/test'
 const candidate = 'http://localhost:4602'
 
 test('candidate alert exposes role variant and custom token hooks', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/alert/demo`)
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert][role="alert"]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert][data-variant="default"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert][data-variant="destructive"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert-title]')).toHaveText([
+    'Success! Your changes have been saved',
+    'This Alert has a title and an icon. No description.',
+    'Unable to process your payment.',
+  ])
+  await expect(page.locator('[data-radcn-alert-demo] [data-radcn-alert-description]')).toContainText([
+    'This is an alert with icon, title and description.',
+    'Please verify your billing information and try again.Check your card detailsEnsure sufficient fundsVerify billing address',
+  ])
+  await expect(page.locator('[data-radcn-alert-demo] li')).toHaveText([
+    'Check your card details',
+    'Ensure sufficient funds',
+    'Verify billing address',
+  ])
+  await expect(page.locator('[data-radcn-fixture-alert-icon]')).toHaveCount(3)
+
+  await page.goto(`${candidate}/fixtures/alert/destructive-upstream`)
+  let upstreamDestructive = page.locator('[data-radcn-alert]')
+  await expect(upstreamDestructive).toHaveAttribute('role', 'alert')
+  await expect(upstreamDestructive).toHaveAttribute('data-variant', 'destructive')
+  await expect(page.locator('[data-radcn-alert-title]')).toHaveText('Error')
+  await expect(page.locator('[data-radcn-alert-description]')).toHaveText('Your session has expired. Please log in again.')
+  await expect(page.locator('[data-radcn-fixture-alert-icon="alert-circle"]')).toHaveCount(1)
+
   await page.goto(`${candidate}/fixtures/alert/destructive`)
   let destructive = page.locator('[data-radcn-alert]')
   await expect(destructive).toHaveAttribute('role', 'alert')

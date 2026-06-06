@@ -2529,6 +2529,146 @@ export function NativeSelectExamples() {
   )
 }`
 
+const alertSource = `import { Alert, AlertDescription, AlertTitle } from 'radcn/alert'
+
+function AlertIcon({ label }: { label: string }) {
+  return (
+    <svg aria-hidden="true" class="alert-icon" fill="none" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+      <path d="m9 12 2 2 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+      <title>{label}</title>
+    </svg>
+  )
+}
+
+export function AlertExamples() {
+  return (
+    <div class="alert-example-grid">
+      <Alert>
+        <AlertIcon label="CheckCircle2Icon" />
+        <div>
+          <AlertTitle>Success! Your changes have been saved</AlertTitle>
+          <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
+        </div>
+      </Alert>
+
+      <Alert>
+        <AlertIcon label="PopcornIcon" />
+        <div>
+          <AlertTitle>This Alert has a title and an icon. No description.</AlertTitle>
+        </div>
+      </Alert>
+
+      <Alert variant="destructive">
+        <AlertIcon label="AlertCircleIcon" />
+        <div>
+          <AlertTitle>Unable to process your payment.</AlertTitle>
+          <AlertDescription>
+            <p>Please verify your billing information and try again.</p>
+            <ul>
+              <li>Check your card details</li>
+              <li>Ensure sufficient funds</li>
+              <li>Verify billing address</li>
+            </ul>
+          </AlertDescription>
+        </div>
+      </Alert>
+
+      <Alert variant="destructive">
+        <AlertIcon label="AlertCircleIcon" />
+        <div>
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+        </div>
+      </Alert>
+    </div>
+  )
+}`
+
+function AlertExampleIcon({ kind }: { kind: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      data-radcn-docs-alert-icon={kind}
+      fill="none"
+      style="width:1rem;height:1rem;margin-top:0.125rem;color:currentColor"
+      viewBox="0 0 24 24"
+    >
+      {kind === 'popcorn' ? (
+        <>
+          <path d="M7 9h10l-1 10H8L7 9Z" stroke="currentColor" stroke-linejoin="round" stroke-width="2" />
+          <path d="M8 9 7 5l3 2 2-3 2 3 3-2-1 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        </>
+      ) : kind === 'alert-circle' ? (
+        <>
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+          <path d="M12 8v5" stroke="currentColor" stroke-linecap="round" stroke-width="2" />
+          <path d="M12 16h.01" stroke="currentColor" stroke-linecap="round" stroke-width="3" />
+        </>
+      ) : (
+        <>
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+          <path d="m8.5 12.5 2.25 2.25L15.5 10" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+        </>
+      )}
+    </svg>
+  )
+}
+
+function AlertPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width:min(100%,36rem)">
+      <div data-radcn-docs-alert-family="alert-demo" mix={previewStackStyle} style="width:100%">
+        <Alert style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start">
+          {AlertExampleIcon({ kind: 'check-circle' })}
+          <div style="display:grid;gap:0.375rem">
+            <AlertTitle>Success! Your changes have been saved</AlertTitle>
+            <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
+          </div>
+        </Alert>
+
+        <Alert style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start">
+          {AlertExampleIcon({ kind: 'popcorn' })}
+          <div style="display:grid;gap:0.375rem">
+            <AlertTitle>This Alert has a title and an icon. No description.</AlertTitle>
+          </div>
+        </Alert>
+
+        <Alert
+          style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start"
+          variant="destructive"
+        >
+          {AlertExampleIcon({ kind: 'alert-circle' })}
+          <div style="display:grid;gap:0.375rem">
+            <AlertTitle>Unable to process your payment.</AlertTitle>
+            <AlertDescription>
+              <p>Please verify your billing information and try again.</p>
+              <ul style="margin:0;padding-left:1.25rem">
+                <li>Check your card details</li>
+                <li>Ensure sufficient funds</li>
+                <li>Verify billing address</li>
+              </ul>
+            </AlertDescription>
+          </div>
+        </Alert>
+      </div>
+
+      <div data-radcn-docs-alert-family="alert-destructive">
+        <Alert
+          style="grid-template-columns:auto minmax(0,1fr);column-gap:0.75rem;align-items:start"
+          variant="destructive"
+        >
+          {AlertExampleIcon({ kind: 'alert-circle' })}
+          <div style="display:grid;gap:0.375rem">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>Your session has expired. Please log in again.</AlertDescription>
+          </div>
+        </Alert>
+      </div>
+    </div>
+  )
+}
+
 const checkboxSource = `import { Checkbox } from 'radcn/checkbox'
 import { Label } from 'radcn/label'
 
@@ -4631,6 +4771,49 @@ export function ChartPreview() {
 }`
 
 const richComponentDocs: ComponentDoc[] = [
+  {
+    slug: 'alert',
+    title: 'Alert',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A server-rendered alert primitive for important status, success, and destructive messages with app-owned icon composition.',
+    importPath: 'radcn/alert',
+    importExample: "import { Alert, AlertDescription, AlertTitle } from 'radcn/alert'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the upstream Alert demo and destructive examples with exact copy, variants, description lists, and app-owned icons.',
+        source: alertSource,
+        preview: <AlertPreview />,
+      },
+    ],
+    accessibility: [
+      'Alert renders role="alert" so important messages are exposed as assertive status content.',
+      'AlertTitle and AlertDescription keep title and supporting copy separate for screen readers and visual hierarchy.',
+      'Description content may include paragraphs and lists because AlertDescription accepts app-owned children.',
+      'Decorative icons should be aria-hidden unless the app provides additional accessible text.',
+    ],
+    customization: [
+      'Alert exposes data-radcn-alert, data-radcn-alert-title, data-radcn-alert-description, and data-radcn-alert-action hooks.',
+      'Use variant="destructive" for destructive alert styling and data-variant for tests or app-level styling.',
+      'Use class, style, and CSS variables such as --radcn-alert-bg, --radcn-alert-border, and --radcn-alert-fg for customization.',
+      'Icon grid layout, SVG presentation, and stacked example layout remain app-owned composition.',
+    ],
+    divergence: [
+      'className maps to class, data-slot maps to data-radcn-alert* hooks, and React prop spreading maps to explicit Remix UI props.',
+      'cva and Tailwind utilities map to RadCN package classes, style, and CSS variables.',
+      'AlertCircleIcon, CheckCircle2Icon, PopcornIcon, and lucide-react are app-owned presentation, not RadCN package dependencies.',
+      'Icon grid and SVG layout stay in docs or application markup rather than the Alert package API.',
+      'Alert Dialog is a separate component surface and is not part of Alert example parity.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
   {
     slug: 'checkbox',
     title: 'Checkbox',

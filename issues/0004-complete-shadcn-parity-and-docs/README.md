@@ -818,6 +818,16 @@ Record cross-component discoveries here as experiments complete.
   `alert-demo` and `alert-destructive`. The next experiment should implement
   those named examples without changing the Alert package API unless a concrete
   package-level gap appears.
+- Experiment 58 completed Alert example parity depth. The docs page now renders
+  stable `data-radcn-docs-alert-family` hooks for `alert-demo` and
+  `alert-destructive` with exact upstream copy, three demo Alert compositions,
+  destructive variants, paragraph/list content, app-owned icon hooks, public
+  Alert hooks, and mapping copy. Candidate fixtures and Playwright coverage
+  prove the named demo and destructive examples while preserving generic Alert
+  behavior tests. `alert-example-inventory.md` now marks both rows `Covered`,
+  `resolved-clusters.json` records `alert` as resolved, and the regenerated
+  parity inventory recommends auditing `calendar` examples next. No Alert
+  package API change was needed.
 
 ## Experiments
 
@@ -936,4 +946,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 57: Audit alert example parity](57-audit-alert-example-parity.md)
   — **Partial**
 - [Experiment 58: Implement alert example parity depth](58-implement-alert-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

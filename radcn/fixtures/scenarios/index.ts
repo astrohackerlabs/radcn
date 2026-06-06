@@ -525,6 +525,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "alert",
+    id: "demo",
+    title: "Alert Demo",
+    description: "Named upstream alert-demo parity with three alert compositions.",
+  },
+  {
+    component: "alert",
+    id: "destructive-upstream",
+    title: "Alert Destructive",
+    description: "Named upstream alert-destructive parity with exact destructive copy.",
+  },
+  {
+    component: "alert",
     id: "default",
     title: "Default Alert",
     description: "Default status message with title, description, and action.",
