@@ -735,6 +735,20 @@ Record cross-component discoveries here as experiments complete.
   all four rows `Covered`, `resolved-clusters.json` records `native-select` as
   resolved, and the regenerated parity inventory recommends auditing
   `resizable` examples next. No Native Select package API change was needed.
+- Experiment 51 audited Resizable example parity in
+  `resizable-example-inventory.md`. RadCN already has strong package, docs
+  route, candidate fixture, reference fixture, and Playwright evidence for
+  horizontal and vertical orientation, semantic separator handles, ARIA
+  orientation/value attributes, keyboard resizing, pointer resizing,
+  `radcn-resizable-change` events, visible handle grips, default/min size
+  props, and custom tokens. The active upstream examples remain partially
+  covered because docs, fixtures, and tests do not yet prove the four named
+  example ids with nested group composition, exact labels, 25/75 sizes where
+  required, and handle-grip variants: `resizable-demo`,
+  `resizable-demo-with-handle`, `resizable-handle`, and
+  `resizable-vertical`. The next experiment should implement those named
+  examples without changing the Resizable package API unless a concrete
+  package-level gap appears.
 
 ## Experiments
 
@@ -839,4 +853,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 50: Implement native-select example parity depth](50-implement-native-select-example-parity-depth.md)
   — **Pass**
 - [Experiment 51: Audit resizable example parity](51-audit-resizable-example-parity.md)
-  — **Designed**
+  — **Pass**

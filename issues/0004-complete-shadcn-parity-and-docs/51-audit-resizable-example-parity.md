@@ -172,3 +172,102 @@ the required sections, the scope is explicitly audit-only, verification has
 concrete pass/fail criteria and hygiene checks, the inventory identifies
 `resizable` as the next recommended cluster, and only the README plus new
 Experiment 51 file are modified before implementation.
+
+## Result
+
+**Result:** Pass
+
+Created `resizable-example-inventory.md` and audited all four active upstream
+Resizable examples:
+
+- `resizable-demo`
+- `resizable-demo-with-handle`
+- `resizable-handle`
+- `resizable-vertical`
+
+The audit found strong RadCN primitive coverage for Resizable behavior:
+horizontal and vertical orientation, semantic separator handles, ARIA
+orientation/value attributes, keyboard resizing, pointer resizing,
+`radcn-resizable-change` events, visible handle grips, default/min size props,
+custom CSS variables, docs route coverage, reference fixture coverage,
+candidate fixture coverage, and Playwright coverage.
+
+The example cluster remains partially covered because the docs, candidate
+fixtures, and Playwright tests do not yet prove the four named upstream example
+ids with nested group composition, exact labels, 25/75 sizes where required,
+and handle-grip variants as user-facing compositions. No current evidence
+requires changing the `radcn/resizable` package API.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'resizable-demo',
+  'resizable-demo-with-handle',
+  'resizable-handle',
+  'resizable-vertical',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+resizable-demo: 1
+resizable-demo-with-handle: 1
+resizable-handle: 1
+resizable-vertical: 1
+
+rg -n "resizable-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+739:  `resizable-example-inventory.md`. RadCN already has strong package, docs
+
+git diff --check
+
+git status --short
+ M issues/0004-complete-shadcn-parity-and-docs/51-audit-resizable-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+## Conclusion
+
+The next experiment should implement Resizable example parity depth for
+`resizable-demo`, `resizable-demo-with-handle`, `resizable-handle`, and
+`resizable-vertical`. It should add named docs/fixture/test evidence and exact
+upstream panel compositions while preserving the existing dependency-free
+Resizable package API unless implementation reveals a concrete blocker.
+
+## Completion Review
+
+Reviewer: Hypatia the 2nd (`019e9c0a-9178-7460-a15f-b233edbe3a76`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+experiment has Result and Conclusion, the README status matches `Pass`,
+later-work learnings are recorded in the issue README, the inventory covers
+exactly the four active Resizable examples from `parity-inventory.md`, the
+recorded Node verification reproduced successfully, `git diff --check` and
+vendor cleanliness passed, only expected Experiment 51 issue documentation
+changed, and HEAD was still the plan commit before the result commit.
