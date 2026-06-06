@@ -783,3 +783,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 46: Implement dropdown-menu example parity depth](46-implement-dropdown-menu-example-parity-depth.md)
   — **Pass**
+- [Experiment 47: Audit input-otp example parity](47-audit-input-otp-example-parity.md)
+  — **Designed**
