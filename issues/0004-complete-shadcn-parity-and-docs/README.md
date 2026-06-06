@@ -1753,3 +1753,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 114: Audit switch example parity](114-audit-switch-example-parity.md)
   — **Partial**
+- [Experiment 115: Implement switch example parity depth](115-implement-switch-example-parity-depth.md)
+  — **Designed**
