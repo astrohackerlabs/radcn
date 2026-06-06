@@ -854,6 +854,14 @@ Record cross-component discoveries here as experiments complete.
   dependencies to RadCN.
 - After Experiment 60, `calendar` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `card` next.
+- Experiment 61 audited Card example parity in `card-example-inventory.md`.
+  `radcn/card` already has the root, header, title, description, action,
+  content, footer, public hooks, sizing, custom styling hooks, and composition
+  surfaces needed for the active upstream examples. The cluster remains partial
+  because docs, candidate fixtures, and Playwright tests do not yet prove the
+  named `card-demo` login/account card or `card-with-form` project card with
+  their copy, form structure, width/layout styling, Button variants, Input
+  types, and Select composition.
 
 ## Experiments
 
@@ -978,4 +986,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 60: Resolve calendar example parity depth](60-resolve-calendar-example-parity-depth.md)
   — **Pass**
 - [Experiment 61: Audit card example parity](61-audit-card-example-parity.md)
-  — **Designed**
+  — **Partial**

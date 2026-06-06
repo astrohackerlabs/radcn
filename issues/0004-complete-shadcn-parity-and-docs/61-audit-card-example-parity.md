@@ -161,3 +161,107 @@ explicit no-code-change boundaries, verification includes deterministic
 row-count checking, README learning checks, `git diff --check`, expected
 worktree status, and vendor cleanliness checks, and the plan matches the active
 inventory entries for `card-demo` and `card-with-form`.
+
+## Result
+
+**Result:** Partial
+
+Created `card-example-inventory.md` and audited the two active upstream Card
+examples: `card-demo` and `card-with-form`.
+
+The audit found that the current `radcn/card` package API is likely sufficient
+for both examples. Card already ships the root, header, title, description,
+action, content, and footer parts; public hooks; `size`; `class`; `style`; and
+token-driven styling. Existing fixtures and Playwright coverage prove generic
+Card slots, action placement, compact size, custom tokens, and composition with
+Button. Other resolved package surfaces already cover Input, Label, Select,
+Button, and native form composition.
+
+The cluster is not complete yet because current docs, candidate fixtures, and
+Playwright tests prove generic Card behavior but do not prove the two named
+upstream example ids with their user-facing compositions and copy. `card-demo`
+needs named proof for the login/account card, CardAction signup link, email and
+password inputs, forgot-password link, and full-width login/outline buttons.
+`card-with-form` needs named proof for the project card, fixed-width
+presentation, project name input, framework Select, and footer button layout.
+
+The audit also records that `card-demo.json` lists `switch` as a registry
+dependency, but the current upstream source does not import or render Switch;
+the source file's rendered behavior is the relevant parity target for this
+cluster.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'card-demo',
+  'card-with-form',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+card-demo: 1
+card-with-form: 1
+
+rg -n "card-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+857:- Experiment 61 audited Card example parity in `card-example-inventory.md`.
+
+git diff --check
+
+git status --short
+ M issues/0004-complete-shadcn-parity-and-docs/61-audit-card-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+## Conclusion
+
+Card should move from audit to implementation depth next. The next experiment
+should add named docs, candidate fixture routes, and Playwright proof for
+`card-demo` and `card-with-form`, preserving form state and Select behavior as
+composition over existing RadCN primitives. No Card package API change is
+currently justified by the audit.
+
+## Completion Review
+
+Reviewer: Descartes the 2nd (`019e9c66-115c-7122-aed8-b64849baa478`) with
+fresh context (`fork_context: false`).
+
+Findings:
+
+- Blocker: Issue 4 `README.md` still listed Experiment 61 as `Designed` while
+  this experiment recorded `**Result:** Partial`. Fixed by changing the README
+  experiment index status to `Partial`.
+
+Re-review: Descartes the 2nd re-reviewed the fix and confirmed the prior
+blocker is resolved, no new blocker was introduced, and the completed
+experiment is approved for result commit.
+
+Approval: Approved after the README status fix. The reviewer also confirmed
+that the deterministic inventory row check passed, the README learning was
+present, `git diff --check` passed, vendor status checks printed no output, the
+latest commit was still the plan commit, and the result commit had not been
+made before review.
