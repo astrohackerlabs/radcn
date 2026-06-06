@@ -166,3 +166,64 @@ Approval: approved. The reviewer confirmed the Issue 4 README links
 Experiment 73 as `Designed`, required sections are present, the upstream active
 Sheet examples are exactly `sheet-demo` and `sheet-side`, vendor checkouts are
 clean, and no blockers remain.
+
+## Result
+
+**Result:** Partial
+
+Created `sheet-example-inventory.md` and audited the two active upstream Sheet
+examples: `sheet-demo` and `sheet-side`.
+
+RadCN already covers the core Sheet primitive behavior: root, trigger, portal,
+overlay, content, side variants, header/title/description/footer, close
+controls, default close button, modal role/ARIA wiring, focus trap, initial
+focus, focus restoration, Escape dismissal, overlay dismissal, body scroll
+lock, custom classes/styles/tokens, and generic side-placement tests.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic Sheet behavior
+rather than the named upstream profile form and four-side compositions. The
+audit did not identify a required Sheet package API change. The likely next
+experiment should add named docs examples, candidate fixture routes, and
+Playwright coverage for `sheet-demo` and `sheet-side`, while keeping React,
+Radix/Dialog primitives, `asChild`, Tailwind, `cn`, Button/Input/Label
+composition, layout/form mechanics, and vendor source out of Sheet package
+dependencies.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `sheet-demo: 1`, `sheet-side: 1`.
+- `rg -n "sheet-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Sheet example parity is partial. The package API appears sufficient for the
+active upstream examples, but named docs, fixtures, and Playwright coverage are
+still needed to prove the upstream compositions. The next experiment should
+implement parity depth for `sheet-demo` and `sheet-side` without adding React,
+Radix/Dialog primitives, `asChild`, Tailwind, `cn`, Button/Input/Label
+dependencies, layout/form dependencies, or vendor dependencies.
+
+## Completion Review
+
+Reviewer: Poincare the 2nd (`019e9cf2-de25-7971-b697-ff963162148b`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the audit matches the approved
+scope, the experiment has result and conclusion sections, Issue 4 records the
+`Partial` status and later-work learning, `sheet-example-inventory.md` has
+exactly the two active Sheet rows and both are `Partial`, vendor examples
+support the audited behavior, current RadCN evidence supports the partial
+result, verification checks passed, vendor checkouts are clean, no
+`resolved-clusters.json` or `parity-inventory.md` diff exists, and no result
+commit was made before review.

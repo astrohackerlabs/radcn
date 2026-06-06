@@ -976,6 +976,15 @@ Record cross-component discoveries here as experiments complete.
   API change was needed. `select-example-inventory.md` marks both rows
   `Covered`, `resolved-clusters.json` records `select` as resolved, and the
   regenerated parity inventory recommends example parity for `sheet` next.
+- Experiment 73 audited Sheet example parity in
+  `sheet-example-inventory.md`. RadCN already covers Sheet-owned root, trigger,
+  portal, overlay, content, side variants, header/title/description/footer,
+  close controls, modal ARIA wiring, focus trap, focus restoration, Escape and
+  overlay dismissal, body scroll lock, custom tokens, and generic side
+  placement tests. The cluster remains partial because docs, fixtures, and
+  tests do not yet prove the named `sheet-demo` and `sheet-side` upstream
+  compositions: profile form copy, two labelled inputs with Pedro Duarte values,
+  `Open`/side triggers, footer close actions, and one four-side example.
 
 ## Experiments
 
@@ -1124,4 +1133,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 72: Implement select example parity depth](72-implement-select-example-parity-depth.md)
   — **Pass**
 - [Experiment 73: Audit sheet example parity](73-audit-sheet-example-parity.md)
-  — **Designed**
+  — **Partial**
