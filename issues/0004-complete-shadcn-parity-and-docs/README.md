@@ -593,3 +593,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 31: Audit input example parity](31-audit-input-example-parity.md)
   — **Pass**
+- [Experiment 32: Implement input example parity depth](32-implement-input-example-parity-depth.md)
+  — **Designed**
