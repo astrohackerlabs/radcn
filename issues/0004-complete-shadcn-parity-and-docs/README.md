@@ -828,6 +828,18 @@ Record cross-component discoveries here as experiments complete.
   `resolved-clusters.json` records `alert` as resolved, and the regenerated
   parity inventory recommends auditing `calendar` examples next. No Alert
   package API change was needed.
+- Experiment 59 audited Calendar example parity in
+  `calendar-example-inventory.md`. RadCN already has strong package, fixture,
+  and Playwright coverage for Gregorian calendar grid semantics, selected
+  state, hidden form values, accessible day names, keyboard and pointer
+  selection, month navigation, outside days, disabled dates, range hooks,
+  multi-month display, public hooks, and token customization. The active
+  upstream examples remain partially covered because docs, candidate fixtures,
+  and tests do not yet prove the named `calendar-demo` example, RadCN does not
+  currently implement or document `captionLayout="dropdown"` parity, and
+  `calendar-hijri` needs an explicit support-or-divergence decision for
+  Persian/Hijri rendering without adopting React, `react-day-picker/persian`,
+  `next/font`, `lucide-react`, Tailwind, or vendor dependencies.
 
 ## Experiments
 
@@ -948,4 +960,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 58: Implement alert example parity depth](58-implement-alert-example-parity-depth.md)
   — **Pass**
 - [Experiment 59: Audit calendar example parity](59-audit-calendar-example-parity.md)
-  — **Designed**
+  — **Partial**

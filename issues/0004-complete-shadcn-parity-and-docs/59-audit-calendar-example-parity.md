@@ -172,3 +172,97 @@ pass/fail criteria and repo hygiene checks, and the plan explicitly handles
 `calendar-hijri` as a possible intentional divergence rather than requiring
 `react-day-picker/persian`, `next/font`, `lucide-react`, Tailwind, or vendor
 dependencies.
+
+## Result
+
+**Result:** Partial
+
+Created `calendar-example-inventory.md` and audited the two active upstream
+Calendar examples: `calendar-demo` and `calendar-hijri`.
+
+The audit found that current `radcn/calendar` package mechanics are strong for
+Gregorian calendar behavior: single selection, default month, selected state,
+hidden input values, grid semantics, day accessible names, pointer and keyboard
+selection, month navigation, outside days, disabled dates, range state,
+multi-month rendering, public hooks, and token customization are already
+covered by package APIs, candidate fixtures, and Playwright tests.
+
+The cluster is not complete yet. `calendar-demo` lacks named docs/fixture/
+Playwright evidence and needs an explicit decision for upstream
+`captionLayout="dropdown"`. `calendar-hijri` is unresolved because it depends
+on alternate Persian/Hijri calendar rendering, `react-day-picker/persian`,
+`next/font` `Vazirmatn`, `lucide-react` chevrons, and RTL styling. RadCN does
+not currently implement or document that as supported or as an intentional
+divergence.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'calendar-demo',
+  'calendar-hijri',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+calendar-demo: 1
+calendar-hijri: 1
+
+rg -n "calendar-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+832:  `calendar-example-inventory.md`. RadCN already has strong package, fixture,
+
+git diff --check
+
+git status --short
+ M issues/0004-complete-shadcn-parity-and-docs/59-audit-calendar-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+## Conclusion
+
+Calendar should move from audit to an outcome implementation experiment next.
+That experiment should add named `calendar-demo` proof and resolve
+`calendar-hijri` either by implementing dependency-free alternate-calendar
+support or by recording a clear intentional divergence with docs guidance for
+app-owned Persian/Hijri calendar implementations.
+
+## Completion Review
+
+Reviewer: Anscombe the 2nd (`019e9c50-3c6e-78f0-b5fd-b389c42ba002`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the scope
+stayed audit-only, `calendar-example-inventory.md` has exactly one row for
+`calendar-demo` and one for `calendar-hijri`, `Partial` is appropriate because
+both rows are `Partial` and `calendar-hijri` is not yet covered or recorded as
+an intentional divergence, Experiment 59 includes Result and Conclusion
+sections, the Issue 4 README marks Experiment 59 `Partial` and records the
+Calendar follow-up learning, `git diff --check` passed, vendor status checks
+printed no output, the latest commit was still the plan commit, and no result
+commit had been made before review.
