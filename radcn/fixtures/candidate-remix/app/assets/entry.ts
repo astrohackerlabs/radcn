@@ -121,5 +121,117 @@ function enhanceFixtureCarouselAutoplay(root: ParentNode = document) {
   })
 }
 
+function closeFixtureOverlays(scope: ParentNode) {
+  scope.querySelectorAll<HTMLElement>('[data-radcn-dropdown-menu-content], [data-radcn-dropdown-menu-sub-content], [data-radcn-popover-content], [data-radcn-drawer-content], [data-radcn-drawer-overlay]').forEach((element) => {
+    element.hidden = true
+    element.dataset.state = 'closed'
+  })
+  scope.querySelectorAll<HTMLElement>('[data-radcn-dropdown-menu-trigger], [data-radcn-dropdown-menu-sub-trigger], [data-radcn-popover-trigger], [data-radcn-drawer-trigger]').forEach((trigger) => {
+    trigger.dataset.state = 'closed'
+    trigger.setAttribute('aria-expanded', 'false')
+  })
+}
+
+function enhanceFixtureComboboxExamples(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-fixture-combobox-example]').forEach((example) => {
+    if (example.dataset.fixtureComboboxExampleReady === 'true') return
+
+    let syncComboboxLabel = () => {
+      let combobox = example.querySelector<HTMLElement>('[data-radcn-combobox]')
+      let label = example.querySelector<HTMLElement>('[data-fixture-combobox-label]')
+      if (!combobox || !label) return
+      let value = combobox.dataset.value || ''
+      let item = value ? document.querySelector<HTMLElement>(`[data-radcn-combobox-item][data-value="${CSS.escape(value)}"]`) : null
+      label.textContent = item?.textContent?.replace('✓', '').trim() || '+ Set status'
+    }
+
+    let combobox = example.querySelector<HTMLElement>('[data-radcn-combobox]')
+    if (combobox) {
+      new MutationObserver(syncComboboxLabel).observe(combobox, {
+        attributeFilter: ['data-value'],
+        attributes: true,
+      })
+      syncComboboxLabel()
+    }
+
+    example.dataset.fixtureComboboxExampleReady = 'true'
+  })
+
+  root.querySelectorAll<HTMLElement>('[data-fixture-combobox-command-owner]').forEach((wrapper) => {
+    if (wrapper.dataset.fixtureComboboxCommandReady === 'true') return
+    let command = wrapper.querySelector<HTMLElement>('[data-radcn-command]')
+    if (!command) return
+    let update = (value: string, item: HTMLElement | null) => {
+      let owner = wrapper.dataset.fixtureComboboxCommandOwner
+      let example = owner ? document.querySelector<HTMLElement>(`[data-fixture-combobox-example][data-fixture-combobox-owner="${CSS.escape(owner)}"]`) : null
+      if (!example) return
+      let text = item?.textContent?.replace('✓', '').trim() || value
+      example.querySelectorAll<HTMLElement>('[data-fixture-combobox-label]').forEach((label) => {
+        label.textContent = text
+      })
+      closeFixtureOverlays(document)
+    }
+    command.addEventListener('radcn-command-select', (event) => {
+      let detail = (event as CustomEvent<{ value?: string }>).detail
+      let value = detail?.value || command.dataset.value || ''
+      let item = value ? command.querySelector<HTMLElement>(`[data-radcn-command-item][data-value="${CSS.escape(value)}"]`) : null
+      update(value, item)
+    })
+    wrapper.addEventListener('click', (event) => {
+      let target = event.target
+      if (!(target instanceof Element)) return
+      let item = target.closest<HTMLElement>('[data-radcn-command-item]')
+      if (!item || item.dataset.disabled === 'true') return
+      update(item.dataset.value || '', item)
+    })
+    wrapper.dataset.fixtureComboboxCommandReady = 'true'
+  })
+
+  let mobileResponsiveCombobox = document.getElementById('candidate-combobox-responsive-mobile')
+  if (mobileResponsiveCombobox instanceof HTMLElement && mobileResponsiveCombobox.dataset.fixtureComboboxMobileReady !== 'true') {
+    let syncMobile = () => {
+      let value = mobileResponsiveCombobox.dataset.value || ''
+      let item = value ? document.querySelector<HTMLElement>(`#candidate-combobox-responsive-mobile-content [data-radcn-combobox-item][data-value="${CSS.escape(value)}"], [data-radcn-combobox-item][data-value="${CSS.escape(value)}"]`) : null
+      let text = item?.textContent?.replace('✓', '').trim() || '+ Set status'
+      let example = document.querySelector<HTMLElement>('[data-fixture-combobox-example][data-fixture-combobox-owner="combobox-responsive"]')
+      example?.querySelectorAll<HTMLElement>('[data-fixture-combobox-label]').forEach((label) => {
+        label.textContent = text
+      })
+      if (value) closeFixtureOverlays(document)
+    }
+    new MutationObserver(syncMobile).observe(mobileResponsiveCombobox, {
+      attributeFilter: ['data-value'],
+      attributes: true,
+    })
+    mobileResponsiveCombobox.dataset.fixtureComboboxMobileReady = 'true'
+    syncMobile()
+  }
+}
+
+document.addEventListener('click', (event) => {
+  let target = event.target
+  if (!(target instanceof Element)) return
+  let item = target.closest<HTMLElement>('[data-radcn-command-item]')
+  if (!item || item.dataset.disabled === 'true') return
+  let wrapper = item.closest<HTMLElement>('[data-fixture-combobox-command-owner]')
+  let owner = wrapper?.dataset.fixtureComboboxCommandOwner
+  if (!owner && item.closest('[data-radcn-drawer-content]')) owner = 'combobox-responsive'
+  let example = owner ? document.querySelector<HTMLElement>(`[data-fixture-combobox-example][data-fixture-combobox-owner="${CSS.escape(owner)}"]`) : null
+  if (!example) return
+  let text = item.textContent?.replace('✓', '').trim() || item.dataset.value || ''
+  example.querySelectorAll<HTMLElement>('[data-fixture-combobox-label]').forEach((label) => {
+    label.textContent = text
+  })
+  closeFixtureOverlays(document)
+})
+
 enhanceFixtureCarouselStatus()
 enhanceFixtureCarouselAutoplay()
+enhanceFixtureComboboxExamples()
+
+document.addEventListener('click', (event) => {
+  let target = event.target
+  if (!(target instanceof Element)) return
+  if (!target.closest('[data-radcn-drawer-trigger], [data-radcn-popover-trigger], [data-radcn-dropdown-menu-trigger], [data-radcn-dropdown-menu-sub-trigger]')) return
+  window.setTimeout(() => enhanceFixtureComboboxExamples())
+})

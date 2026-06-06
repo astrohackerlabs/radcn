@@ -16,7 +16,34 @@ import {
   ComboboxPortal,
   ComboboxSeparator,
   ComboboxTrigger,
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  Drawer,
+  DrawerContent,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTrigger,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
   Label,
+  Popover,
+  PopoverContent,
+  PopoverPortal,
+  PopoverTrigger,
 } from 'radcn'
 
 const items = [
@@ -24,6 +51,32 @@ const items = [
   ['remix', 'Remix'],
   ['svelte', 'Svelte'],
   ['vue', 'Vue'],
+] as const
+
+const frameworkItems = [
+  ['next.js', 'Next.js'],
+  ['sveltekit', 'SvelteKit'],
+  ['nuxt.js', 'Nuxt.js'],
+  ['remix', 'Remix'],
+  ['astro', 'Astro'],
+] as const
+
+const labelItems = [
+  'feature',
+  'bug',
+  'enhancement',
+  'documentation',
+  'design',
+  'question',
+  'maintenance',
+] as const
+
+const statusItems = [
+  ['backlog', 'Backlog'],
+  ['todo', 'Todo'],
+  ['in-progress', 'In Progress'],
+  ['done', 'Done'],
+  ['canceled', 'Canceled'],
 ] as const
 
 function ComboboxShell({
@@ -101,8 +154,158 @@ function groupedItems() {
   )
 }
 
+function statusCommand(owner: string, placeholder = 'Filter status...') {
+  return (
+    <div data-fixture-combobox-command-owner={owner} data-fixture-combobox-status-command>
+      <Command>
+        <CommandInput placeholder={placeholder} />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup>
+            {statusItems.map(([value, label]) => <CommandItem value={value}>{label}</CommandItem>)}
+          </CommandGroup>
+        </CommandList>
+      </Command>
+    </div>
+  )
+}
+
+function ComboboxDemoExample() {
+  return (
+    <div data-fixture-combobox-example="combobox-demo" data-fixture-combobox-owner="combobox-demo" style="display:grid;gap:8px;max-width:380px">
+      <Label for="candidate-combobox-demo-input">Framework</Label>
+      <Combobox defaultValue="remix" id="candidate-combobox-demo" name="framework">
+        <div class="radcn-combobox-control">
+          <ComboboxInput ariaLabel="Framework" placeholder="Search framework..." />
+          <ComboboxClear />
+          <ComboboxTrigger>v</ComboboxTrigger>
+        </div>
+        <ComboboxPortal>
+          <ComboboxContent>
+            <ComboboxList>
+              <ComboboxGroup>
+                {frameworkItems.map(([value, label]) => <ComboboxItem keywords={`${label} framework`} textValue={label} value={value}>{label}</ComboboxItem>)}
+              </ComboboxGroup>
+              <ComboboxEmpty>No framework found.</ComboboxEmpty>
+            </ComboboxList>
+          </ComboboxContent>
+        </ComboboxPortal>
+      </Combobox>
+      <output data-fixture-combobox-label>Remix</output>
+    </div>
+  )
+}
+
+function ComboboxDropdownMenuExample() {
+  return (
+    <div data-fixture-combobox-example="combobox-dropdown-menu" data-fixture-combobox-owner="combobox-dropdown-menu" style="display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;max-width:520px;border:1px solid var(--radcn-border);border-radius:8px;padding:12px">
+      <p style="margin:0;display:flex;align-items:center;gap:8px">
+        <span data-fixture-combobox-label style="border-radius:8px;background:var(--radcn-primary);color:var(--radcn-primary-foreground);padding:4px 8px;font-size:12px">feature</span>
+        <span style="color:var(--radcn-muted-foreground)">Create a new project</span>
+      </p>
+      <DropdownMenu id="candidate-combobox-dropdown-menu">
+        <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm">...</DropdownMenuTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>Assign to...</DropdownMenuItem>
+              <DropdownMenuItem>Set due date...</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Apply label</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <div data-fixture-combobox-command-owner="combobox-dropdown-menu" data-fixture-combobox-label-command>
+                    <Command>
+                      <CommandInput placeholder="Filter label..." />
+                      <CommandList>
+                        <CommandEmpty>No label found.</CommandEmpty>
+                        <CommandGroup>
+                          {labelItems.map((label) => <CommandItem value={label}>{label}</CommandItem>)}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </div>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive">Delete<DropdownMenuShortcut>Cmd+Del</DropdownMenuShortcut></DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenuPortal>
+      </DropdownMenu>
+    </div>
+  )
+}
+
+function ComboboxPopoverExample() {
+  return (
+    <div data-fixture-combobox-example="combobox-popover" data-fixture-combobox-owner="combobox-popover" style="display:flex;align-items:center;gap:16px">
+      <span style="color:var(--radcn-muted-foreground)">Status</span>
+      <Popover id="candidate-combobox-popover">
+        <PopoverTrigger class="radcn-button radcn-button--outline"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
+        <PopoverPortal>
+          <PopoverContent align="start" side="right">
+            {statusCommand('combobox-popover', 'Change status...')}
+          </PopoverContent>
+        </PopoverPortal>
+      </Popover>
+    </div>
+  )
+}
+
+function ComboboxResponsiveExample() {
+  return (
+    <div data-fixture-combobox-example="combobox-responsive" data-fixture-combobox-owner="combobox-responsive" style="display:grid;gap:14px">
+      <div data-fixture-combobox-responsive-branch="desktop" style="display:block">
+        <Popover id="candidate-combobox-responsive-popover">
+          <PopoverTrigger class="radcn-button radcn-button--outline"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent align="start">
+              {statusCommand('combobox-responsive')}
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </div>
+      <div data-fixture-combobox-responsive-branch="mobile" style="display:none">
+        <Drawer id="candidate-combobox-responsive-drawer">
+          <DrawerTrigger><span data-fixture-combobox-label>+ Set status</span></DrawerTrigger>
+          <DrawerPortal>
+            <DrawerOverlay />
+            <DrawerContent>
+              <Combobox id="candidate-combobox-responsive-mobile" name="status">
+                <div class="radcn-combobox-control">
+                  <ComboboxInput ariaLabel="Mobile status" placeholder="Filter status..." />
+                  <ComboboxTrigger>v</ComboboxTrigger>
+                </div>
+                <ComboboxPortal>
+                  <ComboboxContent>
+                    <ComboboxList>
+                      {statusItems.map(([value, label]) => <ComboboxItem textValue={label} value={value}>{label}</ComboboxItem>)}
+                      <ComboboxEmpty>No results found.</ComboboxEmpty>
+                    </ComboboxList>
+                  </ComboboxContent>
+                </ComboboxPortal>
+              </Combobox>
+            </DrawerContent>
+          </DrawerPortal>
+        </Drawer>
+      </div>
+      <style>{'@media (max-width: 767px){[data-fixture-combobox-responsive-branch="desktop"]{display:none!important}[data-fixture-combobox-responsive-branch="mobile"]{display:block!important}}'}</style>
+    </div>
+  )
+}
+
 export function renderComboboxFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return ComboboxDemoExample()
+    case 'dropdown-menu':
+      return ComboboxDropdownMenuExample()
+    case 'popover':
+      return ComboboxPopoverExample()
+    case 'responsive':
+      return ComboboxResponsiveExample()
     case 'filtering':
       return ComboboxShell({ defaultOpen: true, defaultValue: 'react', id: 'candidate-combobox-filtering' })
     case 'placeholder':

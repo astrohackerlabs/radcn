@@ -2235,6 +2235,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "combobox",
+    id: "demo",
+    title: "Combobox Demo",
+    description: "Named upstream combobox-demo parity with searchable framework selection.",
+  },
+  {
+    component: "combobox",
+    id: "dropdown-menu",
+    title: "Combobox Dropdown Menu",
+    description: "Named upstream combobox-dropdown-menu parity with searchable label submenu.",
+  },
+  {
+    component: "combobox",
+    id: "popover",
+    title: "Combobox Popover",
+    description: "Named upstream combobox-popover parity with side-positioned status selection.",
+  },
+  {
+    component: "combobox",
+    id: "responsive",
+    title: "Combobox Responsive",
+    description: "Named upstream combobox-responsive parity with desktop popover and mobile drawer branches.",
+  },
+  {
+    component: "combobox",
     id: "default",
     title: "Default Combobox",
     description: "Searchable popup combobox with an initial selected value.",

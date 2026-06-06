@@ -266,3 +266,92 @@ plan avoids React, `lucide-react`, Tailwind, upstream `useMediaQuery`, vendor
 dependencies, and package API churn unless a direct blocker is recorded, and
 the dropdown submenu plus responsive behavior are tested as real compositions
 rather than isolated primitives.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Combobox example parity depth for all four upstream examples:
+
+- `combobox-demo`
+- `combobox-dropdown-menu`
+- `combobox-popover`
+- `combobox-responsive`
+
+The implementation preserved the existing `radcn/combobox` package API. It
+added a rich Combobox docs page with stable named hooks, candidate fixture
+routes for the four upstream examples, fixture-local dependency-free label
+enhancement for app-owned selected labels, and Playwright coverage for
+searchable framework selection, a searchable Dropdown Menu label submenu, a
+side-positioned status Popover, and desktop Popover/mobile Drawer responsive
+branches. The mobile Drawer branch uses a RadCN Combobox for the searchable
+status list so it keeps the same user-facing responsive behavior without React
+or upstream `useMediaQuery`.
+
+Updated `combobox-example-inventory.md` to mark all four examples `Covered`,
+added `combobox` to `resolved-clusters.json`, regenerated
+`parity-inventory.md`, and recorded the next recommendation as
+`dropdown-menu`.
+
+Verification:
+
+- `pnpm radcn:typecheck`: pass.
+- `pnpm --dir radcn/apps/docs typecheck`: pass.
+- `pnpm fixtures:candidate:typecheck`: pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts combobox-command.spec.ts`:
+  pass; 9 passed. The known Node `module.register()` deprecation warning was
+  printed by the dev server/test runner.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`:
+  pass; 5 passed. The known Node `module.register()` deprecation warning was
+  printed by the dev server/test runner.
+- Deterministic `combobox-example-inventory.md` row/status check: pass. It
+  reported exactly one `Covered` row for each of `combobox-demo`,
+  `combobox-dropdown-menu`, `combobox-popover`, and `combobox-responsive`.
+- Deterministic `resolved-clusters.json` check: pass. It found
+  `slug = "combobox"`, `status = "resolved"`, and evidence for Experiments 43
+  and 44 plus `combobox-example-inventory.md`.
+- Deterministic `parity-inventory.md` check: pass. `combobox` is no longer in
+  unresolved example clusters, and the first recommendation is no longer
+  `Example parity for combobox`; it is now `Example parity for dropdown-menu`.
+- Forbidden import/dependency checks for React, React DOM, `lucide-react`, and
+  vendor imports: pass.
+- Publish-scope manifest check: pass; no checked manifest has `publishConfig`.
+- `git diff --check`: pass.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`:
+  pass; no output.
+
+## Conclusion
+
+Combobox example parity is resolved. Later component clusters should reuse the
+same pattern for composed shadcn examples: preserve the package primitive when
+it is sufficient, add named docs/fixture/Playwright proof for the upstream
+example ids, keep app-owned selected labels in scoped dependency-free
+enhancement when needed, and record responsive React hook examples as CSS
+breakpoints or app enhancement rather than package dependencies.
+
+The next experiment should audit `dropdown-menu` example parity, as recommended
+by the regenerated parity inventory.
+
+## Completion Review
+
+Reviewer: Einstein the 2nd (`019e9bc4-588a-71b1-a52c-dffe6932884d`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Einstein the 2nd confirmed that the implementation
+matches the approved scope, all four active Combobox rows are `Covered`,
+`combobox-form` remains adjacent evidence rather than a fifth row, Result and
+Conclusion are recorded, the issue README marks Experiment 44 as `Pass` and
+records the learning plus next `dropdown-menu` recommendation, docs coverage
+asserts all four hooks and mapping copy, fixture tests exercise the searchable
+Dropdown Menu submenu and responsive desktop/mobile branches, no Combobox
+package API or manifest churn occurred, the result commit had not been made
+before review, all three typechecks passed, fixture Playwright passed 9/9, docs
+Playwright passed 5/5, deterministic inventory/dependency checks passed,
+`git diff --check` passed, and vendor status checks produced no output.

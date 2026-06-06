@@ -131,6 +131,7 @@ These are documented in RadCN but are not current package exports.
 | examples | textarea | resolved | `issues/0004-complete-shadcn-parity-and-docs/37-audit-textarea-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/38-implement-textarea-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md` |
 | examples | toast | resolved | `issues/0004-complete-shadcn-parity-and-docs/39-audit-toast-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/40-implement-toast-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md` |
 | examples | badge | resolved | `issues/0004-complete-shadcn-parity-and-docs/41-audit-badge-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/42-implement-badge-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/badge-example-inventory.md` |
+| examples | combobox | resolved | `issues/0004-complete-shadcn-parity-and-docs/43-audit-combobox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/44-implement-combobox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/combobox-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -220,7 +221,6 @@ parity decision.
 | card | 2 | `card-demo`, `card-with-form` |
 | checkbox | 3 | `checkbox-demo`, `checkbox-disabled`, `checkbox-with-text` |
 | collapsible | 1 | `collapsible-demo` |
-| combobox | 4 | `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, `combobox-responsive` |
 | command | 2 | `command-demo`, `command-dialog` |
 | context-menu | 1 | `context-menu-demo` |
 | data-table | 1 | `data-table-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for combobox
+**Cluster:** Example parity for dropdown-menu
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for combobox.
+- Audit upstream examples for dropdown-menu.
 
 ## Notes
 

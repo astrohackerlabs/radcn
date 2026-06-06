@@ -169,6 +169,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/42-implement-badge-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/badge-example-inventory.md"
       ]
+    },
+    {
+      "slug": "combobox",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/43-audit-combobox-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/44-implement-combobox-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/combobox-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

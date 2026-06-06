@@ -146,6 +146,37 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('lucide-react icons are app-owned presentation').first()).toBeVisible()
     await expect(page.getByText('Icon and count/pill badge presentation remains app-owned').first()).toBeVisible()
 
+    await page.goto('/docs/components/combobox')
+    for (let slug of [
+      'combobox-demo',
+      'combobox-dropdown-menu',
+      'combobox-popover',
+      'combobox-responsive',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-combobox-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-demo"] [data-radcn-combobox]')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-dropdown-menu"] [data-radcn-dropdown-menu]')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-dropdown-menu"] [data-radcn-command]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-popover"] [data-radcn-popover]')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-responsive"] [data-radcn-popover]')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-combobox-family="combobox-responsive"] [data-radcn-drawer]')).toBeVisible()
+    await expect(page.getByText('ComboboxInput').first()).toBeVisible()
+    await expect(page.getByText('ComboboxItem').first()).toBeVisible()
+    await expect(page.getByText('DropdownMenu').first()).toBeVisible()
+    await expect(page.getByText('Popover').first()).toBeVisible()
+    await expect(page.getByText('Drawer').first()).toBeVisible()
+    await expect(page.getByText('Command').first()).toBeVisible()
+    await expect(page.getByText('React useState and onSelect map to RadCN').first()).toBeVisible()
+    await expect(page.getByText('Button asChild maps to explicit ComboboxTrigger').first()).toBeVisible()
+    await expect(page.getByText('useMediaQuery maps to CSS breakpoints').first()).toBeVisible()
+    await expect(page.getByText('lucide-react icons remain app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Tailwind width, padding, flex, and responsive utilities map to RadCN').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-* hooks').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+    await expect(page.getByText('combobox-form is adjacent Form/Combobox evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/input')
     await expect(page.locator('[data-radcn-input]').first()).toBeVisible()
     for (let slug of [

@@ -50,10 +50,10 @@ and Playwright tests prove those primitives directly.
 The upstream examples are composition examples rather than only primitive
 examples. They combine combobox-like searchable command lists with Button,
 Popover, Dropdown Menu submenus, Drawer, icons, responsive branching, and
-React-owned local state. RadCN already has most constituent primitives, but the
-four named upstream examples are not yet represented as named docs examples,
-candidate fixture routes, or Playwright assertions. Combobox example parity is
-therefore partial and needs one implementation-depth experiment.
+React-owned local state. Experiment 44 added named docs, fixture, and
+Playwright evidence for all four active examples, including searchable
+Dropdown Menu submenu composition and responsive desktop Popover/mobile Drawer
+composition. Combobox example parity is now covered.
 
 `combobox-form` exists as an upstream public JSON payload, but the active
 parity inventory's `combobox` cluster lists exactly `combobox-demo`,
@@ -67,32 +67,32 @@ future inventory explicitly reclassifies it.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `combobox-demo` | Outline trigger shows a selected framework label or placeholder, opens a 200px searchable list, filters options, toggles the selected framework, shows a check indicator, and closes after selection. | React `useState` controls `open` and `value`; `Button asChild`, `Popover`, `Command`, `CommandInput`, `CommandList`, `CommandItem`, `onSelect`, `Check`, `ChevronsUpDown`, `className`, and Tailwind utilities compose the UI. | `radcn/combobox` supports default value, searchable input, listbox roles, filtering, empty state, selected indicators, hidden input, close-on-select, trigger open/close, public hooks, and custom classes. Docs show only a generic combobox preview, and fixtures prove behavior through generic routes, not a named `combobox-demo` route. | Partial | Add named docs, fixture, and Playwright proof for the demo shape, including placeholder/label display, decorative trigger glyph, selected indicator, close-on-select, and future RadCN source snippet. |
-| `combobox-dropdown-menu` | A task row displays the current label badge and opens an actions dropdown. A submenu contains a searchable label picker; selecting a label updates the row label and closes the menu. | React `useState` controls `label` and menu `open`; uses `Button`, `MoreHorizontal`, `DropdownMenu`, groups, labels, separators, shortcuts, submenu trigger/content, and nested `Command` filtering with `onSelect`. | RadCN ships Dropdown Menu labels, groups, separators, shortcuts, submenus, destructive items, and Combobox/Command searchable list behavior. Docs/fixtures already prove dropdown submenus and combobox filtering separately, but no named example proves a searchable label picker inside a dropdown submenu or the label badge update pattern. | Partial | Add a named composition example that embeds RadCN searchable list behavior inside Dropdown Menu subcontent, proves app-owned selected label state, and keeps Dropdown Menu and Combobox responsibilities separate. |
-| `combobox-popover` | A status row has a label and an outline button that opens a right-aligned popover with searchable statuses; selecting a status updates the trigger label and closes the popover. | React `useState` controls `open` and selected status; uses `Button`, `Popover side="right" align="start"`, `Command`, `CommandInput`, `CommandList`, `CommandItem`, and `onSelect`. | RadCN Combobox supports side/align placement directly, and RadCN Popover supports side/align overlays. Current combobox fixtures prove right/end popper placement; current docs do not include a named status-popover combobox composition or app-owned selected status label proof. | Partial | Add named docs/fixture/Playwright coverage for status selection in a side-positioned popover or direct Combobox composition, including label persistence after selection. |
-| `combobox-responsive` | Desktop uses a popover status picker; mobile uses a drawer status picker. Both share the same searchable status list and update the selected status label. | React `useState` controls selected status and open state; `useMediaQuery("(min-width: 768px)")` chooses Popover or Drawer; `StatusList` composes `Command` parts. | RadCN has Drawer, Popover, Combobox, and existing responsive example precedent in Breadcrumb docs/fixtures using CSS breakpoints and app-owned branching. There is no named Combobox responsive fixture proving popover on desktop, drawer on mobile, shared searchable list behavior, or selected label persistence. | Partial | Add a responsive example using CSS breakpoints or dependency-free browser enhancement instead of `useMediaQuery`, with desktop and mobile Playwright assertions for the popover/drawer branches. |
+| `combobox-demo` | Outline trigger shows a selected framework label or placeholder, opens a 200px searchable list, filters options, toggles the selected framework, shows a check indicator, and closes after selection. | React `useState` controls `open` and `value`; `Button asChild`, `Popover`, `Command`, `CommandInput`, `CommandList`, `CommandItem`, `onSelect`, `Check`, `ChevronsUpDown`, `className`, and Tailwind utilities compose the UI. | Docs hook `combobox-demo`, fixture route `combobox/demo`, and Playwright coverage prove filtering, selected framework state, selected indicator, hidden value sync, app-owned label display, close-on-select, decorative trigger glyph, and public hooks. | Covered | No follow-up for this example. |
+| `combobox-dropdown-menu` | A task row displays the current label badge and opens an actions dropdown. A submenu contains a searchable label picker; selecting a label updates the row label and closes the menu. | React `useState` controls `label` and menu `open`; uses `Button`, `MoreHorizontal`, `DropdownMenu`, groups, labels, separators, shortcuts, submenu trigger/content, and nested `Command` filtering with `onSelect`. | Docs hook `combobox-dropdown-menu`, fixture route `combobox/dropdown-menu`, and Playwright coverage prove searchable label picker composition inside Dropdown Menu subcontent, app-owned selected label update, close-after-select, menu hooks, and command hooks. | Covered | No follow-up for this example. |
+| `combobox-popover` | A status row has a label and an outline button that opens a right-aligned popover with searchable statuses; selecting a status updates the trigger label and closes the popover. | React `useState` controls `open` and selected status; uses `Button`, `Popover side="right" align="start"`, `Command`, `CommandInput`, `CommandList`, `CommandItem`, and `onSelect`. | Docs hook `combobox-popover`, fixture route `combobox/popover`, and Playwright coverage prove side/right align/start popover composition, searchable status selection, app-owned label persistence, and close-after-select. | Covered | No follow-up for this example. |
+| `combobox-responsive` | Desktop uses a popover status picker; mobile uses a drawer status picker. Both share the same searchable status list and update the selected status label. | React `useState` controls selected status and open state; `useMediaQuery("(min-width: 768px)")` chooses Popover or Drawer; `StatusList` composes `Command` parts. | Docs hook `combobox-responsive`, fixture route `combobox/responsive`, and Playwright coverage prove desktop Popover branch, mobile Drawer branch, shared searchable status list, app-owned selected label update, and CSS breakpoint mapping instead of `useMediaQuery`. | Covered | No follow-up for this example. |
 
 ## Behavior Coverage
 
 | Behavior | Current status | Evidence |
 | --- | --- | --- |
-| Searchable command-style list | Covered primitive, partial example proof | `ComboboxInput`, `ComboboxList`, `ComboboxItem`, and `setupSearchableListbox` filter by value, text, keywords, and text content; `combobox-command.spec.ts` proves filtering. No named upstream example routes exist yet. |
-| Empty state | Covered primitive, partial example proof | `ComboboxEmpty` syncs visibility through `setupSearchableListbox`; command tests also prove empty state for `radcn/command`. The four combobox examples need named coverage. |
+| Searchable command-style list | Covered | `ComboboxInput`, `ComboboxList`, `ComboboxItem`, and `setupSearchableListbox` filter by value, text, keywords, and text content; named docs/fixture/Playwright coverage proves the four upstream examples. |
+| Empty state | Covered | `ComboboxEmpty` syncs visibility through `setupSearchableListbox`; command tests prove empty state for composed command lists. |
 | Grouped options | Covered primitive | `ComboboxGroup`, `ComboboxLabel`, and `ComboboxSeparator` exist, and the `groups` fixture/test proves grouped options and disabled option skipping. |
-| Selected indicators | Covered primitive, partial example proof | `ComboboxItem` includes an item indicator and syncs `data-selected`/`aria-selected`; fixture tests prove selected state. Named upstream indicator examples are not present yet. |
-| Trigger/value labels | Partial | `ComboboxValue`, `ComboboxTrigger`, and input value sync exist. The upstream examples rely on app-owned trigger labels such as `Select framework...`, `+ Set status`, and selected status text; those labels need named docs/fixture proof. |
+| Selected indicators | Covered | `ComboboxItem` includes an item indicator and syncs `data-selected`/`aria-selected`; named `combobox-demo` fixture tests prove selected state. |
+| Trigger/value labels | Covered | `ComboboxValue`, `ComboboxTrigger`, input value sync, and fixture-owned label enhancement prove upstream placeholder/label patterns as app-owned state. |
 | Keyboard navigation | Covered primitive | Playwright proves Arrow/Home/End/Enter/Escape/Tab behavior, active descendant, and disabled option skipping. |
-| Open/close behavior | Covered primitive, partial example proof | Trigger, input, outside pointer, Escape, Tab, and close-on-select are implemented. Named examples need close-after-select proof in their composed contexts. |
+| Open/close behavior | Covered | Trigger, input, outside pointer, Escape, Tab, and close-on-select are implemented; named examples prove close-after-select in composed contexts. |
 | Disabled options | Covered primitive | `ComboboxItem disabled` maps to `aria-disabled` and is skipped by `setupSearchableListbox`; fixture tests prove skip behavior. |
-| Popper side/align positioning | Covered primitive, partial example proof | `ComboboxContent` supports `side`, `align`, and `sideOffset`; the `popper-placement` fixture proves right/end placement and stage clamping. Named `combobox-popover` proof is still missing. |
+| Popper side/align positioning | Covered | `ComboboxContent` supports `side`, `align`, and `sideOffset`; the `popper-placement` fixture proves Combobox positioning and named `combobox-popover` proves Popover side/right align/start composition. |
 | Hidden input form submission | Covered primitive | `Combobox` renders a hidden input when `name` is supplied; fixture tests prove submit URL and form reset. |
 | Clearable state | Covered primitive | `ComboboxClear` resets value, hidden input, query, and focus; fixture tests prove behavior. |
 | Multiple/chip state | Covered RadCN extension | `multiple`, `ComboboxChips`, `ComboboxChip`, and `ComboboxChipRemove` exist and fixture tests prove serialization. Upstream four-example cluster does not require multiple selection. |
 | Custom hooks/classes | Covered primitive | `class`, `style`, and `data-radcn-*` hooks exist; fixture tests prove custom token styling. |
-| Dropdown submenu composition | Partial | Dropdown Menu supports labels, groups, separators, shortcuts, submenus, and destructive items, while Combobox supports searchable lists. A named searchable submenu composition is missing. |
-| Responsive popover/drawer composition | Partial | Drawer and Popover primitives exist and Breadcrumb has responsive precedent, but the named combobox responsive example is missing. |
-| Docs coverage | Partial | Docs registry includes Combobox and a generic preview/source snippet. It does not yet include named `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, or `combobox-responsive` examples. |
-| Playwright coverage | Partial | Generic Combobox, Command, Dropdown Menu, Popover, Drawer, and responsive fixture behavior is tested separately. The four upstream combobox examples are not tested as named compositions. |
+| Dropdown submenu composition | Covered | Named `combobox-dropdown-menu` docs/fixture/Playwright evidence proves a searchable Command list inside Dropdown Menu subcontent. |
+| Responsive popover/drawer composition | Covered | Named `combobox-responsive` docs/fixture/Playwright evidence proves desktop Popover and mobile Drawer branches with a shared searchable status list. |
+| Docs coverage | Covered | The Combobox rich docs page renders stable hooks for `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, and `combobox-responsive`. |
+| Playwright coverage | Covered | `combobox-command.spec.ts` proves all four upstream examples as named compositions and keeps generic Combobox/Command behavior passing. |
 
 ## Mapping Decisions
 
@@ -115,14 +115,5 @@ future inventory explicitly reclassifies it.
 
 ## Recommendation
 
-Combobox example parity is partial. The next experiment should implement
-Combobox example parity depth by adding named docs examples, candidate fixture
-routes, and Playwright coverage for `combobox-demo`,
-`combobox-dropdown-menu`, `combobox-popover`, and `combobox-responsive`.
-
-The implementation should preserve the current `radcn/combobox` package API
-unless direct evidence shows a blocker. It should compose existing RadCN
-Button, Combobox, Command, Dropdown Menu, Popover, and Drawer primitives,
-record app-owned label/state behavior explicitly, and keep React,
-`lucide-react`, Tailwind, `useMediaQuery`, and vendor source out of RadCN
-package dependencies.
+Combobox example parity is resolved. The next Issue 4 recommendation should
+come from the regenerated parity inventory.

@@ -653,6 +653,17 @@ Record cross-component discoveries here as experiments complete.
   examples by composing existing RadCN Combobox, Command, Dropdown Menu,
   Popover, Drawer, and Button primitives, with app-owned label/state behavior
   and no React, `lucide-react`, Tailwind, `useMediaQuery`, or vendor dependency.
+- Experiment 44 completed Combobox example parity depth without changing the
+  Combobox package API. The docs page, candidate fixtures, and Playwright tests
+  now prove `combobox-demo`, `combobox-dropdown-menu`, `combobox-popover`, and
+  `combobox-responsive`, including searchable framework selection, a searchable
+  Dropdown Menu label submenu, a side-positioned status Popover, desktop
+  Popover/mobile Drawer responsive branches, app-owned label persistence,
+  close-after-select behavior, and public hooks. `combobox-form` remains
+  adjacent Form/Combobox evidence outside the active four-example cluster.
+  RadCN still does not depend on React, `lucide-react`, Tailwind,
+  `useMediaQuery`, or vendor source. The regenerated parity inventory now
+  recommends auditing `dropdown-menu` examples next.
 
 ## Experiments
 
@@ -743,4 +754,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 43: Audit combobox example parity](43-audit-combobox-example-parity.md)
   — **Pass**
 - [Experiment 44: Implement combobox example parity depth](44-implement-combobox-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

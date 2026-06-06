@@ -56,9 +56,13 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from 'radcn/colla
 import {
   Combobox,
   ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
+  ComboboxPortal,
   ComboboxTrigger,
   ComboboxValue,
 } from 'radcn/combobox'
@@ -349,7 +353,7 @@ const forceVisiblePreviewStyle = css({
   '& [data-radcn-tabs-content][hidden]': {
     display: 'grid !important',
   },
-  '& [data-radcn-alert-dialog-content][hidden], & [data-radcn-drawer-content][hidden], & [data-radcn-sheet-content][hidden], & [data-radcn-popover-content][hidden], & [data-radcn-hover-card-content][hidden], & [data-radcn-tooltip-content][hidden], & [data-radcn-dropdown-menu-content][hidden], & [data-radcn-context-menu-content][hidden], & [data-radcn-menubar-content][hidden], & [data-radcn-select-content][hidden], & [data-radcn-combobox-content][hidden], & [data-radcn-navigation-menu-content][hidden]': {
+  '& [data-radcn-alert-dialog-content][hidden], & [data-radcn-drawer-content][hidden], & [data-radcn-sheet-content][hidden], & [data-radcn-popover-content][hidden], & [data-radcn-hover-card-content][hidden], & [data-radcn-tooltip-content][hidden], & [data-radcn-dropdown-menu-content][hidden], & [data-radcn-dropdown-menu-sub-content][hidden], & [data-radcn-context-menu-content][hidden], & [data-radcn-menubar-content][hidden], & [data-radcn-select-content][hidden], & [data-radcn-combobox-content][hidden], & [data-radcn-navigation-menu-content][hidden]': {
     color: 'var(--radcn-foreground) !important',
     display: 'grid !important',
     left: 'auto !important',
@@ -672,6 +676,118 @@ export function BadgePreview() {
       <Badge data-radcn-docs-badge-family="badge-secondary" variant="secondary">
         Secondary
       </Badge>
+    </div>
+  )
+}`
+
+const comboboxSource = `import { Button } from 'radcn/button'
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxPortal,
+  ComboboxTrigger,
+} from 'radcn/combobox'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from 'radcn/command'
+import { Drawer, DrawerContent, DrawerPortal, DrawerTrigger } from 'radcn/drawer'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+import { Popover, PopoverContent, PopoverPortal, PopoverTrigger } from 'radcn/popover'
+
+export function ComboboxPreview() {
+  return (
+    <div class="combobox-examples">
+      <div data-radcn-docs-combobox-family="combobox-demo">
+        <Combobox defaultValue="remix" name="framework">
+          <div class="radcn-combobox-control">
+            <ComboboxInput ariaLabel="Framework" placeholder="Search framework..." />
+            <ComboboxTrigger>v</ComboboxTrigger>
+          </div>
+          <ComboboxPortal>
+            <ComboboxContent>
+              <ComboboxList>
+                <ComboboxGroup>
+                  <ComboboxItem value="next.js">Next.js</ComboboxItem>
+                  <ComboboxItem value="sveltekit">SvelteKit</ComboboxItem>
+                  <ComboboxItem value="nuxt.js">Nuxt.js</ComboboxItem>
+                  <ComboboxItem value="remix">Remix</ComboboxItem>
+                  <ComboboxItem value="astro">Astro</ComboboxItem>
+                </ComboboxGroup>
+                <ComboboxEmpty>No framework found.</ComboboxEmpty>
+              </ComboboxList>
+            </ComboboxContent>
+          </ComboboxPortal>
+        </Combobox>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-dropdown-menu">
+        <span data-radcn-docs-combobox-label>feature</span>
+        <span>Create a new project</span>
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger ariaLabel="Project actions">...</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>Assign to...</DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>Apply label</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <Command>
+                    <CommandInput placeholder="Filter label..." />
+                    <CommandList>
+                      <CommandEmpty>No label found.</CommandEmpty>
+                      <CommandGroup>
+                        <CommandItem value="feature">feature</CommandItem>
+                        <CommandItem value="bug">bug</CommandItem>
+                        <CommandItem value="design">design</CommandItem>
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-popover">
+        <span>Status</span>
+        <Popover defaultOpen>
+          <PopoverTrigger class="radcn-button radcn-button--outline">+ Set status</PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent align="start" side="right">
+              <Command>
+                <CommandInput placeholder="Change status..." />
+                <CommandList>
+                  <CommandEmpty>No results found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem value="backlog">Backlog</CommandItem>
+                    <CommandItem value="todo">Todo</CommandItem>
+                    <CommandItem value="done">Done</CommandItem>
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-responsive">
+        <div class="combobox-responsive-desktop">
+          <Popover defaultOpen>
+            <PopoverTrigger class="radcn-button radcn-button--outline">Desktop status</PopoverTrigger>
+            <PopoverPortal><PopoverContent><Command><CommandInput placeholder="Filter status..." /></Command></PopoverContent></PopoverPortal>
+          </Popover>
+        </div>
+        <div class="combobox-responsive-mobile">
+          <Drawer defaultOpen>
+            <DrawerTrigger>Mobile status</DrawerTrigger>
+            <DrawerPortal><DrawerContent><Command><CommandInput placeholder="Filter status..." /></Command></DrawerContent></DrawerPortal>
+          </Drawer>
+        </div>
+      </div>
     </div>
   )
 }`
@@ -1973,6 +2089,130 @@ function BadgePreview() {
       </div>
       <div data-radcn-docs-badge-family="badge-secondary" mix={previewRowStyle}>
         <Badge variant="secondary">Secondary</Badge>
+      </div>
+    </div>
+  )
+}
+
+const comboboxStatusItems = [
+  ['backlog', 'Backlog'],
+  ['todo', 'Todo'],
+  ['in-progress', 'In Progress'],
+  ['done', 'Done'],
+  ['canceled', 'Canceled'],
+] as const
+
+function DocsStatusCommand({ placeholder = 'Filter status...' }: { placeholder?: string }) {
+  return (
+    <Command>
+      <CommandInput placeholder={placeholder} />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup>
+          {comboboxStatusItems.map(([value, label]) => (
+            <CommandItem value={value}>{label}</CommandItem>
+          ))}
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+
+function ComboboxPreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,44rem)">
+      <div data-radcn-docs-combobox-family="combobox-demo" mix={previewStackStyle}>
+        <Combobox defaultOpen defaultValue="remix" name="framework" style="width:min(100%,16rem)">
+          <div class="radcn-combobox-control">
+            <ComboboxInput ariaLabel="Framework" placeholder="Search framework..." />
+            <ComboboxTrigger>v</ComboboxTrigger>
+          </div>
+          <ComboboxPortal>
+            <ComboboxContent>
+              <ComboboxList>
+                <ComboboxGroup>
+                  <ComboboxItem textValue="Next.js" value="next.js">Next.js</ComboboxItem>
+                  <ComboboxItem textValue="SvelteKit" value="sveltekit">SvelteKit</ComboboxItem>
+                  <ComboboxItem textValue="Nuxt.js" value="nuxt.js">Nuxt.js</ComboboxItem>
+                  <ComboboxItem textValue="Remix" value="remix">Remix</ComboboxItem>
+                  <ComboboxItem textValue="Astro" value="astro">Astro</ComboboxItem>
+                </ComboboxGroup>
+                <ComboboxEmpty>No framework found.</ComboboxEmpty>
+              </ComboboxList>
+            </ComboboxContent>
+          </ComboboxPortal>
+        </Combobox>
+        <p style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem">Selected label: Remix</p>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-dropdown-menu" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="width:min(100%,36rem);align-items:flex-start;border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);padding:0.75rem">
+        <p style="margin:0;display:flex;gap:0.5rem;align-items:center;flex:1 1 16rem">
+          <span data-radcn-docs-combobox-label style="border-radius:0.5rem;background:var(--radcn-primary);color:var(--radcn-primary-foreground);padding:0.25rem 0.5rem;font-size:0.75rem">feature</span>
+          <span style="color:var(--radcn-muted-foreground);font-size:0.875rem">Create a new project</span>
+        </p>
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm">...</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Assign to...</DropdownMenuItem>
+                <DropdownMenuItem>Set due date...</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Apply label</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <Command>
+                      <CommandInput placeholder="Filter label..." />
+                      <CommandList>
+                        <CommandEmpty>No label found.</CommandEmpty>
+                        <CommandGroup>
+                          {['feature', 'bug', 'enhancement', 'documentation', 'design'].map((label) => (
+                            <CommandItem value={label}>{label}</CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive">Delete<DropdownMenuShortcut>Cmd+Del</DropdownMenuShortcut></DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-popover" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
+        <span style="color:var(--radcn-muted-foreground);font-size:0.875rem">Status</span>
+        <Popover defaultOpen>
+          <PopoverTrigger class="radcn-button radcn-button--outline">+ Set status</PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent align="start" side="right">
+              {DocsStatusCommand({ placeholder: 'Change status...' })}
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </div>
+
+      <div data-radcn-docs-combobox-family="combobox-responsive" mix={forceVisiblePreviewStyle} style="display:grid;gap:0.75rem;width:min(100%,36rem)">
+        <div class="radcn-docs-combobox-responsive-desktop" data-radcn-docs-combobox-responsive-branch="desktop">
+          <Popover defaultOpen>
+            <PopoverTrigger class="radcn-button radcn-button--outline">Desktop status</PopoverTrigger>
+            <PopoverPortal>
+              <PopoverContent align="start">{DocsStatusCommand({})}</PopoverContent>
+            </PopoverPortal>
+          </Popover>
+        </div>
+        <div class="radcn-docs-combobox-responsive-mobile" data-radcn-docs-combobox-responsive-branch="mobile">
+          <Drawer defaultOpen>
+            <DrawerTrigger>Mobile status</DrawerTrigger>
+            <DrawerPortal>
+              <DrawerOverlay />
+              <DrawerContent>{DocsStatusCommand({})}</DrawerContent>
+            </DrawerPortal>
+          </Drawer>
+        </div>
       </div>
     </div>
   )
@@ -4005,6 +4245,50 @@ const richComponentDocs: ComponentDoc[] = [
       'RadCN keeps link behavior explicit with href rather than forwarding arbitrary React children through asChild.',
       'shadcn className maps to RadCN class, data-slot="badge" maps to data-radcn-badge plus data-variant, and React prop spreading maps to explicit Remix UI props.',
       'Tailwind utility styling maps to RadCN classes, style, CSS variables, and app CSS; lucide-react icons are app-owned presentation and not Badge dependencies.',
+    ],
+  },
+  {
+    slug: 'combobox',
+    title: 'Combobox',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A searchable listbox primitive for command-style selection, native form values, and composed popover, menu, and drawer examples.',
+    importPath: 'radcn/combobox',
+    importExample:
+      "import { Combobox, ComboboxContent, ComboboxInput, ComboboxItem, ComboboxList, ComboboxTrigger } from 'radcn/combobox'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the four upstream Combobox examples through RadCN primitives and app-owned composition.',
+        source: comboboxSource,
+        preview: <ComboboxPreview />,
+      },
+    ],
+    accessibility: [
+      'ComboboxInput receives role="combobox", aria-expanded, aria-controls, aria-autocomplete, and aria-activedescendant during enhancement.',
+      'ComboboxList renders role="listbox" and ComboboxItem renders role="option" with aria-selected and aria-disabled state.',
+      'Keyboard navigation covers Arrow keys, Home, End, Enter, Escape, Tab, and disabled option skipping.',
+      'Native hidden inputs preserve selected values for server actions and form submissions when name is supplied.',
+    ],
+    customization: [
+      'Combobox exposes public data-radcn-combobox hooks for root, input, trigger, portal, content, list, group, label, item, empty state, clear button, and chips.',
+      'Popover, DropdownMenu, Drawer, Command, and Button remain separate primitives that can be composed around Combobox examples.',
+      'Selected labels, row badges, responsive branch selection, and icon choices are app-owned presentation and state.',
+      'Tailwind width, padding, flex, and responsive utilities map to RadCN classes, class, style, CSS variables, CSS breakpoints, or small dependency-free browser enhancement.',
+    ],
+    divergence: [
+      'shadcn React useState and onSelect map to RadCN package-owned selection behavior for Combobox and app-owned browser/server state for composed labels.',
+      'Button asChild maps to explicit ComboboxTrigger, PopoverTrigger, DropdownMenuTrigger, and DrawerTrigger components.',
+      'Upstream Command, Popover, DropdownMenu, and Drawer examples map to RadCN package imports without making them Combobox package dependencies.',
+      'useMediaQuery maps to CSS breakpoints or dependency-free enhancement; lucide-react icons remain app-owned presentation.',
+      'className maps to class, data-slot maps to data-radcn-* hooks, and vendor source remains read-only evidence.',
+      'combobox-form is adjacent Form/Combobox evidence because its React Hook Form, Zod, Sonner, and validation mechanics belong to form composition.',
     ],
   },
   {
