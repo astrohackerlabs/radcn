@@ -179,6 +179,43 @@ test('candidate input otp mirrors slots filters input and handles keyboard paste
   await expect(page).toHaveURL(/\/fixtures\/input-otp\/form-submit-reset\?code=123456&intent=submit$/)
 })
 
+test('candidate input otp matches named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/input-otp/demo`)
+  let input = page.locator('#candidate-input-otp-demo')
+  await expect(page.locator('[data-radcn-input-otp-group]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-input-otp-separator]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-input-otp-slot]')).toHaveCount(6)
+  await expect(input).toHaveValue('123456')
+  await expect(otpSlot(page, 5)).toHaveAttribute('data-char', '6')
+  await input.focus()
+  await page.keyboard.press('Home')
+  await expect(otpSlot(page, 0)).toHaveAttribute('data-active', 'true')
+
+  await page.goto(`${candidate}/fixtures/input-otp/pattern`)
+  input = page.locator('#candidate-input-otp-pattern')
+  await expect(input).toHaveAttribute('pattern', '[0-9A-Za-z]*')
+  await input.focus()
+  await page.keyboard.type('A1- b?2')
+  await expect(input).toHaveValue('A1b2')
+  await expect(otpSlot(page, 0)).toHaveAttribute('data-char', 'A')
+  await expect(otpSlot(page, 3)).toHaveAttribute('data-char', '2')
+
+  await page.goto(`${candidate}/fixtures/input-otp/separator-2-2-2`)
+  await expect(page.locator('[data-radcn-input-otp-group]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-input-otp-separator]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-input-otp-slot]')).toHaveCount(6)
+  await expect(otpSlot(page, 5)).toHaveAttribute('data-char', '6')
+
+  await page.goto(`${candidate}/fixtures/input-otp/controlled`)
+  input = page.locator('#candidate-input-otp-controlled')
+  await expect(page.getByText('Enter your one-time password.')).toBeVisible()
+  await input.focus()
+  await page.keyboard.type('987654')
+  await expect(input).toHaveValue('987654')
+  await expect(page.getByText('You entered: 987654')).toBeVisible()
+  await expect(otpSlot(page, 5)).toHaveAttribute('data-char', '4')
+})
+
 test('candidate input otp exposes separators invalid disabled and custom token hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/input-otp/separator`)
   await expect(page.locator('[data-radcn-input-otp-separator]')).toHaveAttribute('role', 'separator')

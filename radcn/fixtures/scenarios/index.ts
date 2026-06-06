@@ -327,6 +327,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "input-otp",
+    id: "demo",
+    title: "Input OTP Demo",
+    description: "Named upstream input-otp-demo parity with a 3-3 split layout.",
+  },
+  {
+    component: "input-otp",
+    id: "pattern",
+    title: "Input OTP Pattern",
+    description: "Named upstream input-otp-pattern parity with alphanumeric filtering.",
+  },
+  {
+    component: "input-otp",
+    id: "separator-2-2-2",
+    title: "Input OTP Separator Example",
+    description: "Named upstream input-otp-separator parity with a 2-2-2 split layout.",
+  },
+  {
+    component: "input-otp",
+    id: "controlled",
+    title: "Input OTP Controlled",
+    description: "Named upstream input-otp-controlled parity with app-owned entered-value display.",
+  },
+  {
+    component: "input-otp",
     id: "separator",
     title: "Input OTP Separator",
     description: "OTP slots grouped with visual separators.",

@@ -151,7 +151,7 @@ import { Form, FormDescription, FormField, FormLabel, FormMessage, formControlAt
 import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'
-import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from 'radcn/input-otp'
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS_AND_CHARS } from 'radcn/input-otp'
 import {
   Item,
   ItemActions,
@@ -2362,6 +2362,108 @@ function DropdownMenuPreview() {
   )
 }
 
+const inputOTPSource = `import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS_AND_CHARS } from 'radcn/input-otp'
+
+export function InputOTPExamples() {
+  return (
+    <>
+      <InputOTP ariaLabel="One-time code" maxLength={6}>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+
+      <InputOTP ariaLabel="Alphanumeric code" maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+    </>
+  )
+}`
+
+function InputOTPPreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,42rem)">
+      <div data-radcn-docs-input-otp-family="input-otp-demo" mix={previewStackStyle}>
+        <InputOTP ariaLabel="One-time code" defaultValue="123456" maxLength={6}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+      </div>
+
+      <div data-radcn-docs-input-otp-family="input-otp-pattern" mix={previewStackStyle}>
+        <InputOTP ariaLabel="Alphanumeric code" defaultValue="A1B2C3" maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+        <p style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem">Letters and numbers are accepted.</p>
+      </div>
+
+      <div data-radcn-docs-input-otp-family="input-otp-separator" mix={previewStackStyle}>
+        <InputOTP ariaLabel="Separated one-time code" defaultValue="123456" maxLength={6}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+          </InputOTPGroup>
+          <InputOTPSeparator />
+          <InputOTPGroup>
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+      </div>
+
+      <div data-radcn-docs-input-otp-family="input-otp-controlled" mix={previewStackStyle}>
+        <InputOTP ariaLabel="Controlled one-time code" maxLength={6}>
+          <InputOTPGroup>
+            <InputOTPSlot index={0} />
+            <InputOTPSlot index={1} />
+            <InputOTPSlot index={2} />
+            <InputOTPSlot index={3} />
+            <InputOTPSlot index={4} />
+            <InputOTPSlot index={5} />
+          </InputOTPGroup>
+        </InputOTP>
+        <p data-radcn-docs-input-otp-controlled-output style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem">Enter your one-time password.</p>
+      </div>
+    </div>
+  )
+}
+
 function InputPreview() {
   return () => (
     <div style="display:grid;gap:1rem;width:min(100%,42rem)">
@@ -4350,6 +4452,50 @@ const richComponentDocs: ComponentDoc[] = [
       'React useState and useCopyToClipboard examples map to server/default state, native submitted values, route state, or app-owned browser enhancement.',
       'react-textarea-autosize is not a RadCN package dependency; textarea autosize remains optional app behavior.',
       'InputGroup is a layout and control-shell primitive. It composes other RadCN primitives but does not own clipboard, favorite, menu, popover, tooltip, spinner, label, separator, or autosize state.',
+    ],
+  },
+  {
+    slug: 'input-otp',
+    title: 'Input OTP',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A one-time-code input primitive that keeps a real native value while mirroring characters into visible slots.',
+    importPath: 'radcn/input-otp',
+    importExample:
+      "import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from 'radcn/input-otp'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the four upstream Input OTP examples with RadCN slots, separators, patterns, and app-owned display state.',
+        source: inputOTPSource,
+        preview: <InputOTPPreview />,
+      },
+    ],
+    accessibility: [
+      'InputOTP renders a native text input with autocomplete="one-time-code", maxLength, name, required, disabled, and invalid state.',
+      'Visible slots mirror the native input value while the native input remains the form and accessibility owner.',
+      'InputOTPSeparator renders role="separator" for grouped visual code layouts.',
+      'Keyboard movement, paste filtering, form submission, and reset behavior stay native-input based.',
+    ],
+    customization: [
+      'InputOTP exposes public data-radcn-input-otp hooks for root, native input, slots container, groups, slots, caret, and separators.',
+      'Use class for the input and containerClass for the visible slot shell; style and CSS variables remain app-owned extension points.',
+      'REGEXP_ONLY_DIGITS_AND_CHARS is exported by RadCN and maps to dependency-free native pattern filtering.',
+      'Controlled entered-value display text is app-owned browser/server state layered around the native value and radcn-input-otp-change event.',
+    ],
+    divergence: [
+      'React useState, value, and onChange examples map to explicit RadCN props, native input events, radcn-input-otp-change, or app-owned state.',
+      'The upstream input-otp package and OTPInput context are not RadCN dependencies; RadCN implements the required behavior with a native input and slots.',
+      'lucide-react separator icons are app-owned presentation; InputOTPSeparator works without icon dependencies.',
+      'Tailwind utilities map to class, containerClass, style, CSS variables, and app-authored CSS.',
+      'className maps to class, containerClassName maps to containerClass, data-slot maps to data-radcn-input-otp-* hooks, and vendor source remains read-only evidence.',
+      'input-otp-form and otp-* block recipes are adjacent form/block evidence rather than part of this four-example cluster.',
     ],
   },
   {

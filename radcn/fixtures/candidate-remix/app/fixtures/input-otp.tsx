@@ -32,8 +32,69 @@ function SeparatedSlots() {
   )
 }
 
+function PairedSeparatedSlots() {
+  return (
+    <>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </>
+  )
+}
+
 export function renderInputOTPFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <Field>
+          <Label for="candidate-input-otp-demo">One-time code</Label>
+          <InputOTP id="candidate-input-otp-demo" ariaLabel="One-time code" maxLength={6} value="123456">
+            {SeparatedSlots()}
+          </InputOTP>
+        </Field>
+      )
+    case 'pattern':
+      return (
+        <Field>
+          <Label for="candidate-input-otp-pattern">Alphanumeric code</Label>
+          <InputOTP id="candidate-input-otp-pattern" ariaLabel="Alphanumeric code" maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+            {SixSlots()}
+          </InputOTP>
+          <FieldDescription>Letters and numbers are accepted.</FieldDescription>
+        </Field>
+      )
+    case 'separator-2-2-2':
+      return (
+        <Field>
+          <Label for="candidate-input-otp-separator-2-2-2">Separated code</Label>
+          <InputOTP id="candidate-input-otp-separator-2-2-2" ariaLabel="Separated one-time code" maxLength={6} value="123456">
+            {PairedSeparatedSlots()}
+          </InputOTP>
+        </Field>
+      )
+    case 'controlled':
+      return (
+        <div data-fixture-input-otp-controlled>
+          <Field>
+            <Label for="candidate-input-otp-controlled">Controlled code</Label>
+            <InputOTP id="candidate-input-otp-controlled" ariaLabel="Controlled one-time code" maxLength={6}>
+              {SixSlots()}
+            </InputOTP>
+            <FieldDescription class="fixture-input-otp-controlled-output">Enter your one-time password.</FieldDescription>
+          </Field>
+        </div>
+      )
     case 'separator':
       return (
         <Field>

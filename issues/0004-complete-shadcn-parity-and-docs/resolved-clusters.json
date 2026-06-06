@@ -187,6 +187,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/46-implement-dropdown-menu-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/dropdown-menu-example-inventory.md"
       ]
+    },
+    {
+      "slug": "input-otp",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/47-audit-input-otp-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/48-implement-input-otp-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/input-otp-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

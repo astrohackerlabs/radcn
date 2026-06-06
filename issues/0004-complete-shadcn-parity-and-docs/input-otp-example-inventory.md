@@ -40,11 +40,10 @@ The candidate fixtures and Playwright tests prove those primitive mechanics
 directly across default, separator, digits-only, alphanumeric, four-digit,
 disabled, invalid, form-submit/reset, paste, and custom-token scenarios.
 
-The upstream examples are still only partially covered because the docs,
-candidate fixtures, and Playwright tests do not prove the four named upstream
-example ids as user-facing compositions. The next implementation experiment
-should add named coverage for `input-otp-demo`, `input-otp-pattern`,
-`input-otp-separator`, and `input-otp-controlled`.
+Experiment 48 added named docs, candidate fixture, and Playwright evidence for
+the four upstream Input OTP example ids as user-facing compositions:
+`input-otp-demo`, `input-otp-pattern`, `input-otp-separator`, and
+`input-otp-controlled`.
 
 No audit evidence requires changing the `radcn/input-otp` package API. React
 `useState`, upstream `input-otp` package imports, `OTPInput` context,
@@ -62,10 +61,10 @@ future inventory explicitly reclassifies them.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `input-otp-controlled` | Six-slot OTP input starts empty and displays helper text. As the user enters characters, slots fill and a text line changes from "Enter your one-time password." to "You entered: {value}". | React `useState` controls `value`; `onChange` updates state; `InputOTP value`, six `InputOTPSlot` parts, `className="space-y-2"`, and text utilities compose the example. | `radcn/input-otp` supports `value`, `defaultValue`, native input value, slot mirroring, `radcn-input-otp-change` events, and app-owned display state. Fixtures/tests prove input typing and slot sync, but do not prove this named controlled example or visible entered-value feedback in docs/fixtures/tests. | Partial | Add named docs, candidate fixture, and Playwright evidence for controlled display text. Keep display state app-owned; do not add React or upstream `input-otp` as dependencies. |
-| `input-otp-demo` | Six-character OTP input is split into two groups of three slots with one separator between groups. | Static example with `InputOTP maxLength={6}`, two `InputOTPGroup` parts, six slots, and one `InputOTPSeparator`. | `radcn/input-otp` supports max length, groups, slots, separators, and split layouts. Existing docs render a similar draft preview; fixtures/tests prove separator behavior generically, but not the named `input-otp-demo` route/docs/test evidence. | Partial | Add named docs, candidate fixture, and Playwright evidence for the 3-3 split demo. |
-| `input-otp-pattern` | Six-slot OTP input accepts only digits and letters. | Client example imports `REGEXP_ONLY_DIGITS_AND_CHARS` from upstream `input-otp` and passes it to `pattern`; six slots are rendered in one group. | RadCN exports `REGEXP_ONLY_DIGITS_AND_CHARS`, maps it to native pattern filtering, and fixture tests prove alphanumeric input and digit filtering behavior. Named `input-otp-pattern` docs/fixture/Playwright evidence is still missing. | Partial | Add named docs, candidate fixture, and Playwright evidence for alphanumeric pattern filtering using RadCN's exported constant. |
-| `input-otp-separator` | Six-character OTP input is split into three groups of two slots with separators between groups. | Static example imports React but does not use React state; renders `InputOTP maxLength={6}`, three groups, two separators, and six slots. | `radcn/input-otp` supports three-group split layouts and separators; the `separator` fixture currently proves a 3-3 split rather than this exact 2-2-2 named layout. Named docs/fixture/Playwright evidence is missing. | Partial | Add named docs, candidate fixture, and Playwright evidence for the 2-2-2 separator layout. |
+| `input-otp-controlled` | Six-slot OTP input starts empty and displays helper text. As the user enters characters, slots fill and a text line changes from "Enter your one-time password." to "You entered: {value}". | React `useState` controls `value`; `onChange` updates state; `InputOTP value`, six `InputOTPSlot` parts, `className="space-y-2"`, and text utilities compose the example. | Docs hook `input-otp-controlled`, fixture route `input-otp/controlled`, and Playwright coverage prove six slots, helper text, entered-value feedback, native input value, slot mirroring, `radcn-input-otp-change`, and app-owned display state. | Covered | No follow-up for this example. |
+| `input-otp-demo` | Six-character OTP input is split into two groups of three slots with one separator between groups. | Static example with `InputOTP maxLength={6}`, two `InputOTPGroup` parts, six slots, and one `InputOTPSeparator`. | Docs hook `input-otp-demo`, fixture route `input-otp/demo`, and Playwright coverage prove the 3-3 split layout, one separator, six slots, native input value, slot mirroring, active slot state, and public hooks. | Covered | No follow-up for this example. |
+| `input-otp-pattern` | Six-slot OTP input accepts only digits and letters. | Client example imports `REGEXP_ONLY_DIGITS_AND_CHARS` from upstream `input-otp` and passes it to `pattern`; six slots are rendered in one group. | Docs hook `input-otp-pattern`, fixture route `input-otp/pattern`, and Playwright coverage prove RadCN's exported alphanumeric constant, native pattern attribute, letters/digits accepted, other characters rejected, and slot mirroring. | Covered | No follow-up for this example. |
+| `input-otp-separator` | Six-character OTP input is split into three groups of two slots with separators between groups. | Static example imports React but does not use React state; renders `InputOTP maxLength={6}`, three groups, two separators, and six slots. | Docs hook `input-otp-separator`, fixture route `input-otp/separator-2-2-2`, and Playwright coverage prove the 2-2-2 split layout, three groups, two separators, six slots, native input value, and public hooks. | Covered | No follow-up for this example. |
 
 ## Behavior Coverage
 
@@ -73,16 +72,16 @@ future inventory explicitly reclassifies them.
 | --- | --- | --- |
 | Max length and native value | Covered primitive | `InputOTP` renders a native text input with `maxLength`, name, required, value/defaultValue, and one-time-code autocomplete. Fixture tests prove value typing and submission. |
 | Slot groups and slot mirroring | Covered primitive | `InputOTPGroup` and `InputOTPSlot` exist; enhancement writes `data-char`, `data-filled`, and slot text from the native input. Fixture tests prove slot character mirroring. |
-| Separators | Covered primitive | `InputOTPSeparator` renders `role="separator"` and public hooks. Fixture tests prove separator behavior generically. |
-| Pattern filtering | Covered primitive | `REGEXP_ONLY_DIGITS` and `REGEXP_ONLY_DIGITS_AND_CHARS` are exported; filtering accepts configured characters during input and paste. Fixture tests prove digit filtering and alphanumeric acceptance. |
+| Separators | Covered | `InputOTPSeparator` renders `role="separator"` and public hooks. Fixture tests prove generic separator behavior plus the named one-separator and two-separator layouts. |
+| Pattern filtering | Covered | `REGEXP_ONLY_DIGITS` and `REGEXP_ONLY_DIGITS_AND_CHARS` are exported; filtering accepts configured characters during input and paste. Fixture tests prove digit filtering, alphanumeric acceptance, and named pattern parity. |
 | Paste filtering | Covered primitive | Paste handler filters clipboard text through the same pattern logic and updates slots/value. Fixture tests prove paste behavior. |
 | Keyboard movement and active slot/caret | Covered primitive | Home, End, Arrow, Backspace, Delete, focus, blur, and slot click behavior update active slot/caret state. Fixture tests prove Home/End active slot state. |
 | Disabled and invalid states | Covered primitive | `disabled`, `ariaInvalid`, and `ariaDescribedBy` map to native input and root data hooks. Fixture tests prove disabled and invalid/description behavior. |
 | Form submission/reset | Covered primitive | The native input participates in form submission and reset; fixture tests prove URL serialization and reset. |
-| Controlled/default rendering | Covered primitive | `value` and `defaultValue` render initial state; visible entered-value feedback remains app-owned. |
+| Controlled/default rendering | Covered | `value` and `defaultValue` render initial state; named controlled docs/fixture/Playwright evidence proves visible entered-value feedback as app-owned behavior. |
 | Custom hooks/classes | Covered primitive | `class`, `containerClass`, `style`, and `data-radcn-input-otp-*` hooks exist; fixture tests prove custom token styling. |
-| Docs coverage | Partial | The docs component page renders a basic Input OTP draft preview and source snippet, but not the four named upstream examples. |
-| Playwright coverage | Partial | `form-input-cluster.spec.ts` proves Input OTP primitive behavior, but no tests assert named `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, or `input-otp-separator` routes/compositions. |
+| Docs coverage | Covered | The Input OTP docs page renders stable hooks for all four named upstream examples and mapping copy. |
+| Playwright coverage | Covered | `form-input-cluster.spec.ts` proves Input OTP primitive behavior plus named `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, and `input-otp-separator` routes/compositions. |
 
 ## Mapping Decisions
 
@@ -102,7 +101,5 @@ future inventory explicitly reclassifies them.
 
 ## Recommendation
 
-Input OTP example parity is not resolved yet. The next experiment should
-implement named docs, fixture, and Playwright coverage for all four upstream
-Input OTP examples without changing the `radcn/input-otp` package API unless
-implementation uncovers a concrete package-level gap.
+Input OTP example parity is resolved. The next Issue 4 recommendation should
+come from the regenerated parity inventory.

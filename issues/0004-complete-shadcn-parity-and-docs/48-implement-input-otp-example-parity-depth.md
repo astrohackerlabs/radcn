@@ -296,3 +296,99 @@ Re-review: Approved. The reviewer confirmed the blocker is resolved and no
 blockers remain in the re-review scope.
 
 Approval: Approved for plan commit.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Input OTP example parity for all four upstream examples:
+
+- `input-otp-controlled`
+- `input-otp-demo`
+- `input-otp-pattern`
+- `input-otp-separator`
+
+The implementation added an authored Input OTP docs page with stable
+`data-radcn-docs-input-otp-family` hooks, docs-owned controlled display
+enhancement, candidate fixture routes for the four examples, fixture-owned
+controlled display enhancement, fixture Playwright coverage, docs Playwright
+coverage, covered inventory rows, a resolved `input-otp` example cluster entry,
+and a regenerated parity inventory. The regenerated inventory now recommends
+`native-select` as the next example parity audit.
+
+Implementation uncovered one concrete package-level blocker:
+`REGEXP_ONLY_DIGITS_AND_CHARS` includes both `0-9` and `A-Za-z`, but
+`acceptsCharacter` checked for `0-9` before the alphanumeric case and therefore
+treated the pattern as digit-only. The experiment fixed
+`radcn/packages/radcn/src/components/input-otp.tsx` so alphanumeric patterns
+accept letters and digits while digit-only patterns remain digit-only.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Results:
+
+```text
+pnpm radcn:typecheck: pass
+pnpm --dir radcn/apps/docs typecheck: pass
+pnpm fixtures:candidate:typecheck: pass
+form-input-cluster.spec.ts: 11 passed
+coverage.spec.ts: 5 passed
+```
+
+Known warnings during Playwright runs:
+
+```text
+[DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+```
+
+Deterministic checks passed:
+
+```text
+input-otp-example-inventory.md contains exactly one Covered row for each of
+input-otp-controlled, input-otp-demo, input-otp-pattern, and
+input-otp-separator.
+
+resolved-clusters.json contains examples/input-otp with status resolved and
+evidence for Experiment 47, Experiment 48, and input-otp-example-inventory.md.
+
+parity-inventory.md no longer lists input-otp in Unresolved Example Clusters,
+and First Recommended Cluster is now Example parity for native-select.
+
+The scoped import/dependency checks found no React, React DOM, upstream
+input-otp, Radix, lucide-react, Tailwind, or vendor dependencies/imports in
+radcn/packages/radcn, radcn/apps/docs, or radcn/fixtures/candidate-remix.
+
+git diff --check passed.
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+printed no output.
+```
+
+## Conclusion
+
+Input OTP example parity is resolved. The next experiment should audit the
+upstream `native-select` example cluster recommended by the regenerated parity
+inventory.
+
+## Completion Review
+
+Reviewer: Rawls the 2nd (`019e9bf0-3cd3-7c42-b1be-2bb7a381838c`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+implementation matches the approved scope, the `InputOTP` alphanumeric pattern
+utility change is justified by the recorded package-level blocker and remains
+narrow, verification commands and deterministic checks pass, vendor cleanliness
+was checked, the result commit had not yet been made, and the Issue 4 README
+records the matching `Pass` status and `native-select` next recommendation.

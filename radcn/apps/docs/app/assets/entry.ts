@@ -189,8 +189,29 @@ function setCodeCopyState(
   if (label) label.textContent = text
 }
 
+function setupInputOTPControlledExamples() {
+  document
+    .querySelectorAll<HTMLElement>('[data-radcn-docs-input-otp-family="input-otp-controlled"]')
+    .forEach((example) => {
+      if (example.dataset.radcnDocsInputOtpControlledReady === 'true') return
+      let input = example.querySelector<HTMLInputElement>('[data-radcn-input-otp-input]')
+      let output = example.querySelector<HTMLElement>('[data-radcn-docs-input-otp-controlled-output]')
+      if (!input || !output) return
+
+      let sync = () => {
+        output.textContent = input.value ? `You entered: ${input.value}` : 'Enter your one-time password.'
+      }
+
+      input.addEventListener('input', sync)
+      example.addEventListener('radcn-input-otp-change', sync)
+      example.dataset.radcnDocsInputOtpControlledReady = 'true'
+      sync()
+    })
+}
+
 setupThemeModeControl()
 setupCodeCopyButtons()
+setupInputOTPControlledExamples()
 
 run({
   async loadModule(moduleUrl, exportName) {

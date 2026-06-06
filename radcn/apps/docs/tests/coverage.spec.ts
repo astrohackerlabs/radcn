@@ -327,6 +327,34 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('asChild').first()).toBeVisible()
     await expect(page.getByText('lucide icons are app presentation choices').first()).toBeVisible()
 
+    await page.goto('/docs/components/input-otp')
+    for (let slug of [
+      'input-otp-controlled',
+      'input-otp-demo',
+      'input-otp-pattern',
+      'input-otp-separator',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-input-otp-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-input-otp-family="input-otp-demo"] [data-radcn-input-otp-separator]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-input-otp-family="input-otp-pattern"] [data-radcn-input-otp-input]')).toHaveAttribute('pattern', '[0-9A-Za-z]*')
+    await expect(page.locator('[data-radcn-docs-input-otp-family="input-otp-separator"] [data-radcn-input-otp-separator]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-input-otp-family="input-otp-controlled"] [data-radcn-input-otp-slot]')).toHaveCount(6)
+    await expect(page.getByText('Enter your one-time password.').first()).toBeVisible()
+    await expect(page.getByText('InputOTPGroup').first()).toBeVisible()
+    await expect(page.getByText('InputOTPSeparator').first()).toBeVisible()
+    await expect(page.getByText('REGEXP_ONLY_DIGITS_AND_CHARS').first()).toBeVisible()
+    await expect(page.getByText('radcn-input-otp-change').first()).toBeVisible()
+    await expect(page.getByText('React useState, value, and onChange examples map to explicit RadCN').first()).toBeVisible()
+    await expect(page.getByText('upstream input-otp package and OTPInput context are not RadCN dependencies').first()).toBeVisible()
+    await expect(page.getByText('lucide-react separator icons are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utilities map to class, containerClass, style').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('containerClassName maps to containerClass').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-input-otp-* hooks').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+    await expect(page.getByText('Controlled entered-value display text is app-owned').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)

@@ -700,6 +700,18 @@ Record cross-component discoveries here as experiments complete.
   `input-otp-separator`. The next experiment should implement those named
   examples without changing the Input OTP package API unless a concrete
   package-level gap appears.
+- Experiment 48 completed Input OTP example parity depth. The docs page,
+  candidate fixtures, and Playwright tests now prove
+  `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, and
+  `input-otp-separator`, including 3-3 and 2-2-2 slot layouts, separators,
+  alphanumeric pattern filtering, active slot state, controlled entered-value
+  feedback, native input value ownership, and public hooks. Implementation
+  uncovered and fixed a package-level pattern blocker: alphanumeric patterns
+  containing both `0-9` and `A-Za-z` now accept letters instead of being
+  treated as digit-only. RadCN still does not depend on React, upstream
+  `input-otp`, Radix, `lucide-react`, Tailwind, or vendor source. The
+  regenerated parity inventory now recommends auditing `native-select`
+  examples next.
 
 ## Experiments
 
@@ -798,4 +810,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 47: Audit input-otp example parity](47-audit-input-otp-example-parity.md)
   — **Pass**
 - [Experiment 48: Implement input-otp example parity depth](48-implement-input-otp-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

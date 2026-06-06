@@ -49,8 +49,8 @@ function initialValue(value: string | undefined, defaultValue: string | undefine
 
 function acceptsCharacter(character: string, pattern: string | undefined) {
   if (!pattern) return true
-  if (pattern === REGEXP_ONLY_DIGITS || pattern.includes('0-9') || pattern.includes('\\d')) return /^[0-9]$/.test(character)
   if (pattern === REGEXP_ONLY_DIGITS_AND_CHARS || pattern.includes('A-Za-z')) return /^[0-9A-Za-z]$/.test(character)
+  if (pattern === REGEXP_ONLY_DIGITS || pattern.includes('0-9') || pattern.includes('\\d')) return /^[0-9]$/.test(character)
   try {
     return new RegExp(`^(?:${pattern})$`).test(character)
   } catch {

@@ -254,3 +254,23 @@ function enhanceFixtureDropdownDialogExample() {
 }
 
 enhanceFixtureDropdownDialogExample()
+
+function enhanceFixtureInputOTPControlledExample() {
+  document.querySelectorAll<HTMLElement>('[data-fixture-input-otp-controlled]').forEach((example) => {
+    if (example.dataset.fixtureInputOtpControlledReady === 'true') return
+    let input = example.querySelector<HTMLInputElement>('[data-radcn-input-otp-input]')
+    let output = example.querySelector<HTMLElement>('.fixture-input-otp-controlled-output')
+    if (!input || !output) return
+
+    let sync = () => {
+      output.textContent = input.value ? `You entered: ${input.value}` : 'Enter your one-time password.'
+    }
+
+    input.addEventListener('input', sync)
+    example.addEventListener('radcn-input-otp-change', sync)
+    example.dataset.fixtureInputOtpControlledReady = 'true'
+    sync()
+  })
+}
+
+enhanceFixtureInputOTPControlledExample()
