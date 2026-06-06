@@ -148,3 +148,82 @@ test('candidate data-table recipe covers sort filter actions detail and custom t
   await expect(page.locator('[data-radcn-data-table]')).toHaveClass(/radcn-fixture-custom-data-table/)
   await expect(page.locator('[data-radcn-data-table]')).toHaveCSS('background-color', 'rgb(250, 245, 255)')
 })
+
+test('candidate data-table matches named demo example composition', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/data-table/demo`)
+
+  await expect(page.locator('[data-radcn-data-table]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-toolbar]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-filter]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-column-controls]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-content]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-table-container]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-table]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-table-header]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-table-body]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-pagination]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-data-table-selection-summary]')).toHaveText('1 of 5 row(s) selected.')
+  await expect(page.locator('[data-radcn-data-table-empty]')).toHaveText('No results.')
+  await expect(page.locator('[data-radcn-data-table-empty]')).toHaveAttribute('colspan', '5')
+
+  await expect(page.getByPlaceholder('Filter emails...')).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: 'Status' })).toBeVisible()
+  await expect(page.getByRole('columnheader', { name: /Email/ })).toHaveAttribute('aria-sort', 'ascending')
+  await expect(page.locator('[data-radcn-data-table-sort]')).toContainText('Email')
+  await expect(page.locator('[data-candidate-data-table-icon="arrow-up-down"]')).toHaveText('↕')
+  await expect(page.getByRole('columnheader', { name: 'Amount' })).toHaveCSS('text-align', 'right')
+  await expect(page.getByRole('columnheader', { name: 'Actions' })).toHaveCSS('text-align', 'right')
+
+  await expect(page.getByRole('checkbox', { name: 'Select all' })).toHaveCount(1)
+  await expect(page.getByRole('checkbox', { name: 'Select row' })).toHaveCount(5)
+  await expect(page.locator('[data-radcn-checkbox-input][value="m5gr84i9"]')).toBeChecked()
+  await expect(page.locator('[data-radcn-data-table-row][data-state="selected"]')).toHaveCount(1)
+
+  let expectedRows = [
+    ['m5gr84i9', 'success', 'Success', 'ken99@example.com', '$316.00'],
+    ['3u1reuv4', 'success', 'Success', 'abe45@example.com', '$242.00'],
+    ['derv1ws0', 'processing', 'Processing', 'monserrat44@example.com', '$837.00'],
+    ['5kma53ae', 'success', 'Success', 'silas22@example.com', '$874.00'],
+    ['bhqecj4p', 'failed', 'Failed', 'carmella@example.com', '$721.00'],
+  ]
+
+  for (let [id, status, statusLabel, email, amount] of expectedRows) {
+    let emailCell = page.locator(`[data-payment-id="${id}"]`)
+    let row = emailCell.locator('xpath=ancestor::tr')
+    await expect(row.locator(`[data-payment-status="${status}"]`)).toHaveText(statusLabel)
+    await expect(emailCell).toHaveText(email)
+    await expect(emailCell).toHaveClass(/lowercase/)
+    await expect(row.getByText(amount)).toHaveCSS('text-align', 'right')
+    await expect(row.getByText(amount)).toHaveCSS('font-weight', '500')
+  }
+
+  await page.getByRole('button', { name: /Columns/ }).click()
+  let columnMenu = page.locator('[data-radcn-dropdown-menu-content]').filter({ hasText: 'status' }).first()
+  await expect(columnMenu).toBeVisible()
+  let columnItems = columnMenu.locator('[data-radcn-dropdown-menu-checkbox-item]')
+  await expect(columnItems).toHaveCount(3)
+  await expect(columnItems.nth(0)).toHaveAttribute('data-text', 'status')
+  await expect(columnItems.nth(1)).toHaveAttribute('data-text', 'email')
+  await expect(columnItems.nth(2)).toHaveAttribute('data-text', 'amount')
+  await expect(columnMenu).not.toContainText('select')
+  await expect(columnMenu).not.toContainText('actions')
+  await expect(page.locator('[data-candidate-data-table-icon="chevron-down"]')).toHaveText('v')
+  await page.keyboard.press('Escape')
+
+  await page.getByRole('button', { name: 'Open menu' }).first().click()
+  let rowMenu = page.locator('[data-radcn-dropdown-menu-content]').filter({ hasText: 'Copy payment ID' }).first()
+  await expect(rowMenu).toBeVisible()
+  await expect(rowMenu.locator('[data-radcn-dropdown-menu-label]')).toHaveText('Actions')
+  await expect(rowMenu.locator('[data-radcn-dropdown-menu-item]')).toHaveText([
+    'Copy payment ID',
+    'View customer',
+    'View payment details',
+  ])
+  await expect(rowMenu.locator('[data-radcn-dropdown-menu-separator]')).toHaveCount(1)
+  await expect(rowMenu.locator('[data-payment-copy-id="m5gr84i9"]')).toHaveText('Copy payment ID')
+  await expect(page.locator('[data-candidate-data-table-icon="more-horizontal"]').first()).toHaveText('...')
+
+  await expect(page.getByRole('button', { name: 'Previous' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Next' })).toBeEnabled()
+  await expect(page.getByText('Copy payment ID stays app-owned browser behavior over visible payment id data.')).toBeVisible()
+})

@@ -385,6 +385,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/90-implement-context-menu-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/context-menu-example-inventory.md"
       ]
+    },
+    {
+      "slug": "data-table",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/91-audit-data-table-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/92-implement-data-table-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/data-table-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

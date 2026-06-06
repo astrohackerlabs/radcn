@@ -102,6 +102,7 @@ import {
   DataTableColumnControls,
   DataTableContent,
   DataTableDetail,
+  DataTableEmpty,
   DataTableFilter,
   DataTableHeader,
   DataTableHeaderCell,
@@ -1488,12 +1489,14 @@ export function DatePickerExamples() {
 const dataTableSource = `import { Badge } from 'radcn/badge'
 import { Button } from 'radcn/button'
 import { Checkbox } from 'radcn/checkbox'
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuTrigger } from 'radcn/dropdown-menu'
 import {
   DataTable,
   DataTableBody,
   DataTableCell,
   DataTableColumnControls,
   DataTableContent,
+  DataTableEmpty,
   DataTableFilter,
   DataTableHeader,
   DataTableHeaderCell,
@@ -1504,52 +1507,93 @@ import {
   DataTableToolbar,
 } from 'radcn/data-table'
 import { Input } from 'radcn/input'
-import { Pagination, PaginationContent, PaginationItem, PaginationLink } from 'radcn/pagination'
+
+const payments = [
+  { id: 'm5gr84i9', status: 'success', statusLabel: 'Success', email: 'ken99@example.com', amount: '$316.00', selected: true },
+  { id: '3u1reuv4', status: 'success', statusLabel: 'Success', email: 'abe45@example.com', amount: '$242.00' },
+  { id: 'derv1ws0', status: 'processing', statusLabel: 'Processing', email: 'monserrat44@example.com', amount: '$837.00' },
+  { id: '5kma53ae', status: 'success', statusLabel: 'Success', email: 'silas22@example.com', amount: '$874.00' },
+  { id: 'bhqecj4p', status: 'failed', statusLabel: 'Failed', email: 'carmella@example.com', amount: '$721.00' },
+]
 
 export function DataTablePreview() {
   return (
-    <DataTable caption="Payments" rowCount={3} selectedCount={1}>
+    <DataTable caption="Payments" rowCount={5} selectedCount={1}>
       <form action="/payments" method="get">
         <DataTableToolbar>
           <DataTableFilter label="Filter emails">
-            <Input name="email" value="ada" />
+            <Input name="email" placeholder="Filter emails..." />
           </DataTableFilter>
           <DataTableColumnControls>
-            <Button variant="outline">Columns</Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger>Columns v</DropdownMenuTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuCheckboxItem checked>Status</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked>Email</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked>Amount</DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenuPortal>
+            </DropdownMenu>
           </DataTableColumnControls>
         </DataTableToolbar>
       </form>
-      <DataTableContent caption="Recent payments" dense>
+      <DataTableContent
+        caption="Payments"
+        class="overflow-hidden rounded-md border"
+        dense
+        style="overflow:hidden;border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);"
+      >
         <DataTableHeader>
           <DataTableRow>
-            <DataTableHeaderCell>Select</DataTableHeaderCell>
-            <DataTableHeaderCell ariaSort="ascending" href="/payments?sort=email">Email</DataTableHeaderCell>
+            <DataTableHeaderCell>
+              <label>
+                <Checkbox name="select-all" />
+                <span class="radcn-sr-only">Select all</span>
+              </label>
+            </DataTableHeaderCell>
             <DataTableHeaderCell>Status</DataTableHeaderCell>
-            <DataTableHeaderCell>Amount</DataTableHeaderCell>
+            <DataTableHeaderCell ariaSort="ascending" href="/payments?sort=email">Email ^</DataTableHeaderCell>
+            <DataTableHeaderCell style="text-align:right">Amount</DataTableHeaderCell>
+            <DataTableHeaderCell style="text-align:right">Actions</DataTableHeaderCell>
           </DataTableRow>
         </DataTableHeader>
         <DataTableBody>
-          <DataTableRow selected>
-            <DataTableCell><Checkbox checked name="rows" value="pay-1" /></DataTableCell>
-            <DataTableCell>ada@example.com</DataTableCell>
-            <DataTableCell><Badge variant="secondary">Success</Badge></DataTableCell>
-            <DataTableCell>$316.00</DataTableCell>
-          </DataTableRow>
+          {payments.map((payment) => (
+            <DataTableRow selected={payment.selected}>
+              <DataTableCell>
+                <label>
+                  <Checkbox checked={payment.selected} name="rows" value={payment.id} />
+                  <span class="radcn-sr-only">Select row</span>
+                </label>
+              </DataTableCell>
+              <DataTableCell><Badge variant={payment.status === 'failed' ? 'destructive' : 'secondary'}>{payment.statusLabel}</Badge></DataTableCell>
+              <DataTableCell class="lowercase">{payment.email}</DataTableCell>
+              <DataTableCell style="text-align:right;font-weight:500">{payment.amount}</DataTableCell>
+              <DataTableCell>
+                <DropdownMenu>
+                  <DropdownMenuTrigger ariaLabel="Open menu">...</DropdownMenuTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem>Copy payment ID</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>View customer</DropdownMenuItem>
+                      <DropdownMenuItem>View payment details</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
+                </DropdownMenu>
+              </DataTableCell>
+            </DataTableRow>
+          ))}
+          <DataTableEmpty colSpan={5}>No results.</DataTableEmpty>
         </DataTableBody>
       </DataTableContent>
       <DataTablePagination page={1} pageCount={2}>
-        <DataTableSelectionSummary rowCount={3} selectedCount={1} />
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem><PaginationLink href="/payments?page=1" isActive>1</PaginationLink></PaginationItem>
-            <PaginationItem><PaginationLink href="/payments?page=2">2</PaginationLink></PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        <DataTableSelectionSummary rowCount={5} selectedCount={1}>1 of 5 row(s) selected.</DataTableSelectionSummary>
+        <Button disabled size="sm" variant="outline">Previous</Button>
+        <Button size="sm" variant="outline">Next</Button>
       </DataTablePagination>
-      <DataTableRowActions>
-        <Button variant="outline">Open row</Button>
-        <Button variant="ghost">Duplicate</Button>
-      </DataTableRowActions>
     </DataTable>
   )
 }`
@@ -4385,66 +4429,108 @@ function DatePickerPreview() {
   )
 }
 
-function DataTablePreview() {
+const dataTablePayments = [
+  { id: 'm5gr84i9', status: 'success', statusLabel: 'Success', email: 'ken99@example.com', amount: '$316.00', selected: true },
+  { id: '3u1reuv4', status: 'success', statusLabel: 'Success', email: 'abe45@example.com', amount: '$242.00' },
+  { id: 'derv1ws0', status: 'processing', statusLabel: 'Processing', email: 'monserrat44@example.com', amount: '$837.00' },
+  { id: '5kma53ae', status: 'success', statusLabel: 'Success', email: 'silas22@example.com', amount: '$874.00' },
+  { id: 'bhqecj4p', status: 'failed', statusLabel: 'Failed', email: 'carmella@example.com', amount: '$721.00' },
+]
+
+function DataTableDemoPreview() {
   return () => (
-    <DataTable caption="Payments" rowCount={3} selectedCount={1} style="width: min(100%, 46rem);">
-      <form action="/docs/components/data-table" method="get">
-        <DataTableToolbar>
-          <DataTableFilter label="Filter emails">
-            <Input name="email" value="ada" />
-          </DataTableFilter>
-          <DataTableColumnControls>
-            <Button variant="outline">Columns</Button>
-            <Button variant="outline">Add payment</Button>
-          </DataTableColumnControls>
-        </DataTableToolbar>
-      </form>
-      <DataTableContent caption="Recent payments" dense>
-        <DataTableHeader>
-          <DataTableRow>
-            <DataTableHeaderCell>Select</DataTableHeaderCell>
-            <DataTableHeaderCell ariaSort="ascending" href="/docs/components/data-table?sort=email">
-              Email
-            </DataTableHeaderCell>
-            <DataTableHeaderCell>Status</DataTableHeaderCell>
-            <DataTableHeaderCell>Amount</DataTableHeaderCell>
-          </DataTableRow>
-        </DataTableHeader>
-        <DataTableBody>
-          <DataTableRow selected>
-            <DataTableCell><Checkbox checked name="rows" value="pay-1" /></DataTableCell>
-            <DataTableCell>ada@example.com</DataTableCell>
-            <DataTableCell><Badge variant="secondary">Success</Badge></DataTableCell>
-            <DataTableCell>$316.00</DataTableCell>
-          </DataTableRow>
-          <DataTableRow>
-            <DataTableCell><Checkbox name="rows" value="pay-2" /></DataTableCell>
-            <DataTableCell>grace@example.com</DataTableCell>
-            <DataTableCell><Badge variant="outline">Processing</Badge></DataTableCell>
-            <DataTableCell>$242.00</DataTableCell>
-          </DataTableRow>
-        </DataTableBody>
-      </DataTableContent>
-      <DataTablePagination page={1} pageCount={2}>
-        <DataTableSelectionSummary rowCount={3} selectedCount={1} />
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem><PaginationLink href="/docs/components/data-table?page=1" isActive>1</PaginationLink></PaginationItem>
-            <PaginationItem><PaginationLink href="/docs/components/data-table?page=2">2</PaginationLink></PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </DataTablePagination>
-      <DataTableRowActions>
-        <Button variant="outline">Open row</Button>
-        <Button variant="ghost">Duplicate</Button>
-      </DataTableRowActions>
-      <DataTableDetail>
-        <strong>ada@example.com</strong>
-        <p style="margin: 0.25rem 0 0; color: var(--radcn-muted-foreground);">
-          Detail and editing panels remain app-owned composition.
-        </p>
-      </DataTableDetail>
-    </DataTable>
+    <div data-radcn-docs-data-table-family="data-table-demo" style="display:grid;gap:1rem;width:min(100%,56rem);">
+      <DataTable caption="Payments" rowCount={5} selectedCount={1} style="width:100%;max-width:none;">
+        <form action="/docs/components/data-table" method="get">
+          <DataTableToolbar>
+            <DataTableFilter label="Filter emails">
+              <Input name="email" placeholder="Filter emails..." />
+            </DataTableFilter>
+            <DataTableColumnControls>
+              <DropdownMenu defaultOpen id="docs-data-table-columns">
+                <DropdownMenuTrigger class="radcn-button radcn-button--outline">
+                  Columns <span aria-hidden="true" data-radcn-docs-data-table-icon="chevron-down">v</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuContent align="end" style="width:10rem">
+                    <DropdownMenuCheckboxItem checked textValue="status">status</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem checked textValue="email">email</DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem checked textValue="amount">amount</DropdownMenuCheckboxItem>
+                  </DropdownMenuContent>
+                </DropdownMenuPortal>
+              </DropdownMenu>
+            </DataTableColumnControls>
+          </DataTableToolbar>
+        </form>
+        <DataTableContent caption="Payments" class="overflow-hidden rounded-md border" dense style="overflow:hidden;border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);">
+          <DataTableHeader>
+            <DataTableRow>
+              <DataTableHeaderCell>
+                <label style="display:inline-flex;align-items:center;">
+                  <Checkbox name="select-all" />
+                  <span class="radcn-sr-only">Select all</span>
+                </label>
+              </DataTableHeaderCell>
+              <DataTableHeaderCell>Status</DataTableHeaderCell>
+              <DataTableHeaderCell ariaSort="ascending" href="/docs/components/data-table?sort=email">
+                Email <span aria-hidden="true" data-radcn-docs-data-table-icon="arrow-up-down">↕</span>
+              </DataTableHeaderCell>
+              <DataTableHeaderCell class="text-right" style="text-align:right;">Amount</DataTableHeaderCell>
+              <DataTableHeaderCell class="text-right" style="text-align:right;">Actions</DataTableHeaderCell>
+            </DataTableRow>
+          </DataTableHeader>
+          <DataTableBody>
+            {dataTablePayments.map((payment, index) => (
+              <DataTableRow selected={payment.selected}>
+                <DataTableCell>
+                  <label style="display:inline-flex;align-items:center;">
+                    <Checkbox checked={payment.selected} name="rows" value={payment.id} />
+                    <span class="radcn-sr-only">Select row</span>
+                  </label>
+                </DataTableCell>
+                <DataTableCell><span data-payment-status={payment.status}>{payment.statusLabel}</span></DataTableCell>
+                <DataTableCell class="lowercase"><span class="lowercase" data-payment-id={payment.id}>{payment.email}</span></DataTableCell>
+                <DataTableCell class="text-right font-medium" style="text-align:right;font-weight:500;">{payment.amount}</DataTableCell>
+                <DataTableCell class="text-right" style="text-align:right;">
+                  <DataTableRowActions>
+                    <DropdownMenu defaultOpen={index === 0} id={`docs-data-table-row-${payment.id}`}>
+                      <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm" data-payment-id={payment.id}>
+                        <span class="radcn-sr-only">Open menu</span>
+                        <span aria-hidden="true" data-radcn-docs-data-table-icon="more-horizontal">...</span>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuPortal>
+                        <DropdownMenuContent align="end" style="width:12rem">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem textValue="Copy payment ID"><span data-payment-copy-id={payment.id}>Copy payment ID</span></DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem textValue="View customer">View customer</DropdownMenuItem>
+                          <DropdownMenuItem textValue="View payment details">View payment details</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenuPortal>
+                    </DropdownMenu>
+                  </DataTableRowActions>
+                </DataTableCell>
+              </DataTableRow>
+            ))}
+            <DataTableEmpty colSpan={5}>No results.</DataTableEmpty>
+          </DataTableBody>
+        </DataTableContent>
+        <DataTablePagination page={1} pageCount={2}>
+          <DataTableSelectionSummary rowCount={5} selectedCount={1}>1 of 5 row(s) selected.</DataTableSelectionSummary>
+          <div style="display:flex;gap:0.5rem;">
+            <Button disabled size="sm" variant="outline">Previous</Button>
+            <Button size="sm" variant="outline">Next</Button>
+          </div>
+        </DataTablePagination>
+        <DataTableDetail>
+          <strong>Clipboard behavior</strong>
+          <p style="margin:0.25rem 0 0;color:var(--radcn-muted-foreground);">
+            Copy payment ID stays app-owned browser behavior over the visible
+            payment id data.
+          </p>
+        </DataTableDetail>
+      </DataTable>
+    </div>
   )
 }
 
@@ -7961,12 +8047,12 @@ const richComponentDocs: ComponentDoc[] = [
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'native-table-workflow',
-        title: 'Native Table Workflow',
+        slug: 'data-table-demo',
+        title: 'Data Table Demo',
         description:
-          'Compose native filter forms, sortable links, selection checkboxes, pagination, row actions, and detail panels with package-owned Data Table slots.',
+          'Port the upstream payments table with native filter forms, hideable columns, row actions, selection, pagination, and package-owned Data Table slots.',
         source: dataTableSource,
-        preview: <DataTablePreview />,
+        preview: <DataTableDemoPreview />,
       },
     ],
     accessibility: [
@@ -7979,9 +8065,15 @@ const richComponentDocs: ComponentDoc[] = [
       'Data operations remain explicit in route state, query strings, and submitted form values so apps can use any data layer.',
     ],
     divergence: [
-      'shadcn/ui demonstrates Data Table with React state and TanStack Table. RadCN ships composition slots, not a React table engine.',
-      'Column visibility, sorting, filtering, pagination, row editing, and row actions are app-owned controls built from native forms, links, and existing RadCN primitives.',
+      'use client, React state, useReactTable, ColumnDef, row models, and flexRender map to explicit server state, query strings, native controls, and package-owned Data Table slots.',
+      'TanStack Table remains an app choice, not a RadCN dependency.',
+      'Column filters, sorting, column visibility, row selection, pagination, and row actions are app-owned controls built from native forms, links, checkboxes, and existing RadCN primitives.',
+      'Button, Checkbox, DropdownMenu, Input, and Table composition maps to existing RadCN packages.',
+      'className and Tailwind utilities map to class, style, RadCN package classes, CSS variables, and app CSS.',
+      'lucide ArrowUpDown, ChevronDown, and MoreHorizontal map to app-owned icon presentation.',
+      'navigator.clipboard.writeText stays app-owned browser behavior around visible payment id data.',
       'Dashboard-only drag/reorder and chart detail patterns stay as recipe/block composition until a later experiment proves a reusable package behavior is needed.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

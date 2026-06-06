@@ -1225,6 +1225,22 @@ Record cross-component discoveries here as experiments complete.
   `data-table-demo`. The next experiment should implement named
   `data-table-demo` docs, candidate fixture, and Playwright coverage while
   keeping dashboard block behavior out of scope.
+- Experiment 92 completed direct Data Table example parity for
+  `data-table-demo`. Docs, candidate fixtures, and Playwright now prove the
+  exact five upstream payment rows, lowercase status state with visible
+  `Success`/`Processing`/`Failed` labels, lowercase email presentation,
+  formatted amounts, filter placeholder, `Columns` visibility dropdown,
+  non-hideable `select`/`actions` exclusion, row action menu, app-owned
+  clipboard/id evidence, selected row state, empty state, Previous/Next
+  pagination buttons, public Data Table/Table hooks, and the
+  React/TanStack/lucide/Tailwind/clipboard mapping for RadCN's native
+  composition model. Package code did not need changes.
+- Data Table docs dropdown enhancement must stay scoped to the named example
+  that needs runtime menu state. Global docs dropdown enhancement relocates
+  unrelated menu portals and can make wrapper-local coverage assertions fail.
+- After Experiment 92, the regenerated parity inventory marks `data-table`
+  resolved in the example queue. The next generated recommendation is example
+  parity for `hover-card`.
 
 ## Experiments
 
@@ -1411,4 +1427,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 91: Audit data-table example parity](91-audit-data-table-example-parity.md)
   — **Partial**
 - [Experiment 92: Implement data-table example parity depth](92-implement-data-table-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

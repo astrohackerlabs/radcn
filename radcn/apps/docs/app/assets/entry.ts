@@ -1,5 +1,6 @@
 import { run } from 'remix/ui'
 import { enhanceContextMenu } from 'radcn/context-menu'
+import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -270,3 +271,6 @@ run({
 })
 
 enhanceContextMenu()
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-data-table-family="data-table-demo"]')
+  .forEach((example) => enhanceDropdownMenu(example))

@@ -1185,6 +1185,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "data-table",
+    id: "demo",
+    title: "Data Table Demo",
+    description: "Named shadcn payments table with filter, column visibility, row actions, selection, empty state, and pagination.",
+  },
+  {
+    component: "data-table",
     id: "default",
     title: "Default Data Table",
     description: "Package-backed Data Table shell using semantic table parts.",

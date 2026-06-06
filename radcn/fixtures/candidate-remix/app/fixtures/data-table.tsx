@@ -19,6 +19,14 @@ import {
   DataTableRowActions,
   DataTableSelectionSummary,
   DataTableToolbar,
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
   Input,
   Pagination,
   PaginationContent,
@@ -35,6 +43,14 @@ const rows = [
   { id: 'radcn-101', owner: 'Ada', status: 'Done', task: 'Port chart' },
   { id: 'radcn-102', owner: 'Grace', status: 'Review', task: 'Document block' },
   { id: 'radcn-103', owner: 'Katherine', status: 'Todo', task: 'Verify recipe' },
+]
+
+const payments = [
+  { id: 'm5gr84i9', status: 'success', statusLabel: 'Success', email: 'ken99@example.com', amount: '$316.00', selected: true },
+  { id: '3u1reuv4', status: 'success', statusLabel: 'Success', email: 'abe45@example.com', amount: '$242.00' },
+  { id: 'derv1ws0', status: 'processing', statusLabel: 'Processing', email: 'monserrat44@example.com', amount: '$837.00' },
+  { id: '5kma53ae', status: 'success', statusLabel: 'Success', email: 'silas22@example.com', amount: '$874.00' },
+  { id: 'bhqecj4p', status: 'failed', statusLabel: 'Failed', email: 'carmella@example.com', amount: '$721.00' },
 ]
 
 function DataTableShell({ children, custom = false }: { children: RemixNode; custom?: boolean }) {
@@ -79,7 +95,108 @@ function TaskTable({ empty = false, selected = false, sort = false }: { empty?: 
   )
 }
 
+function PaymentDemoTable() {
+  return (
+    <DataTable
+      caption="Payments"
+      rowCount={payments.length}
+      selectedCount={1}
+      style="width:100%;max-width:none;"
+    >
+      <form action="/fixtures/data-table/demo" method="get">
+        <DataTableToolbar>
+          <DataTableFilter label="Filter emails">
+            <Input name="email" placeholder="Filter emails..." />
+          </DataTableFilter>
+          <DataTableColumnControls>
+            <DropdownMenu id="candidate-data-table-columns">
+              <DropdownMenuTrigger class="radcn-button radcn-button--outline">
+                Columns <span aria-hidden="true" data-candidate-data-table-icon="chevron-down">v</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuContent align="end" style="width:10rem">
+                  <DropdownMenuCheckboxItem checked textValue="status">status</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked textValue="email">email</DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem checked textValue="amount">amount</DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenuPortal>
+            </DropdownMenu>
+          </DataTableColumnControls>
+        </DataTableToolbar>
+      </form>
+      <DataTableContent caption="Payments" class="overflow-hidden rounded-md border" dense style="overflow:hidden;border:1px solid var(--radcn-border);border-radius:var(--radcn-radius);">
+        <DataTableHeader>
+          <DataTableRow>
+            <DataTableHeaderCell>
+              <label style="display:inline-flex;align-items:center;">
+                <Checkbox name="select-all" />
+                <span class="radcn-sr-only">Select all</span>
+              </label>
+            </DataTableHeaderCell>
+            <DataTableHeaderCell>Status</DataTableHeaderCell>
+            <DataTableHeaderCell ariaSort="ascending" href="/fixtures/data-table/demo?sort=email">
+              Email <span aria-hidden="true" data-candidate-data-table-icon="arrow-up-down">↕</span>
+            </DataTableHeaderCell>
+            <DataTableHeaderCell class="text-right" style="text-align:right;">Amount</DataTableHeaderCell>
+            <DataTableHeaderCell class="text-right" style="text-align:right;">Actions</DataTableHeaderCell>
+          </DataTableRow>
+        </DataTableHeader>
+        <DataTableBody>
+          {payments.map((payment) => (
+            <DataTableRow selected={payment.selected}>
+              <DataTableCell>
+                <label style="display:inline-flex;align-items:center;">
+                  <Checkbox checked={payment.selected} name="rows" value={payment.id} />
+                  <span class="radcn-sr-only">Select row</span>
+                </label>
+              </DataTableCell>
+              <DataTableCell><span data-payment-status={payment.status}>{payment.statusLabel}</span></DataTableCell>
+              <DataTableCell class="lowercase"><span class="lowercase" data-payment-id={payment.id}>{payment.email}</span></DataTableCell>
+              <DataTableCell class="text-right font-medium" style="text-align:right;font-weight:500;">{payment.amount}</DataTableCell>
+              <DataTableCell class="text-right" style="text-align:right;">
+                <DataTableRowActions>
+                  <DropdownMenu id={`candidate-data-table-row-${payment.id}`}>
+                    <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm" data-payment-id={payment.id}>
+                      <span class="radcn-sr-only">Open menu</span>
+                      <span aria-hidden="true" data-candidate-data-table-icon="more-horizontal">...</span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuContent align="end" style="width:12rem">
+                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                        <DropdownMenuItem textValue="Copy payment ID"><span data-payment-copy-id={payment.id}>Copy payment ID</span></DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem textValue="View customer">View customer</DropdownMenuItem>
+                        <DropdownMenuItem textValue="View payment details">View payment details</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenu>
+                </DataTableRowActions>
+              </DataTableCell>
+            </DataTableRow>
+          ))}
+          <DataTableEmpty colSpan={5}>No results.</DataTableEmpty>
+        </DataTableBody>
+      </DataTableContent>
+      <DataTablePagination page={1} pageCount={2}>
+        <DataTableSelectionSummary rowCount={payments.length} selectedCount={1}>1 of 5 row(s) selected.</DataTableSelectionSummary>
+        <div style="display:flex;gap:0.5rem;">
+          <Button disabled size="sm" variant="outline">Previous</Button>
+          <Button size="sm" variant="outline">Next</Button>
+        </div>
+      </DataTablePagination>
+      <DataTableDetail>
+        <strong>Clipboard behavior</strong>
+        <p style="margin:6px 0 0;color:var(--radcn-muted-foreground)">Copy payment ID stays app-owned browser behavior over visible payment id data.</p>
+      </DataTableDetail>
+    </DataTable>
+  )
+}
+
 export function renderDataTableFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return PaymentDemoTable()
+  }
+
   if (fixture.id === 'sort-filter') {
     return DataTableShell({
       children: (

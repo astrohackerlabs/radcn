@@ -377,3 +377,103 @@ Initial findings:
 Re-review: approved. The reviewer confirmed the prior finding is resolved,
 the plan still links from the README as `Designed`, the experiment remains
 focused on direct `data-table-demo` parity, and no new blocker was introduced.
+
+## Result
+
+**Result:** Pass
+
+Experiment 92 implemented direct `data-table-demo` parity in the docs app and
+candidate fixture without changing package code or adding dependencies.
+
+- `radcn/apps/docs/app/content/components.tsx` now renders a named
+  `data-table-demo` docs example with the exact upstream payment ids, statuses,
+  visible `Success`/`Processing`/`Failed` labels, lowercase emails, formatted
+  amounts, filter placeholder, select-all and row selection labels, selected
+  row state, sortable Email evidence, right-aligned Amount, column visibility
+  menu, row action menu, empty state, Previous/Next controls, bordered rounded
+  overflow frame evidence, app-owned icon hooks, and
+  React/TanStack/lucide/Tailwind/clipboard mapping copy.
+- `radcn/apps/docs/app/assets/entry.ts` enhances dropdown menus only inside the
+  named Data Table docs example. A global docs dropdown enhancement relocates
+  unrelated docs portals and can invalidate wrapper-local assertions, so this
+  example keeps the runtime enhancement scoped to the evidence that needs it.
+- `radcn/fixtures/scenarios/index.ts` registers `data-table/demo`.
+- `radcn/fixtures/candidate-remix/app/fixtures/data-table.tsx` renders the
+  same payment composition for fixture coverage.
+- `radcn/fixtures/tests/data-display.spec.ts` verifies the named candidate
+  composition, exact sample data, public hooks, filter/sort/selection/column
+  visibility/row action/pagination/empty-state evidence, app-owned icon hooks,
+  and clipboard/id evidence without depending on React, TanStack internals, or
+  DOM equivalence.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the named docs route
+  evidence and required mapping copy.
+- `data-table-example-inventory.md`, `resolved-clusters.json`, and
+  `parity-inventory.md` now mark the direct Data Table example cluster covered.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts data-display.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+```
+
+The deterministic `data-table-example-inventory.md` check found exactly one
+direct row, `data-table-demo`, with outcome `Covered`. The deterministic
+`resolved-clusters.json` check found `examples.data-table` with status
+`resolved` and evidence for Experiments 91 and 92 plus the Data Table example
+inventory. The deterministic regenerated-inventory check confirmed
+`data-table` is absent from unresolved example clusters and that the first
+recommended cluster is now `Example parity for hover-card`.
+
+Dependency and scope checks passed:
+
+```text
+forbidden import scanner for radcn/packages/radcn, radcn/apps/docs, and radcn/fixtures/candidate-remix
+manifest forbidden dependency scanner
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+`tokens.css` did not change, so the style serialization check was not
+applicable.
+
+## Conclusion
+
+The direct upstream Data Table example cluster is resolved. RadCN can represent
+the shadcn payments table as native, app-owned composition over existing
+`radcn/data-table`, `radcn/table`, `DropdownMenu`, `Checkbox`, `Button`, and
+`Input` primitives. Literal React/TanStack DOM equivalence is unnecessary; the
+verified surface is user-facing behavior, accessibility labels/state, and
+author-facing modifiability.
+
+Dashboard block Data Table behavior remains intentionally out of scope for
+this direct example experiment. The regenerated parity inventory recommends
+auditing `hover-card` example parity next.
+
+## Completion Review
+
+Reviewer: Ohm the 3rd
+(`019e9ddb-c028-78e3-b79d-3fa1412fcc70`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Initial findings:
+
+- Blocker: The implementation claimed lowercase/capitalize presentation, but
+  status cells rendered lowercase text and only added `class="capitalize"`.
+  The reviewer found no supporting capitalization CSS, and tests asserted
+  lowercase text instead of visible capitalization. Fixed by rendering explicit
+  visible `Success`, `Processing`, and `Failed` labels while preserving
+  lowercase status state hooks, and by updating docs and fixture tests plus the
+  issue evidence wording.
+- Major: none.
+- Minor: none.
+
+Re-review: approved. The reviewer confirmed the prior blocker is resolved in
+the docs and fixture implementations, tests now assert visible status labels,
+no new blocker was introduced, and `git diff --check` plus the vendor status
+loop remained clean.
