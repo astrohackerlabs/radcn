@@ -1169,3 +1169,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 76: Implement skeleton example parity depth](76-implement-skeleton-example-parity-depth.md)
   — **Pass**
+- [Experiment 77: Audit sonner example parity](77-audit-sonner-example-parity.md)
+  — **Designed**
