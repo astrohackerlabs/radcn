@@ -10,9 +10,13 @@ export interface ToggleGroupProps {
   children?: RemixNode
   class?: string
   defaultValue?: string | string[]
+  disabled?: boolean
   orientation?: ToggleGroupOrientation
+  size?: ToggleSize
+  spacing?: number | string
   style?: string
   type?: ToggleGroupType
+  variant?: ToggleVariant
 }
 
 export interface ToggleGroupItemProps {
@@ -38,6 +42,18 @@ function enabledGroupItems(items: HTMLButtonElement[]) {
   return items.filter((item) => item.getAttribute('aria-disabled') !== 'true' && !item.disabled)
 }
 
+function applyGroupDisabled(root: HTMLElement, items: HTMLButtonElement[]) {
+  let disabled = root.dataset.disabled === 'true'
+  if (!disabled) return
+
+  for (let item of items) {
+    item.disabled = true
+    item.setAttribute('aria-disabled', 'true')
+    item.dataset.disabled = 'true'
+    item.dataset.groupDisabled = 'true'
+  }
+}
+
 function applyGroupState(root: HTMLElement, items: HTMLButtonElement[], values: Set<string>, focusValue?: string) {
   writeGroupValues(root, values)
   let enabled = enabledGroupItems(items)
@@ -61,11 +77,13 @@ function setupToggleGroup(root: HTMLElement) {
   if (root.dataset.radcnToggleGroupReady === 'true') return
 
   let items = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-radcn-toggle-group-item]'))
+  applyGroupDisabled(root, items)
   let values = groupValues(root)
   applyGroupState(root, items, values)
   root.dataset.radcnToggleGroupReady = 'true'
 
   function toggleItem(item: HTMLButtonElement) {
+    if (root.dataset.disabled === 'true') return
     if (item.disabled || item.getAttribute('aria-disabled') === 'true') return
 
     let value = item.dataset.value || ''
@@ -164,22 +182,36 @@ export function ToggleGroup(handle: Handle<ToggleGroupProps>) {
       children,
       class: className,
       defaultValue,
+      disabled,
       orientation = 'horizontal',
+      size,
+      spacing,
       style,
       type = 'single',
+      variant,
     } = handle.props
     let values = Array.isArray(defaultValue) ? defaultValue : defaultValue === undefined ? [] : [defaultValue]
+    let spacingStyle =
+      spacing === undefined
+        ? style
+        : [style, `--radcn-toggle-group-gap:${typeof spacing === 'number' ? `${spacing * 0.25}rem` : spacing}`]
+            .filter(Boolean)
+            .join(';')
 
     return (
       <div
         class={classes('radcn-toggle-group', `radcn-toggle-group--${orientation}`, className)}
         data-default-value={values.join(' ')}
+        data-disabled={disabled ? 'true' : undefined}
         data-orientation={orientation}
         data-radcn-toggle-group
+        data-size={size}
+        data-spacing={spacing}
         data-type={type}
         data-value={values.join(' ')}
+        data-variant={variant}
         role="group"
-        style={style}
+        style={spacingStyle}
       >
         {children}
       </div>
@@ -194,10 +226,10 @@ export function ToggleGroupItem(handle: Handle<ToggleGroupItemProps>) {
       children,
       class: className,
       disabled,
-      size = 'default',
+      size,
       style,
       value,
-      variant = 'default',
+      variant,
     } = handle.props
 
     return (
@@ -205,9 +237,16 @@ export function ToggleGroupItem(handle: Handle<ToggleGroupItemProps>) {
         aria-disabled={disabled ? 'true' : undefined}
         aria-label={ariaLabel}
         aria-pressed="false"
-        class={classes('radcn-toggle', 'radcn-toggle-group-item', `radcn-toggle--${variant}`, `radcn-toggle--${size}`, className)}
+        class={classes(
+          'radcn-toggle',
+          'radcn-toggle-group-item',
+          variant && `radcn-toggle--${variant}`,
+          size && `radcn-toggle--${size}`,
+          className,
+        )}
         data-disabled={disabled ? 'true' : undefined}
         data-radcn-toggle-group-item
+        data-size={size}
         data-state="off"
         data-value={value}
         data-variant={variant}

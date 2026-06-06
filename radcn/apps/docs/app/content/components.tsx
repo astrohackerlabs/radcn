@@ -1058,6 +1058,34 @@ export function EmptyPreview() {
   )
 }`
 
+const toggleGroupSource = `import { ToggleGroup, ToggleGroupItem } from 'radcn/toggle-group'
+
+function Icon({ label }: { label: string }) {
+  return <span aria-hidden="true" class="radcn-toggle-group-icon">{label}</span>
+}
+
+export function ToggleGroupPreview() {
+  return (
+    <div class="toggle-group-preview">
+      <ToggleGroup type="multiple" variant="outline">
+        <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><Icon label="B" /></ToggleGroupItem>
+        <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><Icon label="I" /></ToggleGroupItem>
+        <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><Icon label="U" /></ToggleGroupItem>
+      </ToggleGroup>
+
+      <ToggleGroup disabled defaultValue={['bold']} type="multiple">
+        <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><Icon label="B" /></ToggleGroupItem>
+        <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><Icon label="I" /></ToggleGroupItem>
+      </ToggleGroup>
+
+      <ToggleGroup defaultValue={['star']} size="sm" spacing={2} type="multiple" variant="outline">
+        <ToggleGroupItem ariaLabel="Toggle star" value="star"><Icon label="S" /> Star</ToggleGroupItem>
+        <ToggleGroupItem ariaLabel="Toggle heart" value="heart"><Icon label="H" /> Heart</ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  )
+}`
+
 const spinnerSource = `import { Badge } from 'radcn/badge'
 import { Button } from 'radcn/button'
 import { Empty, EmptyContent, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
@@ -1973,6 +2001,68 @@ function EmptyPreview() {
           </EmptyHeader>
           <EmptyContent><Button size="sm" variant="outline">Refresh</Button></EmptyContent>
         </Empty>
+      </div>
+    </div>
+  )
+}
+
+function ToggleGroupPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 42rem);">
+      <div data-radcn-docs-toggle-group-family="demo" mix={previewRowStyle}>
+        <ToggleGroup type="multiple" variant="outline">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="single" mix={previewRowStyle}>
+        <ToggleGroup defaultValue="italic" type="single">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="disabled" mix={previewRowStyle}>
+        <ToggleGroup disabled defaultValue={['bold']} type="multiple">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="lg" mix={previewRowStyle}>
+        <ToggleGroup size="lg" type="multiple">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="sm" mix={previewRowStyle}>
+        <ToggleGroup size="sm" type="single">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="outline" mix={previewRowStyle}>
+        <ToggleGroup type="multiple" variant="outline">
+          <ToggleGroupItem ariaLabel="Toggle bold" value="bold"><span aria-hidden="true" class="radcn-toggle-group-icon">B</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle italic" value="italic"><span aria-hidden="true" class="radcn-toggle-group-icon">I</span></ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle underline" value="underline"><span aria-hidden="true" class="radcn-toggle-group-icon">U</span></ToggleGroupItem>
+        </ToggleGroup>
+      </div>
+
+      <div data-radcn-docs-toggle-group-family="spacing" mix={previewRowStyle}>
+        <ToggleGroup defaultValue={['star']} size="sm" spacing={2} type="multiple" variant="outline">
+          <ToggleGroupItem ariaLabel="Toggle star" value="star"><span aria-hidden="true" class="radcn-toggle-group-icon" style="--radcn-toggle-icon-on-fg:#ca8a04">S</span> Star</ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle heart" value="heart"><span aria-hidden="true" class="radcn-toggle-group-icon" style="--radcn-toggle-icon-on-fg:#dc2626">H</span> Heart</ToggleGroupItem>
+          <ToggleGroupItem ariaLabel="Toggle bookmark" value="bookmark"><span aria-hidden="true" class="radcn-toggle-group-icon" style="--radcn-toggle-icon-on-fg:#2563eb">B</span> Bookmark</ToggleGroupItem>
+        </ToggleGroup>
       </div>
     </div>
   )
@@ -3160,6 +3250,49 @@ const richComponentDocs: ComponentDoc[] = [
       'Tailwind utility classes map to RadCN public classes, inline styles, or CSS variables.',
       'Remote GitHub avatar images are content choices. Use local/static assets, app-owned images, data URIs, or AvatarFallback for deterministic examples.',
       'Empty remains a layout/content primitive and does not own Avatar, AvatarGroup, Button, InputGroup, Kbd, icon-package, image-loading, route, form, or support-link state.',
+    ],
+  },
+  {
+    slug: 'toggle-group',
+    title: 'Toggle Group',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native button group for single or multiple pressed selections with group-level size, variant, spacing, and disabled defaults.',
+    importPath: 'radcn/toggle-group',
+    importExample:
+      "import { ToggleGroup, ToggleGroupItem } from 'radcn/toggle-group'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render icon-only formatting groups, disabled groups, small and large groups, outline groups, and spaced icon-label choices without React or icon-package dependencies.',
+        source: toggleGroupSource,
+        preview: <ToggleGroupPreview />,
+      },
+    ],
+    accessibility: [
+      'ToggleGroup renders a named group of native buttons and each ToggleGroupItem exposes aria-pressed and data-state.',
+      'Icon-only ToggleGroupItems must provide ariaLabel while app-owned glyphs stay decorative.',
+      'Single and multiple selection preserve data-value on the group so submitted or enhanced app state can read the selected values.',
+      'Enhanced groups provide roving focus with arrow keys, Home, End, Space, and Enter while skipping disabled items.',
+    ],
+    customization: [
+      'Use group-level size, variant, disabled, and spacing props for common shadcn-style defaults.',
+      'Use item-level size, variant, disabled, class, and style props when an item intentionally differs from its group.',
+      'Selected-state styling can target data-state="on" and public classes such as radcn-toggle-group-icon.',
+      'Spacing maps to --radcn-toggle-group-gap so apps can tune the group without Tailwind utilities.',
+    ],
+    divergence: [
+      'Radix ToggleGroup maps to RadCN native button markup plus explicit enhanceToggleGroup browser behavior.',
+      'Lucide icons are presentation choices; examples use app-owned glyphs and decorative spans.',
+      'Tailwind h-4 w-4 icon utilities map to RadCN classes, inline styles, or CSS variables.',
+      'Tailwind selected-state selectors map to data-state, data-value, classes, inline styles, and CSS variables.',
+      'Toggle Group owns selection and focus behavior, but it does not own icon assets or app formatting state.',
     ],
   },
   {

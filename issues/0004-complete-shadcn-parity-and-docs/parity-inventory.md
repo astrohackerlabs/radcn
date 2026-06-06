@@ -121,6 +121,7 @@ These are documented in RadCN but are not current package exports.
 | examples | item | resolved | `issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/18-implement-item-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md` |
 | examples | spinner | resolved | `issues/0004-complete-shadcn-parity-and-docs/19-audit-spinner-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/20-implement-spinner-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/spinner-example-inventory.md` |
 | examples | empty | resolved | `issues/0004-complete-shadcn-parity-and-docs/21-audit-empty-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/22-implement-empty-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md` |
+| examples | toggle-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/23-audit-toggle-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/24-implement-toggle-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -249,7 +250,6 @@ parity decision.
 | textarea | 5 | `textarea-demo`, `textarea-disabled`, `textarea-with-button`, `textarea-with-label`, `textarea-with-text` |
 | toast | 5 | `toast-demo`, `toast-destructive`, `toast-simple`, `toast-with-action`, `toast-with-title` |
 | toggle | 6 | `toggle-demo`, `toggle-disabled`, `toggle-lg`, `toggle-outline`, `toggle-sm`, `toggle-with-text` |
-| toggle-group | 7 | `toggle-group-demo`, `toggle-group-disabled`, `toggle-group-lg`, `toggle-group-outline`, `toggle-group-single`, `toggle-group-sm`, `toggle-group-spacing` |
 | tooltip | 1 | `tooltip-demo` |
 
 ## Upstream Blocks Queue
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for toggle-group
+**Cluster:** Example parity for breadcrumb
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for toggle-group.
+- Audit upstream examples for breadcrumb.
 
 ## Notes
 

@@ -184,3 +184,124 @@ examples, group-level `disabled`/`size`/`variant`/`spacing`, item overrides,
 icon-only labels, selected icon styling hooks, docs/fixture/Playwright proof,
 inventory/resolved-cluster updates, style index regeneration, repo hygiene,
 vendor cleanliness, and dependency avoidance.
+
+## Result
+
+**Result:** Pass
+
+Implemented Toggle Group example parity depth.
+
+- `radcn/packages/radcn/src/components/toggle-group.tsx` now supports
+  group-level `disabled`, `size`, `variant`, and `spacing` props while
+  preserving item-level `disabled`, `size`, and `variant` overrides.
+- `radcn/packages/radcn/src/styles/tokens.css` now styles group-level spacing,
+  size, variant, disabled state, and selected icon hooks. Generated
+  `radcn/packages/radcn/src/styles/index.ts` is in sync.
+- `radcn/apps/docs/app/content/components.tsx` now has rich Toggle Group docs
+  with package-backed examples for `demo`, `disabled`, `lg`, `outline`,
+  `single`, `sm`, and `spacing`.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/toggle.tsx` now expose direct
+  `/fixtures/toggle-group/*` scenarios for all 7 upstream Toggle Group example
+  families, plus a preserved `disabled-item` scenario for the prior disabled
+  item behavior.
+- `radcn/fixtures/tests/toggle.spec.ts` now proves icon-only multiple and
+  single groups, group-level disabled behavior, small and large group sizes,
+  outline groups, spacing, icon+label items, selected-state icon styling,
+  accessible names, `aria-pressed`, `data-state`, `data-value`, keyboard
+  behavior, orientation behavior, and custom token hooks.
+- `issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md`
+  now marks all 7 upstream Toggle Group examples `Covered` and preserves
+  mapping decisions for React, Radix ToggleGroup, lucide icons, Tailwind size
+  utilities, Tailwind selected-state selectors, app-owned glyphs, and public
+  state hooks.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json` marks
+  the `toggle-group` example cluster resolved, and regenerated
+  `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md` no longer
+  lists `toggle-group` as unresolved. The first generated recommendation is
+  now example parity for `breadcrumb`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts toggle.spec.ts`
+  passed: 6 passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 passed.
+- `node scripts/audit-shadcn-parity.mjs` passed and regenerated
+  `parity-inventory.md`.
+- The parity inventory idempotence check passed:
+  ```text
+  tmp=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmp" && node scripts/audit-shadcn-parity.mjs >/tmp/radcn-parity-regen.log && diff -u "$tmp" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md; regen_status=$?; rm "$tmp"; cat /tmp/radcn-parity-regen.log; exit $regen_status
+  ```
+  Output:
+  ```text
+  wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+  ```
+- Deterministic Node checks confirmed:
+  - all 7 upstream Toggle Group example ids appear exactly once in
+    `toggle-group-example-inventory.md`;
+  - all 7 rows have final outcome `Covered`;
+  - `resolved-clusters.json` includes `slug = "toggle-group"`,
+    `status = "resolved"`, and evidence for Experiment 23, Experiment 24, and
+    `toggle-group-example-inventory.md`;
+  - `radcn/packages/radcn/src/styles/index.ts` exactly matches
+    `tokens.css`;
+  - `toggle-group` is absent from `## Unresolved Example Clusters` and is not
+    the `## First Recommended Cluster`; the first recommendation is
+    `Example parity for breadcrumb`;
+  - the new group-level props are present in
+    `radcn/packages/radcn/src/components/toggle-group.tsx`, and
+    `ToggleGroupProps` remains exported through
+    `radcn/packages/radcn/src/index.ts`;
+  - Toggle Group docs contain the intended example family labels and required
+    mapping copy;
+  - Toggle Group docs implementation snippets and live preview do not use
+    upstream Tailwind utility implementation strings.
+- Dependency-policy checks passed:
+  ```text
+  rg -n "from ['\"]react['\"]|from ['\"][^'\"]*radix-ui|from ['\"][^'\"]*@radix-ui|from ['\"][^'\"]*lucide-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+  ```
+  It exited 1 with no matches, as expected.
+- The targeted Tailwind-avoidance check passed with:
+  ```text
+  no upstream Tailwind utility implementation strings
+  ```
+- `git diff --check` passed with no output.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+## Conclusion
+
+Toggle Group example parity is resolved. Adding narrow group-level
+`disabled`, `size`, `variant`, and `spacing` props was justified because those
+are direct upstream author-facing conveniences and they map cleanly to RadCN
+data hooks, CSS variables, and browser enhancement without React or Radix. The
+next experiment should follow the regenerated recommendation and audit example
+parity for `breadcrumb`.
+
+## Completion Review
+
+Reviewer: Maxwell (`019e9af3-8056-7b02-af68-1cfc96441477`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Maxwell confirmed the completed result matches the
+approved scope; all 7 Toggle Group example families are covered in the
+inventory and fixtures; group-level `disabled`, `size`, `variant`, and
+`spacing` are implemented; item-level overrides remain available through
+`:not([data-size])` and `:not([data-variant])`; icon-only examples have
+`ariaLabel`; selected icon styling uses public `data-state` plus
+`.radcn-toggle-group-icon`; the experiment has `## Result` and `## Conclusion`;
+the Issue 4 README marks Experiment 24 as `Pass` and records the breadcrumb
+next learning; `git diff --check` passes; vendor status is clean; dependency
+policy checks have no React/Radix/lucide/vendor/publish matches;
+`styles/index.ts` matches `tokens.css`; and the result commit had not been made
+before review.

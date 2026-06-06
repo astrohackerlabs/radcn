@@ -1865,7 +1865,13 @@ export const fixtureScenarios: FixtureScenario[] = [
     component: "toggle-group",
     id: "single",
     title: "Single Toggle Group",
-    description: "Single-selection toggle group.",
+    description: "Single-selection icon-only toggle group.",
+  },
+  {
+    component: "toggle-group",
+    id: "demo",
+    title: "Toggle Group Demo",
+    description: "Multiple-selection outline icon-only formatting group.",
   },
   {
     component: "toggle-group",
@@ -1876,8 +1882,38 @@ export const fixtureScenarios: FixtureScenario[] = [
   {
     component: "toggle-group",
     id: "disabled",
+    title: "Disabled Toggle Group",
+    description: "Group-level disabled state applied to all items.",
+  },
+  {
+    component: "toggle-group",
+    id: "disabled-item",
     title: "Disabled Toggle Group Item",
     description: "Toggle group with a disabled item skipped by keyboard navigation.",
+  },
+  {
+    component: "toggle-group",
+    id: "lg",
+    title: "Large Toggle Group",
+    description: "Group-level large size applied to icon-only items.",
+  },
+  {
+    component: "toggle-group",
+    id: "outline",
+    title: "Outline Toggle Group",
+    description: "Group-level outline variant applied to icon-only items.",
+  },
+  {
+    component: "toggle-group",
+    id: "sm",
+    title: "Small Toggle Group",
+    description: "Group-level small size applied to icon-only items.",
+  },
+  {
+    component: "toggle-group",
+    id: "spacing",
+    title: "Spaced Toggle Group",
+    description: "Spaced icon and label ToggleGroupItems with selected icon styling.",
   },
   {
     component: "toggle-group",

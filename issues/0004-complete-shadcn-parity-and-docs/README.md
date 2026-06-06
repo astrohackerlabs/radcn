@@ -403,6 +403,19 @@ Record cross-component discoveries here as experiments complete.
   dependencies.
 - After Experiment 23, the next recommended implementation cluster is Toggle
   Group example parity depth.
+- Experiment 24 completed Toggle Group example parity depth. RadCN now supports
+  group-level `disabled`, `size`, `variant`, and `spacing` while preserving
+  item-level overrides, native button output, `aria-pressed`, `data-state`,
+  `data-value`, roving focus, and orientation behavior.
+- Toggle Group docs, fixtures, and Playwright coverage now prove all 7
+  upstream Toggle Group example families: demo, disabled, lg, outline, single,
+  sm, and spacing. The recorded divergences are stable for later components:
+  React/Radix ToggleGroup maps to RadCN host markup plus explicit browser
+  enhancement; lucide icons map to app-owned decorative glyphs; Tailwind icon
+  utilities and selected-state selectors map to RadCN classes, inline styles,
+  CSS variables, and public `data-state` hooks.
+- After Experiment 24, `toggle-group` is marked resolved in the example queue.
+  The regenerated inventory recommends example parity for `breadcrumb` next.
 
 ## Experiments
 
@@ -453,4 +466,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 23: Audit toggle-group example parity](23-audit-toggle-group-example-parity.md)
   — **Pass**
 - [Experiment 24: Implement toggle-group example parity depth](24-implement-toggle-group-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

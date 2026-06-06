@@ -24,36 +24,28 @@ Generated during Experiment 23 on 2026-06-06.
 
 ## Summary
 
-Toggle Group example parity is not complete yet. RadCN already has a real
+Toggle Group example parity is complete after Experiment 24. RadCN has a real
 Remix 3 implementation with browser enhancement for single and multiple
 selection, selected state hooks, roving focus, disabled item skip behavior,
-vertical orientation, and custom token styling. Existing fixtures and
-Playwright coverage prove that baseline behavior.
+vertical orientation, custom token styling, group-level disabled behavior,
+group-level size and variant defaults, spacing between ToggleGroupItems,
+icon-only formatting groups with accessible names, and icon+label examples
+with selected icon styling.
 
-The missing Toggle Group parity depth is:
-
-- group-level `disabled` behavior that disables every item;
-- group-level `size` and `variant` propagation or an intentional item-level
-  mapping with docs/tests;
-- spacing between ToggleGroupItems as a first-class example;
-- icon-only formatting groups with accessible names;
-- icon+label spacing examples with selected icon styling;
-- docs/fixtures that demonstrate all 7 upstream example families directly.
-
-Do not mark the `toggle-group` example cluster resolved yet. The next
-experiment should implement Toggle Group example parity depth.
+No React dependency, Radix ToggleGroup dependency, lucide dependency, Tailwind
+dependency, vendor import, or npm publishing behavior was needed.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `toggle-group-demo` | Multiple-selection outline formatting group with icon-only Bold, Italic, and Underline buttons. Uses group-level `variant="outline"`, lucide icons, and icon button `aria-label`s. | RadCN has multiple-selection ToggleGroup behavior and item-level `variant="outline"`, but current docs/fixtures do not prove icon-only outline group parity or group-level variant propagation. | Partial | Add direct proof for icon-only multiple outline group with `aria-label`s and decide whether group-level `variant` should be added or item-level variant is the documented mapping. |
-| `toggle-group-disabled` | Multiple-selection group with group-level `disabled`, making all icon-only items unavailable. Uses Radix group disabled behavior. | RadCN proves disabled item behavior and keyboard skip for one disabled item, but ToggleGroup has no group-level `disabled` prop and no fixture proving all items disabled through group state. | Missing | Add group-level disabled support or document/verify explicit disabled items as an intentional divergence if that preserves user-facing behavior. |
-| `toggle-group-lg` | Multiple-selection icon-only formatting group with group-level `size="lg"`. | RadCN `ToggleGroupItem` supports `size="lg"` through Toggle size styles, but ToggleGroup has no group-level `size` prop and fixtures do not prove large grouped items. | Partial | Add direct large ToggleGroup proof and decide whether group-level `size` should propagate to items or item-level size is the documented mapping. |
-| `toggle-group-outline` | Multiple-selection icon-only formatting group with group-level outline variant. | RadCN item-level outline variant and custom-token fixture exist, but no direct upstream outline icon-only group proof or group-level variant propagation exists. | Partial | Add direct outline ToggleGroup proof and resolve group-level vs item-level variant mapping. |
-| `toggle-group-single` | Single-selection icon-only formatting group with Bold, Italic, and Underline options. | RadCN proves single-selection state, `aria-pressed`, `data-value`, and keyboard behavior with text items, but not icon-only items with accessible names. | Partial | Add direct single icon-only group proof with `aria-label`s and decorative/app-owned glyphs. |
-| `toggle-group-sm` | Single-selection icon-only formatting group with group-level `size="sm"`. | RadCN `ToggleGroupItem` supports `size="sm"` through Toggle size styles, but ToggleGroup has no group-level `size` prop and fixtures do not prove small grouped items. | Partial | Add direct small ToggleGroup proof and decide whether group-level `size` should propagate to items or item-level size is the documented mapping. |
-| `toggle-group-spacing` | Multiple-selection outline group with `spacing={2}`, icon+label items, and selected-state icon fill/stroke colors using Tailwind `data-state` selectors. | RadCN has group and item class/style hooks, selected `data-state`, and multiple selection behavior, but no `spacing` prop, no direct icon+label spacing fixture, and no selected icon color proof. | Missing | Add spacing proof and selected icon styling through RadCN classes/styles/CSS variables or add a narrow `spacing` API if needed. |
+| `toggle-group-demo` | Multiple-selection outline formatting group with icon-only Bold, Italic, and Underline buttons. Uses group-level `variant="outline"`, lucide icons, and icon button `aria-label`s. | RadCN docs, `/fixtures/toggle-group/demo`, and Playwright prove icon-only multiple outline group parity with `aria-label`s, group-level `variant="outline"`, app-owned glyphs, `aria-pressed`, `data-state`, and `data-value`. | Covered | Lucide icons map to app-owned decorative glyphs. |
+| `toggle-group-disabled` | Multiple-selection group with group-level `disabled`, making all icon-only items unavailable. Uses Radix group disabled behavior. | RadCN package API now supports group-level `disabled`; `/fixtures/toggle-group/disabled` and Playwright prove all grouped items become disabled, avoid roving focus, and do not toggle. | Covered | Radix group disabled behavior maps to RadCN `disabled` plus `enhanceToggleGroup`. |
+| `toggle-group-lg` | Multiple-selection icon-only formatting group with group-level `size="lg"`. | RadCN package API now supports group-level `size`; `/fixtures/toggle-group/lg` and Playwright prove large grouped items render visibly distinct size behavior. | Covered | Group-level size maps to public `data-size` and package styles while item-level size overrides remain available. |
+| `toggle-group-outline` | Multiple-selection icon-only formatting group with group-level outline variant. | RadCN package API now supports group-level `variant`; `/fixtures/toggle-group/outline` and Playwright prove outline grouped items while item-level variants remain available. | Covered | Group-level variant maps to public `data-variant` and package styles. |
+| `toggle-group-single` | Single-selection icon-only formatting group with Bold, Italic, and Underline options. | RadCN docs, `/fixtures/toggle-group/single`, and Playwright prove single-selection icon-only items with accessible names, app-owned glyphs, selected state, and keyboard behavior. | Covered | Lucide icons map to decorative app-owned glyphs. |
+| `toggle-group-sm` | Single-selection icon-only formatting group with group-level `size="sm"`. | RadCN package API now supports group-level `size`; `/fixtures/toggle-group/sm` and Playwright prove small grouped items render visibly distinct size behavior. | Covered | Group-level size maps to public `data-size` and package styles while item-level size overrides remain available. |
+| `toggle-group-spacing` | Multiple-selection outline group with `spacing={2}`, icon+label items, and selected-state icon fill/stroke colors using Tailwind `data-state` selectors. | RadCN package API now supports `spacing`; `/fixtures/toggle-group/spacing` and Playwright prove visible group gap, icon+label text, and selected icon color through public classes/styles/CSS variables. | Covered | Tailwind selected-state selectors map to RadCN `data-state`, classes, inline styles, and CSS variables. |
 
 ## Mapping Decisions
 
@@ -77,20 +69,8 @@ experiment should implement Toggle Group example parity depth.
   parity still needs direct docs/fixture proof for the upstream example
   families.
 
-## Next Recommendation
+## Resolution
 
-Implement Toggle Group example parity depth:
-
-- add docs and candidate fixtures for all 7 upstream Toggle Group examples;
-- add focused Playwright coverage for icon-only multiple and single groups,
-  group-level disabled behavior or documented explicit disabled-item mapping,
-  small and large sizes, outline variants, spacing, icon+label items,
-  selected-state styling, `aria-label`s, `aria-pressed`, `data-state`,
-  `data-value`, keyboard navigation, and orientation behavior;
-- decide whether the current item-level size/variant/disabled hooks are enough
-  or whether narrow group-level `size`, `variant`, `disabled`, and `spacing`
-  props are needed;
-- record intentional divergences for React, Radix ToggleGroup, lucide icons,
-  Tailwind size utilities, and Tailwind selected-state selectors;
-- then mark `toggle-group` resolved in `resolved-clusters.json` and regenerate
-  `parity-inventory.md`.
+Experiment 24 resolved Toggle Group example parity depth. The next Issue 4
+cluster should come from the regenerated `parity-inventory.md` first
+recommended cluster.

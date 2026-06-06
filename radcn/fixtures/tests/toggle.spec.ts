@@ -63,6 +63,7 @@ test('candidate toggle group supports single and multiple pressed state', async 
   await expect(group(page)).toHaveAttribute('role', 'group')
   await expect(group(page)).toHaveAttribute('data-type', 'single')
   await expect(group(page)).toHaveAttribute('data-value', 'bold')
+  await expect(groupItem(page, 'bold')).toHaveAttribute('aria-label', 'Toggle bold')
   await expect(groupItem(page, 'bold')).toHaveAttribute('aria-pressed', 'true')
   await expect(groupItem(page, 'italic')).toHaveAttribute('aria-pressed', 'false')
 
@@ -86,7 +87,7 @@ test('candidate toggle group supports single and multiple pressed state', async 
 })
 
 test('candidate toggle group supports keyboard focus disabled skip and vertical orientation', async ({ page }) => {
-  await page.goto(`${candidate}/fixtures/toggle-group/disabled`)
+  await page.goto(`${candidate}/fixtures/toggle-group/disabled-item`)
 
   await expect(groupItem(page, 'italic')).toBeDisabled()
   await expect(groupItem(page, 'italic')).toHaveAttribute('aria-disabled', 'true')
@@ -111,6 +112,48 @@ test('candidate toggle group supports keyboard focus disabled skip and vertical 
   await page.keyboard.press('Enter')
   await expect(groupItem(page, 'underline')).toHaveAttribute('aria-pressed', 'true')
   await expect(groupItem(page, 'italic')).toHaveAttribute('aria-pressed', 'false')
+})
+
+test('candidate toggle group covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/toggle-group/demo`)
+  await expect(group(page)).toHaveAttribute('data-type', 'multiple')
+  await expect(group(page)).toHaveAttribute('data-variant', 'outline')
+  await expect(groupItem(page, 'bold')).toHaveAttribute('aria-label', 'Toggle bold')
+  await expect(groupItem(page, 'bold')).toHaveCSS('border-left-color', 'rgb(228, 228, 231)')
+  await groupItem(page, 'bold').click()
+  await expect(groupItem(page, 'bold')).toHaveAttribute('aria-pressed', 'true')
+  await expect(groupItem(page, 'bold')).toHaveAttribute('data-state', 'on')
+
+  await page.goto(`${candidate}/fixtures/toggle-group/disabled`)
+  await expect(group(page)).toHaveAttribute('data-disabled', 'true')
+  await expect(groupItem(page, 'bold')).toBeDisabled()
+  await expect(groupItem(page, 'italic')).toBeDisabled()
+  await expect(groupItem(page, 'underline')).toBeDisabled()
+  await expect(groupItem(page, 'bold')).toHaveAttribute('tabindex', '-1')
+  await groupItem(page, 'italic').click({ force: true })
+  await expect(group(page)).toHaveAttribute('data-value', 'bold')
+
+  await page.goto(`${candidate}/fixtures/toggle-group/lg`)
+  await expect(group(page)).toHaveAttribute('data-size', 'lg')
+  await expect(groupItem(page, 'bold')).toHaveCSS('min-height', '44px')
+
+  await page.goto(`${candidate}/fixtures/toggle-group/sm`)
+  await expect(group(page)).toHaveAttribute('data-size', 'sm')
+  await expect(groupItem(page, 'bold')).toHaveCSS('min-height', '32px')
+
+  await page.goto(`${candidate}/fixtures/toggle-group/outline`)
+  await expect(group(page)).toHaveAttribute('data-variant', 'outline')
+  await expect(groupItem(page, 'italic')).toHaveCSS('border-left-color', 'rgb(228, 228, 231)')
+
+  await page.goto(`${candidate}/fixtures/toggle-group/spacing`)
+  await expect(group(page)).toHaveAttribute('data-spacing', '2')
+  await expect(group(page)).toHaveCSS('gap', '8px')
+  await expect(groupItem(page, 'star')).toContainText('Star')
+  await expect(groupItem(page, 'heart')).toContainText('Heart')
+  await expect(groupItem(page, 'bookmark')).toContainText('Bookmark')
+  await expect(groupItem(page, 'star').locator('.radcn-toggle-group-icon')).toHaveCSS('color', 'rgb(202, 138, 4)')
+  await groupItem(page, 'heart').click()
+  await expect(groupItem(page, 'heart').locator('.radcn-toggle-group-icon')).toHaveCSS('color', 'rgb(220, 38, 38)')
 })
 
 test('candidate toggle group exposes custom token hooks', async ({ page }) => {

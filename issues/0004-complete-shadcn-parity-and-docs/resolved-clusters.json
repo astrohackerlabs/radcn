@@ -79,6 +79,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/22-implement-empty-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/empty-example-inventory.md"
       ]
+    },
+    {
+      "slug": "toggle-group",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/23-audit-toggle-group-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/24-implement-toggle-group-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],
