@@ -221,3 +221,73 @@ current diff only contains the Issue 4 README link and new experiment file,
 upstream has exactly one direct `separator-demo` registry row and one
 `separator-demo.tsx` file, and the modified scope excludes blocks and
 chart-gallery examples while retaining the `radcn/chart` package/component.
+
+## Result
+
+**Result:** Partial
+
+Added `separator-example-inventory.md` and audited the single direct upstream
+Separator example cluster, `separator-demo`.
+
+The audit found that RadCN already has the Separator package and behavior
+substrate: dependency-free package export, horizontal and vertical orientation
+support, `data-orientation`, public `data-radcn-separator` hooks, decorative
+default behavior with `role="none"`, semantic opt-in behavior with
+`role="separator"` and `aria-orientation`, style coverage for full-width
+horizontal separators and stretched vertical separators, generic docs hook
+evidence, package manifest export, and source export coverage.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `separator-demo` docs page, candidate fixture route, or Playwright tests
+for the exact upstream composition: `Radix Primitives`, `An open-source UI
+component library.`, `className="my-4"`, the `Blog`/`Docs`/`Source` row, row
+layout classes `flex h-5 items-center space-x-4 text-sm`, and two vertical
+separators.
+
+Verification run:
+
+```text
+node deterministic check for direct separator registry/file/inventory count
+node deterministic check for separator-demo row outcome and follow-up
+rg -n '"use client"|React component props|Radix Separator primitive|SeparatorPrimitive.Root|orientation="horizontal"|decorative=\\{true\\}|className|my-4|flex h-5 items-center space-x-4 text-sm|Blog|Docs|Source|Radix Primitives|An open-source UI component library.|Tailwind utilities|cn|data-slot|data-orientation|horizontal sizing|vertical sizing|decorative separator behavior|semantic separator behavior|browser accessibility behavior|custom tokens|vendor source' issues/0004-complete-shadcn-parity-and-docs/separator-example-inventory.md
+rg -n 'radcn/packages/radcn/src/components/separator.tsx|radcn/packages/radcn/src/styles/tokens.css|radcn/packages/radcn/src/index.ts|radcn/packages/radcn/package.json|radcn/apps/docs/app/content/components.tsx|radcn/apps/docs/tests/coverage.spec.ts|radcn/fixtures/scenarios/index.ts|radcn/fixtures/candidate-remix/app/fixtures/native-state.tsx|radcn/fixtures/tests/native-state.spec.ts' issues/0004-complete-shadcn-parity-and-docs/separator-example-inventory.md
+rg -n "Experiment 110|separator-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node deterministic tracked-vendor-source check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All checks passed. `git status --short` showed only the Experiment 110 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Separator direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `separator-demo`
+parity in docs, candidate fixtures, and Playwright coverage, then update
+`separator-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: James the 3rd (`019e9ea2-a683-75d3-92a2-5b346aa0aba2`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the result stayed audit-only, the current
+worktree modifies only Issue 4 docs plus the new inventory file, the
+experiment has `Result` and `Conclusion`, the Issue 4 README records Separator
+learnings and marks Experiment 110 `Partial`, `separator-demo` is marked
+`Partial` with concrete follow-up, upstream evidence matches the audit, RadCN
+package evidence exists while named demo proof does not, verification spot
+checks passed, vendor checkouts are clean, tracked vendor files remain limited
+to `vendor/.gitignore`, the result commit had not yet been made, and the
+modified blocks/chart-gallery scope remains respected while retaining
+`radcn/chart`.

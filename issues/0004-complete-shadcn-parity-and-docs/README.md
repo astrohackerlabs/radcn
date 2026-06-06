@@ -1466,6 +1466,16 @@ Record cross-component discoveries here as experiments complete.
   invalid, form, and custom-token scenarios remain covered. `radio-group` is
   resolved in the example queue; the next generated recommendation is example
   parity for `separator`.
+- Experiment 110 audited Separator direct example parity in
+  `separator-example-inventory.md`. RadCN already has the package API,
+  dependency-free horizontal/vertical styling, decorative default behavior,
+  semantic opt-in behavior, generic docs hook evidence, and package export
+  coverage. The direct upstream `separator-demo` remains partial because no
+  named docs, candidate fixture, or Playwright evidence currently proves the
+  exact `Radix Primitives` heading, `An open-source UI component library.`
+  description, `my-4` horizontal separator, `Blog`/`Docs`/`Source` row, and two
+  vertical separators. The next experiment should implement named
+  `separator-demo` docs, fixture, and Playwright parity.
 
 ## Experiments
 
@@ -1688,4 +1698,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 109: Implement radio-group example parity depth](109-implement-radio-group-example-parity-depth.md)
   — **Pass**
 - [Experiment 110: Audit separator example parity](110-audit-separator-example-parity.md)
-  — **Designed**
+  — **Partial**
