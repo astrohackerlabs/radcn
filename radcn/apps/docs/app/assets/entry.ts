@@ -7,6 +7,7 @@ import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 import { enhancePopover } from 'radcn/popover'
 import { enhanceSwitch } from 'radcn/switch'
 import { enhanceTabs } from 'radcn/tabs'
+import { enhanceTooltip } from 'radcn/tooltip'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -315,3 +316,6 @@ document
 document
   .querySelectorAll<HTMLElement>('[data-radcn-docs-tabs-family="tabs-demo"]')
   .forEach((example) => enhanceTabs(example))
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-tooltip-family="tooltip-demo"]')
+  .forEach((example) => enhanceTooltip(example))

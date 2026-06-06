@@ -7146,6 +7146,40 @@ function MenubarDemoPreview() {
   )
 }
 
+const tooltipDemoSource = `import { Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from 'radcn/tooltip'
+
+export function TooltipDemo() {
+  return (
+    <TooltipProvider delayDuration={0}>
+      <Tooltip id="tooltip-demo">
+        <TooltipTrigger class="radcn-button radcn-button--outline">Hover</TooltipTrigger>
+        <TooltipPortal>
+          <TooltipContent sideOffset={0}>
+            <p>Add to library</p>
+          </TooltipContent>
+        </TooltipPortal>
+      </Tooltip>
+    </TooltipProvider>
+  )
+}`
+
+function TooltipDemoPreview() {
+  return () => (
+    <div data-radcn-docs-tooltip-family="tooltip-demo">
+      <TooltipProvider delayDuration={0}>
+        <Tooltip id="docs-tooltip-demo">
+          <TooltipTrigger class="radcn-button radcn-button--outline">Hover</TooltipTrigger>
+          <TooltipPortal>
+            <TooltipContent sideOffset={0}>
+              <p>Add to library</p>
+            </TooltipContent>
+          </TooltipPortal>
+        </Tooltip>
+      </TooltipProvider>
+    </div>
+  )
+}
+
 const navigationMenuDemoStyle = css({
   width: 'min(100%, 48rem)',
   '& .radcn-docs-navigation-menu-desktop-only': {
@@ -10029,6 +10063,48 @@ const richComponentDocs: ComponentDoc[] = [
       'cva, VariantProps, tabsListVariants, className, Tailwind utilities, cn, data-slot, data-orientation, data-variant, and data-state map to RadCN props, class, public data-radcn hooks, data-orientation, and data-state.',
       'AppWindowIcon and CodeIcon are unused upstream lucide-react imports and are not RadCN package dependencies.',
       'Upstream Input defaultValue maps to RadCN Input value for static server-rendered demo defaults.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'tooltip',
+    title: 'Tooltip',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
+    importPath: 'radcn/tooltip',
+    importExample:
+      "import { Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from 'radcn/tooltip'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'tooltip-demo',
+        title: 'Tooltip Demo',
+        description:
+          'The upstream Hover trigger and Add to library tooltip composition ported to RadCN.',
+        source: tooltipDemoSource,
+        preview: <TooltipDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Enhanced tooltips expose role="tooltip" and connect trigger to content with aria-describedby.',
+      'The Hover trigger is a native button styled with outline Button classes, so the upstream asChild Button trigger maps without nested interactive controls.',
+      'The named demo opens on pointer hover and keyboard focus, and closes when focus leaves or Escape is pressed.',
+    ],
+    customization: [
+      'Provider, root, trigger, portal, content, and arrow parts expose stable RadCN classes and data-radcn hooks.',
+      'Provider delayDuration={0} maps to delay metadata, and TooltipContent sideOffset={0} maps to data-side-offset="0".',
+      'Side, align, open state, portal placement, and arrow rendering are public behavior and styling surfaces.',
+    ],
+    divergence: [
+      'use client, React component props, and Radix TooltipPrimitive.Provider/Root/Trigger/Portal/Content/Arrow map to server-rendered RadCN parts with scoped enhanceTooltip behavior.',
+      'TooltipTrigger asChild maps to styling RadCN TooltipTrigger with radcn-button radcn-button--outline classes, avoiding nested buttons while preserving the visible outline Button trigger.',
+      'className, Tailwind utilities, cn, data-slot, data-state, and data-side map to RadCN class, public data-radcn hooks, data-state, data-side, and package CSS.',
+      'Provider delayDuration = 0 and content sideOffset = 0 map to explicit RadCN props and data metadata.',
+      'Custom Tooltip tokens remain package-owned CSS variables and fixture-proven custom classes, not Tailwind runtime dependencies.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

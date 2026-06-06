@@ -170,6 +170,7 @@ These are documented in RadCN but are not current package exports.
 | examples | switch | resolved | `issues/0004-complete-shadcn-parity-and-docs/114-audit-switch-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/115-implement-switch-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/switch-example-inventory.md` |
 | examples | table | resolved | `issues/0004-complete-shadcn-parity-and-docs/116-audit-table-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/117-implement-table-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/table-example-inventory.md` |
 | examples | tabs | resolved | `issues/0004-complete-shadcn-parity-and-docs/118-audit-tabs-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/119-implement-tabs-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/tabs-example-inventory.md` |
+| examples | tooltip | resolved | `issues/0004-complete-shadcn-parity-and-docs/120-audit-tooltip-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/121-implement-tooltip-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/tooltip-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -250,7 +251,7 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| tooltip | 1 | `tooltip-demo` |
+| None | 0 |  |
 
 ## Out-of-Scope Upstream Blocks Queue
 
@@ -481,13 +482,13 @@ These chart-gallery clusters are intentionally excluded from the current Issue
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for tooltip
+**Cluster:** No unresolved parity clusters
 
-No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
+All tracked package and component example queues are resolved. Blocks and upstream chart-gallery examples are out of scope for Issue 4.
 
 Expected next experiment:
 
-- Audit upstream examples for tooltip.
+- Close Issue 4 with a final verification pass.
 
 ## Notes
 

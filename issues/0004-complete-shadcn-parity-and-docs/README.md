@@ -1602,6 +1602,20 @@ Record cross-component discoveries here as experiments complete.
   `className`/`data-slot`/`data-state`/`data-side` divergence copy. The next
   experiment should implement named `tooltip-demo` docs, fixture, and
   Playwright parity.
+- Experiment 121 completed Tooltip direct example parity and updated
+  `tooltip-example-inventory.md` to `Covered`. The docs site and candidate
+  fixture now include named `tooltip-demo` evidence for the exact Hover/Add to
+  library demo: outline Button styling on the trigger without nested button
+  markup, content text `Add to library`, hidden initial state, hover and focus
+  opening behavior, Escape/blur closing behavior, `role="tooltip"`,
+  `aria-describedby`, portal movement, arrow rendering, `data-side="top"`,
+  `data-side-offset="0"`, source snippet, public Tooltip provider/root/
+  trigger/portal/content/arrow hooks, and React/Radix/asChild/Tailwind/`cn`/
+  `className`/`data-slot`/`data-state`/`data-side`/vendor divergences. Docs
+  now scope `enhanceTooltip` to the named demo. `tooltip` is resolved in the
+  example queue; the regenerated inventory reports no unresolved in-scope
+  parity clusters and recommends closing Issue 4 with a final verification
+  pass.
 
 ## Experiments
 
@@ -1846,4 +1860,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 120: Audit tooltip example parity](120-audit-tooltip-example-parity.md)
   — **Partial**
 - [Experiment 121: Implement tooltip example parity depth](121-implement-tooltip-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

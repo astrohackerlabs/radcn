@@ -9,9 +9,8 @@ association, portal movement, arrow rendering, placement metadata, provider
 delay metadata, side offsets, default-open rendering, Kbd composition,
 InputGroup composition, and custom tokens.
 
-The current outcome is `Partial`. The next experiment should add named
-`tooltip-demo` parity across the docs page, candidate fixture route, and
-Playwright coverage before marking Tooltip resolved.
+The current outcome is `Covered`. Experiment 121 added named `tooltip-demo`
+parity across the docs page, candidate fixture route, and Playwright coverage.
 
 Current RadCN evidence compared in this audit:
 
@@ -32,19 +31,29 @@ Current RadCN evidence compared in this audit:
 - `radcn/packages/radcn/src/index.ts` re-exports Tooltip parts and types.
 - `radcn/packages/radcn/package.json` exposes the `./tooltip` package
   subpath.
-- `radcn/apps/docs/app/content/components.tsx` includes generic Tooltip docs
-  and composition examples, but not a named direct `tooltip-demo` Hover
-  outline Button with `Add to library` content.
-- `radcn/apps/docs/tests/coverage.spec.ts` checks generic docs hook presence
-  and related Tooltip composition copy, but not named `tooltip-demo` parity.
+- `radcn/apps/docs/app/content/components.tsx` includes a named direct
+  `tooltip-demo` Hover outline Button with `Add to library` content, source
+  snippet, and dependency-divergence mapping copy.
+- `radcn/apps/docs/app/assets/entry.ts` scopes `enhanceTooltip` to the named
+  docs `tooltip-demo` example so browser hover/focus behavior runs on the
+  docs page.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks the named `tooltip-demo`
+  docs example, public hooks, source snippet, dependency-divergence copy,
+  live hover/focus behavior, portal movement, arrow rendering, side metadata,
+  and sideOffset metadata.
 - `radcn/fixtures/scenarios/index.ts` lists generic Tooltip scenarios for
-  default, default-open, delay, side, content-hover, and custom-token.
+  default, default-open, delay, side, content-hover, custom-token, plus the
+  named `demo` route.
 - `radcn/fixtures/candidate-remix/app/fixtures/positioned-overlays.tsx`
   renders generic Tooltip behavior fixtures through positioned overlay
-  examples, but not the exact upstream Hover/Add to library demo.
+  examples and the exact upstream Hover/Add to library demo through the named
+  `demo` branch.
 - `radcn/fixtures/tests/positioned-overlays.spec.ts` asserts hover/focus
   opening, accessible relationships, portal movement, arrow rendering, delay,
-  content hover behavior, side placement, and custom tokens.
+  content hover behavior, side placement, custom tokens, plus the named
+  `tooltip-demo` trigger, content, outline Button styling, no nested button
+  markup, portal movement, arrow rendering, side metadata, and sideOffset
+  metadata.
 - Related composition evidence in
   `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx`,
   `radcn/fixtures/tests/static-display.spec.ts`,
@@ -57,7 +66,7 @@ Current RadCN evidence compared in this audit:
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `tooltip-demo` | Renders `<Tooltip>` with `<TooltipTrigger asChild>` wrapping `<Button variant="outline">Hover</Button>`, and `<TooltipContent><p>Add to library</p></TooltipContent>`. Upstream package mechanics include `"use client"`, React component props, Radix Tooltip primitive, `TooltipPrimitive.Provider`, `TooltipPrimitive.Root`, `TooltipPrimitive.Trigger`, `TooltipPrimitive.Portal`, `TooltipPrimitive.Content`, `TooltipPrimitive.Arrow`, provider `delayDuration = 0`, content `sideOffset = 0`, `data-slot`, `data-state`, `data-side`, `className`, Tailwind utilities, `cn`, portal behavior, arrow rendering, hover behavior, focus behavior, custom tokens, and vendor source. | RadCN exports dependency-free Tooltip primitives with `TooltipProvider`, `Tooltip`, `TooltipTrigger`, `TooltipPortal`, `TooltipContent`, `TooltipArrow`, scoped `enhanceTooltip`, public provider/root/trigger/portal/content/arrow hooks, open/closed `data-state`, `role="tooltip"`, `aria-describedby`, portal movement, arrow rendering, side and side-offset metadata, hover/focus behavior, delay metadata, content-hover behavior, and custom-token coverage. Current fixtures prove generic Tooltip behavior and related Kbd/InputGroup Tooltip compositions. Current docs prove generic Tooltip package rendering. No current named docs, fixture, or Playwright evidence proves the exact upstream `Hover` outline Button trigger, `Add to library` content, asChild/Button mapping decision, source snippet, or React/Radix/Tailwind/`cn`/`className`/`data-slot`/`data-state`/`data-side` divergence copy for `tooltip-demo`. | Partial | Add named `tooltip-demo` docs, candidate fixture, and Playwright evidence. The implementation should preserve the exact visible trigger text `Hover`, Button outline variant, tooltip content text `Add to library`, hover and focus opening behavior, `role="tooltip"`, `aria-describedby`, public Tooltip/Button hooks, portal/arrow behavior, source snippet, Button-as-child mapping decision, provider/default delay mapping, sideOffset mapping, and mapping copy for React props, Radix Tooltip primitives, `TooltipPrimitive.*`, className/Tailwind/cn/data-slot/data-state/data-side divergences, custom tokens, and vendor source. |
+| `tooltip-demo` | Renders `<Tooltip>` with `<TooltipTrigger asChild>` wrapping `<Button variant="outline">Hover</Button>`, and `<TooltipContent><p>Add to library</p></TooltipContent>`. Upstream package mechanics include `"use client"`, React component props, Radix Tooltip primitive, `TooltipPrimitive.Provider`, `TooltipPrimitive.Root`, `TooltipPrimitive.Trigger`, `TooltipPrimitive.Portal`, `TooltipPrimitive.Content`, `TooltipPrimitive.Arrow`, provider `delayDuration = 0`, content `sideOffset = 0`, `data-slot`, `data-state`, `data-side`, `className`, Tailwind utilities, `cn`, portal behavior, arrow rendering, hover behavior, focus behavior, custom tokens, and vendor source. | RadCN exports dependency-free Tooltip primitives with `TooltipProvider`, `Tooltip`, `TooltipTrigger`, `TooltipPortal`, `TooltipContent`, `TooltipArrow`, scoped `enhanceTooltip`, public provider/root/trigger/portal/content/arrow hooks, open/closed `data-state`, `role="tooltip"`, `aria-describedby`, portal movement, arrow rendering, side and side-offset metadata, hover/focus behavior, delay metadata, content-hover behavior, and custom-token coverage. Experiment 121 added named docs and candidate fixture evidence for the exact upstream `Hover` outline Button trigger and `Add to library` content. Fixture and docs Playwright coverage prove hidden initial state, hover opening, focus opening, blur/Escape close behavior, `role="tooltip"`, `aria-describedby`, no nested button markup, portal movement, arrow rendering, `data-side="top"`, `data-side-offset="0"`, source snippet, Button-as-child mapping decision, and React/Radix/Tailwind/`cn`/`className`/`data-slot`/`data-state`/`data-side` divergence copy for `tooltip-demo`. | Covered | None. |
 
 ## Decisions
 

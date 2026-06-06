@@ -2091,6 +2091,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "tooltip",
+    id: "demo",
+    title: "Tooltip Demo",
+    description: "Outline Hover trigger with Add to library tooltip content.",
+  },
+  {
+    component: "tooltip",
     id: "default",
     title: "Default Tooltip",
     description: "Hover-triggered accessible tooltip.",

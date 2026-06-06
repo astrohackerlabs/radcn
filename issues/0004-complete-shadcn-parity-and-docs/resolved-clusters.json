@@ -519,6 +519,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/119-implement-tabs-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/tabs-example-inventory.md"
       ]
+    },
+    {
+      "slug": "tooltip",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/120-audit-tooltip-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/121-implement-tooltip-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/tooltip-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

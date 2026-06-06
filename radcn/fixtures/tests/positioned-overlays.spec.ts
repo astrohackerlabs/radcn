@@ -139,6 +139,40 @@ test('candidate popover supports default open outside dismissal placement and cu
   await expect(content).toHaveCSS('background-color', 'rgb(250, 245, 255)')
 })
 
+test('candidate tooltip demo matches the upstream hover button example', async ({ page }) => {
+  let opened = await openFreshTooltip(page, 'demo')
+  let demo = page.locator('[data-radcn-fixture-tooltip-family="tooltip-demo"]')
+
+  await expect(demo).toBeVisible()
+  await expect(page.locator('[data-radcn-tooltip-provider]')).toHaveAttribute('data-delay-duration', '0')
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveAttribute('id', 'candidate-tooltip-demo')
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveAttribute('data-open', 'false')
+  await expect(opened.trigger).toHaveText('Hover')
+  await expect(opened.trigger).toHaveClass(/radcn-button/)
+  await expect(opened.trigger).toHaveClass(/radcn-button--outline/)
+  await expect(opened.trigger.locator('button')).toHaveCount(0)
+  await expect(opened.content).toHaveText('Add to library')
+  await expect(opened.content).toHaveAttribute('role', 'tooltip')
+  await expect(opened.content).toHaveAttribute('data-side', 'top')
+  await expect(opened.content).toHaveAttribute('data-side-offset', '0')
+  await expect(opened.content).toBeHidden()
+  await expect(page.locator('[data-radcn-portal-root] [data-radcn-tooltip-portal]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-tooltip-arrow]')).toHaveCount(1)
+
+  await opened.trigger.hover()
+  await expect(opened.content).toBeVisible()
+  await expect(opened.trigger).toHaveAttribute('aria-describedby', await opened.content.getAttribute('id') || '')
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveAttribute('data-state', 'open')
+  await expect(page.locator('[data-radcn-tooltip-arrow]')).toBeVisible()
+
+  await page.keyboard.press('Escape')
+  await expect(opened.content).toBeHidden()
+  await opened.trigger.focus()
+  await expect(opened.content).toBeVisible()
+  await opened.trigger.blur()
+  await expect(opened.content).toBeHidden()
+})
+
 test('candidate tooltip opens from hover and focus with accessible relationship', async ({ page }) => {
   let opened = await openFreshTooltip(page)
   await opened.trigger.hover()

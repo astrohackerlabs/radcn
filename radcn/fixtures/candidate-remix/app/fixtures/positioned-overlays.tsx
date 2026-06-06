@@ -114,6 +114,23 @@ export function renderPopoverFixture(fixture: FixtureScenario) {
 }
 
 export function renderTooltipFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return (
+      <div data-radcn-fixture-tooltip-family="tooltip-demo" style={anchorStyle(false)}>
+        <TooltipProvider delayDuration={0}>
+          <Tooltip id="candidate-tooltip-demo">
+            <TooltipTrigger class="radcn-button radcn-button--outline">Hover</TooltipTrigger>
+            <TooltipPortal>
+              <TooltipContent sideOffset={0}>
+                <p>Add to library</p>
+              </TooltipContent>
+            </TooltipPortal>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+    )
+  }
+
   let custom = fixture.id === 'custom-token'
   let side = fixture.id === 'side' ? 'right' as const : 'top' as const
   let delay = fixture.id === 'delay' ? 160 : 0

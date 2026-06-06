@@ -219,3 +219,82 @@ direct upstream `tooltip-demo` example, verification has concrete pass/fail
 criteria and repo hygiene checks, vendor sources are treated as references
 only, implementation has not started before the plan commit, and the technical
 plan is likely to resolve the exact Hover/Add to library demo gap.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `tooltip-demo` parity across the docs app, candidate
+fixture, Playwright coverage, and Issue 4 bookkeeping.
+
+The docs app now scopes `enhanceTooltip` to
+`data-radcn-docs-tooltip-family="tooltip-demo"` and renders a rich Tooltip
+page with the upstream Hover/Add to library composition. The candidate fixture
+now has a `tooltip/demo` route with the same composition. Fixture and docs
+tests verify the outline Button styling on the trigger without nested button
+markup, exact trigger text `Hover`, exact content text `Add to library`,
+hidden initial state, hover and focus opening, Escape/blur closing,
+`role="tooltip"`, `aria-describedby`, portal movement, arrow rendering,
+`data-side="top"`, `data-side-offset="0"`, public Tooltip provider/root/
+trigger/portal/content/arrow hooks, and source/mapping copy.
+
+`tooltip-example-inventory.md` now marks `tooltip-demo` as `Covered`,
+`resolved-clusters.json` records `tooltip` as resolved with Experiment 120,
+Experiment 121, and inventory evidence, and the regenerated
+`parity-inventory.md` reports no unresolved in-scope parity clusters.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts positioned-overlays.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic check for tooltip-example-inventory Covered row
+node deterministic check for tooltip resolved-clusters evidence
+node deterministic check for regenerated parity inventory closed state
+node deterministic README learning check
+node deterministic source import scan over changed docs/fixture source files
+node deterministic package manifest forbidden dependency scan
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor | sed '/^vendor\/.gitignore$/d'
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. The Playwright runs emitted the existing Node
+`module.register()` deprecation warning and `NO_COLOR`/`FORCE_COLOR` warnings;
+they did not fail the runs.
+
+## Conclusion
+
+Tooltip direct example parity is complete for the current Issue 4 scope. No
+package API change was required: the existing `TooltipProvider`, `Tooltip`,
+`TooltipTrigger`, `TooltipPortal`, `TooltipContent`, `TooltipArrow`, and
+`enhanceTooltip` primitives already represented the upstream user-facing
+behavior. The regenerated parity inventory reports no unresolved in-scope
+parity clusters, so the next experiment should close Issue 4 with a final
+verification pass.
+
+## Completion Review
+
+Reviewer: Ramanujan the 3rd (`019e9f09-a5eb-7f60-be44-fac5131f6861`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the implementation matches the approved
+scope, docs enhancement is scoped to `tooltip-demo`, the docs and candidate
+fixture render the Hover/Add to library composition, the experiment has
+`Result` and `Conclusion`, the Issue 4 README marks Experiment 121 as `Pass`
+with the no-unresolved-clusters learning, verification and hygiene checks
+passed, Playwright warnings were only the recorded Node/color warnings, vendor
+cleanliness was checked, and the result commit had not been made before
+review.
