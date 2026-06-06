@@ -1146,3 +1146,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 74: Implement sheet example parity depth](74-implement-sheet-example-parity-depth.md)
   — **Pass**
+- [Experiment 75: Audit skeleton example parity](75-audit-skeleton-example-parity.md)
+  — **Designed**
