@@ -499,3 +499,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 26: Implement breadcrumb example parity depth](26-implement-breadcrumb-example-parity-depth.md)
   — **Pass**
+- [Experiment 27: Audit carousel example parity](27-audit-carousel-example-parity.md)
+  — **Designed**
