@@ -513,6 +513,21 @@ Record cross-component discoveries here as experiments complete.
 - After Experiment 30, `chart` is marked resolved in the example queue only.
   The 70 upstream chart gallery examples remain unresolved in the `charts`
   queue. The regenerated inventory recommends example parity for `input` next.
+- Experiment 31 audited all 6 upstream plain Input examples in
+  `input-example-inventory.md`. Input example parity is not complete yet:
+  RadCN already supports email placeholders, disabled state, Label wiring,
+  Button composition, description wiring through Field/Form patterns, and
+  native control styling, but `radcn/input` does not yet support `type="file"`
+  and the Input docs/fixtures need named proof for demo, disabled, file,
+  with-button, with-label, and with-text examples.
+- Input's stable mapping decisions for later work: shadcn Tailwind layout
+  utilities map to docs/fixture layout or CSS variables; Label, Button, and
+  description composition remain owned by `radcn/label`, `radcn/button`,
+  `radcn/field`, forms, or docs examples rather than by `Input`; file input
+  parity should extend the typed `InputType` surface and package CSS instead of
+  adding a separate component.
+- After Experiment 31, the next recommended implementation cluster is Input
+  example parity depth.
 
 ## Experiments
 
@@ -577,4 +592,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 30: Implement chart component example parity depth](30-implement-chart-component-example-parity-depth.md)
   — **Pass**
 - [Experiment 31: Audit input example parity](31-audit-input-example-parity.md)
-  — **Designed**
+  — **Pass**

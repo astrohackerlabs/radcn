@@ -149,3 +149,117 @@ the plan targets only the 6 plain Input examples, the failure criteria reject
 `input-group` and `input-otp` drift, verification has concrete pass/fail and
 repo hygiene checks, vendor cleanliness is checked, and current git status
 shows only expected plan documentation changes.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md` as an
+audit-only inventory for all 6 upstream plain Input examples: `input-demo`,
+`input-disabled`, `input-file`, `input-with-button`, `input-with-label`, and
+`input-with-text`.
+
+The audit does not mark `input` resolved. RadCN already covers the underlying
+native behavior for email inputs, placeholders, disabled state, id/label wiring,
+Button composition, description wiring, and native form control styling through
+Input, Label, Button, Field, and Form evidence. The cluster still needs named
+Input docs/fixture/Playwright proof, and `input-file` is currently missing
+because `InputType` does not include `file`.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = [
+  'input-demo',
+  'input-disabled',
+  'input-file',
+  'input-with-button',
+  'input-with-label',
+  'input-with-text',
+]
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+input-demo: 1
+input-disabled: 1
+input-file: 1
+input-with-button: 1
+input-with-label: 1
+input-with-text: 1
+```
+
+```text
+rg -n 'email|placeholder|disabled|file|Button|Label|htmlFor|for|description|ariaDescribedBy|Field|Tailwind|InputType|Playwright' issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: default email input and placeholder behavior, disabled email input,
+file input type support and styling, Input plus Button composition, Input plus
+Label wiring, Input plus Label plus description text, ownership of composition
+by Input/Field/docs/fixtures/tests, Tailwind utility mapping, and current
+RadCN package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "input-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:  `input-example-inventory.md`. Input example parity is not complete yet:
+ M issues/0004-complete-shadcn-parity-and-docs/31-audit-input-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md
+```
+
+`git diff --check` and vendor status produced no output.
+
+## Completion Review
+
+Reviewer: Planck (`019e9b3e-8b4c-7543-b95d-e3bf5185e166`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: the recorded README `rg` output used a volatile line number that no
+  longer matched the current README line. Fixed by omitting the line number in
+  the recorded output.
+
+Approval result: approved. Planck verified that only issue documentation is
+changed or untracked, the inventory contains exactly one row for each of the 6
+plain upstream Input examples, the result does not claim Input parity is
+resolved, no package/docs/fixture/test source was implemented, the next cluster
+is clear as Input example parity depth, `git diff --check` and vendor status
+checks passed with no output, and the result commit had not been made before
+completion review.
+
+## Conclusion
+
+Input needs one implementation-depth experiment. The next experiment should add
+file input support and styling if Remix UI accepts it, then add named docs,
+candidate fixtures, and Playwright coverage for all 6 upstream Input examples.
+It should not broaden into `input-group` or `input-otp`, which are already
+separate parity clusters.
