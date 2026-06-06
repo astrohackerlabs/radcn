@@ -169,3 +169,68 @@ inventory for the single unresolved `tabs-demo` row, the plan explicitly
 rejects generic preview/code tabs as direct `tabs-demo` proof, repo hygiene
 and vendor checks are present, and implementation has not started before the
 plan commit.
+
+## Result
+
+**Result:** Partial
+
+Added `tabs-example-inventory.md` and audited the single direct upstream Tabs
+example cluster, `tabs-demo`.
+
+The audit found that RadCN already has strong Tabs substrate: dependency-free
+`enhanceTabs`, root/list/trigger/content hooks, default value metadata,
+active/inactive `data-state`, ARIA tab associations, pointer activation,
+horizontal and vertical keyboard behavior, manual activation, disabled trigger
+behavior, hidden panels, generic preview/code docs coverage, and custom-token
+evidence in `tabs.spec.ts`.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `tabs-demo` docs page, candidate fixture route, or Playwright tests for
+the exact upstream Account/Password Card composition: wrapper layout, default
+`account` selection, Account and Password triggers, Account card title/
+description/fields/default values/button, Password card title/description/
+password fields/button, source snippet, unused lucide import decision, and
+React/Radix/cva/Tailwind/`cn`/`className`/`data-slot`/`data-orientation`/
+`data-variant`/`data-state` divergence copy.
+
+Verification run:
+
+```text
+node deterministic check for direct tabs registry/file/inventory count
+node deterministic check for tabs-demo row outcome and follow-up
+rg checks for required upstream mechanics and required RadCN evidence paths
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. `git status --short` showed only the Experiment 118 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Tabs direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `tabs-demo` parity in
+docs, candidate fixtures, and Playwright coverage, then update
+`tabs-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: Raman the 3rd (`019e9eed-958e-74a1-943d-5d893cbdd04a`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment stayed documentation-only,
+`git diff --check`, lockfile, tracked-vendor, and nested vendor checks passed,
+the `Partial` result is supported by one direct upstream `tabs-demo` row and
+file, current RadCN evidence covers generic Tabs behavior rather than the exact
+upstream Account/Password card form, and the Issue 4 README records
+Experiment 118 as `Partial` with the next-step learning.

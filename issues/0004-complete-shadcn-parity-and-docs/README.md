@@ -1561,6 +1561,20 @@ Record cross-component discoveries here as experiments complete.
   Total cell requires native colspan support, `radcn/table` now exposes
   `TableCell colSpan`. `table` is resolved in the example queue; the next
   generated recommendation is example parity for `tabs`.
+- Experiment 118 audited Tabs direct example parity in
+  `tabs-example-inventory.md`. RadCN already has strong Tabs substrate with
+  dependency-free `enhanceTabs`, root/list/trigger/content hooks, default
+  value metadata, active/inactive `data-state`, ARIA tab associations, pointer
+  activation, horizontal and vertical keyboard behavior, manual activation,
+  disabled trigger behavior, hidden panels, generic preview/code docs
+  coverage, and custom-token evidence in `tabs.spec.ts`. The direct upstream
+  `tabs-demo` remains partial because no named docs, candidate fixture, or
+  Playwright evidence currently proves the exact Account/Password Card
+  composition, field ids and default values, buttons, wrapper layout, source
+  snippet, unused lucide import decision, and React/Radix/cva/Tailwind/`cn`/
+  `className`/`data-slot`/`data-orientation`/`data-variant`/`data-state`
+  divergence copy. The next experiment should implement named `tabs-demo`
+  docs, fixture, and Playwright parity.
 
 ## Experiments
 
@@ -1799,4 +1813,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 117: Implement table example parity depth](117-implement-table-example-parity-depth.md)
   — **Pass**
 - [Experiment 118: Audit tabs example parity](118-audit-tabs-example-parity.md)
-  — **Designed**
+  — **Partial**
