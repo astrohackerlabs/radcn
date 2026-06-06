@@ -6,6 +6,7 @@ import { enhanceMenubar } from 'radcn/menubar'
 import { enhanceNavigationMenu } from 'radcn/navigation-menu'
 import { enhancePopover } from 'radcn/popover'
 import { enhanceSwitch } from 'radcn/switch'
+import { enhanceTabs } from 'radcn/tabs'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -311,3 +312,6 @@ document
 document
   .querySelectorAll<HTMLElement>('[data-radcn-docs-switch-family="switch-demo"]')
   .forEach((example) => enhanceSwitch(example))
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-tabs-family="tabs-demo"]')
+  .forEach((example) => enhanceTabs(example))

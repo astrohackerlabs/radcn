@@ -2331,6 +2331,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "tabs",
+    id: "demo",
+    title: "Tabs Demo",
+    description: "Account and password card form tabs.",
+  },
+  {
+    component: "tabs",
     id: "default",
     title: "Default Tabs",
     description: "Tabs with the first panel selected by default.",

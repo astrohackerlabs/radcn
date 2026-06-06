@@ -2081,6 +2081,67 @@ export function TabsPreview() {
   )
 }`
 
+const tabsDemoSource = `import { Button } from 'radcn/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'radcn/card'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from 'radcn/tabs'
+
+export function TabsDemo() {
+  return (
+    <div class="flex w-full max-w-sm flex-col gap-6" style="display:flex;width:100%;max-width:24rem;flex-direction:column;gap:1.5rem;">
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          <Card>
+            <CardHeader>
+              <CardTitle>Account</CardTitle>
+              <CardDescription>Make changes to your account here. Click save when you're done.</CardDescription>
+            </CardHeader>
+            <CardContent class="grid gap-6" style="display:grid;gap:1.5rem;">
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-name">Name</Label>
+                <Input id="tabs-demo-name" value="Pedro Duarte" />
+              </div>
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-username">Username</Label>
+                <Input id="tabs-demo-username" value="@peduarte" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button>Save changes</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value="password">
+          <Card>
+            <CardHeader>
+              <CardTitle>Password</CardTitle>
+              <CardDescription>Change your password here. After saving, you'll be logged out.</CardDescription>
+            </CardHeader>
+            <CardContent class="grid gap-6" style="display:grid;gap:1.5rem;">
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-current">Current password</Label>
+                <Input id="tabs-demo-current" type="password" />
+              </div>
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-new">New password</Label>
+                <Input id="tabs-demo-new" type="password" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button>Save password</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  )
+}`
+
 const sonnerSource = `import { Button } from 'radcn/button'
 import { Toaster } from 'radcn/sonner'
 
@@ -5140,6 +5201,65 @@ function TabsPreview() {
         </TabsContent>
       </div>
     </Tabs>
+  )
+}
+
+function TabsDemoPreview() {
+  return () => (
+    <div
+      class="flex w-full max-w-sm flex-col gap-6"
+      data-radcn-docs-tabs-family="tabs-demo"
+      style="display:flex;width:100%;max-width:24rem;flex-direction:column;gap:1.5rem;"
+    >
+      <Tabs defaultValue="account">
+        <TabsList>
+          <TabsTrigger value="account">Account</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+        </TabsList>
+        <TabsContent value="account">
+          <Card>
+            <CardHeader>
+              <CardTitle>Account</CardTitle>
+              <CardDescription>Make changes to your account here. Click save when you're done.</CardDescription>
+            </CardHeader>
+            <CardContent class="grid gap-6" style="display:grid;gap:1.5rem;">
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-name">Name</Label>
+                <Input id="tabs-demo-name" value="Pedro Duarte" />
+              </div>
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-username">Username</Label>
+                <Input id="tabs-demo-username" value="@peduarte" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button>Save changes</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+        <TabsContent value="password">
+          <Card>
+            <CardHeader>
+              <CardTitle>Password</CardTitle>
+              <CardDescription>Change your password here. After saving, you'll be logged out.</CardDescription>
+            </CardHeader>
+            <CardContent class="grid gap-6" style="display:grid;gap:1.5rem;">
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-current">Current password</Label>
+                <Input id="tabs-demo-current" type="password" />
+              </div>
+              <div class="grid gap-3" style="display:grid;gap:0.75rem;">
+                <Label for="tabs-demo-new">New password</Label>
+                <Input id="tabs-demo-new" type="password" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button>Save password</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
   )
 }
 
@@ -9875,6 +9995,14 @@ const richComponentDocs: ComponentDoc[] = [
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
+        slug: 'tabs-demo',
+        title: 'Tabs Demo',
+        description:
+          'The upstream Account and Password card form composition ported to RadCN Tabs.',
+        source: tabsDemoSource,
+        preview: <TabsDemoPreview />,
+      },
+      {
         slug: 'preview-and-code',
         title: 'Preview and Code',
         description:
@@ -9891,10 +10019,17 @@ const richComponentDocs: ComponentDoc[] = [
     customization: [
       'List, trigger, and content parts expose stable RadCN classes and data-state values.',
       'Orientation and active state can be styled through public data attributes and tokens.',
+      'The Account/Password demo composes Tabs with Card, Label, Input, and Button; defaultValue=\"account\" maps to server markup plus browser-enhanced data-value state.',
+      'Upstream wrapper utilities flex, w-full, max-w-sm, flex-col, and gap-6 map to class plus explicit style evidence in RadCN docs.',
     ],
     divergence: [
       'RadCN tabs use browser enhancement for selection and keyboard behavior instead of React component state.',
       'Server markup remains readable and package-owned, while interactive selection is attached explicitly by enhanceTabs.',
+      'use client, React component props, and Radix TabsPrimitive.Root/List/Trigger/Content map to server-rendered RadCN parts with scoped enhanceTabs behavior.',
+      'cva, VariantProps, tabsListVariants, className, Tailwind utilities, cn, data-slot, data-orientation, data-variant, and data-state map to RadCN props, class, public data-radcn hooks, data-orientation, and data-state.',
+      'AppWindowIcon and CodeIcon are unused upstream lucide-react imports and are not RadCN package dependencies.',
+      'Upstream Input defaultValue maps to RadCN Input value for static server-rendered demo defaults.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

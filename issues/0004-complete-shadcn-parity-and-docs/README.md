@@ -1575,6 +1575,19 @@ Record cross-component discoveries here as experiments complete.
   `className`/`data-slot`/`data-orientation`/`data-variant`/`data-state`
   divergence copy. The next experiment should implement named `tabs-demo`
   docs, fixture, and Playwright parity.
+- Experiment 119 completed Tabs direct example parity and updated
+  `tabs-example-inventory.md` to `Covered`. The docs site and candidate
+  fixture now include named `tabs-demo` evidence for the exact Account/
+  Password Card form: default `account` value, Account and Password triggers,
+  wrapper layout mapping, Card titles/descriptions/content/footer, Name and
+  Username labels, `tabs-demo-name` and `tabs-demo-username` values,
+  password field ids and `type="password"`, Save buttons, source snippet,
+  public Tabs/Card/Label/Input/Button hooks, ARIA associations, pointer and
+  keyboard selection behavior, hidden panels, and React/Radix/cva/lucide/
+  Tailwind/`cn`/`className`/`data-slot`/`data-orientation`/`data-variant`/
+  `data-state`/vendor divergences. Docs now scope `enhanceTabs` to the named
+  demo. `tabs` is resolved in the example queue; the next generated
+  recommendation is example parity for `tooltip`.
 
 ## Experiments
 
@@ -1815,4 +1828,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 118: Audit tabs example parity](118-audit-tabs-example-parity.md)
   — **Partial**
 - [Experiment 119: Implement tabs example parity depth](119-implement-tabs-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

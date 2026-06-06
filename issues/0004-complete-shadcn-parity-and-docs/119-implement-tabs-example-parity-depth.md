@@ -221,3 +221,80 @@ to the single upstream `tabs-demo` parity gap, verification includes concrete
 pass/fail criteria and repo hygiene checks, vendor sources remain read-only,
 forbidden React/Radix/lucide/cva/Tailwind/vendor dependencies are excluded,
 and Experiment 118 has its result commit before Experiment 119 begins.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `tabs-demo` parity across the docs app, candidate fixture,
+Playwright coverage, and Issue 4 bookkeeping.
+
+The docs app now scopes `enhanceTabs` to
+`data-radcn-docs-tabs-family="tabs-demo"` and renders a named Tabs Demo
+example for the upstream Account/Password card form. The candidate fixture now
+has a `tabs/demo` route with the same composition. Fixture and docs tests
+verify the wrapper layout mapping, default `account` selection, Account and
+Password triggers, Card titles/descriptions/content/footer, labels, input ids,
+server-rendered default values, password input types, Save buttons, public
+Tabs/Card/Label/Input/Button hooks, ARIA associations, hidden panels, pointer
+activation, and keyboard activation.
+
+`tabs-example-inventory.md` now marks `tabs-demo` as `Covered`,
+`resolved-clusters.json` records `tabs` as resolved with Experiment 118,
+Experiment 119, and inventory evidence, and the regenerated
+`parity-inventory.md` now recommends example parity for `tooltip` as the next
+cluster.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts tabs.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic check for direct upstream tabs registry/file/inventory count
+node deterministic check for tabs-example-inventory Covered row
+node deterministic check for tabs resolved-clusters evidence
+node deterministic check for regenerated parity inventory recommendation
+node deterministic README learning check
+node deterministic source import scan over changed docs/fixture source files
+node deterministic package manifest forbidden dependency scan
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor | sed '/^vendor\/.gitignore$/d'
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. The Playwright runs emitted the existing Node
+`module.register()` deprecation warning and `NO_COLOR`/`FORCE_COLOR` warnings;
+they did not fail the runs.
+
+## Conclusion
+
+Tabs direct example parity is complete for the current Issue 4 scope. No
+package API change was required: the existing `Tabs`, `TabsList`,
+`TabsTrigger`, `TabsContent`, and `enhanceTabs` primitives already represented
+the upstream user-facing behavior. The next experiment should audit the final
+unresolved direct example cluster, `tooltip-demo`.
+
+## Completion Review
+
+Reviewer: Aquinas the 3rd (`019e9efa-ae2d-79e2-9f18-92eb36819fe4`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the implementation matches the approved
+Tabs demo scope in docs, fixture, and tests; upstream reference fields match
+the RadCN port; the experiment has `Result` and `Conclusion`; the Issue 4
+README marks Experiment 119 as `Pass` with Tabs learnings and the next
+`tooltip` recommendation; `git diff --check` passed; vendor cleanliness was
+checked; no ignored vendor sources were committed; and the result commit had
+not been made before review.
