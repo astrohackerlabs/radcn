@@ -174,3 +174,67 @@ README with status `Designed`, includes concrete verification, preserves the
 audit-only scope, has not started implementation, keeps vendor status clean,
 and correctly identifies the active upstream example ids as `scroll-area-demo`
 and `scroll-area-horizontal-demo`.
+
+## Result
+
+**Result:** Partial
+
+Created `scroll-area-example-inventory.md` and audited the two active upstream
+Scroll Area examples: `scroll-area-demo` and
+`scroll-area-horizontal-demo`.
+
+RadCN already covers the core Scroll Area primitive behavior: root, viewport,
+native vertical scrolling, native horizontal scrolling, focus-visible viewport
+treatment, vertical and horizontal scrollbar hooks, thumb hooks, corner hooks,
+custom classes/styles/tokens, width/height customization, and arbitrary
+viewport content. RadCN also has a separate `radcn/separator` package that can
+compose the vertical tags example.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic Scroll Area
+behavior rather than the named upstream 50-tag `Tags` list with Separator
+composition and the horizontal artwork strip with figure/figcaption/image
+semantics. The audit did not identify a required Scroll Area package API
+change. The likely next experiment should add named docs examples, candidate
+fixture routes, and Playwright coverage for both upstream examples while
+keeping React, Radix ScrollArea primitives, `next/image`, Tailwind, `cn`,
+remote-image loading, image optimization, and vendor source out of RadCN
+package dependencies.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `scroll-area-demo: 1`, `scroll-area-horizontal-demo: 1`.
+- `rg -n "scroll-area-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Scroll Area example parity is partial. The package API appears sufficient for
+the active upstream examples, but named docs, fixtures, and Playwright coverage
+are still needed to prove the upstream compositions. The next experiment should
+implement parity depth for `scroll-area-demo` and
+`scroll-area-horizontal-demo` without adding React, Radix, Next Image,
+Tailwind, `cn`, remote-image loading, image optimization, or vendor
+dependencies.
+
+## Completion Review
+
+Reviewer: Gauss the 2nd (`019e9cc2-279c-7770-b74e-631c7d210052`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the experiment stayed audit-only,
+the result commit had not been made before review, the result and conclusion
+are recorded, the Issue 4 README learning and experiment status match the
+partial result, `scroll-area-example-inventory.md` lists exactly
+`scroll-area-demo` and `scroll-area-horizontal-demo` and marks both `Partial`,
+`scroll-area` is not marked resolved prematurely, and verification checks
+passed with clean vendor status.

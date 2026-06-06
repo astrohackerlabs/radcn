@@ -936,6 +936,15 @@ Record cross-component discoveries here as experiments complete.
   rows `Covered`, `resolved-clusters.json` records `drawer` as resolved, and
   the regenerated parity inventory recommends example parity for `scroll-area`
   next.
+- Experiment 69 audited Scroll Area example parity in
+  `scroll-area-example-inventory.md`. RadCN already covers Scroll Area-owned
+  root, viewport, native vertical/horizontal scrolling, focus-visible viewport,
+  vertical/horizontal scrollbar hooks, thumb hooks, corner hooks, custom
+  classes/styles/tokens, and Separator composition as a separate package. The
+  cluster remains partial because docs, fixtures, and tests do not yet prove
+  the named `scroll-area-demo` and `scroll-area-horizontal-demo` upstream
+  compositions: the 50-tag `Tags` list with separators and the horizontal
+  artwork strip with figure/figcaption/image semantics.
 
 ## Experiments
 
@@ -1076,4 +1085,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 68: Implement drawer example parity depth](68-implement-drawer-example-parity-depth.md)
   — **Pass**
 - [Experiment 69: Audit scroll-area example parity](69-audit-scroll-area-example-parity.md)
-  — **Designed**
+  — **Partial**
