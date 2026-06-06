@@ -205,3 +205,79 @@ The reviewer also checked the deterministic upstream count strategy against
 `registryDependencies`, no known package slug prefix match, and no suffix to
 strip, the experiment's fallback primary-slug check correctly identifies the
 single upstream `mode-toggle` row.
+
+## Result
+
+**Result:** Pass
+
+Experiment 99 added `mode-toggle-example-inventory.md` and audited the single
+direct upstream `mode-toggle` example.
+
+The audit found that upstream `mode-toggle` is an application theme recipe,
+not a reusable `ui/` package API. Its user-facing outcome is theme selection
+among `Light`, `Dark`, and `System`, implemented in shadcn/ui as a React
+client dropdown icon button using `next-themes`, `lucide-react`, `Button`, and
+`DropdownMenu`.
+
+RadCN already has the required theme-mode outcome in the docs app shell:
+default `system`, explicit `light`/`dark` overrides, resolved document
+`data-radcn-theme`, `data-radcn-theme-mode`, `colorScheme`, persistence,
+legacy storage migration, system preference following, accessible radiogroup
+state, keyboard behavior, `lucide-static` icons, token-scoped package styling,
+and Playwright coverage in `theme-mode.spec.ts`.
+
+The upstream dropdown icon-button shape is an intentional divergence. RadCN
+keeps the visible three-option control as a docs app-shell recipe/pattern and
+does not add a `radcn/mode-toggle` package export, `next-themes`,
+`lucide-react`, or a dropdown-only implementation.
+
+`resolved-clusters.json` now marks `mode-toggle` resolved for the examples
+queue. `node scripts/audit-shadcn-parity.mjs` regenerated
+`parity-inventory.md`; the next generated recommendation is example parity for
+`navigation-menu`.
+
+Verification passed:
+
+```text
+node scripts/audit-shadcn-parity.mjs
+deterministic mode-toggle inventory count and outcome checks
+rg -n "Experiment 99|mode-toggle-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts theme-mode.spec.ts
+dependency manifest check forbidding next-themes and lucide-react in docs/package manifests
+git diff --check
+vendor cleanliness check
+```
+
+## Conclusion
+
+The direct `mode-toggle` example cluster is resolved as an intentional
+docs-app-shell divergence with existing behavior and test evidence. The next
+Issue 4 experiment should audit example parity for `navigation-menu`.
+
+## Completion Review
+
+**Reviewer:** Heisenberg the 3rd (`019e9e2b-be26-7a43-add6-262423168875`)
+**Fresh-context status:** fresh Codex subagent
+**Result:** Approved with one major recording finding
+
+Findings:
+
+- Blocker: none.
+- Major: The original `Verification passed` block omitted the exact focused
+  docs Playwright command and dependency manifest check even though those
+  checks were run and supported the result's behavior/dependency claims. Fixed
+  by adding
+  `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts theme-mode.spec.ts`
+  and the dependency manifest check to the verification record.
+- Minor: none.
+
+The reviewer independently confirmed that resolving `mode-toggle` as an
+intentional docs app-shell divergence is justified. They reran deterministic
+mode-toggle checks, the focused theme-mode Playwright test, `git diff --check`,
+vendor cleanliness, and dependency manifest checks successfully. They also
+confirmed only Issue 4 docs/bookkeeping files are modified and the result
+commit had not been made before review.
+
+Re-review approved the fix. The reviewer confirmed the focused Playwright
+command and dependency manifest check are now recorded in the verification
+block, and no new blocker was introduced.

@@ -1315,6 +1315,18 @@ Record cross-component discoveries here as experiments complete.
   vendor-source mapping. Package code did not need changes. After regenerating
   parity inventory, the next generated recommendation is example parity for
   `mode-toggle`.
+- Experiment 99 resolved direct `mode-toggle` example parity as an intentional
+  docs app-shell divergence. Upstream `mode-toggle` is a React/`next-themes`
+  dropdown icon-button recipe, not a package component. RadCN's correct
+  outcome is the existing visible three-option `System`/`Light`/`Dark` control
+  with `system` default, persisted overrides, resolved document theme tokens,
+  system preference following, `lucide-static` icons, and Playwright coverage.
+  Do not add a `radcn/mode-toggle` package export, `next-themes`,
+  `lucide-react`, or a dropdown-only implementation unless a later docs-design
+  issue explicitly changes the product requirement. The audit and decision are
+  recorded in `mode-toggle-example-inventory.md`. After regenerating parity
+  inventory, the next generated recommendation is example parity for
+  `navigation-menu`.
 
 ## Experiments
 
@@ -1515,4 +1527,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 98: Implement menubar example parity depth](98-implement-menubar-example-parity-depth.md)
   — **Pass**
 - [Experiment 99: Audit mode-toggle example parity](99-audit-mode-toggle-example-parity.md)
-  — **Designed**
+  — **Pass**
