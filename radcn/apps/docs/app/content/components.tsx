@@ -68,11 +68,13 @@ import {
 } from 'radcn/combobox'
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
+  CommandSeparator,
   CommandShortcut,
 } from 'radcn/command'
 import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from 'radcn/context-menu'
@@ -564,6 +566,45 @@ export function CardExamples() {
           </CardFooter>
         </form>
       </Card>
+    </>
+  )
+}`
+
+const commandSource = `import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from 'radcn/command'
+import { Kbd, KbdGroup } from 'radcn/kbd'
+
+function CommandIcon({ name }: { name: string }) {
+  return <span aria-hidden="true" data-command-icon={name}>{name.slice(0, 1)}</span>
+}
+
+export function CommandExamples() {
+  return (
+    <>
+      <Command class="command-demo" style="width:min(100%,450px);">
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Suggestions">
+            <CommandItem value="calendar"><CommandIcon name="Calendar" /> Calendar</CommandItem>
+            <CommandItem value="search-emoji"><CommandIcon name="Smile" /> Search Emoji</CommandItem>
+            <CommandItem disabled value="calculator"><CommandIcon name="Calculator" /> Calculator</CommandItem>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Settings">
+            <CommandItem value="profile"><CommandIcon name="User" /> Profile <CommandShortcut>⌘P</CommandShortcut></CommandItem>
+            <CommandItem value="billing"><CommandIcon name="CreditCard" /> Billing <CommandShortcut>⌘B</CommandShortcut></CommandItem>
+            <CommandItem value="settings"><CommandIcon name="Settings" /> Settings <CommandShortcut>⌘S</CommandShortcut></CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>
+
+      <p>Press <KbdGroup><Kbd>⌘</Kbd><Kbd>J</Kbd></KbdGroup></p>
+      <CommandDialog title="Command Palette" description="Search for a command to run...">
+        <Command>
+          <CommandInput placeholder="Type a command or search..." />
+          <CommandList>{/* same rows, with Calculator enabled */}</CommandList>
+        </Command>
+      </CommandDialog>
     </>
   )
 }`
@@ -3328,6 +3369,63 @@ function CardPreview() {
   )
 }
 
+function CommandExampleIcon({ label }: { label: string }) {
+  return <span aria-hidden="true" data-radcn-docs-command-icon={label}>{label.slice(0, 1)}</span>
+}
+
+function CommandExampleLabel({ children, icon }: { children: RemixNode; icon: string }) {
+  return <span data-radcn-docs-command-row-content style="display:inline-flex;align-items:center;gap:0.5rem;min-width:0;">{CommandExampleIcon({ label: icon })}<span>{children}</span></span>
+}
+
+function CommandExampleRows({ dialog = false, idPrefix }: { dialog?: boolean; idPrefix: string }) {
+  return (
+    <>
+      <CommandGroup heading="Suggestions" id={`${idPrefix}-suggestions`}>
+        <CommandItem value="calendar">{CommandExampleLabel({ icon: 'Calendar', children: 'Calendar' })}</CommandItem>
+        <CommandItem value="search-emoji">{CommandExampleLabel({ icon: 'Smile', children: 'Search Emoji' })}</CommandItem>
+        <CommandItem disabled={!dialog} value="calculator">{CommandExampleLabel({ icon: 'Calculator', children: 'Calculator' })}</CommandItem>
+      </CommandGroup>
+      <CommandSeparator />
+      <CommandGroup heading="Settings" id={`${idPrefix}-settings`}>
+        <CommandItem value="profile">{CommandExampleLabel({ icon: 'User', children: 'Profile' })}<CommandShortcut>⌘P</CommandShortcut></CommandItem>
+        <CommandItem value="billing">{CommandExampleLabel({ icon: 'CreditCard', children: 'Billing' })}<CommandShortcut>⌘B</CommandShortcut></CommandItem>
+        <CommandItem value="settings">{CommandExampleLabel({ icon: 'Settings', children: 'Settings' })}<CommandShortcut>⌘S</CommandShortcut></CommandItem>
+      </CommandGroup>
+    </>
+  )
+}
+
+function CommandPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-command-family="command-demo">
+        <Command class="radcn-docs-command-demo" id="docs-command-demo" style="width:min(100%,450px);border:1px solid var(--radcn-border);border-radius:0.5rem;box-shadow:0 1px 2px rgb(0 0 0 / 0.08);">
+          <CommandInput ariaLabel="Command" placeholder="Type a command or search..." />
+          <CommandList>
+            {CommandExampleRows({ idPrefix: 'docs-command-demo' })}
+            <CommandEmpty>No results found.</CommandEmpty>
+          </CommandList>
+        </Command>
+      </div>
+
+      <div data-radcn-docs-command-family="command-dialog" data-radcn-docs-command-dialog-shortcut="true">
+        <p data-radcn-docs-command-dialog-guidance style="margin:0 0 0.75rem;color:var(--radcn-muted-foreground);font-size:0.875rem;">
+          Press <KbdGroup><Kbd>⌘</Kbd><Kbd>J</Kbd></KbdGroup>
+        </p>
+        <CommandDialog title="Command Palette" description="Search for a command to run...">
+          <Command id="docs-command-dialog">
+            <CommandInput ariaLabel="Command dialog" placeholder="Type a command or search..." />
+            <CommandList>
+              {CommandExampleRows({ dialog: true, idPrefix: 'docs-command-dialog' })}
+              <CommandEmpty>No results found.</CommandEmpty>
+            </CommandList>
+          </Command>
+        </CommandDialog>
+      </div>
+    </div>
+  )
+}
+
 function CalendarPreview() {
   return () => (
     <div mix={previewStackStyle}>
@@ -5765,6 +5863,49 @@ const richComponentDocs: ComponentDoc[] = [
       'Form, Chart, and Carousel Card references are separate resolved clusters; block Card references stay block parity work.',
       'The switch registry dependency in card-demo.json is treated as stale metadata because the current card-demo source does not render Switch.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'command',
+    title: 'Command',
+    category: 'Composite',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A searchable command-list primitive with grouped rows, shortcuts, disabled items, and dialog composition.',
+    importPath: 'radcn/command',
+    importExample:
+      "import { Command, CommandInput, CommandList, CommandItem } from 'radcn/command'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'command-demo-and-dialog',
+        title: 'Demo and Dialog',
+        description:
+          'Render the upstream Command card and Command dialog examples with grouped rows, app-owned icons, shortcuts, and app-owned shortcut opening.',
+        source: commandSource,
+        preview: <CommandPreview />,
+      },
+    ],
+    accessibility: [
+      'CommandList renders role="listbox" and CommandItem renders role="option" with aria-selected and aria-disabled state during enhancement.',
+      'CommandGroup heading renders visible text with data-radcn-command-group-heading and can label the group when an explicit id is supplied.',
+      'Keyboard navigation covers Arrow keys, Home, End, Enter, and Escape for query clearing while disabled items stay unavailable.',
+      'CommandDialog composes RadCN Dialog so the command palette keeps dialog role, title, description, focus, and Escape dismissal behavior.',
+    ],
+    customization: [
+      'Command exposes public data-radcn-command hooks for root, input, list, empty state, groups, group headings, items, separators, shortcuts, and dialog composition.',
+      'Rows accept arbitrary children, so app-owned icons, labels, and shortcut hints can match the upstream examples without lucide-react.',
+      'className maps to class; Tailwind width, border, shadow, flex, and gap utilities map to class, style, CSS variables, or app CSS.',
+      'Dialog shortcut guidance can compose RadCN Kbd while the document-level shortcut listener remains app-owned enhancement.',
+    ],
+    divergence: [
+      'React useState, useEffect, open, and onOpenChange map to explicit server-rendered state plus app-owned browser enhancement where dynamic shortcut opening is needed.',
+      'cmdk and CommandPrimitive are upstream React implementation details; RadCN implements searchable listbox behavior with native DOM enhancement.',
+      'SearchIcon, Calendar, Smile, Calculator, User, CreditCard, Settings, lucide-react, and icon sizing utilities are app-owned presentation, not Command dependencies.',
+      'className maps to class, data-slot maps to data-radcn-command* hooks, cn and Tailwind utilities map to RadCN package classes/CSS variables/app CSS, and vendor source remains read-only evidence.',
+      'Command composes Dialog and Kbd without making global keyboard routing, Dialog state callbacks, or Kbd styling part of the Command package.',
     ],
   },
   {

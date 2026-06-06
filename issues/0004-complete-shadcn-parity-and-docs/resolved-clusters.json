@@ -259,6 +259,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/62-implement-card-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md"
       ]
+    },
+    {
+      "slug": "command",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/63-audit-command-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/64-implement-command-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/command-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

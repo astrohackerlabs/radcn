@@ -883,6 +883,17 @@ Record cross-component discoveries here as experiments complete.
   composition, app-owned `⌘J`/`Ctrl+J` shortcut guidance, and dialog opening
   behavior. The next experiment should implement those named examples without
   adding React, `cmdk`, `lucide-react`, Tailwind, `cn`, or vendor dependencies.
+- Experiment 64 completed Command example parity depth. `radcn/command` now
+  supports `CommandGroup heading` with visible
+  `data-radcn-command-group-heading` hooks and optional `aria-labelledby`
+  wiring through explicit group ids. The docs page and candidate fixtures now
+  prove named `command-demo` and `command-dialog` examples with upstream rows,
+  visible group headings, empty copy, disabled/enabled Calculator differences,
+  app-owned icon hooks, shortcut hints, RadCN Kbd guidance, app-owned
+  `⌘J`/`Ctrl+J` dialog opening, dialog role/title/description, Escape close,
+  public hooks, and mapping copy. `command-example-inventory.md` now marks both
+  rows `Covered`, `resolved-clusters.json` records `command` as resolved, and
+  the regenerated parity inventory recommends example parity for `dialog` next.
 
 ## Experiments
 
@@ -1013,4 +1024,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 63: Audit command example parity](63-audit-command-example-parity.md)
   — **Partial**
 - [Experiment 64: Implement command example parity depth](64-implement-command-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -208,6 +208,44 @@ function enhanceFixtureComboboxExamples(root: ParentNode = document) {
   }
 }
 
+function setFixtureCommandDialogOpen(wrapper: HTMLElement, open: boolean) {
+  let dialog = wrapper.querySelector<HTMLElement>('[data-radcn-dialog]')
+  if (!dialog) return
+  let portal = document.querySelector<HTMLElement>(`[data-radcn-dialog-portal][data-dialog-id="${CSS.escape(dialog.id)}"]`)
+  if (!portal) return
+
+  dialog.dataset.state = open ? 'open' : 'closed'
+  dialog.dataset.open = open ? 'true' : 'false'
+  portal.dataset.state = open ? 'open' : 'closed'
+  portal.hidden = !open
+  portal.querySelectorAll<HTMLElement>('[data-radcn-dialog-overlay], [data-radcn-dialog-content]').forEach((part) => {
+    part.dataset.state = open ? 'open' : 'closed'
+    part.hidden = !open
+  })
+
+  if (open) {
+    portal.querySelector<HTMLInputElement>('[data-radcn-command-input]')?.focus()
+  }
+}
+
+function enhanceFixtureCommandDialogShortcut(root: ParentNode = document) {
+  root.querySelectorAll<HTMLElement>('[data-fixture-command-dialog-shortcut="true"]').forEach((wrapper) => {
+    if (wrapper.dataset.fixtureCommandDialogShortcutReady === 'true') return
+    wrapper.dataset.fixtureCommandDialogShortcutReady = 'true'
+  })
+
+  if (document.documentElement.dataset.fixtureCommandDialogShortcutListener === 'true') return
+  document.documentElement.dataset.fixtureCommandDialogShortcutListener = 'true'
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key.toLowerCase() !== 'j' || (!event.metaKey && !event.ctrlKey)) return
+    let wrapper = document.querySelector<HTMLElement>('[data-fixture-command-dialog-shortcut="true"]')
+    if (!wrapper) return
+    event.preventDefault()
+    setFixtureCommandDialogOpen(wrapper, true)
+  })
+}
+
 document.addEventListener('click', (event) => {
   let target = event.target
   if (!(target instanceof Element)) return
@@ -228,6 +266,7 @@ document.addEventListener('click', (event) => {
 enhanceFixtureCarouselStatus()
 enhanceFixtureCarouselAutoplay()
 enhanceFixtureComboboxExamples()
+enhanceFixtureCommandDialogShortcut()
 
 document.addEventListener('click', (event) => {
   let target = event.target

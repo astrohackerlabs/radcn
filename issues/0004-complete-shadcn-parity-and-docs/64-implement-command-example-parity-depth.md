@@ -330,3 +330,97 @@ resolved, the manifest/worktree verification gap is resolved, and the narrowed
 lockfile check avoids pre-existing reference-fixture dependencies while still
 checking newly added forbidden lockfile lines. The reviewer ran the verifier
 block locally and it exited `0`.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Command example parity depth for `command-demo` and
+`command-dialog`.
+
+Package changes:
+
+- `CommandGroup` now accepts `heading` and `id`.
+- Groups with headings render visible
+  `data-radcn-command-group-heading` content.
+- Explicit ids wire `aria-labelledby` from the group to its heading.
+- Existing child-only `CommandGroup` behavior remains supported.
+- Command group heading styles were added to the package token CSS and exported
+  `radcnStyles`.
+
+Docs and fixtures:
+
+- The docs site now treats Command as a rich authored page with
+  `data-radcn-docs-command-family="command-demo"` and
+  `data-radcn-docs-command-family="command-dialog"` examples.
+- The candidate fixture app now has named `command/demo` and
+  `command/dialog-demo` routes.
+- Both surfaces render the upstream rows, group headings, empty copy, app-owned
+  icon hooks, shortcut hints, disabled Calculator in `command-demo`, enabled
+  Calculator in `command-dialog`, Kbd shortcut guidance, and dialog
+  title/description behavior.
+- App-owned browser enhancement proves `⌘J`/`Ctrl+J` opening without making
+  global shortcut routing part of the Command package.
+
+Inventory and parity state:
+
+- `command-example-inventory.md` now marks both rows `Covered`.
+- `resolved-clusters.json` records `command` as a resolved example cluster with
+  evidence from Experiments 63 and 64 plus the inventory.
+- `parity-inventory.md` was regenerated and now recommends example parity for
+  `dialog` next.
+
+Verification run on 2026-06-06:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts combobox-command.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+The fixture Playwright run passed 11 tests. The docs Playwright run passed 5
+tests. The known Node `module.register()` deprecation warning appeared during
+Playwright runs.
+
+Additional verification:
+
+- Deterministic `command-example-inventory.md` row/outcome check.
+- Deterministic `resolved-clusters.json` check for `command`.
+- Regenerated parity check proving `command` is absent from unresolved example
+  clusters and the first recommendation is no longer Command.
+- Dependency and scope checks for forbidden imports, manifests, and added
+  lockfile lines.
+- `git diff --check`
+- Vendor cleanliness check.
+
+All verification passed.
+
+## Completion Review
+
+Reviewer: Nietzsche the 2nd (`019e9c8a-ee8d-71d3-af3c-e396821b639e`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed that the implementation matches the
+approved Experiment 64 scope, `CommandGroup` only adds narrow `heading`/`id`
+support while preserving child-only groups, shortcut opening lives in docs and
+fixture app code rather than the Command package, no forbidden dependency/import
+was added, deterministic inventory/resolved-cluster/parity checks passed, repo
+hygiene and worktree scope were clean, and the result commit had not been made
+before completion review.
+
+## Conclusion
+
+The Command example cluster is resolved. RadCN now supports the missing group
+heading surface directly, while preserving the project rule that icons,
+React-style state, `cmdk`, `lucide-react`, Tailwind, `cn`, vendor code, and
+global command-palette shortcuts are not package dependencies. The next
+experiment should audit the `dialog` example cluster recommended by the
+regenerated inventory.

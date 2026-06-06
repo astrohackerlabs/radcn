@@ -141,6 +141,7 @@ These are documented in RadCN but are not current package exports.
 | examples | alert | resolved | `issues/0004-complete-shadcn-parity-and-docs/57-audit-alert-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/58-implement-alert-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/alert-example-inventory.md` |
 | examples | calendar | resolved | `issues/0004-complete-shadcn-parity-and-docs/59-audit-calendar-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/60-resolve-calendar-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md` |
 | examples | card | resolved | `issues/0004-complete-shadcn-parity-and-docs/61-audit-card-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/62-implement-card-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md` |
+| examples | command | resolved | `issues/0004-complete-shadcn-parity-and-docs/63-audit-command-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/64-implement-command-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/command-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -226,7 +227,6 @@ parity decision.
 | aspect-ratio | 1 | `aspect-ratio-demo` |
 | avatar | 1 | `avatar-demo` |
 | collapsible | 1 | `collapsible-demo` |
-| command | 2 | `command-demo`, `command-dialog` |
 | context-menu | 1 | `context-menu-demo` |
 | data-table | 1 | `data-table-demo` |
 | dialog | 2 | `dialog-close-button`, `dialog-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for command
+**Cluster:** Example parity for dialog
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for command.
+- Audit upstream examples for dialog.
 
 ## Notes
 

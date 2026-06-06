@@ -2505,6 +2505,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "command",
+    id: "demo",
+    title: "Command Demo",
+    description: "Named upstream command-demo parity with grouped command rows.",
+  },
+  {
+    component: "command",
+    id: "dialog-demo",
+    title: "Command Dialog Demo",
+    description: "Named upstream command-dialog parity with app-owned shortcut opening.",
+  },
+  {
+    component: "command",
     id: "custom-token",
     title: "Custom Command Token",
     description: "Command list customized through public tokens.",

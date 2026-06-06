@@ -165,6 +165,53 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('switch registry dependency in card-demo.json').first()).toBeVisible()
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/command')
+    for (let slug of [
+      'command-demo',
+      'command-dialog',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-command-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-command]')).toHaveClass(/radcn-docs-command-demo/)
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-command-input]')).toHaveAttribute('placeholder', 'Type a command or search...')
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-command-group-heading]')).toHaveText(['Suggestions', 'Settings'])
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-command-separator]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-docs-command-icon]')).toHaveCount(6)
+    await expect(page.locator('[data-radcn-docs-command-family="command-demo"] [data-radcn-command-shortcut]')).toHaveText(['⌘P', '⌘B', '⌘S'])
+    await expect(page.getByRole('option', { name: 'Calendar' })).toBeVisible()
+    await expect(page.getByRole('option', { name: 'Search Emoji' })).toBeVisible()
+    await expect(page.getByRole('option', { name: 'Calculator' }).first()).toHaveAttribute('aria-disabled', 'true')
+    await expect(page.getByRole('option', { name: /Profile/ })).toBeVisible()
+    await expect(page.getByRole('option', { name: /Billing/ })).toBeVisible()
+    await expect(page.getByRole('option', { name: /Settings/ })).toBeVisible()
+
+    let commandDialog = page.locator('.radcn-command-dialog[data-radcn-dialog-content]').first()
+    await expect(page.locator('[data-radcn-docs-command-dialog-guidance]')).toContainText('Press')
+    await expect(page.locator('[data-radcn-docs-command-family="command-dialog"] [data-radcn-kbd]')).toHaveText(['⌘', 'J'])
+    await expect(commandDialog).toBeHidden()
+    await page.keyboard.press('ControlOrMeta+J')
+    await expect(commandDialog).toBeVisible()
+    await expect(commandDialog).toHaveAttribute('role', 'dialog')
+    await expect(page.locator('[data-radcn-dialog-title]')).toHaveText('Command Palette')
+    await expect(page.locator('[data-radcn-dialog-description]')).toHaveText('Search for a command to run...')
+    await expect(page.locator('.radcn-command-dialog [data-radcn-command-group-heading]')).toHaveText(['Suggestions', 'Settings'])
+    await expect(page.locator('.radcn-command-dialog [data-radcn-command-shortcut]')).toHaveText(['⌘P', '⌘B', '⌘S'])
+    await expect(page.locator('.radcn-command-dialog [data-radcn-command-item][data-value="calculator"]')).not.toHaveAttribute('aria-disabled', 'true')
+    await page.keyboard.press('Escape')
+    await expect(commandDialog).toBeHidden()
+
+    await expect(page.getByText('CommandGroup heading renders visible text').first()).toBeVisible()
+    await expect(page.getByText('data-radcn-command-group-heading').first()).toBeVisible()
+    await expect(page.getByText('React useState, useEffect, open, and onOpenChange').first()).toBeVisible()
+    await expect(page.getByText('cmdk and CommandPrimitive are upstream React implementation details').first()).toBeVisible()
+    await expect(page.getByText('SearchIcon, Calendar, Smile, Calculator, User, CreditCard, Settings').first()).toBeVisible()
+    await expect(page.getByText('lucide-react').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-command* hooks').first()).toBeVisible()
+    await expect(page.getByText('cn and Tailwind utilities map to RadCN package classes').first()).toBeVisible()
+    await expect(page.getByText('global keyboard routing').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/alert')
     for (let slug of [
       'alert-demo',

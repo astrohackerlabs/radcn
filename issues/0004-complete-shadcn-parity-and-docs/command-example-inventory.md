@@ -8,19 +8,19 @@ the core package behavior needed for searchable command lists and dialog
 composition, but the current docs, fixtures, and Playwright tests do not yet
 prove the named upstream example compositions.
 
-**Audit outcome:** Partial.
+**Audit outcome:** Covered.
 
-The next experiment should implement named Command example parity in the docs
-site and candidate fixture app, then add focused Playwright coverage. That work
-should avoid adding React, `cmdk`, `lucide-react`, Tailwind, `cn`, or vendor
-dependencies to RadCN.
+Experiment 64 implemented named Command example parity in the docs site and
+candidate fixture app, added focused Playwright coverage, and resolved the
+package-level group heading gap without adding React, `cmdk`, `lucide-react`,
+Tailwind, `cn`, or vendor dependencies to RadCN.
 
 ## Examples
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `command-demo` | Static command palette card with rounded border/shadow/min-width styling, search input placeholder, empty state, two groups labelled `Suggestions` and `Settings`, separator, six items, app-owned icons, one disabled Calculator item, and three shortcut hints. | `radcn/command` supports root, input, list, empty state, groups, separators, items, disabled items, shortcuts, filtering, keyboard movement, activation events, checked/selected indicators, public hooks, classes/styles/tokens, and app-owned icon children. Current docs render a generic command snippet; candidate fixtures cover generic groups, separators, disabled item behavior, shortcuts, checked state, filtering, empty state, activation, and custom tokens. Playwright covers those generic behaviors. | Partial | Add a named `command-demo` docs example and candidate fixture using the upstream copy and rows. Decide whether `CommandGroup` gains a `heading`/`label` prop or whether RadCN documents labelled group content as the Remix-native mapping, then test the chosen mapping. |
-| `command-dialog` | App-owned `Cmd/Ctrl+J` listener toggles controlled dialog state, visible `Press ⌘J` guidance with `kbd` styling, `CommandDialog open/onOpenChange`, search input, empty state, two labelled groups, separator, six items, icons, and three shortcut hints. Calculator is enabled in this example. | `radcn/command` exports `CommandDialog` composed with `radcn/dialog`, supports `defaultOpen`, `open`, title, description, modal/dismissible behavior, and close-button configuration. Candidate fixtures prove a default-open command dialog renders as a dialog and closes with Escape. Current tests do not prove app-owned global shortcut behavior, `Press ⌘J` guidance, exact upstream rows, enabled Calculator in the dialog example, or named `command-dialog` docs/fixture coverage. | Partial | Add a named `command-dialog` docs example and fixture that shows app-owned shortcut guidance and dialog opening behavior without making global shortcut routing part of the Command package. Reuse or compose RadCN Kbd if appropriate, and test the visible guidance, dialog visibility, rows, and Escape close behavior. |
+| `command-demo` | Static command palette card with rounded border/shadow/min-width styling, search input placeholder, empty state, two groups labelled `Suggestions` and `Settings`, separator, six items, app-owned icons, one disabled Calculator item, and three shortcut hints. | `radcn/command` supports root, input, list, empty state, group headings, separators, items, disabled items, shortcuts, filtering, keyboard movement, activation events, checked/selected indicators, public hooks, classes/styles/tokens, and app-owned icon children. Docs and candidate fixtures now render named `command-demo` evidence with the upstream copy, rows, headings, disabled Calculator, icon hooks, shortcuts, and card styling. Playwright covers the named docs and fixture behavior plus generic Command behavior. | Covered | No follow-up. Keep icon choice and card width/shadow styling app-owned composition. |
+| `command-dialog` | App-owned `Cmd/Ctrl+J` listener toggles controlled dialog state, visible `Press ⌘J` guidance with `kbd` styling, `CommandDialog open/onOpenChange`, search input, empty state, two labelled groups, separator, six items, icons, and three shortcut hints. Calculator is enabled in this example. | `radcn/command` exports `CommandDialog` composed with `radcn/dialog`, supports title, description, default/open state, modal/dismissible behavior, and close-button configuration. Docs and candidate fixtures now render named `command-dialog` evidence with shortcut guidance, Kbd composition, app-owned `⌘J`/`Ctrl+J` opening behavior, dialog role/title/description, exact rows, enabled Calculator, shortcuts, and Escape close behavior. | Covered | No follow-up. Global shortcut routing remains app-owned enhancement and is not a Command package dependency. |
 
 ## Capability Mapping
 
@@ -29,11 +29,11 @@ dependencies to RadCN.
 | Command root/input/list/empty/items/separators/shortcuts | Covered by `radcn/packages/radcn/src/components/command.tsx`, generic candidate fixtures, and `combobox-command.spec.ts`. |
 | Filtering, keyboard movement, Home/End, Enter activation, click activation, disabled item skip, empty state | Covered by `enhanceCommand`, `setupSearchableListbox`, and existing Playwright tests. |
 | Checked/selected indicators | Covered generically through `checked`, `data-checked`, selected activation state, and candidate tests. The upstream Command examples do not require checked items. |
-| Group headings or labels | Partial. Upstream uses `CommandGroup heading`. RadCN `CommandGroup` currently accepts child content/class/style but no `heading` prop; generic tests only prove group count and separators, not visible group labels. |
+| Group headings or labels | Covered. RadCN `CommandGroup` now accepts `heading`, renders visible `data-radcn-command-group-heading`, and can wire `aria-labelledby` when an explicit group id is supplied. |
 | Icon composition | App-owned. Upstream uses lucide icons (`SearchIcon`, `Calendar`, `Smile`, `Calculator`, `User`, `CreditCard`, `Settings`), while RadCN should accept arbitrary children/icons and should not depend on `lucide-react`. Named examples should use the project's chosen plain-SVG/icon strategy if visual icon parity is needed. |
-| `CommandDialog open` and `onOpenChange` | Partial mapping. RadCN supports `open`/`defaultOpen` as initial server/render state and Dialog dismissal, but it does not own React-style controlled state callbacks. App-owned scripts/controllers should handle dynamic global shortcut toggling. |
-| Global `⌘J`/`Ctrl+J` listener and React `useState`/`useEffect` | App-owned behavior. The package should not install document-level shortcut handlers. Docs/fixtures should demonstrate the pattern if needed for example parity. |
-| `kbd` copy | Separate composition surface. Use RadCN Kbd or local docs markup as appropriate; Command should not own keyboard-copy styling. |
+| `CommandDialog open` and `onOpenChange` | Covered as a mapping. RadCN supports initial server/render state and Dialog dismissal; React-style controlled state callbacks map to app-owned enhancement for dynamic shortcut opening. |
+| Global `⌘J`/`Ctrl+J` listener and React `useState`/`useEffect` | Covered as app-owned behavior. Docs and candidate fixtures demonstrate local shortcut opening without installing package-owned document-level shortcut handlers. |
+| `kbd` copy | Covered through RadCN Kbd composition in docs and candidate fixtures; Command does not own keyboard-copy styling. |
 | `cmdk`, `CommandPrimitive`, React props, `className`, `data-slot`, `cn`, Tailwind utilities | Implementation details or React/Tailwind mechanics from shadcn/ui. RadCN maps these to Remix UI handles, `class`, `data-radcn-*` hooks, package CSS, and public class/style/token customization. They are not RadCN dependencies. |
 | Dialog composition | Covered at the package-composition level through `CommandDialog`, but named `command-dialog` behavior needs docs/fixture/test evidence. |
 | Vendor source | Reference only. No RadCN package, docs, fixture, or test code should depend on `vendor/`. |
@@ -53,13 +53,15 @@ dependencies to RadCN.
   `radcn/packages/radcn/src/components/command.tsx` and
   `radcn/packages/radcn/src/utils/searchable-listbox.ts`.
 - Current docs evidence:
-  `radcn/apps/docs/app/content/components.tsx` has generic Command docs and
-  composition examples through Combobox/Popover/Drawer, but no named
-  `command-demo` or `command-dialog` family.
+  `radcn/apps/docs/app/content/components.tsx` has named
+  `data-radcn-docs-command-family` examples for `command-demo` and
+  `command-dialog`.
 - Current fixture evidence:
   `radcn/fixtures/candidate-remix/app/fixtures/command.tsx` covers generic
-  Command scenarios, not the exact named upstream examples.
+  Command scenarios plus named `demo` and `dialog-demo` routes.
 - Current Playwright evidence:
   `radcn/fixtures/tests/combobox-command.spec.ts` covers generic Command
   filtering, activation, disabled state, groups, separator, shortcuts, checked
-  state, dialog composition, Escape close, and custom token styling.
+  state, dialog composition, Escape close, custom token styling, named
+  `command-demo`, and named `command-dialog`. `radcn/apps/docs/tests/coverage.spec.ts`
+  covers the named docs examples and mapping copy.

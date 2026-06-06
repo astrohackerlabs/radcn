@@ -51,6 +51,11 @@ export interface CommandPartProps {
   style?: string
 }
 
+export interface CommandGroupProps extends CommandPartProps {
+  heading?: RemixNode
+  id?: string
+}
+
 export function enhanceCommand(root: ParentNode = document) {
   root.querySelectorAll<HTMLElement>('[data-radcn-command]').forEach((command) => {
     if (command.dataset.radcnCommandReady === 'true') return
@@ -191,10 +196,16 @@ export function CommandEmpty(handle: Handle<CommandPartProps>) {
   }
 }
 
-export function CommandGroup(handle: Handle<CommandPartProps>) {
+export function CommandGroup(handle: Handle<CommandGroupProps>) {
   return () => {
-    let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-command-group', className)} data-radcn-command-group role="group" style={style}>{children}</div>
+    let { children, class: className, heading, id, style } = handle.props
+    let headingId = heading && id ? `${id}-heading` : undefined
+    return (
+      <div aria-labelledby={headingId} class={classes('radcn-command-group', className)} data-radcn-command-group id={id} role="group" style={style}>
+        {heading ? <div class="radcn-command-group-heading" data-radcn-command-group-heading id={headingId}>{heading}</div> : null}
+        {children}
+      </div>
+    )
   }
 }
 

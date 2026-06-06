@@ -3792,6 +3792,12 @@
   font: 600 0.75rem/1.2 var(--radcn-font);
 }
 
+.radcn-command-group-heading {
+  padding: 0.375rem 0.5rem 0.25rem;
+  color: var(--radcn-muted-foreground);
+  font: 600 0.75rem/1.2 var(--radcn-font);
+}
+
 .radcn-combobox-item,
 .radcn-command-item {
   display: grid;

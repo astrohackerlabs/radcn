@@ -209,9 +209,57 @@ function setupInputOTPControlledExamples() {
     })
 }
 
+function setDocsCommandDialogOpen(wrapper: HTMLElement, open: boolean) {
+  let dialog = wrapper.querySelector<HTMLElement>('[data-radcn-dialog]')
+  if (!dialog) return
+  let portal = dialog.id
+    ? document.querySelector<HTMLElement>(`[data-radcn-dialog-portal][data-dialog-id="${CSS.escape(dialog.id)}"]`)
+    : null
+  portal ||= wrapper.querySelector<HTMLElement>('[data-radcn-dialog-portal]')
+  if (!portal) return
+
+  dialog.dataset.state = open ? 'open' : 'closed'
+  dialog.dataset.open = open ? 'true' : 'false'
+  portal.dataset.state = open ? 'open' : 'closed'
+  portal.hidden = !open
+  portal.querySelectorAll<HTMLElement>('[data-radcn-dialog-overlay], [data-radcn-dialog-content]').forEach((part) => {
+    part.dataset.state = open ? 'open' : 'closed'
+    part.hidden = !open
+    if (part.matches('[data-radcn-dialog-content]')) {
+      part.setAttribute('role', 'dialog')
+      part.setAttribute('aria-modal', 'true')
+    }
+  })
+
+  if (open) {
+    portal.querySelector<HTMLInputElement>('[data-radcn-command-input]')?.focus()
+  }
+}
+
+function setupCommandDialogShortcutExample() {
+  document.addEventListener('keydown', (event) => {
+    let wrapper = document.querySelector<HTMLElement>('[data-radcn-docs-command-dialog-shortcut="true"]')
+    if (!wrapper) return
+
+    if (event.key === 'Escape') {
+      let content = wrapper.querySelector<HTMLElement>('[data-radcn-dialog-content]')
+      if (content?.dataset.state === 'open') {
+        event.preventDefault()
+        setDocsCommandDialogOpen(wrapper, false)
+      }
+      return
+    }
+
+    if (event.key.toLowerCase() !== 'j' || (!event.metaKey && !event.ctrlKey)) return
+    event.preventDefault()
+    setDocsCommandDialogOpen(wrapper, true)
+  })
+}
+
 setupThemeModeControl()
 setupCodeCopyButtons()
 setupInputOTPControlledExamples()
+setupCommandDialogShortcutExample()
 
 run({
   async loadModule(moduleUrl, exportName) {
