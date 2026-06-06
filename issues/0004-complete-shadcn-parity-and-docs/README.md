@@ -1620,3 +1620,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 104: Audit popover example parity](104-audit-popover-example-parity.md)
   — **Partial**
+- [Experiment 105: Implement popover example parity depth](105-implement-popover-example-parity-depth.md)
+  — **Designed**
