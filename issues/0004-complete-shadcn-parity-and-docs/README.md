@@ -653,3 +653,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 35: Audit kbd example parity](35-audit-kbd-example-parity.md)
   — **Pass**
+- [Experiment 36: Implement kbd example parity depth](36-implement-kbd-example-parity-depth.md)
+  — **Designed**
