@@ -811,3 +811,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 48: Implement input-otp example parity depth](48-implement-input-otp-example-parity-depth.md)
   — **Pass**
+- [Experiment 49: Audit native-select example parity](49-audit-native-select-example-parity.md)
+  — **Designed**
