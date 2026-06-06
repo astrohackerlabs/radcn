@@ -170,9 +170,9 @@ export function setupMenuOverlay(root: HTMLElement, options: MenuOverlayOptions)
   let typeahead = ''
   let typeaheadTimer = 0
   let currentAnchor: AnchorPoint | null = null
-  let side = options.side || 'bottom'
-  let align = options.align || 'start'
-  let sideOffset = options.sideOffset || 4
+  let side = (menuContent.dataset.side as MenuSide | undefined) || options.side || 'bottom'
+  let align = (menuContent.dataset.align as MenuAlign | undefined) || options.align || 'start'
+  let sideOffset = Number(menuContent.dataset.sideOffset || options.sideOffset || 4)
 
   root.id = menuId
   menuContent.id = menuContent.id || `${menuId}-content`

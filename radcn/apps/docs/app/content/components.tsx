@@ -100,6 +100,8 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogOverlay,
+  DialogPortal,
   DialogTitle,
   DialogTrigger,
 } from 'radcn/dialog'
@@ -118,6 +120,7 @@ import {
 } from 'radcn/drawer'
 import {
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -2218,6 +2221,147 @@ function ComboboxPreview() {
   )
 }
 
+const dropdownMenuSource = `import { Dialog, DialogContent, DialogHeader, DialogTitle } from 'radcn/dialog'
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+
+export function DropdownMenuExamples() {
+  return (
+    <>
+      <DropdownMenu>
+        <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <DropdownMenuCheckboxItem checked>Status Bar</DropdownMenuCheckboxItem>
+      <DropdownMenuRadioGroup value="bottom">
+        <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+      </DropdownMenuRadioGroup>
+      <Dialog>
+        <DialogContent><DialogHeader><DialogTitle>Create New File</DialogTitle></DialogHeader></DialogContent>
+      </Dialog>
+    </>
+  )
+}`
+
+function DropdownMenuPreview() {
+  return () => (
+    <div style="display:grid;gap:1.25rem;width:min(100%,44rem)">
+      <div data-radcn-docs-dropdown-menu-family="dropdown-menu-demo" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent align="start" style="width:14rem">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Profile<DropdownMenuShortcut>Shift+Cmd+P</DropdownMenuShortcut></DropdownMenuItem>
+                <DropdownMenuItem>Billing<DropdownMenuShortcut>Cmd+B</DropdownMenuShortcut></DropdownMenuItem>
+                <DropdownMenuItem>Settings<DropdownMenuShortcut>Cmd+S</DropdownMenuShortcut></DropdownMenuItem>
+                <DropdownMenuItem>Keyboard shortcuts<DropdownMenuShortcut>Cmd+K</DropdownMenuShortcut></DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Team</DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuItem>Email</DropdownMenuItem>
+                    <DropdownMenuItem>Message</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>More...</DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem>New Team<DropdownMenuShortcut>Cmd+T</DropdownMenuShortcut></DropdownMenuItem>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>GitHub</DropdownMenuItem>
+              <DropdownMenuItem>Support</DropdownMenuItem>
+              <DropdownMenuItem disabled>API</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>Log out<DropdownMenuShortcut>Shift+Cmd+Q</DropdownMenuShortcut></DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+      </div>
+
+      <div data-radcn-docs-dropdown-menu-family="dropdown-menu-checkboxes" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent style="width:14rem">
+              <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuCheckboxItem checked>Status Bar</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem disabled>Activity Bar</DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem>Panel</DropdownMenuCheckboxItem>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+        <p style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem">Checkbox persistence is app-owned state.</p>
+      </div>
+
+      <div data-radcn-docs-dropdown-menu-family="dropdown-menu-radio-group" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent style="width:14rem">
+              <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuRadioGroup value="bottom">
+                <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+      </div>
+
+      <div data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--outline radcn-button--icon-sm">...</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent align="end" style="width:10rem">
+              <DropdownMenuLabel>File Actions</DropdownMenuLabel>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>New File...</DropdownMenuItem>
+                <DropdownMenuItem>Share...</DropdownMenuItem>
+                <DropdownMenuItem disabled>Download</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+        <Dialog defaultOpen id="docs-dropdown-menu-dialog-preview">
+          <DialogTrigger class="radcn-button radcn-button--outline">Preview dialog</DialogTrigger>
+          <DialogPortal>
+            <DialogOverlay />
+            <DialogContent showCloseButton={false} style="max-width:26rem">
+              <DialogHeader>
+                <DialogTitle>Create New File</DialogTitle>
+                <DialogDescription>Provide a name for your new file.</DialogDescription>
+              </DialogHeader>
+              <FieldGroup>
+                <Field>
+                  <FieldLabel for="docs-dropdown-menu-filename">File Name</FieldLabel>
+                  <Input id="docs-dropdown-menu-filename" name="filename" placeholder="document.txt" />
+                </Field>
+                <Field>
+                  <FieldLabel for="docs-dropdown-menu-message">Message (Optional)</FieldLabel>
+                  <Textarea id="docs-dropdown-menu-message" name="message" placeholder="Check out this file" />
+                </Field>
+              </FieldGroup>
+              <DialogFooter>
+                <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+                <Button type="submit">Create</Button>
+              </DialogFooter>
+            </DialogContent>
+          </DialogPortal>
+        </Dialog>
+      </div>
+    </div>
+  )
+}
+
 function InputPreview() {
   return () => (
     <div style="display:grid;gap:1rem;width:min(100%,42rem)">
@@ -4289,6 +4433,49 @@ const richComponentDocs: ComponentDoc[] = [
       'useMediaQuery maps to CSS breakpoints or dependency-free enhancement; lucide-react icons remain app-owned presentation.',
       'className maps to class, data-slot maps to data-radcn-* hooks, and vendor source remains read-only evidence.',
       'combobox-form is adjacent Form/Combobox evidence because its React Hook Form, Zod, Sonner, and validation mechanics belong to form composition.',
+    ],
+  },
+  {
+    slug: 'dropdown-menu',
+    title: 'Dropdown Menu',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A menu overlay primitive for grouped commands, submenus, checkable items, radio choices, and app-owned cross-component actions.',
+    importPath: 'radcn/dropdown-menu',
+    importExample:
+      "import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'radcn/dropdown-menu'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render the four upstream Dropdown Menu examples through RadCN primitives and app-owned composition.',
+        source: dropdownMenuSource,
+        preview: <DropdownMenuPreview />,
+      },
+    ],
+    accessibility: [
+      'DropdownMenuTrigger receives aria-haspopup, aria-controls, aria-expanded, and keyboard opening behavior during enhancement.',
+      'DropdownMenuContent renders role="menu", with menuitem, menuitemcheckbox, and menuitemradio roles on interactive items.',
+      'Keyboard behavior covers Enter, Space, Arrow keys, Home, End, Escape, Tab, typeahead, submenu navigation, and disabled item skipping.',
+      'Dropdown Menu is non-modal in RadCN and does not lock body scroll; Dialog composition owns modal focus and scroll behavior separately.',
+    ],
+    customization: [
+      'DropdownMenu exposes public data-radcn-dropdown-menu hooks for root, trigger, portal, content, labels, groups, items, shortcuts, separators, checkbox items, radio groups, and submenus.',
+      'Checkbox and radio persistence, menu-to-dialog effects, and form values remain app-owned state rather than package-global callbacks.',
+      'Dialog, Field, Input, Textarea, Label, Button, and icon presentation remain separate composition surfaces.',
+      'Tailwind width, padding, flex, and alignment utilities map to RadCN classes, class, style, CSS variables, or small dependency-free browser enhancement.',
+    ],
+    divergence: [
+      'React useState, onCheckedChange, onValueChange, and onSelect map to explicit RadCN props, server/route state, or app-owned browser enhancement.',
+      'modal={false} maps to RadCN Dropdown Menu non-modal behavior; Dialog remains the modal owner when composed from a menu item.',
+      'Button asChild maps to explicit DropdownMenuTrigger styling and composition rather than React Slot semantics.',
+      'lucide-react icons are app-owned presentation; Radix primitive types are read-only upstream evidence and not RadCN dependencies.',
+      'className maps to class, data-slot maps to data-radcn-* hooks, and vendor source remains read-only evidence.',
     ],
   },
   {

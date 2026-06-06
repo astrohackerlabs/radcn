@@ -676,6 +676,18 @@ Record cross-component discoveries here as experiments complete.
   `dropdown-menu-radio-group`. The next experiment should implement those named
   examples without changing the Dropdown Menu package API unless a concrete
   package-level gap appears.
+- Experiment 46 completed Dropdown Menu example parity depth. The docs page,
+  candidate fixtures, and Playwright tests now prove
+  `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, and
+  `dropdown-menu-radio-group`, including dense account menus, shortcut text,
+  disabled items, submenu pointer/keyboard behavior, checkbox/radio state,
+  non-modal menu behavior, and menu-to-dialog composition with Field, Input,
+  and Textarea. Implementation uncovered and fixed a package-level positioning
+  blocker: `setupMenuOverlay` now reads `DropdownMenuContent` data attributes
+  for `align`, `side`, and `sideOffset` instead of always using setup defaults.
+  RadCN still does not depend on React, Radix, `lucide-react`, Tailwind, or
+  vendor source. The regenerated parity inventory now recommends auditing
+  `input-otp` examples next.
 
 ## Experiments
 
@@ -770,4 +782,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 45: Audit dropdown-menu example parity](45-audit-dropdown-menu-example-parity.md)
   — **Pass**
 - [Experiment 46: Implement dropdown-menu example parity depth](46-implement-dropdown-menu-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -305,3 +305,100 @@ Re-review: Approved. The reviewer confirmed the hygiene gap is resolved and no
 blocker remains.
 
 Approval: Approved for plan commit.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Dropdown Menu example parity for all four upstream examples:
+
+- `dropdown-menu-checkboxes`
+- `dropdown-menu-demo`
+- `dropdown-menu-dialog`
+- `dropdown-menu-radio-group`
+
+The implementation added an authored Dropdown Menu docs page with stable
+`data-radcn-docs-dropdown-menu-family` hooks, candidate fixture routes for the
+four examples, fixture Playwright coverage, docs Playwright coverage, covered
+inventory rows, a resolved `dropdown-menu` example cluster entry, and a
+regenerated parity inventory. The regenerated inventory now recommends
+`input-otp` as the next example parity audit.
+
+Implementation uncovered one concrete package-level blocker: menu content
+`align`, `side`, and `sideOffset` props were rendered as data attributes but
+`setupMenuOverlay` initialized from setup defaults instead of the content data
+attributes. This made the named `dropdown-menu-dialog` end-aligned menu behave
+as start-aligned after enhancement. The experiment fixed
+`radcn/packages/radcn/src/utils/menu-overlay.ts` so menu overlay positioning
+uses content `data-align`, `data-side`, and `data-side-offset` when present.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts menu-overlays.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Results:
+
+```text
+pnpm radcn:typecheck: pass
+pnpm --dir radcn/apps/docs typecheck: pass
+pnpm fixtures:candidate:typecheck: pass
+menu-overlays.spec.ts: 8 passed
+coverage.spec.ts: 5 passed
+```
+
+Known warnings during Playwright runs:
+
+```text
+[DEP0205] DeprecationWarning: `module.register()` is deprecated. Use `module.registerHooks()` instead.
+Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+```
+
+Deterministic checks passed:
+
+```text
+dropdown-menu-example-inventory.md contains exactly one Covered row for each of
+dropdown-menu-checkboxes, dropdown-menu-demo, dropdown-menu-dialog, and
+dropdown-menu-radio-group.
+
+resolved-clusters.json contains examples/dropdown-menu with status resolved and
+evidence for Experiment 45, Experiment 46, and dropdown-menu-example-inventory.md.
+
+parity-inventory.md no longer lists dropdown-menu in Unresolved Example
+Clusters, and First Recommended Cluster is now Example parity for input-otp.
+
+The scoped import/dependency checks found no React, React DOM, Radix,
+lucide-react, Tailwind, or vendor dependencies/imports in radcn/packages/radcn,
+radcn/apps/docs, or radcn/fixtures/candidate-remix.
+
+git diff --check passed.
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+printed no output.
+```
+
+## Conclusion
+
+Dropdown Menu example parity is resolved. The next experiment should audit the
+upstream `input-otp` example cluster recommended by the regenerated parity
+inventory.
+
+## Completion Review
+
+Reviewer: Ramanujan the 2nd (`019e9bdd-d82d-70d0-92d5-bed4b9e572df`) with
+fresh context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the
+implementation matches the approved scope, the `setupMenuOverlay` utility
+change is justified by the recorded package-level positioning blocker and does
+not add a package API, verification commands and deterministic checks pass,
+vendor cleanliness was checked, the result commit had not yet been made, and
+the Issue 4 README records the matching `Pass` status and `input-otp` next
+recommendation.

@@ -235,3 +235,22 @@ document.addEventListener('click', (event) => {
   if (!target.closest('[data-radcn-drawer-trigger], [data-radcn-popover-trigger], [data-radcn-dropdown-menu-trigger], [data-radcn-dropdown-menu-sub-trigger]')) return
   window.setTimeout(() => enhanceFixtureComboboxExamples())
 })
+
+function enhanceFixtureDropdownDialogExample() {
+  document.addEventListener('click', (event) => {
+    let target = event.target
+    if (!(target instanceof Element)) return
+    let action = target.closest<HTMLElement>('.fixture-dropdown-dialog-new, .fixture-dropdown-dialog-share')
+    if (!action) return
+
+    let selector = action.classList.contains('fixture-dropdown-dialog-new')
+      ? '.fixture-dropdown-dialog-new-trigger'
+      : '.fixture-dropdown-dialog-share-trigger'
+
+    window.setTimeout(() => {
+      document.querySelector<HTMLButtonElement>(selector)?.click()
+    })
+  })
+}
+
+enhanceFixtureDropdownDialogExample()

@@ -177,6 +177,39 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
     await expect(page.getByText('combobox-form is adjacent Form/Combobox evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/dropdown-menu')
+    for (let slug of [
+      'dropdown-menu-checkboxes',
+      'dropdown-menu-demo',
+      'dropdown-menu-dialog',
+      'dropdown-menu-radio-group',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-dropdown-menu-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-demo"] [data-radcn-dropdown-menu-sub-trigger]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-checkboxes"] [data-radcn-dropdown-menu-checkbox-item]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-radio-group"] [data-radcn-dropdown-menu-radio-item]')).toHaveCount(3)
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog"] [data-radcn-dialog]')).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog"] [data-radcn-field]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog"] [data-radcn-input]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog"] [data-radcn-textarea]')).toHaveCount(1)
+    await expect(page.getByText('DropdownMenuCheckboxItem').first()).toBeVisible()
+    await expect(page.getByText('DropdownMenuRadioGroup').first()).toBeVisible()
+    await expect(page.getByText('Dialog').first()).toBeVisible()
+    await expect(page.getByText('Field').first()).toBeVisible()
+    await expect(page.getByText('Input').first()).toBeVisible()
+    await expect(page.getByText('Textarea').first()).toBeVisible()
+    await expect(page.getByText('React useState, onCheckedChange, onValueChange, and onSelect map to explicit RadCN').first()).toBeVisible()
+    await expect(page.getByText('modal={false} maps to RadCN Dropdown Menu non-modal behavior').first()).toBeVisible()
+    await expect(page.getByText('Button asChild maps to explicit DropdownMenuTrigger').first()).toBeVisible()
+    await expect(page.getByText('lucide-react icons are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Radix primitive types are read-only upstream evidence').first()).toBeVisible()
+    await expect(page.getByText('Tailwind width, padding, flex, and alignment utilities map to RadCN').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-* hooks').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+    await expect(page.getByText('Checkbox and radio persistence, menu-to-dialog effects, and form values remain app-owned state').first()).toBeVisible()
+
     await page.goto('/docs/components/input')
     await expect(page.locator('[data-radcn-input]').first()).toBeVisible()
     for (let slug of [

@@ -45,12 +45,10 @@ Playwright tests prove those primitives directly across default,
 keyboard/typeahead, checkbox/radio, submenu, collision, and custom-token
 scenarios.
 
-The upstream examples are still only partially covered because the docs,
-candidate fixtures, and Playwright tests do not prove the four named upstream
-example ids as user-facing compositions. The next implementation experiment
-should add named coverage for `dropdown-menu-demo`,
-`dropdown-menu-checkboxes`, `dropdown-menu-radio-group`, and
-`dropdown-menu-dialog`.
+Experiment 46 added named docs, candidate fixture, and Playwright evidence for
+the four upstream Dropdown Menu example ids as user-facing compositions:
+`dropdown-menu-demo`, `dropdown-menu-checkboxes`,
+`dropdown-menu-radio-group`, and `dropdown-menu-dialog`.
 
 No audit evidence requires changing the `radcn/dropdown-menu` package API.
 React `useState`, Radix primitive types, `onCheckedChange`, `onValueChange`,
@@ -64,10 +62,10 @@ and `radcn/textarea`, not a Dropdown Menu dependency on Dialog.
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `dropdown-menu-checkboxes` | Outline trigger opens an Appearance menu with a label, separator, three checkbox items, initial checked/unchecked states, a disabled Activity Bar item, click activation, checked indicators, and close-on-select. | React `useState` stores three checked values; Radix `CheckboxItem` type supplies the checked type; `onCheckedChange` updates local state; `Button asChild`, `DropdownMenuTrigger`, `DropdownMenuContent className="w-56"`, `DropdownMenuLabel`, `DropdownMenuSeparator`, and `DropdownMenuCheckboxItem` compose the menu. | `radcn/dropdown-menu` supports checkbox items with `checked`, `disabled`, `role="menuitemcheckbox"`, `aria-checked`, indicators, and close-on-select. `menu-overlays` fixtures and Playwright prove checked item toggling and disabled skip behavior, but not this named Appearance example in docs/fixtures/tests. | Partial | Add named docs, candidate fixture, and Playwright evidence for the Appearance checkbox menu. Keep state app-owned; do not add React, Radix primitive types, or `onCheckedChange` as package dependencies. |
-| `dropdown-menu-demo` | Outline trigger opens a My Account menu with grouped items, labels, separators, keyboard shortcut text, disabled API item, destructive-capable item styling surface, and an Invite users submenu with Email, Message, separator, and More... items. | Static React example; `Button asChild`; `DropdownMenuContent className="w-56" align="start"`; labels, groups, items, separators, shortcuts, `DropdownMenuSub`, `DropdownMenuPortal`, `DropdownMenuSubContent`, disabled item, and submenu trigger/content compose the menu. | `radcn/dropdown-menu` supports labels, groups, separators, shortcuts, disabled items, destructive item variants, submenus, portal movement, side/align placement, roving focus, pointer highlight, typeahead, and close behavior. Existing docs show a smaller generic dropdown; fixtures/tests prove generic submenu behavior, but not the full named My Account composition. | Partial | Add named docs, candidate fixture, and Playwright evidence for the dense My Account example, including shortcut text, disabled item, submenu open/keyboard behavior, and public styling hooks. |
-| `dropdown-menu-dialog` | Icon trigger opens a File Actions menu aligned to the end; selecting New File... or Share... closes the menu and opens the corresponding Dialog with title, description, fields, inputs/textarea, cancel close, and submit-style actions. Download is disabled. | React `useState` controls two Dialog open states; `MoreHorizontalIcon` from `lucide-react`; `DropdownMenu modal={false}`; `Button asChild` icon trigger; `DropdownMenuItem onSelect`; `Dialog open/onOpenChange`; `DialogClose asChild`; `Field`, `FieldGroup`, `FieldLabel`, `Label`, `Input`, and `Textarea` compose dialog forms. | RadCN has Dropdown Menu primitives, Dialog primitives, Field, Input, and Textarea packages. Menu clicks close through `setupMenuOverlay`; Dialog opens through package-owned triggers/default state. Current evidence does not prove menu item activation opening a dialog, icon trigger parity, `modal={false}` mapping, or named File Actions docs/fixture/Playwright behavior. | Partial | Add named docs, candidate fixture, and Playwright evidence for Dropdown Menu to Dialog composition. Use app-owned browser enhancement, explicit hidden/visible triggers, route/server state, or other web-first state; do not add React state, `lucide-react`, Radix, or Dialog dependencies to `radcn/dropdown-menu`. |
-| `dropdown-menu-radio-group` | Outline trigger opens a Panel Position menu with a label, separator, radio group, top/bottom/right options, initial bottom selection, click activation, checked indicator, and close-on-select. | React `useState` stores `position`; `onValueChange` updates local state; `Button asChild`, `DropdownMenuContent className="w-56"`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuRadioGroup`, and `DropdownMenuRadioItem` compose the menu. | `radcn/dropdown-menu` supports radio groups with `value`, radio items, `role="menuitemradio"`, `aria-checked`, indicators, and close-on-select. `menu-overlays` fixtures and Playwright prove radio item selection generically, but not this named Panel Position example in docs/fixtures/tests. | Partial | Add named docs, candidate fixture, and Playwright evidence for the Panel Position radio menu. Keep selected value app-owned; do not add React, Radix primitive types, or `onValueChange` as package dependencies. |
+| `dropdown-menu-checkboxes` | Outline trigger opens an Appearance menu with a label, separator, three checkbox items, initial checked/unchecked states, a disabled Activity Bar item, click activation, checked indicators, and close-on-select. | React `useState` stores three checked values; Radix `CheckboxItem` type supplies the checked type; `onCheckedChange` updates local state; `Button asChild`, `DropdownMenuTrigger`, `DropdownMenuContent className="w-56"`, `DropdownMenuLabel`, `DropdownMenuSeparator`, and `DropdownMenuCheckboxItem` compose the menu. | Docs hook `dropdown-menu-checkboxes`, fixture route `dropdown-menu/checkboxes`, and Playwright coverage prove the named Appearance menu, initial checked/unchecked states, disabled Activity Bar behavior, Panel toggling, indicators, close-on-select, and public hooks. | Covered | No follow-up for this example. |
+| `dropdown-menu-demo` | Outline trigger opens a My Account menu with grouped items, labels, separators, keyboard shortcut text, disabled API item, destructive-capable item styling surface, and an Invite users submenu with Email, Message, separator, and More... items. | Static React example; `Button asChild`; `DropdownMenuContent className="w-56" align="start"`; labels, groups, items, separators, shortcuts, `DropdownMenuSub`, `DropdownMenuPortal`, `DropdownMenuSubContent`, disabled item, and submenu trigger/content compose the menu. | Docs hook `dropdown-menu-demo`, fixture route `dropdown-menu/demo`, and Playwright coverage prove the dense My Account composition, labels, groups, separators, shortcut text, disabled API item, Invite users submenu, pointer and keyboard submenu opening, close-on-select, and public hooks. | Covered | No follow-up for this example. |
+| `dropdown-menu-dialog` | Icon trigger opens a File Actions menu aligned to the end; selecting New File... or Share... closes the menu and opens the corresponding Dialog with title, description, fields, inputs/textarea, cancel close, and submit-style actions. Download is disabled. | React `useState` controls two Dialog open states; `MoreHorizontalIcon` from `lucide-react`; `DropdownMenu modal={false}`; `Button asChild` icon trigger; `DropdownMenuItem onSelect`; `Dialog open/onOpenChange`; `DialogClose asChild`; `Field`, `FieldGroup`, `FieldLabel`, `Label`, `Input`, and `Textarea` compose dialog forms. | Docs hook `dropdown-menu-dialog`, fixture route `dropdown-menu/dialog`, and Playwright coverage prove end-aligned File Actions menu composition, non-modal menu behavior, disabled Download item, menu item activation opening Create New File and Share File dialogs, Dialog focus, Field/Input/Textarea hooks, and cancel close behavior. | Covered | No follow-up for this example. |
+| `dropdown-menu-radio-group` | Outline trigger opens a Panel Position menu with a label, separator, radio group, top/bottom/right options, initial bottom selection, click activation, checked indicator, and close-on-select. | React `useState` stores `position`; `onValueChange` updates local state; `Button asChild`, `DropdownMenuContent className="w-56"`, `DropdownMenuLabel`, `DropdownMenuSeparator`, `DropdownMenuRadioGroup`, and `DropdownMenuRadioItem` compose the menu. | Docs hook `dropdown-menu-radio-group`, fixture route `dropdown-menu/radio-group`, and Playwright coverage prove the named Panel Position menu, bottom default selection, selection updates, indicators, close-on-select, and public hooks. | Covered | No follow-up for this example. |
 
 ## Behavior Coverage
 
@@ -75,26 +73,26 @@ and `radcn/textarea`, not a Dropdown Menu dependency on Dialog.
 | --- | --- | --- |
 | Trigger semantics | Covered primitive | `DropdownMenuTrigger` renders a button; `setupMenuOverlay` wires `aria-haspopup="menu"`, `aria-controls`, `aria-expanded`, click, Enter, Space, ArrowDown, and ArrowUp. Playwright proves click and keyboard opening. |
 | Menu role and portal movement | Covered primitive | `DropdownMenuContent` is given `role="menu"` and moved into the portal host by `setupMenuOverlay`; Playwright checks portal-root placement. |
-| Content side/align placement | Covered primitive | `DropdownMenuContent` accepts `side`, `align`, and `sideOffset`; collision fixture proves edge clamping. Named examples still need width/alignment proof. |
-| Labels, groups, separators, shortcuts | Covered primitive | Package parts exist and generic docs/fixtures render them; the named My Account menu still needs dense example evidence. |
+| Content side/align placement | Covered | `DropdownMenuContent` accepts `side`, `align`, and `sideOffset`; collision fixture proves edge clamping and named `dropdown-menu-dialog` proves end alignment. |
+| Labels, groups, separators, shortcuts | Covered | Package parts exist and named `dropdown-menu-demo` docs/fixture/Playwright evidence proves the dense My Account composition. |
 | Disabled and destructive items | Covered primitive | Disabled items set `aria-disabled`/`data-disabled` and are skipped by focus/pointer activation. `variant="destructive"` exists; named demo should prove the destructive-capable styling surface if used. |
-| Submenus | Covered primitive | `DropdownMenuSub`, `DropdownMenuSubTrigger`, and `DropdownMenuSubContent` exist; Playwright proves hover and keyboard submenu behavior with stage clamping. Named Invite users parity remains missing. |
-| Checkbox items | Covered primitive | `DropdownMenuCheckboxItem` supports `checked`, `disabled`, `aria-checked`, `data-state`, indicators, and close-on-select. Named Appearance parity remains missing. |
-| Radio groups/items | Covered primitive | `DropdownMenuRadioGroup value` and `DropdownMenuRadioItem value` sync checked state and indicators. Named Panel Position parity remains missing. |
+| Submenus | Covered | `DropdownMenuSub`, `DropdownMenuSubTrigger`, and `DropdownMenuSubContent` exist; Playwright proves generic submenu behavior and named Invite users parity. |
+| Checkbox items | Covered | `DropdownMenuCheckboxItem` supports `checked`, `disabled`, `aria-checked`, `data-state`, indicators, and close-on-select. Named Appearance parity is covered. |
+| Radio groups/items | Covered | `DropdownMenuRadioGroup value` and `DropdownMenuRadioItem value` sync checked state and indicators. Named Panel Position parity is covered. |
 | Roving focus, typeahead, pointer highlight | Covered primitive | `setupMenuOverlay` owns enabled item discovery, Home/End/Arrow roving, typeahead, and pointer highlight. Playwright proves these generically. |
 | Close-on-select and outside close | Covered primitive | `activateItem` closes normal, checkbox, and radio item selections; document pointerdown, Escape, Tab, and Shift+Tab close menus. Playwright proves generic close behavior. |
 | Custom hooks/classes | Covered primitive | Parts accept `class`/`style` and expose stable `data-radcn-dropdown-menu-*` hooks; custom-token fixture proves custom styling. |
-| Docs coverage | Partial | The docs component page renders a basic Dropdown Menu preview and source snippet, but not the four named upstream examples. |
-| Playwright coverage | Partial | `menu-overlays.spec.ts` proves Dropdown Menu primitive behavior, but no tests assert named `dropdown-menu-demo`, `dropdown-menu-checkboxes`, `dropdown-menu-radio-group`, or `dropdown-menu-dialog` routes/compositions. |
+| Docs coverage | Covered | The Dropdown Menu docs page renders stable hooks for all four named upstream examples and mapping copy. |
+| Playwright coverage | Covered | `menu-overlays.spec.ts` proves generic Dropdown Menu behavior plus named `dropdown-menu-demo`, `dropdown-menu-checkboxes`, `dropdown-menu-radio-group`, and `dropdown-menu-dialog` routes/compositions. |
 
 ## Mapping Decisions
 
 | Upstream concept | RadCN mapping |
 | --- | --- |
 | React `useState` | Map to explicit props for defaults, native form/query/server state, or small dependency-free browser enhancement for docs/fixtures that need local persistence. Do not add React. |
-| `onCheckedChange` | Map checkbox defaults to `checked`; persistence is app-owned state or server-submitted state. A docs fixture may add browser enhancement to demonstrate local toggling. |
+| `onCheckedChange` | Map checkbox defaults to `checked`; persistence is app-owned state, browser enhancement, or server-submitted state. |
 | `onValueChange` | Map radio defaults to `DropdownMenuRadioGroup value`; persistence is app-owned state or server-submitted state. |
-| `onSelect` | Menu item activation is package-owned close behavior. Cross-component effects, such as opening Dialog after selecting a menu item, are app-owned composition. |
+| `onSelect` | Menu item activation is package-owned close behavior. Cross-component effects, such as opening Dialog after selecting a menu item, are app-owned composition through explicit browser/server behavior. |
 | `modal={false}` | RadCN Dropdown Menu is non-modal by current design and does not lock body scroll. Playwright already checks body overflow remains unlocked. |
 | `Button asChild` | Map to explicit RadCN trigger components and app-authored button or icon-trigger styling. Do not emulate React Slot semantics. |
 | Dialog composition | Use `radcn/dialog` for Dialog behavior. Dropdown Menu should not import or depend on Dialog. |
@@ -108,7 +106,5 @@ and `radcn/textarea`, not a Dropdown Menu dependency on Dialog.
 
 ## Recommendation
 
-Dropdown Menu example parity is not resolved yet. The next experiment should
-implement named docs, fixture, and Playwright coverage for all four upstream
-Dropdown Menu examples without changing the `radcn/dropdown-menu` package API
-unless implementation uncovers a concrete package-level gap.
+Dropdown Menu example parity is resolved. The next Issue 4 recommendation
+should come from the regenerated parity inventory.

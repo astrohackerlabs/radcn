@@ -1905,6 +1905,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "dropdown-menu",
+    id: "demo",
+    title: "Dropdown Menu Demo",
+    description: "Named upstream dropdown-menu-demo parity with dense account actions and submenu.",
+  },
+  {
+    component: "dropdown-menu",
+    id: "checkboxes",
+    title: "Dropdown Menu Checkboxes",
+    description: "Named upstream dropdown-menu-checkboxes parity with checked and disabled items.",
+  },
+  {
+    component: "dropdown-menu",
+    id: "radio-group",
+    title: "Dropdown Menu Radio Group",
+    description: "Named upstream dropdown-menu-radio-group parity with selected panel position.",
+  },
+  {
+    component: "dropdown-menu",
+    id: "dialog",
+    title: "Dropdown Menu Dialog",
+    description: "Named upstream dropdown-menu-dialog parity with menu item driven dialogs.",
+  },
+  {
+    component: "dropdown-menu",
     id: "checkbox-radio",
     title: "Dropdown Checked Items",
     description: "Dropdown menu with checkbox and radio item state.",

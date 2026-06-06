@@ -132,6 +132,7 @@ These are documented in RadCN but are not current package exports.
 | examples | toast | resolved | `issues/0004-complete-shadcn-parity-and-docs/39-audit-toast-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/40-implement-toast-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md` |
 | examples | badge | resolved | `issues/0004-complete-shadcn-parity-and-docs/41-audit-badge-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/42-implement-badge-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/badge-example-inventory.md` |
 | examples | combobox | resolved | `issues/0004-complete-shadcn-parity-and-docs/43-audit-combobox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/44-implement-combobox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/combobox-example-inventory.md` |
+| examples | dropdown-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/45-audit-dropdown-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/46-implement-dropdown-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/dropdown-menu-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -227,7 +228,6 @@ parity decision.
 | date-picker | 3 | `date-picker-demo`, `date-picker-with-presets`, `date-picker-with-range` |
 | dialog | 2 | `dialog-close-button`, `dialog-demo` |
 | drawer | 2 | `drawer-demo`, `drawer-dialog` |
-| dropdown-menu | 4 | `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, `dropdown-menu-radio-group` |
 | hover-card | 1 | `hover-card-demo` |
 | input-otp | 4 | `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, `input-otp-separator` |
 | label | 1 | `label-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for dropdown-menu
+**Cluster:** Example parity for input-otp
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for dropdown-menu.
+- Audit upstream examples for input-otp.
 
 ## Notes
 
