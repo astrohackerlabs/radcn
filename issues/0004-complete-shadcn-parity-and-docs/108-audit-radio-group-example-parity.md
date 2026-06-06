@@ -206,3 +206,63 @@ Approved. The reviewer confirmed the Issue 4 README links Experiment 108 as
 scope is audit-only, implementation has not started before the plan commit,
 vendor checkouts are clean, and the modified blocks/chart-gallery scope remains
 out of scope.
+
+## Result
+
+**Result:** Partial
+
+Experiment 108 added `radio-group-example-inventory.md` and audited the single
+direct upstream Radio Group example cluster, `radio-group-demo`.
+
+The audit found that RadCN already has strong Radio Group substrate:
+dependency-free native radio inputs, a radiogroup wrapper, checked/unchecked
+state hooks, disabled and invalid state support, form behavior, custom-token
+evidence, generic docs, candidate fixtures, and Playwright coverage. The direct
+upstream example is still partial because current docs and fixtures do not
+provide a named `radio-group-demo` surface for the exact
+`defaultValue="comfortable"` composition with `Default`, `Comfortable`, and
+`Compact`, ids `r1`, `r2`, and `r3`, and upstream row layout mapping.
+
+Verification run:
+
+```text
+node deterministic checks for radio-group-example-inventory.md structure, direct
+  upstream row count, row outcome/follow-up, and required mechanics/evidence
+rg -n "Experiment 108|radio-group-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node tracked-vendor-source check for vendor/.gitignore only
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The tracked-vendor-source check printed only
+`vendor/.gitignore`, and the nested vendor status checks printed no modified
+files.
+
+## Conclusion
+
+Radio Group needs a follow-up implementation experiment. The next experiment
+should add named `radio-group-demo` docs and candidate fixture coverage that
+renders the exact `Default`, `Comfortable`, and `Compact` rows, maps
+`defaultValue="comfortable"` to a checked native radio, preserves or explicitly
+namespaces ids `r1`, `r2`, and `r3`, verifies label associations, row layout,
+public hooks, native selection behavior, source/mapping copy, and preserves
+existing disabled, invalid, form, and custom-token coverage.
+
+## Completion Review
+
+Reviewer: Herschel the 3rd (`019e9e8e-b4f3-7711-9922-f5c14977af77`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment has `## Result` and
+`## Conclusion`, the claimed `Partial` result is supported by the inventory,
+the Issue 4 README learning and experiment status are updated, verification and
+vendor checks passed, the result commit had not yet been made, vendor
+cleanliness and ignored-source rules hold, and the revised Issue 4 scope is
+respected with no block or upstream chart-gallery work.

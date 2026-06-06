@@ -1443,6 +1443,16 @@ Record cross-component discoveries here as experiments complete.
   indeterminate, and custom-token scenarios remain covered. `progress` is
   resolved in the example queue; the next generated recommendation is example
   parity for `radio-group`.
+- Experiment 108 audited direct Radio Group example parity in
+  `radio-group-example-inventory.md`. RadCN already has strong Radio Group
+  package and behavior substrate: dependency-free native radio inputs,
+  radiogroup semantics, checked/unchecked hooks, disabled and invalid states,
+  form behavior, custom-token evidence, generic docs, candidate fixtures, and
+  Playwright coverage. The direct example remains partial because no named
+  docs/fixture/test surface proves the exact upstream `defaultValue="comfortable"`
+  demo with `Default`, `Comfortable`, and `Compact` labels, ids `r1`, `r2`,
+  and `r3`, and row layout mapping. The next experiment should implement named
+  `radio-group-demo` docs, candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1661,4 +1671,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 107: Implement progress example parity depth](107-implement-progress-example-parity-depth.md)
   — **Pass**
 - [Experiment 108: Audit radio-group example parity](108-audit-radio-group-example-parity.md)
-  — **Designed**
+  — **Partial**
