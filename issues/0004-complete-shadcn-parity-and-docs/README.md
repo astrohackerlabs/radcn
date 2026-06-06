@@ -558,3 +558,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 29: Audit chart example parity](29-audit-chart-example-parity.md)
   — **Pass**
+- [Experiment 30: Implement chart component example parity depth](30-implement-chart-component-example-parity-depth.md)
+  — **Designed**
