@@ -285,3 +285,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 12: Implement field example parity depth](12-implement-field-example-parity-depth.md)
   — **Pass**
+- [Experiment 13: Audit button-group example parity](13-audit-button-group-example-parity.md)
+  — **Designed**
