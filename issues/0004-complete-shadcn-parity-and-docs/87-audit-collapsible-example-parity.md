@@ -181,3 +181,126 @@ verification has concrete pass/fail criteria and hygiene checks, vendor
 checkouts are clean, and the technical target matches upstream
 `collapsible-demo` while current RadCN evidence supports the likely-gap
 framing.
+
+## Result
+
+**Result:** Partial
+
+Created `collapsible-example-inventory.md` for the single direct upstream New
+York v4 Collapsible example, `collapsible-demo`. The audit confirms RadCN
+already covers dependency-free native `details`/`summary` disclosure markup,
+public Collapsible/Trigger/Content hooks, closed and open rendering, click,
+Enter, and Space toggling, disabled non-interactive state, hidden disabled
+content, content visibility, icon hooks, and custom tokens.
+
+The direct Collapsible cluster remains partial because current docs, fixtures,
+and tests do not prove the exact named upstream `collapsible-demo`
+composition: `@peduarte starred 3 repositories`, accessible `Toggle`
+icon-only trigger, ghost Button `size="icon"`/`size-8` styling, `asChild`
+mapping, app-owned chevrons icon, always-visible `@radix-ui/primitives` row,
+toggled `@radix-ui/colors` and `@stitches/react` rows, 350px flex-column root
+layout, header row layout, rounded bordered monospace row styling, default
+closed named state, or the React/Radix/lucide/Tailwind mapping.
+
+Verification commands run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const vendor = fs.readdirSync('vendor/shadcn-ui/apps/v4/registry/new-york-v4/examples')
+  .filter((file) => /^collapsible.*\.tsx$/.test(file))
+  .map((file) => file.replace(/\.tsx$/, ''))
+  .sort()
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md', 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|[^\n]+/gm)].map((match) => match[1]).sort()
+console.log(`vendor: ${vendor.join(', ')}`)
+console.log(`inventory: ${rows.join(', ')}`)
+if (vendor.length !== 1 || vendor[0] !== 'collapsible-demo') process.exit(1)
+if (rows.length !== 1 || rows[0] !== 'collapsible-demo') process.exit(1)
+NODE
+```
+
+Passed with `vendor: collapsible-demo` and
+`inventory: collapsible-demo`.
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const text = fs.readFileSync('issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md', 'utf8')
+const row = text.match(/^\| `collapsible-demo` \|([^\n]+)$/m)?.[0]
+if (!row) process.exit(1)
+const cells = row.split('|').map((cell) => cell.trim())
+const outcome = cells[4]
+const followUp = cells[5]
+console.log(`outcome: ${outcome}`)
+console.log(`follow-up: ${followUp}`)
+if (!['Covered', 'Partial', 'Missing', 'Intentional divergence'].includes(outcome)) process.exit(1)
+if (outcome !== 'Covered' && (!followUp || followUp === 'No follow-up.')) process.exit(1)
+NODE
+```
+
+Passed with `outcome: Partial` and a non-empty follow-up.
+
+```text
+rg -n "Experiment 87|collapsible-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+```
+
+Passed.
+
+```text
+git diff --check
+```
+
+Passed.
+
+```text
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Passed with no output.
+
+```text
+git status --short
+```
+
+Passed with only the expected audit result files:
+
+```text
+ M issues/0004-complete-shadcn-parity-and-docs/87-audit-collapsible-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/collapsible-example-inventory.md
+```
+
+## Conclusion
+
+Collapsible direct example parity is not complete yet. The next experiment
+should implement named `collapsible-demo` docs, candidate fixture, and
+Playwright coverage using RadCN's native disclosure model, explicit
+Button/icon/accessibility mapping, exact repository-list content, and
+documented React/Radix/lucide/Tailwind divergences.
+
+## Completion Review
+
+Reviewer: Schrodinger the 2nd (`019e9d93-57bf-78a3-a73b-45c1604e046e`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: the first review found that the result did not record
+  `git status --short` output even though the plan required it. Fixed by
+  recording the expected three audit result paths. The review also found that
+  the README learning recorded the audit result and gaps but not the next
+  recommended experiment. Fixed by adding that the next experiment should
+  implement named `collapsible-demo` docs, candidate fixture, and Playwright
+  coverage.
+- Minor: none.
+
+Re-review: the reviewer confirmed both Major findings are resolved. The result
+now records `git status --short` with only the expected three audit result
+paths, and the README learning now states the next experiment should implement
+named `collapsible-demo` docs, candidate fixture, and Playwright coverage. No
+new blocker was introduced.
+
+Approval: approved.

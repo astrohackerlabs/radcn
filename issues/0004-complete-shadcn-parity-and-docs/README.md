@@ -1147,6 +1147,19 @@ Record cross-component discoveries here as experiments complete.
   explicit root styles for deterministic overlap and ring evidence. The
   regenerated parity inventory marks `avatar` resolved and recommends auditing
   `collapsible` examples next.
+- Experiment 87 audited direct Collapsible example parity in
+  `collapsible-example-inventory.md`. RadCN already covers dependency-free
+  native `details`/`summary` disclosure behavior, closed/open rendering,
+  keyboard toggling, disabled non-interactive state, content visibility, public
+  hooks, and custom tokens. The direct Collapsible cluster remains partial
+  because docs, fixtures, and tests do not yet prove the named upstream
+  `collapsible-demo` composition: exact `@peduarte starred 3 repositories`
+  heading, accessible `Toggle` icon trigger, ghost Button/`asChild` mapping,
+  always-visible `@radix-ui/primitives` row, toggled `@radix-ui/colors` and
+  `@stitches/react` rows, 350px flex-column layout, header row layout, rounded
+  bordered monospace row styling, app-owned chevrons icon, and the
+  React/Radix/lucide/Tailwind mapping. The next experiment should implement
+  named `collapsible-demo` docs, candidate fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1323,4 +1336,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 86: Implement avatar example parity depth](86-implement-avatar-example-parity-depth.md)
   — **Pass**
 - [Experiment 87: Audit collapsible example parity](87-audit-collapsible-example-parity.md)
-  — **Designed**
+  — **Partial**
