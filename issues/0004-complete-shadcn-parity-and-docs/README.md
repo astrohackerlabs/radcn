@@ -1588,6 +1588,20 @@ Record cross-component discoveries here as experiments complete.
   `data-state`/vendor divergences. Docs now scope `enhanceTabs` to the named
   demo. `tabs` is resolved in the example queue; the next generated
   recommendation is example parity for `tooltip`.
+- Experiment 120 audited Tooltip direct example parity in
+  `tooltip-example-inventory.md`. RadCN already has strong Tooltip substrate
+  with dependency-free `enhanceTooltip`, provider/root/trigger/portal/content/
+  arrow hooks, hover/focus opening, `role="tooltip"`, `aria-describedby`,
+  portal movement, arrow rendering, side and side-offset metadata, delay
+  metadata, content-hover behavior, generic docs rendering, Kbd/InputGroup
+  composition evidence, and custom-token evidence in positioned overlay
+  tests. The direct upstream `tooltip-demo` remains partial because no named
+  docs, candidate fixture, or Playwright evidence currently proves the exact
+  `Hover` outline Button trigger, `Add to library` content, Button-as-child
+  mapping decision, source snippet, and React/Radix/Tailwind/`cn`/
+  `className`/`data-slot`/`data-state`/`data-side` divergence copy. The next
+  experiment should implement named `tooltip-demo` docs, fixture, and
+  Playwright parity.
 
 ## Experiments
 
@@ -1830,4 +1844,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 119: Implement tabs example parity depth](119-implement-tabs-example-parity-depth.md)
   — **Pass**
 - [Experiment 120: Audit tooltip example parity](120-audit-tooltip-example-parity.md)
-  — **Designed**
+  — **Partial**

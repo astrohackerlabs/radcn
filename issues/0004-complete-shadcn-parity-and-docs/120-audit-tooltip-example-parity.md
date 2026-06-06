@@ -170,3 +170,69 @@ pass/fail criteria and hygiene checks, vendor cleanliness is planned, the
 generated inventory lists `tooltip` as the only unresolved example cluster,
 upstream registry/source evidence matches `tooltip-demo`, and no
 implementation work has started before the plan commit.
+
+## Result
+
+**Result:** Partial
+
+Added `tooltip-example-inventory.md` and audited the single direct upstream
+Tooltip example cluster, `tooltip-demo`.
+
+The audit found that RadCN already has strong Tooltip substrate:
+dependency-free `enhanceTooltip`, provider/root/trigger/portal/content/arrow
+hooks, hover/focus opening, `role="tooltip"`, `aria-describedby`, portal
+movement, arrow rendering, side and side-offset metadata, delay metadata,
+content-hover behavior, generic docs rendering, Kbd/InputGroup Tooltip
+composition evidence, and custom-token evidence.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `tooltip-demo` docs page, candidate fixture route, or Playwright tests
+for the exact upstream `Hover` outline Button trigger, `Add to library`
+content, Button-as-child mapping decision, source snippet, provider/default
+delay mapping, sideOffset mapping, portal/arrow evidence tied to the named
+demo, and React/Radix/Tailwind/`cn`/`className`/`data-slot`/`data-state`/
+`data-side` divergence copy.
+
+Verification run:
+
+```text
+node deterministic check for direct tooltip registry/file/inventory count
+node deterministic check for tooltip-demo row outcome and follow-up
+node deterministic check for required upstream mechanics and required RadCN evidence paths
+rg -n "Experiment 120|tooltip-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor | sed '/^vendor\/.gitignore$/d'
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. `git status --short` showed only the Experiment 120 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Tooltip direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `tooltip-demo` parity
+in docs, candidate fixtures, and Playwright coverage, then update
+`tooltip-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: Nash the 3rd (`019e9f00-6329-7ca0-adf2-755d7a4a40bf`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the completed experiment stayed within the
+approved audit-only scope, the `Partial` outcome is supported, the experiment
+has `Result` and `Conclusion`, the Issue 4 README status and learning match
+the result, the inventory records exactly one direct row and the remaining
+named-demo gap, upstream and current RadCN evidence support the audit, hygiene
+and count checks passed, vendor cleanliness was checked, and the result commit
+had not been made before review.
