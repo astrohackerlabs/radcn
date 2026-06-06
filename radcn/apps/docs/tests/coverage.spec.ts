@@ -158,6 +158,36 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('React prop spreading maps to explicit Remix UI props').first()).toBeVisible()
     await expect(page.getByText('Autosize behavior, form-library integration, toast results, and icon presentation are app-owned').first()).toBeVisible()
 
+    await page.goto('/docs/components/toast')
+    for (let slug of [
+      'toast-demo',
+      'toast-destructive',
+      'toast-simple',
+      'toast-with-action',
+      'toast-with-title',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-toast-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-demo"] [data-radcn-button]')).toHaveText('Add to calendar')
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-demo"] [data-radcn-toast-action]')).toHaveText('Undo')
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-destructive"] [data-radcn-toast]')).toHaveAttribute('data-type', 'error')
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-simple"] [data-radcn-toast-title]')).toHaveCount(0)
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-simple"] [data-radcn-toast-description]')).toHaveText('Your message has been sent.')
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-with-action"] [data-radcn-toast-action]')).toHaveText('Try again')
+    await expect(page.locator('[data-radcn-docs-toast-family="toast-with-title"] [data-radcn-toast-action]')).toHaveCount(0)
+    await expect(page.getByText('createToastEvent').first()).toBeVisible()
+    await expect(page.getByText('toast').first()).toBeVisible()
+    await expect(page.getByText('Toaster').first()).toBeVisible()
+    await expect(page.getByText('Button').first()).toBeVisible()
+    await expect(page.getByText('actionLabel').first()).toBeVisible()
+    await expect(page.getByText('actionUrl').first()).toBeVisible()
+    await expect(page.getByText('type: "error"').first()).toBeVisible()
+    await expect(page.getByText('Description-only payloads are valid').first()).toBeVisible()
+    await expect(page.getByText('useToast maps to explicit toast()').first()).toBeVisible()
+    await expect(page.getByText('ToastAction maps to actionLabel and actionUrl').first()).toBeVisible()
+    await expect(page.getByText('Current upstream sonner examples are tracked separately').first()).toBeVisible()
+    await expect(page.getByText('does not depend on React, Sonner, lucide, next-themes').first()).toBeVisible()
+
     await page.goto('/docs/components/dialog')
     await expect(page.locator('[data-radcn-dialog-content]').first()).toBeVisible()
 

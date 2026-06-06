@@ -43,6 +43,10 @@ function toastLabel(payload: Pick<ToastPayload, 'description' | 'title'>) {
   return [payload.title, payload.description].filter(Boolean).join(' ')
 }
 
+function hasToastContent(payload: ToastPayload | undefined): payload is ToastPayload {
+  return Boolean(payload?.title || payload?.description)
+}
+
 function safeDuration(duration: number | undefined, fallback: number | undefined) {
   if (typeof duration === 'number' && Number.isFinite(duration)) return Math.max(0, duration)
   if (typeof fallback === 'number' && Number.isFinite(fallback)) return Math.max(0, fallback)
@@ -84,6 +88,7 @@ function renderToast(payload: ToastPayload, defaultDuration: number) {
   let id = payload.id || `radcn-toast-${Date.now()}-${Math.round(Math.random() * 1000)}`
   let dismissible = payload.dismissible !== false
   let duration = safeDuration(payload.duration, defaultDuration)
+  let title = payload.title ? `<div class="radcn-toast-title" data-radcn-toast-title>${escapeText(payload.title)}</div>` : ''
   let description = payload.description ? `<div class="radcn-toast-description" data-radcn-toast-description>${escapeText(payload.description)}</div>` : ''
   let action = payload.actionLabel
     ? `<a class="radcn-toast-action" data-radcn-toast-action href="${escapeText(payload.actionUrl || '#')}">${escapeText(payload.actionLabel)}</a>`
@@ -103,7 +108,7 @@ function renderToast(payload: ToastPayload, defaultDuration: number) {
   node.innerHTML = `
     <span aria-hidden="true" class="radcn-toast-icon" data-radcn-toast-icon>${escapeText(toastIcon(type))}</span>
     <div class="radcn-toast-body" data-radcn-toast-body>
-      <div class="radcn-toast-title" data-radcn-toast-title>${escapeText(payload.title)}</div>
+      ${title}
       ${description}
     </div>
     ${action}
@@ -144,7 +149,7 @@ function setupToaster(root: HTMLElement) {
 
   window.addEventListener(RADCN_TOAST_EVENT, (event) => {
     let payload = (event as CustomEvent<ToastPayload>).detail
-    if (!payload?.title) return
+    if (!hasToastContent(payload)) return
     list.append(renderToast(payload, defaultDuration))
   })
 
@@ -161,13 +166,14 @@ function setupToastTriggers(root: ParentNode) {
     let trigger = target.closest<HTMLElement>('[data-radcn-toast-trigger]')
     if (!trigger) return
     let title = trigger.dataset.toastTitle
-    if (!title) return
+    let description = trigger.dataset.toastDescription
+    if (!title && !description) return
     event.preventDefault()
     window.dispatchEvent(new CustomEvent<ToastPayload>(RADCN_TOAST_EVENT, {
       detail: {
         actionLabel: trigger.dataset.toastActionLabel,
         actionUrl: trigger.dataset.toastActionUrl,
-        description: trigger.dataset.toastDescription,
+        description,
         dismissible: trigger.dataset.toastDismissible === 'false' ? false : undefined,
         duration: trigger.dataset.toastDuration ? Number(trigger.dataset.toastDuration) : undefined,
         id: trigger.dataset.toastId,
@@ -210,7 +216,7 @@ export function Toaster(handle: Handle<ToasterProps>) {
         style={style}
       >
         <ol class="radcn-toaster-list" data-radcn-toaster-list>
-          {toasts.map((item, index) => (
+          {toasts.filter(hasToastContent).map((item, index) => (
             <Toast
               actionLabel={item.actionLabel}
               actionUrl={item.actionUrl}
@@ -261,7 +267,7 @@ export function Toast(handle: Handle<ToastProps>) {
       >
         <span aria-hidden="true" class="radcn-toast-icon" data-radcn-toast-icon>{toastIcon(type)}</span>
         <div class="radcn-toast-body" data-radcn-toast-body>
-          <div class="radcn-toast-title" data-radcn-toast-title>{title}</div>
+          {title ? <div class="radcn-toast-title" data-radcn-toast-title>{title}</div> : undefined}
           {description ? <div class="radcn-toast-description" data-radcn-toast-description>{description}</div> : undefined}
           {children}
         </div>

@@ -1239,6 +1239,36 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "toast",
+    id: "demo",
+    title: "Toast Demo",
+    description: "Deprecated shadcn toast demo mapped to a RadCN browser event and action.",
+  },
+  {
+    component: "toast",
+    id: "destructive",
+    title: "Toast Destructive",
+    description: "Deprecated shadcn destructive toast mapped to RadCN error semantics.",
+  },
+  {
+    component: "toast",
+    id: "simple",
+    title: "Toast Simple",
+    description: "Description-only toast payload dispatched through RadCN enhancement.",
+  },
+  {
+    component: "toast",
+    id: "with-action",
+    title: "Toast With Action",
+    description: "Title, description, and action toast payload.",
+  },
+  {
+    component: "toast",
+    id: "with-title",
+    title: "Toast With Title",
+    description: "Title and description toast payload.",
+  },
+  {
+    component: "toast",
     id: "form-action",
     title: "Toast Form Action",
     description: "Server-rendered action-state notification pattern.",
@@ -1248,6 +1278,12 @@ export const fixtureScenarios: FixtureScenario[] = [
     id: "no-js-initial",
     title: "No-JS Initial Toast",
     description: "Initial notification rendered without client notification state.",
+  },
+  {
+    component: "toast",
+    id: "empty-payload",
+    title: "Empty Toast Payload",
+    description: "Empty server-rendered toast payloads are ignored.",
   },
   {
     component: "resizable",

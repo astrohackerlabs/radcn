@@ -621,6 +621,13 @@ Record cross-component discoveries here as experiments complete.
   payload behavior, map shadcn `destructive` to RadCN `type: "error"`, and add
   explicit deprecated toast example coverage without conflating this cluster
   with the separate unresolved `sonner` examples.
+- Experiment 40 completed deprecated toast example parity depth. RadCN now
+  supports description-only toast payloads, maps shadcn destructive toast
+  behavior to `type: "error"`, and has named docs, fixture, and Playwright
+  evidence for `toast-demo`, `toast-destructive`, `toast-simple`,
+  `toast-with-action`, and `toast-with-title`. `sonner` remains a separate
+  unresolved current-upstream notification cluster, and the regenerated parity
+  inventory now recommends auditing `badge` examples next.
 
 ## Experiments
 
@@ -703,4 +710,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 39: Audit toast example parity](39-audit-toast-example-parity.md)
   — **Pass**
 - [Experiment 40: Implement toast example parity depth](40-implement-toast-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

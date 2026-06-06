@@ -1044,6 +1044,60 @@ export function SonnerPreview() {
   )
 }`
 
+const toastSource = `import { Button } from 'radcn/button'
+import { Toaster } from 'radcn/sonner'
+import { createToastEvent, toast } from 'radcn/toast'
+
+export function ToastPreview() {
+  return (
+    <div class="toast-examples">
+      <span
+        data-radcn-toast-trigger
+        data-toast-action-label="Undo"
+        data-toast-action-url="#undo"
+        data-toast-description="Friday, February 10, 2023 at 5:57 PM"
+        data-toast-title="Scheduled: Catch up"
+      >
+        <Button>Add to calendar</Button>
+      </span>
+
+      <span
+        data-radcn-toast-trigger
+        data-toast-action-label="Try again"
+        data-toast-action-url="#try-again"
+        data-toast-description="There was a problem with your request."
+        data-toast-title="Uh oh! Something went wrong."
+        data-toast-type="error"
+      >
+        <Button>Show Toast</Button>
+      </span>
+
+      <span
+        data-radcn-toast-trigger
+        data-toast-description="Your message has been sent."
+      >
+        <Button>Show Toast</Button>
+      </span>
+
+      <Toaster defaultDuration={0} />
+    </div>
+  )
+}
+
+export function dispatchToast() {
+  toast({
+    actionLabel: 'Try again',
+    actionUrl: '#try-again',
+    description: 'There was a problem with your request.',
+    title: 'Uh oh! Something went wrong.',
+    type: 'error',
+  })
+
+  window.dispatchEvent(createToastEvent({
+    description: 'Your message has been sent.',
+  }))
+}`
+
 const breadcrumbSource = `import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from 'radcn/breadcrumb'
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger } from 'radcn/drawer'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from 'radcn/dropdown-menu'
@@ -2309,6 +2363,129 @@ function SonnerPreview() {
           },
         ]}
       />
+    </div>
+  )
+}
+
+function ToastPreview() {
+  return () => (
+    <div style="display:grid;gap:1rem;width:min(100%,42rem)">
+      <div data-radcn-docs-toast-family="toast-demo" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-action-label="Undo"
+          data-toast-action-url="#undo"
+          data-toast-description="Friday, February 10, 2023 at 5:57 PM"
+          data-toast-duration="0"
+          data-toast-title="Scheduled: Catch up"
+        >
+          <Button>Add to calendar</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            actionLabel: 'Undo',
+            actionUrl: '#undo',
+            description: 'Friday, February 10, 2023 at 5:57 PM',
+            id: 'docs-toast-demo',
+            title: 'Scheduled: Catch up',
+          }]}
+        />
+      </div>
+
+      <div data-radcn-docs-toast-family="toast-destructive" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-action-label="Try again"
+          data-toast-action-url="#try-again"
+          data-toast-description="There was a problem with your request."
+          data-toast-duration="0"
+          data-toast-title="Uh oh! Something went wrong."
+          data-toast-type="error"
+        >
+          <Button>Show Toast</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            actionLabel: 'Try again',
+            actionUrl: '#try-again',
+            description: 'There was a problem with your request.',
+            id: 'docs-toast-destructive',
+            title: 'Uh oh! Something went wrong.',
+            type: 'error',
+          }]}
+        />
+      </div>
+
+      <div data-radcn-docs-toast-family="toast-simple" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-description="Your message has been sent."
+          data-toast-duration="0"
+        >
+          <Button>Show Toast</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            description: 'Your message has been sent.',
+            id: 'docs-toast-simple',
+          }]}
+        />
+      </div>
+
+      <div data-radcn-docs-toast-family="toast-with-action" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-action-label="Try again"
+          data-toast-action-url="#try-again"
+          data-toast-description="There was a problem with your request."
+          data-toast-duration="0"
+          data-toast-title="Uh oh! Something went wrong."
+        >
+          <Button>Show Toast</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            actionLabel: 'Try again',
+            actionUrl: '#try-again',
+            description: 'There was a problem with your request.',
+            id: 'docs-toast-with-action',
+            title: 'Uh oh! Something went wrong.',
+          }]}
+        />
+      </div>
+
+      <div data-radcn-docs-toast-family="toast-with-title" mix={previewFieldStyle}>
+        <span
+          data-radcn-toast-trigger
+          data-toast-description="There was a problem with your request."
+          data-toast-duration="0"
+          data-toast-title="Uh oh! Something went wrong."
+        >
+          <Button>Show Toast</Button>
+        </span>
+        <Toaster
+          defaultDuration={0}
+          position="bottom-right"
+          style="position: static; width: min(100%, 28rem);"
+          toasts={[{
+            description: 'There was a problem with your request.',
+            id: 'docs-toast-with-title',
+            title: 'Uh oh! Something went wrong.',
+          }]}
+        />
+      </div>
     </div>
   )
 }
@@ -4264,6 +4441,47 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'RadCN keeps the event bridge explicit with enhanceToaster and the RadCN toast event instead of React context.',
       'Initial toasts can be server-rendered, while later notifications are appended by browser enhancement.',
+    ],
+  },
+  {
+    slug: 'toast',
+    title: 'Toast Event Helper',
+    category: 'Helpers',
+    kind: 'helper',
+    disposition: 'helper',
+    status: 'ready',
+    summary:
+      'A browser-owned event helper for dispatching RadCN toasts rendered by the package Toaster.',
+    importPath: 'radcn/toast',
+    importExample: "import { createToastEvent, toast } from 'radcn/toast'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'deprecated-toast-parity',
+        title: 'Deprecated Toast Parity',
+        description:
+          'Map the five deprecated shadcn toast examples to RadCN browser events, Toaster data, actions, and error type semantics.',
+        source: toastSource,
+        preview: <ToastPreview />,
+      },
+    ],
+    accessibility: [
+      'Toaster renders a named notification region while each toast uses status or alert roles based on type.',
+      'Description-only payloads are valid, so simple notifications do not need a synthetic title.',
+      'Destructive shadcn variants map to RadCN type: "error", which uses alert semantics and assertive live-region behavior.',
+      'Toast actions render as focused links with data-radcn-toast-action; richer controls stay app-owned composition.',
+    ],
+    customization: [
+      'createToastEvent and toast dispatch RADCN_TOAST_EVENT payloads from browser-owned code.',
+      'Button triggers use native attributes such as data-radcn-toast-trigger, data-toast-title, data-toast-description, data-toast-action-label, data-toast-action-url, and data-toast-type.',
+      'ToastAction maps to actionLabel and actionUrl, while useToast maps to explicit toast(), createToastEvent(), data triggers, or server-rendered Toaster state.',
+      'data-slot and Tailwind utility styling map to RadCN public hooks, classes, CSS variables, and app layout wrappers.',
+    ],
+    divergence: [
+      'Current upstream sonner examples are tracked separately from the deprecated toast example cluster.',
+      'RadCN toast does not depend on React, Sonner, lucide, next-themes, Tailwind, Radix toast internals, or vendor source.',
+      'React click handlers map to native Button/form behavior plus browser enhancement rather than React context.',
+      'Server-rendered initial notifications belong to Toaster data; later notifications append through the explicit browser event helper.',
     ],
   },
   {

@@ -71,6 +71,43 @@ test('candidate toast event dispatches browser notifications', async ({ page }) 
   await expect(page.locator('[data-radcn-toast-description]')).toHaveText('The RadCN toaster listens for browser events.')
 })
 
+test('candidate toast covers deprecated shadcn toast examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/toast/demo`)
+  await expect(page.locator('[data-radcn-toast]')).toHaveCount(0)
+  await page.getByRole('button', { name: 'Add to calendar' }).click()
+  await expect(page.getByRole('status', { name: /Scheduled: Catch up/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast-title]')).toHaveText('Scheduled: Catch up')
+  await expect(page.locator('[data-radcn-toast-description]')).toHaveText('Friday, February 10, 2023 at 5:57 PM')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveText('Undo')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveAttribute('href', '/fixtures/toast/demo?undo=1')
+
+  await page.goto(`${candidate}/fixtures/toast/destructive`)
+  await page.getByRole('button', { name: 'Show Toast' }).click()
+  await expect(page.getByRole('alert', { name: /Uh oh! Something went wrong/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast]')).toHaveAttribute('data-type', 'error')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveText('Try again')
+
+  await page.goto(`${candidate}/fixtures/toast/simple`)
+  await page.getByRole('button', { name: 'Show Toast' }).click()
+  await expect(page.getByRole('status', { name: /Your message has been sent/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast-title]')).toHaveCount(0)
+  await expect(page.locator('[data-radcn-toast-description]')).toHaveText('Your message has been sent.')
+
+  await page.goto(`${candidate}/fixtures/toast/with-action`)
+  await page.getByRole('button', { name: 'Show Toast' }).click()
+  await expect(page.getByRole('status', { name: /Uh oh! Something went wrong/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast-title]')).toHaveText('Uh oh! Something went wrong.')
+  await expect(page.locator('[data-radcn-toast-description]')).toHaveText('There was a problem with your request.')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveText('Try again')
+
+  await page.goto(`${candidate}/fixtures/toast/with-title`)
+  await page.getByRole('button', { name: 'Show Toast' }).click()
+  await expect(page.getByRole('status', { name: /Uh oh! Something went wrong/ })).toBeVisible()
+  await expect(page.locator('[data-radcn-toast-title]')).toHaveText('Uh oh! Something went wrong.')
+  await expect(page.locator('[data-radcn-toast-description]')).toHaveText('There was a problem with your request.')
+  await expect(page.locator('[data-radcn-toast-action]')).toHaveCount(0)
+})
+
 test('candidate toast disposition supports server rendered action and no-js initial patterns', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/toast/form-action`)
   await expect(page.locator('[data-radcn-toast-recipe]')).toHaveCount(1)
@@ -81,4 +118,8 @@ test('candidate toast disposition supports server rendered action and no-js init
   await page.goto(`${candidate}/fixtures/toast/no-js-initial`)
   await expect(page.getByRole('status', { name: /Server notification/ })).toBeVisible()
   await expect(page.locator('[data-radcn-toast]')).toHaveCount(1)
+
+  await page.goto(`${candidate}/fixtures/toast/empty-payload`)
+  await expect(page.locator('[data-radcn-toast-recipe]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-toast]')).toHaveCount(0)
 })

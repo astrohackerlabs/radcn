@@ -44,37 +44,35 @@ package `Toaster` and `Toast` renderer; the fixture app proves browser event
 toasts, server-rendered initial toasts, no-JS initial toasts, action links,
 dismiss behavior, stacks, variants, and accessible `status`/`alert` roles.
 
-The deprecated example cluster is still `Partial`, not resolved, because RadCN
-does not yet provide named docs/fixture/Playwright evidence for the five
-deprecated toast example ids and because the description-only upstream
-`toast-simple` payload cannot currently be represented as-is: `ToastPayload`
-requires `title`, `setupToastTriggers` ignores triggers without
-`data-toast-title`, and `setupToaster` ignores dispatched toast events whose
-payload lacks `title`.
+The deprecated example cluster is now covered. Experiment 40 added named docs,
+fixture, and Playwright evidence for all five deprecated toast example ids,
+made description-only payloads valid, and recorded the destructive-to-error
+mapping. Current upstream `sonner` examples remain a separate unresolved
+notification cluster.
 
 ## Examples
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `toast-demo` | Outline Button labeled "Add to calendar" opens a toast with title, description, and Undo action. | React `useToast`, `Button`, and `ToastAction`; action has `altText` and visible "Undo" text. | `radcn/sonner` supports `title`, `description`, `actionLabel`, `actionUrl`, and `status` roles; `radcn/toast` can dispatch event payloads; fixture `toast/event` proves Button-like trigger plus event toast, and `sonner/action` proves action link. | Partial | Add a named docs/fixture example mapping this to Button composition plus `data-radcn-toast-trigger` or explicit `toast()`/`createToastEvent`, including an Undo action. |
-| `toast-destructive` | Outline Button labeled "Show Toast" opens a destructive toast with title, description, and Try again action. | React `useToast` with `variant: "destructive"`, `Button`, and `ToastAction`. | RadCN has no `destructive` toast type, but `ToastType` includes `error`; `sonner/error` proves alert semantics and error styling, and `sonner/action` proves action links. | Partial | Document and test the mapping from shadcn `variant: "destructive"` to RadCN `type: "error"` with a Try again action. |
-| `toast-simple` | Outline Button labeled "Show Toast" opens a description-only toast saying "Your message has been sent." | React `useToast` accepts a payload with `description` and no `title`. | RadCN can render descriptions when a title exists, but `ToastPayload.title` is required; trigger enhancement and event handling both ignore titleless payloads. | Missing | Decide whether RadCN should support description-only toast payloads. If yes, update package types, rendering, trigger enhancement, docs, fixtures, and Playwright coverage. |
-| `toast-with-action` | Outline Button labeled "Show Toast" opens a title+description toast with Try again action. | React `useToast`, `Button`, and `ToastAction`. | `sonner/action` proves action links; `toast/form-action` proves server-rendered action-state notification; `toast/event` proves event-triggered browser notification, but no named deprecated toast-with-action route exists. | Partial | Add named browser-event and/or server-state evidence for title+description+action toast behavior. |
-| `toast-with-title` | Outline Button labeled "Show Toast" opens a toast with title and description and no action. | React `useToast` with `title` and `description`; `Button` trigger. | `toast/event`, `toast/form-action`, `toast/no-js-initial`, and several `sonner` fixtures prove title+description toasts, but no named deprecated toast-with-title route exists. | Partial | Add named docs/fixture evidence for the title+description-only deprecated toast pattern. |
+| `toast-demo` | Outline Button labeled "Add to calendar" opens a toast with title, description, and Undo action. | React `useToast`, `Button`, and `ToastAction`; action has `altText` and visible "Undo" text. | Docs hook `toast-demo`, fixture route `toast/demo`, and Playwright coverage prove Button composition, event dispatch, title, description, and Undo action through RadCN `Toaster` plus `radcn/toast`. | Covered | No follow-up for deprecated toast parity. |
+| `toast-destructive` | Outline Button labeled "Show Toast" opens a destructive toast with title, description, and Try again action. | React `useToast` with `variant: "destructive"`, `Button`, and `ToastAction`. | Docs hook `toast-destructive`, fixture route `toast/destructive`, package `type: "error"` support, and Playwright coverage prove destructive maps to RadCN error toast with alert semantics and Try again action. | Covered | No follow-up for deprecated toast parity. |
+| `toast-simple` | Outline Button labeled "Show Toast" opens a description-only toast saying "Your message has been sent." | React `useToast` accepts a payload with `description` and no `title`. | `ToastPayload.title` is optional, `Toaster` renders description-only payloads, docs hook `toast-simple`, fixture route `toast/simple`, and Playwright coverage prove description-only dispatch with no title element. | Covered | No follow-up for deprecated toast parity. |
+| `toast-with-action` | Outline Button labeled "Show Toast" opens a title+description toast with Try again action. | React `useToast`, `Button`, and `ToastAction`. | Docs hook `toast-with-action`, fixture route `toast/with-action`, and Playwright coverage prove title+description+action browser-event behavior. | Covered | No follow-up for deprecated toast parity. |
+| `toast-with-title` | Outline Button labeled "Show Toast" opens a toast with title and description and no action. | React `useToast` with `title` and `description`; `Button` trigger. | Docs hook `toast-with-title`, fixture route `toast/with-title`, and Playwright coverage prove title+description behavior without an action. | Covered | No follow-up for deprecated toast parity. |
 
 ## Behavior Coverage
 
 | Behavior | Current status | Evidence |
 | --- | --- | --- |
-| Title-only toast | Partial | `ToastPayload.title` is required and `Toast` always renders a title, but no named title-only deprecated toast fixture exists. |
-| Description-only toast | Missing | Upstream `toast-simple` allows `description` without `title`; RadCN currently rejects titleless events and triggers. |
+| Title-only toast | Covered primitive | `ToastPayload.title` is optional but still supported; `Toast` conditionally renders a title when present. |
+| Description-only toast | Covered | Upstream `toast-simple` allows `description` without `title`; RadCN now accepts titleless events and triggers when a description is present. |
 | Title plus description | Covered | `toast/event`, `toast/form-action`, `toast/no-js-initial`, and `sonner/*` fixtures render visible title and description content. |
-| Action | Covered primitive, partial example parity | `actionLabel` and `actionUrl` render `[data-radcn-toast-action]`; `sonner/action` proves the link, but deprecated toast ids are not named yet. |
-| Destructive/error | Covered primitive, partial example parity | RadCN maps urgency through `type: "error"` with `role="alert"` and assertive live region behavior; the deprecated `destructive` spelling is not documented as a mapping yet. |
+| Action | Covered | `actionLabel` and `actionUrl` render `[data-radcn-toast-action]`; deprecated action examples now have named docs, fixture, and Playwright evidence. |
+| Destructive/error | Covered | RadCN maps shadcn `variant: "destructive"` to `type: "error"` with `role="alert"` and assertive live region behavior. |
 | Event-triggered browser toasts | Covered primitive, partial example parity | `radcn/toast` exports `toast` and `createToastEvent`; `enhanceToaster` listens for `RADCN_TOAST_EVENT`; `toast/event` proves the behavior. |
 | Server-rendered initial toasts | Covered | `Toaster` accepts `toasts`; `toast/form-action` and `toast/no-js-initial` prove server-rendered initial notifications. |
 | No-JS initial state | Covered | `toast/no-js-initial` renders a visible toast from server HTML before client notification state. |
-| Button trigger composition | Covered primitive, partial example parity | The trigger is app markup with `data-radcn-toast-trigger` and can use RadCN `Button` styling/classes, but no named deprecated toast Button examples exist. |
+| Button trigger composition | Covered | The trigger is app markup with `data-radcn-toast-trigger` wrapping RadCN `Button` composition in the named deprecated examples. |
 | Dismiss behavior | Covered | Dismiss buttons are native buttons; Playwright proves `sonner/dismiss`; `Escape` dismissal is implemented in `enhanceToaster`. |
 | Accessible status/alert roles | Covered | `toastRole` maps `error` and `warning` to `alert`, others to `status`; notification tests assert visible `status` and `alert` roles. |
 
@@ -86,7 +84,7 @@ payload lacks `title`.
 | `useToast` React hook | Map to explicit browser-owned calls to `toast()` or `createToastEvent()`, declarative `data-radcn-toast-trigger` attributes, or route/server state rendered through `Toaster toasts`. |
 | `ToastAction` React component | Map to `actionLabel` plus `actionUrl` for package-rendered action links, or to app-owned action markup where richer controls are needed. |
 | React click handlers | Map to native button/link/form behavior plus browser enhancement. Client-only examples can use `data-radcn-toast-trigger` or an explicit listener that dispatches `RADCN_TOAST_EVENT`. |
-| `variant: "destructive"` | Map to `type: "error"` and alert semantics. This needs explicit docs and fixture coverage. |
+| `variant: "destructive"` | Map to `type: "error"` and alert semantics. This now has explicit docs, fixture, and Playwright coverage. |
 | Radix/shadcn toast internals | Do not port as dependencies; RadCN owns server-first markup, data hooks, CSS tokens, and a small browser enhancer. |
 | Sonner | Treat as adjacent current upstream notification evidence and RadCN's package renderer, not as a replacement that resolves the deprecated `toast` example ids by itself. |
 | lucide icons | Not required for deprecated toast parity. RadCN currently renders text glyphs for toast icons and should only adopt lucide where a later design/API decision requires it. |
@@ -96,16 +94,6 @@ payload lacks `title`.
 
 ## Recommendation
 
-The next experiment should implement deprecated toast example parity depth. It
-should keep `sonner` as a separate unresolved cluster, but add explicit
-deprecated toast evidence by:
-
-- supporting or intentionally rejecting description-only toast payloads with a
-  recorded API decision;
-- adding named docs examples or fixture routes for `toast-demo`,
-  `toast-destructive`, `toast-simple`, `toast-with-action`, and
-  `toast-with-title`;
-- mapping destructive to `type: "error"`;
-- proving Button-triggered browser events, title+description payloads,
-  action links, description-only behavior if supported, and accessible
-  `status`/`alert` roles with Playwright.
+Deprecated toast example parity is resolved. The next Issue 4 recommendation
+should come from the regenerated parity inventory. Current upstream `sonner`
+examples remain separate from this deprecated toast cluster.

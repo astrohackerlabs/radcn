@@ -129,6 +129,7 @@ These are documented in RadCN but are not current package exports.
 | examples | toggle | resolved | `issues/0004-complete-shadcn-parity-and-docs/33-audit-toggle-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/34-implement-toggle-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md` |
 | examples | kbd | resolved | `issues/0004-complete-shadcn-parity-and-docs/35-audit-kbd-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/36-implement-kbd-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md` |
 | examples | textarea | resolved | `issues/0004-complete-shadcn-parity-and-docs/37-audit-textarea-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/38-implement-textarea-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md` |
+| examples | toast | resolved | `issues/0004-complete-shadcn-parity-and-docs/39-audit-toast-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/40-implement-toast-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -249,7 +250,6 @@ parity decision.
 | switch | 1 | `switch-demo` |
 | table | 1 | `table-demo` |
 | tabs | 1 | `tabs-demo` |
-| toast | 5 | `toast-demo`, `toast-destructive`, `toast-simple`, `toast-with-action`, `toast-with-title` |
 | tooltip | 1 | `tooltip-demo` |
 
 ## Upstream Blocks Queue
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for toast
+**Cluster:** Example parity for badge
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for toast.
+- Audit upstream examples for badge.
 
 ## Notes
 

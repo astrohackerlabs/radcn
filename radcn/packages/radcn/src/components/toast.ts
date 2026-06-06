@@ -7,7 +7,7 @@ export interface ToastPayload {
   dismissible?: boolean
   duration?: number
   id?: string
-  title: string
+  title?: string
   type?: ToastType
 }
 

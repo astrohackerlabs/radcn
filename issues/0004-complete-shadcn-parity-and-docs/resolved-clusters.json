@@ -151,6 +151,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/38-implement-textarea-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/textarea-example-inventory.md"
       ]
+    },
+    {
+      "slug": "toast",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/39-audit-toast-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/40-implement-toast-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

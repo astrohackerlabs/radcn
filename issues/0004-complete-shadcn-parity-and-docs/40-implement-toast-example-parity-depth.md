@@ -222,3 +222,113 @@ technical plan matches Experiment 39's findings, the revised dependency grep no
 longer matches valid `radcn/sonner` imports, both listed dependency `rg`
 commands produce no output, the design review section exists, and no new
 blocker was introduced by the fixes.
+
+## Result
+
+**Result:** Pass
+
+Experiment 40 completed deprecated toast example parity depth for all five
+upstream shadcn/ui New York v4 deprecated toast examples:
+
+- `toast-demo`
+- `toast-destructive`
+- `toast-simple`
+- `toast-with-action`
+- `toast-with-title`
+
+Implementation changes:
+
+- `radcn/packages/radcn/src/components/toast.ts` now makes
+  `ToastPayload.title` optional so description-only payloads are valid.
+- `radcn/packages/radcn/src/components/sonner.tsx` now conditionally renders
+  title and description, accepts event/trigger payloads with either title or
+  description, ignores empty payloads, preserves action/dismiss/duration/data
+  hooks, and keeps `error`/`warning` toast roles as `alert`.
+- `radcn/apps/docs/app/content/components.tsx` now has a rich Toast Event
+  Helper page with stable `data-radcn-docs-toast-family` hooks for all five
+  deprecated examples, source copy for `toast`, `createToastEvent`, `Toaster`,
+  `Button`, `actionLabel`, `actionUrl`, and mapping copy for `useToast`,
+  `ToastAction`, `variant: "destructive"`, description-only payloads, and
+  Sonner separation.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/toast.tsx` now expose named
+  fixture routes for `toast/demo`, `toast/destructive`, `toast/simple`,
+  `toast/with-action`, and `toast/with-title`, plus `toast/empty-payload`
+  coverage proving empty server-rendered payloads are ignored.
+- `radcn/fixtures/tests/notifications.spec.ts` verifies the five named
+  deprecated toast routes, including Button-triggered browser events,
+  description-only payloads, actions, destructive-to-error mapping, and
+  accessible `status`/`alert` roles.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the toast docs page hooks,
+  visual evidence, and mapping copy.
+- `toast-example-inventory.md` now marks all five deprecated toast examples
+  `Covered`.
+- `resolved-clusters.json` marks `toast` resolved in the examples queue, and
+  regenerated `parity-inventory.md` now recommends `badge` while keeping
+  `sonner` unresolved separately.
+
+Verification run:
+
+- `pnpm radcn:typecheck`: pass.
+- `pnpm --dir radcn/apps/docs typecheck`: pass.
+- `pnpm fixtures:candidate:typecheck`: pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts notifications.spec.ts`:
+  pass, 6 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`:
+  pass, 5 tests.
+- Deterministic `toast-example-inventory.md` Node check: pass. Each of the five
+  deprecated toast ids appears exactly once and each row is `Covered`.
+- Deterministic `resolved-clusters.json` Node check: pass. The `toast` example
+  cluster is `resolved` with evidence for Experiments 39 and 40 plus
+  `toast-example-inventory.md`.
+- Deterministic `parity-inventory.md` Node check: pass. `toast` is absent from
+  unresolved example clusters, `sonner` remains unresolved, and the first
+  recommended cluster is now `badge`.
+- Dependency/scope import grep: pass. It produced no matches for third-party
+  React, React DOM, Sonner, `next-themes`, lucide, vendor imports, or publish
+  configuration.
+- Dependency manifest grep: pass. It produced no matches for React, React DOM,
+  Sonner, `next-themes`, or lucide dependencies.
+- `git diff --check`: pass.
+- `git status --short`: pass; only expected package, docs, fixture, test,
+  issue, resolved-cluster, and generated-inventory changes were present before
+  the result commit.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`:
+  pass; no output.
+- Playwright warning note: both Playwright suites passed while emitting the
+  existing Node `module.register()` deprecation warning and local `NO_COLOR`
+  web-server warnings.
+
+## Conclusion
+
+Deprecated toast example parity is resolved. The next experiment should follow
+the regenerated parity inventory and audit `badge` examples next, while leaving
+the separate current-upstream `sonner` example cluster for its own later audit.
+
+## Completion Review
+
+Reviewer: Feynman the 2nd (`019e9b93-7947-7480-bfc5-3544e286b276`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: initial completion review found that `Toaster` still mapped empty
+  server-rendered `toasts` payloads into empty `<Toast />` nodes. Fixed by
+  filtering `toasts` with `hasToastContent` before mapping, while preserving
+  direct explicit `<Toast>{children}</Toast>` composition. Added
+  `toast/empty-payload` fixture coverage asserting zero `[data-radcn-toast]`
+  nodes render for an empty server payload.
+- Major: the initial result record omitted `git diff --check`,
+  `git status --short`, and vendor cleanliness results. Fixed by adding those
+  verification results to the experiment record.
+- Minor: the initial result record omitted Playwright warning notes. Fixed by
+  recording the existing Node `module.register()` deprecation warning and local
+  `NO_COLOR` web-server warnings.
+
+Approval result: approved after re-review. Feynman the 2nd confirmed that the
+empty-payload blocker is resolved, the empty-payload fixture is registered and
+asserted, the missing hygiene and warning notes are recorded, no new blockers
+were introduced, `git diff --check` passed, vendor status is clean, the focused
+notification Playwright suite passed with 6 tests and the recorded existing
+warnings, and the result commit had not been made before review.
