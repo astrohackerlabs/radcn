@@ -702,3 +702,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 39: Audit toast example parity](39-audit-toast-example-parity.md)
   — **Pass**
+- [Experiment 40: Implement toast example parity depth](40-implement-toast-example-parity-depth.md)
+  — **Designed**
