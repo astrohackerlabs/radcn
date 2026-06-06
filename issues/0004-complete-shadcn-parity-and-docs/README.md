@@ -904,6 +904,11 @@ Record cross-component discoveries here as experiments complete.
   `dialog-close-button` upstream compositions: edit-profile form copy/default
   values/footer actions and share-link sr-only label/read-only input/secondary
   close action.
+- Experiment 66 should resolve Dialog example parity by adding named docs,
+  candidate fixtures, and Playwright coverage for `dialog-demo` and
+  `dialog-close-button`. The audit found no necessary Dialog package API
+  change; React, Radix, `asChild`, Tailwind, `cn`, `lucide-react`, clipboard,
+  form-state, and vendor dependencies remain out of scope.
 
 ## Experiments
 
@@ -1037,3 +1042,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 65: Audit dialog example parity](65-audit-dialog-example-parity.md)
   — **Partial**
+- [Experiment 66: Implement dialog example parity depth](66-implement-dialog-example-parity-depth.md)
+  — **Designed**
