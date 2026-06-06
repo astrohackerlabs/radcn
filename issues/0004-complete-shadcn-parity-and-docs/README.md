@@ -1514,3 +1514,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 98: Implement menubar example parity depth](98-implement-menubar-example-parity-depth.md)
   — **Pass**
+- [Experiment 99: Audit mode-toggle example parity](99-audit-mode-toggle-example-parity.md)
+  — **Designed**
