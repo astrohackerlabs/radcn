@@ -210,3 +210,70 @@ plus issue documentation, the Issue 4 README links Experiment 116 as
 `table-demo` proof, and the revised Issue 4 scope excludes upstream blocks and
 chart-gallery examples while retaining the ordinary `radcn/chart` package
 component.
+
+## Result
+
+**Result:** Partial
+
+Added `table-example-inventory.md` and audited the single direct upstream
+Table example cluster, `table-demo`.
+
+The audit found that RadCN already has strong plain Table substrate:
+dependency-free semantic table elements, container/table/caption/header/body/
+footer/row/head/cell hooks, `scope="col"` on heads, `ariaSort`, class/style
+customization, dense spacing, generic footer support, generic docs preview
+coverage, and generic fixture coverage in `navigation-collection.spec.ts`.
+
+The direct example remains partial. Current RadCN evidence does not prove a
+named `table-demo` docs page, candidate fixture route, or Playwright tests for
+the exact upstream invoice table: caption `A list of your recent invoices.`,
+headers `Invoice`, `Status`, `Method`, `Amount`, seven invoice rows `INV001`
+through `INV007`, exact statuses, methods, and amounts, footer total
+`$2,500.00`, `TableHead className="w-[100px]"`, right-aligned amount header
+and cells, `TableCell className="font-medium"` invoice ids, footer
+`colSpan={3}`, source snippet, and React/Tailwind/`cn`/`className`/
+`data-slot` divergence copy. Existing `radcn/data-table` proof is related
+composition evidence, not direct plain Table example parity.
+
+Verification run:
+
+```text
+node deterministic check for direct table registry/file/inventory count
+node deterministic check for table-demo row outcome and follow-up
+rg checks for required upstream mechanics and required RadCN evidence paths
+git diff --check
+git diff --exit-code -- pnpm-lock.yaml
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+git status --short
+```
+
+All checks passed. `git status --short` showed only the Experiment 116 result
+documentation changes before the completion review.
+
+## Conclusion
+
+Table direct example parity is not complete yet, but the remaining work is
+well-scoped. The next experiment should implement named `table-demo` parity in
+docs, candidate fixtures, and Playwright coverage, then update
+`table-example-inventory.md`, `resolved-clusters.json`, and the generated
+parity inventory.
+
+## Completion Review
+
+Reviewer: Bacon the 3rd (`019e9edd-1e39-7503-b1e5-019489c6f9c1`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment stayed documentation-only,
+the result commit had not been made before review, `git diff --check`,
+lockfile, tracked-vendor, nested vendor, deterministic direct table count, and
+deterministic outcome checks passed, the `Partial` result is supported because
+upstream `table-demo` has the exact invoice table while current RadCN evidence
+is generic plain Table plus separate DataTable coverage, and the Issue 4
+README records the learning and marks Experiment 116 `Partial`.

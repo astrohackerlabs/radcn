@@ -1536,6 +1536,20 @@ Record cross-component discoveries here as experiments complete.
   `enhanceSwitch`, and the docs and fixture browser entries call it. `switch`
   is resolved in the example queue; the next generated recommendation is
   example parity for `table`.
+- Experiment 116 audited Table direct example parity in
+  `table-example-inventory.md`. RadCN already has strong plain Table substrate
+  with semantic table elements, container/table/caption/header/body/footer/
+  row/head/cell hooks, `scope="col"` on heads, `ariaSort`, class/style
+  customization, dense spacing, generic footer support, generic docs preview
+  coverage, and generic fixture coverage in `navigation-collection.spec.ts`.
+  The direct upstream `table-demo` remains partial because no named docs,
+  candidate fixture, or Playwright evidence currently proves the exact invoice
+  caption, headers, seven rows, statuses, methods, amounts, footer total,
+  `w-[100px]`, right alignment, `font-medium`, `colSpan={3}`, source snippet,
+  and React/Tailwind/`cn`/`className`/`data-slot` divergence copy. Existing
+  `radcn/data-table` evidence is related composition work, not direct plain
+  Table example parity. The next experiment should implement named
+  `table-demo` docs, fixture, and Playwright parity.
 
 ## Experiments
 
@@ -1770,4 +1784,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 115: Implement switch example parity depth](115-implement-switch-example-parity-depth.md)
   — **Pass**
 - [Experiment 116: Audit table example parity](116-audit-table-example-parity.md)
-  — **Designed**
+  — **Partial**
