@@ -438,6 +438,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/101-implement-navigation-menu-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/navigation-menu-example-inventory.md"
       ]
+    },
+    {
+      "slug": "pagination",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/102-audit-pagination-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/103-implement-pagination-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/pagination-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

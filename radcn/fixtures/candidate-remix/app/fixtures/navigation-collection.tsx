@@ -844,16 +844,17 @@ export function renderItemFixture(fixture: FixtureScenario) {
 export function renderPaginationFixture(fixture: FixtureScenario) {
   let activePage = fixture.id === 'active' ? '3' : '2'
   let customLabels = fixture.id === 'custom-labels'
+  let href = fixture.id === 'demo' ? '#' : '/fixtures/pagination/default'
 
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem><PaginationPrevious href="/fixtures/pagination/default" text={customLabels ? 'Back' : 'Previous'} /></PaginationItem>
-        <PaginationItem><PaginationLink href="/fixtures/pagination/default">1</PaginationLink></PaginationItem>
-        <PaginationItem><PaginationLink href="/fixtures/pagination/default" isActive={activePage === '2'}>2</PaginationLink></PaginationItem>
-        <PaginationItem><PaginationLink href="/fixtures/pagination/default" isActive={activePage === '3'}>3</PaginationLink></PaginationItem>
+        <PaginationItem><PaginationPrevious href={href} text={customLabels ? 'Back' : 'Previous'} /></PaginationItem>
+        <PaginationItem><PaginationLink href={href}>1</PaginationLink></PaginationItem>
+        <PaginationItem><PaginationLink href={href} isActive={activePage === '2'}>2</PaginationLink></PaginationItem>
+        <PaginationItem><PaginationLink href={href} isActive={activePage === '3'}>3</PaginationLink></PaginationItem>
         <PaginationItem><PaginationEllipsis /></PaginationItem>
-        <PaginationItem><PaginationNext href="/fixtures/pagination/default" text={customLabels ? 'Forward' : 'Next'} /></PaginationItem>
+        <PaginationItem><PaginationNext href={href} text={customLabels ? 'Forward' : 'Next'} /></PaginationItem>
       </PaginationContent>
     </Pagination>
   )

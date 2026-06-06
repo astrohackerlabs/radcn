@@ -306,3 +306,75 @@ Re-review approved. The reviewer confirmed both prior minor findings are fixed:
 href behavior is now covered in fixture changes and pass criteria, and the
 `resolved-clusters.json` check now includes a concrete Node command validating
 slug, status, and evidence paths. No new blockers were introduced.
+
+## Result
+
+**Result:** Pass
+
+Experiment 103 implemented named `pagination-demo` parity for the direct
+upstream Pagination example. The docs site now has a rich Pagination page with
+`data-radcn-docs-pagination-family="pagination-demo"`, exact source snippet,
+upstream `href="#"` values, exact `Previous`, `1`, active `2`, `3`, ellipsis,
+and `Next` sequence, and mapping copy for React props, lucide icons,
+`buttonVariants`, Button size typing, `className`, Tailwind utilities, `cn`,
+`data-slot`, custom tokens, and vendor source.
+
+The candidate fixture now includes a named `pagination/demo` route that renders
+the same upstream sequence with hash hrefs. Existing `active` and
+`custom-labels` scenarios remain in place for active-page-`3` and label
+modifiability evidence. Package code did not need to change.
+
+Verification passed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node deterministic pagination inventory status check
+node deterministic resolved-clusters pagination evidence check
+node deterministic parity-inventory recommendation check
+node deterministic forbidden import check
+node deterministic forbidden dependency check
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The regenerated parity inventory removes `pagination` from unresolved example
+clusters. The next generated recommendation is example parity for `popover`.
+
+## Conclusion
+
+The direct Pagination example cluster is resolved. Later Pagination work should
+reuse the recorded mapping: upstream `buttonVariants`, Button size typing,
+lucide icons, Tailwind utilities, `cn`, `className`, and `data-slot` map to
+RadCN package classes, explicit props, public `data-radcn-pagination*` hooks,
+CSS variables, and app-owned icon presentation. The next Issue 4 experiment
+should audit the direct Popover example cluster.
+
+## Completion Review
+
+**Reviewer:** Singer the 3rd (`019e9e5a-831c-71c2-b133-2b8fde4edead`)
+**Fresh-context status:** fresh Codex subagent
+**Result:** Approved
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+The reviewer confirmed the implementation matches the approved scope, the
+experiment has Result and Conclusion, the Issue 4 README marks Experiment 103
+as `Pass`, learnings record the Pagination outcome and next recommendation,
+`pagination-example-inventory.md` marks `pagination-demo` as `Covered` with
+docs/fixture/Playwright evidence, `resolved-clusters.json` and
+`parity-inventory.md` are consistent, and the result commit had not been made
+before review.
+
+The reviewer reran the recorded verification commands successfully:
+typechecks, docs Playwright, fixture Playwright, deterministic inventory
+checks, forbidden import/dependency checks, `git diff --check`, lockfile check,
+vendor cleanliness, and nested `.git` check.

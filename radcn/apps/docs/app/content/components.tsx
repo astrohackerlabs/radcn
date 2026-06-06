@@ -7364,6 +7364,62 @@ const navigationMenuComponents = [
   },
 ]
 
+const paginationDemoSource = `import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from 'radcn/pagination'
+
+export function PaginationDemo() {
+  return (
+    <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious href="#" />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">1</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#" isActive>
+            2
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink href="#">3</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext href="#" />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  )
+}`
+
+function PaginationDemoPreview() {
+  return () => (
+    <div data-radcn-docs-pagination-family="pagination-demo" mix={previewRowStyle}>
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem><PaginationPrevious href="#" /></PaginationItem>
+          <PaginationItem><PaginationLink href="#">1</PaginationLink></PaginationItem>
+          <PaginationItem><PaginationLink href="#" isActive>2</PaginationLink></PaginationItem>
+          <PaginationItem><PaginationLink href="#">3</PaginationLink></PaginationItem>
+          <PaginationItem><PaginationEllipsis /></PaginationItem>
+          <PaginationItem><PaginationNext href="#" /></PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8522,6 +8578,49 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-navigation-menu* hooks.',
       'Tailwind grid, width, gap, flex-wrap, rounded, muted, transition, hidden md:block, and text utilities map to package CSS, docs-owned styles, CSS variables, and media queries.',
       'NavigationMenuIndicator is package capability evidence; the upstream demo relies on root-rendered viewport behavior rather than explicitly rendering an indicator.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'pagination',
+    title: 'Pagination',
+    category: 'Navigation',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A semantic pagination nav with list structure, active page state, previous and next links, ellipsis text, and tokenized link styling.',
+    importPath: 'radcn/pagination',
+    importExample:
+      "import { Pagination, PaginationContent, PaginationItem, PaginationLink } from 'radcn/pagination'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'pagination-demo',
+        title: 'Pagination Demo',
+        description:
+          'Render the upstream previous, 1, active 2, 3, ellipsis, and next sequence with native links and exact accessibility labels.',
+        source: paginationDemoSource,
+        preview: <PaginationDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Pagination renders a navigation landmark with aria-label="pagination" and a real list of page controls.',
+      'Previous and next are native links with accessible labels: Go to previous page and Go to next page.',
+      'The active page link renders aria-current="page", matching the upstream isActive behavior without React state.',
+      'PaginationEllipsis keeps a decorative visible/icon affordance and exposes screen-reader text More pages.',
+    ],
+    customization: [
+      'Root, content, item, link, previous, next, icon, text, and ellipsis parts expose public data-radcn-pagination hooks and package classes.',
+      'buttonVariants and Button size typing map to radcn-pagination-link classes, active-state classes, and tokenized package CSS.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-pagination* hooks.',
+      'Custom labels, route-local hrefs, classes, styles, and CSS variables remain app-owned without changing the package API.',
+    ],
+    divergence: [
+      'React component props map to explicit Remix UI props and server-rendered native nav/list/link markup.',
+      'lucide ChevronLeftIcon, ChevronRightIcon, and MoreHorizontalIcon map to RadCN-owned icon affordance hooks, not lucide-react dependencies.',
+      'Tailwind mx-auto, flex, gap, size, px, hidden sm:block, ghost, outline, and active utilities map to package CSS, classes, CSS variables, and app-owned responsive styles.',
+      'The named docs demo uses upstream href="#" values; fixture routes may use route-local hrefs as an app-owned routing divergence while preserving link semantics.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

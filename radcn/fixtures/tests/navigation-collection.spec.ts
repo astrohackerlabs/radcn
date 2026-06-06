@@ -228,6 +228,27 @@ test('candidate item covers shadcn example parity depth', async ({ page }) => {
 })
 
 test('candidate pagination exposes navigation active page and label hooks', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/pagination/demo`)
+  await expect(page.getByRole('navigation', { name: 'pagination' })).toHaveAttribute('data-radcn-pagination', '')
+  await expect(page.locator('[data-radcn-pagination-content]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-pagination-item]')).toHaveCount(6)
+  await expect(page.locator('[data-radcn-pagination-link]')).toHaveCount(5)
+  await expect(page.locator('[data-radcn-pagination-previous-text]')).toHaveText('Previous')
+  await expect(page.locator('[data-radcn-pagination-next-text]')).toHaveText('Next')
+  await expect(page.locator('[data-radcn-pagination-link]').nth(1)).toHaveText('1')
+  await expect(page.locator('[data-radcn-pagination-link][aria-current="page"]')).toHaveText('2')
+  await expect(page.locator('[data-radcn-pagination-link][aria-current="page"]')).toHaveAttribute('data-active', 'true')
+  await expect(page.locator('[data-radcn-pagination-link]').nth(3)).toHaveText('3')
+  await expect(page.locator('[data-radcn-pagination-ellipsis]')).toHaveText('...More pages')
+  await expect(page.locator('[data-radcn-pagination-ellipsis] .radcn-sr-only')).toHaveText('More pages')
+  await expect(page.locator('[data-radcn-pagination-icon="previous"]')).toHaveText('<')
+  await expect(page.locator('[data-radcn-pagination-icon="next"]')).toHaveText('>')
+  await expect(page.getByRole('link', { name: 'Go to previous page' })).toHaveAttribute('href', '#')
+  await expect(page.getByRole('link', { name: 'Go to next page' })).toHaveAttribute('href', '#')
+  for (let index of [1, 2, 3]) {
+    await expect(page.locator('[data-radcn-pagination-link]').nth(index)).toHaveAttribute('href', '#')
+  }
+
   await page.goto(`${candidate}/fixtures/pagination/active`)
   await expect(page.locator('nav[data-radcn-pagination]')).toHaveAttribute('aria-label', 'pagination')
   await expect(page.locator('[data-radcn-pagination-content]')).toHaveCount(1)

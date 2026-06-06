@@ -1155,6 +1155,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "pagination",
+    id: "demo",
+    title: "Pagination Demo",
+    description: "Named shadcn pagination demo with previous, 1, active 2, 3, ellipsis, and next links.",
+  },
+  {
+    component: "pagination",
     id: "default",
     title: "Default Pagination",
     description: "Pagination navigation with previous, pages, ellipsis, and next.",
