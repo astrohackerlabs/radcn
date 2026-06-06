@@ -977,3 +977,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 60: Resolve calendar example parity depth](60-resolve-calendar-example-parity-depth.md)
   — **Pass**
+- [Experiment 61: Audit card example parity](61-audit-card-example-parity.md)
+  — **Designed**
