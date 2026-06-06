@@ -16,6 +16,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/08-resolve-typography-outcome.md",
         "issues/0004-complete-shadcn-parity-and-docs/typography-outcome.md"
       ]
+    },
+    {
+      "slug": "button",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/09-audit-button-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/10-implement-button-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/button-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

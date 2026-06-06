@@ -137,3 +137,84 @@ been addressed and require re-review before the plan commit.
 Re-review result: approved with no blockers or major findings. Hume confirmed
 the revised design now includes the final inventory outcome check, style
 serialization check, and rendered-size assertions.
+
+## Result
+
+**Result:** Pass
+
+Experiment 10 implemented Button example parity depth. `radcn/button` now
+supports:
+
+- `variant="link"`;
+- `size="icon-sm"` and `size="icon-lg"`;
+- `ariaLabel`, rendered as `aria-label` on both native button and anchor
+  outputs.
+
+The package CSS now includes `.radcn-button--link`,
+`.radcn-button--icon-sm`, and `.radcn-button--icon-lg`, and the serialized
+`radcnStyles` export was regenerated from `tokens.css`. The docs Button preview
+now demonstrates variants, href mapping, icon-with-text, loading composition,
+accessible icon-only buttons, rounded customization, and text/icon sizes. The
+candidate fixture app and `native-controls.spec.ts` verify the same behavior,
+including rendered CSS size values.
+
+`button-example-inventory.md` now maps all 13 upstream Button examples to final
+outcomes: 12 `Covered` rows and one `Intentional divergence` row for shadcn's
+React-only `asChild` Slot behavior, which maps to RadCN's explicit `href`
+anchor path. `resolved-clusters.json` marks `button` resolved in the example
+queue, and the regenerated parity inventory advances the next recommendation to
+`field`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts native-controls.spec.ts`
+  passed: 5 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 tests.
+- `node scripts/audit-shadcn-parity.mjs` regenerated
+  `parity-inventory.md`.
+- The parity inventory regeneration diff check exited 0 and printed no diff.
+- The deterministic 13-id Button inventory check exited 0.
+- The deterministic final-outcome Button inventory check exited 0.
+- The resolved-cluster JSON check for `button` exited 0.
+- The `tokens.css` to `styles/index.ts` serialization check exited 0.
+- The old Button recommendation grep exited 1 with no matches.
+- The Button API grep found `link`, `icon-sm`, `icon-lg`, and `ariaLabel`.
+- The no-React-icon/no-vendor/no-React/no-publish scope grep exited 1 with no
+  matches.
+- `git diff --check` passed.
+- Vendor status checks for shadcn/ui, Remix, and React Router printed no
+  output.
+
+## Conclusion
+
+Button is resolved for Issue 4 example parity. The next experiment should
+follow the regenerated inventory and audit upstream `field` examples.
+
+## Completion Review
+
+Reviewer: Pascal (`019e9a53-0d0d-77c2-b97f-16b517de20d1`)
+Fresh context: yes (`fork_context: false`)
+
+Result: approved with no blockers, major findings, or minor findings.
+
+Approval evidence:
+
+- Button API includes `link`, `icon-sm`, `icon-lg`, and `ariaLabel`; both
+  anchor and button outputs render `aria-label`.
+- `tokens.css` contains the new link/icon size styles, and `styles/index.ts`
+  matches serialized `tokens.css`.
+- Docs and fixtures cover link variant, href mapping, icon-with-text, loading,
+  icon-only labels, rounded customization, and sizes.
+- Playwright asserts the required behavior and rendered dimensions.
+- `button-example-inventory.md` has all 13 upstream Button ids exactly once,
+  only `Covered` or `Intentional divergence`, and no `Partial` or `Missing`
+  rows.
+- `resolved-clusters.json` marks `button` resolved, and the parity inventory
+  now recommends `field`.
+- README status and experiment result are consistent.
+- Deterministic inventory, style synchronization, scope grep, vendor status,
+  and `git diff --check` checks passed in the read-only review.

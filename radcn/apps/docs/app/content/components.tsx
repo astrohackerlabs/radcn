@@ -370,6 +370,7 @@ const draftPreviewStyle = css({
 })
 
 const buttonSource = `import { Button } from 'radcn/button'
+import { Spinner } from 'radcn/spinner'
 
 export function ButtonPreview() {
   return (
@@ -377,6 +378,37 @@ export function ButtonPreview() {
       <Button>Deploy site</Button>
       <Button variant="secondary">Preview</Button>
       <Button variant="outline">View docs</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Delete</Button>
+      <Button variant="link">Link</Button>
+      <Button href="/docs/components/button">Href Button</Button>
+      <Button size="sm" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+        New Branch
+      </Button>
+      <Button disabled size="sm" variant="outline">
+        <Spinner ariaLabel="Submitting" />
+        Submit
+      </Button>
+      <Button ariaLabel="Submit" size="icon" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+      </Button>
+      <Button ariaLabel="Upload" class="radcn-fixture-rounded-button" size="icon" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+      </Button>
+      <Button size="sm">Small</Button>
+      <Button size="lg">Large</Button>
+      <Button ariaLabel="Submit small" size="icon-sm" variant="outline">^</Button>
+      <Button ariaLabel="Submit large" size="icon-lg" variant="outline">^</Button>
     </div>
   )
 }`
@@ -672,6 +704,37 @@ function ButtonPreview() {
       <Button>Deploy site</Button>
       <Button variant="secondary">Preview</Button>
       <Button variant="outline">View docs</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="destructive">Delete</Button>
+      <Button variant="link">Link</Button>
+      <Button href="/docs/components/button" rmxDocument>Href Button</Button>
+      <Button size="sm" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+        New Branch
+      </Button>
+      <Button disabled size="sm" variant="outline">
+        <Spinner ariaLabel="Submitting" />
+        Submit
+      </Button>
+      <Button ariaLabel="Submit" size="icon" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+      </Button>
+      <Button ariaLabel="Upload" class="radcn-fixture-rounded-button" size="icon" variant="outline">
+        <svg aria-hidden="true" fill="none" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="16">
+          <path d="M7 17 17 7" />
+          <path d="M8 7h9v9" />
+        </svg>
+      </Button>
+      <Button size="sm">Small</Button>
+      <Button size="lg">Large</Button>
+      <Button ariaLabel="Submit small" size="icon-sm" variant="outline">^</Button>
+      <Button ariaLabel="Submit large" size="icon-lg" variant="outline">^</Button>
     </div>
   )
 }
@@ -1533,14 +1596,17 @@ const richComponentDocs: ComponentDoc[] = [
     accessibility: [
       'Renders a native button by default, preserving keyboard and form behavior without client JavaScript.',
       'Renders an anchor when href is provided, so link semantics remain real links.',
+      'Icon-only buttons can use ariaLabel to provide an accessible name while the icon stays decorative.',
       'Supports disabled and aria-disabled states for unavailable actions.',
     ],
     customization: [
       'The component is styled through RadCN CSS variables such as --radcn-primary, --radcn-radius, and --radcn-control-height.',
       'Variants and sizes are expressed as data attributes and class names so app-level CSS can extend the visual system.',
+      'Loading buttons are plain composition: render a disabled Button with a nested Spinner.',
     ],
     divergence: [
       'The Remix 3 port does not wrap React components. It returns host elements from remix/ui and keeps behavior close to the platform.',
+      'shadcn/ui asChild maps to the explicit href prop in RadCN, avoiding React Slot while preserving link semantics.',
       'Composition favors explicit props and package imports instead of a generated component copy inside the consuming app.',
     ],
   },

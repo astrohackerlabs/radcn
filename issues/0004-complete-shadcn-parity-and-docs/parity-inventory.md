@@ -114,6 +114,7 @@ These are documented in RadCN but are not current package exports.
 | --- | --- | --- | --- |
 | examples | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/05-audit-form-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/06-implement-form-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/form-example-inventory.md` |
 | examples | typography | resolved | `issues/0004-complete-shadcn-parity-and-docs/08-resolve-typography-outcome.md`<br>`issues/0004-complete-shadcn-parity-and-docs/typography-outcome.md` |
+| examples | button | resolved | `issues/0004-complete-shadcn-parity-and-docs/09-audit-button-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/10-implement-button-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -201,7 +202,6 @@ parity decision.
 | avatar | 1 | `avatar-demo` |
 | badge | 4 | `badge-demo`, `badge-destructive`, `badge-outline`, `badge-secondary` |
 | breadcrumb | 6 | `breadcrumb-demo`, `breadcrumb-dropdown`, `breadcrumb-ellipsis`, `breadcrumb-link`, `breadcrumb-responsive`, `breadcrumb-separator` |
-| button | 13 | `button-as-child`, `button-default`, `button-demo`, `button-destructive`, `button-ghost`, `button-icon`, `button-link`, `button-loading`, `button-outline`, `button-rounded`, `button-secondary`, `button-size`, `button-with-icon` |
 | button-group | 11 | `button-group-demo`, `button-group-dropdown`, `button-group-input`, `button-group-input-group`, `button-group-nested`, `button-group-orientation`, `button-group-popover`, `button-group-select`, `button-group-separator`, `button-group-size`, `button-group-split` |
 | calendar | 2 | `calendar-demo`, `calendar-hijri` |
 | card | 2 | `card-demo`, `card-with-form` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for button
+**Cluster:** Example parity for field
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for button.
+- Audit upstream examples for field.
 
 ## Notes
 

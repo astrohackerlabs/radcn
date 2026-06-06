@@ -2,11 +2,12 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
-export type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive'
-export type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
+export type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'
+export type ButtonSize = 'default' | 'sm' | 'lg' | 'icon-sm' | 'icon' | 'icon-lg'
 
 export interface ButtonProps {
   ariaDisabled?: boolean
+  ariaLabel?: string
   children?: RemixNode
   class?: string
   disabled?: boolean
@@ -24,6 +25,7 @@ export function Button(handle: Handle<ButtonProps>) {
   return () => {
     let {
       ariaDisabled,
+      ariaLabel,
       children,
       class: className,
       disabled,
@@ -49,6 +51,7 @@ export function Button(handle: Handle<ButtonProps>) {
           rmx-document={rmxDocument ? '' : undefined}
           style={style}
           aria-disabled={ariaDisabled ? 'true' : undefined}
+          aria-label={ariaLabel}
         >
           {children}
         </a>
@@ -67,6 +70,7 @@ export function Button(handle: Handle<ButtonProps>) {
         type={type}
         value={value}
         aria-disabled={ariaDisabled ? 'true' : undefined}
+        aria-label={ariaLabel}
       >
         {children}
       </button>

@@ -232,6 +232,13 @@ Record cross-component discoveries here as experiments complete.
   RadCN needs `link`, `icon-sm`, and `icon-lg` Button support, an accessible
   name prop for icon-only buttons, and docs/fixture/Playwright proof for link,
   loading, icon-with-text, icon-only, rounded, and size examples.
+- Experiment 10 completed Button example parity depth. `radcn/button` now
+  supports the `link` variant, `icon-sm` and `icon-lg` sizes, and `ariaLabel`
+  for icon-only buttons. Docs, fixtures, Playwright, and
+  `button-example-inventory.md` cover all 13 upstream Button examples, with
+  shadcn's React-only `asChild` recorded as the intentional `href` mapping.
+- After Experiment 10, `button` is marked resolved in the example queue. The
+  next generated recommendation is example parity for `field`.
 
 ## Experiments
 
@@ -254,4 +261,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 9: Audit button example parity](09-audit-button-example-parity.md)
   — **Pass**
 - [Experiment 10: Implement button example parity depth](10-implement-button-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

@@ -27,6 +27,36 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "button",
+    id: "link-variant",
+    title: "Button Link Variant",
+    description: "Link-styled button variant for inline actions.",
+  },
+  {
+    component: "button",
+    id: "with-icon",
+    title: "Button With Icon",
+    description: "Small outline button with an inline icon and label.",
+  },
+  {
+    component: "button",
+    id: "loading",
+    title: "Loading Button",
+    description: "Disabled Button composed with the RadCN Spinner.",
+  },
+  {
+    component: "button",
+    id: "icon-only",
+    title: "Icon Button",
+    description: "Icon-only Button with an accessible label.",
+  },
+  {
+    component: "button",
+    id: "rounded",
+    title: "Rounded Button",
+    description: "Author-customized rounded icon Button.",
+  },
+  {
+    component: "button",
     id: "sizes",
     title: "Button Sizes",
     description: "Small, default, large, and icon-sized buttons.",
