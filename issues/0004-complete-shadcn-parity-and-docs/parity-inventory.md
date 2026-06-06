@@ -118,6 +118,7 @@ These are documented in RadCN but are not current package exports.
 | examples | field | resolved | `issues/0004-complete-shadcn-parity-and-docs/11-audit-field-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/12-implement-field-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/field-example-inventory.md` |
 | examples | button-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/13-audit-button-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/14-implement-button-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md` |
 | examples | input-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/15-audit-input-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/16-implement-input-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md` |
+| examples | item | resolved | `issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/18-implement-item-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -223,7 +224,6 @@ parity decision.
 | hover-card | 1 | `hover-card-demo` |
 | input | 6 | `input-demo`, `input-disabled`, `input-file`, `input-with-button`, `input-with-label`, `input-with-text` |
 | input-otp | 4 | `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, `input-otp-separator` |
-| item | 10 | `item-avatar`, `item-demo`, `item-dropdown`, `item-group`, `item-header`, `item-icon`, `item-image`, `item-link`, `item-size`, `item-variant` |
 | kbd | 5 | `kbd-button`, `kbd-demo`, `kbd-group`, `kbd-input-group`, `kbd-tooltip` |
 | label | 1 | `label-demo` |
 | menubar | 1 | `menubar-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for item
+**Cluster:** Example parity for spinner
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for item.
+- Audit upstream examples for spinner.
 
 ## Notes
 

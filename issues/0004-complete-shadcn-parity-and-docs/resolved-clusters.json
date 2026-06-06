@@ -52,6 +52,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/16-implement-input-group-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/input-group-example-inventory.md"
       ]
+    },
+    {
+      "slug": "item",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/17-audit-item-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/18-implement-item-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

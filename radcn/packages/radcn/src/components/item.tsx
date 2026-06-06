@@ -15,8 +15,12 @@ export interface ItemGroupProps {
 export interface ItemProps {
   children?: RemixNode
   class?: string
+  href?: string
+  rel?: string
+  rmxDocument?: boolean
   size?: ItemSize
   style?: string
+  target?: string
   variant?: ItemVariant
 }
 
@@ -44,11 +48,46 @@ export function ItemGroup(handle: Handle<ItemGroupProps>) {
 
 export function Item(handle: Handle<ItemProps>) {
   return () => {
-    let { children, class: className, size = 'default', style, variant = 'default' } = handle.props
+    let {
+      children,
+      class: className,
+      href,
+      rel,
+      rmxDocument,
+      size = 'default',
+      style,
+      target,
+      variant = 'default',
+    } = handle.props
+    let itemClass = classes('radcn-item', `radcn-item--${variant}`, `radcn-item--${size}`, className)
+
+    if (href) {
+      return (
+        <div
+          class={itemClass}
+          data-radcn-item
+          data-size={size}
+          data-variant={variant}
+          role="listitem"
+          style={style}
+        >
+          <a
+            class="radcn-item-link"
+            data-radcn-item-link
+            href={href}
+            rel={rel}
+            rmx-document={rmxDocument ? '' : undefined}
+            target={target}
+          >
+            {children}
+          </a>
+        </div>
+      )
+    }
 
     return (
       <div
-        class={classes('radcn-item', `radcn-item--${variant}`, `radcn-item--${size}`, className)}
+        class={itemClass}
         data-radcn-item
         data-size={size}
         data-variant={variant}

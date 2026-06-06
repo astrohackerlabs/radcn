@@ -111,6 +111,72 @@ test('candidate item exposes group variants slots and separators', async ({ page
   await expect(page.locator('[data-radcn-item-separator]')).toHaveAttribute('role', 'separator')
 })
 
+test('candidate item covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/item/avatar`)
+  await expect(page.locator('[data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item-media] [data-radcn-avatar]')).toHaveCount(3)
+  await expect(page.locator('[data-radcn-avatar-group]')).toHaveAccessibleName('Review team')
+  await expect(page.getByRole('button', { name: 'Invite Ada Radley' })).toHaveAttribute('data-size', 'icon-sm')
+
+  await page.goto(`${candidate}/fixtures/item/demo`)
+  await expect(page.locator('[data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item][data-size="sm"] [data-radcn-item-link]')).toHaveAttribute('href', '/fixtures/item/demo')
+  await expect(page.getByRole('link', { name: /Verified profile/ })).toHaveAttribute('data-radcn-item-link', '')
+
+  await page.goto(`${candidate}/fixtures/item/dropdown`)
+  await expect(page.getByRole('button', { name: 'Open team menu' })).toHaveAttribute('aria-expanded', 'true')
+  await expect(page.locator('[data-radcn-dropdown-menu-item] [data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-dropdown-menu-item] [data-radcn-avatar]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-dropdown-menu-item]').first()).toContainText('RadCN Core')
+
+  await page.goto(`${candidate}/fixtures/item/group`)
+  await expect(page.locator('[data-radcn-item-group]')).toHaveAttribute('role', 'list')
+  await expect(page.locator('[data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item]').first()).toHaveAttribute('role', 'listitem')
+  await expect(page.locator('[data-radcn-item-separator]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Message Alex Lee' })).toHaveAttribute('data-size', 'icon-sm')
+
+  await page.goto(`${candidate}/fixtures/item/header`)
+  await expect(page.locator('[data-radcn-item-header] img')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item-header] img').first()).toHaveAttribute('src', /data:image\/svg\+xml/)
+
+  await page.goto(`${candidate}/fixtures/item/icon`)
+  await expect(page.locator('[data-radcn-item-media][data-variant="icon"]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Review' })).toHaveAttribute('data-variant', 'outline')
+
+  await page.goto(`${candidate}/fixtures/item/image`)
+  await expect(page.locator('[data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item][role="listitem"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item-link]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item-media][data-variant="image"] img')).toHaveCount(2)
+  await expect(page.locator('.radcn-fixture-item-meta').first()).toContainText('3:42')
+
+  await page.goto(`${candidate}/fixtures/item/link`)
+  await expect(page.locator('[data-radcn-item]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-item][role="listitem"]')).toHaveCount(2)
+  await expect(page.getByRole('link', { name: /Visit docs/ })).toHaveAttribute('href', '/fixtures/item/link')
+  let externalLink = page.getByRole('link', { name: /External reference/ })
+  await expect(externalLink).toHaveAttribute('href', 'https://example.com/radcn')
+  await expect(externalLink).toHaveAttribute('target', '_blank')
+  await expect(externalLink).toHaveAttribute('rel', 'noreferrer')
+
+  await page.goto(`${candidate}/fixtures/item/size`)
+  let defaultItem = page.locator('[data-radcn-item][data-size="default"]').first()
+  let smallItem = page.locator('[data-radcn-item][data-size="sm"]').first()
+  await expect(defaultItem).toBeVisible()
+  await expect(smallItem).toBeVisible()
+  let defaultBox = await defaultItem.boundingBox()
+  let smallBox = await smallItem.boundingBox()
+  expect(defaultBox?.height ?? 0).toBeGreaterThan(smallBox?.height ?? 0)
+  await expect(page.getByRole('link', { name: /Small link/ })).toHaveAttribute('href', '/fixtures/item/size')
+
+  await page.goto(`${candidate}/fixtures/item/variant`)
+  await expect(page.locator('[data-radcn-item][data-variant="default"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-item][data-variant="outline"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-item][data-variant="muted"]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-item-actions] [data-radcn-button]')).toHaveCount(3)
+})
+
 test('candidate pagination exposes navigation active page and label hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/pagination/active`)
   await expect(page.locator('nav[data-radcn-pagination]')).toHaveAttribute('aria-label', 'pagination')

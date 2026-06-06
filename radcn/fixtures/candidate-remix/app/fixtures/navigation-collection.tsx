@@ -1,5 +1,9 @@
 import type { FixtureScenario } from '../../../scenarios/types.ts'
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
   Breadcrumb,
   BreadcrumbEllipsis,
   BreadcrumbItem,
@@ -364,7 +368,97 @@ export function renderButtonGroupFixture(fixture: FixtureScenario) {
   )
 }
 
+const itemImageDataUri = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 160 120%22%3E%3Crect width=%22160%22 height=%22120%22 fill=%22%230f172a%22/%3E%3Ccircle cx=%22116%22 cy=%2236%22 r=%2220%22 fill=%22%2322c55e%22/%3E%3Cpath d=%22M0 104 48 62 78 86 106 48 160 112v8H0z%22 fill=%22%23f8fafc%22/%3E%3C/svg%3E'
+
 export function renderItemFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'avatar') {
+    return (
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia>
+            <Avatar>
+              <AvatarFallback>AR</AvatarFallback>
+            </Avatar>
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Ada Radley</ItemTitle>
+            <ItemDescription>Design systems lead</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button ariaLabel="Invite Ada Radley" size="icon-sm" variant="outline">+</Button></ItemActions>
+        </Item>
+        <Item variant="outline">
+          <ItemMedia>
+            <AvatarGroup ariaLabel="Review team">
+              <Avatar size="sm"><AvatarFallback>RC</AvatarFallback></Avatar>
+              <Avatar size="sm"><AvatarFallback>UI</AvatarFallback></Avatar>
+              <AvatarGroupCount>+2</AvatarGroupCount>
+            </AvatarGroup>
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Review team</ItemTitle>
+            <ItemDescription>Stacked avatars inside item media.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Invite</Button></ItemActions>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'demo') {
+    return (
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia variant="icon">R</ItemMedia>
+          <ItemContent>
+            <ItemTitle>RadCN workspace</ItemTitle>
+            <ItemDescription>Basic item with content and action.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
+        </Item>
+        <Item href="/fixtures/item/demo" size="sm" variant="outline">
+          <ItemMedia variant="icon">OK</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Verified profile</ItemTitle>
+            <ItemDescription>Explicit href replaces slot-based links.</ItemDescription>
+          </ItemContent>
+          <ItemActions><span aria-hidden="true">&gt;</span></ItemActions>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'dropdown') {
+    return (
+      <DropdownMenu defaultOpen id="candidate-item-dropdown">
+        <DropdownMenuTrigger ariaLabel="Open team menu" class="radcn-button radcn-button--outline radcn-button--default">Teams</DropdownMenuTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuContent align="start">
+            <DropdownMenuGroup>
+              <DropdownMenuItem textValue="RadCN Core">
+                <Item size="sm">
+                  <ItemMedia><Avatar size="sm"><AvatarFallback>RC</AvatarFallback></Avatar></ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>RadCN Core</ItemTitle>
+                    <ItemDescription>Package parity work.</ItemDescription>
+                  </ItemContent>
+                </Item>
+              </DropdownMenuItem>
+              <DropdownMenuItem textValue="Docs Studio">
+                <Item size="sm">
+                  <ItemMedia><Avatar size="sm"><AvatarFallback>DS</AvatarFallback></Avatar></ItemMedia>
+                  <ItemContent>
+                    <ItemTitle>Docs Studio</ItemTitle>
+                    <ItemDescription>Example coverage.</ItemDescription>
+                  </ItemContent>
+                </Item>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenuPortal>
+      </DropdownMenu>
+    )
+  }
+
   if (fixture.id === 'variants') {
     return (
       <ItemGroup>
@@ -381,6 +475,174 @@ export function renderItemFixture(fixture: FixtureScenario) {
             <ItemTitle>Muted item</ItemTitle>
             <ItemDescription>Extra small muted item.</ItemDescription>
           </ItemContent>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'group') {
+    return (
+      <ItemGroup>
+        <Item>
+          <ItemMedia><Avatar><AvatarFallback>AL</AvatarFallback></Avatar></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Alex Lee</ItemTitle>
+            <ItemDescription>Owns accessible fixtures.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button ariaLabel="Message Alex Lee" size="icon-sm" variant="outline">M</Button></ItemActions>
+        </Item>
+        <ItemSeparator />
+        <Item>
+          <ItemMedia><Avatar><AvatarFallback>MJ</AvatarFallback></Avatar></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Mira Jones</ItemTitle>
+            <ItemDescription>Owns documentation examples.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button ariaLabel="Message Mira Jones" size="icon-sm" variant="outline">M</Button></ItemActions>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'header') {
+    return (
+      <div style="display: grid; width: min(100%, 38rem); grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem;">
+        <Item variant="outline">
+          <ItemHeader><img alt="RadCN terrain" src={itemImageDataUri} /></ItemHeader>
+          <ItemContent>
+            <ItemTitle>Image card</ItemTitle>
+            <ItemDescription>Native static image in an item header.</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item variant="outline">
+          <ItemHeader><img alt="RadCN release" src={itemImageDataUri} /></ItemHeader>
+          <ItemContent>
+            <ItemTitle>Release note</ItemTitle>
+            <ItemDescription>No Next Image dependency required.</ItemDescription>
+          </ItemContent>
+        </Item>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'icon') {
+    return (
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia variant="icon">!</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Security alert</ItemTitle>
+            <ItemDescription>Icon media composes with review actions.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Review</Button></ItemActions>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'image') {
+    return (
+      <ItemGroup>
+        <Item href="/fixtures/item/image" variant="outline">
+          <ItemMedia variant="image"><img alt="Track cover" src={itemImageDataUri} /></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Neon server</ItemTitle>
+            <ItemDescription>RadCN Ensemble</ItemDescription>
+          </ItemContent>
+          <ItemContent class="radcn-fixture-item-meta">
+            <ItemTitle>3:42</ItemTitle>
+            <ItemDescription>Duration</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item href="/fixtures/item/image-b" variant="outline">
+          <ItemMedia variant="image"><img alt="Second track cover" src={itemImageDataUri} /></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Static routes</ItemTitle>
+            <ItemDescription>Fixture Quartet</ItemDescription>
+          </ItemContent>
+          <ItemContent class="radcn-fixture-item-meta">
+            <ItemTitle>4:08</ItemTitle>
+            <ItemDescription>Duration</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'link') {
+    return (
+      <ItemGroup>
+        <Item href="/fixtures/item/link" variant="outline">
+          <ItemMedia variant="icon">IN</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Visit docs</ItemTitle>
+            <ItemDescription>Internal link-like item row.</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item href="https://example.com/radcn" rel="noreferrer" target="_blank" variant="outline">
+          <ItemMedia variant="icon">EX</ItemMedia>
+          <ItemContent>
+            <ItemTitle>External reference</ItemTitle>
+            <ItemDescription>External anchor attributes stay native.</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'size') {
+    return (
+      <ItemGroup>
+        <Item variant="outline">
+          <ItemMedia variant="icon">D</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Default size</ItemTitle>
+            <ItemDescription>Default item spacing.</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item size="sm" variant="outline">
+          <ItemMedia variant="icon">S</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Small size</ItemTitle>
+            <ItemDescription>Compact item spacing.</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item href="/fixtures/item/size" size="sm" variant="outline">
+          <ItemMedia variant="icon">OK</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Small link</ItemTitle>
+            <ItemDescription>Small native link row.</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+    )
+  }
+
+  if (fixture.id === 'variant' || fixture.id === 'variants') {
+    return (
+      <ItemGroup>
+        <Item>
+          <ItemContent>
+            <ItemTitle>Default item</ItemTitle>
+            <ItemDescription>Default variant with action.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
+        </Item>
+        <Item variant="outline" size={fixture.id === 'variants' ? 'sm' : 'default'}>
+          <ItemMedia variant="icon">A</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Outline item</ItemTitle>
+            <ItemDescription>Outline variant with action.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
+        </Item>
+        <Item variant="muted" size={fixture.id === 'variants' ? 'xs' : 'default'}>
+          <ItemMedia variant="default">B</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Muted item</ItemTitle>
+            <ItemDescription>Muted variant with action.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
         </Item>
       </ItemGroup>
     )

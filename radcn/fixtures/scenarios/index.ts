@@ -717,6 +717,24 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "item",
+    id: "avatar",
+    title: "Item Avatar",
+    description: "Item rows with avatar media, stacked avatars, and icon-only invite actions.",
+  },
+  {
+    component: "item",
+    id: "demo",
+    title: "Item Demo",
+    description: "Basic item plus a link-like verified profile row.",
+  },
+  {
+    component: "item",
+    id: "dropdown",
+    title: "Item Dropdown",
+    description: "Dropdown menu composition with compact item rows.",
+  },
+  {
+    component: "item",
     id: "variants",
     title: "Item Variants",
     description: "Item variant, size, and media hooks.",
@@ -726,6 +744,48 @@ export const fixtureScenarios: FixtureScenario[] = [
     id: "grouped",
     title: "Grouped Items",
     description: "Item group with header, footer, and separator hooks.",
+  },
+  {
+    component: "item",
+    id: "group",
+    title: "Item Group",
+    description: "Repeated person rows with separators and item actions.",
+  },
+  {
+    component: "item",
+    id: "header",
+    title: "Item Header",
+    description: "Item header image cards with title and description content.",
+  },
+  {
+    component: "item",
+    id: "icon",
+    title: "Item Icon",
+    description: "Icon media item with a review action.",
+  },
+  {
+    component: "item",
+    id: "image",
+    title: "Item Image",
+    description: "Image media link rows with secondary duration metadata.",
+  },
+  {
+    component: "item",
+    id: "link",
+    title: "Item Link",
+    description: "Internal and external link-like item rows.",
+  },
+  {
+    component: "item",
+    id: "size",
+    title: "Item Size",
+    description: "Default and small item size matrix including a link-like small row.",
+  },
+  {
+    component: "item",
+    id: "variant",
+    title: "Item Variant",
+    description: "Default, outline, and muted item variant matrix with actions.",
   },
   {
     component: "pagination",

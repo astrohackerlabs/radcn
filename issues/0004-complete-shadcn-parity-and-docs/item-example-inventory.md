@@ -25,53 +25,52 @@ Generated during Experiment 17 on 2026-06-06.
 
 ## Summary
 
-Item example parity is not complete yet. RadCN currently exports the core
-upstream Item parts: `ItemGroup`, `Item`, `ItemMedia`, `ItemContent`,
-`ItemTitle`, `ItemDescription`, `ItemActions`, `ItemHeader`, `ItemFooter`, and
-`ItemSeparator`. Existing fixtures prove the basic package slots, list/listitem
-semantics, outline and muted variants, small and extra-small sizes, image and
-icon media hooks, header/footer slots, and separator hooks.
+Item example parity is covered after Experiment 18. RadCN exports the upstream
+Item parts: `ItemGroup`, `Item`, `ItemMedia`, `ItemContent`, `ItemTitle`,
+`ItemDescription`, `ItemActions`, `ItemHeader`, `ItemFooter`, and
+`ItemSeparator`. Experiment 18 added an explicit linked Item API through
+`href`, `target`, `rel`, and `rmxDocument`; linked rows preserve the outer
+`data-radcn-item` `role="listitem"` wrapper and render a nested native anchor
+with `data-radcn-item-link`.
 
-That coverage is strong at the primitive level, but it does not yet cover the
-full upstream Item example surface.
+The docs and candidate fixtures now cover all 10 upstream Item example
+families:
 
-The missing Item parity depth is:
-
-- link-like Item composition that maps shadcn `asChild`/Radix Slot to explicit
-  RadCN anchor semantics;
 - Avatar and stacked-avatar compositions inside `ItemMedia`;
-- DropdownMenu composition with Item rows inside menu items;
+- DropdownMenu composition with compact Item rows inside menu items;
+- grouped repeated rows with `ItemSeparator` and icon-only Button actions;
 - image-card composition in `ItemHeader`;
-- image media rows with secondary metadata content;
-- icon-only Button actions with accessible names;
-- richer default/size/variant example matrices in docs and fixtures;
-- documented mappings for React fragments/arrays, Next `Image`, external image
-  sources, and lucide icon packages.
+- image media rows with secondary duration metadata;
+- internal and external linked Items with native anchor attributes;
+- size and variant matrices with actions;
+- documented mappings for shadcn `asChild`/Radix Slot, React
+  fragments/arrays, Next `Image`, external image sources, and lucide icon
+  packages.
 
-Do not mark the `item` example cluster resolved yet. The next experiment should
-implement Item example parity depth.
+The `item` example cluster can be marked resolved in `resolved-clusters.json`
+and excluded from the unresolved recommendation queue.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `item-avatar` | Outline Items with Avatar media, user/team descriptions, stacked avatars, and invite Button actions including an icon-only invite button. | RadCN has `Avatar`, `AvatarGroup`, `Button`, and Item media/actions primitives, but current Item fixtures do not prove Avatar or stacked-avatar composition inside ItemMedia or accessible icon-only invite actions. | Partial | Add Avatar and stacked-avatar Item examples in docs/fixtures and Playwright proof for media composition plus icon-only Button accessible names. |
-| `item-demo` | Basic outline Item with title/description/action and a small link-like verified-profile Item using `asChild`, icon media, and trailing chevron. | Current default fixture proves basic Item slots and actions, but link-like Item semantics and `asChild` mapping are not proved. | Partial | Add link-like Item proof using explicit anchor semantics and record `asChild`/Slot as a RadCN divergence. |
-| `item-dropdown` | DropdownMenu trigger opens a menu whose items render compact Item rows with Avatar media, title, and description. | RadCN has DropdownMenu and Item packages, but no Item-specific DropdownMenu fixture/docs proof. | Missing | Add DropdownMenu composition proof with Item rows inside menu items, keeping menu state owned by DropdownMenu. |
-| `item-group` | ItemGroup list of people with Avatar media, ItemSeparator between rows, and icon Button actions generated from an array with React fragments. | Current grouped fixture proves ItemGroup, ItemSeparator, header, footer, and a small list, but not Avatar row lists, repeated separators, or icon-only actions. | Partial | Add repeated person-list proof with ItemSeparator and map React fragments/arrays to static server-rendered rows or app-owned data mapping. |
-| `item-header` | Grid of outline Items whose ItemHeader contains large image cards, followed by title and description content. Uses Next `Image` and external image URLs. | RadCN exports ItemHeader and current fixtures prove the header hook, but not image-card headers, grid layout, external image handling, or Next Image mapping. | Partial | Add header image-card proof using native `img` or local/static docs images; record Next `Image` and remote source handling as app/docs decisions, not package dependencies. |
-| `item-icon` | Outline Item with `ItemMedia variant="icon"`, alert icon, description, and Review Button action. | Current variants fixture proves `variant="icon"` media and action slots, but not a direct security-alert icon example with rendered action behavior. | Partial | Add representative icon media proof in docs/fixtures and keep icon package choice presentation-only. |
-| `item-image` | ItemGroup list of link-like outline Items with `ItemMedia variant="image"`, image thumbnails, title plus muted album span, artist description, and secondary duration content. | Current default fixture proves image media and title/description/actions; it does not prove link-like image rows, secondary `ItemContent`, or duration metadata. | Partial | Add image-row list proof with explicit anchors, secondary content, and native/local image mapping. |
-| `item-link` | Default and outline Items rendered as anchors, including external link attributes and trailing chevron/external-link icons. | Current Item package renders a `div` only; no docs/fixture proof maps link-like `asChild` Items to anchor semantics. | Missing | Decide whether Item needs an `href`/anchor path or a documented anchor composition, then add internal and external link proof. |
-| `item-size` | Default-size and small-size outline Items, including small link-like `asChild` Item with icon media. | Current variants fixture proves `size="sm"` and `size="xs"`, but not the upstream size matrix with link-like small Item behavior. | Partial | Add size matrix proof that includes default and small Items plus link-like small Item mapping. |
-| `item-variant` | Default, outline, and muted Items, each with title, description, and outline Button action. | Current variants fixture proves outline and muted variants, and default fixture proves default composition, but no single docs/fixture matrix proves all three upstream variants with actions. | Partial | Add variant matrix proof and mark repeated primitive behavior covered when equivalent. |
+| `item-avatar` | Outline Items with Avatar media, user/team descriptions, stacked avatars, and invite Button actions including an icon-only invite button. | Covered by `radcn/apps/docs/app/content/components.tsx`, `/fixtures/item/avatar`, and Playwright checks for Avatar media, stacked avatars, and `ariaLabel` icon-only invite actions. | Covered | None. |
+| `item-demo` | Basic outline Item with title/description/action and a small link-like verified-profile Item using `asChild`, icon media, and trailing chevron. | Covered by docs, `/fixtures/item/demo`, and Playwright proof that `href` renders a nested native anchor through `data-radcn-item-link`. `asChild`/Radix Slot maps to explicit RadCN `href`. | Covered | None. |
+| `item-dropdown` | DropdownMenu trigger opens a menu whose items render compact Item rows with Avatar media, title, and description. | Covered by docs, `/fixtures/item/dropdown`, and Playwright proof that Item rows compose inside DropdownMenu items while DropdownMenu owns menu state. | Covered | None. |
+| `item-group` | ItemGroup list of people with Avatar media, ItemSeparator between rows, and icon Button actions generated from an array with React fragments. | Covered by docs, `/fixtures/item/group`, and Playwright proof for list/listitem semantics, Avatar rows, separators, and icon-only action names. React fragments/arrays are an app/server-owned row mapping. | Covered | None. |
+| `item-header` | Grid of outline Items whose ItemHeader contains large image cards, followed by title and description content. Uses Next `Image` and external image URLs. | Covered by docs, `/fixtures/item/header`, and Playwright proof for `ItemHeader` image cards using native/static image content. Next `Image` and remote sources are intentional app/docs choices, not RadCN dependencies. | Covered | None. |
+| `item-icon` | Outline Item with `ItemMedia variant="icon"`, alert icon, description, and Review Button action. | Covered by docs, `/fixtures/item/icon`, and Playwright proof for icon media plus Review Button action. Icon packages such as lucide remain presentation choices. | Covered | None. |
+| `item-image` | ItemGroup list of link-like outline Items with `ItemMedia variant="image"`, image thumbnails, title plus muted album span, artist description, and secondary duration content. | Covered by docs, `/fixtures/item/image`, and Playwright proof for linked image rows, `variant="image"` media, native image content, and secondary duration metadata. | Covered | None. |
+| `item-link` | Default and outline Items rendered as anchors, including external link attributes and trailing chevron/external-link icons. | Covered by package `href`/`target`/`rel`/`rmxDocument` props, docs, `/fixtures/item/link`, and Playwright proof for internal and external native anchors inside listitem wrappers. | Covered | None. |
+| `item-size` | Default-size and small-size outline Items, including small link-like `asChild` Item with icon media. | Covered by docs, `/fixtures/item/size`, and Playwright proof for `data-size="default"`, `data-size="sm"`, visibly distinct row height, and a small linked Item. | Covered | None. |
+| `item-variant` | Default, outline, and muted Items, each with title, description, and outline Button action. | Covered by docs, `/fixtures/item/variant`, and Playwright proof for default, outline, and muted rows with Button actions. | Covered | None. |
 
 ## Mapping Decisions
 
-- RadCN should not port shadcn's `asChild` or Radix Slot mechanics directly.
-  Link-like Item examples should map to an explicit RadCN anchor path, a
-  documented anchor composition, or a package API chosen by the implementation
-  experiment.
+- RadCN does not port shadcn's `asChild` or Radix Slot mechanics directly.
+  Link-like Item examples map to the explicit `href` Item API. Linked Items
+  keep the row wrapper as `role="listitem"` and render a nested native anchor
+  through `data-radcn-item-link`.
 - React fragments and array mapping are not Item package requirements. RadCN
   examples can render repeated server-side rows directly or map app data to
   repeated Item markup outside the package.
@@ -92,17 +91,6 @@ implement Item example parity depth.
 
 ## Next Recommendation
 
-Implement Item example parity depth:
-
-- add docs and candidate fixtures for all 10 upstream Item examples;
-- add focused Playwright coverage for Avatar media, stacked avatars, icon media,
-  image media, link-like Items, internal/external anchors, DropdownMenu
-  composition, grouped rows/separators, header image cards, size and variant
-  matrices, secondary content, and icon-only Button actions;
-- decide whether Item needs an explicit anchor API or documented anchor
-  composition to replace shadcn `asChild`;
-- update Item styles if composition gaps appear;
-- record intentional divergences for `asChild`/Slot, React fragments/arrays,
-  Next `Image`, remote images, and icon packages;
-- then mark `item` resolved in `resolved-clusters.json` and regenerate
-  `parity-inventory.md`.
+Regenerate `parity-inventory.md` with `item` recorded in
+`resolved-clusters.json`, then follow the generated first recommendation for
+the next unresolved example, block, chart, or package outcome cluster.

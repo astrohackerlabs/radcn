@@ -317,6 +317,19 @@ Record cross-component discoveries here as experiments complete.
   presentation-only glyphs/assets rather than package dependencies.
 - After Experiment 17, the next recommended implementation cluster is Item
   example parity depth.
+- Experiment 18 completed Item example parity depth. `radcn/item` now supports
+  explicit linked rows through `href`, `target`, `rel`, and `rmxDocument` while
+  preserving the outer `data-radcn-item` `role="listitem"` wrapper and exposing
+  a nested native anchor through `data-radcn-item-link`.
+- Item docs, fixtures, and Playwright coverage now prove all 10 upstream Item
+  example families: avatar, demo, dropdown, group, header, icon, image, link,
+  size, and variant. The recorded divergences are stable for later components:
+  `asChild`/Radix Slot maps to explicit link APIs, React fragments/arrays map
+  to app/server-owned repeated rows, Next `Image` and remote image URLs map to
+  native/local/app-owned image choices, and lucide icons remain presentation
+  choices rather than package dependencies.
+- After Experiment 18, `item` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `spinner` next.
 
 ## Experiments
 
@@ -355,4 +368,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 17: Audit item example parity](17-audit-item-example-parity.md)
   — **Pass**
 - [Experiment 18: Implement item example parity depth](18-implement-item-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

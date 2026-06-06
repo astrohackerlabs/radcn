@@ -142,7 +142,18 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from 'radcn/hover-card'
 import { Input } from 'radcn/input'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea } from 'radcn/input-group'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from 'radcn/input-otp'
-import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemMedia, ItemTitle } from 'radcn/item'
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemHeader,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from 'radcn/item'
 import { Kbd, KbdGroup } from 'radcn/kbd'
 import { Label } from 'radcn/label'
 import {
@@ -547,6 +558,81 @@ export function InputGroupPreview() {
         </InputGroupAddon>
       </InputGroup>
     </div>
+  )
+}`
+
+const itemSource = `import { Avatar, AvatarFallback, AvatarGroup, AvatarGroupCount } from 'radcn/avatar'
+import { Button } from 'radcn/button'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemHeader,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from 'radcn/item'
+
+export function ItemPreview() {
+  return (
+    <ItemGroup>
+      <Item variant="outline">
+        <ItemMedia><Avatar><AvatarFallback>AR</AvatarFallback></Avatar></ItemMedia>
+        <ItemContent>
+          <ItemTitle>Ada Radley</ItemTitle>
+          <ItemDescription>Avatar media inside an Item row.</ItemDescription>
+        </ItemContent>
+        <ItemActions><Button ariaLabel="Invite Ada Radley" size="icon-sm">+</Button></ItemActions>
+      </Item>
+
+      <Item href="/docs/components/item" size="sm" variant="outline">
+        <ItemMedia variant="icon">OK</ItemMedia>
+        <ItemContent>
+          <ItemTitle>Verified profile</ItemTitle>
+          <ItemDescription>RadCN uses href instead of shadcn asChild.</ItemDescription>
+        </ItemContent>
+      </Item>
+
+      <ItemSeparator />
+
+      <Item href="https://example.com/radcn" rel="noreferrer" target="_blank" variant="muted">
+        <ItemMedia variant="image"><img alt="RadCN mark" src="/images/radcn-1-96.webp" /></ItemMedia>
+        <ItemContent>
+          <ItemTitle>External reference</ItemTitle>
+          <ItemDescription>Native anchors keep external attributes.</ItemDescription>
+        </ItemContent>
+        <ItemContent><ItemTitle>4:08</ItemTitle><ItemDescription>Duration</ItemDescription></ItemContent>
+      </Item>
+
+      <Item variant="outline">
+        <ItemHeader><img alt="RadCN robot" src="/images/radcn-1-300.webp" /></ItemHeader>
+        <ItemContent><ItemTitle>Header image card</ItemTitle></ItemContent>
+        <ItemFooter><span>Local WebP asset</span></ItemFooter>
+      </Item>
+
+      <Item variant="outline">
+        <ItemMedia>
+          <AvatarGroup ariaLabel="Review team">
+            <Avatar size="sm"><AvatarFallback>RC</AvatarFallback></Avatar>
+            <Avatar size="sm"><AvatarFallback>UI</AvatarFallback></Avatar>
+            <AvatarGroupCount>+2</AvatarGroupCount>
+          </AvatarGroup>
+        </ItemMedia>
+        <ItemContent><ItemTitle>Grouped reviewers</ItemTitle></ItemContent>
+      </Item>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger>Teams</DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem>
+            <Item size="sm"><ItemContent><ItemTitle>RadCN Core</ItemTitle></ItemContent></Item>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </ItemGroup>
   )
 }`
 
@@ -1202,6 +1288,122 @@ function InputGroupPreview() {
           </Tooltip>
         </InputGroupAddon>
       </InputGroup>
+    </div>
+  )
+}
+
+function ItemPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 44rem);">
+      <ItemGroup style="width: 100%;">
+        <Item variant="outline">
+          <ItemMedia>
+            <Avatar>
+              <AvatarFallback>AR</AvatarFallback>
+            </Avatar>
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Ada Radley</ItemTitle>
+            <ItemDescription>Avatar media and icon-only invite action.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button ariaLabel="Invite Ada Radley" size="icon-sm" variant="outline">+</Button></ItemActions>
+        </Item>
+        <Item href="/docs/components/item" size="sm" variant="outline">
+          <ItemMedia variant="icon">OK</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Verified profile</ItemTitle>
+            <ItemDescription>Explicit href replaces shadcn asChild and Radix Slot.</ItemDescription>
+          </ItemContent>
+          <ItemActions><span aria-hidden="true">&gt;</span></ItemActions>
+        </Item>
+        <ItemSeparator />
+        <Item>
+          <ItemMedia><Avatar><AvatarFallback>AL</AvatarFallback></Avatar></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Alex Lee</ItemTitle>
+            <ItemDescription>Repeated rows are app/server-owned mapping.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button ariaLabel="Message Alex Lee" size="icon-sm" variant="outline">M</Button></ItemActions>
+        </Item>
+      </ItemGroup>
+
+      <DropdownMenu defaultOpen>
+        <DropdownMenuTrigger class="radcn-button radcn-button--outline radcn-button--default">Team menu</DropdownMenuTrigger>
+        <DropdownMenuPortal>
+          <DropdownMenuContent align="start">
+            <DropdownMenuItem textValue="RadCN Core">
+              <Item size="sm">
+                <ItemMedia><Avatar size="sm"><AvatarFallback>RC</AvatarFallback></Avatar></ItemMedia>
+                <ItemContent>
+                  <ItemTitle>RadCN Core</ItemTitle>
+                  <ItemDescription>DropdownMenu owns menu behavior.</ItemDescription>
+                </ItemContent>
+              </Item>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenuPortal>
+      </DropdownMenu>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem;">
+        <Item variant="outline">
+          <ItemHeader><img alt="RadCN robot" src="/images/radcn-1-300.webp" /></ItemHeader>
+          <ItemContent>
+            <ItemTitle>Header image card</ItemTitle>
+            <ItemDescription>Native docs-owned WebP image.</ItemDescription>
+          </ItemContent>
+          <ItemFooter><span>Static asset</span></ItemFooter>
+        </Item>
+        <Item variant="outline">
+          <ItemMedia variant="icon">!</ItemMedia>
+          <ItemContent>
+            <ItemTitle>Security alert</ItemTitle>
+            <ItemDescription>Icon media stays presentation-owned.</ItemDescription>
+          </ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Review</Button></ItemActions>
+        </Item>
+      </div>
+
+      <ItemGroup style="width: 100%;">
+        <Item href="/docs/components/item" variant="outline">
+          <ItemMedia variant="image"><img alt="RadCN mark" src="/images/radcn-1-96.webp" /></ItemMedia>
+          <ItemContent>
+            <ItemTitle>Neon server</ItemTitle>
+            <ItemDescription>Image row with local media.</ItemDescription>
+          </ItemContent>
+          <ItemContent>
+            <ItemTitle>3:42</ItemTitle>
+            <ItemDescription>Duration</ItemDescription>
+          </ItemContent>
+        </Item>
+        <Item href="https://example.com/radcn" rel="noreferrer" target="_blank" variant="outline">
+          <ItemMedia variant="icon">EX</ItemMedia>
+          <ItemContent>
+            <ItemTitle>External reference</ItemTitle>
+            <ItemDescription>Native external link attributes.</ItemDescription>
+          </ItemContent>
+        </Item>
+      </ItemGroup>
+
+      <ItemGroup style="width: 100%;">
+        <Item variant="outline">
+          <ItemMedia>
+            <AvatarGroup ariaLabel="Review team">
+              <Avatar size="sm"><AvatarFallback>RC</AvatarFallback></Avatar>
+              <Avatar size="sm"><AvatarFallback>UI</AvatarFallback></Avatar>
+              <AvatarGroupCount>+2</AvatarGroupCount>
+            </AvatarGroup>
+          </ItemMedia>
+          <ItemContent><ItemTitle>Stacked reviewers</ItemTitle></ItemContent>
+        </Item>
+        <Item variant="outline">
+          <ItemContent><ItemTitle>Default size</ItemTitle><ItemDescription>Variant matrix row.</ItemDescription></ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
+        </Item>
+        <Item size="sm" variant="muted">
+          <ItemContent><ItemTitle>Small muted item</ItemTitle><ItemDescription>Size and variant row.</ItemDescription></ItemContent>
+          <ItemActions><Button size="sm" variant="outline">Open</Button></ItemActions>
+        </Item>
+      </ItemGroup>
     </div>
   )
 }
@@ -2272,6 +2474,49 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'The Remix 3 badge is a host element component, not a React slot wrapper.',
       'RadCN keeps link behavior explicit with href rather than forwarding arbitrary React children through asChild.',
+    ],
+  },
+  {
+    slug: 'item',
+    title: 'Item',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A flexible row primitive for media, title, description, metadata, actions, linked rows, grouped lists, and composed menu content.',
+    importPath: 'radcn/item',
+    importExample:
+      "import { Item, ItemContent, ItemGroup, ItemMedia, ItemTitle } from 'radcn/item'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Compose avatar rows, linked rows, dropdown menu rows, grouped lists, header image cards, icon media, image media, sizes, and variants with package primitives.',
+        source: itemSource,
+        preview: <ItemPreview />,
+      },
+    ],
+    accessibility: [
+      'ItemGroup renders role="list" and Item renders role="listitem" so grouped rows have list semantics in server HTML.',
+      'Linked Items keep the Item row wrapper as the listitem and render a native nested anchor through href, target, rel, and rmxDocument.',
+      'Icon-only actions remain Button responsibilities and should use ariaLabel for accessible names.',
+      'Avatar, DropdownMenu, Button, and Separator keep their own accessible semantics when composed inside Item.',
+    ],
+    customization: [
+      'Item exposes public row, link, media, content, title, description, actions, header, footer, separator, size, and variant hooks.',
+      'Use ItemMedia variant="icon" or variant="image" for visual affordances while keeping icon and image sources app-owned.',
+      'Secondary metadata can be another ItemContent block beside the primary content, matching upstream duration and detail rows.',
+      'Grouped rows, separators, card-like headers, and action clusters are composition over the same package parts.',
+    ],
+    divergence: [
+      'shadcn/ui Item examples use asChild and Radix Slot for link rows; RadCN maps those to an explicit href API with a row wrapper plus native anchor.',
+      'React fragments and arrays map to server-rendered repeated rows or app-owned data mapping outside the Item package.',
+      'Next Image and remote image URLs are not RadCN dependencies; docs use native img elements and local WebP assets.',
+      'Lucide and other icon packages are presentation choices for consuming apps, not Item package requirements.',
+      'Item remains a layout/content primitive and does not own dropdown, avatar, button, separator, image loading, icon, or repeated-list state.',
     ],
   },
   {

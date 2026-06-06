@@ -1255,6 +1255,22 @@
   font-size: 0.8125rem;
 }
 
+.radcn-item-link {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.radcn-item-link:focus-visible {
+  outline: 2px solid var(--radcn-ring);
+  outline-offset: 2px;
+}
+
 .radcn-item-media {
   display: flex;
   width: 2.5rem;
@@ -1276,6 +1292,14 @@
 
 .radcn-item-media--image {
   overflow: hidden;
+}
+
+.radcn-item-media--image img,
+.radcn-item-header img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .radcn-item-content {
@@ -1308,6 +1332,10 @@
 .radcn-item-footer {
   flex-basis: 100%;
   justify-content: space-between;
+}
+
+.radcn-item-header {
+  align-items: stretch;
 }
 
 .radcn-item-separator {

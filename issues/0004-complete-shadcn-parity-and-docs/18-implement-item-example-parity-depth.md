@@ -185,3 +185,119 @@ nested native full-row anchor exposes link semantics through a stable hook, and
 verification/failure criteria cover grouped link/list behavior. Galileo also
 confirmed the parity-inventory check is now scoped to unresolved examples and
 the first recommendation. No new blocker was introduced.
+
+## Result
+
+**Result:** Pass
+
+Implemented Item example parity depth.
+
+- `radcn/packages/radcn/src/components/item.tsx` now supports linked Items
+  through `href`, `target`, `rel`, and `rmxDocument`. Unlinked Items keep the
+  previous `div` + `role="listitem"` output. Linked Items keep the outer
+  `data-radcn-item` row wrapper with `role="listitem"` and render a nested
+  native anchor with `data-radcn-item-link`.
+- `radcn/packages/radcn/src/styles/tokens.css` and generated
+  `radcn/packages/radcn/src/styles/index.ts` now include linked-row and native
+  image composition hooks for Item.
+- `radcn/apps/docs/app/content/components.tsx` now has rich Item docs and a
+  live package-backed example covering avatar, demo, dropdown, group, header,
+  icon, image, link, size, and variant families.
+- `radcn/fixtures/scenarios/index.ts`,
+  `radcn/fixtures/candidate-remix/app/fixtures/navigation-collection.tsx`, and
+  `radcn/fixtures/tests/navigation-collection.spec.ts` now include focused
+  candidate fixture proof for all 10 upstream Item example families.
+- `issues/0004-complete-shadcn-parity-and-docs/item-example-inventory.md`
+  marks every upstream Item example row as `Covered` and preserves the
+  intentional mappings for shadcn `asChild`/Radix Slot, React fragments/arrays,
+  Next `Image`, external/remote images, and lucide icons.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json` marks
+  the `item` example cluster resolved, and regenerated
+  `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md` no longer
+  lists `item` as unresolved. The first generated recommendation is now
+  example parity for `spinner`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts`
+  passed: 8 tests passed. The run printed the existing Node
+  `module.register()` deprecation warning.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 tests passed. The run printed the existing Node
+  `module.register()` deprecation warning.
+- `node scripts/audit-shadcn-parity.mjs` passed and regenerated
+  `parity-inventory.md`.
+- The parity regeneration no-diff check passed after regeneration.
+- Deterministic Node checks passed for:
+  - all 10 upstream Item example ids appearing exactly once in
+    `item-example-inventory.md`;
+  - every upstream Item example row having a final outcome of `Covered` or
+    `Intentional divergence`;
+  - `resolved-clusters.json` containing `examples` entry `slug = "item"`,
+    `status = "resolved"`, and evidence for Experiment 17, Experiment 18, and
+    `item-example-inventory.md`;
+  - `radcn/packages/radcn/src/styles/index.ts` exactly serializing
+    `tokens.css`;
+  - `item` being absent from `## Unresolved Example Clusters` and not the
+    `## First Recommended Cluster`;
+  - the Item anchor API being present in the component implementation and
+    public root type surface;
+  - `item-example-inventory.md` retaining mapping records for `asChild`, Radix
+    Slot, React fragments/arrays, Next `Image`, external/remote images, and
+    lucide icons.
+- The dependency and scope scans passed:
+  - `rg -n "from ['\"]react['\"]|from ['\"][^'\"]*next/image|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*@tabler/icons-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|Slot\\.Root|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json`
+    exited 1 with no matches.
+  - `rg -n "asChild" radcn/packages/radcn radcn/fixtures/candidate-remix`
+    exited 1 with no matches.
+- `git diff --check` passed.
+- `git status --short` showed only expected package, docs, fixture, test,
+  issue, resolved-cluster, and generated-inventory changes before completion
+  review.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+## Conclusion
+
+Item example parity depth is complete. RadCN now has a concrete web-first
+replacement for shadcn's link-like `asChild` Item examples: an explicit linked
+Item API that preserves list row semantics and native anchors without Radix
+Slot. The cluster is resolved in the generated parity inventory, and the next
+Issue 4 experiment should audit the generated first recommendation:
+`spinner` example parity.
+
+## Completion Review
+
+Reviewer: Socrates (`019e9ab4-b409-7b50-ba69-c0b3cef3326c`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Socrates confirmed the implementation matches the
+approved experiment scope; the experiment file has `## Result` and
+`## Conclusion`; the Issue 4 README marks Experiment 18 as `Pass` and records
+the Item outcome plus next `spinner` recommendation; the linked Item API
+matches the approved wrapper strategy; root type exports still expose
+`ItemProps`; fixture scenarios cover all Item example families; Playwright
+coverage checks anchors, list semantics, Avatar media, DropdownMenu rows,
+images, size, variants, and actions; `git diff --check` passed; vendor status
+printed no output; and the result commit had not been made before review.
+
+Socrates also independently reran the main verification checks:
+`pnpm radcn:typecheck`, `pnpm --dir radcn/apps/docs typecheck`,
+`pnpm fixtures:candidate:typecheck`,
+`pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts`,
+`pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`,
+dependency/scope scans, deterministic inventory checks, resolved-cluster
+checks, style serialization checks, Item type-surface checks, vendor status,
+and `git diff --check`. All passed. Socrates did not rerun
+`node scripts/audit-shadcn-parity.mjs` directly to keep the review read-only,
+but confirmed the recorded generated inventory state matched deterministic
+checks.
