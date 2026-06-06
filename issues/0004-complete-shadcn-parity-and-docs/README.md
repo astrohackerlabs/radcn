@@ -731,3 +731,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 42: Implement badge example parity depth](42-implement-badge-example-parity-depth.md)
   — **Pass**
+- [Experiment 43: Audit combobox example parity](43-audit-combobox-example-parity.md)
+  — **Designed**
