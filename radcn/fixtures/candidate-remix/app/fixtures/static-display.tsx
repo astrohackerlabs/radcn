@@ -12,6 +12,7 @@ import {
   AvatarImage,
   Badge,
   Button,
+  ButtonGroup,
   Card,
   CardAction,
   CardContent,
@@ -45,6 +46,10 @@ import {
   Separator,
   Skeleton,
   Spinner,
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipTrigger,
 } from 'radcn'
 
 export function renderAlertFixture(fixture: FixtureScenario) {
@@ -278,7 +283,77 @@ export function renderEmptyFixture(fixture: FixtureScenario) {
   )
 }
 
-export function renderKbdFixture() {
+export function renderKbdFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'button') {
+    return (
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+        <Button size="sm" variant="outline">Save <Kbd>⏎</Kbd></Button>
+        <Button size="sm" variant="outline">Cancel <Kbd>Esc</Kbd></Button>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'demo') {
+    return (
+      <div style="display:grid;gap:12px">
+        <KbdGroup>
+          <Kbd>⌘</Kbd>
+          <Kbd>⇧</Kbd>
+          <Kbd>⌥</Kbd>
+          <Kbd>⌃</Kbd>
+        </KbdGroup>
+        <KbdGroup>
+          <Kbd>Ctrl</Kbd>
+          <span>+</span>
+          <Kbd>B</Kbd>
+        </KbdGroup>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'group') {
+    return (
+      <div data-radcn-fixture-kbd-prose style="display:flex;flex-wrap:wrap;gap:0.35rem;align-items:center;color:var(--radcn-muted-foreground)">
+        Use <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>B</Kbd></KbdGroup> for bold and{' '}
+        <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>K</Kbd></KbdGroup> for links.
+      </div>
+    )
+  }
+
+  if (fixture.id === 'input-group') {
+    return (
+      <InputGroup ariaLabel="Search documentation" style="width:min(100%, 360px)">
+        <InputGroupAddon align="inline-start">
+          <span aria-hidden="true" data-radcn-fixture-search-icon>S</span>
+        </InputGroupAddon>
+        <InputGroupInput name="q" placeholder="Search documentation" />
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘</Kbd>
+          <Kbd>K</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
+    )
+  }
+
+  if (fixture.id === 'tooltip') {
+    return (
+      <ButtonGroup ariaLabel="Kbd tooltip shortcuts">
+        <Tooltip defaultOpen>
+          <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Save command">Save</TooltipTrigger>
+          <TooltipPortal><TooltipContent>Save draft <Kbd>S</Kbd></TooltipContent></TooltipPortal>
+        </Tooltip>
+        <Tooltip defaultOpen>
+          <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Print command">Print</TooltipTrigger>
+          <TooltipPortal>
+            <TooltipContent>
+              Print page <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>P</Kbd></KbdGroup>
+            </TooltipContent>
+          </TooltipPortal>
+        </Tooltip>
+      </ButtonGroup>
+    )
+  }
+
   return (
     <KbdGroup>
       <Kbd>Cmd</Kbd>

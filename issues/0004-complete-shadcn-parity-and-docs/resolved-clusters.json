@@ -133,6 +133,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/34-implement-toggle-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md"
       ]
+    },
+    {
+      "slug": "kbd",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/35-audit-kbd-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/36-implement-kbd-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

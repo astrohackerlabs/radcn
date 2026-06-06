@@ -1256,6 +1256,54 @@ export function TogglePreview() {
       <Toggle ariaLabel="Toggle italic" size="sm"><Icon label="I" /></Toggle>
       <Toggle ariaLabel="Toggle italic"><Icon label="I" /> Italic</Toggle>
     </div>
+	  )
+	}`
+
+const kbdSource = `import { Button } from 'radcn/button'
+import { ButtonGroup } from 'radcn/button-group'
+import { InputGroup, InputGroupAddon, InputGroupInput } from 'radcn/input-group'
+import { Kbd, KbdGroup } from 'radcn/kbd'
+import { Tooltip, TooltipContent, TooltipPortal, TooltipTrigger } from 'radcn/tooltip'
+
+export function KbdPreview() {
+  return (
+    <div class="kbd-preview">
+      <div data-radcn-docs-kbd-family="kbd-button">
+        <Button size="sm" variant="outline">Save <Kbd>⏎</Kbd></Button>
+        <Button size="sm" variant="outline">Cancel <Kbd>Esc</Kbd></Button>
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-demo">
+        <KbdGroup><Kbd>⌘</Kbd><Kbd>⇧</Kbd><Kbd>⌥</Kbd><Kbd>⌃</Kbd></KbdGroup>
+        <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>B</Kbd></KbdGroup>
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-group">
+        Use <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>B</Kbd></KbdGroup> for bold and
+        <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>K</Kbd></KbdGroup> for links.
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-input-group">
+        <InputGroup ariaLabel="Search documentation">
+          <InputGroupAddon align="inline-start"><span aria-hidden="true">S</span></InputGroupAddon>
+          <InputGroupInput name="q" placeholder="Search documentation" />
+          <InputGroupAddon align="inline-end"><Kbd>⌘</Kbd><Kbd>K</Kbd></InputGroupAddon>
+        </InputGroup>
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-tooltip">
+        <ButtonGroup ariaLabel="Kbd tooltip shortcuts">
+          <Tooltip defaultOpen>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Save command">Save</TooltipTrigger>
+            <TooltipPortal><TooltipContent>Save draft <Kbd>S</Kbd></TooltipContent></TooltipPortal>
+          </Tooltip>
+          <Tooltip defaultOpen>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Print command">Print</TooltipTrigger>
+            <TooltipPortal><TooltipContent>Print page <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>P</Kbd></KbdGroup></TooltipContent></TooltipPortal>
+          </Tooltip>
+        </ButtonGroup>
+      </div>
+    </div>
   )
 }`
 
@@ -2499,6 +2547,69 @@ function TogglePreview() {
   )
 }
 
+function KbdPreview() {
+  return () => (
+    <div mix={[previewStackStyle, forceVisiblePreviewStyle]} style="width: min(100%, 42rem);">
+      <div data-radcn-docs-kbd-family="kbd-button" mix={previewRowStyle}>
+        <Button size="sm" variant="outline">Save <Kbd>⏎</Kbd></Button>
+        <Button size="sm" variant="outline">Cancel <Kbd>Esc</Kbd></Button>
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-demo" mix={previewStackStyle}>
+        <KbdGroup>
+          <Kbd>⌘</Kbd>
+          <Kbd>⇧</Kbd>
+          <Kbd>⌥</Kbd>
+          <Kbd>⌃</Kbd>
+        </KbdGroup>
+        <KbdGroup>
+          <Kbd>Ctrl</Kbd>
+          <span>+</span>
+          <Kbd>B</Kbd>
+        </KbdGroup>
+      </div>
+
+      <div
+        data-radcn-docs-kbd-family="kbd-group"
+        style="display:flex;flex-wrap:wrap;gap:0.35rem;align-items:center;color:var(--radcn-muted-foreground);line-height:1.7"
+      >
+        Use <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>B</Kbd></KbdGroup> for bold and{' '}
+        <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>K</Kbd></KbdGroup> for links.
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-input-group">
+        <InputGroup ariaLabel="Search documentation" style="width:min(100%, 360px)">
+          <InputGroupAddon align="inline-start">
+            <span aria-hidden="true" data-radcn-docs-search-icon>S</span>
+          </InputGroupAddon>
+          <InputGroupInput name="q" placeholder="Search documentation" />
+          <InputGroupAddon align="inline-end">
+            <Kbd>⌘</Kbd>
+            <Kbd>K</Kbd>
+          </InputGroupAddon>
+        </InputGroup>
+      </div>
+
+      <div data-radcn-docs-kbd-family="kbd-tooltip">
+        <ButtonGroup ariaLabel="Kbd tooltip shortcuts">
+          <Tooltip defaultOpen>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Save command">Save</TooltipTrigger>
+            <TooltipPortal><TooltipContent>Save draft <Kbd>S</Kbd></TooltipContent></TooltipPortal>
+          </Tooltip>
+          <Tooltip defaultOpen>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Print command">Print</TooltipTrigger>
+            <TooltipPortal>
+              <TooltipContent>
+                Print page <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>P</Kbd></KbdGroup>
+              </TooltipContent>
+            </TooltipPortal>
+          </Tooltip>
+        </ButtonGroup>
+      </div>
+    </div>
+  )
+}
+
 function ToggleGroupPreview() {
   return () => (
     <div mix={previewStackStyle} style="width: min(100%, 42rem);">
@@ -3682,6 +3793,48 @@ const richComponentDocs: ComponentDoc[] = [
       'Next Image and remote image URLs are not RadCN dependencies; docs use native img elements and local WebP assets.',
       'Lucide and other icon packages are presentation choices for consuming apps, not Item package requirements.',
       'Item remains a layout/content primitive and does not own dropdown, avatar, button, separator, image loading, icon, or repeated-list state.',
+    ],
+  },
+  {
+    slug: 'kbd',
+    title: 'Kbd',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'Semantic keyboard shortcut primitives for single keys, grouped chords, inline prose, and composed control hints.',
+    importPath: 'radcn/kbd',
+    importExample: "import { Kbd, KbdGroup } from 'radcn/kbd'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render Button, demo, inline group, InputGroup, and Tooltip shortcut examples with package primitives and app-owned presentation glyphs.',
+        source: kbdSource,
+        preview: <KbdPreview />,
+      },
+    ],
+    accessibility: [
+      'Kbd renders a semantic kbd element for individual keys and shortcut labels.',
+      'KbdGroup groups related shortcut pieces without taking over button, input, or tooltip behavior.',
+      'Search icons and other decorative glyphs should use aria-hidden when they do not provide the control name.',
+      'Button, ButtonGroup, InputGroup, and Tooltip keep their native roles and labels when composed with Kbd.',
+    ],
+    customization: [
+      'Kbd exposes data-radcn-kbd and the radcn-kbd class for app-level size, border, background, and text styling.',
+      'KbdGroup exposes data-radcn-kbd-group and the radcn-kbd-group class for chord layout and inline composition.',
+      'Shortcut separators such as plus signs are authored content around Kbd rather than package behavior.',
+      'TooltipContent and InputGroup addons can style nested Kbd elements through their own public hooks, classes, and CSS variables.',
+    ],
+    divergence: [
+      'shadcn/ui data-slot="kbd" and data-slot="kbd-group" map to RadCN public data-radcn-kbd and data-radcn-kbd-group hooks.',
+      'Tailwind utility and tooltip-context styling maps to RadCN classes, inline styles, and app CSS variables.',
+      'lucide icons are app presentation choices; RadCN Kbd examples use app-owned spans or inline SVGs instead of adding an icon dependency.',
+      'TooltipTrigger asChild maps to explicit RadCN TooltipTrigger composition, avoiding Radix Slot while preserving visible trigger behavior.',
+      'Kbd does not own Button, ButtonGroup, InputGroup, Tooltip, command palette, icon-package, or shortcut-routing state.',
     ],
   },
   {

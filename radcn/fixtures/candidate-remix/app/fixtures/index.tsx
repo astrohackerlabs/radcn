@@ -127,7 +127,7 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
     case 'input-otp':
       return renderInputOTPFixture(fixture)
     case 'kbd':
-      return renderKbdFixture()
+      return renderKbdFixture(fixture)
     case 'item':
       return renderItemFixture(fixture)
     case 'menubar':

@@ -698,6 +698,36 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Keyboard shortcut rendered with semantic kbd elements.",
   },
   {
+    component: "kbd",
+    id: "button",
+    title: "Kbd Button",
+    description: "Small outline buttons composed with inline keyboard shortcuts.",
+  },
+  {
+    component: "kbd",
+    id: "demo",
+    title: "Kbd Demo",
+    description: "Multiple shortcut rows with symbol keys and separator text.",
+  },
+  {
+    component: "kbd",
+    id: "group",
+    title: "Kbd Group",
+    description: "Inline prose composed with grouped keyboard shortcuts.",
+  },
+  {
+    component: "kbd",
+    id: "input-group",
+    title: "Kbd Input Group",
+    description: "Search input group with app-owned icon and shortcut keys.",
+  },
+  {
+    component: "kbd",
+    id: "tooltip",
+    title: "Kbd Tooltip",
+    description: "ButtonGroup and Tooltip composition with keyboard shortcut content.",
+  },
+  {
     component: "separator",
     id: "orientations",
     title: "Separator Orientations",

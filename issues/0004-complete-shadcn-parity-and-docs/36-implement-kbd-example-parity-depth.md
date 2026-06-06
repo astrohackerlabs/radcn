@@ -184,3 +184,142 @@ Verification, and Design Review sections, the scope is exactly the 5 Kbd
 examples, ownership boundaries and dependency constraints are explicit,
 verification includes concrete inventory, scope, hygiene, and vendor checks,
 and implementation has not started before the plan commit.
+
+## Result
+
+**Result:** Pass
+
+Experiment 36 completed named Kbd example parity depth for all 5 upstream
+shadcn/ui Kbd examples:
+
+- `kbd-button`
+- `kbd-demo`
+- `kbd-group`
+- `kbd-input-group`
+- `kbd-tooltip`
+
+Implementation changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now has a rich Kbd docs page
+  with package-imported `Kbd` and `KbdGroup`, stable
+  `data-radcn-docs-kbd-family` hooks for all 5 upstream example ids, Button
+  composition, multiple grouped shortcut rows, prose shortcut composition,
+  InputGroup addon composition, and ButtonGroup plus TooltipContent shortcut
+  composition.
+- The Kbd docs page records Remix 3 divergences for shadcn `data-slot`,
+  Tailwind/context styling, lucide icon presentation, and
+  `TooltipTrigger asChild`.
+- `radcn/fixtures/scenarios/index.ts`,
+  `radcn/fixtures/candidate-remix/app/fixtures/index.tsx`, and
+  `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` now expose
+  named candidate routes for `button`, `demo`, `group`, `input-group`, and
+  `tooltip`, while preserving the existing `default` route.
+- `radcn/fixtures/tests/static-display.spec.ts` verifies the 5 named Kbd
+  fixture routes with public RadCN hooks and accessible composition evidence.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the 5 named Kbd docs hooks
+  plus source/API text for `KbdGroup`, `InputGroup`, `TooltipContent`,
+  `ButtonGroup`, `data-slot`, `asChild`, and lucide mapping copy.
+- `kbd-example-inventory.md` marks all 5 upstream Kbd rows `Covered`.
+- `resolved-clusters.json` marks `kbd` resolved with Experiment 35,
+  Experiment 36, and inventory evidence.
+- `parity-inventory.md` was regenerated and now recommends example parity for
+  `textarea`.
+- Issue 4 `README.md` records the final Kbd outcome and the `KbdGroup` prose
+  markup learning.
+
+During fixture verification, the first Playwright run failed because the test
+expected `KbdGroup` elements inside a native `p` element. RadCN `KbdGroup`
+renders a `div`, so the browser correctly reparents those elements out of the
+paragraph. The prose examples were changed to valid flex-wrapping `div`
+wrappers that visually read inline and preserve the intended composition.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+```
+
+All three commands passed.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts
+```
+
+The first run failed on the invalid paragraph expectation described above.
+After the markup/test correction, the final output summary was:
+
+```text
+9 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Output summary:
+
+```text
+5 passed
+```
+
+The Playwright commands emitted the existing Node `module.register()`
+deprecation warning and `NO_COLOR`/`FORCE_COLOR` warning.
+
+Additional deterministic checks passed:
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Output:
+
+```text
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+```
+
+Deterministic inventory checks proved all 5 Kbd rows appear exactly once in
+`kbd-example-inventory.md` with `Covered` outcomes, `resolved-clusters.json`
+contains the `kbd` resolved example entry with Experiment 35, Experiment 36,
+and inventory evidence, `kbd` is absent from unresolved example clusters, and
+the first recommended cluster is no longer `Example parity for kbd`.
+
+Dependency and hygiene checks passed:
+
+```text
+rg -n "from ['\"]react['\"]|from ['\"][^'\"]*lucide-react|from ['\"][^'\"]*radix|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The dependency `rg` exited 1 with no matches. `git diff --check` and vendor
+status produced no output.
+
+## Completion Review
+
+Reviewer: Carver (`019e9b6d-9967-74c3-8489-c16fe6e20f63`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Carver verified that the experiment has
+`Result: Pass`, verification notes, hygiene checks, and Conclusion; the issue
+README marks Experiment 36 `Pass` and records later-work learnings; docs and
+fixtures cover exactly `kbd-button`, `kbd-demo`, `kbd-group`,
+`kbd-input-group`, and `kbd-tooltip`; all inventory rows are `Covered`;
+`resolved-clusters.json` marks `kbd` resolved with Experiment 35, Experiment
+36, and inventory evidence; the regenerated parity inventory removes `kbd`
+from unresolved clusters and recommends `textarea`; `git diff --check`,
+dependency/scope search, vendor cleanliness, and nested-git checks were clean;
+and the result commit had not been made before completion review.
+
+## Conclusion
+
+Kbd example parity is resolved. The next experiment should follow the
+regenerated inventory recommendation and audit example parity for `textarea`.

@@ -127,6 +127,7 @@ These are documented in RadCN but are not current package exports.
 | examples | chart | resolved | `issues/0004-complete-shadcn-parity-and-docs/29-audit-chart-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/30-implement-chart-component-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md` |
 | examples | input | resolved | `issues/0004-complete-shadcn-parity-and-docs/31-audit-input-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/32-implement-input-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md` |
 | examples | toggle | resolved | `issues/0004-complete-shadcn-parity-and-docs/33-audit-toggle-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/34-implement-toggle-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md` |
+| examples | kbd | resolved | `issues/0004-complete-shadcn-parity-and-docs/35-audit-kbd-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/36-implement-kbd-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -227,7 +228,6 @@ parity decision.
 | dropdown-menu | 4 | `dropdown-menu-checkboxes`, `dropdown-menu-demo`, `dropdown-menu-dialog`, `dropdown-menu-radio-group` |
 | hover-card | 1 | `hover-card-demo` |
 | input-otp | 4 | `input-otp-controlled`, `input-otp-demo`, `input-otp-pattern`, `input-otp-separator` |
-| kbd | 5 | `kbd-button`, `kbd-demo`, `kbd-group`, `kbd-input-group`, `kbd-tooltip` |
 | label | 1 | `label-demo` |
 | menubar | 1 | `menubar-demo` |
 | mode-toggle | 1 | `mode-toggle` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for kbd
+**Cluster:** Example parity for textarea
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for kbd.
+- Audit upstream examples for textarea.
 
 ## Notes
 

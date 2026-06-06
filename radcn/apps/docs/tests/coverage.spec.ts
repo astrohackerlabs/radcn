@@ -163,6 +163,28 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('lucide icons are not RadCN package dependencies').first()).toBeVisible()
     await expect(page.getByText('Radix Toggle maps to RadCN native button markup').first()).toBeVisible()
 
+    await page.goto('/docs/components/kbd')
+    for (let slug of [
+      'kbd-button',
+      'kbd-demo',
+      'kbd-group',
+      'kbd-input-group',
+      'kbd-tooltip',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-kbd-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-kbd-family="kbd-button"] [data-radcn-button]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-kbd-family="kbd-demo"] [data-radcn-kbd-group]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-docs-kbd-family="kbd-input-group"] [data-radcn-input-group]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-kbd-family="kbd-tooltip"] [data-radcn-tooltip-content]')).toHaveCount(2)
+    await expect(page.getByText('KbdGroup').first()).toBeVisible()
+    await expect(page.getByText('InputGroup').first()).toBeVisible()
+    await expect(page.getByText('TooltipContent').first()).toBeVisible()
+    await expect(page.getByText('ButtonGroup').first()).toBeVisible()
+    await expect(page.getByText('data-slot').first()).toBeVisible()
+    await expect(page.getByText('asChild').first()).toBeVisible()
+    await expect(page.getByText('lucide icons are app presentation choices').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)

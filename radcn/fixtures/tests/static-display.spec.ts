@@ -72,6 +72,39 @@ test('candidate empty and kbd expose semantic slot hooks', async ({ page }) => {
   await expect(keys.first()).toHaveClass(/radcn-kbd/)
 })
 
+test('candidate kbd covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/kbd/button`)
+  await expect(page.locator('[data-radcn-button]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-button][data-variant="outline"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-button][data-size="sm"]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-button] kbd[data-radcn-kbd]')).toHaveText(['⏎', 'Esc'])
+
+  await page.goto(`${candidate}/fixtures/kbd/demo`)
+  await expect(page.locator('[data-radcn-kbd-group]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-kbd-group]').nth(0).locator('kbd[data-radcn-kbd]')).toHaveText(['⌘', '⇧', '⌥', '⌃'])
+  await expect(page.locator('[data-radcn-kbd-group]').nth(1)).toContainText('Ctrl+B')
+  await expect(page.locator('[data-radcn-kbd-group]').nth(1).locator('span')).toHaveText('+')
+
+  await page.goto(`${candidate}/fixtures/kbd/group`)
+  await expect(page.locator('[data-radcn-fixture-kbd-prose] [data-radcn-kbd-group]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-fixture-kbd-prose] [data-radcn-kbd-group]').nth(0).locator('kbd[data-radcn-kbd]')).toHaveText(['Ctrl', 'B'])
+  await expect(page.locator('[data-radcn-fixture-kbd-prose] [data-radcn-kbd-group]').nth(1).locator('kbd[data-radcn-kbd]')).toHaveText(['Ctrl', 'K'])
+
+  await page.goto(`${candidate}/fixtures/kbd/input-group`)
+  await expect(page.locator('[data-radcn-input-group]')).toHaveAttribute('role', 'group')
+  await expect(page.locator('[data-radcn-fixture-search-icon]')).toHaveAttribute('aria-hidden', 'true')
+  await expect(page.locator('[data-radcn-input-group-addon][data-align="inline-end"] kbd[data-radcn-kbd]')).toHaveText(['⌘', 'K'])
+  await expect(page.getByRole('textbox', { name: '' })).toHaveAttribute('placeholder', 'Search documentation')
+
+  await page.goto(`${candidate}/fixtures/kbd/tooltip`)
+  await expect(page.locator('[data-radcn-button-group]')).toHaveAttribute('role', 'group')
+  await expect(page.locator('[data-radcn-tooltip]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-tooltip-trigger]')).toHaveText(['Save', 'Print'])
+  await expect(page.locator('[data-radcn-tooltip-content]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-tooltip-content]').nth(0).locator('kbd[data-radcn-kbd]')).toHaveText('S')
+  await expect(page.locator('[data-radcn-tooltip-content]').nth(1).locator('[data-radcn-kbd-group] kbd[data-radcn-kbd]')).toHaveText(['Ctrl', 'P'])
+})
+
 test('candidate empty covers shadcn example parity depth', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/empty/demo`)
   await expect(page.locator('[data-radcn-empty]')).toHaveCount(1)

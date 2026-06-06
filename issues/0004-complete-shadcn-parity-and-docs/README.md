@@ -580,6 +580,18 @@ Record cross-component discoveries here as experiments complete.
   their own behavior.
 - After Experiment 35, the next recommended implementation cluster is Kbd
   example parity depth.
+- Experiment 36 completed Kbd example parity depth. The docs page, candidate
+  fixtures, and Playwright checks now cover all 5 upstream Kbd examples:
+  Button composition, multiple KbdGroup rows, inline prose, InputGroup addon
+  composition, and TooltipContent/ButtonGroup composition.
+- Kbd remains a semantic shortcut primitive. shadcn `data-slot` maps to RadCN
+  public hooks, Tailwind context styling maps to RadCN classes/CSS variables,
+  lucide Search maps to app-owned decorative presentation, and
+  `TooltipTrigger asChild` maps to explicit RadCN TooltipTrigger composition.
+- Because RadCN `KbdGroup` currently renders a `div`, inline-prose examples
+  must use valid wrapper markup instead of nesting `KbdGroup` inside a native
+  `p`; otherwise the browser reparents the groups and tests no longer prove the
+  intended composition.
 
 ## Experiments
 
@@ -654,4 +666,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 35: Audit kbd example parity](35-audit-kbd-example-parity.md)
   — **Pass**
 - [Experiment 36: Implement kbd example parity depth](36-implement-kbd-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
