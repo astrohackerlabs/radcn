@@ -883,3 +883,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 53: Audit checkbox example parity](53-audit-checkbox-example-parity.md)
   — **Pass**
+- [Experiment 54: Implement checkbox example parity depth](54-implement-checkbox-example-parity-depth.md)
+  — **Designed**
