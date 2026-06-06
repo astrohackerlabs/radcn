@@ -2,8 +2,9 @@
 
 ## Open
 
-| #   | Title | Opened |
-| --- | ----- | ------ |
+| #                                              | Title                                   | Opened     |
+| ---------------------------------------------- | --------------------------------------- | ---------- |
+| [0005](0005-local-installation-flow/README.md) | Build the RadCN Local Installation Flow | 2026-06-06 |
 
 ## Closed
 
