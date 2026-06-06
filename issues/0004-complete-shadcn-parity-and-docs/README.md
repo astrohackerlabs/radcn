@@ -1660,3 +1660,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 107: Implement progress example parity depth](107-implement-progress-example-parity-depth.md)
   — **Pass**
+- [Experiment 108: Audit radio-group example parity](108-audit-radio-group-example-parity.md)
+  — **Designed**
