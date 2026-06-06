@@ -121,3 +121,84 @@ enough criteria to decide the next experiment.
 Non-blocking note: the plan requires deterministic checks but does not prescribe
 their exact commands. The implementation result should record the actual checks
 used.
+
+## Result
+
+**Result:** Pass
+
+Experiment 11 created `field-example-inventory.md` and audited all 12 upstream
+Field examples. The audit keeps `field` unresolved because RadCN's current
+Field API and examples do not yet cover the full upstream Field composition
+surface.
+
+Confirmed current coverage:
+
+- Basic `Field`, `FieldDescription`, `FieldError`, `Label`, and `Input` wiring
+  exists in docs and candidate fixtures.
+- Broader `radcn/form` examples cover several control compositions such as
+  textarea, select, checkbox group, radio group, switch, and server/action
+  state.
+
+Confirmed gaps:
+
+- `radcn/field` lacks `FieldLabel`, `FieldSet`, `FieldGroup`, `FieldLegend`,
+  `FieldSeparator`, `FieldContent`, and `FieldTitle`.
+- Horizontal and responsive Field orientation are not package APIs yet.
+- Fieldset/legend semantics, choice-card composition, grouped checkbox/radio
+  sections, and Field-specific select/slider/switch/textarea examples need
+  docs, fixture, and Playwright proof.
+- The upstream `field-slider` example's React `useState` live value display
+  needs a Remix/web-first strategy instead of a React state port.
+
+Verification run:
+
+- `field-example-inventory.md` exists.
+- A deterministic Node check proved all 12 upstream Field example ids appear in
+  `field-example-inventory.md`.
+- A deterministic Node check proved the inventory has exactly one outcome row
+  for each upstream id.
+- A deterministic Node check proved the inventory explicitly discusses
+  `FieldLabel`, `FieldSet`, `FieldGroup`, `FieldLegend`, `FieldSeparator`,
+  `FieldContent`, `FieldTitle`, horizontal/responsive layout,
+  fieldset/legend semantics, choice-card composition, checkbox, radio, switch,
+  select, textarea, slider, button composition, `useState`, and the web-first
+  mapping.
+- The no-vendor/no-React/no-publish scope grep exited 1 with no matches.
+- `git diff --check` passed.
+- Vendor status checks for shadcn/ui, Remix, and React Router printed no
+  output.
+- `git status --short` showed only the expected Issue 4 experiment, README,
+  and `field-example-inventory.md` changes before completion review.
+
+## Conclusion
+
+Field example parity needs a follow-up implementation experiment. The next
+experiment should add the missing Field composition parts and orientation
+props, expand docs and candidate fixtures for all 12 upstream Field examples,
+and add Playwright coverage before marking `field` resolved.
+
+## Completion Review
+
+Reviewer: Chandrasekhar (`019e9a59-a3c6-7d62-a610-3db38e414839`)
+Fresh context: yes (`fork_context: false`)
+
+Result: approved after evidence wording fix.
+
+Findings:
+
+- Major: the recorded `git status --short` evidence originally named only the
+  README and `field-example-inventory.md`, while the experiment file itself was
+  also modified after result recording. Fixed by naming the experiment file in
+  the evidence.
+
+Approval evidence:
+
+- `field-example-inventory.md` maps all 12 upstream Field ids exactly once.
+- The audit leaves `field` unresolved and does not change
+  `resolved-clusters.json` or `parity-inventory.md`.
+- The audit records the expected Field gaps: missing Field parts,
+  horizontal/responsive orientation, fieldset/legend and grouped-control proof,
+  and a web-first slider value-display strategy.
+- The no-vendor/no-React/no-publish grep exited 1 with no matches.
+- `git diff --check` passed.
+- Vendor status checks printed no output.

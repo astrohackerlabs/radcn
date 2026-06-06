@@ -239,6 +239,12 @@ Record cross-component discoveries here as experiments complete.
   shadcn's React-only `asChild` recorded as the intentional `href` mapping.
 - After Experiment 10, `button` is marked resolved in the example queue. The
   next generated recommendation is example parity for `field`.
+- Experiment 11 audited all 12 upstream Field examples in
+  `field-example-inventory.md`. Field example parity is not complete yet:
+  RadCN needs Field package parts for labels, fieldsets, legends, groups,
+  separators, content wrappers, titles, horizontal/responsive orientation, and
+  richer grouped control compositions. The slider example needs a Remix/web-first
+  value-display strategy instead of React `useState`.
 
 ## Experiments
 
@@ -263,4 +269,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 10: Implement button example parity depth](10-implement-button-example-parity-depth.md)
   — **Pass**
 - [Experiment 11: Audit field example parity](11-audit-field-example-parity.md)
-  — **Designed**
+  — **Pass**
