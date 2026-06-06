@@ -566,6 +566,20 @@ Record cross-component discoveries here as experiments complete.
   selected-state icon styling does not reuse ToggleGroup-specific classes.
 - After Experiment 34, `toggle` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `kbd` next.
+- Experiment 35 audited all 5 upstream Kbd examples in
+  `kbd-example-inventory.md`. Kbd example parity is not complete yet: RadCN
+  already supports semantic `Kbd` and `KbdGroup` primitives and basic
+  Cmd/K-style fixture proof, but docs, fixtures, and Playwright tests need
+  named proof for Button, demo groups, inline prose, InputGroup, and Tooltip
+  examples.
+- Kbd's stable mapping decisions for later work: shadcn `data-slot` maps to
+  RadCN data hooks/classes; Tailwind layout and tooltip-context utilities map
+  to docs/fixture layout, classes, or CSS variables; lucide Search icons are
+  app presentation; `TooltipTrigger asChild` maps to explicit RadCN trigger
+  composition; Button, ButtonGroup, InputGroup, and Tooltip keep ownership of
+  their own behavior.
+- After Experiment 35, the next recommended implementation cluster is Kbd
+  example parity depth.
 
 ## Experiments
 
@@ -638,4 +652,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 34: Implement toggle example parity depth](34-implement-toggle-example-parity-depth.md)
   — **Pass**
 - [Experiment 35: Audit kbd example parity](35-audit-kbd-example-parity.md)
-  — **Designed**
+  — **Pass**

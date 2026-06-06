@@ -152,3 +152,111 @@ Design Review sections, has concrete pass/fail criteria and hygiene checks,
 keeps vendor checkouts untouched, treats lucide, Tailwind utilities, Radix
 `asChild`, and vendor source as mappings rather than dependencies, separates
 current evidence from follow-up work, and has not started implementation.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md` as an
+audit-only inventory for all 5 upstream Kbd examples: `kbd-button`, `kbd-demo`,
+`kbd-group`, `kbd-input-group`, and `kbd-tooltip`.
+
+The audit does not mark `kbd` resolved. RadCN already covers semantic `Kbd` and
+`KbdGroup` primitives plus a basic `Cmd` + `K` fixture. The cluster still needs
+named Kbd docs/fixture/Playwright proof for Button composition, multiple
+KbdGroup rows, inline prose, InputGroup addon composition, TooltipContent
+composition, and ButtonGroup plus Tooltip composition.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = [
+  'kbd-button',
+  'kbd-demo',
+  'kbd-group',
+  'kbd-input-group',
+  'kbd-tooltip',
+]
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+kbd-button: 1
+kbd-demo: 1
+kbd-group: 1
+kbd-input-group: 1
+kbd-tooltip: 1
+```
+
+```text
+rg -n 'Button|ButtonGroup|InputGroup|Tooltip|TooltipContent|TooltipTrigger|asChild|Search|lucide|Tailwind|data-slot|KbdGroup|prose|Playwright|fixture|docs' issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: Kbd inside Button, multiple KbdGroup rows, inline prose, Kbd inside
+InputGroup addons, Kbd/KbdGroup inside TooltipContent, ButtonGroup plus Tooltip
+composition, app-owned Search icon presentation, lucide/Tailwind/data-slot/
+asChild mappings, and current RadCN package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "kbd-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:  `kbd-example-inventory.md`. Kbd example parity is not complete yet:
+ M issues/0004-complete-shadcn-parity-and-docs/35-audit-kbd-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/kbd-example-inventory.md
+```
+
+`git diff --check` and vendor status produced no output.
+
+## Completion Review
+
+Reviewer: Hubble (`019e9b61-e570-7951-a1b1-a67016d8be77`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Hubble verified that the result stayed audit-only,
+the experiment has Result and Conclusion, the README marks Experiment 35
+`Pass` and records learnings, the inventory has exactly one row for each of the
+5 required upstream Kbd ids, Kbd parity is not claimed resolved, the next
+implementation cluster is clear, mapping decisions treat `data-slot`, Tailwind,
+lucide Search, `asChild`, and composed packages as mappings rather than
+dependencies, `git diff --check` passes, vendor status is clean, and the result
+commit had not been made before completion review.
+
+## Conclusion
+
+Kbd needs one implementation-depth experiment. The next experiment should add
+named docs examples, candidate fixture routes, and Playwright coverage for all
+5 upstream Kbd examples while preserving Kbd as a semantic shortcut primitive
+and leaving Button, ButtonGroup, InputGroup, and Tooltip behavior with their
+owning packages.
