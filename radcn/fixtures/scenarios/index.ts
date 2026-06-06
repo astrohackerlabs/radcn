@@ -1857,6 +1857,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "alert-dialog",
+    id: "demo",
+    title: "Alert Dialog Demo",
+    description: "Named upstream alert-dialog-demo parity with outline trigger and destructive account confirmation copy.",
+  },
+  {
+    component: "alert-dialog",
     id: "default",
     title: "Default Alert Dialog",
     description: "Modal confirmation dialog with destructive action.",

@@ -300,3 +300,125 @@ has not started before the plan commit, verification and hygiene checks are
 concrete, vendor checkouts are clean, Experiment 81's audit findings are
 carried forward, and current RadCN package capabilities support the likely
 dependency-free implementation path.
+
+## Result
+
+**Result:** Pass
+
+Implemented named upstream `alert-dialog-demo` parity without changing
+`radcn/packages/radcn` and without adding React, Radix, Tailwind, lucide-react,
+`cn`, class-variance-authority, animation libraries, or vendor dependencies.
+
+Changes made:
+
+- `radcn/apps/docs/app/content/components.tsx`
+  - promoted Alert Dialog from a generated seed doc to a rich docs page;
+  - added `alertDialogDemoSource`;
+  - added `AlertDialogDemoPreview` with
+    `data-radcn-docs-alert-dialog-family="alert-dialog-demo"`;
+  - rendered the exact upstream `Show Dialog` trigger, title, description,
+    cancel, and action copy;
+  - omitted `AlertDialogMedia`;
+  - rendered portal, overlay, content, header, footer, title, description,
+    cancel, and action hooks;
+  - documented React, Radix, Button `asChild`, outline Button, `cn`,
+    `data-slot`, `className`, Tailwind layout/animation, size/default sizing,
+    custom-token, and vendor-source mappings;
+  - extended the docs-only forced preview style so hidden Alert Dialog portals
+    can show their hidden content inside documentation previews.
+- `radcn/fixtures/scenarios/index.ts`
+  - added the named `alert-dialog/demo` scenario.
+- `radcn/fixtures/candidate-remix/app/fixtures/alert-dialog.tsx`
+  - added the named demo route with exact upstream copy, outline trigger
+    styling, portal/overlay/content composition, and no media block.
+- `radcn/fixtures/tests/modal-variants.spec.ts`
+  - added browser coverage for named `alert-dialog/demo` copy, public hooks,
+    outline trigger classes, no media block, alertdialog role, aria-modal,
+    title/description ARIA wiring, root/trigger/portal/overlay/content open
+    state, body scroll locking, portal-root mounting, non-dismissible
+    Escape/overlay behavior, Cancel/Continue close behavior, and focus return.
+- `radcn/apps/docs/tests/coverage.spec.ts`
+  - added docs coverage for the named docs family hook, exact upstream copy,
+    public hooks, default size evidence, no media block, outline trigger
+    styling, and divergence copy.
+- `issues/0004-complete-shadcn-parity-and-docs/alert-dialog-example-inventory.md`
+  - marked `alert-dialog-demo` `Covered` with concrete docs, fixture, and test
+    evidence.
+- `issues/0004-complete-shadcn-parity-and-docs/resolved-clusters.json`
+  - recorded `alert-dialog` as a resolved example cluster with Experiment 81,
+    Experiment 82, and inventory evidence.
+- `issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md`
+  - regenerated the inventory; Alert Dialog is no longer unresolved and the
+    next recommendation is `aspect-ratio`.
+- `issues/0004-complete-shadcn-parity-and-docs/README.md`
+  - updated Experiment 82 to `Pass` and recorded the Alert Dialog learning.
+
+One design assumption changed during verification. The plan asked fixture tests
+to prove focus on the action button after opening. The exact upstream demo
+orders `Cancel` before `Continue`, and RadCN's modal helper focuses the first
+focusable control. For a destructive confirmation, preserving that order makes
+Cancel the initial focus target and Tab moves to Continue. The test now records
+that safer behavior instead of forcing destructive action focus.
+
+Verification performed:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts modal-variants.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+```
+
+Additional deterministic checks passed:
+
+- `alert-dialog-example-inventory.md` has exactly one upstream example row,
+  `alert-dialog-demo`, and it is `Covered`.
+- `resolved-clusters.json` includes an `examples` entry for `alert-dialog` with
+  `status = "resolved"` and evidence for Experiment 81, Experiment 82, and
+  `alert-dialog-example-inventory.md`.
+- `parity-inventory.md` no longer lists `alert-dialog` under unresolved example
+  clusters, and the first recommendation is now `aspect-ratio`.
+- forbidden import scan over `radcn/packages/radcn`, `radcn/apps/docs`, and
+  `radcn/fixtures/candidate-remix` passed.
+- manifest forbidden dependency scan passed.
+- `git diff --exit-code -- pnpm-lock.yaml` passed.
+- `git diff --check` passed.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+The first fixture Playwright run failed because the named demo test expected
+initial focus on `AlertDialogAction`. After inspecting `setupModal`, the test
+was corrected to assert initial focus on `AlertDialogCancel`, Tab to
+`AlertDialogAction`, and Shift+Tab back to `AlertDialogCancel`. The rerun
+passed.
+
+## Completion Review
+
+Reviewer: Epicurus the 2nd (`019e9d5e-ec84-7ec2-b5d8-189b3729a25e`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the implementation matches the
+approved experiment scope, the result and conclusion are recorded, the issue
+README marks Experiment 82 `Pass`, the learning and next `aspect-ratio`
+recommendation are recorded, docs and fixture evidence cover the named
+`alert-dialog-demo`, inventory/resolved-clusters evidence is present,
+`git diff --check` passed, vendor cleanliness was checked, `pnpm-lock.yaml`
+is unchanged, no ignored vendor source is staged, and the result commit had not
+been made before review.
+
+## Conclusion
+
+Alert Dialog example parity is resolved. The dependency-free RadCN package API
+already had the required behavior; the missing work was named docs, fixture,
+tests, and inventory evidence. The upstream `asChild` Button trigger maps cleanly
+to explicit `AlertDialogTrigger` styling with Button classes.
+
+The next Issue 4 experiment should audit upstream `aspect-ratio` examples.

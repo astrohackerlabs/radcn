@@ -19,6 +19,30 @@ export function renderAlertDialogFixture(fixture: FixtureScenario) {
   let small = fixture.id === 'small'
   let custom = fixture.id === 'custom-token'
 
+  if (fixture.id === 'demo') {
+    return (
+      <AlertDialog id="candidate-alert-dialog-demo">
+        <AlertDialogTrigger class="radcn-button radcn-button--outline">Show Dialog</AlertDialogTrigger>
+        <AlertDialogPortal>
+          <AlertDialogOverlay />
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
+      </AlertDialog>
+    )
+  }
+
   return (
     <AlertDialog defaultOpen={defaultOpen} id={`candidate-alert-dialog-${fixture.id}`}>
       <AlertDialogTrigger>Delete project</AlertDialogTrigger>

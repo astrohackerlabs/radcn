@@ -16,18 +16,18 @@ non-dismissible Escape/overlay behavior, focus trapping, action/cancel close
 behavior, default-open state, size, custom tokens, portal mounting, and body
 scroll locking.
 
-The named upstream example is still partial because current docs, fixtures, and
-tests do not prove the exact `alert-dialog-demo` composition: an outline Button
-trigger labelled `Show Dialog`, title `Are you absolutely sure?`, account
-deletion description copy, cancel text `Cancel`, action text `Continue`, no
-media block, and the upstream Button `asChild`/AlertDialogTrigger composition
-mapping.
+The named upstream example is now covered by docs, candidate fixtures, and
+Playwright tests that prove the exact `alert-dialog-demo` composition: an
+outline Button trigger labelled `Show Dialog`, title `Are you absolutely
+sure?`, account deletion description copy, cancel text `Cancel`, action text
+`Continue`, no media block, and the upstream Button `asChild`/
+AlertDialogTrigger composition mapping.
 
 ## Examples
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `alert-dialog-demo` | AlertDialog with `AlertDialogTrigger asChild` wrapping an outline Button labelled `Show Dialog`. Opening renders AlertDialogContent with AlertDialogHeader, title `Are you absolutely sure?`, description `This action cannot be undone. This will permanently delete your account and remove your data from our servers.`, AlertDialogFooter, cancel button `Cancel`, and action button `Continue`. The example has no media block. The upstream UI uses a React client component marker, Radix AlertDialog primitive, Button `asChild`, Button `variant="outline"`, `cn`, `data-slot`, `className`, Tailwind fixed overlay/content positioning, animation utilities, responsive header/footer layout, content `size`, portal/overlay/content composition, and Radix focus/dismissal behavior. | `radcn/packages/radcn/src/components/alert-dialog.tsx` exports the required parts and maps modal behavior to `enhanceAlertDialog` over public hooks. Current package evidence includes root `data-radcn-alert-dialog`, trigger, portal, overlay, content, header, footer, title, description, action, cancel, media hooks, `role="alertdialog"` enhancement, `aria-modal`, ARIA title/description wiring, focus trapping, non-dismissible default behavior, action/cancel close selectors, default-open state, size, and custom class/style hooks. `radcn/fixtures/candidate-remix/app/fixtures/alert-dialog.tsx` covers generic delete-project scenarios with `Delete project`, `Delete project?`, destructive project description, action `Delete`, cancel `Cancel`, optional media, default-open, small, cancel-action, and custom-token variants. `radcn/fixtures/tests/modal-variants.spec.ts` verifies alertdialog role, aria-modal, body scroll locking, title/description IDs, portal root mounting, Escape/overlay non-dismissal, focus loop, cancel/action close behavior, default-open, size, and custom token styling. `radcn/apps/docs/app/content/components.tsx` and `radcn/apps/docs/tests/coverage.spec.ts` prove a generic docs preview for Alert Dialog. No current docs/fixture/test proves the named upstream `Show Dialog` outline trigger, `Are you absolutely sure?` title, exact account deletion description, `Continue` action, absence of media, or Button `asChild` mapping for `alert-dialog-demo`. | Partial | Add named docs, candidate fixture, and Playwright coverage for `alert-dialog-demo` with an outline `Show Dialog` trigger, exact title/description/cancel/action text, no media block, alertdialog role and ARIA evidence, trigger/content state changes, focus behavior, non-dismissible Escape/overlay behavior, action/cancel close behavior, portal/overlay/content/header/footer hooks, Button composition evidence, and mapping copy for React, Radix, Button `asChild`, `cn`, `data-slot`, `className`, Tailwind layout/animation utilities, responsive layout, size/default sizing, custom tokens, and vendor source. |
+| `alert-dialog-demo` | AlertDialog with `AlertDialogTrigger asChild` wrapping an outline Button labelled `Show Dialog`. Opening renders AlertDialogContent with AlertDialogHeader, title `Are you absolutely sure?`, description `This action cannot be undone. This will permanently delete your account and remove your data from our servers.`, AlertDialogFooter, cancel button `Cancel`, and action button `Continue`. The example has no media block. The upstream UI uses a React client component marker, Radix AlertDialog primitive, Button `asChild`, Button `variant="outline"`, `cn`, `data-slot`, `className`, Tailwind fixed overlay/content positioning, animation utilities, responsive header/footer layout, content `size`, portal/overlay/content composition, and Radix focus/dismissal behavior. | `radcn/apps/docs/app/content/components.tsx` promotes Alert Dialog to a rich docs page with `data-radcn-docs-alert-dialog-family="alert-dialog-demo"`, exact upstream copy, a `Show Dialog` trigger styled with `radcn-button radcn-button--outline`, portal/overlay/content/header/footer/title/description/action/cancel hooks, no media hook, and mapping copy for React client markers, Radix AlertDialog, Button `asChild`, outline Button styling, `cn`, `data-slot`, `className`, Tailwind layout/animation utilities, responsive layout, size/default sizing, custom tokens, and vendor source. `radcn/fixtures/candidate-remix/app/fixtures/alert-dialog.tsx` adds `alert-dialog/demo` with the exact no-media composition. `radcn/fixtures/tests/modal-variants.spec.ts` verifies exact trigger/title/description/cancel/action text, outline trigger class evidence, alertdialog role, aria-modal, ARIA title/description wiring, root/trigger/portal/overlay/content open state, body scroll lock, portal-root mounting, no media, initial focus on Cancel with Tab to Continue, non-dismissible Escape/overlay behavior, cancel/action close behavior, and focus return. `radcn/apps/docs/tests/coverage.spec.ts` verifies the docs proof surface and divergence copy. | Covered | None. |
 
 ## Decisions
 
@@ -35,10 +35,9 @@ mapping.
   package-rendered parts. The Radix AlertDialog primitive is not needed for
   this example.
 - Upstream `AlertDialogTrigger asChild` plus Button `variant="outline"` maps to
-  explicit RadCN trigger/button composition. The follow-up should decide
-  whether to use `AlertDialogTrigger` styled as an outline trigger, compose a
-  RadCN Button where package APIs allow it, or document the trigger styling
-  mapping explicitly.
+  explicit RadCN trigger/button composition: `AlertDialogTrigger` styled with
+  `radcn-button radcn-button--outline`. No Slot or package-level Button wrapper
+  is required for this example.
 - AlertDialog remains non-dismissible by default. Escape and overlay clicks
   should not close the named destructive confirmation example.
 - `AlertDialogAction` and `AlertDialogCancel` are both native buttons in RadCN

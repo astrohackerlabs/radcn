@@ -10,6 +10,8 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from 'radcn/alert-dialog'
@@ -372,6 +374,11 @@ const forceVisiblePreviewStyle = css({
   '& [data-radcn-tabs-content][hidden]': {
     display: 'grid !important',
   },
+  '& [data-radcn-alert-dialog-portal][hidden]': {
+    display: 'grid !important',
+    position: 'static !important',
+    visibility: 'visible !important',
+  },
   '& [data-radcn-alert-dialog-content][hidden], & [data-radcn-drawer-content][hidden], & [data-radcn-sheet-content][hidden], & [data-radcn-popover-content][hidden], & [data-radcn-hover-card-content][hidden], & [data-radcn-tooltip-content][hidden], & [data-radcn-dropdown-menu-content][hidden], & [data-radcn-dropdown-menu-sub-content][hidden], & [data-radcn-context-menu-content][hidden], & [data-radcn-menubar-content][hidden], & [data-radcn-select-content][hidden], & [data-radcn-combobox-content][hidden], & [data-radcn-navigation-menu-content][hidden]': {
     color: 'var(--radcn-foreground) !important',
     display: 'grid !important',
@@ -443,6 +450,46 @@ export function AccordionDemo() {
         </AccordionContent>
       </AccordionItem>
     </Accordion>
+  )
+}`
+
+const alertDialogDemoSource = `import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from 'radcn/alert-dialog'
+
+export function AlertDialogDemo() {
+  return (
+    <AlertDialog id="alert-dialog-demo">
+      <AlertDialogTrigger class="radcn-button radcn-button--outline">
+        Show Dialog
+      </AlertDialogTrigger>
+      <AlertDialogPortal>
+        <AlertDialogOverlay />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction>Continue</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialogPortal>
+    </AlertDialog>
   )
 }`
 
@@ -5378,6 +5425,36 @@ function AccordionDemoPreview() {
   )
 }
 
+function AlertDialogDemoPreview() {
+  return () => (
+    <div data-radcn-docs-alert-dialog-family="alert-dialog-demo" mix={[previewStackStyle, forceVisiblePreviewStyle]}>
+      <AlertDialog id="docs-alert-dialog-demo">
+        <AlertDialogTrigger class="radcn-button radcn-button--outline">Show Dialog</AlertDialogTrigger>
+        <AlertDialogPortal>
+          <AlertDialogOverlay />
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
+      </AlertDialog>
+      <p style="margin:0;color:var(--radcn-docs-muted);font-size:0.875rem;">
+        Button asChild maps to explicit AlertDialogTrigger styling with
+        radcn-button and radcn-button--outline classes.
+      </p>
+    </div>
+  )
+}
+
 function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
   return () => {
     let { slug, title } = handle.props
@@ -6154,6 +6231,50 @@ const richComponentDocs: ComponentDoc[] = [
       'Icon grid and SVG layout stay in docs or application markup rather than the Alert package API.',
       'Alert Dialog is a separate component surface and is not part of Alert example parity.',
       'vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'alert-dialog',
+    title: 'Alert Dialog',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free destructive confirmation dialog with alertdialog semantics, non-dismissible defaults, and explicit action/cancel controls.',
+    importPath: 'radcn/alert-dialog',
+    importExample:
+      "import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger } from 'radcn/alert-dialog'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'alert-dialog-demo',
+        title: 'Alert Dialog Demo',
+        description:
+          'Render the upstream destructive account deletion confirmation with an outline Show Dialog trigger, exact copy, action/cancel controls, and no media block.',
+        source: alertDialogDemoSource,
+        preview: <AlertDialogDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'AlertDialog enhances content to role="alertdialog" with aria-modal when opened in the browser.',
+      'AlertDialogTitle and AlertDialogDescription provide the labelledby and describedby targets used by the modal enhancement.',
+      'Destructive confirmations are non-dismissible by default, so Escape and overlay clicks do not close the dialog.',
+      'Action and cancel controls are native buttons that close through enhanceAlertDialog and return focus to the trigger.',
+    ],
+    customization: [
+      'Root, trigger, portal, overlay, content, header, footer, title, description, action, and cancel parts expose public data-radcn hooks and package classes.',
+      'Button variant="outline" maps to radcn-button and radcn-button--outline classes applied directly to AlertDialogTrigger.',
+      'Content size defaults to data-size="default"; apps can use size="sm", class, style, and CSS variables for custom sizing and tokens.',
+      'Responsive header and footer layout maps to package CSS over public header/footer hooks instead of Tailwind utility classes.',
+    ],
+    divergence: [
+      'React client component markers and Radix AlertDialog map to dependency-free Remix UI markup plus explicit enhanceAlertDialog browser behavior.',
+      'Button asChild maps to explicit AlertDialogTrigger styling; RadCN does not need a Slot dependency for this example.',
+      'className maps to class, data-slot maps to data-radcn-alert-dialog* hooks, and cn maps to explicit class composition.',
+      'Tailwind fixed positioning, overlay/content animation utilities, responsive layout utilities, and size classes map to RadCN package CSS, data-state hooks, data-size, class, style, and CSS variables.',
+      'AlertDialogMedia is intentionally omitted because upstream alert-dialog-demo has no media block.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

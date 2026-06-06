@@ -161,6 +161,35 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('lucide ChevronDownIcon maps to the package-owned accordion icon hook').first()).toBeVisible()
     await expect(page.getByText('Tailwind flex, gap, and text-balance content utilities map to class').first()).toBeVisible()
 
+    await page.goto('/docs/components/alert-dialog')
+    let alertDialogDemo = page.locator('[data-radcn-docs-alert-dialog-family="alert-dialog-demo"]')
+    await expect(alertDialogDemo).toBeVisible()
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog]')).toHaveAttribute('data-state', 'closed')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-trigger]')).toHaveText('Show Dialog')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-trigger]')).toHaveAttribute('aria-haspopup', 'dialog')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-trigger]')).toHaveClass(/radcn-button/)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-trigger]')).toHaveClass(/radcn-button--outline/)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-portal]')).toHaveCount(1)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-overlay]')).toHaveCount(1)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-content]')).toBeVisible()
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-content]')).toHaveAttribute('data-size', 'default')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-header]')).toHaveCount(1)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-title]')).toHaveText('Are you absolutely sure?')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-description]')).toHaveText(
+      'This action cannot be undone. This will permanently delete your account and remove your data from our servers.',
+    )
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-footer]')).toHaveCount(1)
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-cancel]')).toHaveText('Cancel')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-action]')).toHaveText('Continue')
+    await expect(alertDialogDemo.locator('[data-radcn-alert-dialog-media]')).toHaveCount(0)
+    await expect(page.getByText('Button asChild maps to explicit AlertDialogTrigger styling').first()).toBeVisible()
+    await expect(page.getByText('Radix AlertDialog map to dependency-free Remix UI markup').first()).toBeVisible()
+    await expect(page.getByText('className maps to class, data-slot maps to data-radcn-alert-dialog').first()).toBeVisible()
+    await expect(page.getByText('Tailwind fixed positioning, overlay/content animation utilities').first()).toBeVisible()
+    await expect(page.getByText('Content size defaults to data-size="default"').first()).toBeVisible()
+    await expect(page.getByText('AlertDialogMedia is intentionally omitted').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/card')
     for (let slug of [
       'card-demo',

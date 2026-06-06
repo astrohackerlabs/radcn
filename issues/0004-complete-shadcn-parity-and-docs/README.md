@@ -1081,6 +1081,20 @@ Record cross-component discoveries here as experiments complete.
   `Cancel` and `Continue` controls, no media block, or the Button `asChild`
   trigger mapping. The next experiment should implement named
   `alert-dialog-demo` docs, candidate fixture, and Playwright coverage.
+- Experiment 82 resolved Alert Dialog example parity for `alert-dialog-demo`.
+  Docs, candidate fixtures, and Playwright now prove the exact upstream
+  `Show Dialog` outline trigger, `Are you absolutely sure?` title, account
+  deletion description, `Cancel` and `Continue` controls, no media block,
+  portal/overlay/content/header/footer/title/description/action/cancel hooks,
+  alertdialog role, aria-modal, ARIA title/description wiring, non-dismissible
+  Escape/overlay behavior, body scroll locking, and action/cancel close with
+  focus return. The upstream `AlertDialogTrigger asChild` plus Button
+  `variant="outline"` composition maps to `AlertDialogTrigger` styled with
+  `radcn-button radcn-button--outline`; no Slot, Radix, React, Tailwind, `cn`,
+  or package-level Button wrapper was needed. Preserving upstream footer order
+  makes Cancel the first focused control in the named destructive confirmation,
+  with Tab moving to Continue. The regenerated parity inventory recommends
+  auditing `aspect-ratio` examples next.
 
 ## Experiments
 
@@ -1247,4 +1261,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 81: Audit alert-dialog example parity](81-audit-alert-dialog-example-parity.md)
   — **Partial**
 - [Experiment 82: Implement alert-dialog example parity depth](82-implement-alert-dialog-example-parity-depth.md)
-  — **Designed**
+  — **Pass**
