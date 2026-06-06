@@ -808,6 +808,16 @@ Record cross-component discoveries here as experiments complete.
   `resolved-clusters.json` records `date-picker` as resolved, and the
   regenerated parity inventory recommends auditing `alert` examples next. No
   Date Picker package API change was needed.
+- Experiment 57 audited Alert example parity in
+  `alert-example-inventory.md`. RadCN already has package, docs, fixture, and
+  Playwright evidence for default/destructive variants, `role="alert"`,
+  title/description parts, action composition, public hooks, custom classes/
+  styles/tokens, and app-owned icon composition. The active upstream examples
+  remain partially covered because docs, candidate fixtures, and tests do not
+  yet prove the two named upstream example ids and exact compositions:
+  `alert-demo` and `alert-destructive`. The next experiment should implement
+  those named examples without changing the Alert package API unless a concrete
+  package-level gap appears.
 
 ## Experiments
 
@@ -924,4 +934,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 56: Implement date-picker example parity depth](56-implement-date-picker-example-parity-depth.md)
   — **Pass**
 - [Experiment 57: Audit alert example parity](57-audit-alert-example-parity.md)
-  — **Designed**
+  — **Partial**

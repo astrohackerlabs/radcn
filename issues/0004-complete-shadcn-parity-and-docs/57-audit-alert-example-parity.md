@@ -158,3 +158,96 @@ active alert cluster matches the inventory with `alert-demo` and
 concrete pass/fail and repo hygiene checks, the no React/cva/`lucide-react`/
 Tailwind/vendor dependency policy is preserved, `git diff --check` passed,
 vendor status printed no output, and the worktree is plan-only.
+
+## Result
+
+**Result:** Partial
+
+Created `alert-example-inventory.md` and audited the two active upstream Alert
+examples: `alert-demo` and `alert-destructive`.
+
+The audit found that the current `radcn/alert` package API is sufficient for the
+cluster. It already supports default and destructive variants, `role="alert"`,
+title and description parts, arbitrary description children for paragraphs and
+lists, action composition, public hooks, custom classes/styles/tokens, and
+app-owned icon composition. The React-specific upstream mechanics map cleanly to
+RadCN's web-first model: `className` maps to `class`, `data-slot` maps to
+`data-radcn-*` hooks, cva/Tailwind utilities remain implementation details,
+and `lucide-react` icons remain app-owned example children.
+
+The cluster is not complete yet because current docs, candidate fixtures, and
+Playwright tests prove generic Alert behavior but do not prove the two named
+upstream example ids with exact user-facing compositions and copy:
+`alert-demo` and `alert-destructive`.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/alert-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'alert-demo',
+  'alert-destructive',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+alert-demo: 1
+alert-destructive: 1
+
+rg -n "alert-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+812:  `alert-example-inventory.md`. RadCN already has package, docs, fixture, and
+
+git diff --check
+
+git status --short
+ M issues/0004-complete-shadcn-parity-and-docs/57-audit-alert-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/alert-example-inventory.md
+
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+## Conclusion
+
+Alert should move from audit to implementation depth next. The next experiment
+should add named docs, candidate fixture, and Playwright proof for `alert-demo`
+and `alert-destructive`, preserve icon composition as app-owned markup, and
+avoid changing `radcn/alert` unless implementation exposes a concrete API or
+styling gap.
+
+## Completion Review
+
+Reviewer: Dalton the 2nd (`019e9c3e-8074-7243-a285-fd9a3fe69d0a`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the result is
+a valid read-only audit, the scope stayed to the expected issue documentation
+files, the Issue 4 README status `Partial` matches the experiment result, the
+inventory contains exactly `alert-demo` and `alert-destructive`, `git diff
+--check` passed, `git status --short` showed only expected issue documentation
+changes, the vendor status loop printed no output, `git ls-files vendor` shows
+only `vendor/.gitignore`, the latest commit was still the plan commit, and the
+recorded `Partial` outcome is appropriate because current docs/fixtures/tests
+prove generic Alert behavior but not the exact upstream example ids and copy.
