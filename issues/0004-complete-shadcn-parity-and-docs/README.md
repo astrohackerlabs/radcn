@@ -1544,3 +1544,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 100: Audit navigation-menu example parity](100-audit-navigation-menu-example-parity.md)
   — **Partial**
+- [Experiment 101: Implement navigation-menu example parity depth](101-implement-navigation-menu-example-parity-depth.md)
+  — **Designed**
