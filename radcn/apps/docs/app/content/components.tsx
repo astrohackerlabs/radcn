@@ -40,7 +40,7 @@ import {
   CalendarWeek,
   CalendarWeekdays,
 } from 'radcn/calendar'
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'radcn/card'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'radcn/card'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from 'radcn/carousel'
 import {
   ChartBarSeries,
@@ -502,6 +502,69 @@ export function ButtonGroupPreview() {
         <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
       </ButtonGroup>
     </div>
+  )
+}`
+
+const cardSource = `import { Button } from 'radcn/button'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from 'radcn/card'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
+import { Select, SelectContent, SelectItem, SelectPortal, SelectTrigger, SelectValue, SelectViewport } from 'radcn/select'
+
+export function CardExamples() {
+  return (
+    <>
+      <Card style="width:min(100%,24rem);">
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>Enter your email below to login to your account</CardDescription>
+          <CardAction><Button href="/signup" variant="link">Sign Up</Button></CardAction>
+        </CardHeader>
+        <form action="/login" method="post">
+          <CardContent>
+            <Label for="email">Email</Label>
+            <Input id="email" name="email" required type="email" placeholder="m@example.com" />
+            <Label for="password">Password</Label>
+            <Input id="password" name="password" required type="password" />
+          </CardContent>
+          <CardFooter>
+            <Button type="submit" style="width:100%;">Login</Button>
+            <Button variant="outline" style="width:100%;">Login with Google</Button>
+          </CardFooter>
+        </form>
+      </Card>
+
+      <Card style="width:min(100%,350px);">
+        <CardHeader>
+          <CardTitle>Create project</CardTitle>
+          <CardDescription>Deploy your new project in one-click.</CardDescription>
+        </CardHeader>
+        <form action="/projects" method="post">
+          <CardContent>
+            <Label for="project-name">Name</Label>
+            <Input id="project-name" name="project" placeholder="Name of your project" />
+            <Label for="framework">Framework</Label>
+            <Select defaultOpen id="framework" name="framework">
+              <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+              <SelectPortal>
+                <SelectContent position="popper">
+                  <SelectViewport>
+                    <SelectItem value="next">Next.js</SelectItem>
+                    <SelectItem value="sveltekit">SvelteKit</SelectItem>
+                    <SelectItem value="astro">Astro</SelectItem>
+                    <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                  </SelectViewport>
+                </SelectContent>
+              </SelectPortal>
+            </Select>
+          </CardContent>
+          <CardFooter style="justify-content:space-between;">
+            <Button variant="outline">Cancel</Button>
+            <Button type="submit">Deploy</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    </>
   )
 }`
 
@@ -3187,6 +3250,84 @@ function FormComplexPreview() {
   )
 }
 
+function CardPreview() {
+  return () => (
+    <div mix={previewStackStyle}>
+      <div data-radcn-docs-card-family="card-demo">
+        <Card class="radcn-docs-card-demo" style="width:min(100%,24rem);">
+          <CardHeader>
+            <div>
+              <CardTitle>Login to your account</CardTitle>
+              <CardDescription>Enter your email below to login to your account</CardDescription>
+            </div>
+            <CardAction><Button href="/docs/components/card#signup" variant="link">Sign Up</Button></CardAction>
+          </CardHeader>
+          <form action="/docs/components/card" method="post" data-radcn-docs-card-form="login">
+            <CardContent>
+              <div style="display:grid;gap:1rem;">
+                <div style="display:grid;gap:0.5rem;">
+                  <Label for="docs-card-email">Email</Label>
+                  <Input id="docs-card-email" name="email" placeholder="m@example.com" required type="email" />
+                </div>
+                <div style="display:grid;gap:0.5rem;">
+                  <div style="display:flex;align-items:center;gap:0.75rem;">
+                    <Label for="docs-card-password">Password</Label>
+                    <a href="/docs/components/card#forgot-password" style="margin-left:auto;font-size:0.875rem;">Forgot your password?</a>
+                  </div>
+                  <Input id="docs-card-password" name="password" required type="password" />
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter style="display:grid;gap:0.5rem;">
+              <Button style="width:100%;" type="submit">Login</Button>
+              <Button style="width:100%;" variant="outline">Login with Google</Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+
+      <div data-radcn-docs-card-family="card-with-form">
+        <Card class="radcn-docs-card-with-form" style="width:min(100%,350px);">
+          <CardHeader>
+            <CardTitle>Create project</CardTitle>
+            <CardDescription>Deploy your new project in one-click.</CardDescription>
+          </CardHeader>
+          <form action="/docs/components/card" method="post" data-radcn-docs-card-form="project">
+            <CardContent>
+              <div style="display:grid;gap:1rem;">
+                <div style="display:grid;gap:0.5rem;">
+                  <Label for="docs-card-project-name">Name</Label>
+                  <Input id="docs-card-project-name" name="project" placeholder="Name of your project" />
+                </div>
+                <div style="display:grid;gap:0.5rem;">
+                  <Label for="docs-card-framework-trigger">Framework</Label>
+                  <Select defaultOpen id="docs-card-framework" name="framework">
+                    <SelectTrigger id="docs-card-framework-trigger" style="width:100%;"><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectPortal>
+                      <SelectContent position="popper">
+                        <SelectViewport>
+                          <SelectItem value="next">Next.js</SelectItem>
+                          <SelectItem value="sveltekit">SvelteKit</SelectItem>
+                          <SelectItem value="astro">Astro</SelectItem>
+                          <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                        </SelectViewport>
+                      </SelectContent>
+                    </SelectPortal>
+                  </Select>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter style="display:flex;justify-content:space-between;gap:0.75rem;">
+              <Button variant="outline">Cancel</Button>
+              <Button type="submit">Deploy</Button>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
 function CalendarPreview() {
   return () => (
     <div mix={previewStackStyle}>
@@ -5583,6 +5724,47 @@ const richComponentDocs: ComponentDoc[] = [
       'The Remix 3 port makes field wiring explicit through helpers and native attributes so server actions, native validation, and future enhancement can share the same markup.',
       'Schema validation and form-state libraries remain app choices rather than RadCN package dependencies.',
       'The upstream RHF, TanStack Form, Formisch, and Next examples map to behavior clusters in RadCN docs rather than one dependency-specific example per library.',
+    ],
+  },
+  {
+    slug: 'card',
+    title: 'Card',
+    category: 'Display',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A flexible content surface with header, title, description, action, content, and footer slots.',
+    importPath: 'radcn/card',
+    importExample: "import { Card, CardContent, CardHeader, CardTitle } from 'radcn/card'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'card-demo-and-form',
+        title: 'Demo and Form',
+        description:
+          'Render the upstream login/account Card and project form Card with named slots, native forms, package inputs, package buttons, and package Select composition.',
+        source: cardSource,
+        preview: <CardPreview />,
+      },
+    ],
+    accessibility: [
+      'Card preserves native semantics for the content placed inside it: forms remain forms, labels remain labels, inputs keep their type and required state, and links remain links.',
+      'CardTitle and CardDescription provide visible structure while apps decide heading levels around the card surface.',
+      'CardAction is a layout slot; the composed Button or anchor keeps its own accessible role and name.',
+    ],
+    customization: [
+      'Card root, header, title, description, action, content, and footer expose data-radcn-card* hooks.',
+      'className maps to class, and width utilities such as w-full, max-w-sm, and w-[350px] map to class, style, CSS variables, or app CSS.',
+      'data-slot maps to data-radcn-card* hooks; cn and Tailwind utilities map to RadCN package classes, CSS variables, and app CSS.',
+      'CardAction, Button variant="link", Button variant="outline", Input type="email", Input type="password", and Select position="popper" compose existing RadCN primitives.',
+    ],
+    divergence: [
+      'Card owns the surface and slots, not app form state, login behavior, project creation behavior, or Select overlay state.',
+      'Native form semantics remain app-owned unless a route chooses to compose RadCN Form helpers.',
+      'Form, Chart, and Carousel Card references are separate resolved clusters; block Card references stay block parity work.',
+      'The switch registry dependency in card-demo.json is treated as stale metadata because the current card-demo source does not render Switch.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

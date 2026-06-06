@@ -119,6 +119,52 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/button')
     await expect(page.locator('[data-radcn-button]').first()).toBeVisible()
 
+    await page.goto('/docs/components/card')
+    for (let slug of [
+      'card-demo',
+      'card-with-form',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-card-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] [data-radcn-card]')).toHaveClass(/radcn-docs-card-demo/)
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] [data-radcn-card-title]')).toHaveText('Login to your account')
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] [data-radcn-card-description]')).toHaveText('Enter your email below to login to your account')
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] [data-radcn-card-action] [data-radcn-button]')).toHaveAttribute('data-variant', 'link')
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] form[data-radcn-docs-card-form="login"] [data-radcn-card-content]')).toHaveCount(1)
+    await expect(page.getByLabel('Email')).toHaveAttribute('type', 'email')
+    await expect(page.getByLabel('Email')).toHaveAttribute('required', '')
+    await expect(page.getByLabel('Password')).toHaveAttribute('type', 'password')
+    await expect(page.getByLabel('Password')).toHaveAttribute('required', '')
+    await expect(page.getByRole('link', { name: 'Forgot your password?' })).toBeVisible()
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] form[data-radcn-docs-card-form="login"] [data-radcn-card-footer] [data-radcn-button]')).toHaveText(['Login', 'Login with Google'])
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] form[data-radcn-docs-card-form="login"] [data-radcn-card-footer] [data-radcn-button]').nth(0)).toHaveAttribute('type', 'submit')
+    await expect(page.locator('[data-radcn-docs-card-family="card-demo"] [data-radcn-card-footer] [data-radcn-button]').nth(1)).toHaveAttribute('data-variant', 'outline')
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] [data-radcn-card]')).toHaveClass(/radcn-docs-card-with-form/)
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] [data-radcn-card-title]')).toHaveText('Create project')
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] [data-radcn-card-description]')).toHaveText('Deploy your new project in one-click.')
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] form[data-radcn-docs-card-form="project"] [data-radcn-card-content]')).toHaveCount(1)
+    await expect(page.getByLabel('Name')).toHaveAttribute('placeholder', 'Name of your project')
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] [data-radcn-select]')).toBeVisible()
+    await expect(page.locator('[data-radcn-select-content] [data-radcn-select-item-text]')).toHaveText([
+      'Next.js',
+      'SvelteKit',
+      'Astro',
+      'Nuxt.js',
+    ])
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] [data-radcn-card-footer] [data-radcn-button]')).toHaveText(['Cancel', 'Deploy'])
+    await expect(page.locator('[data-radcn-docs-card-family="card-with-form"] form[data-radcn-docs-card-form="project"] [data-radcn-card-footer] [data-radcn-button]').nth(1)).toHaveAttribute('type', 'submit')
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('data-slot maps to data-radcn-card* hooks').first()).toBeVisible()
+    await expect(page.getByText('cn and Tailwind utilities map to RadCN package classes').first()).toBeVisible()
+    await expect(page.getByText('width utilities such as w-full, max-w-sm, and w-[350px]').first()).toBeVisible()
+    await expect(page.getByText('CardAction, Button variant="link", Button variant="outline"').first()).toBeVisible()
+    await expect(page.getByText('Input type="email", Input type="password", and Select position="popper"').first()).toBeVisible()
+    await expect(page.getByText('Native form semantics remain app-owned').first()).toBeVisible()
+    await expect(page.getByText('Form, Chart, and Carousel Card references are separate resolved clusters').first()).toBeVisible()
+    await expect(page.getByText('block Card references stay block parity work').first()).toBeVisible()
+    await expect(page.getByText('switch registry dependency in card-demo.json').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/alert')
     for (let slug of [
       'alert-demo',

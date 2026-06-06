@@ -633,6 +633,18 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "card",
+    id: "demo",
+    title: "Card Demo",
+    description: "Named upstream card-demo parity with login account form composition.",
+  },
+  {
+    component: "card",
+    id: "with-form",
+    title: "Card With Form",
+    description: "Named upstream card-with-form parity with project form and Select composition.",
+  },
+  {
+    component: "card",
     id: "default",
     title: "Default Card",
     description: "Card with header, action, content, and footer slots.",

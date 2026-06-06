@@ -231,3 +231,80 @@ plan preserves the no React/Tailwind/`cn`/vendor/form-state dependency
 boundaries, and verification includes typechecks, fixture/docs Playwright
 commands, deterministic inventory checks, `git diff --check`, and vendor
 cleanliness checks.
+
+## Result
+
+**Result:** Pass
+
+Implemented named Card example parity depth for `card-demo` and
+`card-with-form` without changing the `radcn/card` package API.
+
+The docs Card page is now an authored rich docs page with stable
+`data-radcn-docs-card-family` hooks for both upstream examples. It renders the
+login/account Card with `CardAction`, labelled email/password inputs, required
+and type semantics, forgot-password link, full-width Login button, outline
+Login with Google button, and mapping copy. It also renders the project Card
+with fixed-width styling, project-name Input, framework Select composition,
+Cancel and Deploy buttons, footer layout, and mapping copy.
+
+The candidate fixture app now has named `card/demo` and `card/with-form`
+routes. `static-display.spec.ts` verifies both named routes while preserving the
+existing generic Card slot/custom-token tests. The Card inventory now marks
+both examples `Covered`, `resolved-clusters.json` records `card` as resolved,
+and the regenerated parity inventory recommends `command` next.
+
+Verification run on 2026-06-06:
+
+```text
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node inventory check for card-demo/card-with-form outcomes
+node resolved-clusters.json check for card evidence
+node scripts/audit-shadcn-parity.mjs and generated recommendation check
+node forbidden import check
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. The fixture Playwright run reported 10 passed tests; the
+docs Playwright run reported 5 passed tests. The vendor status loop printed no
+output.
+
+## Conclusion
+
+Card example parity is resolved for this cluster. The implementation confirms
+the Experiment 61 audit finding: Card needed named docs/fixture/test depth, not
+a package API change. Card owns the reusable surface and slots, while Button,
+Input, Label, Select, native forms, auth behavior, project creation behavior,
+and overlay state remain composed package/app concerns. The next generated
+Issue 4 recommendation is example parity for `command`.
+
+## Completion Review
+
+Reviewer: Chandrasekhar the 2nd (`019e9c71-39cf-7780-bed0-54e97a46dbc2`)
+with fresh context (`fork_context: false`).
+
+Findings:
+
+- Major: the first pass found that docs and fixture footer submit buttons were
+  outside their native forms, so `Login` and `Deploy` did not submit the
+  relevant forms despite the experiment claiming native form semantics. Fixed
+  by wrapping each Card's `CardContent` and `CardFooter` in the same native
+  form and asserting the form-scoped submit buttons.
+- Minor: docs coverage checked email/password input types but not required
+  semantics. Fixed by adding docs Playwright assertions for the required email
+  and password fields.
+
+Re-review: Chandrasekhar the 2nd re-reviewed the fixes and confirmed both
+findings are resolved. The reviewer also checked that the secondary
+`Login with Google` and `Cancel` buttons remain non-submit actions because
+`radcn/button` defaults to `type="button"`.
+
+Approval: Approved after fixes. The reviewer confirmed the implementation
+matches the approved scope, the recorded checks passed, the README status and
+learnings are present, `git diff --check` passed, vendor status was clean, the
+result commit had not been made before review, no package API or dependency
+files changed, and no React, Tailwind, `cn`, vendor imports, form-state
+dependencies, or unjustified Card package API changes were added.

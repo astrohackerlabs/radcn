@@ -862,6 +862,16 @@ Record cross-component discoveries here as experiments complete.
   named `card-demo` login/account card or `card-with-form` project card with
   their copy, form structure, width/layout styling, Button variants, Input
   types, and Select composition.
+- Experiment 62 completed Card example parity depth without changing the Card
+  package API. The docs page and candidate fixtures now prove named
+  `card-demo` and `card-with-form` examples with CardAction, login/account
+  copy, project form copy, native forms, labelled inputs, input types, required
+  semantics, Select composition, Button variants, width/layout styling, public
+  hooks, and mapping copy. `card-demo.json`'s stale Switch dependency remains
+  recorded as registry metadata drift because the current upstream source does
+  not render Switch.
+- After Experiment 62, `card` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `command` next.
 
 ## Experiments
 
@@ -988,4 +998,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 61: Audit card example parity](61-audit-card-example-parity.md)
   — **Partial**
 - [Experiment 62: Implement card example parity depth](62-implement-card-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

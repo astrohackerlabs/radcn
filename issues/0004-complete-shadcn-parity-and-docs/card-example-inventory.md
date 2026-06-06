@@ -34,8 +34,8 @@ limited to the two named Card examples.
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `card-demo` | Renders a max-width login/account card with `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, and `CardFooter`. The content composes a native form shell, email/password inputs, labels, a forgot-password link, a link-variant signup button, a full-width submit button, and an outline Google button. Styling comes from `className` width, flex/grid/gap utilities, and CardAction placement. The registry JSON lists `switch` as a dependency, but the current source does not import or render Switch. | `radcn/card` ships all Card parts including `CardAction`, public hooks, `size`, `class`, `style`, and token-driven styling. Candidate fixtures and Playwright prove generic Card slots, action, compact size, custom token styling, and Button composition. Other fixtures prove Input, Label, Button, and Form composition separately. Docs currently render a generic Card preview, but there is no named `card-demo` docs family, candidate route, or Playwright evidence with the upstream login copy, form structure, link action, full-width buttons, and input types. | Partial | Add named docs, candidate fixture, and Playwright evidence for `card-demo`. Likely no Card package API change is needed unless implementation exposes a concrete layout or slot gap. |
-| `card-with-form` | Renders a fixed-width project creation card with header/title/description, a native form shell, project-name `Input`, framework `Select` with `SelectTrigger`, `SelectValue`, `SelectContent position="popper"`, four options, and footer buttons laid out with `justify-between`. Styling comes from `className="w-[350px]"`, grid/flex/gap utilities, and Button variants. | `radcn/card` provides the needed slots and custom `class`/`style` hooks. RadCN already ships Input, Label, Select, and Button package surfaces, and existing fixtures prove generic Card, form, select, input, and button behavior independently. Current Card fixtures do not prove the named `card-with-form` example, fixed-width card presentation, project form copy, Select composition inside Card, footer justify-between layout, or named Playwright evidence. | Partial | Add named docs, candidate fixture, and Playwright evidence for `card-with-form`, reusing existing RadCN Input, Label, Select, and Button primitives. |
+| `card-demo` | Renders a max-width login/account card with `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, and `CardFooter`. The content composes a native form shell, email/password inputs, labels, a forgot-password link, a link-variant signup button, a full-width submit button, and an outline Google button. Styling comes from `className` width, flex/grid/gap utilities, and CardAction placement. The registry JSON lists `switch` as a dependency, but the current source does not import or render Switch. | `radcn/card` ships all Card parts including `CardAction`, public hooks, `size`, `class`, `style`, and token-driven styling. Docs and candidate fixtures now render named `card-demo` evidence with the login copy, CardAction Sign Up link, native form shell, labelled email/password inputs, required/type semantics, forgot-password link, full-width Login button, outline Login with Google button, public Card hooks, and Playwright assertions. | Covered | No Card package API change was needed. Keep form behavior and auth actions app-owned composition. |
+| `card-with-form` | Renders a fixed-width project creation card with header/title/description, a native form shell, project-name `Input`, framework `Select` with `SelectTrigger`, `SelectValue`, `SelectContent position="popper"`, four options, and footer buttons laid out with `justify-between`. Styling comes from `className="w-[350px]"`, grid/flex/gap utilities, and Button variants. | `radcn/card` provides the needed slots and custom `class`/`style` hooks. Docs and candidate fixtures now render named `card-with-form` evidence with project copy, fixed-width styling, labelled project-name Input, framework Select composition/options, Cancel and Deploy buttons, footer layout, native form structure, public hooks, and Playwright assertions. | Covered | No Card package API change was needed. Select overlay behavior remains Select-owned composition. |
 
 ## Capability Matrix
 
@@ -51,17 +51,17 @@ limited to the two named Card examples.
 | Public hooks | Supported | All Card parts expose `data-radcn-card*` hooks. |
 | Size variants | Supported | `size="default"` and `size="sm"` exist; fixture scenarios cover default and compact cards. |
 | Custom classes/styles/tokens | Supported | Card accepts `class` and `style`; custom-token fixture proves CSS variable styling. |
-| Full-width and max-width styling | Supported as author styling, not named-example-proven | `class` and `style` can carry `w-full`/`max-w-sm` equivalents, but `card-demo` is not represented yet. |
-| Compact fixed-width styling | Supported as author styling, not named-example-proven | `class` and `style` can carry `w-[350px]` equivalents, but `card-with-form` is not represented yet. |
-| Login/account form composition | Partial | Required primitives exist, but no named `card-demo` docs/fixture/test evidence exists. |
-| Project form composition | Partial | Required primitives exist, but no named `card-with-form` docs/fixture/test evidence exists. |
-| Button composition | Supported generally, partial for Card examples | Button variants are package-backed, but the named Card examples do not prove link, full-width, outline, cancel, or deploy buttons in Card context. |
-| Input and Label composition | Supported generally, partial for Card examples | Input and Label packages exist and are tested elsewhere; named Card examples do not prove email/password/project fields in Card context. |
-| Select composition | Supported generally, partial for Card examples | Select package exists and is tested elsewhere; `card-with-form` does not yet prove Select inside Card. |
-| Docs evidence | Partial | Docs have a generic Card page and preview, not named `card-demo` or `card-with-form` evidence. |
-| Candidate fixture evidence | Partial | Fixture routes prove generic Card mechanics but not the two named upstream example ids. |
+| Full-width and max-width styling | Supported | `card-demo` docs and fixture use author styling to map upstream width utilities. |
+| Compact fixed-width styling | Supported | `card-with-form` docs and fixture use author styling to map `w-[350px]`. |
+| Login/account form composition | Supported | Named `card-demo` docs, fixture, and Playwright evidence prove the composition. |
+| Project form composition | Supported | Named `card-with-form` docs, fixture, and Playwright evidence prove the composition. |
+| Button composition | Supported | Named Card examples prove link, full-width, outline, cancel, and deploy buttons in Card context. |
+| Input and Label composition | Supported | Named Card examples prove labelled email/password/project fields in Card context. |
+| Select composition | Supported | Named `card-with-form` docs, fixture, and Playwright evidence prove Select composition inside Card. |
+| Docs evidence | Supported | Card is an authored rich docs page with named `card-demo` and `card-with-form` evidence. |
+| Candidate fixture evidence | Supported | Fixture routes include `card/demo` and `card/with-form`. |
 | Reference fixture evidence | Out of scope | Reference fixture has generic static Card rows only; no named Card example comparison exists. |
-| Playwright evidence | Partial | `static-display.spec.ts` proves generic Card slots and custom token styling but not named Card example parity. |
+| Playwright evidence | Supported | `static-display.spec.ts` and docs coverage prove named Card example parity. |
 
 ## Mapping Decisions
 
@@ -87,11 +87,10 @@ limited to the two named Card examples.
 
 ## Decision
 
-The Card example cluster is partial. The `radcn/card` package API appears
-sufficient for both active upstream examples: Card root, slots, action, sizing,
-custom styling hooks, and composition with Button/Input/Label/Select are already
-available. The missing work is named parity depth, not a known package API gap:
-docs, candidate fixtures, and Playwright tests should render and assert
-`card-demo` and `card-with-form` with their user-facing copy, form structure,
-width/layout styling, CardAction placement, Button variants, Input types, and
-Select composition.
+The Card example cluster is resolved. `card-demo` and `card-with-form` are now
+covered by package-owned Card slots plus named docs, candidate fixtures, and
+Playwright evidence. No Card package API change was needed: Card owns the
+surface and slots, while Button, Input, Label, Select, native forms, auth
+behavior, project creation behavior, and overlay state remain composed
+application/package concerns. RadCN did not add React, Tailwind, `cn`, vendor
+imports, form-state dependencies, or a new Card dependency.

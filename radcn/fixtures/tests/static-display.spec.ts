@@ -107,6 +107,48 @@ test('candidate card exposes slot hooks and custom tokens', async ({ page }) => 
   await expect(custom).toHaveCSS('border-color', 'rgb(147, 51, 234)')
 })
 
+test('candidate card covers named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/card/demo`)
+  let demo = page.locator('[data-radcn-card]').first()
+  await expect(demo).toHaveClass(/radcn-fixture-card-demo/)
+  await expect(page.locator('[data-radcn-card-header]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-card-title]')).toHaveText('Login to your account')
+  await expect(page.locator('[data-radcn-card-description]')).toHaveText('Enter your email below to login to your account')
+  await expect(page.locator('[data-radcn-card-action] [data-radcn-button]')).toHaveAttribute('data-variant', 'link')
+  await expect(page.locator('[data-radcn-card-action] [data-radcn-button]')).toHaveText('Sign Up')
+  await expect(page.locator('form[data-radcn-card-demo-form="login"] [data-radcn-card-content]')).toHaveCount(1)
+  await expect(page.getByLabel('Email')).toHaveAttribute('type', 'email')
+  await expect(page.getByLabel('Email')).toHaveAttribute('required', '')
+  await expect(page.getByLabel('Password')).toHaveAttribute('type', 'password')
+  await expect(page.getByLabel('Password')).toHaveAttribute('required', '')
+  await expect(page.getByRole('link', { name: 'Forgot your password?' })).toBeVisible()
+  await expect(page.locator('form[data-radcn-card-demo-form="login"] [data-radcn-card-footer] [data-radcn-button]').nth(0)).toHaveText('Login')
+  await expect(page.locator('form[data-radcn-card-demo-form="login"] [data-radcn-card-footer] [data-radcn-button]').nth(0)).toHaveAttribute('type', 'submit')
+  await expect(page.locator('form[data-radcn-card-demo-form="login"] [data-radcn-card-footer] [data-radcn-button]').nth(0)).toHaveAttribute('style', /width:100%/)
+  await expect(page.locator('[data-radcn-card-footer] [data-radcn-button]').nth(1)).toHaveAttribute('data-variant', 'outline')
+  await expect(page.locator('[data-radcn-card-footer] [data-radcn-button]').nth(1)).toHaveText('Login with Google')
+
+  await page.goto(`${candidate}/fixtures/card/with-form`)
+  let project = page.locator('[data-radcn-card]').first()
+  await expect(project).toHaveClass(/radcn-fixture-card-with-form/)
+  await expect(page.locator('[data-radcn-card-title]')).toHaveText('Create project')
+  await expect(page.locator('[data-radcn-card-description]')).toHaveText('Deploy your new project in one-click.')
+  await expect(page.locator('form[data-radcn-card-demo-form="project"] [data-radcn-card-content]')).toHaveCount(1)
+  await expect(page.getByLabel('Name')).toHaveAttribute('placeholder', 'Name of your project')
+  await expect(page.locator('[data-radcn-select]')).toHaveAttribute('data-default-open', 'true')
+  await expect(page.locator('[data-radcn-select-trigger]')).toBeVisible()
+  await expect(page.locator('[data-radcn-select-content] [data-radcn-select-item-text]')).toHaveText([
+    'Next.js',
+    'SvelteKit',
+    'Astro',
+    'Nuxt.js',
+  ])
+  await expect(page.locator('[data-radcn-card-footer]')).toHaveAttribute('style', /justify-content:space-between/)
+  await expect(page.locator('[data-radcn-card-footer] [data-radcn-button]').nth(0)).toHaveAttribute('data-variant', 'outline')
+  await expect(page.locator('[data-radcn-card-footer] [data-radcn-button]')).toHaveText(['Cancel', 'Deploy'])
+  await expect(page.locator('form[data-radcn-card-demo-form="project"] [data-radcn-card-footer] [data-radcn-button]').nth(1)).toHaveAttribute('type', 'submit')
+})
+
 test('candidate empty and kbd expose semantic slot hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/empty/default`)
   await expect(page.locator('[data-radcn-empty]')).toHaveCount(1)

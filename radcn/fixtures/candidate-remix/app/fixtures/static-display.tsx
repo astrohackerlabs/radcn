@@ -26,6 +26,7 @@ import {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
+  Input,
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
@@ -42,8 +43,16 @@ import {
   ItemTitle,
   Kbd,
   KbdGroup,
+  Label,
   Progress,
   Separator,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectPortal,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
   Skeleton,
   Spinner,
   Tooltip,
@@ -240,6 +249,82 @@ export function renderBadgeFixture(fixture: FixtureScenario) {
 }
 
 export function renderCardFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return (
+      <Card class="radcn-fixture-card-demo" style="width:min(100%,24rem);">
+        <CardHeader>
+          <div>
+            <CardTitle>Login to your account</CardTitle>
+            <CardDescription>Enter your email below to login to your account</CardDescription>
+          </div>
+          <CardAction><Button href="/fixtures/card/demo#signup" variant="link">Sign Up</Button></CardAction>
+        </CardHeader>
+        <form action="/fixtures/card/demo" method="post" data-radcn-card-demo-form="login">
+          <CardContent>
+            <div style="display:grid;gap:1rem;">
+              <div style="display:grid;gap:0.5rem;">
+                <Label for="card-demo-email">Email</Label>
+                <Input id="card-demo-email" name="email" placeholder="m@example.com" required type="email" />
+              </div>
+              <div style="display:grid;gap:0.5rem;">
+                <div style="display:flex;align-items:center;gap:0.75rem;">
+                  <Label for="card-demo-password">Password</Label>
+                  <a href="/fixtures/card/demo#forgot-password" style="margin-left:auto;font-size:0.875rem;">Forgot your password?</a>
+                </div>
+                <Input id="card-demo-password" name="password" required type="password" />
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter style="display:grid;gap:0.5rem;">
+            <Button style="width:100%;" type="submit">Login</Button>
+            <Button style="width:100%;" variant="outline">Login with Google</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    )
+  }
+
+  if (fixture.id === 'with-form') {
+    return (
+      <Card class="radcn-fixture-card-with-form" style="width:min(100%,350px);">
+        <CardHeader>
+          <CardTitle>Create project</CardTitle>
+          <CardDescription>Deploy your new project in one-click.</CardDescription>
+        </CardHeader>
+        <form action="/fixtures/card/with-form" method="post" data-radcn-card-demo-form="project">
+          <CardContent>
+            <div style="display:grid;gap:1rem;">
+              <div style="display:grid;gap:0.5rem;">
+                <Label for="card-project-name">Name</Label>
+                <Input id="card-project-name" name="project" placeholder="Name of your project" />
+              </div>
+              <div style="display:grid;gap:0.5rem;">
+                <Label for="card-framework-trigger">Framework</Label>
+                <Select defaultOpen id="card-framework" name="framework">
+                  <SelectTrigger id="card-framework-trigger" style="width:100%;"><SelectValue placeholder="Select" /></SelectTrigger>
+                  <SelectPortal>
+                    <SelectContent position="popper">
+                      <SelectViewport>
+                        <SelectItem value="next">Next.js</SelectItem>
+                        <SelectItem value="sveltekit">SvelteKit</SelectItem>
+                        <SelectItem value="astro">Astro</SelectItem>
+                        <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                      </SelectViewport>
+                    </SelectContent>
+                  </SelectPortal>
+                </Select>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter style="display:flex;justify-content:space-between;gap:0.75rem;">
+            <Button variant="outline">Cancel</Button>
+            <Button type="submit">Deploy</Button>
+          </CardFooter>
+        </form>
+      </Card>
+    )
+  }
+
   let custom = fixture.id === 'custom-token'
   let compact = fixture.id === 'compact'
 

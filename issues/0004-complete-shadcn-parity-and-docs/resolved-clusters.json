@@ -250,6 +250,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/60-resolve-calendar-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/calendar-example-inventory.md"
       ]
+    },
+    {
+      "slug": "card",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/61-audit-card-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/62-implement-card-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/card-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],
