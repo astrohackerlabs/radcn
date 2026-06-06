@@ -169,3 +169,62 @@ Changes, Verification, and Design Review sections, the scope is narrow and
 audit-only, implementation has not started before the plan commit, verification
 has deterministic row checks and repo hygiene checks, vendor checkouts are not
 modified, and the plan records the required issue learnings.
+
+## Result
+
+**Result:** Partial
+
+Created `command-example-inventory.md` and audited the two active upstream
+Command examples: `command-demo` and `command-dialog`.
+
+RadCN already covers the core Command primitive behavior: root, input, list,
+empty state, groups, separators, items, disabled items, shortcuts,
+checked/selected indicators, filtering, keyboard movement, activation events,
+dialog composition, public hooks, and custom classes/styles/tokens. Existing
+candidate fixtures and Playwright tests prove these generic behaviors.
+
+The active upstream examples are still only partially covered because RadCN does
+not yet have named docs/fixture/test evidence for the exact upstream Command
+demo and Command dialog compositions. The audit also identified two concrete
+mapping gaps for the next implementation pass: visible group headings/labels
+need a deliberate RadCN API or composition mapping, and the `command-dialog`
+example's `⌘J`/`Ctrl+J` shortcut must be demonstrated as app-owned behavior
+rather than package-owned global shortcut routing.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `command-demo: 1`, `command-dialog: 1`.
+- `rg -n "command-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+All verification passed. The only changed files are Issue 4 documentation files.
+
+## Completion Review
+
+Reviewer: Bernoulli the 2nd (`019e9c7c-33be-7070-a9f8-898b5d5a066e`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed that the experiment stayed
+audit-only, the Result and Conclusion sections are present, the Issue 4 README
+records the learning and marks Experiment 63 as `Partial`, the inventory
+contains exactly `command-demo` and `command-dialog`, `git diff --check` passed,
+vendor cleanliness was checked, and the result commit had not been made before
+completion review.
+
+## Conclusion
+
+The next experiment should implement named Command example parity depth. It
+should add docs and candidate fixture coverage for `command-demo` and
+`command-dialog`, include the upstream rows/copy, prove visible group labels,
+show app-owned icon composition, and demonstrate `⌘J`/`Ctrl+J` dialog opening as
+app-owned behavior. It should not add React, `cmdk`, `lucide-react`, Tailwind,
+`cn`, or vendor dependencies to RadCN.

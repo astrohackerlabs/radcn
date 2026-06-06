@@ -872,6 +872,17 @@ Record cross-component discoveries here as experiments complete.
   not render Switch.
 - After Experiment 62, `card` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `command` next.
+- Experiment 63 audited Command example parity in
+  `command-example-inventory.md`. RadCN already has package, fixture, and
+  Playwright evidence for root/input/list/empty/items/separators/shortcuts,
+  filtering, keyboard movement, activation events, disabled items, checked and
+  selected indicators, dialog composition, public hooks, and token
+  customization. The cluster remains partial because docs, fixtures, and tests
+  do not yet prove the named `command-demo` and `command-dialog` examples,
+  visible group headings/labels, exact upstream rows/copy, app-owned icon
+  composition, app-owned `⌘J`/`Ctrl+J` shortcut guidance, and dialog opening
+  behavior. The next experiment should implement those named examples without
+  adding React, `cmdk`, `lucide-react`, Tailwind, `cn`, or vendor dependencies.
 
 ## Experiments
 
@@ -1000,4 +1011,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 62: Implement card example parity depth](62-implement-card-example-parity-depth.md)
   — **Pass**
 - [Experiment 63: Audit command example parity](63-audit-command-example-parity.md)
-  — **Designed**
+  — **Partial**
