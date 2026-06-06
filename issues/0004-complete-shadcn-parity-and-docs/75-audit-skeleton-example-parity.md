@@ -151,3 +151,61 @@ Approval: approved. The reviewer confirmed the Issue 4 README links
 Experiment 75 as `Designed`, the scope is audit-only, active upstream New York
 v4 Skeleton example ids are `skeleton-card` and `skeleton-demo`, `git diff
 --check` passed, vendor checkouts are clean, and no blockers remain.
+
+## Result
+
+**Result:** Partial
+
+Created `skeleton-example-inventory.md` and audited the two active upstream
+Skeleton examples: `skeleton-card` and `skeleton-demo`.
+
+RadCN already covers the core Skeleton primitive behavior: hidden placeholder
+semantics through `aria-hidden`, public `data-radcn-skeleton` hooks, pulse
+animation, base rounded/background styling, custom classes, and inline styles.
+Those surfaces are enough to express upstream fixed dimensions, rounded-full
+avatar placeholders, rounded-xl card media placeholders, and text-line blocks
+without changing the package API.
+
+The active upstream examples are still only partially covered because current
+docs, candidate fixtures, and Playwright tests prove generic placeholder
+behavior rather than the named upstream card and avatar/list compositions. The
+existing default fixture roughly resembles `skeleton-demo`, but it uses
+different dimensions and is not named evidence for the upstream example.
+`skeleton-card` has no named docs, fixture, or Playwright proof yet.
+
+Verification run:
+
+- `node - <<'NODE' ... NODE` deterministic row-count check:
+  `skeleton-card: 1`, `skeleton-demo: 1`.
+- `rg -n "skeleton-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md`
+- `git diff --check`
+- `git status --short`
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+
+## Conclusion
+
+Skeleton example parity is partial. The package API appears sufficient for the
+active upstream examples, but named docs, fixtures, and Playwright coverage are
+still needed to prove `skeleton-card` and `skeleton-demo` with exact dimensions,
+shapes, public hooks, and mapping copy. The next experiment should implement
+that parity depth without adding React, Tailwind, `cn`, layout dependencies, or
+vendor dependencies.
+
+## Completion Review
+
+Reviewer: Pasteur the 2nd (`019e9d12-f78d-7fd3-ab61-3138ca4f5789`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the result stays within the
+approved audit-only scope, the Issue 4 README marks Experiment 75 as `Partial`,
+the issue learnings record later-work needs, the inventory covers exactly
+`skeleton-card` and `skeleton-demo`, upstream mechanics match vendor source,
+current RadCN evidence supports the partial conclusion, `git diff --check`
+passed, vendor checkouts are clean, and the result commit had not been made
+before review.

@@ -995,6 +995,15 @@ Record cross-component discoveries here as experiments complete.
   normal buttons. `sheet-example-inventory.md` marks both rows `Covered`,
   `resolved-clusters.json` records `sheet` as resolved, and the regenerated
   parity inventory recommends auditing `skeleton` examples next.
+- Experiment 75 audited Skeleton example parity in
+  `skeleton-example-inventory.md`. RadCN already covers Skeleton-owned hidden
+  placeholder semantics, `data-radcn-skeleton`, pulse animation, base
+  radius/background styling, and custom class/style hooks. The cluster remains
+  partial because docs, fixtures, and tests do not yet prove the named
+  `skeleton-card` and `skeleton-demo` upstream compositions with exact media,
+  avatar, and text-line dimensions/shapes. No package API change appears
+  necessary; the next experiment should implement named docs examples,
+  candidate fixture routes, and Playwright coverage for both upstream examples.
 
 ## Experiments
 
@@ -1147,4 +1156,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 74: Implement sheet example parity depth](74-implement-sheet-example-parity-depth.md)
   — **Pass**
 - [Experiment 75: Audit skeleton example parity](75-audit-skeleton-example-parity.md)
-  — **Designed**
+  — **Partial**
