@@ -1037,19 +1037,32 @@ export function FormComplexPreview() {
 
 const datePickerSource = `import { DatePicker } from 'radcn/date-picker'
 
-export function DatePickerPreview() {
+export function DatePickerExamples() {
   return (
-    <DatePicker
-      defaultOpen
-      defaultValue="2026-06-12"
-      month="2026-06-01"
-      name="ship_date"
-      presets={[
-        { label: 'Today', value: '2026-06-12' },
-        { label: 'Tomorrow', value: '2026-06-13' },
-        { label: 'In 3 days', value: '2026-06-15' },
-      ]}
-    />
+    <>
+      <DatePicker defaultOpen month="2026-06-01" name="date" />
+
+      <DatePicker
+        defaultOpen
+        month="2026-06-01"
+        name="preset_date"
+        presets={[
+          { label: 'Today', value: '2026-06-12' },
+          { label: 'Tomorrow', value: '2026-06-13' },
+          { label: 'In 3 days', value: '2026-06-15' },
+          { label: 'In a week', value: '2026-06-19' },
+        ]}
+      />
+
+      <DatePicker
+        defaultOpen
+        defaultValue="2026-06-12..2026-06-18"
+        mode="range"
+        month="2026-06-01"
+        name="range"
+        numberOfMonths={2}
+      />
+    </>
   )
 }`
 
@@ -3015,24 +3028,32 @@ function FormComplexPreview() {
 function DatePickerPreview() {
   return () => (
     <div mix={previewStackStyle}>
-      <DatePicker
-        defaultOpen
-        defaultValue="2026-06-12"
-        month="2026-06-01"
-        name="ship_date"
-        presets={[
-          { label: 'Today', value: '2026-06-12' },
-          { label: 'Tomorrow', value: '2026-06-13' },
-          { label: 'In 3 days', value: '2026-06-15' },
-        ]}
-      />
-      <DatePicker
-        defaultOpen
-        defaultValue="2026-06-12..2026-06-18"
-        mode="range"
-        month="2026-06-01"
-        numberOfMonths={2}
-      />
+      <div data-radcn-docs-date-picker-family="date-picker-demo">
+        <DatePicker defaultOpen month="2026-06-01" name="date" />
+      </div>
+      <div data-radcn-docs-date-picker-family="date-picker-with-presets">
+        <DatePicker
+          defaultOpen
+          month="2026-06-01"
+          name="preset_date"
+          presets={[
+            { label: 'Today', value: '2026-06-12' },
+            { label: 'Tomorrow', value: '2026-06-13' },
+            { label: 'In 3 days', value: '2026-06-15' },
+            { label: 'In a week', value: '2026-06-19' },
+          ]}
+        />
+      </div>
+      <div data-radcn-docs-date-picker-family="date-picker-with-range">
+        <DatePicker
+          defaultOpen
+          defaultValue="2026-06-12..2026-06-18"
+          mode="range"
+          month="2026-06-01"
+          name="range"
+          numberOfMonths={2}
+        />
+      </div>
     </div>
   )
 }
@@ -5349,7 +5370,7 @@ const richComponentDocs: ComponentDoc[] = [
         slug: 'single-presets-range',
         title: 'Single, Presets, and Range',
         description:
-          'Use one package API for the shadcn date-picker example families while keeping ISO values and native forms explicit.',
+          'Render the three upstream Date Picker examples with single, preset, and range behavior while keeping ISO values and native forms explicit.',
         source: datePickerSource,
         preview: <DatePickerPreview />,
       },
@@ -5362,11 +5383,19 @@ const richComponentDocs: ComponentDoc[] = [
     customization: [
       'Exposes data-radcn-date-picker, data-radcn-date-picker-label, data-radcn-date-picker-preset-select, and existing calendar/popover hooks.',
       'Uses ISO string values so apps can format labels, persist values, and validate dates without adopting a package-level date library.',
+      'Use class and style plus Date Picker, Calendar, and Popover CSS variables for widths, spacing, borders, and calendar presentation.',
     ],
     divergence: [
       'shadcn/ui presents date picker as examples rather than a standalone ui component. RadCN promotes the composition into a package API so the product has an importable Date Picker surface.',
       'RadCN does not depend on React state, external calendar/date formatting packages, or slot wrappers. The browser enhancer updates labels, hidden inputs, presets, and range state from platform events.',
-      'Docs previews are server-rendered proof surfaces; fixture Playwright coverage owns detailed interactive behavior for selection, reset, presets, and range construction.',
+      'React useState and onSelect map to explicit DatePicker props, Calendar events, hidden input values, and app/server-owned state.',
+      'date-fns format and addDays map to ISO values, deterministic DatePicker labels, and explicit preset values.',
+      'react-day-picker DateRange maps to YYYY-MM-DD..YYYY-MM-DD range strings.',
+      'defaultMonth maps to month, numberOfMonths maps to numberOfMonths, className maps to class, and asChild maps to explicit DatePicker trigger composition.',
+      'CalendarIcon and lucide-react are app-owned presentation; RadCN keeps a dependency-free trigger icon span.',
+      'Tailwind utilities map to RadCN classes, class, style, CSS variables, and app CSS.',
+      'Popover and Calendar composition remains package-owned coordination over existing RadCN primitives.',
+      'vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },
   {

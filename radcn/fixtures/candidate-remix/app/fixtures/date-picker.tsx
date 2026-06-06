@@ -43,6 +43,22 @@ function DatePickerExample({
 
 export function renderDatePickerFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return DatePickerExample({ defaultOpen: true, name: 'date', value: '' })
+    case 'with-presets':
+      return DatePickerExample({
+        defaultOpen: true,
+        name: 'preset_date',
+        presets: [
+          { label: 'Today', value: '2026-06-12' },
+          { label: 'Tomorrow', value: '2026-06-13' },
+          { label: 'In 3 days', value: '2026-06-15' },
+          { label: 'In a week', value: '2026-06-19' },
+        ],
+        value: '',
+      })
+    case 'with-range':
+      return DatePickerExample({ defaultOpen: true, mode: 'range', name: 'range', numberOfMonths: 2, value: range })
     case 'selected':
       return DatePickerExample({ value: selected })
     case 'form-submit-reset':

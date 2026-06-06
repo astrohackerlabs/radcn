@@ -137,6 +137,7 @@ These are documented in RadCN but are not current package exports.
 | examples | native-select | resolved | `issues/0004-complete-shadcn-parity-and-docs/49-audit-native-select-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/50-implement-native-select-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/native-select-example-inventory.md` |
 | examples | resizable | resolved | `issues/0004-complete-shadcn-parity-and-docs/51-audit-resizable-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/52-implement-resizable-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/resizable-example-inventory.md` |
 | examples | checkbox | resolved | `issues/0004-complete-shadcn-parity-and-docs/53-audit-checkbox-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/54-implement-checkbox-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/checkbox-example-inventory.md` |
+| examples | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/55-audit-date-picker-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/56-implement-date-picker-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/date-picker-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -228,7 +229,6 @@ parity decision.
 | command | 2 | `command-demo`, `command-dialog` |
 | context-menu | 1 | `context-menu-demo` |
 | data-table | 1 | `data-table-demo` |
-| date-picker | 3 | `date-picker-demo`, `date-picker-with-presets`, `date-picker-with-range` |
 | dialog | 2 | `dialog-close-button`, `dialog-demo` |
 | drawer | 2 | `drawer-demo`, `drawer-dialog` |
 | hover-card | 1 | `hover-card-demo` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for date-picker
+**Cluster:** Example parity for alert
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for date-picker.
+- Audit upstream examples for alert.
 
 ## Notes
 

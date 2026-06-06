@@ -44,9 +44,9 @@ RadCN references:
 
 | Example | Upstream behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `date-picker-demo` | Button trigger with calendar icon, placeholder `Pick a date`, popover calendar, single-date selection, and formatted selected label. | Package supports single mode, placeholder, trigger label, Popover and Calendar composition, selected state, hidden input, disabled state, public hooks, and dependency-free enhancement. Candidate `date-picker/popover` and Playwright prove selected single date, popover open/escape behavior, and calendar visibility. Docs show a package preview but do not expose a named `date-picker-demo` family. | Partial | Add named docs/fixture/test evidence for `date-picker-demo`, including placeholder state, single selection, formatted trigger label, popover/calendar hooks, and upstream mapping copy. |
-| `date-picker-with-presets` | Single-date picker with a preset Select for Today, Tomorrow, In 3 days, and In a week, updating the selected date and label. | Package supports preset selections through `presets` and `data-radcn-date-picker-preset-select`. Candidate `date-picker/presets` and Playwright prove selecting `2026-06-15` updates value, label, and selected calendar day. Docs source includes presets but does not expose a named `date-picker-with-presets` family or all four upstream preset labels as named proof. | Partial | Add named docs/fixture/test evidence for all four upstream preset labels and the preset-selection mapping under the upstream example id. |
-| `date-picker-with-range` | Button trigger with range label, popover range calendar, default month from the start date, two visible months, and formatted start/end label. | Package supports range mode, `numberOfMonths`, range values, range-start/range-end hooks, and label formatting. Candidate `date-picker/range` and Playwright prove two months, initial range label, range reselection, and range hook updates. Docs do not expose a named `date-picker-with-range` family or dedicated range docs proof. | Partial | Add named docs/fixture/test evidence for range trigger label, two-month calendar, default month/range selected state, range reselection, and public hooks under the upstream example id. |
+| `date-picker-demo` | Button trigger with calendar icon, placeholder `Pick a date`, popover calendar, single-date selection, and formatted selected label. | Covered by package single mode, placeholder, trigger label, Popover and Calendar composition, hidden input, public hooks, dependency-free enhancement, docs `data-radcn-docs-date-picker-family="date-picker-demo"`, candidate route `date-picker/demo`, and Playwright proof for placeholder state, popover/calendar rendering, single selection, formatted label update, selected calendar state, and public hooks. | Covered | No follow-up for the active example. Calendar icon presentation stays dependency-free and app-owned. |
+| `date-picker-with-presets` | Single-date picker with a preset Select for Today, Tomorrow, In 3 days, and In a week, updating the selected date and label. | Covered by package presets, `data-radcn-date-picker-preset-select`, docs `data-radcn-docs-date-picker-family="date-picker-with-presets"`, candidate route `date-picker/with-presets`, and Playwright proof for all four upstream preset labels plus preset-driven value, label, and calendar selected-state updates. | Covered | No follow-up for the active example. Preset values stay explicit ISO strings rather than `date-fns` offsets. |
+| `date-picker-with-range` | Button trigger with range label, popover range calendar, default month from the start date, two visible months, and formatted start/end label. | Covered by package range mode, `numberOfMonths`, range strings, range-start/range-end hooks, docs `data-radcn-docs-date-picker-family="date-picker-with-range"`, candidate route `date-picker/with-range`, and Playwright proof for formatted range label, two visible months, initial range hooks, range reselection behavior, and public hooks. | Covered | No follow-up for the active example. `react-day-picker` `DateRange` remains mapped to RadCN range strings. |
 
 ## Capability Matrix
 
@@ -63,9 +63,9 @@ RadCN references:
 | Disabled trigger state | Covered | Fixture Playwright proves disabled trigger state. |
 | Custom classes/styles/tokens | Covered | Fixtures prove custom Date Picker class usage; styles expose package hooks and CSS variables through composed primitives. |
 | Public hooks | Covered | Date Picker exposes `data-radcn-date-picker`, label, hidden input, preset select, plus Calendar and Popover hooks. |
-| Docs named example ids | Partial | Docs have package-level Date Picker coverage but no `data-radcn-docs-date-picker-family` hooks for the three upstream ids. |
-| Candidate fixture named example ids | Partial | Candidate fixtures cover behavior through generic Date Picker routes, not active upstream example ids. |
-| Playwright named example proof | Partial | Tests verify behavior but not exact upstream example ids and named compositions. |
+| Docs named example ids | Covered | Docs expose `data-radcn-docs-date-picker-family` hooks for all three active upstream examples. |
+| Candidate fixture named example ids | Covered | Candidate fixtures expose named routes for `demo`, `with-presets`, and `with-range`. |
+| Playwright named example proof | Covered | Fixture and docs Playwright coverage prove the named example compositions and mapping copy. |
 
 ## Mapping Decisions
 
@@ -89,11 +89,11 @@ RadCN references:
 
 ## Decision
 
-The Date Picker package API appears sufficient for the active upstream example
-cluster. The gap is named example parity depth: docs, candidate fixtures, and
-Playwright tests need to prove the three upstream example ids and exact
-user-facing compositions.
+The Date Picker package API is sufficient for the active upstream example
+cluster. All three active examples are covered by package behavior, docs,
+candidate fixtures, Playwright coverage, and mapping decisions.
 
-Recommended next experiment: implement Date Picker example parity depth without
-changing `radcn/date-picker` unless implementation reveals a concrete package
-blocker not found in this audit.
+Final API decision: no Date Picker package API change is required. shadcn React
+state, `date-fns`, and `react-day-picker` mechanics map to explicit DatePicker
+props, ISO values, hidden inputs, Calendar/Popover coordination, public hooks,
+and app-owned formatting/presentation.

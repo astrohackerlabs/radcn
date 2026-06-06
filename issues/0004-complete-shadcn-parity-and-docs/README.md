@@ -797,6 +797,17 @@ Record cross-component discoveries here as experiments complete.
   `date-picker-with-presets`, and `date-picker-with-range`. The next
   experiment should implement those named examples without changing the Date
   Picker package API unless a concrete package-level gap appears.
+- Experiment 56 completed Date Picker example parity depth. The docs page now
+  renders stable `data-radcn-docs-date-picker-family` hooks for
+  `date-picker-demo`, `date-picker-with-presets`, and
+  `date-picker-with-range` with placeholder, presets, formatted labels,
+  two-month range rendering, hidden inputs, public hooks, and mapping copy.
+  Candidate fixtures and Playwright coverage prove the named demo, presets,
+  and range examples while preserving generic Date Picker behavior tests.
+  `date-picker-example-inventory.md` now marks all three rows `Covered`,
+  `resolved-clusters.json` records `date-picker` as resolved, and the
+  regenerated parity inventory recommends auditing `alert` examples next. No
+  Date Picker package API change was needed.
 
 ## Experiments
 
@@ -911,4 +922,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 55: Audit date-picker example parity](55-audit-date-picker-example-parity.md)
   — **Partial**
 - [Experiment 56: Implement date-picker example parity depth](56-implement-date-picker-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

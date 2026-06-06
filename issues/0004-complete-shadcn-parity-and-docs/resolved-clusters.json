@@ -223,6 +223,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/54-implement-checkbox-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/checkbox-example-inventory.md"
       ]
+    },
+    {
+      "slug": "date-picker",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/55-audit-date-picker-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/56-implement-date-picker-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/date-picker-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

@@ -2619,6 +2619,24 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "date-picker",
+    id: "demo",
+    title: "Date Picker Demo",
+    description: "Named upstream date-picker-demo parity with placeholder, popover calendar, and single selection.",
+  },
+  {
+    component: "date-picker",
+    id: "with-presets",
+    title: "Date Picker With Presets",
+    description: "Named upstream date-picker-with-presets parity with Today, Tomorrow, In 3 days, and In a week presets.",
+  },
+  {
+    component: "date-picker",
+    id: "with-range",
+    title: "Date Picker With Range",
+    description: "Named upstream date-picker-with-range parity with two-month range selection.",
+  },
+  {
+    component: "date-picker",
     id: "default",
     title: "Date Picker Package",
     description: "Date picker package composed from popover and calendar primitives.",

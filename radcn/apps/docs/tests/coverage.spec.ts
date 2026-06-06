@@ -468,6 +468,39 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('Nested panel groups are supported as independent groups').first()).toBeVisible()
     await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
 
+    await page.goto('/docs/components/date-picker')
+    for (let slug of [
+      'date-picker-demo',
+      'date-picker-with-presets',
+      'date-picker-with-range',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-date-picker-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-demo"] [data-radcn-date-picker-label]')).toHaveText('Pick a date')
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-demo"] [data-radcn-popover-content]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-demo"] [data-radcn-calendar]')).toHaveCount(1)
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-with-presets"] [data-radcn-date-picker-preset-select] option')).toHaveText([
+      'Select',
+      'Today',
+      'Tomorrow',
+      'In 3 days',
+      'In a week',
+    ])
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-with-range"] [data-radcn-date-picker-label]')).toHaveText('Jun 12, 2026 - Jun 18, 2026')
+    await expect(page.locator('[data-radcn-docs-date-picker-family="date-picker-with-range"] [data-radcn-calendar-month]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveCount(3)
+    await expect(page.getByText('React useState and onSelect map to explicit DatePicker props').first()).toBeVisible()
+    await expect(page.getByText('date-fns format and addDays map to ISO values').first()).toBeVisible()
+    await expect(page.getByText('react-day-picker DateRange maps to YYYY-MM-DD..YYYY-MM-DD').first()).toBeVisible()
+    await expect(page.getByText('defaultMonth maps to month').first()).toBeVisible()
+    await expect(page.getByText('numberOfMonths maps to numberOfMonths').first()).toBeVisible()
+    await expect(page.getByText('className maps to class').first()).toBeVisible()
+    await expect(page.getByText('asChild maps to explicit DatePicker trigger composition').first()).toBeVisible()
+    await expect(page.getByText('CalendarIcon and lucide-react are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utilities map to RadCN classes').first()).toBeVisible()
+    await expect(page.getByText('Popover and Calendar composition remains package-owned coordination').first()).toBeVisible()
+    await expect(page.getByText('vendor source remains read-only evidence').first()).toBeVisible()
+
     await page.goto('/docs/components/chart')
     await expect(page.locator('[data-radcn-chart]')).toHaveCount(5)
     await expect(page.locator('[data-radcn-chart-grid]')).toHaveCount(20)
@@ -480,7 +513,7 @@ test.describe('docs registry coverage', () => {
     page,
   }) => {
     await page.goto('/docs/components/date-picker')
-    await expect(page.locator('[data-radcn-date-picker]')).toHaveCount(2)
+    await expect(page.locator('[data-radcn-date-picker]')).toHaveCount(3)
 
     let ids = await page.locator('[id]').evaluateAll((nodes) => nodes.map((node) => node.id))
     let duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index)

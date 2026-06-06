@@ -138,3 +138,43 @@ test('candidate date picker package covers single presets range and forms', asyn
   await page.goto(`${candidate}/fixtures/date-picker/custom-token`)
   await expect(page.locator('[data-radcn-date-picker]').first()).toHaveClass(/radcn-fixture-custom-date-picker/)
 })
+
+test('candidate date picker covers named upstream examples', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/date-picker/demo`)
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Pick a date')
+  await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveValue('')
+  await expect(page.locator('[data-radcn-popover-content]')).toBeVisible()
+  await expect(page.locator('[data-radcn-calendar]')).toBeVisible()
+  await page.getByRole('button', { name: /Monday, June 15, 2026/ }).click()
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-15')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 15, 2026')
+  await expect(page.locator('[data-radcn-date-picker-hidden-input]')).toHaveValue('2026-06-15')
+  await expect(page.locator('[data-radcn-calendar-day][data-selected="true"]')).toHaveAttribute('data-date', '2026-06-15')
+
+  await page.goto(`${candidate}/fixtures/date-picker/with-presets`)
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '')
+  await expect(page.locator('[data-radcn-date-picker-preset-select] option')).toHaveText([
+    'Select',
+    'Today',
+    'Tomorrow',
+    'In 3 days',
+    'In a week',
+  ])
+  await page.locator('[data-radcn-date-picker-preset-select]').selectOption('2026-06-19')
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-19')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 19, 2026')
+  await expect(page.locator('[data-radcn-calendar-day][data-selected="true"]')).toHaveAttribute('data-date', '2026-06-19')
+
+  await page.goto(`${candidate}/fixtures/date-picker/with-range`)
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-12..2026-06-18')
+  await expect(page.locator('[data-radcn-date-picker-label]')).toHaveText('Jun 12, 2026 - Jun 18, 2026')
+  await expect(page.locator('[data-radcn-calendar-month]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-calendar-day][data-range-start="true"]')).toHaveAttribute('data-date', '2026-06-12')
+  await expect(page.locator('[data-radcn-calendar-day][data-range-end="true"]')).toHaveAttribute('data-date', '2026-06-18')
+  await page.getByRole('button', { name: /Wednesday, June 10, 2026/ }).click()
+  await page.getByRole('button', { name: /Sunday, June 14, 2026/ }).click()
+  await expect(page.locator('[data-radcn-date-picker]')).toHaveAttribute('data-value', '2026-06-10..2026-06-14')
+  await expect(page.locator('[data-radcn-calendar-day][data-range-start="true"]')).toHaveAttribute('data-date', '2026-06-10')
+  await expect(page.locator('[data-radcn-calendar-day][data-range-end="true"]')).toHaveAttribute('data-date', '2026-06-14')
+})
