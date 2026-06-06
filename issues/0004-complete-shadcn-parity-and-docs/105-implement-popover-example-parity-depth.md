@@ -320,3 +320,74 @@ Re-review approved. The reviewer confirmed the README verification now scopes
 to `## Learnings`, independently checks `Experiment 105`,
 `popover-example-inventory`, `Popover`, and `next generated recommendation`,
 and introduces no new blockers.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `popover-demo` parity across docs, candidate fixtures, and
+Playwright evidence. The docs page now renders the exact upstream dimensions
+form with an outline trigger, explicit portal, 20rem `w-80` content width
+mapping, exact heading/description text, exact labelled input ids/default
+values, source snippet, and dependency-divergence mapping copy. The docs browser
+entry now enhances the named Popover example with `enhancePopover`; this was
+required because server-rendered overlay markup alone does not exercise
+open/close behavior in browser coverage.
+
+The candidate fixture now has a named `popover/demo` route with the same
+dimensions composition, while the existing default, default-open, side-align,
+outside-dismiss, and custom-token scenarios remain covered. The Popover
+inventory marks `popover-demo` as `Covered`, `resolved-clusters.json` records
+`popover` as resolved, and the regenerated parity inventory removes Popover
+from unresolved examples. The inventory generator was also updated so block and
+chart-gallery sections remain out-of-scope after future regenerations.
+
+Verification run:
+
+```text
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm radcn:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts positioned-overlays.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic checks for popover-example-inventory.md, resolved-clusters.json,
+  parity-inventory.md, README learnings, and forbidden dependency/import manifests
+git diff --exit-code -- pnpm-lock.yaml
+git ls-files vendor
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. `git ls-files vendor` printed only `vendor/.gitignore`.
+The vendor status checks printed only the checked directory names and no nested
+git status entries. The Playwright runs reported 8 passing positioned-overlay
+tests and 5 passing docs coverage tests.
+
+## Conclusion
+
+Popover direct example parity is resolved for Issue 4. The important reusable
+learning is that docs examples with overlay behavior must be wired through the
+docs asset entry with the matching package enhancer; otherwise the markup can
+look correct but browser behavior remains untested. The next generated
+recommendation is example parity for `progress`.
+
+## Completion Review
+
+Reviewer: Volta the 3rd (`019e9e76-3962-7273-ab12-9ed61bd2428b`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approved. The reviewer confirmed the experiment has `## Result` and
+`## Conclusion`, the Issue 4 README records the Experiment 105 learning and
+status as `Pass`, the docs and fixture implementations cover the named Popover
+dimensions form, docs browser enhancement is wired through `enhancePopover`,
+Playwright assertions cover docs and fixture behavior, the modified blocks and
+chart-gallery scope remains out of the Issue 4 recommendation flow while
+retaining `radcn/chart` package scope, verification commands passed, vendor
+cleanliness was checked, and the result commit had not yet been made.

@@ -314,6 +314,50 @@ test.describe('docs registry coverage', () => {
     await expect(page.getByText('The named docs demo uses upstream href="#" values').first()).toBeVisible()
     await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
 
+    await page.goto('/docs/components/popover')
+    let popoverDemo = page.locator('[data-radcn-docs-popover-family="popover-demo"]')
+    let popoverTrigger = popoverDemo.locator('[data-radcn-popover-trigger]')
+    let popoverContent = page.locator('[data-radcn-popover-content]').first()
+    await expect(popoverDemo).toBeVisible()
+    await expect(popoverDemo.locator('[data-radcn-popover]')).toHaveAttribute('id', 'docs-popover-demo')
+    await expect(popoverTrigger).toHaveText('Open popover')
+    await expect(popoverTrigger).toHaveClass(/radcn-button/)
+    await expect(popoverTrigger).toHaveClass(/radcn-button--outline/)
+    await expect(popoverContent).toBeHidden()
+    await popoverTrigger.click()
+    await expect(popoverContent).toBeVisible()
+    await expect(popoverTrigger).toHaveAttribute('aria-expanded', 'true')
+    await expect(popoverContent).toHaveAttribute('data-align', 'center')
+    await expect(popoverContent).toHaveAttribute('data-side', 'bottom')
+    await expect(popoverContent).toHaveAttribute('data-side-offset', '4')
+    await expect(popoverContent).toHaveClass(/w-80/)
+    await expect(popoverContent).toHaveCSS('width', '320px')
+    await expect(page.locator('[data-radcn-portal-root] [data-radcn-popover-portal]')).toHaveCount(1)
+    await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+    await expect(popoverContent.getByRole('heading', { name: 'Dimensions' })).toBeVisible()
+    await expect(popoverContent.getByText('Set the dimensions for the layer.')).toBeVisible()
+    for (let [label, id, value] of [
+      ['Width', 'docs-popover-demo-width', '100%'],
+      ['Max. width', 'docs-popover-demo-maxWidth', '300px'],
+      ['Height', 'docs-popover-demo-height', '25px'],
+      ['Max. height', 'docs-popover-demo-maxHeight', 'none'],
+    ]) {
+      let input = popoverContent.getByLabel(label, { exact: true })
+      await expect(input).toHaveAttribute('id', id)
+      await expect(input).toHaveValue(value)
+    }
+    await page.keyboard.press('Escape')
+    await expect(popoverContent).toBeHidden()
+    await expect(popoverTrigger).toHaveAttribute('aria-expanded', 'false')
+    await expect(page.getByText('export function PopoverDemo()').first()).toBeVisible()
+    await expect(page.getByText('<PopoverContent class="w-80" style="width:20rem;">').first()).toBeVisible()
+    await expect(page.getByText('PopoverTrigger asChild and Button variant="outline" map to explicit trigger styling').first()).toBeVisible()
+    await expect(page.getByText('Radix implicit Popover portal maps to explicit PopoverPortal composition').first()).toBeVisible()
+    await expect(page.getByText('className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-popover').first()).toBeVisible()
+    await expect(page.getByText('Tailwind grid, gap, width, col-span, height, leading, font, text-sm, muted foreground, transition, data-state, and data-side utilities').first()).toBeVisible()
+    await expect(page.getByText('Input defaultValue maps to RadCN Input value').first()).toBeVisible()
+    await expect(page.getByText('Vendor source remains read-only evidence and is not imported by RadCN.').first()).toBeVisible()
+
     await page.goto('/docs/components/data-table')
     let dataTableDemo = page.locator('[data-radcn-docs-data-table-family="data-table-demo"]')
     await expect(dataTableDemo).toBeVisible()

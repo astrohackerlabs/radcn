@@ -369,6 +369,42 @@ const previewCardStyle = css({
   },
 })
 
+const popoverDemoStyle = css({
+  '& [data-radcn-docs-popover-form]': {
+    display: 'grid',
+    gap: '1rem',
+  },
+  '& [data-radcn-docs-popover-copy]': {
+    display: 'grid',
+    gap: '0.5rem',
+  },
+  '& [data-radcn-docs-popover-copy] h4': {
+    margin: 0,
+    color: 'var(--radcn-foreground)',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    lineHeight: 1,
+  },
+  '& [data-radcn-docs-popover-copy] p': {
+    margin: 0,
+    color: 'var(--radcn-muted-foreground)',
+    fontSize: '0.875rem',
+  },
+  '& [data-radcn-docs-popover-fields]': {
+    display: 'grid',
+    gap: '0.5rem',
+  },
+  '& [data-radcn-docs-popover-row]': {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 2fr)',
+    alignItems: 'center',
+    gap: '1rem',
+  },
+  '& [data-radcn-docs-popover-row] [data-radcn-input]': {
+    height: '2rem',
+  },
+})
+
 const forceVisiblePreviewStyle = css({
   '& [data-radcn-dialog]': {
     display: 'grid !important',
@@ -7420,6 +7456,95 @@ function PaginationDemoPreview() {
   )
 }
 
+const popoverDemoSource = `import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
+import { Popover, PopoverContent, PopoverPortal, PopoverTrigger } from 'radcn/popover'
+
+export function PopoverDemo() {
+  return (
+    <Popover id="popover-demo">
+      <PopoverTrigger class="radcn-button radcn-button--outline">
+        Open popover
+      </PopoverTrigger>
+      <PopoverPortal>
+        <PopoverContent class="w-80" style="width:20rem;">
+          <div class="grid gap-4">
+            <div class="space-y-2">
+              <h4 class="leading-none font-medium">Dimensions</h4>
+              <p class="text-sm text-muted-foreground">
+                Set the dimensions for the layer.
+              </p>
+            </div>
+            <div class="grid gap-2">
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="width">Width</Label>
+                <Input id="width" value="100%" class="col-span-2 h-8" />
+              </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="maxWidth">Max. width</Label>
+                <Input id="maxWidth" value="300px" class="col-span-2 h-8" />
+              </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="height">Height</Label>
+                <Input id="height" value="25px" class="col-span-2 h-8" />
+              </div>
+              <div class="grid grid-cols-3 items-center gap-4">
+                <Label for="maxHeight">Max. height</Label>
+                <Input id="maxHeight" value="none" class="col-span-2 h-8" />
+              </div>
+            </div>
+          </div>
+        </PopoverContent>
+      </PopoverPortal>
+    </Popover>
+  )
+}`
+
+function PopoverDimensionsFields({ idPrefix }: { idPrefix: string }) {
+  let fields = [
+    ['width', 'Width', '100%'],
+    ['maxWidth', 'Max. width', '300px'],
+    ['height', 'Height', '25px'],
+    ['maxHeight', 'Max. height', 'none'],
+  ]
+
+  return (
+    <div data-radcn-docs-popover-fields>
+      {fields.map(([id, label, value]) => {
+        let inputId = `${idPrefix}-${id}`
+
+        return (
+          <div data-radcn-docs-popover-row>
+            <Label for={inputId}>{label}</Label>
+            <Input class="col-span-2 h-8" id={inputId} value={value} />
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function PopoverDemoPreview() {
+  return () => (
+    <div data-radcn-docs-popover-family="popover-demo" mix={popoverDemoStyle}>
+      <Popover id="docs-popover-demo">
+        <PopoverTrigger class="radcn-button radcn-button--outline">Open popover</PopoverTrigger>
+        <PopoverPortal>
+          <PopoverContent class="w-80 radcn-docs-popover-demo-content" style="width:20rem;">
+            <div data-radcn-docs-popover-form>
+              <div data-radcn-docs-popover-copy>
+                <h4>Dimensions</h4>
+                <p>Set the dimensions for the layer.</p>
+              </div>
+              {PopoverDimensionsFields({ idPrefix: 'docs-popover-demo' })}
+            </div>
+          </PopoverContent>
+        </PopoverPortal>
+      </Popover>
+    </div>
+  )
+}
+
 const richComponentDocs: ComponentDoc[] = [
   {
     slug: 'accordion',
@@ -8621,6 +8746,51 @@ const richComponentDocs: ComponentDoc[] = [
       'lucide ChevronLeftIcon, ChevronRightIcon, and MoreHorizontalIcon map to RadCN-owned icon affordance hooks, not lucide-react dependencies.',
       'Tailwind mx-auto, flex, gap, size, px, hidden sm:block, ghost, outline, and active utilities map to package CSS, classes, CSS variables, and app-owned responsive styles.',
       'The named docs demo uses upstream href="#" values; fixture routes may use route-local hrefs as an app-owned routing divergence while preserving link semantics.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'popover',
+    title: 'Popover',
+    category: 'Overlays',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A dependency-free click popover with explicit trigger, portal, content, placement, dismissal, and form-composition hooks.',
+    importPath: 'radcn/popover',
+    importExample:
+      "import { Popover, PopoverContent, PopoverPortal, PopoverTrigger } from 'radcn/popover'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'popover-demo',
+        title: 'Popover Demo',
+        description:
+          'Render the upstream dimensions form with an outline trigger, 20rem content, labelled inputs, and default values.',
+        source: popoverDemoSource,
+        preview: <PopoverDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'PopoverTrigger renders a native button with aria-haspopup="dialog" and browser-enhanced aria-expanded and aria-controls state.',
+      'Popover content moves through PopoverPortal during browser enhancement while preserving visible labelled form controls.',
+      'The dimensions form uses real Label and Input associations for width, maxWidth, height, and maxHeight fields.',
+      'Popover remains non-modal: Escape, outside click, and close behavior do not lock document scrolling.',
+    ],
+    customization: [
+      'Root, trigger, portal, content, anchor, close, header, title, and description expose public data-radcn-popover hooks and package classes.',
+      'PopoverTrigger asChild and Button variant="outline" map to explicit trigger styling with RadCN button classes, without Slot or React child cloning.',
+      'PopoverContent className="w-80" maps to class/style/CSS variable evidence for a 20rem content width.',
+      'default align center and sideOffset 4 remain explicit content props and data hooks; apps can tune side, align, offset, width, and tokens.',
+      'Input and Label composition remains app-owned form markup inside PopoverContent, not Popover package state.',
+    ],
+    divergence: [
+      'use client, React component props, and Radix Popover primitives map to server-rendered RadCN markup plus scoped enhancePopover browser behavior.',
+      'Radix implicit Popover portal maps to explicit PopoverPortal composition so portal ownership is visible to authors and tests.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-popover* hooks.',
+      'Tailwind grid, gap, width, col-span, height, leading, font, text-sm, muted foreground, transition, data-state, and data-side utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
+      'Input defaultValue maps to RadCN Input value for deterministic server-rendered default form values.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

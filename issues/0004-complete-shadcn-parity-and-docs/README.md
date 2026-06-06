@@ -1409,6 +1409,18 @@ Record cross-component discoveries here as experiments complete.
   `Set the dimensions for the layer.`, four labelled inputs, and default
   values). The next experiment should implement named `popover-demo` docs,
   candidate fixture, and Playwright coverage.
+- Experiment 105 implemented named `popover-demo` parity and updated
+  `popover-example-inventory.md` to `Covered`. The docs site now has a rich
+  Popover page with exact source, outline trigger mapping, explicit portal,
+  20rem `w-80` content width mapping, exact dimensions copy, exact labelled
+  input ids/default values, and mapping copy for React props, Radix primitives,
+  `asChild`, Button/Input/Label composition, `className`, Tailwind utilities,
+  `cn`, `data-slot`, portal behavior, transition hooks, custom tokens, and
+  vendor source. The docs entry explicitly enhances the named Popover example
+  with `enhancePopover`; overlay examples that must open in browser tests need
+  corresponding docs asset wiring, not just server-rendered markup. `popover`
+  is resolved in the example queue; the next generated recommendation is
+  example parity for `progress`.
 
 ## Experiments
 
@@ -1621,4 +1633,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 104: Audit popover example parity](104-audit-popover-example-parity.md)
   — **Partial**
 - [Experiment 105: Implement popover example parity depth](105-implement-popover-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

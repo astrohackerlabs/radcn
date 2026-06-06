@@ -34,6 +34,46 @@ async function openFreshHoverCard(page: import('@playwright/test').Page, scenari
   }
 }
 
+test('candidate popover covers shadcn dimensions demo parity', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/popover/demo`)
+  let trigger = page.locator('[data-radcn-popover-trigger]')
+  let content = page.locator('[data-radcn-popover-content]')
+
+  await expect(page.locator('[data-radcn-popover]')).toHaveAttribute('id', 'candidate-popover-demo')
+  await expect(trigger).toHaveText('Open popover')
+  await expect(trigger).toHaveClass(/radcn-button/)
+  await expect(trigger).toHaveClass(/radcn-button--outline/)
+  await expect(content).toBeHidden()
+
+  await trigger.click()
+  await expect(content).toBeVisible()
+  await expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  await expect(content).toHaveAttribute('data-align', 'center')
+  await expect(content).toHaveAttribute('data-side', 'bottom')
+  await expect(content).toHaveAttribute('data-side-offset', '4')
+  await expect(content).toHaveClass(/w-80/)
+  await expect(content).toHaveCSS('width', '320px')
+  await expect(page.locator('[data-radcn-portal-root] [data-radcn-popover-portal]')).toHaveCount(1)
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden')
+  await expect(content.getByRole('heading', { name: 'Dimensions' })).toBeVisible()
+  await expect(content.getByText('Set the dimensions for the layer.')).toBeVisible()
+
+  for (let [label, id, value] of [
+    ['Width', 'width', '100%'],
+    ['Max. width', 'maxWidth', '300px'],
+    ['Height', 'height', '25px'],
+    ['Max. height', 'maxHeight', 'none'],
+  ]) {
+    let input = page.getByLabel(label, { exact: true })
+    await expect(input).toHaveAttribute('id', id)
+    await expect(input).toHaveValue(value)
+  }
+
+  await page.keyboard.press('Escape')
+  await expect(content).toBeHidden()
+  await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+})
+
 test('candidate popover opens closes and stays non-modal', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/popover/default`)
   let trigger = page.locator('[data-radcn-popover-trigger]')

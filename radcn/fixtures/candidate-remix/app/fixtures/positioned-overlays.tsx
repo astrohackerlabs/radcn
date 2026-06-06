@@ -7,6 +7,8 @@ import {
   HoverCardContent,
   HoverCardPortal,
   HoverCardTrigger,
+  Input,
+  Label,
   Popover,
   PopoverAnchor,
   PopoverClose,
@@ -35,8 +37,47 @@ function anchorStyle(edge = false) {
 
 export function renderPopoverFixture(fixture: FixtureScenario) {
   let custom = fixture.id === 'custom-token'
+  let demo = fixture.id === 'demo'
   let sideAlign = fixture.id === 'side-align'
   let defaultOpen = fixture.id === 'default-open'
+
+  if (demo) {
+    return (
+      <div style={anchorStyle()}>
+        <Popover id="candidate-popover-demo">
+          <PopoverTrigger class="radcn-button radcn-button--outline">Open popover</PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent class="w-80 radcn-fixture-popover-demo-content" style="width:20rem;">
+              <div data-fixture-popover-form style="display:grid;gap:16px;">
+                <div data-fixture-popover-copy style="display:grid;gap:8px;">
+                  <h4 style="margin:0;font-size:0.875rem;font-weight:500;line-height:1;">Dimensions</h4>
+                  <p style="margin:0;color:var(--radcn-muted-foreground);font-size:0.875rem;">Set the dimensions for the layer.</p>
+                </div>
+                <div data-fixture-popover-fields style="display:grid;gap:8px;">
+                  <div data-fixture-popover-row style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:center;gap:16px;">
+                    <Label for="width">Width</Label>
+                    <Input class="col-span-2 h-8" id="width" value="100%" />
+                  </div>
+                  <div data-fixture-popover-row style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:center;gap:16px;">
+                    <Label for="maxWidth">Max. width</Label>
+                    <Input class="col-span-2 h-8" id="maxWidth" value="300px" />
+                  </div>
+                  <div data-fixture-popover-row style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:center;gap:16px;">
+                    <Label for="height">Height</Label>
+                    <Input class="col-span-2 h-8" id="height" value="25px" />
+                  </div>
+                  <div data-fixture-popover-row style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);align-items:center;gap:16px;">
+                    <Label for="maxHeight">Max. height</Label>
+                    <Input class="col-span-2 h-8" id="maxHeight" value="none" />
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </div>
+    )
+  }
 
   return (
     <div style={anchorStyle(sideAlign)}>

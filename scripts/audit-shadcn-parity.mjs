@@ -58,8 +58,6 @@ const unresolvedPackageOutcomeSlugs = extraExports.filter((slug) => !resolvedPac
 const firstCluster = chooseFirstCluster({
   docsOnlyOutcomes,
   missingUi,
-  unresolvedBlockNames,
-  unresolvedChartNames,
   unresolvedExampleGroups,
   unresolvedPackageOutcomeSlugs,
 })
@@ -155,7 +153,10 @@ const lines = [
   }),
   ...(Object.keys(unresolvedExampleGroups).length === 0 ? ['| None | 0 |  |'] : []),
   '',
-  '## Upstream Blocks Queue',
+  '## Out-of-Scope Upstream Blocks Queue',
+  '',
+  'Upstream blocks are composite examples and are no longer part of Issue 4 scope.',
+  'They stay listed here only as reference material for future issues.',
   '',
   '| Block | Categories | Registry dependencies |',
   '| --- | --- | --- |',
@@ -164,7 +165,10 @@ const lines = [
     return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
   }),
   '',
-  '## Unresolved Block Clusters',
+  '## Out-of-Scope Block Clusters',
+  '',
+  'These block clusters are intentionally excluded from the current Issue 4',
+  'completion count.',
   '',
   '| Block | Categories | Registry dependencies |',
   '| --- | --- | --- |',
@@ -174,7 +178,11 @@ const lines = [
   }),
   ...(unresolvedBlockNames.length === 0 ? ['| None |  |  |'] : []),
   '',
-  '## Upstream Chart Examples Queue',
+  '## Out-of-Scope Chart Examples Queue',
+  '',
+  'Upstream chart-gallery examples are composite examples and are no longer part',
+  'of Issue 4 scope. The retained `radcn/chart` package component remains in',
+  'scope as a primitive package and docs component.',
   '',
   '| Chart example | Categories | Registry dependencies |',
   '| --- | --- | --- |',
@@ -183,7 +191,10 @@ const lines = [
     return `| ${name} | ${formatList(item.categories)} | ${formatList(item.registryDependencies)} |`
   }),
   '',
-  '## Unresolved Chart Clusters',
+  '## Out-of-Scope Chart Clusters',
+  '',
+  'These chart-gallery clusters are intentionally excluded from the current Issue',
+  '4 completion count.',
   '',
   '| Chart example | Categories | Registry dependencies |',
   '| --- | --- | --- |',
@@ -209,7 +220,6 @@ const lines = [
   '- `vendor/` is used only as a reference source for this audit.',
   '- Parity means equivalent user-facing behavior, accessibility, visual',
   '  modifiability, and documentation, not literal React or DOM equivalence.',
-  '',
 ]
 
 await writeFile(outputPath, `${lines.join('\n')}\n`)
@@ -323,8 +333,6 @@ function formatEvidence(items = []) {
 function chooseFirstCluster({
   docsOnlyOutcomes,
   missingUi,
-  unresolvedBlockNames,
-  unresolvedChartNames,
   unresolvedExampleGroups,
   unresolvedPackageOutcomeSlugs,
 }) {
@@ -369,27 +377,10 @@ function chooseFirstCluster({
     }
   }
 
-  if (unresolvedBlockNames.length > 0) {
-    let firstBlock = unresolvedBlockNames[0]
-    return {
-      title: `Block parity for ${firstBlock}`,
-      reason: 'All example clusters are resolved or empty, so the next unresolved queue is upstream blocks.',
-      steps: [`Audit upstream block ${firstBlock} and decide package, docs block, recipe, or divergence outcome.`],
-    }
-  }
-
-  if (unresolvedChartNames.length > 0) {
-    let firstChart = unresolvedChartNames[0]
-    return {
-      title: `Chart example parity for ${firstChart}`,
-      reason: 'Examples and blocks are resolved or empty, so the next unresolved queue is chart examples.',
-      steps: [`Audit upstream chart example ${firstChart} and decide chart API, recipe, or divergence outcome.`],
-    }
-  }
-
   return {
     title: 'No unresolved parity clusters',
-    reason: 'All tracked package, example, block, and chart queues are resolved.',
+    reason:
+      'All tracked package and component example queues are resolved. Blocks and upstream chart-gallery examples are out of scope for Issue 4.',
     steps: ['Close Issue 4 with a final verification pass.'],
   }
 }

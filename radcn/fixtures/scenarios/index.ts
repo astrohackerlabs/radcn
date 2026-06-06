@@ -2019,6 +2019,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "popover",
+    id: "demo",
+    title: "Popover Demo",
+    description: "Named shadcn popover dimensions form with outline trigger and labelled inputs.",
+  },
+  {
+    component: "popover",
     id: "default",
     title: "Default Popover",
     description: "Click-triggered non-modal popover content.",

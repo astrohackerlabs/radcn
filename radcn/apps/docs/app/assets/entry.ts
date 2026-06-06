@@ -4,6 +4,7 @@ import { enhanceDropdownMenu } from 'radcn/dropdown-menu'
 import { enhanceHoverCard } from 'radcn/hover-card'
 import { enhanceMenubar } from 'radcn/menubar'
 import { enhanceNavigationMenu } from 'radcn/navigation-menu'
+import { enhancePopover } from 'radcn/popover'
 
 const THEME_MODE_STORAGE_KEY = 'radcn-theme-mode'
 const LEGACY_THEME_STORAGE_KEY = 'radcn-theme'
@@ -286,3 +287,6 @@ document
 document
   .querySelectorAll<HTMLElement>('[data-radcn-docs-navigation-menu-family="navigation-menu-demo"]')
   .forEach((example) => enhanceNavigationMenu(example))
+document
+  .querySelectorAll<HTMLElement>('[data-radcn-docs-popover-family="popover-demo"]')
+  .forEach((example) => enhancePopover(example))

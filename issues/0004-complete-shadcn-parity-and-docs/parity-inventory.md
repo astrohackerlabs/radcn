@@ -162,6 +162,7 @@ These are documented in RadCN but are not current package exports.
 | examples | mode-toggle | resolved | `issues/0004-complete-shadcn-parity-and-docs/99-audit-mode-toggle-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/mode-toggle-example-inventory.md` |
 | examples | navigation-menu | resolved | `issues/0004-complete-shadcn-parity-and-docs/100-audit-navigation-menu-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/101-implement-navigation-menu-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/navigation-menu-example-inventory.md` |
 | examples | pagination | resolved | `issues/0004-complete-shadcn-parity-and-docs/102-audit-pagination-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/103-implement-pagination-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/pagination-example-inventory.md` |
+| examples | popover | resolved | `issues/0004-complete-shadcn-parity-and-docs/104-audit-popover-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/105-implement-popover-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/popover-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -242,7 +243,6 @@ parity decision.
 
 | Component | Example count | Examples |
 | --- | ---: | --- |
-| popover | 1 | `popover-demo` |
 | progress | 1 | `progress-demo` |
 | radio-group | 1 | `radio-group-demo` |
 | separator | 1 | `separator-demo` |
@@ -254,9 +254,8 @@ parity decision.
 
 ## Out-of-Scope Upstream Blocks Queue
 
-Blocks are not Issue 4 deliverables after the scope revision. This queue is
-kept only as historical/reference data and to identify any already-added block
-work that should be removed from the project before closing the issue.
+Upstream blocks are composite examples and are no longer part of Issue 4 scope.
+They stay listed here only as reference material for future issues.
 
 | Block | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -290,7 +289,8 @@ work that should be removed from the project before closing the issue.
 
 ## Out-of-Scope Block Clusters
 
-Blocks are intentionally excluded from the Issue 4 completion queue.
+These block clusters are intentionally excluded from the current Issue 4
+completion count.
 
 | Block | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -324,9 +324,9 @@ Blocks are intentionally excluded from the Issue 4 completion queue.
 
 ## Out-of-Scope Chart Examples Queue
 
-Chart-gallery examples are not Issue 4 deliverables after the scope revision.
-The retained `radcn/chart` package component remains in scope, but upstream
-chart-gallery parity is excluded.
+Upstream chart-gallery examples are composite examples and are no longer part
+of Issue 4 scope. The retained `radcn/chart` package component remains in
+scope as a primitive package and docs component.
 
 | Chart example | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -403,8 +403,8 @@ chart-gallery parity is excluded.
 
 ## Out-of-Scope Chart Clusters
 
-Chart-gallery examples are intentionally excluded from the Issue 4 completion
-queue.
+These chart-gallery clusters are intentionally excluded from the current Issue
+4 completion count.
 
 | Chart example | Categories | Registry dependencies |
 | --- | --- | --- |
@@ -481,13 +481,13 @@ queue.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for popover
+**Cluster:** Example parity for progress
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for popover.
+- Audit upstream examples for progress.
 
 ## Notes
 
