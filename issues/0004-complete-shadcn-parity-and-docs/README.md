@@ -1175,6 +1175,23 @@ Record cross-component discoveries here as experiments complete.
   toggled content stays in the content region. The regenerated parity inventory
   marks `collapsible` resolved and recommends auditing `context-menu`
   examples next.
+- Experiment 89 audited direct Context Menu example parity in
+  `context-menu-example-inventory.md`. RadCN already covers the exported
+  Context Menu package surface, dependency-free menu-overlay enhancement,
+  right-click opening, ContextMenu and Shift+F10 keyboard opening, menu roles,
+  portal placement, focus restoration, roving/typeahead behavior, disabled
+  item skipping, checkbox mutation, radio state, submenus, collision handling,
+  public hooks, and custom tokens. The direct Context Menu cluster remains
+  partial because docs, fixtures, and tests do not yet prove the named upstream
+  `context-menu-demo` composition: exact `Right click here` trigger text,
+  300x150 dashed trigger layout, `w-52` menu width, inset Back/Forward/Reload
+  rows with shortcuts, disabled Forward behavior, `More Tools` submenu with
+  `w-44` width and exact submenu items, separators, checked `Show Bookmarks`,
+  unchecked `Show Full URLs`, `People` label, selected `Pedro Duarte`,
+  unselected `Colm Tuite`, destructive `Delete`, app-owned indicator/caret
+  presentation, and the React/Radix/lucide/Tailwind mapping. The next
+  experiment should implement named `context-menu-demo` docs, candidate
+  fixture, and Playwright coverage.
 
 ## Experiments
 
@@ -1355,4 +1372,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 88: Implement collapsible example parity depth](88-implement-collapsible-example-parity-depth.md)
   — **Pass**
 - [Experiment 89: Audit context-menu example parity](89-audit-context-menu-example-parity.md)
-  — **Designed**
+  — **Partial**

@@ -200,3 +200,67 @@ plan commit, verification has concrete pass/fail criteria and hygiene checks,
 vendor cleanliness checks are present, the Issue 4 learning update is required
 after the audit result, and the technical plan matches the regenerated parity
 inventory's `context-menu` recommendation.
+
+## Result
+
+**Result:** Partial
+
+Created `context-menu-example-inventory.md` for the single direct upstream New
+York v4 Context Menu example, `context-menu-demo`. The audit confirms RadCN
+already covers the package API and behavior substrate: dependency-free
+`enhanceContextMenu`, right-click opening, ContextMenu and Shift+F10 keyboard
+opening, menu role semantics, portal placement, focus restoration,
+roving/highlight behavior, typeahead, disabled item skipping, checkbox state
+mutation, radio group/item state, submenu hover and keyboard behavior,
+collision handling, public hooks, and custom tokens.
+
+The direct Context Menu cluster remains partial because current docs, fixtures,
+and tests do not prove the exact named upstream `context-menu-demo`
+composition: `Right click here`, the 300x150 dashed trigger layout, `w-52`
+content width, inset `Back` / disabled `Forward` / `Reload` rows with
+shortcuts, `More Tools` submenu with `w-44` content and exact submenu items,
+separator placement, checked `Show Bookmarks`, unchecked `Show Full URLs`,
+`People` label, selected `Pedro Duarte`, unselected `Colm Tuite`, destructive
+`Delete`, app-owned indicator/caret presentation, or the
+React/Radix/lucide/Tailwind mapping.
+
+Verification commands run:
+
+```text
+node deterministic direct upstream count and inventory row check
+node deterministic outcome/follow-up check
+rg -n "Experiment 89|context-menu-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+All commands passed. `git status --short` showed only the new inventory file,
+this experiment file, and the Issue 4 README before the result commit.
+
+## Conclusion
+
+Context Menu should proceed to a named example implementation experiment.
+Existing package behavior is broad enough for the upstream demo, but the
+project still needs docs, fixture, and Playwright evidence for the exact
+`context-menu-demo` surface and mapping copy before the cluster can be marked
+resolved.
+
+## Completion Review
+
+Reviewer: Locke the 2nd
+(`019e9dad-eb6e-76f2-ae72-972a082d8975`), fresh-context Codex subagent
+(`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval: approved. The reviewer confirmed the audit stayed documentation-only,
+the experiment file has Result and Conclusion, the Issue 4 README marks
+Experiment 89 `Partial` and records the learning/next experiment guidance,
+the inventory evidence supports the `Partial` result, `git diff --check`
+passed, vendor cleanliness was checked, ignored vendor checkout directories are
+not tracked, and the result commit had not been made before the review.
