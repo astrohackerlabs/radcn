@@ -143,3 +143,115 @@ Approval result: approved. Boyle confirmed the design is linked from the Issue
 concrete pass/fail checks, includes repo hygiene and vendor cleanliness checks,
 requires issue learnings, and has not started implementation before the plan
 commit.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md`
+as an audit-only inventory for all 6 upstream Breadcrumb examples:
+`breadcrumb-demo`, `breadcrumb-dropdown`, `breadcrumb-ellipsis`,
+`breadcrumb-link`, `breadcrumb-responsive`, and `breadcrumb-separator`.
+
+The inventory records each example's user-facing behavior, current RadCN
+evidence, outcome, and required follow-up. It does not mark `breadcrumb`
+resolved, because the examples need docs/fixture/Playwright depth beyond the
+current primitive coverage, especially for DropdownMenu and responsive
+DropdownMenu/Drawer compositions.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = ['breadcrumb-demo','breadcrumb-dropdown','breadcrumb-ellipsis','breadcrumb-link','breadcrumb-responsive','breadcrumb-separator']
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+breadcrumb-demo: 1
+breadcrumb-dropdown: 1
+breadcrumb-ellipsis: 1
+breadcrumb-link: 1
+breadcrumb-responsive: 1
+breadcrumb-separator: 1
+```
+
+```text
+rg -n 'current-page|native link|Next `Link`|asChild|ChevronRight|Slash|ellipsis|hidden text|dropdown|trigger|responsive|desktop DropdownMenu|mobile Drawer|Button|useState|useMediaQuery|Radix Slot|lucide|Tailwind|Playwright' issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: simple linked breadcrumb navigation, native link mapping for Next
+`Link` and shadcn `asChild`, default ChevronRight separators, custom Slash
+separators, collapsed ellipsis behavior, accessible hidden text, dropdown menu
+branches, trigger semantics, responsive desktop/mobile behavior, DropdownMenu,
+Drawer, Button, React `useState`, `useMediaQuery`, Radix Slot, lucide icons,
+Tailwind utility mapping, and current RadCN package/docs/fixture/Playwright
+evidence.
+
+Additional verification:
+
+```text
+rg -n "breadcrumb-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:420:  `breadcrumb-example-inventory.md`. Breadcrumb example parity is not complete
+ M issues/0004-complete-shadcn-parity-and-docs/25-audit-breadcrumb-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md
+```
+
+`git diff --check` passed with no output. Vendor status printed no output.
+
+## Conclusion
+
+Breadcrumb should be the next implementation cluster. The implementation should
+add named docs and fixture coverage for all six upstream examples, prove
+dropdown and responsive compositions in Playwright, map React/Next/Radix/
+lucide/Tailwind mechanics to Remix 3 and app-owned composition, and either
+align or intentionally document RadCN's separator and ellipsis visual defaults.
+
+## Completion Review
+
+Reviewer: Archimedes (`019e9afa-a0d2-7fa0-a92d-2d7f2ad511d3`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: the recorded `rg` verification command used double quotes around a
+  pattern containing backticks for `Next \`Link\``, which would trigger shell
+  command substitution when copied into a shell.
+
+Fix: changed the recorded `rg` command to single quotes and reran it
+successfully.
+
+Review result: approved. Archimedes confirmed the completed result matches the
+approved audit-only scope; `git status --short` shows only the two Issue 4 docs
+modifications plus the new inventory file; `git diff --check` passes; vendor
+status is clean; the result commit had not been made before review; the
+experiment has `## Result` and `## Conclusion`; the Issue 4 README marks
+Experiment 25 as `Pass`; the README records the Breadcrumb learnings and next
+implementation cluster; and the Node inventory check reports each of the six
+upstream Breadcrumb example ids exactly once.

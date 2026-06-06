@@ -416,6 +416,20 @@ Record cross-component discoveries here as experiments complete.
   CSS variables, and public `data-state` hooks.
 - After Experiment 24, `toggle-group` is marked resolved in the example queue.
   The regenerated inventory recommends example parity for `breadcrumb` next.
+- Experiment 25 audited all 6 upstream Breadcrumb examples in
+  `breadcrumb-example-inventory.md`. Breadcrumb example parity is not complete
+  yet: RadCN has core navigation semantics, native links, current-page
+  semantics, collapsed ellipsis, custom separator content, and style hooks, but
+  it needs docs/fixture/Playwright depth for shadcn's named link, ellipsis,
+  separator, dropdown, demo, and responsive examples.
+- Breadcrumb remains a native navigation primitive plus app composition. React
+  state, `useMediaQuery`, Next `Link`, Radix Slot, lucide icons, Tailwind
+  utilities, DropdownMenu, Drawer, and Button should map to RadCN host markup,
+  app-owned state/browser enhancement, composed RadCN primitives, app-owned
+  glyphs, public classes/styles/CSS variables, and native links rather than
+  Breadcrumb package dependencies.
+- After Experiment 25, the next recommended implementation cluster is
+  Breadcrumb example parity depth.
 
 ## Experiments
 
@@ -468,4 +482,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 24: Implement toggle-group example parity depth](24-implement-toggle-group-example-parity-depth.md)
   — **Pass**
 - [Experiment 25: Audit breadcrumb example parity](25-audit-breadcrumb-example-parity.md)
-  — **Designed**
+  — **Pass**
