@@ -1470,3 +1470,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 95: Audit label example parity](95-audit-label-example-parity.md)
   — **Partial**
+- [Experiment 96: Implement label example parity depth](96-implement-label-example-parity-depth.md)
+  — **Designed**
