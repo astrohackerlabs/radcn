@@ -1099,3 +1099,5 @@ Record cross-component discoveries here as experiments complete.
   — **Partial**
 - [Experiment 70: Implement scroll-area example parity depth](70-implement-scroll-area-example-parity-depth.md)
   — **Pass**
+- [Experiment 71: Audit select example parity](71-audit-select-example-parity.md)
+  — **Designed**
