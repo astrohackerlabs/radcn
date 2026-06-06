@@ -88,6 +88,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/24-implement-toggle-group-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/toggle-group-example-inventory.md"
       ]
+    },
+    {
+      "slug": "breadcrumb",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/25-audit-breadcrumb-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/26-implement-breadcrumb-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/breadcrumb-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

@@ -430,6 +430,20 @@ Record cross-component discoveries here as experiments complete.
   Breadcrumb package dependencies.
 - After Experiment 25, the next recommended implementation cluster is
   Breadcrumb example parity depth.
+- Experiment 26 completed Breadcrumb example parity depth. RadCN now supports
+  chevron-style default separators while preserving author-supplied separator
+  children, and it proves all six upstream Breadcrumb example families in
+  docs, candidate fixtures, and Playwright coverage: demo, dropdown, ellipsis,
+  link, responsive, and separator.
+- Breadcrumb's stable mappings for later clusters: Next `Link` and shadcn
+  `asChild` map to native `BreadcrumbLink href` or app-owned anchors; React
+  `useState`/`useMediaQuery` maps to browser enhancement and CSS breakpoint
+  classes; Radix Slot is not needed; lucide ChevronRight, MoreHorizontal,
+  SlashIcon, and ChevronDownIcon map to package/app-owned glyphs; Tailwind
+  truncation, max-width, gap, icon-size, and responsive utilities map to RadCN
+  classes, inline styles, or CSS variables.
+- After Experiment 26, `breadcrumb` is marked resolved in the example queue.
+  The regenerated inventory recommends example parity for `carousel` next.
 
 ## Experiments
 
@@ -484,4 +498,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 25: Audit breadcrumb example parity](25-audit-breadcrumb-example-parity.md)
   — **Pass**
 - [Experiment 26: Implement breadcrumb example parity depth](26-implement-breadcrumb-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

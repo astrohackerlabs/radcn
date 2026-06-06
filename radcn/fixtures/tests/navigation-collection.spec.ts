@@ -8,11 +8,61 @@ test('candidate breadcrumb exposes navigation current page and separator hooks',
   await expect(page.locator('ol[data-radcn-breadcrumb-list]')).toHaveCount(1)
   await expect(page.locator('[data-radcn-breadcrumb-page]')).toHaveAttribute('aria-current', 'page')
   await expect(page.locator('[data-radcn-breadcrumb-ellipsis]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .radcn-sr-only')).toHaveText('More')
 
   await page.goto(`${candidate}/fixtures/breadcrumb/custom-separator`)
   await expect(page.locator('[data-radcn-breadcrumb]')).toHaveClass(/radcn-fixture-custom-breadcrumb/)
-  await expect(page.locator('[data-radcn-breadcrumb-separator]').first()).toHaveText('>')
+  await expect(page.locator('[data-radcn-breadcrumb-separator]').first()).toHaveText('/')
   await expect(page.locator('[data-radcn-breadcrumb]')).toHaveCSS('color', 'rgb(15, 118, 110)')
+})
+
+test('candidate breadcrumb covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/breadcrumb/link`)
+  await expect(page.getByRole('navigation', { name: 'breadcrumb' })).toHaveAttribute('data-radcn-breadcrumb', '')
+  await expect(page.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/')
+  await expect(page.getByRole('link', { name: 'Components' })).toHaveAttribute('href', '/components')
+  await expect(page.locator('[data-radcn-breadcrumb-page]')).toHaveText('Breadcrumb')
+  await expect(page.locator('[data-radcn-breadcrumb-page]')).toHaveAttribute('aria-current', 'page')
+  await expect(page.locator('[data-radcn-breadcrumb-separator]').first()).toHaveText('›')
+
+  await page.goto(`${candidate}/fixtures/breadcrumb/ellipsis`)
+  await expect(page.locator('[data-radcn-breadcrumb-ellipsis]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .radcn-sr-only')).toHaveText('More')
+
+  await page.goto(`${candidate}/fixtures/breadcrumb/separator`)
+  await expect(page.locator('[data-radcn-breadcrumb-separator]')).toHaveCount(2)
+  await expect(page.locator('[data-radcn-breadcrumb-separator]').first()).toHaveText('/')
+
+  await page.goto(`${candidate}/fixtures/breadcrumb/demo`)
+  await expect(page.getByRole('button', { name: 'Toggle menu' })).toHaveAttribute('data-radcn-dropdown-menu-trigger', '')
+  await page.getByRole('button', { name: 'Toggle menu' }).click()
+  await expect(page.getByRole('menuitem', { name: 'Documentation' })).toBeVisible()
+  await expect(page.getByRole('menuitem', { name: 'Themes' })).toBeVisible()
+  await expect(page.getByRole('menuitem', { name: 'GitHub' })).toBeVisible()
+
+  await page.goto(`${candidate}/fixtures/breadcrumb/dropdown`)
+  await expect(page.getByRole('button', { name: 'Components' })).toHaveAttribute('data-radcn-dropdown-menu-trigger', '')
+  await page.getByRole('button', { name: 'Components' }).click()
+  await expect(page.getByRole('menuitem', { name: 'Documentation' })).toBeVisible()
+
+  await page.setViewportSize({ width: 1024, height: 700 })
+  await page.goto(`${candidate}/fixtures/breadcrumb/responsive`)
+  await expect(page.locator('.radcn-breadcrumb-responsive-desktop')).toBeVisible()
+  await expect(page.locator('.radcn-breadcrumb-responsive-mobile')).toBeHidden()
+  await page.getByRole('button', { name: 'Toggle menu' }).click()
+  await expect(page.getByRole('menuitem', { name: 'Documentation' })).toBeVisible()
+  await expect(page.locator('.radcn-breadcrumb-truncate').first()).toHaveCSS('overflow', 'hidden')
+
+  await page.setViewportSize({ width: 390, height: 700 })
+  await page.goto(`${candidate}/fixtures/breadcrumb/responsive`)
+  await expect(page.locator('.radcn-breadcrumb-responsive-desktop')).toBeHidden()
+  await expect(page.locator('.radcn-breadcrumb-responsive-mobile')).toBeVisible()
+  await page.getByRole('button', { name: 'Toggle Menu' }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('heading', { name: 'Navigate to' })).toBeVisible()
+  await expect(page.getByText('Select a page to navigate to.')).toBeVisible()
+  await expect(page.locator('.radcn-breadcrumb-drawer-links').getByRole('link', { name: 'Documentation' })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Close' })).toHaveClass(/radcn-button--outline/)
 })
 
 test('candidate button group exposes orientation text and separator hooks', async ({ page }) => {

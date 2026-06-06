@@ -103,6 +103,12 @@ Proof-set routes:
 - `/fixtures/breadcrumb/default`
 - `/fixtures/breadcrumb/collapsed`
 - `/fixtures/breadcrumb/custom-separator`
+- `/fixtures/breadcrumb/demo`
+- `/fixtures/breadcrumb/dropdown`
+- `/fixtures/breadcrumb/ellipsis`
+- `/fixtures/breadcrumb/link`
+- `/fixtures/breadcrumb/responsive`
+- `/fixtures/breadcrumb/separator`
 - `/fixtures/button-group/horizontal`
 - `/fixtures/button-group/vertical`
 - `/fixtures/button-group/with-separator`

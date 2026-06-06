@@ -728,6 +728,42 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Breadcrumb using author-supplied separators and color hooks.",
   },
   {
+    component: "breadcrumb",
+    id: "demo",
+    title: "Breadcrumb Demo",
+    description: "Breadcrumb with collapsed dropdown branch and current page semantics.",
+  },
+  {
+    component: "breadcrumb",
+    id: "dropdown",
+    title: "Breadcrumb Dropdown",
+    description: "Breadcrumb with Slash separators and a dropdown branch trigger.",
+  },
+  {
+    component: "breadcrumb",
+    id: "ellipsis",
+    title: "Breadcrumb Ellipsis",
+    description: "Breadcrumb with collapsed ellipsis branch and hidden text.",
+  },
+  {
+    component: "breadcrumb",
+    id: "link",
+    title: "Breadcrumb Link",
+    description: "Simple linked breadcrumb using native anchor semantics.",
+  },
+  {
+    component: "breadcrumb",
+    id: "responsive",
+    title: "Responsive Breadcrumb",
+    description: "Breadcrumb with desktop dropdown and mobile drawer branches.",
+  },
+  {
+    component: "breadcrumb",
+    id: "separator",
+    title: "Breadcrumb Separator",
+    description: "Breadcrumb using author-supplied Slash separators.",
+  },
+  {
     component: "button-group",
     id: "demo",
     title: "Button Group Demo",

@@ -18,6 +18,7 @@ import { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, Ava
 import { Badge } from 'radcn/badge'
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
@@ -106,6 +107,8 @@ import {
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
   DrawerTitle,
   DrawerTrigger,
 } from 'radcn/drawer'
@@ -1012,6 +1015,111 @@ export function SonnerPreview() {
   )
 }`
 
+const breadcrumbSource = `import { Breadcrumb, BreadcrumbEllipsis, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from 'radcn/breadcrumb'
+import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger } from 'radcn/drawer'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+
+function SlashGlyph() {
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">/</span>
+}
+
+function ChevronGlyph() {
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">⌄</span>
+}
+
+export function BreadcrumbPreview() {
+  return (
+    <div class="breadcrumb-preview">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbLink href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator><SlashGlyph /></BreadcrumbSeparator>
+          <BreadcrumbItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger class="radcn-breadcrumb-trigger">Components<ChevronGlyph /></DropdownMenuTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuContent align="start">
+                  <DropdownMenuItem>Documentation</DropdownMenuItem>
+                  <DropdownMenuItem>Themes</DropdownMenuItem>
+                  <DropdownMenuItem>GitHub</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenuPortal>
+            </DropdownMenu>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator><SlashGlyph /></BreadcrumbSeparator>
+          <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem><BreadcrumbLink href="#">Home</BreadcrumbLink></BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <span class="radcn-breadcrumb-responsive-desktop">
+              <DropdownMenu>
+                <DropdownMenuTrigger ariaLabel="Toggle menu" class="radcn-breadcrumb-trigger"><BreadcrumbEllipsis /></DropdownMenuTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem>Documentation</DropdownMenuItem>
+                    <DropdownMenuItem>Build Your Application</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenuPortal>
+              </DropdownMenu>
+            </span>
+            <span class="radcn-breadcrumb-responsive-mobile">
+              <Drawer>
+                <DrawerTrigger ariaLabel="Toggle Menu" class="radcn-breadcrumb-trigger"><BreadcrumbEllipsis /></DrawerTrigger>
+                <DrawerPortal>
+                  <DrawerOverlay />
+                  <DrawerContent>
+                    <DrawerHeader>
+                      <DrawerTitle>Navigate to</DrawerTitle>
+                      <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                    </DrawerHeader>
+                    <div class="radcn-breadcrumb-drawer-links">
+                      <a class="radcn-breadcrumb-link" href="#">Documentation</a>
+                      <a class="radcn-breadcrumb-link" href="#">Build Your Application</a>
+                    </div>
+                    <DrawerFooter>
+                      <DrawerClose class="radcn-button radcn-button--outline radcn-button--default">Close</DrawerClose>
+                    </DrawerFooter>
+                  </DrawerContent>
+                </DrawerPortal>
+              </Drawer>
+            </span>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem><BreadcrumbLink class="radcn-breadcrumb-truncate" href="#">Data Fetching</BreadcrumbLink><BreadcrumbSeparator /></BreadcrumbItem>
+          <BreadcrumbItem><BreadcrumbPage class="radcn-breadcrumb-truncate">Caching and Revalidating</BreadcrumbPage></BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
+  )
+}`
+
 const emptySource = `import { Avatar, AvatarFallback, AvatarGroup } from 'radcn/avatar'
 import { Button } from 'radcn/button'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
@@ -1889,6 +1997,155 @@ function SonnerPreview() {
           },
         ]}
       />
+    </div>
+  )
+}
+
+function BreadcrumbSlashGlyph() {
+  return () => <span aria-hidden="true" class="radcn-breadcrumb-glyph">/</span>
+}
+
+function BreadcrumbChevronGlyph() {
+  return () => <span aria-hidden="true" class="radcn-breadcrumb-glyph">⌄</span>
+}
+
+function BreadcrumbPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 44rem);">
+      <div data-radcn-docs-breadcrumb-family="link">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div data-radcn-docs-breadcrumb-family="ellipsis">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbLink href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div data-radcn-docs-breadcrumb-family="separator">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator><BreadcrumbSlashGlyph /></BreadcrumbSeparator>
+            <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator><BreadcrumbSlashGlyph /></BreadcrumbSeparator>
+            <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div data-radcn-docs-breadcrumb-family="demo">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <DropdownMenu defaultOpen>
+                <DropdownMenuTrigger ariaLabel="Toggle menu" class="radcn-breadcrumb-trigger">
+                  <BreadcrumbEllipsis />
+                  <span class="radcn-sr-only">Toggle menu</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem>Documentation</DropdownMenuItem>
+                    <DropdownMenuItem>Themes</DropdownMenuItem>
+                    <DropdownMenuItem>GitHub</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenuPortal>
+              </DropdownMenu>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbLink href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div data-radcn-docs-breadcrumb-family="dropdown">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator><BreadcrumbSlashGlyph /></BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <DropdownMenu defaultOpen>
+                <DropdownMenuTrigger class="radcn-breadcrumb-trigger">Components<BreadcrumbChevronGlyph /></DropdownMenuTrigger>
+                <DropdownMenuPortal>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem>Documentation</DropdownMenuItem>
+                    <DropdownMenuItem>Themes</DropdownMenuItem>
+                    <DropdownMenuItem>GitHub</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenuPortal>
+              </DropdownMenu>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator><BreadcrumbSlashGlyph /></BreadcrumbSeparator>
+            <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
+      <div data-radcn-docs-breadcrumb-family="responsive">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem><BreadcrumbLink href="#">Home</BreadcrumbLink></BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <span class="radcn-breadcrumb-responsive-desktop">
+                <DropdownMenu defaultOpen>
+                  <DropdownMenuTrigger ariaLabel="Toggle menu" class="radcn-breadcrumb-trigger"><BreadcrumbEllipsis /></DropdownMenuTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuItem>Documentation</DropdownMenuItem>
+                      <DropdownMenuItem>Build Your Application</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenuPortal>
+                </DropdownMenu>
+              </span>
+              <span class="radcn-breadcrumb-responsive-mobile">
+                <Drawer defaultOpen>
+                  <DrawerTrigger ariaLabel="Toggle Menu" class="radcn-breadcrumb-trigger"><BreadcrumbEllipsis /></DrawerTrigger>
+                  <DrawerPortal>
+                    <DrawerOverlay />
+                    <DrawerContent>
+                      <DrawerHeader>
+                        <DrawerTitle>Navigate to</DrawerTitle>
+                        <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                      </DrawerHeader>
+                      <div class="radcn-breadcrumb-drawer-links">
+                        <a class="radcn-breadcrumb-link" href="#">Documentation</a>
+                        <a class="radcn-breadcrumb-link" href="#">Build Your Application</a>
+                      </div>
+                      <DrawerFooter>
+                        <DrawerClose class="radcn-button radcn-button--outline radcn-button--default">Close</DrawerClose>
+                      </DrawerFooter>
+                    </DrawerContent>
+                  </DrawerPortal>
+                </Drawer>
+              </span>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem><BreadcrumbLink class="radcn-breadcrumb-truncate" href="#">Data Fetching</BreadcrumbLink><BreadcrumbSeparator /></BreadcrumbItem>
+            <BreadcrumbItem><BreadcrumbPage class="radcn-breadcrumb-truncate">Caching and Revalidating</BreadcrumbPage></BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
     </div>
   )
 }
@@ -3207,6 +3464,49 @@ const richComponentDocs: ComponentDoc[] = [
     divergence: [
       'RadCN keeps the event bridge explicit with enhanceToaster and the RadCN toast event instead of React context.',
       'Initial toasts can be server-rendered, while later notifications are appended by browser enhancement.',
+    ],
+  },
+  {
+    slug: 'breadcrumb',
+    title: 'Breadcrumb',
+    category: 'Navigation',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native breadcrumb navigation primitive with linked ancestors, current-page semantics, separators, ellipsis, and composed menu or drawer branches.',
+    importPath: 'radcn/breadcrumb',
+    importExample:
+      "import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from 'radcn/breadcrumb'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Render Link, Ellipsis, Separator, Demo, Dropdown, and Responsive breadcrumb examples with native links and composed RadCN primitives.',
+        source: breadcrumbSource,
+        preview: <BreadcrumbPreview />,
+      },
+    ],
+    accessibility: [
+      'Breadcrumb renders a native nav with aria-label="breadcrumb" and an ordered list of items.',
+      'BreadcrumbLink renders native anchors with href, so Next Link and shadcn asChild examples map to platform link semantics.',
+      'BreadcrumbPage renders aria-current="page" with role="link" and aria-disabled="true" for the current location.',
+      'BreadcrumbEllipsis includes hidden More text, while dropdown and drawer triggers use accessible names such as Toggle menu.',
+      'DropdownMenu, Drawer, and Button-style close actions keep their own roles, labels, focus behavior, and enhancement boundaries when composed inside Breadcrumb items.',
+    ],
+    customization: [
+      'Breadcrumb parts expose public RadCN classes and data hooks for nav, list, item, link, page, separator, and ellipsis parts.',
+      'The default separator is a chevron-style glyph; author-supplied children can render Slash-style separators or any app-owned icon.',
+      'Use radcn-breadcrumb-trigger, radcn-breadcrumb-glyph, radcn-breadcrumb-truncate, and responsive branch classes for example-style compositions.',
+      'Truncation, max-width, gap, icon size, and responsive visibility map to classes, inline styles, or CSS variables instead of Tailwind utilities.',
+    ],
+    divergence: [
+      'Next Link and shadcn asChild map to explicit BreadcrumbLink href or app-owned anchor composition without Radix Slot.',
+      'React useState and useMediaQuery map to Remix 3 browser enhancement, CSS breakpoints, or app-owned state.',
+      'Lucide ChevronRight, MoreHorizontal, SlashIcon, and ChevronDownIcon are presentation choices; examples use package/app-owned glyphs instead of icon package dependencies.',
+      'Breadcrumb does not own DropdownMenu, Drawer, Button, routing, viewport state, or icon assets. It remains a navigation primitive that composes with those parts.',
     ],
   },
   {

@@ -183,3 +183,124 @@ such as `@radix-ui/react-slot`. The regex was tightened to
 Final re-review: approved with no blockers. Erdos confirmed the tightened
 manifest regex catches scoped Radix package names while still excluding the
 intentional React reference fixture.
+
+## Result
+
+**Result:** Pass
+
+Implemented Breadcrumb example parity depth for all 6 upstream shadcn/ui
+Breadcrumb examples: `breadcrumb-demo`, `breadcrumb-dropdown`,
+`breadcrumb-ellipsis`, `breadcrumb-link`, `breadcrumb-responsive`, and
+`breadcrumb-separator`.
+
+Package changes:
+
+- `radcn/packages/radcn/src/components/breadcrumb.tsx` now uses a
+  chevron-style default separator glyph while preserving author-supplied
+  separator children.
+- `radcn/packages/radcn/src/styles/tokens.css` adds public Breadcrumb hooks for
+  item gaps, trigger styling, glyph sizing, truncation, responsive branch
+  visibility, and drawer link layout.
+- `radcn/packages/radcn/src/styles/index.ts` was regenerated from
+  `tokens.css`.
+
+Docs, fixtures, and tests:
+
+- `radcn/apps/docs/app/content/components.tsx` now has a rich Breadcrumb docs
+  entry and live/source examples for Link, Ellipsis, Separator, Demo, Dropdown,
+  and Responsive examples.
+- `radcn/fixtures/scenarios/index.ts`,
+  `radcn/fixtures/candidate-remix/app/fixtures/navigation-collection.tsx`, and
+  `radcn/fixtures/README.md` now expose named Breadcrumb scenarios for all six
+  upstream examples while preserving the existing compatibility aliases.
+- `radcn/fixtures/tests/navigation-collection.spec.ts` now asserts native link
+  semantics, current page semantics, hidden ellipsis text, default chevron
+  separators, Slash separators, DropdownMenu trigger/menu behavior, desktop
+  responsive DropdownMenu behavior, mobile responsive Drawer behavior,
+  Drawer title/description/link list, outline Button-style close action, and
+  truncation hooks.
+- `breadcrumb-example-inventory.md`, `resolved-clusters.json`, and the
+  regenerated `parity-inventory.md` now mark `breadcrumb` resolved. The next
+  first recommended cluster is `Example parity for carousel`.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts navigation-collection.spec.ts`
+  passed: 9 passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`
+  passed: 5 passed.
+- `node scripts/audit-shadcn-parity.mjs` passed and regenerated
+  `parity-inventory.md`.
+- The parity inventory idempotence check passed:
+  ```text
+  tmp=$(mktemp) && cp issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md "$tmp" && node scripts/audit-shadcn-parity.mjs >/tmp/radcn-parity-regen.log && diff -u "$tmp" issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md; regen_status=$?; rm "$tmp"; cat /tmp/radcn-parity-regen.log; exit $regen_status
+  ```
+  Output:
+  ```text
+  wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+  ```
+- Deterministic Node checks confirmed:
+  - all 6 upstream Breadcrumb example ids appear exactly once in
+    `breadcrumb-example-inventory.md`;
+  - all 6 Breadcrumb example rows have final outcome `Covered`;
+  - `resolved-clusters.json` includes `slug = "breadcrumb"`,
+    `status = "resolved"`, and evidence for Experiment 25, Experiment 26, and
+    `breadcrumb-example-inventory.md`;
+  - `radcn/packages/radcn/src/styles/index.ts` exactly matches
+    `tokens.css`;
+  - `breadcrumb` is absent from unresolved example clusters in
+    `parity-inventory.md` and the first recommended cluster is
+    `Example parity for carousel`;
+  - Breadcrumb docs contain labels/copy for `Demo`, `Dropdown`, `Ellipsis`,
+    `Link`, `Responsive`, and `Separator`.
+- Dependency-policy checks passed:
+  ```text
+  rg -n "from ['\"]react['\"]|from ['\"][^'\"]*next/|from ['\"][^'\"]*radix-ui|from ['\"][^'\"]*@radix-ui|from ['\"][^'\"]*lucide-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+  rg -n '"(react|next|radix-ui|@radix-ui[^"]*|lucide-react|tailwindcss)"|publishConfig|npm publish|pnpm publish' package.json radcn/packages/radcn/package.json radcn/apps/docs/package.json radcn/fixtures/candidate-remix/package.json
+  ```
+  Both exited 1 with no matches, as expected.
+- `git diff --check` passed with no output.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`
+  printed no output.
+
+Known verification note: the first Playwright run exposed a test assertion bug.
+The label+chevron trigger's chevron is `aria-hidden`, so the accessible name is
+`Components`, not `Components⌄`. The test was corrected to assert the real
+accessible name, and the rerun passed.
+
+## Conclusion
+
+Breadcrumb example parity is resolved. The package now aligns with shadcn's
+chevron-style default separator while preserving app-owned Slash or icon
+separator children. Dropdown and responsive examples remain app composition
+over RadCN primitives rather than Breadcrumb-owned state. The next experiment
+should follow the regenerated recommendation and audit example parity for
+`carousel`.
+
+## Completion Review
+
+Reviewer: Rawls (`019e9b07-a92c-7a81-86ba-773b71391002`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Review result: approved. Rawls confirmed the completed result matches the
+approved scope; the experiment has `## Result` and `## Conclusion`; the Issue
+4 README marks Experiment 26 as `Pass` and records later-work learnings;
+`breadcrumb-example-inventory.md` covers all six upstream rows;
+`resolved-clusters.json` marks `breadcrumb` resolved with Experiment 25,
+Experiment 26, and inventory evidence; the package default separator preserves
+author-supplied children; style hooks are present; fixture and Playwright
+coverage exercise the six Breadcrumb families, dropdown, responsive drawer,
+links, current page, separators, and truncation; typechecks and Playwright
+checks pass; the parity audit passes; `git diff --check` passes; dependency
+source and manifest checks return no matches; vendor status is clean; no nested
+git repositories outside `vendor/` were found; and the result commit had not
+been made before review.

@@ -88,7 +88,7 @@ export function BreadcrumbPage(handle: Handle<BreadcrumbPartProps>) {
 
 export function BreadcrumbSeparator(handle: Handle<BreadcrumbPartProps>) {
   return () => {
-    let { children = '/', class: className, style } = handle.props
+    let { children = '›', class: className, style } = handle.props
 
     return (
       <li

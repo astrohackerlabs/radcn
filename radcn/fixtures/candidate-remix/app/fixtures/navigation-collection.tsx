@@ -15,6 +15,16 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerPortal,
+  DrawerTitle,
+  DrawerTrigger,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
@@ -89,23 +99,170 @@ import {
   TypographySmall,
 } from 'radcn'
 
-export function renderBreadcrumbFixture(fixture: FixtureScenario) {
-  let custom = fixture.id === 'custom-separator'
+function SlashGlyph() {
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">/</span>
+}
+
+function ChevronGlyph() {
+  return <span aria-hidden="true" class="radcn-breadcrumb-glyph">⌄</span>
+}
+
+function BreadcrumbDropdownMenu({ label, trigger }: { label?: string; trigger: string }) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger ariaLabel={label} class="radcn-breadcrumb-trigger">
+        {trigger === 'ellipsis' ? <BreadcrumbEllipsis /> : <>{trigger}{ChevronGlyph()}</>}
+        {trigger === 'ellipsis' ? <span class="radcn-sr-only">Toggle menu</span> : undefined}
+      </DropdownMenuTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem>Documentation</DropdownMenuItem>
+          <DropdownMenuItem>Themes</DropdownMenuItem>
+          <DropdownMenuItem>GitHub</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenuPortal>
+    </DropdownMenu>
+  )
+}
+
+function renderBreadcrumbLinkExample() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+function renderBreadcrumbEllipsisExample() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbLink href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+function renderBreadcrumbSeparatorExample(customClass = false) {
+  return (
+    <Breadcrumb class={customClass ? 'radcn-fixture-custom-breadcrumb' : undefined}>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator>{SlashGlyph()}</BreadcrumbSeparator>
+        <BreadcrumbItem><BreadcrumbLink href="/components">Components</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator>{SlashGlyph()}</BreadcrumbSeparator>
+        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+function renderBreadcrumbDemoExample() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>{BreadcrumbDropdownMenu({ label: 'Toggle menu', trigger: 'ellipsis' })}</BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbLink href="/docs/components">Components</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+function renderBreadcrumbDropdownExample() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="/">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator>{SlashGlyph()}</BreadcrumbSeparator>
+        <BreadcrumbItem>{BreadcrumbDropdownMenu({ trigger: 'Components' })}</BreadcrumbItem>
+        <BreadcrumbSeparator>{SlashGlyph()}</BreadcrumbSeparator>
+        <BreadcrumbItem><BreadcrumbPage>Breadcrumb</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+function renderResponsiveBreadcrumbExample() {
+  let hiddenItems = (
+    <>
+      <a class="radcn-breadcrumb-link" href="#">Documentation</a>
+      <a class="radcn-breadcrumb-link" href="#">Build Your Application</a>
+    </>
+  )
 
   return (
-    <Breadcrumb class={custom ? 'radcn-fixture-custom-breadcrumb' : undefined}>
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem><BreadcrumbLink href="#">Home</BreadcrumbLink></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <span class="radcn-breadcrumb-responsive-desktop">
+            {BreadcrumbDropdownMenu({ label: 'Toggle menu', trigger: 'ellipsis' })}
+          </span>
+          <span class="radcn-breadcrumb-responsive-mobile">
+            <Drawer>
+              <DrawerTrigger ariaLabel="Toggle Menu" class="radcn-breadcrumb-trigger"><BreadcrumbEllipsis /></DrawerTrigger>
+              <DrawerPortal>
+                <DrawerOverlay />
+                <DrawerContent>
+                  <DrawerHeader>
+                    <DrawerTitle>Navigate to</DrawerTitle>
+                    <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                  </DrawerHeader>
+                  <div class="radcn-breadcrumb-drawer-links">{hiddenItems}</div>
+                  <DrawerFooter>
+                    <DrawerClose class="radcn-button radcn-button--outline radcn-button--default">Close</DrawerClose>
+                  </DrawerFooter>
+                </DrawerContent>
+              </DrawerPortal>
+            </Drawer>
+          </span>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink class="radcn-breadcrumb-truncate" href="#">Data Fetching</BreadcrumbLink>
+          <BreadcrumbSeparator />
+        </BreadcrumbItem>
+        <BreadcrumbItem><BreadcrumbPage class="radcn-breadcrumb-truncate">Caching and Revalidating</BreadcrumbPage></BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+
+export function renderBreadcrumbFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') return renderBreadcrumbDemoExample()
+  if (fixture.id === 'dropdown') return renderBreadcrumbDropdownExample()
+  if (fixture.id === 'ellipsis' || fixture.id === 'collapsed') return renderBreadcrumbEllipsisExample()
+  if (fixture.id === 'link' || fixture.id === 'default') return renderBreadcrumbLinkExample()
+  if (fixture.id === 'responsive') return renderResponsiveBreadcrumbExample()
+  if (fixture.id === 'separator') return renderBreadcrumbSeparatorExample()
+  if (fixture.id === 'custom-separator') return renderBreadcrumbSeparatorExample(true)
+
+  return (
+    <Breadcrumb>
       <BreadcrumbList>
         <BreadcrumbItem><BreadcrumbLink href="/fixtures">Fixtures</BreadcrumbLink></BreadcrumbItem>
-        <BreadcrumbSeparator>{custom ? '>' : '/'}</BreadcrumbSeparator>
-        {fixture.id === 'collapsed' ? (
-          <>
-            <BreadcrumbItem><BreadcrumbEllipsis /></BreadcrumbItem>
-            <BreadcrumbSeparator />
-          </>
-        ) : undefined}
+        <BreadcrumbSeparator />
         <BreadcrumbItem><BreadcrumbLink href="/fixtures/breadcrumb">Breadcrumb</BreadcrumbLink></BreadcrumbItem>
-        <BreadcrumbSeparator>{custom ? '>' : '/'}</BreadcrumbSeparator>
-        <BreadcrumbItem><BreadcrumbPage>{custom ? 'Custom separator' : 'Default'}</BreadcrumbPage></BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem><BreadcrumbPage>Default</BreadcrumbPage></BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
   )
