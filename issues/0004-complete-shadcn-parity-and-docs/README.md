@@ -1373,3 +1373,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 89: Audit context-menu example parity](89-audit-context-menu-example-parity.md)
   — **Partial**
+- [Experiment 90: Implement context-menu example parity depth](90-implement-context-menu-example-parity-depth.md)
+  — **Designed**
