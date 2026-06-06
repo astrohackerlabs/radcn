@@ -1572,3 +1572,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 102: Audit pagination example parity](102-audit-pagination-example-parity.md)
   — **Partial**
+- [Experiment 103: Implement pagination example parity depth](103-implement-pagination-example-parity-depth.md)
+  — **Designed**
