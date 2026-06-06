@@ -177,3 +177,105 @@ excluded unless the inventory reclassifies them, verification includes concrete
 pass/fail criteria and repo hygiene checks, `git diff --check` passed, vendor
 status printed no output, and only the Issue 4 README plus new Experiment 53
 plan file are modified.
+
+## Result
+
+**Result:** Pass
+
+Created `checkbox-example-inventory.md` and audited all three active upstream
+Checkbox examples:
+
+- `checkbox-demo`
+- `checkbox-disabled`
+- `checkbox-with-text`
+
+The audit found strong RadCN package and fixture coverage for Checkbox
+behavior: native checkbox input semantics, checked and unchecked states,
+server-rendered initial checked state, disabled state, invalid state,
+indeterminate/mixed ARIA and visual state, label association, app-owned
+description composition, native form submission/reset, public wrapper/input/
+indicator hooks, `data-state` hooks, custom classes/styles/tokens, docs route
+presence, candidate fixture behavior, and Playwright behavior coverage.
+
+The example cluster remains partially covered because current docs, candidate
+fixtures, and Playwright tests do not yet prove the three named upstream
+example ids or exact user-facing compositions. `checkbox-demo` needs the four
+stacked upstream compositions, including the checked card-like label and
+custom checked styling. `checkbox-disabled` needs named disabled example proof
+with upstream label copy. `checkbox-with-text` needs named label and
+description proof.
+
+No current evidence requires changing the `radcn/checkbox` package API. shadcn
+`defaultChecked` maps to RadCN's server-rendered `checked` initial state,
+`className` maps to `class`, `data-slot` maps to RadCN public hooks, Radix
+state mechanics map to native input state and explicit props, and
+`lucide-react`/`CheckIcon`/Tailwind/peer/has/card wrapper choices remain
+presentation or app-owned composition rather than package dependencies.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/checkbox-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const examples = text.match(/## Examples[\s\S]*?(?=\n## |$)/)?.[0] ?? ''
+const ids = [
+  'checkbox-demo',
+  'checkbox-disabled',
+  'checkbox-with-text',
+]
+const rows = [...examples.matchAll(/^\| `([^`]+)` \|/gm)].map((match) => match[1])
+let failed = rows.length !== ids.length
+if (rows.length !== ids.length) {
+  console.log(`row-count: ${rows.length}`)
+}
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (examples.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+for (const row of rows) {
+  if (!ids.includes(row)) {
+    console.log(`unexpected: ${row}`)
+    failed = true
+  }
+}
+if (failed) process.exit(1)
+NODE
+
+rg -n "checkbox-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The deterministic inventory check reported each active Checkbox example id
+exactly once. `rg` found the README learning. `git diff --check` passed. Vendor
+status printed no output. `git status --short` showed only expected Issue 4
+documentation changes for the audit result.
+
+## Conclusion
+
+Checkbox example parity is not yet resolved. The next experiment should
+implement named Checkbox example parity depth across docs, candidate fixtures,
+and Playwright coverage for `checkbox-demo`, `checkbox-disabled`, and
+`checkbox-with-text`, without changing the package API unless a direct blocker
+appears during implementation.
+
+## Completion Review
+
+Reviewer: Noether the 2nd (`019e9c1d-018d-76c1-8306-76ef78e64f52`) with fresh
+context (`fork_context: false`).
+
+Findings: none.
+
+Approval: Approved for result commit. The reviewer confirmed that the audit-only
+scope was preserved, the inventory contains exactly `checkbox-demo`,
+`checkbox-disabled`, and `checkbox-with-text` as active rows, adjacent
+form/field/menu checkbox examples are only noted as out-of-cluster,
+`git diff --check` passed, vendor status printed no output, no nested `.git`
+directories outside `vendor/` were found, the result commit had not been made
+yet, and the `Partial` outcome is supported by evidence: generic Checkbox
+coverage exists, but named upstream example compositions are not yet proven.

@@ -763,6 +763,17 @@ Record cross-component discoveries here as experiments complete.
   now marks all four rows `Covered`, `resolved-clusters.json` records
   `resizable` as resolved, and the regenerated parity inventory recommends
   auditing `checkbox` examples next.
+- Experiment 53 audited Checkbox example parity in
+  `checkbox-example-inventory.md`. RadCN already has strong package and fixture
+  coverage for native checkbox semantics, checked/unchecked/disabled/invalid/
+  indeterminate states, labels, descriptions as app-owned composition, form
+  submission/reset, public wrapper/input/indicator hooks, state hooks, and
+  custom classes/styles/tokens. The active upstream examples remain partially
+  covered because docs, candidate fixtures, and Playwright tests do not yet
+  prove the three named upstream example ids and exact compositions:
+  `checkbox-demo`, `checkbox-disabled`, and `checkbox-with-text`. The next
+  experiment should implement those named examples without changing the
+  Checkbox package API unless a concrete package-level gap appears.
 
 ## Experiments
 
@@ -871,4 +882,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 52: Implement resizable example parity depth](52-implement-resizable-example-parity-depth.md)
   — **Pass**
 - [Experiment 53: Audit checkbox example parity](53-audit-checkbox-example-parity.md)
-  — **Designed**
+  — **Pass**
