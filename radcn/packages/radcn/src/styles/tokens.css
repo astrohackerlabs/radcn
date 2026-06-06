@@ -281,6 +281,28 @@
   padding: 0 0.75rem;
 }
 
+.radcn-input[type="file"] {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+  color: var(--radcn-muted-foreground);
+}
+
+.radcn-input[type="file"]::file-selector-button {
+  height: calc(var(--radcn-control-height) - 0.625rem);
+  margin: 0 0.75rem 0 0;
+  border: 0;
+  border-radius: calc(var(--radcn-radius) - 0.125rem);
+  background: var(--radcn-secondary);
+  color: var(--radcn-secondary-foreground);
+  font: 500 0.8125rem/1 var(--radcn-font);
+  padding: 0 0.75rem;
+}
+
+.radcn-input[type="file"]:disabled::file-selector-button {
+  cursor: not-allowed;
+}
+
 .radcn-textarea {
   min-height: 5rem;
   padding: 0.5rem 0.75rem;

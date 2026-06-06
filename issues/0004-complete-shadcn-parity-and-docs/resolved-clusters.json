@@ -115,6 +115,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/30-implement-chart-component-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/chart-example-inventory.md"
       ]
+    },
+    {
+      "slug": "input",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/31-audit-input-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/32-implement-input-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/input-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

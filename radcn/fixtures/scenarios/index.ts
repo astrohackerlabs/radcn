@@ -176,6 +176,42 @@ export const fixtureScenarios: FixtureScenario[] = [
     description: "Field error styling customized through a RadCN CSS variable.",
   },
   {
+    component: "input",
+    id: "demo",
+    title: "Input Demo",
+    description: "Email input with placeholder text.",
+  },
+  {
+    component: "input",
+    id: "disabled",
+    title: "Input Disabled",
+    description: "Disabled email input with placeholder text.",
+  },
+  {
+    component: "input",
+    id: "file",
+    title: "Input File",
+    description: "Native file input wired to a visible label.",
+  },
+  {
+    component: "input",
+    id: "with-button",
+    title: "Input With Button",
+    description: "Email input composed with an outline submit button.",
+  },
+  {
+    component: "input",
+    id: "with-label",
+    title: "Input With Label",
+    description: "Email input wired to an explicit label.",
+  },
+  {
+    component: "input",
+    id: "with-text",
+    title: "Input With Text",
+    description: "Email input with label and helper description text.",
+  },
+  {
     component: "input-group",
     id: "default",
     title: "Default Input Group",

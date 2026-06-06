@@ -652,14 +652,43 @@ export function BadgePreview() {
   )
 }`
 
-const inputSource = `import { Input } from 'radcn/input'
+const inputSource = `import { Button } from 'radcn/button'
+import { Input } from 'radcn/input'
+import { Label } from 'radcn/label'
 
 export function InputPreview() {
   return (
-    <label class="field">
-      Workspace
-      <Input id="workspace" name="workspace" placeholder="radcn" value="radcn" />
-    </label>
+    <div class="input-examples">
+      <Input type="email" placeholder="Email" />
+
+      <Input disabled type="email" placeholder="Email" />
+
+      <div class="field">
+        <Label for="picture">Picture</Label>
+        <Input id="picture" type="file" />
+      </div>
+
+      <form class="row" action="/subscribe" method="post">
+        <Input name="email" type="email" placeholder="Email" />
+        <Button type="submit" variant="outline">Subscribe</Button>
+      </form>
+
+      <div class="field">
+        <Label for="email">Email</Label>
+        <Input id="email" type="email" placeholder="Email" />
+      </div>
+
+      <div class="field">
+        <Label for="described-email">Email</Label>
+        <Input
+          ariaDescribedBy="email-help"
+          id="described-email"
+          type="email"
+          placeholder="Email"
+        />
+        <p id="email-help">Enter your workspace email address.</p>
+      </div>
+    </div>
   )
 }`
 
@@ -1732,16 +1761,47 @@ function BadgePreview() {
 
 function InputPreview() {
   return () => (
-    <div mix={previewFieldStyle}>
-      <label for="docs-input-workspace">Workspace</label>
-      <Input
-        ariaDescribedBy="docs-input-workspace-help"
-        id="docs-input-workspace"
-        name="workspace"
-        placeholder="radcn"
-        value="radcn"
-      />
-      <p id="docs-input-workspace-help">Native text input with RadCN tokens.</p>
+    <div style="display:grid;gap:1rem;width:min(100%,42rem)">
+      <div data-radcn-docs-example="input-demo" mix={previewFieldStyle}>
+        <Input name="email" placeholder="Email" type="email" />
+      </div>
+
+      <div data-radcn-docs-example="input-disabled" mix={previewFieldStyle}>
+        <Input disabled name="email" placeholder="Email" type="email" />
+      </div>
+
+      <div data-radcn-docs-example="input-file" mix={previewFieldStyle}>
+        <Label for="docs-input-file-picture">Picture</Label>
+        <Input id="docs-input-file-picture" name="picture" type="file" />
+      </div>
+
+      <form
+        action="/docs/components/input"
+        data-radcn-docs-example="input-with-button"
+        method="get"
+        mix={previewRowStyle}
+        style="width:min(100%,28rem)"
+      >
+        <Input id="docs-input-subscribe" name="email" placeholder="Email" type="email" />
+        <Button name="intent" type="submit" value="subscribe" variant="outline">Subscribe</Button>
+      </form>
+
+      <div data-radcn-docs-example="input-with-label" mix={previewFieldStyle}>
+        <Label for="docs-input-label-email">Email</Label>
+        <Input id="docs-input-label-email" name="email" placeholder="Email" type="email" />
+      </div>
+
+      <div data-radcn-docs-example="input-with-text" mix={previewFieldStyle}>
+        <Label for="docs-input-text-email">Email</Label>
+        <Input
+          ariaDescribedBy="docs-input-text-description"
+          id="docs-input-text-email"
+          name="email"
+          placeholder="Email"
+          type="email"
+        />
+        <p id="docs-input-text-description">Enter your workspace email address.</p>
+      </div>
     </div>
   )
 }
@@ -3554,32 +3614,35 @@ const richComponentDocs: ComponentDoc[] = [
     disposition: 'ready',
     status: 'ready',
     summary:
-      'A native text input with RadCN sizing, border, disabled, required, and invalid-state styling.',
+      'A native input primitive for text, email, file, label, helper text, and button composition.',
     importPath: 'radcn/input',
     importExample: "import { Input } from 'radcn/input'",
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'with-label',
-        title: 'With Label',
+        slug: 'example-parity',
+        title: 'Example Parity',
         description:
-          'Pair Input with platform labels and descriptions so forms work before hydration.',
+          'Render the six plain shadcn Input examples with native Remix 3 controls and explicit RadCN composition.',
         source: inputSource,
         preview: <InputPreview />,
       },
     ],
     accessibility: [
-      'Renders a native text input, preserving browser focus, editing, and form submission behavior.',
-      'Supports aria-describedby and aria-invalid for field help and validation state.',
-      'Leaves labeling to real label elements so accessible names stay explicit.',
+      'Renders native input elements, preserving browser focus, editing, file picker, and form submission behavior.',
+      'Supports aria-describedby and aria-invalid for field help and validation state through explicit string props.',
+      'Leaves labeling to real Label components and native label elements so accessible names stay explicit.',
+      'File inputs do not use role="textbox"; they keep browser-native file input semantics.',
     ],
     customization: [
-      'Input dimensions and focus rings are controlled by RadCN CSS variables.',
+      'Input dimensions, borders, focus rings, placeholder color, disabled state, and file selector styling are controlled by RadCN CSS variables.',
       'The public data-radcn-input hook supports targeted app CSS without relying on generated DOM wrappers.',
+      'Button and Label composition stays outside the Input package, so layout and submission behavior remain app-owned.',
     ],
     divergence: [
       'The Remix 3 input uses explicit string props such as ariaDescribedBy instead of React prop aliases.',
-      'It is intentionally a controlled server-rendered text input primitive, not a React state helper.',
+      'It keeps a deliberate typed native input surface instead of forwarding arbitrary React ComponentProps.',
+      'Label, Button, helper text, and form state are explicit composition, not Input-owned behavior.',
     ],
   },
   {

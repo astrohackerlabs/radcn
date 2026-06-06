@@ -17,6 +17,7 @@ import { renderDialogFixture } from './dialog.tsx'
 import { renderDrawerFixture } from './drawer.tsx'
 import { renderFieldFixture } from './field.tsx'
 import { renderFormFixture } from './form.tsx'
+import { renderInputFixture } from './input.tsx'
 import { renderInputGroupFixture } from './input-group.tsx'
 import { renderInputOTPFixture } from './input-otp.tsx'
 import { renderContextMenuFixture, renderDropdownMenuFixture } from './menu-overlays.tsx'
@@ -119,6 +120,8 @@ export function renderCandidateFixture(fixture: FixtureScenario) {
       return renderFormFixture(fixture)
     case 'hover-card':
       return renderHoverCardFixture(fixture)
+    case 'input':
+      return renderInputFixture(fixture)
     case 'input-group':
       return renderInputGroupFixture(fixture)
     case 'input-otp':

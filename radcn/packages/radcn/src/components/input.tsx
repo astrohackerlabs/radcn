@@ -2,7 +2,7 @@ import type { Handle } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
-export type InputType = 'text' | 'email' | 'password' | 'tel' | 'url'
+export type InputType = 'text' | 'email' | 'file' | 'password' | 'tel' | 'url'
 
 export interface InputProps {
   ariaDescribedBy?: string
@@ -49,8 +49,8 @@ export function Input(handle: Handle<InputProps>) {
       'aria-describedby': ariaDescribedBy,
     }
 
-    if (type === 'password') {
-      return <input {...sharedProps} type="password" aria-invalid={ariaInvalid ? 'true' : undefined} />
+    if (type === 'file' || type === 'password') {
+      return <input {...sharedProps} type={type} aria-invalid={ariaInvalid ? 'true' : undefined} />
     }
 
     return (

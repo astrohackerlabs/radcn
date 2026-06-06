@@ -528,6 +528,18 @@ Record cross-component discoveries here as experiments complete.
   adding a separate component.
 - After Experiment 31, the next recommended implementation cluster is Input
   example parity depth.
+- Experiment 32 completed Input example parity depth for all 6 plain upstream
+  examples. `radcn/input` now supports `type="file"`, file inputs render without
+  `role="textbox"`, file selector styling is CSS-native, the docs page renders
+  stable named examples for demo, disabled, file, with-button, with-label, and
+  with-text, and focused candidate fixtures plus Playwright tests prove the
+  same behavior.
+- Adding `file` to `InputType` revealed that `InputGroupInput` had extended
+  `InputProps`; the implementation added a type-only exclusion so InputGroup
+  keeps its existing non-file grouped-input surface while plain Input gains file
+  support. This is a useful guard for future shared prop reuse.
+- After Experiment 32, `input` is marked resolved in the example queue. The
+  regenerated inventory recommends example parity for `toggle` next.
 
 ## Experiments
 
@@ -594,4 +606,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 31: Audit input example parity](31-audit-input-example-parity.md)
   — **Pass**
 - [Experiment 32: Implement input example parity depth](32-implement-input-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

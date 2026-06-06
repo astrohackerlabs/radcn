@@ -1,7 +1,7 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { Button, type ButtonSize, type ButtonVariant } from './button.tsx'
-import type { InputProps } from './input.tsx'
+import type { InputProps, InputType } from './input.tsx'
 import type { TextareaProps } from './textarea.tsx'
 import { classes } from '../utils/classes.ts'
 
@@ -45,7 +45,9 @@ export interface InputGroupTextProps {
   style?: string
 }
 
-export interface InputGroupInputProps extends InputProps {}
+export interface InputGroupInputProps extends Omit<InputProps, 'type'> {
+  type?: Exclude<InputType, 'file'>
+}
 
 export interface InputGroupTextareaProps extends TextareaProps {}
 

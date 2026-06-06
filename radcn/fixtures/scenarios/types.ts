@@ -27,6 +27,7 @@ export type FixtureComponent =
   | "field"
   | "form"
   | "hover-card"
+  | "input"
   | "kbd"
   | "input-group"
   | "input-otp"

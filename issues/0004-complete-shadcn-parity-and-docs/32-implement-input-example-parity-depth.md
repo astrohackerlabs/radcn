@@ -208,3 +208,153 @@ and Design Review sections, the scope is limited to the 6 plain Input examples,
 no implementation has started, file-input concerns are covered, verification
 has concrete pass/fail criteria, hygiene checks are present, vendor cleanliness
 is checked, and the technical plan is likely to achieve the goal.
+
+## Result
+
+**Result:** Pass
+
+Input example parity depth is implemented for all 6 plain upstream examples:
+`input-demo`, `input-disabled`, `input-file`, `input-with-button`,
+`input-with-label`, and `input-with-text`.
+
+Package changes:
+
+- `radcn/packages/radcn/src/components/input.tsx` now includes `file` in
+  `InputType`.
+- File and password inputs render without `role="textbox"`; text-like inputs
+  keep the existing textbox role.
+- `radcn/packages/radcn/src/styles/tokens.css` adds
+  `.radcn-input[type="file"]` and `::file-selector-button` styling, and
+  `radcn/packages/radcn/src/styles/index.ts` was regenerated.
+- `radcn/packages/radcn/src/components/input-group.tsx` now excludes `file`
+  from `InputGroupInputProps` as a type-only guard, preserving the existing
+  non-file InputGroup input surface after `InputType` widened.
+
+Docs, fixtures, tests, and inventory changes:
+
+- `radcn/apps/docs/app/content/components.tsx` expands the Input docs page into
+  a six-example parity preview using package-imported `Input`, `Button`, and
+  `Label`.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks stable docs evidence for all
+  6 named Input examples plus `type="file"`, `ariaDescribedBy`, `Button`, and
+  `Label` source/API text.
+- `radcn/fixtures/candidate-remix/app/fixtures/input.tsx`,
+  `radcn/fixtures/candidate-remix/app/fixtures/index.tsx`,
+  `radcn/fixtures/scenarios/index.ts`, and
+  `radcn/fixtures/scenarios/types.ts` add focused `input` fixture routes for
+  `demo`, `disabled`, `file`, `with-button`, `with-label`, and `with-text`.
+- `radcn/fixtures/tests/input.spec.ts` verifies email placeholder behavior,
+  disabled state, native file input semantics and file upload, Button form
+  submission, Label wiring, and description wiring.
+- `input-example-inventory.md` marks all 6 upstream rows `Covered`.
+- `resolved-clusters.json` marks `input` resolved in the example queue, and
+  the regenerated `parity-inventory.md` now recommends example parity for
+  `toggle`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm fixtures:candidate:typecheck
+pnpm --dir radcn/apps/docs typecheck
+```
+
+All three commands passed.
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts input.spec.ts
+```
+
+Output summary:
+
+```text
+2 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts form-input-cluster.spec.ts
+```
+
+Output summary:
+
+```text
+10 passed
+```
+
+```text
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+```
+
+Output summary:
+
+```text
+5 passed
+```
+
+The focused Playwright commands emitted the existing Node
+`module.register()` deprecation warning and `NO_COLOR`/`FORCE_COLOR` warning.
+
+Additional deterministic checks passed:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const css = fs.readFileSync('radcn/packages/radcn/src/styles/tokens.css', 'utf8')
+const index = fs.readFileSync('radcn/packages/radcn/src/styles/index.ts', 'utf8')
+const expected = `export const radcnStyles = ${JSON.stringify(css)}\n`
+if (index !== expected) process.exit(1)
+NODE
+```
+
+```text
+node scripts/audit-shadcn-parity.mjs
+```
+
+Output:
+
+```text
+wrote issues/0004-complete-shadcn-parity-and-docs/parity-inventory.md
+```
+
+Deterministic inventory checks proved all 6 rows appear exactly once in
+`input-example-inventory.md` with `Covered` outcomes, `resolved-clusters.json`
+contains the `input` resolved example entry with Experiment 31, Experiment 32,
+and inventory evidence, `input` is absent from unresolved example clusters, and
+the first recommended cluster is no longer `Example parity for input`.
+
+Dependency and hygiene checks passed:
+
+```text
+rg -n "from ['\"]react['\"]|from ['\"][^'\"]*lucide-react|from ['\"](\\.\\./)*vendor/|from ['\"][^'\"]*vendor/|npm publish|pnpm publish|publishConfig" radcn/packages/radcn radcn/apps/docs radcn/fixtures/candidate-remix package.json
+git diff --check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+The dependency `rg` exited 1 with no matches. `git diff --check` and vendor
+status produced no output.
+
+## Completion Review
+
+Reviewer: Volta (`019e9b49-4bd6-7a43-a114-63b7631087cf`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. Volta verified that the implementation stayed scoped
+to plain Input, the InputGroup touch is only a type guard excluding `file`, file
+inputs render without `role="textbox"`, CSS-native file selector styling exists,
+Playwright proves file upload behavior, docs render stable hooks for all 6
+named examples, docs coverage checks all 6, the experiment has Result and
+Conclusion, the README records learnings and marks Experiment 32 `Pass`,
+`resolved-clusters.json` resolves `input`, `parity-inventory.md` recommends
+`toggle` instead of `input`, dependency and hygiene checks pass, vendor status
+is clean, and the result commit had not been made before completion review.
+
+## Conclusion
+
+Plain Input example parity is resolved. The next experiment should follow the
+regenerated inventory recommendation and audit example parity for `toggle`.

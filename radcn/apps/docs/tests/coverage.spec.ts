@@ -121,6 +121,21 @@ test.describe('docs registry coverage', () => {
 
     await page.goto('/docs/components/input')
     await expect(page.locator('[data-radcn-input]').first()).toBeVisible()
+    for (let slug of [
+      'input-demo',
+      'input-disabled',
+      'input-file',
+      'input-with-button',
+      'input-with-label',
+      'input-with-text',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-example="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-example="input-file"] input')).toHaveAttribute('type', 'file')
+    await expect(page.getByText('ariaDescribedBy').first()).toBeVisible()
+    await expect(page.getByText('type="file"').first()).toBeVisible()
+    await expect(page.getByText("import { Button } from 'radcn/button'").first()).toBeVisible()
+    await expect(page.getByText("import { Label } from 'radcn/label'").first()).toBeVisible()
 
     await page.goto('/docs/components/dialog')
     await expect(page.locator('[data-radcn-dialog-content]').first()).toBeVisible()
