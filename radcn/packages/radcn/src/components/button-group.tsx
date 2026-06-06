@@ -5,6 +5,8 @@ import { classes } from '../utils/classes.ts'
 export type ButtonGroupOrientation = 'horizontal' | 'vertical'
 
 export interface ButtonGroupProps {
+  ariaLabel?: string
+  ariaLabelledby?: string
   children?: RemixNode
   class?: string
   orientation?: ButtonGroupOrientation
@@ -25,10 +27,12 @@ export interface ButtonGroupSeparatorProps {
 
 export function ButtonGroup(handle: Handle<ButtonGroupProps>) {
   return () => {
-    let { children, class: className, orientation = 'horizontal', style } = handle.props
+    let { ariaLabel, ariaLabelledby, children, class: className, orientation = 'horizontal', style } = handle.props
 
     return (
       <div
+        aria-label={ariaLabelledby ? undefined : ariaLabel}
+        aria-labelledby={ariaLabelledby}
         class={classes('radcn-button-group', `radcn-button-group--${orientation}`, className)}
         data-orientation={orientation}
         data-radcn-button-group

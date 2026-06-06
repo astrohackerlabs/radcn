@@ -29,6 +29,69 @@ test('candidate button group exposes orientation text and separator hooks', asyn
   await expect(page.locator('[data-radcn-button-group-separator]')).toHaveAttribute('aria-orientation', 'vertical')
 })
 
+test('candidate button group covers shadcn example parity depth', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/button-group/demo`)
+  await expect(page.getByRole('group', { name: 'Message actions' })).toHaveAttribute('data-radcn-button-group', '')
+  await expect(page.locator('[data-radcn-button-group]')).toHaveCount(4)
+  await expect(page.getByRole('button', { name: 'Go back' })).toHaveAttribute('data-size', 'icon')
+  await expect(page.locator('[data-radcn-dropdown-menu]')).toHaveCount(1)
+  await expect(page.locator('[data-radcn-dropdown-menu-radio-group]')).toHaveAttribute('data-value', 'personal')
+  await expect(page.locator('[data-radcn-dropdown-menu-item][data-variant="destructive"]')).toContainText('Trash')
+
+  await page.goto(`${candidate}/fixtures/button-group/dropdown`)
+  await expect(page.locator('[data-radcn-dropdown-menu-trigger]')).toHaveAccessibleName('Conversation actions')
+  await expect(page.locator('[data-radcn-dropdown-menu-item]')).toContainText(['Mute Conversation', 'Mark as Read', 'Share Conversation', 'Delete Conversation'])
+
+  await page.goto(`${candidate}/fixtures/button-group/input`)
+  await expect(page.locator('[data-radcn-button-group] [data-radcn-input]')).toHaveValue('radcn')
+  await expect(page.getByRole('button', { name: 'Search' })).toHaveAttribute('data-radcn-button', '')
+
+  await page.goto(`${candidate}/fixtures/button-group/input-group`)
+  await expect(page.locator('[data-radcn-input-group]')).toHaveAttribute('data-disabled', 'true')
+  await expect(page.locator('[data-radcn-input-group-control]')).toBeDisabled()
+  await expect(page.locator('[data-radcn-tooltip-trigger]')).toHaveAccessibleName('Voice Mode')
+
+  await page.goto(`${candidate}/fixtures/button-group/nested`)
+  let nestedGroups = page.locator('[data-radcn-button-group]')
+  await expect(nestedGroups).toHaveCount(3)
+  await expect(page.getByRole('group', { name: 'Pagination controls' })).toHaveAttribute('data-radcn-button-group', '')
+  await expect(page.getByRole('button', { name: 'Previous' })).toHaveAttribute('data-size', 'icon-sm')
+  await expect(page.getByRole('group', { name: 'Pagination controls' })).toHaveCSS('gap', '8px')
+
+  await page.goto(`${candidate}/fixtures/button-group/orientation`)
+  await expect(page.getByRole('group', { name: 'Media controls' })).toHaveAttribute('data-orientation', 'vertical')
+  await expect(page.getByRole('button', { name: 'Increase' })).toHaveAttribute('data-size', 'icon')
+
+  await page.goto(`${candidate}/fixtures/button-group/popover`)
+  await expect(page.locator('[data-radcn-popover-trigger]')).toHaveAccessibleName('Open Popover')
+  await expect(page.locator('[data-radcn-popover-content]')).toContainText('Agent Tasks')
+  await expect(page.locator('[data-radcn-textarea]')).toHaveValue('Review the ButtonGroup examples.')
+
+  await page.goto(`${candidate}/fixtures/button-group/select`)
+  await expect(page.locator('[data-radcn-select-trigger]')).toHaveAccessibleName('Currency')
+  await expect(page.locator('[data-radcn-select-input]')).toHaveValue('usd')
+  await expect(page.locator('#candidate-button-group-amount')).toHaveValue('10.00')
+  await expect(page.getByRole('button', { name: 'Send' })).toHaveAttribute('data-size', 'icon')
+
+  await page.goto(`${candidate}/fixtures/button-group/separator`)
+  await expect(page.locator('[data-radcn-button-group-separator]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Copy' })).toHaveAttribute('data-variant', 'secondary')
+  await expect(page.getByRole('button', { name: 'Paste' })).toHaveAttribute('data-variant', 'secondary')
+
+  await page.goto(`${candidate}/fixtures/button-group/size`)
+  await expect(page.getByRole('button', { name: 'Small', exact: true })).toHaveAttribute('data-size', 'sm')
+  await expect(page.getByRole('button', { name: 'Default', exact: true })).toHaveAttribute('data-size', 'default')
+  await expect(page.getByRole('button', { name: 'Large', exact: true })).toHaveAttribute('data-size', 'lg')
+  await expect(page.getByRole('button', { name: 'Add small' })).toHaveAttribute('data-size', 'icon-sm')
+  await expect(page.getByRole('button', { name: 'Add default' })).toHaveAttribute('data-size', 'icon')
+  await expect(page.getByRole('button', { name: 'Add large' })).toHaveAttribute('data-size', 'icon-lg')
+
+  await page.goto(`${candidate}/fixtures/button-group/split`)
+  await expect(page.locator('[data-radcn-button-group-separator]')).toHaveCount(1)
+  await expect(page.getByRole('button', { name: 'Button' })).toHaveAttribute('data-variant', 'secondary')
+  await expect(page.getByRole('button', { name: 'Add' })).toHaveAttribute('data-size', 'icon')
+})
+
 test('candidate item exposes group variants slots and separators', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/item/default`)
   await expect(page.locator('[data-radcn-item-group]')).toHaveAttribute('role', 'list')

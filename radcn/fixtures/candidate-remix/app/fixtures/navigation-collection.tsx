@@ -11,6 +11,23 @@ import {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
   Item,
   ItemActions,
   ItemContent,
@@ -28,6 +45,20 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverPortal,
+  PopoverTitle,
+  PopoverTrigger,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectPortal,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
+  Separator,
   Table,
   TableBody,
   TableCaption,
@@ -36,6 +67,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Textarea,
+  Tooltip,
+  TooltipContent,
+  TooltipPortal,
+  TooltipTrigger,
   TypographyBlockquote,
   TypographyH1,
   TypographyH2,
@@ -71,7 +107,233 @@ export function renderBreadcrumbFixture(fixture: FixtureScenario) {
   )
 }
 
+function DropdownContent({ label = 'More actions' }: { label?: string }) {
+  return (
+    <>
+      <DropdownMenuTrigger ariaLabel={label} class="radcn-button radcn-button--outline radcn-button--default">More</DropdownMenuTrigger>
+      <DropdownMenuPortal>
+        <DropdownMenuContent align="end">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Mute Conversation</DropdownMenuItem>
+            <DropdownMenuItem>Mark as Read</DropdownMenuItem>
+            <DropdownMenuItem>Share Conversation</DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem variant="destructive">Delete Conversation</DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenuPortal>
+    </>
+  )
+}
+
+function CurrencySelect() {
+  return (
+    <Select defaultValue="usd" id="candidate-button-group-currency" name="currency">
+      <SelectTrigger ariaLabel="Currency" id="candidate-button-group-currency-trigger">
+        <SelectValue placeholder="Currency">USD</SelectValue>
+      </SelectTrigger>
+      <SelectPortal>
+        <SelectContent>
+          <SelectViewport>
+            <SelectItem value="usd">USD US Dollar</SelectItem>
+            <SelectItem value="eur">EUR Euro</SelectItem>
+            <SelectItem value="gbp">GBP British Pound</SelectItem>
+          </SelectViewport>
+        </SelectContent>
+      </SelectPortal>
+    </Select>
+  )
+}
+
 export function renderButtonGroupFixture(fixture: FixtureScenario) {
+  if (fixture.id === 'demo') {
+    return (
+      <ButtonGroup ariaLabel="Message actions" class="radcn-button-group--clustered">
+        <ButtonGroup>
+          <Button ariaLabel="Go back" size="icon" variant="outline">←</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Archive</Button>
+          <Button variant="outline">Report</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Snooze</Button>
+          <DropdownMenu defaultOpen>
+            <DropdownMenuTrigger ariaLabel="More options" class="radcn-button radcn-button--outline radcn-button--icon">•••</DropdownMenuTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Mark as Read</DropdownMenuItem>
+                  <DropdownMenuItem>Archive</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Snooze</DropdownMenuItem>
+                  <DropdownMenuItem>Add to Calendar</DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>Label As</DropdownMenuSubTrigger>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuRadioGroup value="personal">
+                        <DropdownMenuRadioItem value="personal">Personal</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="work">Work</DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuSub>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem variant="destructive">Trash</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenuPortal>
+          </DropdownMenu>
+        </ButtonGroup>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'dropdown') {
+    return (
+      <ButtonGroup>
+        <Button variant="outline">Follow</Button>
+        <DropdownMenu defaultOpen>
+          {DropdownContent({ label: 'Conversation actions' })}
+        </DropdownMenu>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'input') {
+    return (
+      <ButtonGroup>
+        <Input id="candidate-button-group-search" name="search" placeholder="Search..." value="radcn" />
+        <Button ariaLabel="Search" variant="outline">⌕</Button>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'input-group') {
+    return (
+      <ButtonGroup class="radcn-fixture-button-group-pill">
+        <ButtonGroup>
+          <Button ariaLabel="Add attachment" size="icon" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <InputGroup disabled>
+            <InputGroupInput disabled name="message" placeholder="Record and send audio..." />
+            <InputGroupAddon align="inline-end">
+              <Tooltip defaultOpen>
+                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs" style="background: var(--radcn-muted); color: var(--radcn-foreground);">≋</TooltipTrigger>
+                <TooltipPortal><TooltipContent>Voice Mode</TooltipContent></TooltipPortal>
+              </Tooltip>
+            </InputGroupAddon>
+          </InputGroup>
+        </ButtonGroup>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'nested') {
+    return (
+      <ButtonGroup ariaLabel="Pagination controls" class="radcn-button-group--clustered">
+        <ButtonGroup>
+          <Button size="sm" variant="outline">1</Button>
+          <Button size="sm" variant="outline">2</Button>
+          <Button size="sm" variant="outline">3</Button>
+          <Button size="sm" variant="outline">4</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button ariaLabel="Previous" size="icon-sm" variant="outline">←</Button>
+          <Button ariaLabel="Next" size="icon-sm" variant="outline">→</Button>
+        </ButtonGroup>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'orientation') {
+    return (
+      <ButtonGroup ariaLabel="Media controls" orientation="vertical">
+        <Button ariaLabel="Increase" size="icon" variant="outline">+</Button>
+        <Button ariaLabel="Decrease" size="icon" variant="outline">−</Button>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'popover') {
+    return (
+      <ButtonGroup>
+        <Button variant="outline">Copilot</Button>
+        <Popover defaultOpen>
+          <PopoverTrigger ariaLabel="Open Popover" class="radcn-button radcn-button--outline radcn-button--icon">⌄</PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent align="end">
+              <PopoverTitle>Agent Tasks</PopoverTitle>
+              <Separator />
+              <Textarea name="task" placeholder="Describe your task in natural language." value="Review the ButtonGroup examples." />
+              <PopoverDescription>Start a new task with Copilot using app-owned state.</PopoverDescription>
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'select') {
+    return (
+      <ButtonGroup>
+        <ButtonGroup>
+          {CurrencySelect()}
+          <Input id="candidate-button-group-amount" name="amount" placeholder="10.00" value="10.00" />
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button ariaLabel="Send" size="icon" variant="outline">→</Button>
+        </ButtonGroup>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'separator') {
+    return (
+      <ButtonGroup>
+        <Button size="sm" variant="secondary">Copy</Button>
+        <ButtonGroupSeparator />
+        <Button size="sm" variant="secondary">Paste</Button>
+      </ButtonGroup>
+    )
+  }
+
+  if (fixture.id === 'size') {
+    return (
+      <div style="display:grid;gap:18px">
+        <ButtonGroup>
+          <Button size="sm" variant="outline">Small</Button>
+          <Button size="sm" variant="outline">Button</Button>
+          <Button ariaLabel="Add small" size="icon-sm" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Default</Button>
+          <Button variant="outline">Button</Button>
+          <Button ariaLabel="Add default" size="icon" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button size="lg" variant="outline">Large</Button>
+          <Button size="lg" variant="outline">Button</Button>
+          <Button ariaLabel="Add large" size="icon-lg" variant="outline">+</Button>
+        </ButtonGroup>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'split') {
+    return (
+      <ButtonGroup>
+        <Button variant="secondary">Button</Button>
+        <ButtonGroupSeparator />
+        <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
+      </ButtonGroup>
+    )
+  }
+
   if (fixture.id === 'vertical') {
     return (
       <ButtonGroup orientation="vertical">

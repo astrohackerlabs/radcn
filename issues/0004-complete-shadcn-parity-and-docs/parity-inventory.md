@@ -116,6 +116,7 @@ These are documented in RadCN but are not current package exports.
 | examples | typography | resolved | `issues/0004-complete-shadcn-parity-and-docs/08-resolve-typography-outcome.md`<br>`issues/0004-complete-shadcn-parity-and-docs/typography-outcome.md` |
 | examples | button | resolved | `issues/0004-complete-shadcn-parity-and-docs/09-audit-button-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/10-implement-button-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-example-inventory.md` |
 | examples | field | resolved | `issues/0004-complete-shadcn-parity-and-docs/11-audit-field-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/12-implement-field-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/field-example-inventory.md` |
+| examples | button-group | resolved | `issues/0004-complete-shadcn-parity-and-docs/13-audit-button-group-example-parity.md`<br>`issues/0004-complete-shadcn-parity-and-docs/14-implement-button-group-example-parity-depth.md`<br>`issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md` |
 | packageOutcomes | form | resolved | `issues/0004-complete-shadcn-parity-and-docs/02-ship-remix-native-form-parity.md` |
 | packageOutcomes | date-picker | resolved | `issues/0004-complete-shadcn-parity-and-docs/03-resolve-date-picker-parity.md` |
 | packageOutcomes | data-table | resolved | `issues/0004-complete-shadcn-parity-and-docs/04-resolve-data-table-parity.md` |
@@ -203,7 +204,6 @@ parity decision.
 | avatar | 1 | `avatar-demo` |
 | badge | 4 | `badge-demo`, `badge-destructive`, `badge-outline`, `badge-secondary` |
 | breadcrumb | 6 | `breadcrumb-demo`, `breadcrumb-dropdown`, `breadcrumb-ellipsis`, `breadcrumb-link`, `breadcrumb-responsive`, `breadcrumb-separator` |
-| button-group | 11 | `button-group-demo`, `button-group-dropdown`, `button-group-input`, `button-group-input-group`, `button-group-nested`, `button-group-orientation`, `button-group-popover`, `button-group-select`, `button-group-separator`, `button-group-size`, `button-group-split` |
 | calendar | 2 | `calendar-demo`, `calendar-hijri` |
 | card | 2 | `card-demo`, `card-with-form` |
 | carousel | 6 | `carousel-api`, `carousel-demo`, `carousel-orientation`, `carousel-plugin`, `carousel-size`, `carousel-spacing` |
@@ -468,13 +468,13 @@ parity decision.
 
 ## First Recommended Cluster
 
-**Cluster:** Example parity for button-group
+**Cluster:** Example parity for input-group
 
 No missing UI package API or unresolved package outcome was found, so the next risk is unresolved example and behavior parity depth.
 
 Expected next experiment:
 
-- Audit upstream examples for button-group.
+- Audit upstream examples for input-group.
 
 ## Notes
 

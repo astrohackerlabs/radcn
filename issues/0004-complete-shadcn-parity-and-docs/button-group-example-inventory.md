@@ -1,6 +1,7 @@
 # ButtonGroup Example Inventory
 
-Generated during Experiment 13 on 2026-06-05.
+Generated during Experiment 13 on 2026-06-05. Updated by Experiment 14 on
+2026-06-05 after ButtonGroup parity depth implementation.
 
 ## Sources
 
@@ -27,45 +28,41 @@ Generated during Experiment 13 on 2026-06-05.
 
 ## Summary
 
-ButtonGroup example parity is not complete yet. RadCN currently exports
-`ButtonGroup`, `ButtonGroupText`, and `ButtonGroupSeparator`, and the current
-fixtures prove horizontal orientation, vertical orientation, and separator/text
-hooks. That covers the base package API but not the full upstream example
-surface.
+ButtonGroup example parity is resolved. RadCN exports `ButtonGroup`,
+`ButtonGroupText`, and `ButtonGroupSeparator`; `ButtonGroup` now supports
+accessible group labels through `ariaLabel` and `ariaLabelledby`.
 
-The missing ButtonGroup parity depth is:
+The package, docs, fixtures, and Playwright coverage now prove the upstream
+ButtonGroup example surface:
 
-- nested ButtonGroups that preserve spacing between grouped clusters;
-- split button composition with separator and icon-sized secondary actions;
+- nested ButtonGroups with explicit clustered spacing;
+- split button composition with separators and accessible icon actions;
 - size examples across small, default, large, and icon sizes;
 - input composition inside ButtonGroup;
 - InputGroup composition nested inside ButtonGroup;
-- Select composition with a submitted value and grouped action button;
-- DropdownMenu and Popover compositions using explicit RadCN trigger props
+- Select composition with a hidden native submitted value;
+- DropdownMenu and Popover compositions using explicit RadCN trigger components
   instead of shadcn's React-only `asChild`;
-- a larger toolbar/demo composition that combines nested groups, dropdown
-  menus, destructive actions, and app-owned selected state;
-- documented mappings for upstream React `useState` examples to Remix 3
-  server/default state or dependency-free browser enhancement.
-
-Do not mark the `button-group` example cluster resolved yet. The next
-experiment should implement ButtonGroup example parity depth.
+- larger toolbar/demo composition with nested groups, dropdown menu, radio item
+  defaults, submenu, and destructive action;
+- documented mappings for upstream React state to Remix 3 server/default state,
+  native submitted values, route state, or app-owned enhancement.
 
 ## Example Map
 
 | Upstream id | User-facing behavior | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `button-group-demo` | Mail-style toolbar with nested ButtonGroups, icon-only back action, archive/report/snooze actions, dropdown menu, radio label selection, submenu, and destructive action. | RadCN has ButtonGroup, Button, DropdownMenu, and radio-menu primitives, but docs/fixtures do not prove a multi-cluster toolbar or app-owned selected label behavior. | Partial | Add toolbar docs/fixture proof using nested groups, dropdown menu, radio items, destructive action, and explicit Remix state/default mapping. |
-| `button-group-dropdown` | Split follow button with adjacent dropdown trigger and menu actions. | RadCN has ButtonGroup and DropdownMenu package APIs, but current ButtonGroup fixture does not cover dropdown composition or explicit trigger mapping. | Partial | Add dropdown split-button fixture/docs proof with a RadCN trigger button and menu actions. |
-| `button-group-input` | Search input grouped with an icon action button. | RadCN has Input and ButtonGroup, but current ButtonGroup fixtures do not place an Input inside the group or prove input flex/rounded behavior. | Missing | Add input-in-group fixture/docs proof and any needed style adjustment for input stretching and shared borders. |
-| `button-group-input-group` | Rounded ButtonGroup containing a plus icon group and an InputGroup with voice-mode toggle, tooltip, active state, disabled input, and React state. | RadCN has ButtonGroup, InputGroup, Tooltip, and Button primitives, but no ButtonGroup fixture/docs proof for nested InputGroup or app-owned active state. | Partial | Map React `useState` voice mode to server/default state or dependency-free enhancement; add nested InputGroup proof. |
-| `button-group-nested` | Pagination-style nested ButtonGroups: numbered buttons plus previous/next icon buttons with spacing between child groups. | RadCN supports nested ButtonGroup markup, but no docs/fixture/test prove nested group spacing or icon-sized navigation actions. | Partial | Add nested groups fixture/docs proof and verify nested groups keep visible spacing while inner buttons remain joined. |
-| `button-group-orientation` | Vertical icon button group with accessible group label and plus/minus controls. | Current fixture `button-group/vertical` proves `orientation="vertical"` and class hooks, but it does not prove group labeling or icon-only controls. | Partial | Add accessible vertical icon-group proof or expand existing fixture/test. |
-| `button-group-popover` | Split Copilot button with popover trigger, popover content, separator, textarea, and explanatory copy. | RadCN has Popover, Separator, Textarea, Button, and ButtonGroup, but no ButtonGroup proof composes them together. | Partial | Add popover split-button fixture/docs proof using explicit `PopoverTrigger` behavior instead of `asChild`. |
-| `button-group-select` | Currency select, numeric input, and send icon button arranged as grouped controls; selected currency is React state. | RadCN has Select, Input, Button, and ButtonGroup, but current ButtonGroup fixtures do not prove select composition or selected-value mapping. | Partial | Map React controlled select state to RadCN default/hidden-input value and add select/input/action proof. |
-| `button-group-separator` | Secondary Copy/Paste buttons separated by ButtonGroupSeparator. | Current fixture `button-group/with-separator` proves `ButtonGroupSeparator` and `ButtonGroupText`, but not the exact two-button separator-only pattern. | Partial | Add separator-only copy/paste proof or treat as covered after testing exact public behavior. |
-| `button-group-size` | Three groups showing small/default/large button and icon size combinations. | Button sizes were completed in Experiment 10, but ButtonGroup docs/fixtures do not prove grouped small/default/large sizing. | Partial | Add size matrix fixture/docs proof using `sm`, default, `lg`, `icon-sm`, `icon`, and `icon-lg`. |
-| `button-group-split` | Secondary split button with main action, separator, and icon secondary action. | Current separator fixture has a text slot and publish action, not a split button with icon secondary action. | Partial | Add split-button proof with secondary variant, separator, icon-sized action, and accessible label. |
+| `button-group-demo` | Mail-style toolbar with nested ButtonGroups, icon-only back action, archive/report/snooze actions, dropdown menu, radio label selection, submenu, and destructive action. | Candidate fixture `button-group/demo`, docs `ButtonGroupPreview`, and Playwright prove nested toolbar groups, accessible icon action, dropdown menu, radio default value, submenu, and destructive action. | Covered | None. |
+| `button-group-dropdown` | Split follow button with adjacent dropdown trigger and menu actions. | Candidate fixture `button-group/dropdown`, docs `ButtonGroupPreview`, and Playwright prove split dropdown composition with explicit `DropdownMenuTrigger`. | Covered | None. |
+| `button-group-input` | Search input grouped with an icon action button. | Candidate fixture `button-group/input`, docs `ButtonGroupPreview`, styles, and Playwright prove Input composition and accessible search action. | Covered | None. |
+| `button-group-input-group` | Rounded ButtonGroup containing a plus icon group and an InputGroup with voice-mode toggle, tooltip, active state, disabled input, and React state. | Candidate fixture `button-group/input-group`, docs `ButtonGroupPreview`, and Playwright prove nested InputGroup, Tooltip trigger, disabled input, and server/default active-state mapping. | Intentional divergence | RadCN does not port React `useState`; live voice-mode toggling remains app-owned enhancement. |
+| `button-group-nested` | Pagination-style nested ButtonGroups: numbered buttons plus previous/next icon buttons with spacing between child groups. | Candidate fixture `button-group/nested`, docs `ButtonGroupPreview`, `.radcn-button-group--clustered`, and Playwright prove nested groups, child-group spacing, and accessible icon navigation. | Covered | None. |
+| `button-group-orientation` | Vertical icon button group with accessible group label and plus/minus controls. | Candidate fixture `button-group/orientation`, package `ariaLabel`, and Playwright prove named vertical icon ButtonGroup behavior. | Covered | None. |
+| `button-group-popover` | Split Copilot button with popover trigger, popover content, separator, textarea, and explanatory copy. | Candidate fixture `button-group/popover`, docs `ButtonGroupPreview`, and Playwright prove explicit `PopoverTrigger`, popover content, separator, and textarea composition. | Covered | None. |
+| `button-group-select` | Currency select, numeric input, and send icon button arranged as grouped controls; selected currency is React state. | Candidate fixture `button-group/select`, docs `ButtonGroupPreview`, and Playwright prove Select composition, hidden native value, input amount, and accessible send action. | Intentional divergence | RadCN maps React controlled selected state to default/hidden native value and leaves route/live state to the app. |
+| `button-group-separator` | Secondary Copy/Paste buttons separated by ButtonGroupSeparator. | Candidate fixture `button-group/separator`, docs `ButtonGroupPreview`, and Playwright prove the exact separator-only two-button pattern. | Covered | None. |
+| `button-group-size` | Three groups showing small/default/large button and icon size combinations. | Candidate fixture `button-group/size`, docs `ButtonGroupPreview`, and Playwright prove `sm`, default, `lg`, `icon-sm`, `icon`, and `icon-lg` inside ButtonGroup. | Covered | None. |
+| `button-group-split` | Secondary split button with main action, separator, and icon secondary action. | Candidate fixture `button-group/split`, docs `ButtonGroupPreview`, and Playwright prove secondary split action, separator, icon-sized action, and accessible label. | Covered | None. |
 
 ## Mapping Decisions
 
@@ -91,13 +88,6 @@ experiment should implement ButtonGroup example parity depth.
 
 ## Next Recommendation
 
-Implement ButtonGroup example parity depth:
-
-- add docs and candidate fixtures for all 11 upstream ButtonGroup examples;
-- add focused Playwright coverage for nested groups, split buttons, separators,
-  orientation labels, size matrix, input/select/input-group composition,
-  dropdown composition, and popover composition;
-- update ButtonGroup styles if composition gaps appear;
-- record intentional divergences for React state and `asChild`;
-- then mark `button-group` resolved in `resolved-clusters.json` and regenerate
-  `parity-inventory.md`.
+Mark `button-group` resolved in `resolved-clusters.json`, regenerate
+`parity-inventory.md`, and move to the next generated unresolved example,
+block, or chart cluster after Experiment 14 completion review.

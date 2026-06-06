@@ -265,6 +265,17 @@ Record cross-component discoveries here as experiments complete.
   coverage for nested groups, split buttons, size matrices, input/input-group
   composition, select composition, dropdown/popover compositions, accessible
   vertical icon groups, and React state mappings.
+- Experiment 14 completed ButtonGroup example parity depth. `ButtonGroup` now
+  supports accessible group labels, docs and fixtures cover all 11 upstream
+  ButtonGroup examples, and focused Playwright proof covers nested groups,
+  split buttons, sizes, input/InputGroup/Select composition, DropdownMenu and
+  Popover composition, separator-only groups, and vertical icon groups.
+- ButtonGroup remains a layout primitive. React `useState` in upstream examples
+  maps to server/default state, hidden native submitted values, route state, or
+  app-owned enhancement; shadcn's `asChild` overlay triggers map to explicit
+  RadCN trigger components.
+- After Experiment 14, `button-group` is marked resolved in the example queue.
+  The next generated recommendation is example parity for `input-group`.
 
 ## Experiments
 
@@ -295,4 +306,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 13: Audit button-group example parity](13-audit-button-group-example-parity.md)
   — **Pass**
 - [Experiment 14: Implement button-group example parity depth](14-implement-button-group-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

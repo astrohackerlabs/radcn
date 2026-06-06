@@ -112,10 +112,17 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from 'radcn/dropdown-menu'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from 'radcn/empty'
@@ -164,7 +171,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from 'radcn/pagination'
-import { Popover, PopoverContent, PopoverTitle, PopoverTrigger } from 'radcn/popover'
+import { Popover, PopoverContent, PopoverDescription, PopoverPortal, PopoverTitle, PopoverTrigger } from 'radcn/popover'
 import { Progress } from 'radcn/progress'
 import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from 'radcn/resizable'
@@ -213,7 +220,7 @@ import { Textarea } from 'radcn/textarea'
 import { createToastEvent } from 'radcn/toast'
 import { Toggle } from 'radcn/toggle'
 import { ToggleGroup, ToggleGroupItem } from 'radcn/toggle-group'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'radcn/tooltip'
+import { Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from 'radcn/tooltip'
 import {
   TypographyBlockquote,
   TypographyH2,
@@ -420,6 +427,58 @@ export function ButtonPreview() {
       <Button size="lg">Large</Button>
       <Button ariaLabel="Submit small" size="icon-sm" variant="outline">^</Button>
       <Button ariaLabel="Submit large" size="icon-lg" variant="outline">^</Button>
+    </div>
+  )
+}`
+
+const buttonGroupSource = `import { Button } from 'radcn/button'
+import { ButtonGroup, ButtonGroupSeparator } from 'radcn/button-group'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from 'radcn/dropdown-menu'
+import { Input } from 'radcn/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from 'radcn/select'
+
+export function ButtonGroupPreview() {
+  return (
+    <div class="button-group-preview">
+      <ButtonGroup ariaLabel="Message actions" class="radcn-button-group--clustered">
+        <ButtonGroup>
+          <Button ariaLabel="Go back" size="icon" variant="outline">←</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Archive</Button>
+          <Button variant="outline">Report</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Snooze</Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger ariaLabel="More options">•••</DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>Mark as Read</DropdownMenuItem>
+              <DropdownMenuItem>Archive</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </ButtonGroup>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Input name="search" placeholder="Search..." />
+        <Button ariaLabel="Search" variant="outline">⌕</Button>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Select defaultValue="usd" name="currency">
+          <SelectTrigger ariaLabel="Currency"><SelectValue>USD</SelectValue></SelectTrigger>
+          <SelectContent><SelectItem value="usd">USD</SelectItem></SelectContent>
+        </Select>
+        <Input name="amount" value="10.00" />
+        <Button ariaLabel="Send" size="icon" variant="outline">→</Button>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Button variant="secondary">Button</Button>
+        <ButtonGroupSeparator />
+        <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
+      </ButtonGroup>
     </div>
   )
 }`
@@ -837,6 +896,162 @@ function ButtonPreview() {
       <Button size="lg">Large</Button>
       <Button ariaLabel="Submit small" size="icon-sm" variant="outline">^</Button>
       <Button ariaLabel="Submit large" size="icon-lg" variant="outline">^</Button>
+    </div>
+  )
+}
+
+function ButtonGroupPreview() {
+  return () => (
+    <div mix={previewStackStyle} style="width: min(100%, 42rem);">
+      <ButtonGroup ariaLabel="Message actions" class="radcn-button-group--clustered">
+        <ButtonGroup>
+          <Button ariaLabel="Go back" size="icon" variant="outline">←</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Archive</Button>
+          <Button variant="outline">Report</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Snooze</Button>
+          <DropdownMenu defaultOpen>
+            <DropdownMenuTrigger ariaLabel="More options" class="radcn-button radcn-button--outline radcn-button--icon">•••</DropdownMenuTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuContent align="end">
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Mark as Read</DropdownMenuItem>
+                  <DropdownMenuItem>Archive</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Label As</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    <DropdownMenuRadioGroup value="personal">
+                      <DropdownMenuRadioItem value="personal">Personal</DropdownMenuRadioItem>
+                      <DropdownMenuRadioItem value="work">Work</DropdownMenuRadioItem>
+                    </DropdownMenuRadioGroup>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem variant="destructive">Trash</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenuPortal>
+          </DropdownMenu>
+        </ButtonGroup>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Button variant="outline">Follow</Button>
+        <DropdownMenu defaultOpen>
+          <DropdownMenuTrigger ariaLabel="Conversation actions" class="radcn-button radcn-button--outline radcn-button--default">More</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem>Mute Conversation</DropdownMenuItem>
+              <DropdownMenuItem>Mark as Read</DropdownMenuItem>
+              <DropdownMenuItem variant="destructive">Delete Conversation</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenu>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Input name="search" placeholder="Search..." value="radcn" />
+        <Button ariaLabel="Search" variant="outline">⌕</Button>
+      </ButtonGroup>
+
+      <ButtonGroup class="radcn-fixture-button-group-pill">
+        <ButtonGroup>
+          <Button ariaLabel="Add attachment" size="icon" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <InputGroup disabled>
+            <InputGroupInput disabled name="message" placeholder="Record and send audio..." />
+            <InputGroupAddon align="inline-end">
+              <Tooltip defaultOpen>
+                <TooltipTrigger ariaLabel="Voice Mode" class="radcn-input-group-button radcn-input-group-button--icon-xs">≋</TooltipTrigger>
+                <TooltipPortal><TooltipContent>Voice Mode</TooltipContent></TooltipPortal>
+              </Tooltip>
+            </InputGroupAddon>
+          </InputGroup>
+        </ButtonGroup>
+      </ButtonGroup>
+
+      <ButtonGroup ariaLabel="Pagination controls" class="radcn-button-group--clustered">
+        <ButtonGroup>
+          <Button size="sm" variant="outline">1</Button>
+          <Button size="sm" variant="outline">2</Button>
+          <Button size="sm" variant="outline">3</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button ariaLabel="Previous" size="icon-sm" variant="outline">←</Button>
+          <Button ariaLabel="Next" size="icon-sm" variant="outline">→</Button>
+        </ButtonGroup>
+      </ButtonGroup>
+
+      <ButtonGroup ariaLabel="Media controls" orientation="vertical">
+        <Button ariaLabel="Increase" size="icon" variant="outline">+</Button>
+        <Button ariaLabel="Decrease" size="icon" variant="outline">−</Button>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Button variant="outline">Copilot</Button>
+        <Popover defaultOpen>
+          <PopoverTrigger ariaLabel="Open Popover" class="radcn-button radcn-button--outline radcn-button--icon">⌄</PopoverTrigger>
+          <PopoverPortal>
+            <PopoverContent align="end">
+              <PopoverTitle>Agent Tasks</PopoverTitle>
+              <Separator />
+              <Textarea name="task" value="Review ButtonGroup examples." />
+              <PopoverDescription>Popover state belongs to the overlay primitive.</PopoverDescription>
+            </PopoverContent>
+          </PopoverPortal>
+        </Popover>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <ButtonGroup>
+          <Select defaultValue="usd" id="docs-button-group-currency" name="currency">
+            <SelectTrigger ariaLabel="Currency"><SelectValue>USD</SelectValue></SelectTrigger>
+            <SelectPortal>
+              <SelectContent>
+                <SelectViewport>
+                  <SelectItem value="usd">USD US Dollar</SelectItem>
+                  <SelectItem value="eur">EUR Euro</SelectItem>
+                </SelectViewport>
+              </SelectContent>
+            </SelectPortal>
+          </Select>
+          <Input name="amount" value="10.00" />
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button ariaLabel="Send" size="icon" variant="outline">→</Button>
+        </ButtonGroup>
+      </ButtonGroup>
+
+      <ButtonGroup>
+        <Button size="sm" variant="secondary">Copy</Button>
+        <ButtonGroupSeparator />
+        <Button size="sm" variant="secondary">Paste</Button>
+      </ButtonGroup>
+
+      <div mix={previewStackStyle}>
+        <ButtonGroup>
+          <Button size="sm" variant="outline">Small</Button>
+          <Button ariaLabel="Add small" size="icon-sm" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button variant="outline">Default</Button>
+          <Button ariaLabel="Add default" size="icon" variant="outline">+</Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button size="lg" variant="outline">Large</Button>
+          <Button ariaLabel="Add large" size="icon-lg" variant="outline">+</Button>
+        </ButtonGroup>
+      </div>
+
+      <ButtonGroup>
+        <Button variant="secondary">Button</Button>
+        <ButtonGroupSeparator />
+        <Button ariaLabel="Add" size="icon" variant="secondary">+</Button>
+      </ButtonGroup>
     </div>
   )
 }
@@ -1289,14 +1504,7 @@ function AuthoredPreview(handle: { props: { slug: string; title: string } }) {
           </Breadcrumb>
         )
       case 'button-group':
-        return (
-          <ButtonGroup>
-            <Button>Preview</Button>
-            <ButtonGroupSeparator />
-            <ButtonGroupText>v0.0</ButtonGroupText>
-            <Button variant="outline">Ship</Button>
-          </ButtonGroup>
-        )
+        return <ButtonGroupPreview />
       case 'calendar':
         return (
           <Calendar
@@ -1799,6 +2007,46 @@ const richComponentDocs: ComponentDoc[] = [
     ],
   },
   {
+    slug: 'button-group',
+    title: 'Button Group',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A grouped control primitive for joined buttons, split actions, nested toolbars, and form-control compositions.',
+    importPath: 'radcn/button-group',
+    importExample:
+      "import { ButtonGroup, ButtonGroupSeparator, ButtonGroupText } from 'radcn/button-group'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'example-parity',
+        title: 'Example Parity',
+        description:
+          'Compose nested groups, split buttons, inputs, selects, dropdowns, popovers, separators, and size variants with package primitives.',
+        source: buttonGroupSource,
+        preview: <ButtonGroupPreview />,
+      },
+    ],
+    accessibility: [
+      'ButtonGroup renders role="group" and supports ariaLabel or ariaLabelledby for grouped icon controls.',
+      'Icon-only actions use Button ariaLabel while visual glyphs remain presentation.',
+      'DropdownMenu, Popover, Select, Tooltip, Input, and InputGroup keep their own accessible roles and labels when composed inside ButtonGroup.',
+    ],
+    customization: [
+      'ButtonGroup exposes data-radcn-button-group and data-orientation hooks for horizontal and vertical layouts.',
+      'Nested ButtonGroups keep visible spacing between child groups while inner controls stay joined.',
+      'ButtonGroupSeparator and ButtonGroupText remain token-driven parts for split actions and inline metadata.',
+      'Input, InputGroup, Select, DropdownMenu trigger, and Popover trigger composition can be styled through the existing public RadCN hooks.',
+    ],
+    divergence: [
+      'shadcn/ui examples use React asChild for overlay triggers. RadCN maps that to explicit DropdownMenuTrigger and PopoverTrigger components.',
+      'React useState examples map to server-provided defaults, native submitted values, route state, or app-owned dependency-free enhancement.',
+      'ButtonGroup is a layout primitive; it composes controls but does not own select, menu, popover, tooltip, or input state.',
+    ],
+  },
+  {
     slug: 'badge',
     title: 'Badge',
     category: 'Display',
@@ -2274,9 +2522,9 @@ const sourceBodyBySlug: Record<string, string> = {
   </BreadcrumbList>
 </Breadcrumb>`,
   'button-group': `<ButtonGroup>
-  <Button>Preview</Button>
+  <Button variant="outline">Preview</Button>
   <ButtonGroupSeparator />
-  <ButtonGroupText>v0.0</ButtonGroupText>
+  <Button ariaLabel="More" size="icon" variant="outline">•••</Button>
 </ButtonGroup>`,
   calendar: `<Calendar defaultMonth="2026-06-01" defaultSelected="2026-06-05" name="release-date" />`,
   carousel: `<Carousel>

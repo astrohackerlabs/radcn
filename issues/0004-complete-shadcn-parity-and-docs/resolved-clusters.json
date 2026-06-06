@@ -34,6 +34,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/12-implement-field-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/field-example-inventory.md"
       ]
+    },
+    {
+      "slug": "button-group",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/13-audit-button-group-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/14-implement-button-group-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/button-group-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],
