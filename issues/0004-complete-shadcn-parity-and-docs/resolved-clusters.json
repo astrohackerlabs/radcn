@@ -483,6 +483,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/111-implement-separator-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/separator-example-inventory.md"
       ]
+    },
+    {
+      "slug": "slider",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/112-audit-slider-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/113-implement-slider-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/slider-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

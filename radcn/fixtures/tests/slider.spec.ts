@@ -18,6 +18,49 @@ function thumb(page: import('@playwright/test').Page) {
   return page.locator('[data-radcn-slider-thumb]').first()
 }
 
+test('candidate slider renders direct demo parity', async ({ page }) => {
+  await page.goto(`${candidate}/fixtures/slider/demo`)
+
+  let family = page.locator('[data-radcn-fixture-slider-family="slider-demo"]')
+  let demoRoot = family.locator('[data-radcn-slider]')
+  let demoInput = family.locator('[data-radcn-slider-input]')
+  let demoRange = family.locator('[data-radcn-slider-range]')
+  let demoThumb = family.locator('[data-radcn-slider-thumb]')
+
+  await expect(family).toHaveAttribute('data-radcn-fixture-slider-width', '60')
+  await expect(demoRoot).toHaveAttribute('data-value', '50')
+  await expect(demoRoot).toHaveAttribute('data-min', '0')
+  await expect(demoRoot).toHaveAttribute('data-max', '100')
+  await expect(demoRoot).toHaveAttribute('data-step', '1')
+  await expect(demoRoot).toHaveAttribute('data-orientation', 'horizontal')
+  await expect(demoRoot).toHaveClass(/w-\[60%\]/)
+  await expect(demoRoot).toHaveAttribute('style', /width:60%/)
+  await expect(demoInput).toHaveJSProperty('type', 'range')
+  await expect(demoInput).toHaveAttribute('id', 'candidate-slider-demo')
+  await expect(demoInput).toHaveAttribute('name', 'slider-demo')
+  await expect(demoInput).toHaveAttribute('min', '0')
+  await expect(demoInput).toHaveAttribute('max', '100')
+  await expect(demoInput).toHaveAttribute('step', '1')
+  await expect(demoInput).toHaveValue('50')
+  await expect(demoInput).toHaveAccessibleName('Slider')
+  await expect(family.locator('[data-radcn-slider-track]')).toHaveCount(1)
+  await expect(demoRange).toHaveCount(1)
+  await expect(demoThumb).toHaveCount(1)
+  await expect(
+    await demoRoot.evaluate((node) => getComputedStyle(node).getPropertyValue('--radcn-slider-percent').trim()),
+  ).toBe('50%')
+
+  await demoInput.evaluate((node: HTMLInputElement) => {
+    node.value = '80'
+    node.dispatchEvent(new Event('input', { bubbles: true }))
+  })
+  await expect(demoRoot).toHaveAttribute('data-value', '80')
+  await expect(demoInput).toHaveValue('80')
+  await expect(
+    await demoRoot.evaluate((node) => getComputedStyle(node).getPropertyValue('--radcn-slider-percent').trim()),
+  ).toBe('80%')
+})
+
 test('candidate slider exposes native range semantics and value hooks', async ({ page }) => {
   await page.goto(`${candidate}/fixtures/slider/default`)
 

@@ -7566,6 +7566,51 @@ function ProgressDemoPreview() {
   )
 }
 
+const sliderDemoSource = `import { Slider } from 'radcn/slider'
+
+type SliderProps = {
+  ariaLabel?: string
+  class?: string
+  defaultValue?: number
+  disabled?: boolean
+  id?: string
+  max?: number
+  min?: number
+  name?: string
+  step?: number
+  style?: string
+}
+
+export function SliderDemo({ class: className = '', ...props }: SliderProps = {}) {
+  return (
+    <Slider
+      ariaLabel="Slider"
+      class={\`w-[60%] \${className}\`.trim()}
+      defaultValue={50}
+      max={100}
+      step={1}
+      style="width:60%;"
+      {...props}
+    />
+  )
+}`
+
+function SliderDemoPreview() {
+  return () => (
+    <div data-radcn-docs-slider-family="slider-demo" data-radcn-docs-slider-width="60" mix={previewRowStyle} style="width:100%;">
+      <Slider
+        ariaLabel="Slider"
+        class="w-[60%]"
+        defaultValue={50}
+        max={100}
+        name="slider-demo"
+        step={1}
+        style="width:60%;"
+      />
+    </div>
+  )
+}
+
 const radioGroupDemoSource = `import { Label } from 'radcn/label'
 import { RadioGroup, RadioGroupItem } from 'radcn/radio-group'
 
@@ -8992,6 +9037,50 @@ const richComponentDocs: ComponentDoc[] = [
       'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-radio* hooks.',
       'Tailwind grid, gap, flex, items-center, size, rounded-full, border, focus, disabled, invalid, fill, translate, and transition utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
       'Label htmlFor maps to RadCN Label for while preserving native label/input association.',
+      'Vendor source remains read-only evidence and is not imported by RadCN.',
+    ],
+  },
+  {
+    slug: 'slider',
+    title: 'Slider',
+    category: 'Inputs',
+    kind: 'component',
+    disposition: 'ready',
+    status: 'ready',
+    summary:
+      'A native range slider with track, range, thumb, percent state, and form-compatible value behavior.',
+    importPath: 'radcn/slider',
+    importExample: "import { Slider } from 'radcn/slider'",
+    install: 'pnpm add radcn # intended future package',
+    examples: [
+      {
+        slug: 'slider-demo',
+        title: 'Slider Demo',
+        description:
+          'Render the upstream 60% width slider with default value 50, max 100, and step 1.',
+        source: sliderDemoSource,
+        preview: <SliderDemoPreview />,
+      },
+    ],
+    accessibility: [
+      'Slider renders a native range input with an accessible label, min, max, step, and initial value in server HTML.',
+      'The named demo maps upstream defaultValue={[50]} to scalar defaultValue={50} for RadCN single-thumb Slider behavior.',
+      'The native input owns keyboard, pointer, disabled, form submission, and form reset behavior without React state.',
+      'Root metadata mirrors browser state with data-value, data-min, data-max, data-step, and data-orientation="horizontal" for testable state.',
+    ],
+    customization: [
+      'Root, native input, track, range, and thumb expose public data-radcn-slider hooks and package classes.',
+      'className={cn("w-[60%]", className)} maps to class plus explicit style="width:60%;" evidence, with cn represented by deterministic class composition.',
+      'The upstream prop spread maps to explicit RadCN props: ariaLabel, class, style, id, name, defaultValue, value, min, max, step, and disabled.',
+      'Track, range, and thumb visuals are driven by --radcn-slider-percent and Slider token variables, so apps can customize appearance without Radix or Tailwind.',
+      'Existing custom-token fixtures remain evidence for public Slider token modifiability.',
+    ],
+    divergence: [
+      'use client, React component props, React.ComponentProps<typeof Slider>, and React useMemo map to explicit Remix UI props plus browser-owned range state.',
+      'Radix SliderPrimitive.Root, SliderPrimitive.Track, SliderPrimitive.Range, and SliderPrimitive.Thumb map to RadCN root, native input, track, range, and thumb hooks.',
+      'The upstream single-value array defaultValue maps to a scalar number because RadCN currently models a single native range input.',
+      'className maps to class, cn maps to explicit class composition, and data-slot maps to public data-radcn-slider* hooks.',
+      'Tailwind w-[60%], relative, flex, touch, select, disabled, orientation, track, range, thumb, border, focus, hover, transition, and sizing utilities map to package CSS, classes, style, CSS variables, and app-owned CSS.',
       'Vendor source remains read-only evidence and is not imported by RadCN.',
     ],
   },

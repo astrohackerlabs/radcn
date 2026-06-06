@@ -212,3 +212,85 @@ inventory, resolved-cluster, README, dependency, lockfile, vendor, diff, and
 status checks, and the modified Issue 4 scope excludes upstream blocks and
 chart-gallery examples while retaining the ordinary `radcn/chart` package
 scope.
+
+## Result
+
+**Result:** Pass
+
+Implemented named `slider-demo` parity across the docs site, candidate fixture,
+fixture Playwright coverage, docs Playwright coverage, inventory bookkeeping,
+and generated parity inventory.
+
+The docs page now has a rich Slider example that renders value 50, min 0, max
+100, step 1, horizontal orientation, `class="w-[60%]"`, `style="width:60%;"`,
+public root/input/track/range/thumb hooks, and the `--radcn-slider-percent`
+visual state. The docs source and copy record the Remix 3 mappings for
+upstream React props, `React.ComponentProps<typeof Slider>`, React `useMemo`,
+Radix Slider primitives, single-value array defaults, Tailwind utilities,
+`cn`, `className`, prop-spread customization, `data-slot`, custom tokens, and
+vendor source.
+
+The candidate fixture now has `slider/demo` with the same value, width, and
+public-hook evidence. `slider.spec.ts` proves the named route, native range
+semantics, percent state at 50%, update behavior to 80%, width evidence, and
+the existing Slider behavior scenarios. `slider-example-inventory.md` marks
+`slider-demo` as `Covered`, `resolved-clusters.json` marks `slider` resolved,
+and the regenerated parity inventory now recommends example parity for
+`switch`.
+
+Verification run:
+
+```text
+pnpm radcn:typecheck
+pnpm --dir radcn/apps/docs typecheck
+pnpm fixtures:candidate:typecheck
+pnpm exec playwright test -c radcn/fixtures/playwright.config.ts slider.spec.ts
+pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts
+node scripts/audit-shadcn-parity.mjs
+node deterministic check for slider-example-inventory row count and Covered outcome
+node deterministic check for resolved-clusters slider evidence
+node deterministic check that slider left unresolved examples and the next recommendation is switch
+rg -n 'Experiment 113|slider-example-inventory|example parity for `switch`|example parity for switch' issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --exit-code -- pnpm-lock.yaml
+git diff --check
+node deterministic tracked-vendor-source check
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+node deterministic forbidden import/dependency scan over changed implementation files and relevant manifests
+git status --short
+```
+
+All checks passed. The Playwright runs reported 5 passed tests for
+`slider.spec.ts` and 5 passed tests for docs `coverage.spec.ts`. The README
+check was first typed with unsafe shell quoting around `` `switch` ``, which
+made the shell attempt command substitution; the same check was rerun with
+single quotes and passed.
+
+## Conclusion
+
+Slider direct example parity is complete. The current in-scope unresolved
+example clusters are `switch`, `table`, `tabs`, and `tooltip`. The next
+experiment should audit upstream `switch-demo` parity before implementation.
+
+## Completion Review
+
+Reviewer: Tesla the 3rd (`019e9ec3-b1d3-7fd2-9fed-2777af766f02`),
+fresh-context Codex subagent (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: The recorded verification run omitted the explicit
+  `node scripts/audit-shadcn-parity.mjs` command required by this experiment's
+  verification section, even though the inventory was regenerated and matched
+  the expected diff. Fixed by adding that command to the recorded verification
+  run.
+
+Approved. The reviewer confirmed typechecks passed, fixture Slider Playwright
+passed 5/5, docs coverage Playwright passed 5/5, `slider-demo` is marked
+`Covered` with docs, fixture, and Playwright evidence, the Issue 4 README
+marks Experiment 113 `Pass` and records Slider learnings plus the next
+`switch` recommendation, `git diff --check`, lockfile, tracked-vendor, and
+nested vendor checks passed, the result commit had not been made before
+review, and blocks/chart-gallery examples remain out of scope while the
+ordinary `radcn/chart` package scope is retained.

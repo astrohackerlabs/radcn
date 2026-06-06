@@ -1785,6 +1785,12 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "slider",
+    id: "demo",
+    title: "Slider Demo",
+    description: "Direct shadcn slider-demo parity with value 50 and 60 percent width.",
+  },
+  {
+    component: "slider",
     id: "default",
     title: "Default Slider",
     description: "Native range slider with default value.",

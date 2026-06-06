@@ -1498,6 +1498,17 @@ Record cross-component discoveries here as experiments complete.
   mapping, source snippet, and React/Radix/Tailwind/`cn`/`className`/
   `data-slot` divergence copy. The next experiment should implement named
   `slider-demo` docs, fixture, and Playwright parity.
+- Experiment 113 completed Slider direct example parity and updated
+  `slider-example-inventory.md` to `Covered`. The docs site now has a rich
+  Slider page with named `slider-demo` evidence for value 50, min 0, max 100,
+  step 1, horizontal orientation, 60% width mapping, source snippet, public
+  root/input/track/range/thumb hooks, percent CSS variable state, and mapping
+  copy for React props, `React.ComponentProps`, React `useMemo`, Radix Slider
+  primitives, single-value array defaults, Tailwind/`cn`/`className`/
+  `data-slot`, custom-token, and vendor divergences. The candidate fixture now
+  routes `slider/demo` while preserving the existing Slider behavior scenarios.
+  `slider` is resolved in the example queue; the next generated
+  recommendation is example parity for `switch`.
 
 ## Experiments
 
@@ -1726,4 +1737,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 112: Audit slider example parity](112-audit-slider-example-parity.md)
   — **Partial**
 - [Experiment 113: Implement slider example parity depth](113-implement-slider-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

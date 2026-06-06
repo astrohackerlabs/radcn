@@ -8,9 +8,8 @@ coverage for value hooks, min/max/step, keyboard behavior, disabled state,
 form submit/reset behavior, custom tokens, track/range/thumb hooks, and
 percent-based visual state.
 
-The current outcome is `Partial`. The next experiment should add named
-`slider-demo` parity across the docs page, candidate fixture route, and
-Playwright coverage before marking Slider resolved.
+The current outcome is `Covered`. Experiment 113 added named `slider-demo`
+parity across the docs page, candidate fixture route, and Playwright coverage.
 
 Current RadCN evidence compared in this audit:
 
@@ -22,17 +21,21 @@ Current RadCN evidence compared in this audit:
   `.radcn-slider-thumb`, and custom slider token styling.
 - `radcn/packages/radcn/src/index.ts` re-exports Slider.
 - `radcn/packages/radcn/package.json` exposes the `./slider` package subpath.
-- `radcn/apps/docs/app/content/components.tsx` includes the generic Slider
-  docs route and preview seed, but not a named `slider-demo`.
-- `radcn/apps/docs/tests/coverage.spec.ts` checks only generic docs hook
-  presence for `[data-radcn-slider]`, not named `slider-demo` parity.
-- `radcn/fixtures/scenarios/index.ts` lists generic Slider scenarios for
-  default, value, disabled, step, custom-token, and form-submit-reset.
-- `radcn/fixtures/candidate-remix/app/fixtures/slider.tsx` renders those
-  generic Slider fixture scenarios, but not a named `demo` route.
+- `radcn/apps/docs/app/content/components.tsx` includes a named
+  `slider-demo` rich docs example with default value 50, max 100, step 1,
+  60% width mapping, source snippet, public hooks, and dependency-divergence
+  copy.
+- `radcn/apps/docs/tests/coverage.spec.ts` checks named `slider-demo` docs
+  parity, public hooks, value/min/max/step/orientation metadata, width mapping,
+  source snippet, and divergence copy.
+- `radcn/fixtures/scenarios/index.ts` lists the named `demo` route plus
+  generic Slider scenarios for default, value, disabled, step, custom-token,
+  and form-submit-reset.
+- `radcn/fixtures/candidate-remix/app/fixtures/slider.tsx` renders the named
+  `demo` route and the generic Slider fixture scenarios.
 - `radcn/fixtures/tests/slider.spec.ts` asserts native Slider behavior,
   value hooks, keyboard behavior, disabled state, form submit/reset behavior,
-  and custom-token behavior.
+  custom-token behavior, and named `slider-demo` parity.
 - `radcn/fixtures/tests/native-state.spec.ts` currently has no
   Slider-specific assertions.
 
@@ -40,7 +43,7 @@ Current RadCN evidence compared in this audit:
 
 | Upstream example | User-facing behavior and upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- |
-| `slider-demo` | Renders `SliderDemo({ className, ...props }: SliderProps)` where `SliderProps` is `React.ComponentProps<typeof Slider>`. The demo renders `<Slider defaultValue={[50]} max={100} step={1} className={cn("w-[60%]", className)} {...props} />`. Upstream package mechanics include `"use client"`, React props, React `useMemo`, Radix Slider primitive, `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, `SliderPrimitive.Thumb`, single-thumb array value behavior, default min/max behavior, horizontal orientation, disabled styling, `data-slot`, `className`, Tailwind utilities, `cn`, browser range behavior, custom tokens, and vendor source. | RadCN exports a dependency-free `Slider` backed by a native `<input type="range">`. It accepts scalar `defaultValue`, `value`, `min`, `max`, `step`, `disabled`, `name`, `id`, `ariaLabel`, `class`, and `style`; emits root/input/track/range/thumb hooks; records `data-value`, `data-min`, `data-max`, `data-step`, and `data-orientation="horizontal"`; and uses `--radcn-slider-percent` for visual range/thumb position. `radcn/fixtures/tests/slider.spec.ts` proves default value 50, min 0, max 100, step 1, horizontal orientation, native range semantics, track/range/thumb hooks, input updates, keyboard behavior, disabled behavior, form submit/reset behavior, and custom tokens. Current docs have only generic Slider route/preview evidence, `radcn/fixtures/candidate-remix/app/fixtures/slider.tsx` has no named `demo` route, and `radcn/fixtures/tests/native-state.spec.ts` has no Slider-specific assertions. No current named docs, fixture, or Playwright evidence proves the exact upstream `slider-demo`, `defaultValue={[50]}` mapping, `w-[60%]` width mapping, source snippet, or React/Radix/Tailwind divergence copy. | Partial | Add named `slider-demo` docs, candidate fixture, and Playwright evidence. The implementation should preserve value 50, max 100, step 1, a 60% width mapping for upstream `w-[60%]`, public root/input/track/range/thumb hooks, native browser range behavior, percent state, source snippet, and mapping copy for React props, `React.ComponentProps`, `useMemo`, Radix Slider primitives, single-value array to scalar value, className/Tailwind/cn/data-slot divergences, prop-spread customization, custom tokens, and vendor source. |
+| `slider-demo` | Renders `SliderDemo({ className, ...props }: SliderProps)` where `SliderProps` is `React.ComponentProps<typeof Slider>`. The demo renders `<Slider defaultValue={[50]} max={100} step={1} className={cn("w-[60%]", className)} {...props} />`. Upstream package mechanics include `"use client"`, React props, React `useMemo`, Radix Slider primitive, `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, `SliderPrimitive.Thumb`, single-thumb array value behavior, default min/max behavior, horizontal orientation, disabled styling, `data-slot`, `className`, Tailwind utilities, `cn`, browser range behavior, custom tokens, and vendor source. | RadCN exports a dependency-free `Slider` backed by a native `<input type="range">`. It accepts scalar `defaultValue`, `value`, `min`, `max`, `step`, `disabled`, `name`, `id`, `ariaLabel`, `class`, and `style`; emits root/input/track/range/thumb hooks; records `data-value`, `data-min`, `data-max`, `data-step`, and `data-orientation="horizontal"`; and uses `--radcn-slider-percent` for visual range/thumb position. Named docs and candidate fixtures now render `slider-demo` with value 50, min 0, max 100, step 1, horizontal orientation, `class="w-[60%]"`, `style="width:60%;"`, and public root/input/track/range/thumb hooks. `radcn/apps/docs/tests/coverage.spec.ts` proves the docs source snippet and dependency-divergence copy. `radcn/fixtures/tests/slider.spec.ts` proves the named fixture route, native range semantics, 60% width evidence, percent state, input updates, keyboard behavior, disabled behavior, form submit/reset behavior, and custom tokens. `radcn/fixtures/tests/native-state.spec.ts` remains non-Slider-specific by design. | Covered | No follow-up. |
 
 ## Decisions
 

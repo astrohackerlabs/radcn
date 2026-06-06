@@ -6,6 +6,21 @@ const buttonRowStyle = 'display:flex;gap:12px'
 
 export function renderSliderFixture(fixture: FixtureScenario) {
   switch (fixture.id) {
+    case 'demo':
+      return (
+        <div data-radcn-fixture-slider-family="slider-demo" data-radcn-fixture-slider-width="60" style="width:100%;">
+          <Slider
+            ariaLabel="Slider"
+            class="w-[60%]"
+            defaultValue={50}
+            id="candidate-slider-demo"
+            max={100}
+            name="slider-demo"
+            step={1}
+            style="width:60%;"
+          />
+        </div>
+      )
     case 'value':
       return (
         <Field>
