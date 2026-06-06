@@ -98,6 +98,57 @@ export function renderBadgeFixture(fixture: FixtureScenario) {
     return <Badge class="radcn-fixture-custom-badge">Custom Badge</Badge>
   }
 
+  if (fixture.id === 'demo') {
+    return (
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center" data-radcn-badge-demo>
+        <Badge>Badge</Badge>
+        <Badge variant="secondary">Secondary</Badge>
+        <Badge variant="destructive">Destructive</Badge>
+        <Badge variant="outline">Outline</Badge>
+        <Badge
+          class="radcn-fixture-custom-badge"
+          style="background:#2563eb;color:white"
+          variant="secondary"
+        >
+          <span aria-hidden="true" data-radcn-badge-icon>✓</span>
+          Verified
+        </Badge>
+        <Badge
+          class="radcn-fixture-count-badge"
+          style="border-radius:999px;min-width:20px;height:20px;padding:0 4px"
+        >
+          8
+        </Badge>
+        <Badge
+          class="radcn-fixture-count-badge"
+          style="border-radius:999px;min-width:20px;height:20px;padding:0 4px"
+          variant="destructive"
+        >
+          99
+        </Badge>
+        <Badge
+          class="radcn-fixture-count-badge"
+          style="border-radius:999px;min-width:20px;height:20px;padding:0 4px"
+          variant="outline"
+        >
+          20+
+        </Badge>
+      </div>
+    )
+  }
+
+  if (fixture.id === 'destructive') {
+    return <Badge variant="destructive">Destructive</Badge>
+  }
+
+  if (fixture.id === 'outline') {
+    return <Badge variant="outline">Outline</Badge>
+  }
+
+  if (fixture.id === 'secondary') {
+    return <Badge variant="secondary">Secondary</Badge>
+  }
+
   return (
     <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
       <Badge>Default</Badge>

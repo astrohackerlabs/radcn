@@ -241,3 +241,101 @@ implementation has not started, the plan avoids changing the Badge package API
 unless a direct blocker appears, the revised dependency checks exit `0` on a
 clean tree, distinguish real imports/manifests from docs prose, and introduce
 no new blockers.
+
+## Result
+
+**Result:** Pass
+
+Experiment 42 completed Badge example parity depth for all four upstream
+shadcn/ui New York v4 Badge examples:
+
+- `badge-demo`
+- `badge-destructive`
+- `badge-outline`
+- `badge-secondary`
+
+Implementation changes:
+
+- `radcn/apps/docs/app/content/components.tsx` now renders a richer Badge docs
+  page with stable `data-radcn-docs-badge-family` hooks for all four upstream
+  example ids, a source snippet covering the same patterns, variant examples,
+  app-owned icon content, custom class/style color override, compact
+  numeric/count pill badges, public hook copy, and mappings for `className`,
+  Tailwind utilities, `data-slot`, React prop spreading, and lucide icon
+  ownership.
+- `radcn/fixtures/scenarios/index.ts` and
+  `radcn/fixtures/candidate-remix/app/fixtures/static-display.tsx` now expose
+  named routes for `badge/demo`, `badge/destructive`, `badge/outline`, and
+  `badge/secondary`, while preserving existing `badge/variants` and
+  `badge/custom-class`.
+- `radcn/fixtures/tests/static-display.spec.ts` verifies the named Badge
+  routes, variant labels, public hooks, icon child composition, custom
+  class/style evidence, and compact numeric/count badge styling.
+- `radcn/apps/docs/tests/coverage.spec.ts` verifies the named docs hooks and
+  source/API mapping copy.
+- `badge-example-inventory.md` now marks all four Badge rows `Covered` and
+  records that icon/count presentation remains app-owned composition through
+  children, `class`, `style`, CSS variables, and app CSS.
+- `resolved-clusters.json` marks `badge` resolved in the example queue, and
+  the regenerated `parity-inventory.md` now recommends `combobox`.
+- `radcn/packages/radcn/src/components/badge.tsx` was not changed.
+
+Verification run:
+
+- `pnpm radcn:typecheck`: pass.
+- `pnpm --dir radcn/apps/docs typecheck`: pass.
+- `pnpm fixtures:candidate:typecheck`: pass.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts static-display.spec.ts`:
+  pass, 9 tests.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts coverage.spec.ts`:
+  pass, 5 tests.
+- Deterministic `badge-example-inventory.md` Node check: pass. Each of the
+  four upstream Badge ids appears exactly once and each row is `Covered`.
+- Deterministic `resolved-clusters.json` Node check: pass. The `badge` example
+  cluster is `resolved` with evidence for Experiments 41 and 42 plus
+  `badge-example-inventory.md`.
+- Deterministic `parity-inventory.md` Node check: pass. `badge` is absent from
+  unresolved example clusters, and the first recommended cluster is now
+  `combobox`.
+- Forbidden import Node check: pass. It produced no output for third-party
+  React, React DOM, lucide, or vendor imports.
+- Forbidden dependency/publish Node check: pass. It produced no output for
+  React, React DOM, lucide dependencies or publish configuration.
+- `git diff --check`: pass.
+- `git status --short`: pass; only expected docs, fixture, test, issue,
+  resolved-cluster, and generated-inventory changes were present before the
+  result commit.
+- `for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done`:
+  pass; no output.
+- Playwright warning note: both Playwright suites passed while emitting the
+  existing Node `module.register()` deprecation warning and local `NO_COLOR`
+  web-server warnings.
+
+## Conclusion
+
+Badge example parity is resolved without changing the Badge package API. The
+next experiment should follow the regenerated parity inventory and audit
+`combobox` examples next.
+
+## Completion Review
+
+Reviewer: James the 2nd (`019e9ba6-03a9-7802-8471-41f32e509283`)
+
+Fresh context: yes (`fork_context: false`).
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Approval result: approved. James the 2nd confirmed that Experiment 42 has
+Result and Conclusion sections, the README marks Experiment 42 as `Pass`, the
+README records the Badge learning and next `combobox` recommendation, the
+Badge package API was not changed, docs and fixture evidence covers all four
+Badge examples, `badge-example-inventory.md` marks all four Badge rows
+`Covered`, `resolved-clusters.json` includes Badge evidence for Experiments 41
+and 42 plus the inventory, `parity-inventory.md` resolves Badge and recommends
+`combobox`, all recorded typecheck, Playwright, deterministic, dependency,
+`git diff --check`, and vendor cleanliness checks passed, and the result commit
+had not been made before review.

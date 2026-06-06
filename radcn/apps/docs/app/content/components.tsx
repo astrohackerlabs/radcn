@@ -644,10 +644,34 @@ const badgeSource = `import { Badge } from 'radcn/badge'
 export function BadgePreview() {
   return (
     <div class="badge-preview">
-      <Badge>Ready</Badge>
-      <Badge variant="secondary">Server-first</Badge>
-      <Badge variant="outline">Remix 3</Badge>
-      <Badge variant="destructive">Breaking</Badge>
+      <div data-radcn-docs-badge-family="badge-demo">
+        <Badge>Badge</Badge>
+        <Badge variant="secondary">Secondary</Badge>
+        <Badge variant="destructive">Destructive</Badge>
+        <Badge variant="outline">Outline</Badge>
+
+        <Badge
+          class="verified-badge"
+          style="background:#2563eb;color:white"
+          variant="secondary"
+        >
+          <span aria-hidden="true">✓</span>
+          Verified
+        </Badge>
+        <Badge class="count-badge">8</Badge>
+        <Badge class="count-badge" variant="destructive">99</Badge>
+        <Badge class="count-badge" variant="outline">20+</Badge>
+      </div>
+
+      <Badge data-radcn-docs-badge-family="badge-destructive" variant="destructive">
+        Destructive
+      </Badge>
+      <Badge data-radcn-docs-badge-family="badge-outline" variant="outline">
+        Outline
+      </Badge>
+      <Badge data-radcn-docs-badge-family="badge-secondary" variant="secondary">
+        Secondary
+      </Badge>
     </div>
   )
 }`
@@ -1923,11 +1947,33 @@ function ItemPreview() {
 
 function BadgePreview() {
   return () => (
-    <div mix={previewRowStyle}>
-      <Badge>Ready</Badge>
-      <Badge variant="secondary">Server-first</Badge>
-      <Badge variant="outline">Remix 3</Badge>
-      <Badge variant="destructive">Breaking</Badge>
+    <div style="display:grid;gap:1rem;width:min(100%,42rem)">
+      <div data-radcn-docs-badge-family="badge-demo" mix={previewRowStyle}>
+        <Badge>Badge</Badge>
+        <Badge variant="secondary">Secondary</Badge>
+        <Badge variant="destructive">Destructive</Badge>
+        <Badge variant="outline">Outline</Badge>
+        <Badge
+          class="radcn-docs-badge-verified"
+          style="background:#2563eb;color:white;"
+          variant="secondary"
+        >
+          <span aria-hidden="true">✓</span>
+          Verified
+        </Badge>
+        <Badge class="radcn-docs-badge-count" style="border-radius:999px;min-width:1.25rem;height:1.25rem;padding:0 0.25rem;">8</Badge>
+        <Badge class="radcn-docs-badge-count" style="border-radius:999px;min-width:1.25rem;height:1.25rem;padding:0 0.25rem;" variant="destructive">99</Badge>
+        <Badge class="radcn-docs-badge-count" style="border-radius:999px;min-width:1.25rem;height:1.25rem;padding:0 0.25rem;" variant="outline">20+</Badge>
+      </div>
+      <div data-radcn-docs-badge-family="badge-destructive" mix={previewRowStyle}>
+        <Badge variant="destructive">Destructive</Badge>
+      </div>
+      <div data-radcn-docs-badge-family="badge-outline" mix={previewRowStyle}>
+        <Badge variant="outline">Outline</Badge>
+      </div>
+      <div data-radcn-docs-badge-family="badge-secondary" mix={previewRowStyle}>
+        <Badge variant="secondary">Secondary</Badge>
+      </div>
     </div>
   )
 }
@@ -3936,10 +3982,10 @@ const richComponentDocs: ComponentDoc[] = [
     install: 'pnpm add radcn # intended future package',
     examples: [
       {
-        slug: 'variants',
-        title: 'Variants',
+        slug: 'example-parity',
+        title: 'Example Parity',
         description:
-          'Use badge variants to show status without introducing a custom docs-only label component.',
+          'Render the four upstream Badge examples with app-owned icon and count presentation.',
         source: badgeSource,
         preview: <BadgePreview />,
       },
@@ -3952,10 +3998,13 @@ const richComponentDocs: ComponentDoc[] = [
     customization: [
       'Variants are exposed as classes and data-variant attributes for app-level extension.',
       'Badge colors inherit the RadCN token set, including destructive, secondary, and outline surfaces.',
+      'Icon and count/pill badge presentation remains app-owned children, class, style, and CSS variable composition.',
     ],
     divergence: [
       'The Remix 3 badge is a host element component, not a React slot wrapper.',
       'RadCN keeps link behavior explicit with href rather than forwarding arbitrary React children through asChild.',
+      'shadcn className maps to RadCN class, data-slot="badge" maps to data-radcn-badge plus data-variant, and React prop spreading maps to explicit Remix UI props.',
+      'Tailwind utility styling maps to RadCN classes, style, CSS variables, and app CSS; lucide-react icons are app-owned presentation and not Badge dependencies.',
     ],
   },
   {

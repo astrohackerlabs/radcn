@@ -33,34 +33,34 @@ extras `ghost` and `link`. The package exposes public `data-radcn-badge` and
 classes/styles, and allows arbitrary children, so icon and numeric content are
 mechanically possible without changing the package API.
 
-The Badge example cluster is still `Partial`, not resolved, because RadCN lacks
-named docs/fixture/Playwright evidence for the four upstream Badge example ids.
-The richer upstream `badge-demo` also includes app-owned icon presentation,
-custom color classes, and compact numeric pill/count badges that are not
-explicitly documented or tested today.
+The Badge example cluster is now covered. Experiment 42 added named docs,
+fixture, and Playwright evidence for all four upstream Badge example ids,
+including the richer `badge-demo` icon presentation, custom color override, and
+compact numeric/count pill badges. Icon and count presentation remain
+app-owned composition through children, `class`, `style`, and app CSS.
 
 ## Examples
 
 | Example | User-facing behavior | Upstream mechanics | Current RadCN evidence | Outcome | Follow-up |
 | --- | --- | --- | --- | --- | --- |
-| `badge-demo` | Shows default, secondary, destructive, and outline badges, then a verified icon badge, and compact numeric/count badges `8`, `99`, and `20+`. | Uses `Badge`, `variant`, `className` Tailwind utilities, and lucide `BadgeCheckIcon`; layout is flex wrappers. | RadCN `Badge` supports variants, custom `class`, arbitrary children, href anchors, and public hooks. Current docs show four basic labels. Fixture `badge/variants` proves default/secondary/destructive/outline/ghost/link, and `badge/custom-class` proves a custom class token. No named docs/fixture/Playwright evidence proves icon children or compact count/pill badges. | Partial | Add named docs/fixture/Playwright coverage for the rich demo, including app-owned icon content, custom class/style color override, and numeric pill/count examples. |
-| `badge-destructive` | Renders a single destructive badge labeled `Destructive`. | Uses `Badge variant="destructive"`. | RadCN package supports `variant="destructive"` and fixture Playwright asserts `[data-radcn-badge][data-variant="destructive"]` text. Docs include a destructive Badge preview, but no named `badge-destructive` docs/fixture route exists. | Partial | Add named docs/fixture evidence for `badge-destructive` or record it as covered only when the named upstream id is traceable. |
-| `badge-outline` | Renders a single outline badge labeled `Outline`. | Uses `Badge variant="outline"`. | RadCN package supports `variant="outline"`, docs preview includes outline, and fixture `badge/variants` renders outline. There is no named `badge-outline` docs/fixture/Playwright evidence. | Partial | Add named docs/fixture evidence for `badge-outline` or record it as covered only when the named upstream id is traceable. |
-| `badge-secondary` | Renders a single secondary badge labeled `Secondary`. | Uses `Badge variant="secondary"`. | RadCN package supports `variant="secondary"`, docs preview includes secondary, and fixture `badge/variants` renders secondary. There is no named `badge-secondary` docs/fixture/Playwright evidence. | Partial | Add named docs/fixture evidence for `badge-secondary` or record it as covered only when the named upstream id is traceable. |
+| `badge-demo` | Shows default, secondary, destructive, and outline badges, then a verified icon badge, and compact numeric/count badges `8`, `99`, and `20+`. | Uses `Badge`, `variant`, `className` Tailwind utilities, and lucide `BadgeCheckIcon`; layout is flex wrappers. | Docs hook `badge-demo`, fixture route `badge/demo`, and Playwright coverage prove variants, app-owned icon content, custom class/style color override, numeric count/pill badges, and public hooks. | Covered | No follow-up for Badge example parity. |
+| `badge-destructive` | Renders a single destructive badge labeled `Destructive`. | Uses `Badge variant="destructive"`. | Docs hook `badge-destructive`, fixture route `badge/destructive`, package variant support, and Playwright coverage prove the named destructive example. | Covered | No follow-up for Badge example parity. |
+| `badge-outline` | Renders a single outline badge labeled `Outline`. | Uses `Badge variant="outline"`. | Docs hook `badge-outline`, fixture route `badge/outline`, package variant support, and Playwright coverage prove the named outline example. | Covered | No follow-up for Badge example parity. |
+| `badge-secondary` | Renders a single secondary badge labeled `Secondary`. | Uses `Badge variant="secondary"`. | Docs hook `badge-secondary`, fixture route `badge/secondary`, package variant support, and Playwright coverage prove the named secondary example. | Covered | No follow-up for Badge example parity. |
 
 ## Behavior Coverage
 
 | Behavior | Current status | Evidence |
 | --- | --- | --- |
-| Default variant | Covered primitive, partial example parity | `Badge` defaults to `variant="default"` and fixture `badge/variants` renders `Default`; no named `badge-demo` row evidence yet. |
-| Secondary variant | Covered primitive, partial example parity | Package, docs preview, and fixture support `variant="secondary"`; no named `badge-secondary` evidence yet. |
-| Destructive variant | Covered primitive, partial example parity | Package and fixture test cover `variant="destructive"`; no named `badge-destructive` evidence yet. |
-| Outline variant | Covered primitive, partial example parity | Package, docs preview, and fixture support `variant="outline"`; no named `badge-outline` evidence yet. |
+| Default variant | Covered | `Badge` defaults to `variant="default"` and named `badge-demo` docs/fixture/Playwright evidence proves default rendering. |
+| Secondary variant | Covered | Package, docs hook `badge-secondary`, fixture route `badge/secondary`, and Playwright coverage prove `variant="secondary"`. |
+| Destructive variant | Covered | Package, docs hook `badge-destructive`, fixture route `badge/destructive`, and Playwright coverage prove `variant="destructive"`. |
+| Outline variant | Covered | Package, docs hook `badge-outline`, fixture route `badge/outline`, and Playwright coverage prove `variant="outline"`. |
 | Ghost variant | Covered RadCN extension | Package and fixture support `variant="ghost"`; it is not one of the four upstream Badge examples. |
 | Link variant and href rendering | Covered RadCN extension | Package renders `<a>` when `href` is supplied; fixture Playwright asserts link href. Upstream Badge examples do not require link behavior. |
-| Custom classes/styles | Covered primitive, partial example parity | `BadgeProps` accepts `class` and `style`; fixture `badge/custom-class` proves class styling. Upstream `badge-demo` custom color utilities need named docs/fixture evidence. |
-| Icon children | Mechanically supported, partial evidence | `children?: RemixNode` allows icon content, but current Badge docs/fixtures do not prove an icon badge. Icons should remain app-owned presentation, not a Badge package dependency. |
-| Count/pill badge styling | Mechanically supported, partial evidence | `class`/`style` and text children can represent `8`, `99`, and `20+`, but current Badge docs/fixtures do not prove compact pill/count styling. |
+| Custom classes/styles | Covered | `BadgeProps` accepts `class` and `style`; `badge/custom-class` and named `badge-demo` coverage prove class/style color overrides. |
+| Icon children | Covered | `children?: RemixNode` allows icon content, and named `badge-demo` coverage proves app-owned icon presentation without a lucide dependency. |
+| Count/pill badge styling | Covered | `class`/`style` and text children represent `8`, `99`, and `20+`; named `badge-demo` coverage proves compact pill/count styling. |
 | Public hooks | Covered | Package emits `data-radcn-badge` and `data-variant`; fixture tests assert both hooks. |
 
 ## Mapping Decisions
@@ -79,9 +79,5 @@ explicitly documented or tested today.
 
 ## Recommendation
 
-The next experiment should implement Badge example parity depth. It should keep
-the package API unchanged unless a direct blocker appears, add named docs and
-fixture evidence for `badge-demo`, `badge-destructive`, `badge-outline`, and
-`badge-secondary`, and prove variant labels, icon composition, custom class or
-style overrides, compact numeric/count badges, public hooks, and no
-`lucide-react`/Tailwind/React/vendor dependency with Playwright.
+Badge example parity is resolved. The next Issue 4 recommendation should come
+from the regenerated parity inventory.

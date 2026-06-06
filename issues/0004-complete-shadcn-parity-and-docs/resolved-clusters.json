@@ -160,6 +160,15 @@
         "issues/0004-complete-shadcn-parity-and-docs/40-implement-toast-example-parity-depth.md",
         "issues/0004-complete-shadcn-parity-and-docs/toast-example-inventory.md"
       ]
+    },
+    {
+      "slug": "badge",
+      "status": "resolved",
+      "evidence": [
+        "issues/0004-complete-shadcn-parity-and-docs/41-audit-badge-example-parity.md",
+        "issues/0004-complete-shadcn-parity-and-docs/42-implement-badge-example-parity-depth.md",
+        "issues/0004-complete-shadcn-parity-and-docs/badge-example-inventory.md"
+      ]
     }
   ],
   "blocks": [],

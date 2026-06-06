@@ -635,6 +635,15 @@ Record cross-component discoveries here as experiments complete.
   docs/fixture/Playwright evidence is missing for `badge-demo`,
   `badge-destructive`, `badge-outline`, and `badge-secondary`, and the richer
   demo still needs explicit icon and compact count/pill proof.
+- Experiment 42 completed Badge example parity depth without changing the Badge
+  package API. The docs page, candidate fixtures, and Playwright tests now prove
+  `badge-demo`, `badge-destructive`, `badge-outline`, and `badge-secondary`,
+  including app-owned icon content, custom class/style color overrides, compact
+  numeric/count pill badges, public hooks, and variant labels. Badge icon and
+  count presentation remains app-owned composition through children, `class`,
+  `style`, CSS variables, and app CSS; RadCN still does not depend on React,
+  `lucide-react`, Tailwind, or vendor source. The regenerated parity inventory
+  now recommends auditing `combobox` examples next.
 
 ## Experiments
 
@@ -721,4 +730,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 41: Audit badge example parity](41-audit-badge-example-parity.md)
   — **Pass**
 - [Experiment 42: Implement badge example parity depth](42-implement-badge-example-parity-depth.md)
-  — **Designed**
+  — **Pass**

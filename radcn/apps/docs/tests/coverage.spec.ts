@@ -119,6 +119,33 @@ test.describe('docs registry coverage', () => {
     await page.goto('/docs/components/button')
     await expect(page.locator('[data-radcn-button]').first()).toBeVisible()
 
+    await page.goto('/docs/components/badge')
+    for (let slug of [
+      'badge-demo',
+      'badge-destructive',
+      'badge-outline',
+      'badge-secondary',
+    ]) {
+      await expect(page.locator(`[data-radcn-docs-badge-family="${slug}"]`), `${slug} docs example`).toBeVisible()
+    }
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-demo"] [data-radcn-badge]')).toHaveCount(8)
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-demo"] [data-radcn-badge]').filter({ hasText: 'Verified' })).toHaveClass(/radcn-docs-badge-verified/)
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-demo"] .radcn-docs-badge-count')).toHaveText(['8', '99', '20+'])
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-destructive"] [data-radcn-badge]')).toHaveAttribute('data-variant', 'destructive')
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-outline"] [data-radcn-badge]')).toHaveAttribute('data-variant', 'outline')
+    await expect(page.locator('[data-radcn-docs-badge-family="badge-secondary"] [data-radcn-badge]')).toHaveAttribute('data-variant', 'secondary')
+    await expect(page.getByText('variant="secondary"').first()).toBeVisible()
+    await expect(page.getByText('variant="destructive"').first()).toBeVisible()
+    await expect(page.getByText('variant="outline"').first()).toBeVisible()
+    await expect(page.getByText('data-radcn-badge').first()).toBeVisible()
+    await expect(page.getByText('data-variant').first()).toBeVisible()
+    await expect(page.getByText('className maps to RadCN class').first()).toBeVisible()
+    await expect(page.getByText('data-slot="badge" maps to data-radcn-badge').first()).toBeVisible()
+    await expect(page.getByText('React prop spreading maps to explicit Remix UI props').first()).toBeVisible()
+    await expect(page.getByText('Tailwind utility styling maps to RadCN classes').first()).toBeVisible()
+    await expect(page.getByText('lucide-react icons are app-owned presentation').first()).toBeVisible()
+    await expect(page.getByText('Icon and count/pill badge presentation remains app-owned').first()).toBeVisible()
+
     await page.goto('/docs/components/input')
     await expect(page.locator('[data-radcn-input]').first()).toBeVisible()
     for (let slug of [

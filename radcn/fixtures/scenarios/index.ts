@@ -567,6 +567,30 @@ export const fixtureScenarios: FixtureScenario[] = [
   },
   {
     component: "badge",
+    id: "demo",
+    title: "Badge Demo",
+    description: "Badge variants, icon composition, and compact count badges.",
+  },
+  {
+    component: "badge",
+    id: "destructive",
+    title: "Badge Destructive",
+    description: "Destructive Badge example parity.",
+  },
+  {
+    component: "badge",
+    id: "outline",
+    title: "Badge Outline",
+    description: "Outline Badge example parity.",
+  },
+  {
+    component: "badge",
+    id: "secondary",
+    title: "Badge Secondary",
+    description: "Secondary Badge example parity.",
+  },
+  {
+    component: "badge",
     id: "custom-class",
     title: "Custom Badge Class",
     description: "Badge styling customized through a public class hook.",
