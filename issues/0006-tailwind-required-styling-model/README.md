@@ -30,9 +30,12 @@ Tailwind is a requirement for RadCN. The library should not offer a non-Tailwind
 styling path, and generated components should not depend on custom RadCN CSS
 classes for their primary styling.
 
+RadCN will use Tailwind v4, the latest Tailwind major version for this project.
+
 ## Decisions
 
 - Tailwind is required.
+- Tailwind v4 is the required Tailwind version family.
 - RadCN should declare Tailwind as a peer dependency where the RadCN component
   package or generated component contract requires the consuming app to provide
   it.
@@ -40,7 +43,7 @@ classes for their primary styling.
   theme tokens.
 - RadCN should not support a plain CSS or no-Tailwind component styling mode.
 - `components.json` should retain Tailwind configuration fields, adapted for
-  Remix 3 and the Tailwind version RadCN standardizes on.
+  Remix 3 and Tailwind v4.
 - Existing bespoke `radcn-*` component classes are migration debt. They should
   be removed or reduced to non-styling hooks only when a concrete behavior
   needs a stable selector.
@@ -51,7 +54,7 @@ classes for their primary styling.
 
 In scope:
 
-- Decide and document the Tailwind version and integration model for Remix 3.
+- Decide and document the Tailwind v4 integration model for Remix 3.
 - Update RadCN package metadata so Tailwind is treated as a required peer where
   appropriate.
 - Update the docs app to run Tailwind as part of its styling pipeline.
@@ -81,7 +84,7 @@ Tailwind affects visual parity, docs screenshots, and future generated source.
 The likely migration path is:
 
 - audit where styling currently comes from;
-- establish the Tailwind version and Remix 3 integration;
+- establish the Tailwind v4 Remix 3 integration;
 - add Tailwind to package metadata and app/fixture toolchains;
 - define the RadCN Tailwind theme/token contract;
 - migrate one representative component and prove the strategy;
@@ -94,8 +97,6 @@ a dependency listed in package manifests.
 
 ## Key Questions
 
-- Should RadCN standardize on Tailwind v4 immediately, or mirror the exact
-  shadcn-supported Tailwind version range?
 - What is the correct Tailwind integration point for a standard Remix 3 app?
 - Which `radcn-*` classes are pure styling debt, and which should remain as
   stable behavior/test hooks?
@@ -106,7 +107,7 @@ a dependency listed in package manifests.
 
 This issue is complete when:
 
-- Tailwind is documented as required for RadCN;
+- Tailwind v4 is documented as required for RadCN;
 - package metadata declares Tailwind as a peer dependency wherever RadCN
   components or generated source require it;
 - the docs app uses Tailwind as its styling pipeline;
