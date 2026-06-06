@@ -742,3 +742,5 @@ Record cross-component discoveries here as experiments complete.
   — **Pass**
 - [Experiment 43: Audit combobox example parity](43-audit-combobox-example-parity.md)
   — **Pass**
+- [Experiment 44: Implement combobox example parity depth](44-implement-combobox-example-parity-depth.md)
+  — **Designed**
