@@ -155,3 +155,115 @@ implementation has started, verification has concrete pass/fail and hygiene
 checks, vendor checkouts are clean, lucide/Radix/Tailwind are treated as
 mappings rather than dependencies, and current evidence must be separated from
 follow-up work.
+
+## Result
+
+**Result:** Pass
+
+Created
+`issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md` as an
+audit-only inventory for all 6 upstream plain Toggle examples: `toggle-demo`,
+`toggle-disabled`, `toggle-lg`, `toggle-outline`, `toggle-sm`, and
+`toggle-with-text`.
+
+The audit does not mark `toggle` resolved. RadCN already covers the core
+primitive behavior for native button semantics, pressed state, disabled state,
+`ariaLabel`, small and large sizes, outline variant, text children, arbitrary
+children, class/style hooks, and enhancement. The cluster still needs named
+Toggle docs/fixture/Playwright proof for all 6 upstream examples, especially
+app-authored selected-state icon styling for the bookmark demo.
+
+Verification run:
+
+```text
+node - <<'NODE'
+const fs = require('fs')
+const file = 'issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md'
+const text = fs.readFileSync(file, 'utf8')
+const ids = [
+  'toggle-demo',
+  'toggle-disabled',
+  'toggle-lg',
+  'toggle-outline',
+  'toggle-sm',
+  'toggle-with-text',
+]
+let failed = false
+for (const id of ids) {
+  const pattern = new RegExp('\\| `'+id+'` \\|', 'g')
+  const count = (text.match(pattern) || []).length
+  console.log(`${id}: ${count}`)
+  if (count !== 1) failed = true
+}
+if (failed) process.exit(1)
+NODE
+```
+
+Output:
+
+```text
+toggle-demo: 1
+toggle-disabled: 1
+toggle-lg: 1
+toggle-outline: 1
+toggle-sm: 1
+toggle-with-text: 1
+```
+
+```text
+rg -n 'Bookmark|disabled|size="lg"|variant="outline"|size="sm"|with text|lucide|Radix|Tailwind|data-state|ariaLabel|Playwright|fixture|docs' issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md
+```
+
+Confirmed that the inventory addresses all required examples and mapping
+topics: bookmark demo, disabled icon-only toggle, large size, outline variant,
+small size, icon plus text composition, lucide as app presentation, Radix as a
+native-button mapping, Tailwind utility mapping, `data-state` styling,
+accessible names, and current RadCN package/docs/fixture/Playwright evidence.
+
+Additional verification:
+
+```text
+rg -n "toggle-example-inventory" issues/0004-complete-shadcn-parity-and-docs/README.md
+git diff --check
+git status --short
+for d in vendor/shadcn-ui vendor/remix vendor/react-router; do git -C "$d" status --short; done
+```
+
+Observed output:
+
+```text
+issues/0004-complete-shadcn-parity-and-docs/README.md:  `toggle-example-inventory.md`. Toggle example parity is not complete yet:
+ M issues/0004-complete-shadcn-parity-and-docs/33-audit-toggle-example-parity.md
+ M issues/0004-complete-shadcn-parity-and-docs/README.md
+?? issues/0004-complete-shadcn-parity-and-docs/toggle-example-inventory.md
+```
+
+`git diff --check` and vendor status produced no output.
+
+## Completion Review
+
+Reviewer: Mendel (`019e9b4f-b9fc-7e13-9e71-11c3e9ab4297`)
+Fresh context: yes (`fork_context: false`)
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: the temporary review diff omitted the new untracked inventory file,
+  though the file was provided directly to the reviewer. Fixed by explicitly
+  staging `toggle-example-inventory.md` with the result commit.
+
+Approval result: approved. Mendel verified that the result stayed audit-only,
+the inventory has exactly one row for each of the 6 requested Toggle ids, the
+audit does not drift into `toggle-group`, Result and Conclusion are present,
+the README learnings and `Pass` status match the result, Toggle parity is not
+claimed resolved, verification and hygiene are recorded, vendor cleanliness is
+clean, and the result commit had not been made before completion review.
+
+## Conclusion
+
+Toggle needs one implementation-depth experiment. The next experiment should
+add named docs examples, candidate fixture routes, and Playwright coverage for
+all 6 upstream Toggle examples. It should preserve the dependency-free native
+button model, prove app-authored selected-state icon styling through
+`data-state`, and avoid changing `toggle-group`.

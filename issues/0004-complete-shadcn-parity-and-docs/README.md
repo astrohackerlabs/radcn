@@ -540,6 +540,20 @@ Record cross-component discoveries here as experiments complete.
   support. This is a useful guard for future shared prop reuse.
 - After Experiment 32, `input` is marked resolved in the example queue. The
   regenerated inventory recommends example parity for `toggle` next.
+- Experiment 33 audited all 6 upstream plain Toggle examples in
+  `toggle-example-inventory.md`. Toggle example parity is not complete yet:
+  RadCN already supports the core primitive behavior for pressed state,
+  disabled state, `ariaLabel`, `size="sm"`, `size="lg"`, `variant="outline"`,
+  text children, arbitrary children, and class/style hooks, but the docs,
+  fixtures, and Playwright tests need named proof for demo, disabled, lg,
+  outline, sm, and with-text examples.
+- Toggle's stable mapping decisions for later work: Radix Toggle maps to
+  RadCN's native button plus enhancement; lucide icons are app presentation;
+  Tailwind selected-state utilities map to `data-state` plus app CSS/classes;
+  icon-only toggles need `ariaLabel`; icon plus text toggles keep icons
+  decorative and text visible.
+- After Experiment 33, the next recommended implementation cluster is Toggle
+  example parity depth.
 
 ## Experiments
 
@@ -608,4 +622,4 @@ Record cross-component discoveries here as experiments complete.
 - [Experiment 32: Implement input example parity depth](32-implement-input-example-parity-depth.md)
   — **Pass**
 - [Experiment 33: Audit toggle example parity](33-audit-toggle-example-parity.md)
-  — **Designed**
+  — **Pass**
