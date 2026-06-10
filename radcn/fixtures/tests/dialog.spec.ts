@@ -90,6 +90,13 @@ test('candidate dialog demo matches upstream edit profile composition', async ({
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Pedro Duarte')
   await expect(page.getByLabel('Username')).toHaveValue('@peduarte')
   await expect(page.getByRole('button', { name: 'Cancel' })).toHaveClass(/radcn-button--outline/)
+  // The footer Cancel button must stay in normal flow; only the icon close
+  // button is absolutely positioned. Otherwise the two overlap and the icon
+  // button intercepts clicks meant for Cancel.
+  await expect(page.getByRole('button', { name: 'Cancel' })).toHaveCSS('position', 'static')
+  let iconClose = content.locator('> [data-radcn-dialog-close][aria-label="Close"]')
+  await expect(iconClose).toHaveClass(/radcn-dialog-close--icon/)
+  await expect(iconClose).toHaveCSS('position', 'absolute')
   await expect(page.getByRole('button', { name: 'Save changes' })).toHaveAttribute('type', 'submit')
   await expect(page.getByLabel('Name', { exact: true })).toBeFocused()
 

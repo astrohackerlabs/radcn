@@ -214,3 +214,77 @@ markup, and that both new assertions are logically correct after the fix
 (footer Cancel → `static`, icon close → `absolute`). Verdict: APPROVED.
 
 Approval result: approved (round 2). No blocker findings remain.
+
+## Result
+
+**Result:** Pass
+
+All verification steps passed:
+
+1. `pnpm radcn:typecheck` passed.
+2. Regeneration integrity check confirmed
+   `index.ts === "export const radcnStyles = " + JSON.stringify(tokensCss) + "\n"`
+   after the edit — the two style files are byte-identical and both carry the
+   new `.radcn-dialog-close--icon` rule.
+3. `tests/dialog.spec.ts` + `tests/drawer.spec.ts`: 12/12 pass, including the
+   three formerly failing tests (dialog "edit profile", dialog "share link",
+   drawer "desktop Dialog and mobile Drawer branches") and the new explicit
+   assertions — footer Cancel computes `position: static`, icon close computes
+   `position: absolute` and carries `radcn-dialog-close--icon`.
+4. `tests/modal-variants.spec.ts` + `tests/menu-overlays.spec.ts`: 17/17 pass
+   — the sheet icon-close pattern (modal-variants:171) and the footer
+   `DialogClose` buttons in menu-overlays are unregressed.
+5. Full fixture suite: **1191 passed, 0 failed** (previously 1188 passed, 3
+   failed). The issue-level green gate is met.
+6. `git diff --check` clean. 7. `vendor/` untouched.
+
+Working tree changed exactly the expected files: `tokens.css`, `index.ts`,
+and `tests/dialog.spec.ts` (plus this experiment file and the README line).
+
+## Conclusion
+
+The dialog close-button collision is fixed by bringing the dialog close
+classes into parity with the sheet pattern: `.radcn-dialog-close` is now a
+minimal `cursor: pointer` behavior reset, and all icon-button geometry
+(absolute top-right positioning, 2rem square, transparent appearance, hover)
+moved to `.radcn-dialog-close--icon`. Footer `DialogClose` buttons now render
+in normal flow as the button their author classes describe, and the
+auto-rendered icon close keeps its corner placement. The full fixture suite is
+green, satisfying that completion criterion for Issue 6.
+
+Learnings for later experiments:
+
+- `tokens.css` and `src/styles/index.ts` (`radcnStyles`) are byte-identical
+  and synced by hand with no build script. The reliable way to edit RadCN
+  styles is: edit `tokens.css`, then regenerate `index.ts` with
+  `export const radcnStyles = ${JSON.stringify(tokensCss)}\n`. Every styling
+  experiment in this issue (including the eventual Tailwind migration of these
+  components) must keep the two in sync or the runtime pages won't update.
+- A shared base class that bakes in one variant's geometry is exactly the kind
+  of bespoke-CSS smell the Tailwind migration should remove: utilities make
+  the icon-vs-footer distinction explicit at the call site instead of relying
+  on a class whose meaning depends on context. The sheet/dialog close split is
+  a good candidate pattern to fold into the component-migration experiments.
+- The full fixture suite (`pnpm exec playwright test -c
+  radcn/fixtures/playwright.config.ts`, ~2.4 min, 1191 tests) is the
+  authoritative regression gate for any styling change; run it before
+  recording a styling experiment's result.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor findings).
+
+The reviewer independently re-ran `pnpm radcn:typecheck`, the dialog+drawer
+specs (12/12, including the three formerly failing), the modal-variants +
+menu-overlays specs (17/17), and the FULL fixture suite (**1191/1191**),
+verified the tokens.css edit and the byte-identical index.ts regeneration, the
+new dialog.spec.ts assertions and selectors, the changed-file set (exactly the
+expected five), `git diff --check` clean, vendor untouched, plan commit
+`f72ab64` present, and the result commit absent at review time.
+
+Approval result: approved with no blockers.
