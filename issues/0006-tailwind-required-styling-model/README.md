@@ -149,6 +149,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 10: Migrate Empty to Tailwind utilities](10-migrate-empty-to-tailwind.md)
   — **Pass**
+- [Experiment 11: Migrate Label to Tailwind utilities](11-migrate-label-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
