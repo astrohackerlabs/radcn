@@ -119,6 +119,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 3: Fix the dialog close-button positioning collision](03-fix-dialog-close-button-collision.md)
   — **Pass**
+- [Experiment 4: Establish the candidate fixture's global Tailwind pipeline](04-global-tailwind-pipeline-candidate-fixture.md)
+  — **Designed**
 
 ## Completion Criteria
 
