@@ -152,7 +152,7 @@ a dependency listed in package manifests.
 - [Experiment 11: Migrate Label to Tailwind utilities](11-migrate-label-to-tailwind.md)
   — **Pass**
 - [Experiment 12: Declare Tailwind as a peer dependency](12-declare-tailwind-peer-dependency.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -325,6 +325,15 @@ From Experiment 11 (Label migration — first cross-component selector dep):
 - When a RadCN component has an API shadcn expresses via group/peer context
   (Label's `disabled` prop), keep shadcn's variants verbatim (inert) and ADD
   the self `data-[...]` variant that drives the RadCN prop.
+
+From Experiment 12 (Tailwind peer dependency):
+
+- The radcn package declares `tailwindcss` as a REQUIRED peer dependency
+  (`catalog:` → `^4.1.0`); `catalog:` works in `peerDependencies` here.
+  Workspace consumers must keep tailwindcss in their deps to satisfy it.
+- Issue 5's registry/`components.json`/install-flow must propagate the same
+  "Tailwind v4 required" contract to generated consumer projects (the
+  remaining peer-dependency completion-criterion surface).
 
 ## Completion Criteria
 

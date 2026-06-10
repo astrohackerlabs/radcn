@@ -72,6 +72,9 @@
   "dependencies": {
     "remix": "catalog:"
   },
+  "peerDependencies": {
+    "tailwindcss": "catalog:"
+  },
   "devDependencies": {
     "@types/node": "catalog:",
     "typescript": "catalog:"

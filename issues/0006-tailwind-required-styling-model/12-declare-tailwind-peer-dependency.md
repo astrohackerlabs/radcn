@@ -71,6 +71,45 @@ behavior change.
 Fail criteria: `pnpm install` reports an unmet/broken peer for `radcn`; any
 typecheck or suite regresses; package.json becomes invalid.
 
+## Result
+
+**Result:** Pass
+
+The peer dependency is declared and everything stays green. Verification:
+
+1. `pnpm install` succeeded ("Already up to date", "Done"); no unmet-peer
+   warning/error for `radcn` (both consumers provide tailwindcss).
+2. All three typechecks pass.
+3. `radcn/packages/radcn/package.json` is valid JSON and now declares
+   `peerDependencies.tailwindcss: "catalog:"`; the lockfile records the
+   `tailwindcss` peer under the radcn package (the `catalog:` peer resolved).
+4. Docs suite: **11 passed**.
+5. Fixture suite: **1191 passed**.
+6. `git diff --check` clean; `vendor/` untouched; only `package.json` and
+   `pnpm-lock.yaml` changed (plus this experiment file + README).
+
+No deviations from the approved design.
+
+## Conclusion
+
+RadCN's package metadata now declares Tailwind v4 as a required peer
+dependency, satisfying that Issue 6 completion criterion for the package
+itself: consuming apps must provide Tailwind, which is correct since components
+emit Tailwind utilities and the package ships a Tailwind-v4 `theme.css`. The
+`catalog:` reference works in `peerDependencies` (first use in this workspace)
+and resolves to `^4.1.0`. The remaining peer-dependency surface — generated
+registry payloads/`components.json` — belongs to Issue 5's installation-flow
+work, which a later experiment will align.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- The radcn package declares `tailwindcss` as a REQUIRED peer dependency
+  (`catalog:` → `^4.1.0`); workspace consumers must keep tailwindcss in their
+  deps to satisfy it. `catalog:` is valid in `peerDependencies` here.
+- Issue 5's registry/`components.json`/install-flow must propagate the same
+  "Tailwind v4 required" contract to generated consumer projects.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -96,3 +135,22 @@ verification plan is comprehensive and correctly scoped to package.json.
 Verdict: APPROVED.
 
 Approval result: approved with no blockers (one minor folded in).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed the `peerDependencies.tailwindcss: "catalog:"` addition
+(valid JSON, no `peerDependenciesMeta`), the lockfile recording the peer
+(resolving to 4.3.0 within `^4.1.0`), and independently re-ran `pnpm install`
+(clean, no unmet-peer for radcn), all three typechecks, the docs suite (11) and
+fixture suite (1191); verified only `package.json`/`pnpm-lock.yaml` changed,
+clean `git diff --check`/vendor, README Pass + Learnings, and that the change
+is metadata-only. Verdict: APPROVED.
+
+Approval result: approved with no blockers.
