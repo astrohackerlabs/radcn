@@ -147,6 +147,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 9: Enable Tailwind preflight](09-enable-tailwind-preflight.md)
   — **Pass**
+- [Experiment 10: Migrate Empty to Tailwind utilities](10-migrate-empty-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
