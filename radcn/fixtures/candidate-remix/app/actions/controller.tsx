@@ -114,18 +114,10 @@ export default createController(routes, {
       )
     },
     tailwindProbe(context) {
+      // The document shell now links the generated Tailwind stylesheet on every
+      // page (Issue 6, Experiment 4), so the probe page no longer adds its own.
       return context.render(
-        <Document
-          title="Tailwind v4 probe"
-          head={
-            <link
-              rel="stylesheet"
-              href={routes.assets.href({ path: 'app/assets/tailwind.generated.css' })}
-            />
-          }
-        >
-          {renderTailwindProbe()}
-        </Document>,
+        <Document title="Tailwind v4 probe">{renderTailwindProbe()}</Document>,
       )
     },
   },

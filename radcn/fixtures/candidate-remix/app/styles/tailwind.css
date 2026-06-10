@@ -4,6 +4,8 @@
  * component-migration decision because it changes rendering on every
  * existing fixture page.
  */
+@source '../../../../packages/radcn/src';
+
 @import 'tailwindcss/theme';
 @import 'radcn/theme.css';
 @import 'tailwindcss/utilities';
