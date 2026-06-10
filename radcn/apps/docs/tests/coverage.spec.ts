@@ -3,7 +3,7 @@ import path from 'node:path'
 
 import { expect, test } from '@playwright/test'
 
-const excludedExports = new Set(['.', './styles', './package.json'])
+const excludedExports = new Set(['.', './styles', './theme.css', './package.json'])
 const nonExportedDispositions: string[] = []
 const publicPreviewHooks: Record<string, string> = {
   accordion: '[data-radcn-accordion]',

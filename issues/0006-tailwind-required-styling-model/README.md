@@ -132,7 +132,7 @@ a dependency listed in package manifests.
 - [Experiment 5: Migrate Badge to Tailwind utilities](05-migrate-badge-to-tailwind-utilities.md)
   — **Pass**
 - [Experiment 6: Establish the docs app Tailwind pipeline and repair the docs gate](06-docs-app-tailwind-pipeline.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -222,6 +222,24 @@ From Experiment 5 (first component migration — Badge):
   via `radcn-button` in many fixtures) cannot simply drop their bespoke CSS;
   their migration must also migrate those call sites or keep a compatibility
   alias. Prefer migrating leaf components used only via their JSX API first.
+
+From Experiment 6 (docs app Tailwind pipeline + verification-gate repair):
+
+- **The verification gate for any change to shared package components or
+  `tokens.css`/`index.ts` is BOTH Playwright suites, not just the fixture
+  suite:** `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts`
+  AND `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts`, plus
+  `pnpm --dir radcn/apps/docs typecheck`. The docs app consumes the same
+  package components and its `coverage.spec.ts` asserts computed styles, so a
+  fixture-only gate is insufficient — it silently missed two docs regressions
+  (Experiment 2's `./theme.css` export broke the docs coverage enumeration;
+  Experiment 5's Badge rendered unstyled in the docs app, which had no
+  Tailwind). Both were repaired in Experiment 6.
+- Adding a package `exports` subpath that is not a documentable component
+  (like `./theme.css`) requires adding it to the docs coverage test's
+  `excludedExports` set.
+- The docs app and candidate fixture now share an identical Tailwind pipeline
+  shape, so a component migrated once renders correctly in both.
 
 ## Completion Criteria
 

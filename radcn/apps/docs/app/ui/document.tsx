@@ -28,6 +28,7 @@ export function Document(handle: Handle<DocumentProps>) {
           <link rel="icon" type="image/png" href="/favicon.ico" />
           <title>{title}</title>
           <InitialThemeScript />
+          <link rel="stylesheet" href={routes.assets.href({ path: 'app/assets/tailwind.generated.css' })} />
           <RadcnStyle />
           <DocsThemeStyle />
           {head}

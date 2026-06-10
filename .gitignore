@@ -19,4 +19,5 @@ radcn/fixtures/**/.vite/
 radcn/fixtures/**/test-results/
 radcn/fixtures/**/playwright-report/
 radcn/fixtures/**/app/assets/tailwind.generated.css
+radcn/apps/**/app/assets/tailwind.generated.css
 radcn/fixtures/artifacts/
