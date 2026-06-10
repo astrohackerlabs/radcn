@@ -103,6 +103,11 @@ a dependency listed in package manifests.
 - How should the docs app preserve its current visual identity while moving
   component styling to Tailwind?
 
+## Experiments
+
+- [Experiment 1: Prove the Tailwind v4 integration point for native Remix 3](01-prove-tailwind-v4-asset-pipeline.md)
+  — **Designed**
+
 ## Completion Criteria
 
 This issue is complete when:
