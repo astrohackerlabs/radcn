@@ -131,6 +131,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 5: Migrate Badge to Tailwind utilities](05-migrate-badge-to-tailwind-utilities.md)
   — **Pass**
+- [Experiment 6: Establish the docs app Tailwind pipeline and repair the docs gate](06-docs-app-tailwind-pipeline.md)
+  — **Designed**
 
 ## Learnings
 
