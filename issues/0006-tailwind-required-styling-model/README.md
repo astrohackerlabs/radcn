@@ -134,7 +134,7 @@ a dependency listed in package manifests.
 - [Experiment 6: Establish the docs app Tailwind pipeline and repair the docs gate](06-docs-app-tailwind-pipeline.md)
   — **Pass**
 - [Experiment 7: Migrate Skeleton and Separator to Tailwind utilities](07-migrate-skeleton-separator-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -242,6 +242,19 @@ From Experiment 6 (docs app Tailwind pipeline + verification-gate repair):
   `excludedExports` set.
 - The docs app and candidate fixture now share an identical Tailwind pipeline
   shape, so a component migrated once renders correctly in both.
+
+From Experiment 7 (Skeleton + Separator batch migration):
+
+- Replacing a bespoke animation with a Tailwind `animate-*` utility renames the
+  keyframe (`radcn-pulse` → `pulse`); every `animation-name` assertion in BOTH
+  suites must be updated (search fixture and docs specs).
+- Removing a component's bespoke rule may orphan a `@keyframes`; verify it has
+  no other user before deleting.
+- shadcn `data-[orientation=...]` (and similar data-attribute) variants work
+  directly against RadCN components that already emit the matching data
+  attribute, so those components migrate without markup changes.
+- Reword in-CSS migration comments to avoid the literal removed selector
+  tokens, keeping "no longer present" greps unambiguous.
 
 ## Completion Criteria
 

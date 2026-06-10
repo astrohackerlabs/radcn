@@ -17,7 +17,10 @@ export function Separator(handle: Handle<SeparatorProps>) {
 
     return (
       <div
-        class={classes('radcn-separator', `radcn-separator--${orientation}`, className)}
+        class={classes(
+          'shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px',
+          className,
+        )}
         data-orientation={orientation}
         data-radcn-separator
         role={decorative ? 'none' : 'separator'}

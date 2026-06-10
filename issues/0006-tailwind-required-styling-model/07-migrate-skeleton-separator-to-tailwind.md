@@ -149,3 +149,76 @@ and that verification runs both suites + all three typechecks. Verdict:
 APPROVED.
 
 Approval result: approved with no blockers.
+
+## Result
+
+**Result:** Pass
+
+Skeleton and Separator are migrated; both suites are green. Verification:
+
+1. Both `styles:build` runs exit 0; each generated CSS contains the migrated
+   utilities (`animate-pulse`, `bg-accent`, `bg-border`, `w-px`, the
+   `data-[orientation=...]` rules) and a `@keyframes pulse`.
+2. `pnpm radcn:typecheck`, `pnpm fixtures:candidate:typecheck`, and
+   `pnpm --dir radcn/apps/docs typecheck` all pass.
+3. `index.ts` byte-identical to `tokens.css`; neither contains `radcn-skeleton`,
+   `radcn-separator`, or `radcn-pulse` (the explanatory comment was reworded so
+   the literal selectors do not linger as prose either).
+4. Docs suite: **11 passed** — the skeleton `animation-name` assertion updated
+   to `pulse`; the separator dimension assertions (`height: 1px` horizontal,
+   `width: 1px` vertical) still hold via shadcn's `h-px`/`w-px`.
+5. Fixture suite: **1191 passed** — the two skeleton `animation-name`
+   assertions updated to `pulse`; all else unchanged.
+6. `git diff --check` clean; `vendor/` untouched; both generated CSS untracked;
+   exactly the six expected files changed.
+
+No deviations from the approved design. The three `animation-name` assertions
+were updated as planned; the in-CSS comment was simplified to avoid carrying
+the literal selector tokens (a tidy-up, not a scope change).
+
+## Conclusion
+
+Two more leaf primitives are off bespoke CSS and onto shadcn v4 utilities, and
+the dual-suite gate worked exactly as intended: the docs separator
+computed-style assertions confirmed the shadcn utilities reproduce the prior
+dimensions, and the skeleton keyframe rename was caught and updated in both
+suites. The batch recipe (multiple clean leaf components per experiment) is
+validated.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- When a component's bespoke animation is replaced by a Tailwind `animate-*`
+  utility, the keyframe NAME changes (`radcn-pulse` → `pulse`), and every
+  `animation-name` assertion in BOTH suites must be updated. Search both specs.
+- Removing a component's bespoke rule may orphan a shared-looking `@keyframes`;
+  verify it has no other user before deleting (here `radcn-pulse` was used only
+  by the skeleton rule).
+- Prefer rewording in-CSS migration comments so they do not contain the literal
+  removed selector tokens — it keeps "no longer present" greps unambiguous.
+- shadcn `data-[orientation=...]` variants work directly against RadCN
+  components that already emit `data-orientation`, so orientation-style
+  components migrate cleanly without markup changes.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer independently re-ran both `styles:build` runs (confirming
+`@keyframes pulse` and the migrated utilities in each), all three typechecks,
+the docs suite (**11 passed**, separator `1px` dimension assertions and the
+skeleton `pulse` assertion confirmed), and the fixture suite (**1191
+passed**); verified the component sources emit verbatim shadcn utilities while
+keeping the data/role hooks, the tokens.css rule/keyframe removals, the
+reworded comment carrying no literal selectors, the byte-identical `index.ts`,
+the three `animation-name` updates, the exact eight-file change set, both
+generated CSS untracked, clean `git diff --check`/vendor, README Pass status
+and Learnings entry, plan commit `d074410` present and result commit absent.
+Verdict: APPROVED.
+
+Approval result: approved with no blockers.

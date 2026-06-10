@@ -994,26 +994,12 @@
   user-select: none;
 }
 
-.radcn-separator {
-  flex-shrink: 0;
-  background: var(--radcn-border);
-}
-
-.radcn-separator--horizontal {
-  width: 100%;
-  height: 1px;
-}
-
-.radcn-separator--vertical {
-  width: 1px;
-  align-self: stretch;
-}
-
-.radcn-skeleton {
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-skeleton-bg, var(--radcn-secondary));
-  animation: radcn-pulse 1.5s ease-in-out infinite;
-}
+/*
+ * Skeleton and Separator are migrated to Tailwind utilities (Issue 6,
+ * Experiment 7). Their bespoke rules and the pulse keyframe (used only by the
+ * skeleton rule) were removed; the components emit shadcn v4 utility classes.
+ * Their data attributes remain as non-visual hooks.
+ */
 
 .radcn-spinner {
   width: var(--radcn-spinner-size, 1rem);
@@ -1028,12 +1014,6 @@
 
 .radcn-spinner-head {
   opacity: 0.85;
-}
-
-@keyframes radcn-pulse {
-  50% {
-    opacity: 0.5;
-  }
 }
 
 @keyframes radcn-spin {

@@ -1512,7 +1512,7 @@ test.describe('docs registry coverage', () => {
     await expect(skeletonDemo.locator('[data-radcn-skeleton]').nth(2)).toHaveCSS('width', '200px')
     await expect(skeletonDemo.locator('[data-radcn-skeleton]').nth(2)).toHaveCSS('height', '16px')
     await expect(skeletonDemo.locator('[data-radcn-skeleton]').first()).toHaveAttribute('aria-hidden', 'true')
-    await expect(skeletonDemo.locator('[data-radcn-skeleton]').first()).toHaveCSS('animation-name', 'radcn-pulse')
+    await expect(skeletonDemo.locator('[data-radcn-skeleton]').first()).toHaveCSS('animation-name', 'pulse')
     await expect(page.getByText('React props, className, data-slot').first()).toBeVisible()
     await expect(page.getByText('Tailwind utilities, cn').first()).toBeVisible()
     await expect(page.getByText('data-slot="skeleton" maps to data-radcn-skeleton').first()).toBeVisible()

@@ -8,7 +8,7 @@ async function expectSkeletonBlock(
   height: string,
 ) {
   await expect(locator).toHaveAttribute('aria-hidden', 'true')
-  await expect(locator).toHaveCSS('animation-name', 'radcn-pulse')
+  await expect(locator).toHaveCSS('animation-name', 'pulse')
   await expect(locator).toHaveCSS('width', width)
   await expect(locator).toHaveCSS('height', height)
 }
@@ -312,7 +312,7 @@ test('candidate separator spinner and skeleton expose expected semantics', async
   await page.goto(`${candidate}/fixtures/skeleton/default`)
   let skeleton = page.locator('[data-radcn-skeleton]').first()
   await expect(skeleton).toHaveAttribute('aria-hidden', 'true')
-  await expect(skeleton).toHaveCSS('animation-name', 'radcn-pulse')
+  await expect(skeleton).toHaveCSS('animation-name', 'pulse')
 })
 
 test('candidate skeleton covers named upstream examples', async ({ page }) => {

@@ -11,6 +11,6 @@ export function Skeleton(handle: Handle<SkeletonProps>) {
   return () => {
     let { class: className, style } = handle.props
 
-    return <div aria-hidden="true" class={classes('radcn-skeleton', className)} data-radcn-skeleton style={style} />
+    return <div aria-hidden="true" class={classes('animate-pulse rounded-md bg-accent', className)} data-radcn-skeleton style={style} />
   }
 }
