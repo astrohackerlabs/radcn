@@ -250,3 +250,89 @@ instruction is present, and no new blocker was introduced. Verdict: APPROVED.
 Approval result: approved (round 3). No blocker findings remain. Round-1's
 fidelity and cascade findings and round-2's verbatim-ordering blocker are all
 resolved.
+
+## Result
+
+**Result:** Pass
+
+Badge is migrated to Tailwind utilities and the full fixture suite is green.
+Verification:
+
+1. `styles:build` exits 0; the generated CSS now contains the badge variant
+   utilities — `.bg-primary`, `.text-primary-foreground`, `.bg-secondary`,
+   `.border-border`, `.rounded-full`, `.underline-offset-4` all present —
+   proving `@source` scanning picked up the rewritten `badge.tsx` and every
+   referenced utility/modifier generates.
+2. `pnpm radcn:typecheck` passes; `pnpm fixtures:candidate:typecheck` passes.
+3. `index.ts` is byte-identical to `tokens.css` and no longer contains any
+   `radcn-badge--` rule.
+4. `tests/static-display.spec.ts`: 12/12 pass, including the badge
+   `custom-class` `#4f46e5` assertion (the longhand `.radcn-fixture-custom-badge`
+   override wins the cascade tie over `bg-primary` as designed) and the
+   inline-driven `demo` assertions.
+5. Full fixture suite: **1191 passed, 0 failed**. No `<Badge>` call site
+   (incl. spinner and data-table fixtures) regressed.
+6. `git diff --check` clean; `vendor/` untouched; only the three expected
+   files changed (`badge.tsx`, `tokens.css`, `index.ts`); generated CSS stays
+   untracked.
+
+No deviations from the approved design. The badge utility strings were copied
+from the vendor file as instructed.
+
+## Conclusion
+
+The first component migration is proven end to end: Badge now renders entirely
+from shadcn v4 Tailwind utility classes resolved through the RadCN theme
+contract, its bespoke `radcn-badge*` CSS is deleted, and its non-visual
+`data-radcn-badge`/`data-variant` hooks remain. The maintainer's
+custom-token-drop decision is realized in practice — the `custom-class`
+scenario now overrides via a direct class rule (the shadcn "override via class"
+form) rather than a `--radcn-badge-bg` hook — with zero test churn and the full
+suite green.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- The per-component migration recipe that works: (a) copy the shadcn v4
+  utility strings verbatim from the vendored registry into the component as a
+  `base` string + a `Record<Variant, string>`; (b) keep `data-*` hooks and the
+  href→`<a>` rendering; (c) delete the component's `radcn-*` visual rules from
+  `tokens.css`; (d) regenerate `index.ts`; (e) translate any fixture
+  custom-token override to a direct class rule (longhand properties, which win
+  the cascade tie because `radcnStyles` is ordered after the Tailwind link).
+- Fixture inline styles and direct fixture-class rules both still win over the
+  component's utilities, so scenarios pinned by inline styles need no change;
+  only `--radcn-*`-hook-driven scenarios need translating.
+- shadcn variant strings reference `accent`/`ring` tokens and opacity
+  modifiers (`/90`, `/50`) and `dark:` states; all generate correctly against
+  the Experiment 2 contract + Tailwind defaults, so later components can use
+  the full shadcn strings without trimming.
+
+The next experiment migrates the next component cluster (Button is the natural
+choice, but it is referenced by raw `radcn-button` class strings across many
+fixtures — so its experiment must either migrate those call sites together or
+keep `radcn-button` as a compatibility alias; that decision is the next
+experiment's design problem).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given only `AGENTS.md`, the issue README, this experiment
+file, and read access to the working tree; not the implementer conversation)
+
+Findings: none (no Blocker, Major, or Minor findings).
+
+The reviewer independently re-ran both typechecks, `styles:build` (confirming
+`.bg-primary`/`.rounded-full`/`.underline-offset-4` generate), the
+static-display spec (12/12), and the FULL fixture suite (**1191 passed, 0
+failed**); compared badge.tsx's utility strings token-for-token against the
+vendor source; confirmed all `.radcn-badge*` rules removed, the longhand
+`.radcn-fixture-custom-badge` override, the byte-identical `index.ts`, the
+cascade proof for the `#4f46e5` assertion, the changed-file set (exactly the
+three sources plus docs), generated CSS untracked, clean
+`git diff --check`/vendor, the README Pass status and Experiment 5 Learnings
+entry, plan commit `53f28b3` present and result commit absent. Verdict:
+APPROVED.
+
+Approval result: approved with no blockers.

@@ -871,50 +871,12 @@
   height: 100%;
 }
 
-.radcn-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  min-height: 1.375rem;
-  border: 1px solid transparent;
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  padding: 0.125rem 0.625rem;
-  color: var(--radcn-badge-fg, var(--radcn-primary-foreground));
-  background: var(--radcn-badge-bg, var(--radcn-primary));
-  font: 500 0.75rem/1 var(--radcn-font);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.radcn-badge--secondary {
-  --radcn-badge-bg: var(--radcn-secondary);
-  --radcn-badge-fg: var(--radcn-secondary-foreground);
-}
-
-.radcn-badge--destructive {
-  --radcn-badge-bg: var(--radcn-destructive);
-  --radcn-badge-fg: var(--radcn-destructive-foreground);
-}
-
-.radcn-badge--outline {
-  --radcn-badge-bg: var(--radcn-background);
-  --radcn-badge-fg: var(--radcn-foreground);
-  border-color: var(--radcn-border);
-}
-
-.radcn-badge--ghost {
-  --radcn-badge-bg: transparent;
-  --radcn-badge-fg: var(--radcn-foreground);
-}
-
-.radcn-badge--link {
-  --radcn-badge-bg: transparent;
-  --radcn-badge-fg: var(--radcn-foreground);
-  padding-inline: 0;
-  text-decoration: underline;
-  text-underline-offset: 0.25rem;
-}
+/*
+ * Badge is migrated to Tailwind utilities (Issue 6, Experiment 5). Its bespoke
+ * .radcn-badge* rules were removed; the component now emits shadcn v4 utility
+ * classes. The data-radcn-badge / data-variant attributes remain as non-visual
+ * test/selector hooks.
+ */
 
 .radcn-card {
   display: flex;
@@ -1100,8 +1062,8 @@
 }
 
 .radcn-fixture-custom-badge {
-  --radcn-badge-bg: #4f46e5;
-  --radcn-badge-fg: #ffffff;
+  background-color: #4f46e5;
+  color: #ffffff;
 }
 
 .radcn-fixture-custom-card {
