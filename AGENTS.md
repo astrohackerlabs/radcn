@@ -54,10 +54,13 @@ Use the local `adversarial-review` skill for experiment design reviews,
 experiment completion reviews, and any requested adversarial review of RadCN
 implementation work.
 
-For Codex-authored work, the default reviewer is a separate Codex subagent with
-fresh context (`fork_context: false`). Do not call Claude, `claude -p`, or other
-external paid reviewer CLIs unless the user explicitly asks for cross-tool
-review later.
+The default reviewer is a fresh-context subagent of the same tool that authored
+the work: for Codex-authored work, a separate Codex subagent with
+`fork_context: false`; for Claude-authored work, a separate Claude subagent
+spawned with the Agent tool (subagents start with no parent conversation
+context). Do not call `claude -p`, `codex exec`, or other external paid
+reviewer CLIs from the other tool unless the user explicitly asks for
+cross-tool review later.
 
 Give the reviewer only the files and rules needed for the review, such as
 `AGENTS.md`, the relevant issue README, the experiment file, and the relevant
@@ -65,8 +68,8 @@ diff or source files. Do not pass the parent conversation by default. Record the
 reviewer name or ID, fresh-context status, findings, fixes, and approval result
 inside the experiment file.
 
-If a fresh Codex subagent is unavailable, do not silently reuse a warm agent for
-a required adversarial gate. Wait for a fresh slot or record the fallback as a
+If a fresh subagent is unavailable, do not silently reuse a warm agent for a
+required adversarial gate. Wait for a fresh slot or record the fallback as a
 weaker review that does not satisfy the gate unless the user explicitly accepts
 it.
 
@@ -246,9 +249,10 @@ next stage.
    - Do not design or implement the next experiment until the reviewing agent
      approves the completed output.
 
-The reviewing agent must be separate from the implementation pass. For Codex
-work, use the `adversarial-review` skill and prefer a fresh-context Codex
-subagent (`fork_context: false`). The review must be read-only and must approve
+The reviewing agent must be separate from the implementation pass. Use the
+`adversarial-review` skill and prefer a fresh-context subagent of the same tool
+that authored the work (Codex: `fork_context: false`; Claude: a subagent
+spawned with the Agent tool). The review must be read-only and must approve
 only when no blocker findings remain.
 
 ### Experiment Commits

@@ -1,6 +1,6 @@
 ---
 name: adversarial-review
-description: Run or request fresh-context Codex adversarial reviews for RadCN experiment plans, experiment results, implementation diffs, workflow gates, and technical claims without calling external Claude reviewers.
+description: Run or request fresh-context adversarial reviews for RadCN experiment plans, experiment results, implementation diffs, workflow gates, and technical claims, using a subagent of the same tool (Codex or Claude) that authored the work.
 ---
 
 # Adversarial Review
@@ -8,13 +8,16 @@ description: Run or request fresh-context Codex adversarial reviews for RadCN ex
 Use this skill when an experiment design, experiment result, implementation
 diff, or technical claim needs independent review.
 
-RadCN's default reviewer is a fresh-context Codex subagent. Do not call Claude
-or other external paid CLIs unless the user explicitly asks for that later.
+RadCN's default reviewer is a fresh-context subagent of the same tool that
+authored the work: a Codex subagent for Codex-authored work, a Claude subagent
+for Claude-authored work. Do not call `claude -p`, `codex exec`, or other
+external paid CLIs from the other tool unless the user explicitly asks for
+cross-tool review later.
 
 ## Core Rules
 
-- Use a separate Codex agent from the implementation pass.
-- Prefer a new subagent with `fork_context: false`.
+- Use a separate agent from the implementation pass.
+- Prefer a new subagent with fresh context (no parent conversation).
 - Give the reviewer only the files, commands, and rules needed for the review.
 - The reviewer is read-only: no file edits, no commits, no destructive commands.
 - The reviewer should try to reject the work, but must stay evidence-grounded.
@@ -29,13 +32,16 @@ required adversarial gate. Either wait for a fresh slot or record the review as
 a weaker same-session/fallback review that does not satisfy the gate unless the
 user explicitly accepts it.
 
-## Codex Invocation Pattern
+## Invocation Pattern
 
-When the subagent tool is available, spawn the reviewer with no forked context:
+Spawn the reviewer with fresh context, using the mechanism of the tool running
+the review:
 
-```text
-fork_context: false
-```
+- Codex: spawn a subagent with `fork_context: false`.
+- Claude: spawn a subagent with the Agent tool (subagents start with no parent
+  conversation context). Use a read-only agent type such as `Explore`, or
+  instruct the reviewer that it must not edit files, commit, or run
+  destructive commands.
 
 Pass explicit paths instead of the parent conversation. Include:
 
