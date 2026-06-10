@@ -49,6 +49,14 @@ RadCN will use Tailwind v4, the latest Tailwind major version for this project.
   needs a stable selector.
 - Data attributes may remain for state, behavior, and test selectors, but they
   should not replace Tailwind for visual styling.
+- Per-component `--radcn-*` custom-token override hooks (e.g.
+  `--radcn-badge-bg`) are dropped for shadcn parity (decision by the
+  maintainer, 2026-06-10). Migrated components emit only Tailwind utilities;
+  callers override styling through the `class` prop (e.g. `bg-[#4f46e5]`) or
+  inline styles, exactly as shadcn does via `cn()`/`className`. Fixtures and
+  tests that exercised a `--radcn-*` override are rewritten to the
+  class/inline form as each component migrates. This intentionally removes a
+  RadCN divergence and coordinates with Issue 7.
 
 ## Scope
 
@@ -121,6 +129,76 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 4: Establish the candidate fixture's global Tailwind pipeline](04-global-tailwind-pipeline-candidate-fixture.md)
   — **Pass**
+- [Experiment 5: Migrate Badge to Tailwind utilities](05-migrate-badge-to-tailwind-utilities.md)
+  — **Designed**
+
+## Learnings
+
+> Update this section after every experiment. When an experiment is concluded,
+> copy its durable learnings here (newest experiment last) so the cumulative
+> knowledge lives in one place and informs the next experiment. Per-experiment
+> Conclusion sections remain the source of record; this is the running digest.
+
+From Experiment 1 (Tailwind v4 integration point for native Remix 3):
+
+- The integration point for a native Remix 3 app is a standalone
+  `@tailwindcss/cli` build step that compiles a Tailwind source file into a
+  generated CSS asset, which `createAssetServer()` serves like any other
+  source CSS, linked via `routes.assets.href(...)`. No Vite, React Router,
+  PostCSS runner, or Tailwind config file is needed.
+- `@import 'tailwindcss/theme'` + `@import 'tailwindcss/utilities'` without
+  preflight works and leaves existing pages untouched. Enabling preflight is a
+  deliberate, page-visible decision deferred to component-migration work.
+- Dev DX is rebuild-on-demand: `dev`/`start` run `styles:build` once before the
+  server boots. A style change during development needs a re-run (or a future
+  `--watch`, which would require enabling the `@parcel/watcher` build script
+  currently pinned to `false` in `pnpm-workspace.yaml`).
+
+From Experiment 2 (Tailwind theme/token contract):
+
+- Consumers import three layers in order: `tailwindcss/theme`,
+  `radcn/theme.css`, `tailwindcss/utilities`. The contract is package-owned and
+  consumed via the `radcn/theme.css` package export.
+- `@theme inline` emits no `--color-*` variables; it substitutes the referenced
+  `var(--token)` directly into utilities. Tests and tooling must look for the
+  substituted `var(--token)` form in utility rules, not for `--color-*`.
+- Defining `--radius-*` re-scales every `rounded-*` utility application-wide.
+  Component migrations must re-baseline any assertion that relied on Tailwind
+  default radii (and the same caution applies if the contract ever defines
+  spacing or font tokens).
+- The served CSS is not byte-identical to the CLI output (the asset server
+  recompiles it); string assertions against served CSS must tolerate cosmetic
+  normalization such as attribute-selector quote changes.
+
+From Experiment 3 (dialog close-button collision fix):
+
+- `tokens.css` and `src/styles/index.ts` (`radcnStyles`) are byte-identical and
+  synced by hand with no build script. The reliable way to edit RadCN styles
+  is: edit `tokens.css`, then regenerate `index.ts` with
+  `export const radcnStyles = ${JSON.stringify(tokensCss)}\n`. Keeping them in
+  sync is mandatory or runtime pages will not update.
+- A shared base class that bakes in one variant's geometry is exactly the
+  bespoke-CSS smell the Tailwind migration should remove; utilities make such
+  distinctions explicit at the call site.
+- The full fixture suite (`pnpm exec playwright test -c
+  radcn/fixtures/playwright.config.ts`, ~2.4 min, 1191 tests) is the
+  authoritative regression gate for any styling change; run it before recording
+  a styling experiment's result.
+
+From Experiment 4 (global Tailwind pipeline in the candidate fixture):
+
+- The document shell is the single place the generated stylesheet is linked;
+  per-page `head` props must not re-link it (Playwright strict-mode locators
+  treat duplicate links as errors).
+- The generated Tailwind `<link>` is ordered BEFORE the inline `radcnStyles`
+  `<style>` so bespoke `.radcn-*` rules win cascade ties during migration;
+  inline styles win over both. Consequently, migrating a component means
+  REMOVING its bespoke rule for a property, not merely adding a utility — the
+  utility cannot take effect while a later-ordered `.radcn-*` rule still sets
+  that property.
+- The generated stylesheet reflects classes found across the package source
+  (via `@source`); it stays gitignored build output regenerated by
+  `styles:build` (which `dev`/`start` run automatically).
 
 ## Completion Criteria
 
