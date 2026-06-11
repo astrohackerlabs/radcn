@@ -162,6 +162,8 @@ a dependency listed in package manifests.
   see Experiment 16)
 - [Experiment 16: Add the default border-color base rule](16-default-border-color-base.md)
   — **Pass**
+- [Experiment 17: Re-attempt the Card migration](17-re-attempt-card-migration.md)
+  — **Designed**
 
 ## Learnings
 
