@@ -199,6 +199,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 34: Migrate Tabs surfaces to Tailwind utilities](34-migrate-tabs-to-tailwind.md)
   — **Pass**
+- [Experiment 35: Migrate Accordion surfaces to Tailwind utilities](35-migrate-accordion-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
