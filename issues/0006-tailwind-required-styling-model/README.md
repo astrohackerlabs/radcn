@@ -195,6 +195,8 @@ a dependency listed in package manifests.
   code change)
 - [Experiment 32: Migrate Avatar surfaces to Tailwind utilities](32-migrate-avatar-to-tailwind.md)
   — **Pass**
+- [Experiment 33: Migrate ScrollArea surfaces to Tailwind utilities](33-migrate-scroll-area-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
