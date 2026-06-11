@@ -198,37 +198,6 @@
  * [data-radcn-input]/[data-radcn-textarea] below.
  */
 
-.radcn-input-group {
-  display: flex;
-  width: 100%;
-  max-width: var(--radcn-input-group-width, 24rem);
-  min-height: var(--radcn-control-height);
-  flex-wrap: wrap;
-  align-items: stretch;
-  border: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-input-group-bg, var(--radcn-background));
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-  outline: none;
-}
-
-.radcn-input-group:focus-within {
-  border-color: var(--radcn-ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-input-group[data-invalid="true"],
-.radcn-input-group:has([aria-invalid="true"]) {
-  border-color: var(--radcn-field-error, var(--radcn-destructive));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-field-error, var(--radcn-destructive)) 20%, transparent);
-}
-
-.radcn-input-group[data-disabled="true"],
-.radcn-input-group:has(:disabled) {
-  opacity: 0.6;
-}
-
 .radcn-input-group [data-radcn-input],
 .radcn-input-group [data-radcn-textarea] {
   border: 0;
@@ -239,30 +208,6 @@
 .radcn-input-group [data-radcn-input]:focus-visible,
 .radcn-input-group [data-radcn-textarea]:focus-visible {
   box-shadow: none;
-}
-
-.radcn-input-group-input,
-.radcn-input-group-textarea {
-  min-width: 0;
-  flex: 1 1 10rem;
-  background: transparent;
-}
-
-.radcn-input-group-textarea {
-  min-height: 5.5rem;
-}
-
-.radcn-input-group-addon {
-  display: inline-flex;
-  min-height: calc(var(--radcn-control-height) - 2px);
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-  padding: 0 0.75rem;
-  color: var(--radcn-input-group-addon-fg, var(--radcn-muted-foreground));
-  cursor: text;
-  font: 400 0.875rem/1.35 var(--radcn-font);
-  user-select: none;
 }
 
 .radcn-input-group-addon--inline-start {
@@ -290,18 +235,6 @@
 .radcn-input-group-addon--block-end {
   order: 2;
   border-top: 1px solid var(--radcn-input-group-border, var(--radcn-input));
-}
-
-.radcn-input-group-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.radcn-input-group-button {
-  min-height: 1.75rem;
-  padding: 0.25rem 0.5rem;
-  box-shadow: none;
 }
 
 .radcn-input-group-button--sm {
@@ -602,13 +535,6 @@
   }
 }
 
-.radcn-button-group {
-  display: flex;
-  width: fit-content;
-  align-items: stretch;
-  gap: 0;
-}
-
 .radcn-button-group--vertical {
   flex-direction: column;
 }
@@ -682,22 +608,6 @@
 .radcn-button-group--vertical > .radcn-popover:not(:last-child) > .radcn-popover-trigger {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-}
-
-.radcn-button-group-text {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-border);
-  background: var(--radcn-muted);
-  padding: 0 0.75rem;
-  color: var(--radcn-muted-foreground);
-  font: 500 0.8125rem/1 var(--radcn-font);
-}
-
-.radcn-button-group-separator {
-  align-self: stretch;
-  background: var(--radcn-border);
 }
 
 .radcn-button-group-separator--vertical {

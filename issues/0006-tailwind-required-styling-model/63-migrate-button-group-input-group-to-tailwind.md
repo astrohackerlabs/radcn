@@ -117,6 +117,47 @@ byte-identical. This MIGRATES THE FINAL TWO COMPONENTS — all ~57 done.
 Fail criteria: a group assertion regresses; an own-surface utility doesn't compile;
 the border-merge/nested-reset drifts; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+ButtonGroup + InputGroup migrated — the FINAL two components. Both suites green (both
+fixture runs clean). All three `styles:build`/typechecks pass; the input-group states
+(`focus-within`/`data-[invalid]`/`has-[[aria-invalid]]`/`data-[disabled]`/`has-[:disabled]`)
++ `max-w-[var(…)]` + `min-h-[calc(var(--radcn-control-height)-2px)]` + `flex-[1_1_10rem]`
+compile (count 4; no junk); `index.ts` byte-identical; the 12 own-surface base rules
+removed while the modifiers + cross-component cascades + the fixture are retained;
+docs 11 ×2; isolation **navigation-collection 9 / form-input-cluster 11 /
+static-display 12 passed** (the button-group vertical marker + clustered gap, the
+input-group custom class + bg `rgb(240,253,250)`, addons, validation, the
+input-group-button marker); fixture **1191 ×2** (both clean); `git diff --check`
+clean; four files changed.
+
+## Conclusion
+
+ButtonGroup + InputGroup render their OWN surfaces from Tailwind utilities (container/
+text/separator; container/addon/group-input/textarea/text/button). The cross-component
+border-merge (button-group → nested Button/Input/Select) and the nested-control chrome
+reset (input-group → nested Input/Textarea) stay bespoke — an empirical probe proved
+the unlayered `radcnStyles` cascade RELIABLY overrides the migrated children's
+`@layer utilities` (first button `border-top-left-radius`=6px, non-first=0px), so no
+Button/Input change is needed; the `radcn-*-group` + variant marker classes are kept
+so those cascades + the asserted markers still match.
+
+**This completes the component migration: all ~57 RadCN components now emit their
+visual styling as Tailwind utilities.**
+
+Learnings (also copied to the issue README Learnings digest):
+
+- The bespoke `radcnStyles` is injected UNLAYERED; Tailwind utilities live in
+  `@layer utilities`. Unlayered declarations beat any layered declaration regardless
+  of specificity — so a cross-component cascade (`.group > .child:not(:first-child)
+  { border-radius: 0 }`) RELIABLY overrides a migrated child's utility radius
+  (empirically probed). Cross-component integration cascades (group border-merge,
+  nested-control chrome reset) can therefore stay bespoke as documented hooks, with
+  the group's marker classes kept so they match — no need to thread radius/border
+  vars through the already-migrated child component.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -141,3 +182,27 @@ reliably overrides the migrated container's `gap-0` (same probed precedence).
 Approval result: approved — the own-surface migration + the kept marker classes + the
 reliably-overriding cross-component cascades are sound; this closes the component
 migration (final two).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed both components emit their
+own-surface utility consts while KEEPING the `radcn-button-group`/`radcn-input-group`
++ `--{orientation}`/`--{align}`/`--{size}` marker classes + data attributes; the
+input-group container carries the full state set (focus-within/data-invalid/
+has-aria-invalid/data-disabled/has-disabled); tokens.css removed exactly the 12
+own-surface base rules and KEPT the modifiers + the cross-component cascades (the
+button-group merge/sizing + the input-group nested-control reset) + the fixture;
+byte-identical `index.ts`. It rebuilt (the states + `flex-[1_1_10rem]` +
+control-height calc generate, no junk), re-ran the three typechecks, the docs suite
+(11), the three isolation specs (navigation-collection 9 incl. the clustered
+`gap: 8px` proving the bespoke cascade overrides the migrated `gap-0`,
+form-input-cluster 11, static-display 12), and the full fixture suite (1191 ×2). It
+confirmed the critical faithfulness point: the kept cross-component cascades reliably
+override the migrated children (the clustered-gap test proves the unlayered-beats-layer
+precedence). Verdict: APPROVED.
+
+Approval result: approved with no blockers — ButtonGroup + InputGroup migrated; ALL
+~57 components now emit their visual styling as Tailwind utilities.

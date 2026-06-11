@@ -256,7 +256,7 @@ a dependency listed in package manifests.
 - [Experiment 62: Migrate Sidebar to Tailwind utilities](62-migrate-sidebar-to-tailwind.md)
   — **Pass**
 - [Experiment 63: Migrate ButtonGroup + InputGroup to Tailwind utilities](63-migrate-button-group-input-group-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1030,6 +1030,16 @@ From Experiment 62 (Sidebar — Pass):
   reliable PROVIDED the target has no conflicting base utility (a sole display:none, or a
   clean add) — sidesteps both the Exp-47 override risk and unverified Tailwind named-group
   features.
+
+From Experiment 63 (ButtonGroup + InputGroup — Pass; FINAL components):
+
+- The bespoke `radcnStyles` is injected UNLAYERED while Tailwind utilities live in
+  `@layer utilities`; unlayered declarations beat any layered declaration regardless of
+  specificity (empirically probed: a kept `.group > .child:not(:first-child){border-radius:0}`
+  drives a non-first button's `border-top-left-radius` to 0 while the first stays 6px).
+  So cross-component integration cascades (group border-merge, nested-control chrome
+  reset) can stay bespoke as documented hooks — keep the group's marker classes so they
+  match; no need to thread radius/border vars through the already-migrated child.
 
 ## Remaining Component Migration Map
 
