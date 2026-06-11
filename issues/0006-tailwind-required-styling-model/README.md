@@ -207,6 +207,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 38: Migrate Switch surfaces to Tailwind utilities](38-migrate-switch-to-tailwind.md)
   — **Pass**
+- [Experiment 39: Migrate Checkbox + RadioGroup to Tailwind utilities](39-migrate-checkbox-radio-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
