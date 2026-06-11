@@ -233,6 +233,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 51: Migrate DropdownMenu + ContextMenu together to Tailwind utilities](51-migrate-dropdown-context-menu-to-tailwind.md)
   — **Pass**
+- [Experiment 52: Migrate Menubar + NavigationMenu together to Tailwind utilities](52-migrate-menubar-navigation-menu-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
