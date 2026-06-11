@@ -222,7 +222,7 @@ a dependency listed in package manifests.
 - [Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities](45-migrate-toggle-and-group-to-tailwind.md)
   — **Partial** (reverted; variant-less outline item border resolves to currentColor — needs variant/size propagation, not the CSS cascade)
 - [Experiment 46: Migrate DataTable to Tailwind utilities](46-migrate-data-table-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -832,6 +832,17 @@ From Experiment 45 (Toggle + ToggleGroup together — Partial, reverted):
   each item (component prop injection or enhance-time data attributes) so every
   item emits its OWN utility — no cascade. Toggle + ToggleGroup remain open for a
   propagation-based re-attempt.
+
+From Experiment 46 (DataTable — Pass, first-try green):
+
+- A composite that REUSES a now-migrated sibling's classes (DataTable carries
+  `radcn-table-row`/`radcn-table-cell` from the migrated Table) holds them as DEAD
+  markers — drop them and re-key the element's own state (selected/reorderable) on
+  its retained data attributes. A per-element composite with NO parent->child
+  cascade migrates cleanly first-try (contrast Toggle's cascade blocker).
+- For an unused-but-shared bespoke selector in a combined base rule
+  (`.radcn-data-table-recipe`), split-keep it bespoke (conservative, zero cost)
+  rather than dropping.
 
 ## Completion Criteria
 

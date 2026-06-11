@@ -94,6 +94,47 @@ hold; BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a data-table assertion regresses (custom bg, selected row); a
 layout/border drifts; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+DataTable is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0; no junk ellipsis utility (0).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-data-table*`
+   rule remains EXCEPT the split-kept `.radcn-data-table-recipe`; the
+   `.radcn-fixture-custom-data-table` fixture retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `data-display.spec.ts` in isolation **7
+   passed** — incl. the DataTable composition, the custom bg `rgb(250,245,255)`,
+   selected rows (`data-[state=selected]`), reorderable rows
+   (`data-[reorderable=true]`), pagination/toolbar/filter/empty layout.
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+No deviations from the approved design (first attempt green — the per-element,
+no-cascade structure made it clean, unlike Toggle).
+
+## Conclusion
+
+DataTable is migrated: the container/toolbar/filter/column-controls/content/sort/
+selection-summary/pagination/row-actions/detail/empty render from Tailwind
+utilities; the row keys its selected/reorderable styling on the data attributes it
+already emits; the unused `.radcn-data-table-recipe` selector is split-kept
+bespoke; the dead `radcn-table-*` markers (from the migrated Table) were dropped.
+THIRTY-FIVE components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A composite that REUSES a now-migrated sibling's classes (here `radcn-table-row`/
+  `radcn-table-cell` from Table) carries them as DEAD markers — they can be
+  dropped, and the element's own state (selected/reorderable) re-keyed on its
+  retained data attributes. A per-element composite with NO parent→child cascade
+  migrates cleanly first-try (contrast Toggle's cascade).
+- For an unused-but-shared bespoke selector (`.radcn-data-table-recipe` in the
+  combined base rule), split-keep it bespoke (conservative) rather than dropping —
+  zero cost, reserves the raw-class API.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -118,3 +159,27 @@ no `text-[var()]` font-size ambiguity (uses `text-sm`); ASCII comments.
 
 Approval result: approved — clean per-element migration; the recipe split, the
 data-attribute-keyed row state, and the token-referencing custom bg are sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed all surfaces emit utility-const strings (only the
+style-less `-caption`/`-header-cell` markers + data attrs remain); the row drops
+the dead `radcn-table-row`/`radcn-data-table-row`/`--selected` classes and emits
+`data-[reorderable=true]:cursor-grab` + `data-[state=selected]:bg-[color-mix(...)]`
+while KEEPING all data attributes; the `dataTablePart` helper takes utility
+strings. tokens.css has ZERO migrated `.radcn-data-table*` rules (only the
+split-kept `.radcn-data-table-recipe` with the base declarations) + the retained
+custom fixture; byte-identical `index.ts`; no junk utility. It re-ran the three
+typechecks, the docs suite (11), `data-display.spec.ts` (7 — custom bg
+`rgb(250,245,255)`, selected/reorderable rows, composition), and the full fixture
+suite (1191). Verdict: APPROVED — a faithful, first-attempt-green migration.
+
+Approval result: approved with no blockers — DataTable is migrated (35
+components).
