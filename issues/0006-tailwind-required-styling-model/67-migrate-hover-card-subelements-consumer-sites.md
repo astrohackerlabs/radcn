@@ -109,6 +109,31 @@ This experiment is a FAIL by the workflow's definition (the designed approach do
 work), and a useful one — it converts the "~95 sites across 13 files" framing into the
 true blocker: the consumer files are not Tailwind-scanned.
 
+## CORRECTION (same session) — the Fail conclusion above was WRONG
+
+The "Fail" + "consumer files are not Tailwind-scanned" conclusion is RETRACTED: it was
+a FALSE NEGATIVE caused by a flawed probe. The sentinel utility used was a NONSENSE
+token (`zz-sentinel-[7px]` / `zzscan-[7px]`) that matches NO Tailwind utility, so it
+would never be generated REGARDLESS of whether the file is scanned — the count of 0
+proved nothing.
+
+Re-tested with a REAL arbitrary-property utility (`[zoom:2]`, definitely valid and not
+otherwise used): adding it to the fixture raw site (`positioned-overlays.tsx`) AND to
+the docs `content.tsx` and rebuilding generated `zoom: 2` in BOTH pipelines (count 1
+each) — WITHOUT any `@source` change. So **the candidate fixture app AND the docs app
+ARE Tailwind-scanned** (Tailwind v4 auto-detects the project's template files in
+addition to the explicit `@source 'packages/radcn/src'`). The `@source '../'` spike was
+confirmed unnecessary (zero size delta, both suites green) and was reverted.
+
+**Therefore the consumer-site migration IS viable** — utilities appended to fixture/
+docs raw-class sites DO compile. No enabler experiment is needed. The actual HoverCard
+avatar/body migration (the design above) is sound and is carried out in Experiment 68.
+Lesson: a scanning probe MUST use a real, otherwise-unused utility (e.g. an arbitrary
+property), never a made-up token.
+
+**Result (corrected): the design is valid; this file's implementation is superseded by
+Experiment 68 (the real migration).**
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh

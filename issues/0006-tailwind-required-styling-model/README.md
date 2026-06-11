@@ -264,7 +264,8 @@ a dependency listed in package manifests.
 - [Experiment 66: Migrate the menu-family helpers (sub-caret + item-indicator)](66-migrate-menu-family-helpers-to-tailwind.md)
   — **Pass**
 - [Experiment 67: Migrate HoverCard avatar/body (consumer-site pattern)](67-migrate-hover-card-subelements-consumer-sites.md)
-  — **Fail** (uncovered the real blocker: consumer files are not Tailwind-scanned)
+  — **Fail** (RETRACTED — false negative from a nonsense sentinel; consumer files ARE
+  scanned; see the file's Correction + Experiment 68)
 
 ## Learnings
 
@@ -1124,21 +1125,18 @@ is the Experiment-31 blast-radius work, now mapped per item:
   fixture), `hover-card-avatar` + `hover-card-body` (positioned-overlays fixture +
   docs).
 
-**CRITICAL BLOCKER discovered in Experiment 67 (empirically, via a sentinel-utility
-probe):** the candidate fixture's `tailwind.css` `@source`s ONLY
-`packages/radcn/src` (granular `@import 'tailwindcss/utilities'`, not the
-auto-detecting `@import "tailwindcss"`), and the docs pipeline likewise does not scan
-its content file — so Tailwind does NOT scan the fixture/docs app files. A utility
-appended to a fixture/docs raw-class site is NEVER generated (sentinel count 0 in both
-builds). Consumer-site utilities are therefore impossible without first either (a)
-adding the fixture-app + docs-app dirs to their Tailwind `@source` / switching to
-auto-detecting `@import "tailwindcss"` (then triaging the computed-style churn from
-newly-scanned demo files), or (b) converting the raw `radcn-*` demo sites to render
-through the components (whose source IS scanned). Because most of the remaining
-blast-radius rules have NO computed assertions, skipping this enabler would produce a
-DECEPTIVE green (the gate passes while the surface renders unstyled). This enabler is
-the true next experiment; only after it can the Button keystone + triggers +
-toggle/breadcrumb/hover-card consumer sites be migrated.
+**CORRECTION (Experiment 67's blocker was retracted):** the Experiment-67 claim that
+"consumer files are not Tailwind-scanned" was a FALSE NEGATIVE — the probe used a
+nonsense sentinel utility (`zz-sentinel-[7px]`) that Tailwind never generates
+regardless of scanning. Re-tested with a REAL utility (`[zoom:2]`), the fixture app AND
+the docs app BOTH generate it from their raw class sites with NO `@source` change — so
+the consumer files ARE Tailwind-scanned (v4 auto-detects the project templates). The
+**consumer-site migration is viable**: appending utilities to the fixture/docs raw
+`radcn-*` sites compiles correctly. No enabler experiment is needed; the remaining
+blast-radius debt (Button keystone + triggers + toggle/breadcrumb/hover-card) is
+migrated by appending the equivalent utilities to each raw site (keeping the asserted
+marker classes) and removing the bespoke rule, dual-suite-gated as usual. Experiment 68
+performs the first such migration (HoverCard avatar/body).
 
 Recommended order: the smaller primitives first (toggle-group/-icon, breadcrumb-glyph,
 hover-card) to establish the consumer-site migration pattern on a contained blast
