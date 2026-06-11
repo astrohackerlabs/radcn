@@ -215,6 +215,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 42: Migrate Typography to Tailwind utilities](42-migrate-typography-to-tailwind.md)
   — **Pass**
+- [Experiment 43: Migrate NativeSelect to Tailwind utilities](43-migrate-native-select-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
