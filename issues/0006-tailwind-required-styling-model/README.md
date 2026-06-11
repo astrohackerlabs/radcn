@@ -188,6 +188,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 29: Migrate Sheet overlay + content surface to Tailwind utilities](29-migrate-sheet-to-tailwind.md)
   — **Pass**
+- [Experiment 30: Migrate Drawer overlay to Tailwind + retire the dead modal keyframes](30-migrate-drawer-overlay-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
