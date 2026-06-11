@@ -213,6 +213,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 41: Migrate Item surfaces to Tailwind utilities](41-migrate-item-to-tailwind.md)
   — **Pass**
+- [Experiment 42: Migrate Typography to Tailwind utilities](42-migrate-typography-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
