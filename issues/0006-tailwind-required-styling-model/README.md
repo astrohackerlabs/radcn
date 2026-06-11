@@ -255,6 +255,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 62: Migrate Sidebar to Tailwind utilities](62-migrate-sidebar-to-tailwind.md)
   — **Pass**
+- [Experiment 63: Migrate ButtonGroup + InputGroup to Tailwind utilities](63-migrate-button-group-input-group-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
