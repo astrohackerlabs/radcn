@@ -242,7 +242,7 @@ a dependency listed in package manifests.
 - [Experiment 55: Migrate Form container surfaces to Tailwind utilities](55-migrate-form-to-tailwind.md)
   — **Pass**
 - [Experiment 56: Migrate DirectionProvider to Tailwind utilities](56-migrate-direction-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
