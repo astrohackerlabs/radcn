@@ -186,6 +186,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 28: Migrate AlertDialog overlay + content surface to Tailwind utilities](28-migrate-alert-dialog-to-tailwind.md)
   — **Pass**
+- [Experiment 29: Migrate Sheet overlay + content surface to Tailwind utilities](29-migrate-sheet-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
