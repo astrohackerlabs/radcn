@@ -185,7 +185,7 @@ a dependency listed in package manifests.
 - [Experiment 27: Migrate Dialog overlay + content surface to Tailwind utilities](27-migrate-dialog-to-tailwind.md)
   — **Pass**
 - [Experiment 28: Migrate AlertDialog overlay + content surface to Tailwind utilities](28-migrate-alert-dialog-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -558,6 +558,19 @@ From Experiment 27 (Dialog — first modal overlay — Pass):
 - Modal keyframes (`radcn-dialog-fade-in`/`zoom-in`) are SHARED across the modal
   cluster — keep them until the last modal migrates; remove only each modal's
   own `animation:` declaration as it migrates.
+
+From Experiment 28 (AlertDialog — second modal — Pass):
+
+- A RadCN-only `size` variant on an overlay is preserved by keeping `data-size`
+  and repointing the size rules (width token, footer grid) from the `--${size}`
+  class to `[data-…-content][data-size="X"]` — the size effects survive while
+  the surface migrates.
+- Modal overlays can SHARE their backdrop rule (AlertDialog+Sheet); split it
+  (sibling keeps a standalone copy) — same as the Popover+HoverCard surface
+  split.
+- The custom-token-on-portal → descendant-rules pattern repeats; confirm the
+  fixture puts the class on the PORTAL (so descendant rules reach the sibling
+  overlay) AND the content (so `toHaveClass` passes).
 
 ## Completion Criteria
 

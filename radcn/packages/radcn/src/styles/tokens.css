@@ -2336,7 +2336,7 @@
   z-index: var(--radcn-modal-z, 50);
 }
 
-.radcn-alert-dialog-overlay,
+/* Sheet keeps the bespoke modal overlay (it migrates in its own experiment). */
 .radcn-sheet-overlay {
   position: fixed;
   inset: 0;
@@ -2344,26 +2344,18 @@
   animation: radcn-dialog-fade-in 120ms ease-out;
 }
 
-.radcn-alert-dialog-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  display: grid;
+/*
+ * AlertDialog overlay + content surface are migrated to Tailwind utilities
+ * (Issue 6, Experiment 28; mirrors Dialog). The component emits shadcn modal
+ * utilities; only the content WIDTH + the RadCN `size` variant remain here,
+ * keyed on the data attribute. The media/action/header/footer/title/description
+ * sub-parts stay bespoke; the radcn-dialog-* keyframes are shared (Sheet/Drawer).
+ */
+[data-radcn-alert-dialog-content] {
   width: min(calc(100vw - 2rem), var(--radcn-alert-dialog-width, 32rem));
-  gap: 1rem;
-  border: 1px solid var(--radcn-alert-dialog-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) + 0.125rem);
-  background: var(--radcn-alert-dialog-bg, var(--radcn-background));
-  color: var(--radcn-alert-dialog-fg, var(--radcn-foreground));
-  padding: 1.5rem;
-  box-shadow: 0 24px 64px rgb(0 0 0 / 0.2);
-  outline: none;
-  transform: translate(-50%, -50%);
-  animation: radcn-dialog-zoom-in 120ms ease-out;
 }
 
-.radcn-alert-dialog-content--sm {
+[data-radcn-alert-dialog-content][data-size="sm"] {
   --radcn-alert-dialog-width: 24rem;
 }
 
@@ -2380,7 +2372,7 @@
   gap: 0.5rem;
 }
 
-.radcn-alert-dialog-content--sm .radcn-alert-dialog-footer {
+[data-radcn-alert-dialog-content][data-size="sm"] .radcn-alert-dialog-footer {
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -2624,8 +2616,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .radcn-alert-dialog-overlay,
-  .radcn-alert-dialog-content,
   .radcn-sheet-overlay,
   .radcn-sheet-content {
     animation: none;
@@ -2757,11 +2747,17 @@
 }
 
 .radcn-fixture-custom-alert-dialog {
-  --radcn-modal-overlay-bg: rgb(127 29 29 / 0.35);
-  --radcn-alert-dialog-border: #991b1b;
-  --radcn-alert-dialog-bg: #fef2f2;
   --radcn-alert-dialog-media-bg: #fee2e2;
   --radcn-modal-action-bg: #991b1b;
+}
+
+.radcn-fixture-custom-alert-dialog [data-radcn-alert-dialog-content] {
+  border-color: #991b1b;
+  background-color: #fef2f2;
+}
+
+.radcn-fixture-custom-alert-dialog [data-radcn-alert-dialog-overlay] {
+  background-color: rgb(127 29 29 / 0.35);
 }
 
 .radcn-fixture-custom-sheet {

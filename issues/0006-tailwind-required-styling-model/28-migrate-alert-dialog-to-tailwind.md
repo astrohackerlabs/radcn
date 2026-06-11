@@ -123,6 +123,59 @@ Fail criteria: an alert-dialog or sheet assertion regresses; the size variant
 breaks; the custom colors fail; a shared keyframe broken; `tokens.css`/`index.ts`
 diverge.
 
+## Result
+
+**Result:** Pass
+
+AlertDialog's overlay + content surface are migrated; both suites are green and
+stable. Verification:
+
+1. Both `styles:build` exit 0; the alert-dialog utilities generate
+   (`bg-background`, `bg-black/50`, `translate-x-[-50%]`, `animate-in`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-alert-dialog-overlay`/
+   `.radcn-alert-dialog-content`/`--sm` CLASS rule remains (count 0);
+   `.radcn-sheet-overlay` is standalone; the size rules are `[data-size="sm"]`-
+   keyed; both `radcn-dialog-*` keyframes kept; the `@media` rule lists only
+   sheet; `.radcn-fixture-custom-alert-dialog` has the descendant content +
+   overlay rules (+ kept media/action tokens).
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `modal-variants.spec.ts` in isolation
+   **8 passed** — incl. the alert-dialog open/close, `data-size='sm'`, the
+   custom-token content `border-color: rgb(153, 27, 27)` + overlay
+   `background-color: rgba(127, 29, 29, 0.35)`, AND the sheet tests (unaffected
+   by the overlay split + shared keyframes).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+AlertDialog is the second migrated modal: its overlay + content surface render
+from shadcn utilities, the overlay rule was split from Sheet (Sheet keeps a
+standalone bespoke copy), the `size` variant is preserved data-attribute-keyed
+(`[data-size="sm"]` width + footer grid), the shared keyframes were kept, and
+the custom-token override (on the portal) was translated to descendant rules for
+the content (border/bg) + sibling overlay (bg). The media/action/header/footer/
+title/description sub-parts + Button-coupled trigger are retained. Twenty
+components are now migrated (… Dialog, AlertDialog — plus sub-parts). Sheet +
+Drawer remain in the modal cluster (they share the `radcn-dialog-*` keyframes,
+kept; Sheet now owns its standalone overlay rule).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A RadCN-only `size` variant on an overlay (AlertDialog `default`/`sm`) is
+  preserved by keeping the `data-size` attribute and repointing the size rules
+  (width token, footer grid) from the `--${size}` class to
+  `[data-…-content][data-size="X"]` — the size's visual effects survive while the
+  surface migrates to utilities.
+- Modal overlays can share their backdrop rule (AlertDialog+Sheet); split it
+  (sibling keeps standalone) — same as the Popover+HoverCard surface split.
+- The custom-token-on-portal → descendant-rules pattern (Dialog Exp 27) repeats:
+  confirm the fixture applies the class to the PORTAL (so descendant rules reach
+  the sibling overlay) AND the content (so `toHaveClass` passes).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -158,3 +211,33 @@ component/tokens "blockers" are the to-be-implemented changes.
 Approval result: approved — modal pattern correctly applied; the shared-overlay
 split, size-variant data-keying, and custom-token descendant translation are
 sound (Dialog-proven).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed alert-dialog.tsx emits the shadcn overlay + content
+utilities (no `radcn-alert-dialog-overlay`/`-content`/`--size` class), keeps
+`data-size` + the other data attributes, and leaves trigger/action/cancel/media/
+sub-parts unchanged; tokens.css has ZERO alert-dialog overlay/content/sm class
+rules, the standalone `.radcn-sheet-overlay` (the split), the
+`[data-radcn-alert-dialog-content]` width + `[data-size="sm"]` width/footer
+rules, BOTH `radcn-dialog-*` keyframes kept, the `@media` rule listing only
+sheet, and `.radcn-fixture-custom-alert-dialog` with the kept media/action
+tokens + the descendant content (border/bg) + overlay (bg) rules;
+byte-identical `index.ts`. It re-ran both `styles:build`, the three typechecks,
+the docs suite (2/2 = 11), the fixture suite (1191), `modal-variants.spec.ts`
+(alert-dialog custom content border `rgb(153,27,27)` + overlay
+`rgba(127,29,29,0.35)`, `data-size='sm'`, AND the SHEET tests — unaffected by
+the split), and `dialog.spec.ts` (the other migrated modal — still passes,
+shared keyframes intact). It judged the migration faithful, the custom
+content+overlay winning via the descendant rules, the size variant preserved,
+and Sheet genuinely unaffected. Verdict: APPROVED.
+
+Approval result: approved with no blockers — two modals done; Sheet + Drawer
+remain (their shared keyframes are intact).

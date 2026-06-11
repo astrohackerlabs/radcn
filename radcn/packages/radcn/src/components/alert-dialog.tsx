@@ -3,6 +3,15 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { setupModal } from './dialog.tsx'
 
+// AlertDialog overlay + content surface from shadcn/ui v4. See Issue 6,
+// Experiment 28 (the modal pattern, mirroring Dialog Exp 27). ENTER-only (the
+// JS hides via `hidden`). The content WIDTH + `size` variant + media/action/
+// header/footer/title/description sub-parts stay bespoke in tokens.css; the
+// radcn-dialog-* keyframes are shared (Sheet/Drawer).
+const alertDialogOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
+const alertDialogContentClass =
+  'fixed top-[50%] left-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg outline-none animate-in fade-in-0 zoom-in-95'
+
 export type AlertDialogSize = 'default' | 'sm'
 
 export interface AlertDialogProps {
@@ -108,7 +117,7 @@ export function AlertDialogOverlay(handle: Handle<AlertDialogPartProps>) {
 
     return (
       <div
-        class={classes('radcn-alert-dialog-overlay', className)}
+        class={classes(alertDialogOverlayClass, className)}
         data-radcn-alert-dialog-overlay
         data-state="closed"
         hidden
@@ -124,7 +133,7 @@ export function AlertDialogContent(handle: Handle<AlertDialogContentProps>) {
 
     return (
       <div
-        class={classes('radcn-alert-dialog-content', `radcn-alert-dialog-content--${size}`, className)}
+        class={classes(alertDialogContentClass, className)}
         data-radcn-alert-dialog-content
         data-size={size}
         data-state="closed"
