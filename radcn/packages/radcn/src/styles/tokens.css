@@ -1177,28 +1177,6 @@
   top: calc(50% - 0.25rem);
 }
 
-.radcn-hover-card-avatar {
-  display: inline-grid;
-  width: 2.75rem;
-  height: 2.75rem;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--radcn-hover-card-avatar-bg, var(--radcn-secondary));
-  color: var(--radcn-hover-card-avatar-fg, var(--radcn-foreground));
-  font: 700 0.875rem/1 var(--radcn-font);
-}
-
-.radcn-hover-card-body {
-  display: grid;
-  gap: 0.5rem;
-  font: 400 0.875rem/1.45 var(--radcn-font);
-}
-
-.radcn-hover-card-body p {
-  margin: 0;
-  color: var(--radcn-muted-foreground);
-}
-
 @media (prefers-reduced-motion: reduce) {
   [data-radcn-sheet-content] {
     animation: none;

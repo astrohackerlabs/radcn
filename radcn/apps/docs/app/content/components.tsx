@@ -1659,7 +1659,7 @@ export function HoverCardDemo() {
             <AvatarImage src="https://github.com/vercel.png" alt="@vercel" />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
-          <div class="radcn-hover-card-body">
+          <div class="radcn-hover-card-body grid gap-2 text-[0.875rem] font-normal leading-[1.45] [font-family:var(--radcn-font)] [&_p]:m-0 [&_p]:text-muted-foreground">
             <h4>@nextjs</h4>
             <p>The React Framework – created and maintained by @vercel.</p>
             <div>Joined December 2021</div>
@@ -4684,7 +4684,7 @@ function HoverCardDemoPreview() {
               <AvatarFallback>VC</AvatarFallback>
             </Avatar>
             <div
-              class="radcn-hover-card-body"
+              class="radcn-hover-card-body grid gap-2 text-[0.875rem] font-normal leading-[1.45] [font-family:var(--radcn-font)] [&_p]:m-0 [&_p]:text-muted-foreground"
               data-radcn-docs-hover-card-layout="profile"
               style="display:grid;gap:0.25rem;"
             >

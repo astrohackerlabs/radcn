@@ -267,7 +267,7 @@ a dependency listed in package manifests.
   — **Fail** (RETRACTED — false negative from a nonsense sentinel; consumer files ARE
   scanned; see the file's Correction + Experiment 68)
 - [Experiment 68: Migrate HoverCard avatar/body (consumer-site, corrected)](68-migrate-hover-card-subelements.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 

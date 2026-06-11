@@ -169,7 +169,7 @@ export function renderHoverCardFixture(fixture: FixtureScenario) {
                 <AvatarFallback>VC</AvatarFallback>
               </Avatar>
               <div
-                class="radcn-hover-card-body"
+                class="radcn-hover-card-body grid gap-2 text-[0.875rem] font-normal leading-[1.45] [font-family:var(--radcn-font)] [&_p]:m-0 [&_p]:text-muted-foreground"
                 data-candidate-hover-card-layout="profile"
                 style="display:grid;gap:0.25rem;"
               >
@@ -203,8 +203,8 @@ export function renderHoverCardFixture(fixture: FixtureScenario) {
             side={sideAlign ? 'left' : 'bottom'}
             sideOffset={8}
           >
-            <div class="radcn-hover-card-avatar" aria-hidden="true">RC</div>
-            <div class="radcn-hover-card-body">
+            <div class="radcn-hover-card-avatar inline-grid w-11 h-11 place-items-center rounded-[999px] bg-[var(--radcn-hover-card-avatar-bg,var(--radcn-secondary))] text-[var(--radcn-hover-card-avatar-fg,var(--radcn-foreground))] font-bold text-[0.875rem] leading-none [font-family:var(--radcn-font)]" aria-hidden="true">RC</div>
+            <div class="radcn-hover-card-body grid gap-2 text-[0.875rem] font-normal leading-[1.45] [font-family:var(--radcn-font)] [&_p]:m-0 [&_p]:text-muted-foreground">
               <strong>{custom ? 'Custom hover card' : 'RadCN Library'}</strong>
               <p>Composable Remix 3 components with shadcn-inspired styling.</p>
               <button class="radcn-button radcn-button--outline" data-hover-card-action type="button">Follow</button>

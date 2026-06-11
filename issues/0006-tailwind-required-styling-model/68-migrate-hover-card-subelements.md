@@ -60,6 +60,42 @@ Establishes the consumer-site pattern + clears 3 rules (avatar, body, body p).
 Fail criteria: the avatar/body utilities don't appear in the generated CSS (would
 indicate a scanning issue); a positioned-overlays/docs assertion regresses; divergence.
 
+## Result
+
+**Result:** Pass
+
+HoverCard avatar/body migrated at the consumer sites; both suites green (both fixture
+runs clean). All three `styles:build`/typechecks pass; CRUCIALLY the consumer-site
+utility GENERATED in the candidate build (the avatar's `width: 2.75rem` /
+`place-items: center` is present in `tailwind.generated.css`, count 1) — proving the
+fixture/docs raw-site utilities truly compile (a real migration, not a false green);
+no junk; `index.ts` byte-identical; the 3 rules (avatar, body, body p) removed;
+`positioned-overlays.spec.ts` isolation **9 passed**; docs 11 ×2; fixture 1191 ×2
+(both clean); `git diff --check` clean; four files changed (positioned-overlays.tsx,
+components.tsx, tokens.css, index.ts).
+
+## Conclusion
+
+HoverCard avatar/body (+ the `body p` descendant via `[&_p]:` variants) now render
+from Tailwind utilities appended at the consumer sites (fixture + docs), with the
+marker classes kept as non-styling hooks. This VALIDATES the consumer-site migration
+pattern (proven by the generated-CSS check) — the unlock for the remaining
+blast-radius debt. Clears 3 rules; ~15 remain (Button keystone + triggers/closes +
+toggle-group/-icon + breadcrumb-glyph), all now migratable via this proven pattern.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- The fixture + docs apps ARE Tailwind-scanned (v4 auto-detects project templates
+  beyond the explicit `@source`), so a bespoke rule hand-written as a raw `radcn-*`
+  class in fixtures/docs migrates by APPENDING the equivalent utilities to each raw
+  `class` string (keep the marker) + removing the rule — the consumer-site pattern.
+  VERIFY it really compiled by grepping the generated CSS for a distinctive declaration
+  (most such rules have no computed assertion, so the gate alone can't catch a
+  non-generating utility).
+- Probe scanning ONLY with a real, otherwise-unused utility (an arbitrary property like
+  `[zoom:2]`), never a made-up token — a nonsense token never generates regardless of
+  scanning and yields a false negative (the Exp-67 retraction).
+
 ## Design Review
 
 The design is identical to Experiment 67's (same utility mapping + the `[&_p]:`
@@ -72,3 +108,22 @@ design concerns; the review carries over. The gate (computed-CSS presence check 
 dual-suite) decides the implementation.
 
 Approval result: approved (inherited from Exp 67 + the scanning confirmation).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes. (The first review attempt died on a transient SSL/API error — not a
+finding; re-run clean.)
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the 5 consumer raw sites
+(avatar 1 + body 2 in the fixture, body 2 in docs) now append the utilities + keep the
+markers; tokens.css removed all three rules (avatar, body, body p) with the
+`--radcn-hover-card-avatar-*` tokens retained; byte-identical `index.ts`. CRITICAL
+consumer-site proof PASSED: it rebuilt both pipelines and confirmed the generated CSS
+contains the avatar's `width: 2.75rem`/`place-items: center` AND the
+`[&_p]:text-muted-foreground` variant (`.…\[\&_p\]…{ & p { color:var(--muted-foreground) } }`)
+— a real migration, not a false green. Three typechecks, docs (11), positioned-overlays
+(9), and the full fixture suite (1191) all pass. Verdict: APPROVED.
+
+Approval result: approved with no blockers — the consumer-site pattern is validated;
+24 of the 39 visual-debt rules cleared.
