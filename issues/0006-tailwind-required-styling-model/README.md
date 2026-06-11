@@ -225,6 +225,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 47: Toggle + ToggleGroup via CSS-var variant propagation](47-toggle-group-css-var-propagation.md)
   — **Pass** (solves the Exp-45 cascade blocker)
+- [Experiment 48: Migrate Resizable to Tailwind utilities](48-migrate-resizable-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
