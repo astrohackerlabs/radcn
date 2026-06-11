@@ -243,6 +243,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 56: Migrate DirectionProvider to Tailwind utilities](56-migrate-direction-to-tailwind.md)
   — **Pass**
+- [Experiment 57: Migrate DatePicker surfaces to Tailwind utilities](57-migrate-date-picker-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
