@@ -221,6 +221,8 @@ a dependency listed in package manifests.
   — **Fail** (reverted; Toggle + ToggleGroupItem share `.radcn-toggle` rules — migrate together)
 - [Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities](45-migrate-toggle-and-group-to-tailwind.md)
   — **Partial** (reverted; variant-less outline item border resolves to currentColor — needs variant/size propagation, not the CSS cascade)
+- [Experiment 46: Migrate DataTable to Tailwind utilities](46-migrate-data-table-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
