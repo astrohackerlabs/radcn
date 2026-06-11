@@ -232,7 +232,7 @@ a dependency listed in package manifests.
 - [Experiment 50: Migrate Toast/Sonner to Tailwind utilities](50-migrate-toast-to-tailwind.md)
   — **Pass**
 - [Experiment 51: Migrate DropdownMenu + ContextMenu together to Tailwind utilities](51-migrate-dropdown-context-menu-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -899,6 +899,18 @@ From Experiment 50 (Toast/Sonner — Pass, first-try green):
 - A `data-[state=...]:[--var:#hex]` arbitrary-property var-set with a LITERAL hex
   value compiles in Tailwind v4 (verified) — a bespoke `--variant`-sets-vars rule
   migrates directly to the CSS-var propagation pattern.
+
+From Experiment 51 (DropdownMenu + ContextMenu together — Pass):
+
+- A shared-rule sibling migration can co-exist with a family-wide raw-class helper
+  set: migrate the two siblings' prefixed rules, but KEEP the cross-family helper
+  classes (`radcn-menu-*`) + family data-attribute rules (`[data-radcn-menu-item][data-disabled]`)
+  bespoke while OTHER components (Menubar) still emit them; verify those others stay
+  green in isolation. They fall out when the last emitter migrates. SPLIT any
+  combined rule that mixes a migrated selector with a kept one (shortcut/sub-caret).
+- `[&[hidden]]:hidden` reproduces `.x[hidden]{display:none}` when the base utility
+  sets `display:grid` (which beats the browser `[hidden]` default) — used across all
+  positioned-overlay content surfaces.
 
 ## Completion Criteria
 

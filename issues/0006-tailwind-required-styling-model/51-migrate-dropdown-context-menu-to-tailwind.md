@@ -115,7 +115,55 @@ Fail criteria: a menu-overlays assertion regresses (custom class, inset, highlig
 open/close); the content positioning/animation drifts; `tokens.css`/`index.ts`
 diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+DropdownMenu + ContextMenu migrated; both suites green. Verification:
+
+1. Both `styles:build` exit 0; the `grid-cols-[1rem_minmax(0,1fr)_auto]`,
+   `max-h-[min(…calc(…))]`, `[&[hidden]]:hidden`,
+   `animate-[radcn-positioned-overlay-in_120ms_ease-out]` utilities compile;
+   no junk ellipsis.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; ZERO migrated dropdown/context rules
+   remain; the triggers + family `radcn-menu-*` helpers (incl. the split-out
+   `.radcn-menu-sub-caret`) + `[data-radcn-menu-item][data-disabled]` + the custom
+   fixture + `@keyframes radcn-positioned-overlay-in` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: `menu-overlays.spec.ts` + `menubar-navigation.spec.ts` in
+   isolation **16 passed** (the custom-menu class + computed colors on content, the
+   inset/destructive markers, highlight, checkbox/radio indicators, separators,
+   sub-menus, keyboard nav — AND Menubar still green via the KEPT family helpers).
+   Full fixture suite: **1191 passed** (run 2 clean); run 1 had the known
+   intermittent serial-load flake (1 unrelated, passes on re-run — isolation is
+   16/16 and run 2 is 1191).
+6. `git diff --check` clean; `vendor/` untouched; the four expected files changed.
+
+No deviations from the (review-approved) design.
+
+## Conclusion
+
+DropdownMenu + ContextMenu render their root/portal/content/group/label/item/
+shortcut/separator/sub surfaces from Tailwind utilities (shared consts exported
+from `dropdown-menu.tsx`, reused by `context-menu.tsx`); the shared rules dropped
+(both migrated together); the shortcut/sub-caret rule was split. The triggers
+(ButtonGroup-coupled) and the family-wide `radcn-menu-*` helpers +
+`[data-radcn-menu-item][data-disabled]` stay bespoke (Menubar still depends on
+them — confirmed still green). FORTY-TWO components are now migrated; the menu
+family is partially done (the helpers + triggers fall out when Menubar + ButtonGroup
+migrate).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A shared-rule sibling migration can co-exist with a family-wide raw-class helper
+  set: migrate the prefixed rules of the two siblings, but KEEP the cross-family
+  helper classes (`radcn-menu-*`) + family data-attribute rules bespoke while OTHER
+  components (Menubar) still emit them — verify those others stay green in
+  isolation. They fall out when the last emitter migrates.
+- `[&[hidden]]:hidden` reproduces a `.x[hidden]{display:none}` rule when the base
+  utility sets `display:grid` (which would otherwise beat the browser `[hidden]`
+  default) — the same pattern across all the positioned-overlay content surfaces.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -147,3 +195,29 @@ Minor note (no action): a second combined rule `.radcn-menubar-shortcut,
 Approval result: approved — the sibling together-migration + the shortcut/sub-caret
 split + the family-helper/trigger bespoke carve-outs are sound; the custom-menu
 computed assertions are covered by the var-reading content utilities.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed dropdown-menu.tsx exports the nine `menu*Class` consts +
+uses them; context-menu.tsx imports them from `./dropdown-menu.tsx` + uses them;
+both KEEP their trigger class + the family `radcn-menu-*` helper classes +
+`data-radcn-menu-item`. No migrated dropdown/context CLASS literals remain (only the
+triggers); data attributes kept. tokens.css has ZERO migrated rules and KEEPS the
+triggers (+`:focus-visible`), `.radcn-menu-item--inset`/`-label--inset`,
+`-item--destructive`, `-item-indicator`, the split-out `.radcn-menu-sub-caret`,
+`[data-radcn-menu-item][data-disabled]`, the custom fixture, and `@keyframes
+radcn-positioned-overlay-in`; byte-identical `index.ts`; no junk. It rebuilt +
+confirmed the complex utilities generate, re-ran the three typechecks, the docs
+suite (11), `menu-overlays.spec.ts` + `menubar-navigation.spec.ts` (16 — Menubar
+still green via the kept helpers), and the full fixture suite (1191/1191 clean).
+Verdict: APPROVED.
+
+Approval result: approved with no blockers — DropdownMenu + ContextMenu migrated
+(42 components); the family helpers + triggers correctly kept bespoke.
