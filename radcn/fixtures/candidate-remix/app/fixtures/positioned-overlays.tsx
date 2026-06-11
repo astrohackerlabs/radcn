@@ -45,7 +45,7 @@ export function renderPopoverFixture(fixture: FixtureScenario) {
     return (
       <div style={anchorStyle()}>
         <Popover id="candidate-popover-demo">
-          <PopoverTrigger class="radcn-button radcn-button--outline">Open popover</PopoverTrigger>
+          <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open popover</PopoverTrigger>
           <PopoverPortal>
             <PopoverContent class="w-80 radcn-fixture-popover-demo-content" style="width:20rem;">
               <div data-fixture-popover-form style="display:grid;gap:16px;">
@@ -104,7 +104,7 @@ export function renderPopoverFixture(fixture: FixtureScenario) {
               <PopoverTitle>{custom ? 'Custom popover' : 'Deployment status'}</PopoverTitle>
               <PopoverDescription>Preview release channels and deployment health.</PopoverDescription>
             </PopoverHeader>
-            <button class="radcn-button radcn-button--secondary" data-popover-focus type="button">View details</button>
+            <button class="radcn-button radcn-button--secondary inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-secondary text-secondary-foreground" data-popover-focus type="button">View details</button>
             <PopoverClose>Close</PopoverClose>
           </PopoverContent>
         </PopoverPortal>
@@ -119,7 +119,7 @@ export function renderTooltipFixture(fixture: FixtureScenario) {
       <div data-radcn-fixture-tooltip-family="tooltip-demo" style={anchorStyle(false)}>
         <TooltipProvider delayDuration={0}>
           <Tooltip id="candidate-tooltip-demo">
-            <TooltipTrigger class="radcn-button radcn-button--outline">Hover</TooltipTrigger>
+            <TooltipTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Hover</TooltipTrigger>
             <TooltipPortal>
               <TooltipContent sideOffset={0}>
                 <p>Add to library</p>
@@ -157,7 +157,7 @@ export function renderHoverCardFixture(fixture: FixtureScenario) {
       <div style={anchorStyle(false)}>
         <HoverCard id="candidate-hover-card-demo">
           <HoverCardTrigger
-            class="radcn-button radcn-button--link"
+            class="radcn-button radcn-button--link inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-mh:auto] [--radcn-btn-px:0] bg-transparent text-[var(--radcn-button-link-fg,var(--radcn-primary))] underline underline-offset-2"
             style="min-height:auto;padding:0;text-decoration:underline;text-underline-offset:0.25rem;"
           >
             @nextjs
@@ -207,7 +207,7 @@ export function renderHoverCardFixture(fixture: FixtureScenario) {
             <div class="radcn-hover-card-body grid gap-2 text-[0.875rem] font-normal leading-[1.45] [font-family:var(--radcn-font)] [&_p]:m-0 [&_p]:text-muted-foreground">
               <strong>{custom ? 'Custom hover card' : 'RadCN Library'}</strong>
               <p>Composable Remix 3 components with shadcn-inspired styling.</p>
-              <button class="radcn-button radcn-button--outline" data-hover-card-action type="button">Follow</button>
+              <button class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground" data-hover-card-action type="button">Follow</button>
             </div>
           </HoverCardContent>
         </HoverCardPortal>

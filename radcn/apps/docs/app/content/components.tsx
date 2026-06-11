@@ -2723,7 +2723,7 @@ function ButtonGroupPreview() {
         <ButtonGroup>
           <Button variant="outline">Snooze</Button>
           <DropdownMenu defaultOpen>
-            <DropdownMenuTrigger ariaLabel="More options" class="radcn-button radcn-button--outline radcn-button--icon">•••</DropdownMenuTrigger>
+            <DropdownMenuTrigger ariaLabel="More options" class="radcn-button radcn-button--outline radcn-button--icon inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground [--radcn-btn-w:var(--radcn-control-height)] [--radcn-btn-px:0] [--radcn-btn-py:0]">•••</DropdownMenuTrigger>
             <DropdownMenuPortal>
               <DropdownMenuContent align="end">
                 <DropdownMenuGroup>
@@ -2750,7 +2750,7 @@ function ButtonGroupPreview() {
       <ButtonGroup>
         <Button variant="outline">Follow</Button>
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger ariaLabel="Conversation actions" class="radcn-button radcn-button--outline radcn-button--default">More</DropdownMenuTrigger>
+          <DropdownMenuTrigger ariaLabel="Conversation actions" class="radcn-button radcn-button--outline radcn-button--default inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-[var(--radcn-button-bg,var(--radcn-primary))] text-[var(--radcn-button-fg,var(--radcn-primary-foreground))]">More</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent align="end">
               <DropdownMenuItem>Mute Conversation</DropdownMenuItem>
@@ -2803,7 +2803,7 @@ function ButtonGroupPreview() {
       <ButtonGroup>
         <Button variant="outline">Copilot</Button>
         <Popover defaultOpen>
-          <PopoverTrigger ariaLabel="Open Popover" class="radcn-button radcn-button--outline radcn-button--icon">⌄</PopoverTrigger>
+          <PopoverTrigger ariaLabel="Open Popover" class="radcn-button radcn-button--outline radcn-button--icon inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground [--radcn-btn-w:var(--radcn-control-height)] [--radcn-btn-px:0] [--radcn-btn-py:0]">⌄</PopoverTrigger>
           <PopoverPortal>
             <PopoverContent align="end">
               <PopoverTitle>Agent Tasks</PopoverTitle>
@@ -2984,7 +2984,7 @@ function ItemPreview() {
       </ItemGroup>
 
       <DropdownMenu defaultOpen>
-        <DropdownMenuTrigger class="radcn-button radcn-button--outline radcn-button--default">Team menu</DropdownMenuTrigger>
+        <DropdownMenuTrigger class="radcn-button radcn-button--outline radcn-button--default inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-[var(--radcn-button-bg,var(--radcn-primary))] text-[var(--radcn-button-fg,var(--radcn-primary-foreground))]">Team menu</DropdownMenuTrigger>
         <DropdownMenuPortal>
           <DropdownMenuContent align="start">
             <DropdownMenuItem textValue="RadCN Core">
@@ -3154,7 +3154,7 @@ function ComboboxPreview() {
           <span style="color:var(--radcn-muted-foreground);font-size:0.875rem">Create a new project</span>
         </p>
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm">...</DropdownMenuTrigger>
+          <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]">...</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -3189,7 +3189,7 @@ function ComboboxPreview() {
       <div data-radcn-docs-combobox-family="combobox-popover" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
         <span style="color:var(--radcn-muted-foreground);font-size:0.875rem">Status</span>
         <Popover defaultOpen>
-          <PopoverTrigger class="radcn-button radcn-button--outline">+ Set status</PopoverTrigger>
+          <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">+ Set status</PopoverTrigger>
           <PopoverPortal>
             <PopoverContent align="start" side="right">
               {DocsStatusCommand({ placeholder: 'Change status...' })}
@@ -3201,7 +3201,7 @@ function ComboboxPreview() {
       <div data-radcn-docs-combobox-family="combobox-responsive" mix={forceVisiblePreviewStyle} style="display:grid;gap:0.75rem;width:min(100%,36rem)">
         <div class="radcn-docs-combobox-responsive-desktop" data-radcn-docs-combobox-responsive-branch="desktop">
           <Popover defaultOpen>
-            <PopoverTrigger class="radcn-button radcn-button--outline">Desktop status</PopoverTrigger>
+            <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Desktop status</PopoverTrigger>
             <PopoverPortal>
               <PopoverContent align="start">{DocsStatusCommand({})}</PopoverContent>
             </PopoverPortal>
@@ -3249,7 +3249,7 @@ function DropdownMenuPreview() {
     <div style="display:grid;gap:1.25rem;width:min(100%,44rem)">
       <div data-radcn-docs-dropdown-menu-family="dropdown-menu-demo" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent align="start" style="width:14rem">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -3286,7 +3286,7 @@ function DropdownMenuPreview() {
 
       <div data-radcn-docs-dropdown-menu-family="dropdown-menu-checkboxes" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent style="width:14rem">
               <DropdownMenuLabel>Appearance</DropdownMenuLabel>
@@ -3302,7 +3302,7 @@ function DropdownMenuPreview() {
 
       <div data-radcn-docs-dropdown-menu-family="dropdown-menu-radio-group" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger class="radcn-button radcn-button--outline">Open</DropdownMenuTrigger>
+          <DropdownMenuTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent style="width:14rem">
               <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
@@ -3319,7 +3319,7 @@ function DropdownMenuPreview() {
 
       <div data-radcn-docs-dropdown-menu-family="dropdown-menu-dialog" mix={[previewRowStyle, forceVisiblePreviewStyle]} style="align-items:flex-start">
         <DropdownMenu defaultOpen>
-          <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--outline radcn-button--icon-sm">...</DropdownMenuTrigger>
+          <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--outline radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]">...</DropdownMenuTrigger>
           <DropdownMenuPortal>
             <DropdownMenuContent align="end" style="width:10rem">
               <DropdownMenuLabel>File Actions</DropdownMenuLabel>
@@ -3332,7 +3332,7 @@ function DropdownMenuPreview() {
           </DropdownMenuPortal>
         </DropdownMenu>
         <Dialog defaultOpen id="docs-dropdown-menu-dialog-preview">
-          <DialogTrigger class="radcn-button radcn-button--outline">Preview dialog</DialogTrigger>
+          <DialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Preview dialog</DialogTrigger>
           <DialogPortal>
             <DialogOverlay />
             <DialogContent showCloseButton={false} style="max-width:26rem">
@@ -3351,7 +3351,7 @@ function DropdownMenuPreview() {
                 </Field>
               </FieldGroup>
               <DialogFooter>
-                <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+                <DialogClose class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Cancel</DialogClose>
                 <Button type="submit">Create</Button>
               </DialogFooter>
             </DialogContent>
@@ -3809,7 +3809,7 @@ function CollapsibleDemoPreview() {
           >
             <h4 aria-hidden="true" style="margin:0;font-size:0.875rem;font-weight:600;line-height:1.25rem;">@peduarte starred 3 repositories</h4>
             <span
-              class="radcn-button radcn-button--ghost radcn-button--icon size-8"
+              class="radcn-button radcn-button--ghost radcn-button--icon size-8 inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:var(--radcn-control-height)] [--radcn-btn-px:0] [--radcn-btn-py:0]"
               data-radcn-docs-collapsible-icon-button
               style="width:2rem;min-height:2rem;height:2rem;flex:0 0 auto;justify-content:center;gap:0;padding:0;border-radius:calc(var(--radcn-radius) - 0.125rem);"
             >
@@ -4581,7 +4581,7 @@ function DataTableDemoPreview() {
             </DataTableFilter>
             <DataTableColumnControls>
               <DropdownMenu defaultOpen id="docs-data-table-columns">
-                <DropdownMenuTrigger class="radcn-button radcn-button--outline">
+                <DropdownMenuTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">
                   Columns <span aria-hidden="true" data-radcn-docs-data-table-icon="chevron-down">v</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuPortal>
@@ -4627,7 +4627,7 @@ function DataTableDemoPreview() {
                 <DataTableCell class="text-right" style="text-align:right;">
                   <DataTableRowActions>
                     <DropdownMenu defaultOpen={index === 0} id={`docs-data-table-row-${payment.id}`}>
-                      <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm" data-payment-id={payment.id}>
+                      <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]" data-payment-id={payment.id}>
                         <span class="radcn-sr-only">Open menu</span>
                         <span aria-hidden="true" data-radcn-docs-data-table-icon="more-horizontal">...</span>
                       </DropdownMenuTrigger>
@@ -4672,7 +4672,7 @@ function HoverCardDemoPreview() {
     <div data-radcn-docs-hover-card-family="hover-card-demo" style="display:grid;justify-items:start;gap:1rem;">
       <HoverCard id="docs-hover-card-demo">
         <HoverCardTrigger
-          class="radcn-button radcn-button--link"
+          class="radcn-button radcn-button--link inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-mh:auto] [--radcn-btn-px:0] bg-transparent text-[var(--radcn-button-link-fg,var(--radcn-primary))] underline underline-offset-2"
           style="min-height:auto;padding:0;text-decoration:underline;text-underline-offset:0.25rem;"
         >
           @nextjs
@@ -4708,7 +4708,7 @@ function DialogPreview() {
     <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
       <div data-radcn-docs-dialog-family="dialog-demo">
         <Dialog defaultOpen={true} id="docs-dialog-demo">
-          <DialogTrigger class="radcn-button radcn-button--outline">Open Dialog</DialogTrigger>
+          <DialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open Dialog</DialogTrigger>
           <DialogPortal>
             <DialogOverlay />
             <DialogContent class="radcn-docs-dialog-demo-content" style="width:min(100%,425px);">
@@ -4728,7 +4728,7 @@ function DialogPreview() {
                   </div>
                 </div>
                 <DialogFooter>
-                  <DialogClose class="radcn-button radcn-button--outline">Cancel</DialogClose>
+                  <DialogClose class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Cancel</DialogClose>
                   <Button type="submit">Save changes</Button>
                 </DialogFooter>
               </form>
@@ -4739,7 +4739,7 @@ function DialogPreview() {
 
       <div data-radcn-docs-dialog-family="dialog-close-button">
         <Dialog defaultOpen={true} id="docs-dialog-close-button">
-          <DialogTrigger class="radcn-button radcn-button--outline">Share</DialogTrigger>
+          <DialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Share</DialogTrigger>
           <DialogPortal>
             <DialogOverlay />
             <DialogContent class="radcn-docs-dialog-close-button-content" style="width:min(100%,448px);">
@@ -4754,7 +4754,7 @@ function DialogPreview() {
                 </div>
               </div>
               <DialogFooter class="radcn-docs-dialog-footer-start" style="justify-content:flex-start;">
-                <DialogClose class="radcn-button radcn-button--secondary">Close</DialogClose>
+                <DialogClose class="radcn-button radcn-button--secondary inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-secondary text-secondary-foreground">Close</DialogClose>
               </DialogFooter>
             </DialogContent>
           </DialogPortal>
@@ -4772,7 +4772,7 @@ function DrawerPreview() {
       <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
         <div data-radcn-docs-drawer-family="drawer-demo">
           <Drawer defaultOpen direction="bottom" id="docs-drawer-demo">
-            <DrawerTrigger class="radcn-button radcn-button--outline">Open Drawer</DrawerTrigger>
+            <DrawerTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open Drawer</DrawerTrigger>
             <DrawerPortal>
               <DrawerOverlay />
               <DrawerContent class="radcn-docs-drawer-demo-content" direction="bottom" showHandle>
@@ -4811,7 +4811,7 @@ function DrawerPreview() {
                   </div>
                   <DrawerFooter>
                     <Button type="submit">Submit</Button>
-                    <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+                    <DrawerClose class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Cancel</DrawerClose>
                   </DrawerFooter>
                 </div>
               </DrawerContent>
@@ -4822,7 +4822,7 @@ function DrawerPreview() {
         <div data-radcn-docs-drawer-family="drawer-dialog" style="display:grid;gap:1rem;">
           <div data-radcn-docs-drawer-dialog-branch="desktop">
             <Dialog defaultOpen={true} id="docs-drawer-dialog-desktop">
-              <DialogTrigger class="radcn-button radcn-button--outline">Edit Profile</DialogTrigger>
+              <DialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Edit Profile</DialogTrigger>
               <DialogPortal>
                 <DialogOverlay />
                 <DialogContent class="radcn-docs-drawer-dialog-desktop-content" style="width:min(100%,425px);">
@@ -4850,7 +4850,7 @@ function DrawerPreview() {
 
           <div data-radcn-docs-drawer-dialog-branch="mobile">
             <Drawer defaultOpen direction="bottom" id="docs-drawer-dialog-mobile">
-              <DrawerTrigger class="radcn-button radcn-button--outline">Edit Profile</DrawerTrigger>
+              <DrawerTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Edit Profile</DrawerTrigger>
               <DrawerPortal>
                 <DrawerOverlay />
                 <DrawerContent class="radcn-docs-drawer-dialog-mobile-content" direction="bottom" showHandle>
@@ -4870,7 +4870,7 @@ function DrawerPreview() {
                     <Button type="submit">Save changes</Button>
                   </form>
                   <DrawerFooter>
-                    <DrawerClose class="radcn-button radcn-button--outline">Cancel</DrawerClose>
+                    <DrawerClose class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Cancel</DrawerClose>
                   </DrawerFooter>
                 </DrawerContent>
               </DrawerPortal>
@@ -5093,7 +5093,7 @@ function SheetPreview() {
     <div mix={[previewStackStyle, forceVisiblePreviewStyle]}>
       <div data-radcn-docs-sheet-family="sheet-demo">
         <Sheet id="docs-sheet-demo">
-          <SheetTrigger class="radcn-button radcn-button--outline">Open</SheetTrigger>
+          <SheetTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open</SheetTrigger>
           <SheetPortal>
             <SheetOverlay />
             <SheetContent class="radcn-docs-sheet-demo-content">
@@ -5104,7 +5104,7 @@ function SheetPreview() {
               {SheetProfileFields({ prefix: 'sheet-demo' })}
               <SheetFooter>
                 <Button type="submit">Save changes</Button>
-                <SheetClose class="radcn-button radcn-button--outline">Close</SheetClose>
+                <SheetClose class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Close</SheetClose>
               </SheetFooter>
             </SheetContent>
           </SheetPortal>
@@ -5115,7 +5115,7 @@ function SheetPreview() {
         <div data-radcn-docs-sheet-side-triggers style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0.5rem;width:min(100%,18rem);">
           {sheetSides.map((side) => (
             <Sheet id={`docs-sheet-side-${side}`}>
-              <SheetTrigger class="radcn-button radcn-button--outline">{side}</SheetTrigger>
+              <SheetTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">{side}</SheetTrigger>
               <SheetPortal>
                 <SheetOverlay />
                 <SheetContent class="radcn-docs-sheet-side-content" side={side}>
@@ -5125,7 +5125,7 @@ function SheetPreview() {
                   </SheetHeader>
                   {SheetProfileFields({ prefix: `sheet-side-${side}` })}
                   <SheetFooter>
-                    <SheetClose class="radcn-button">Save changes</SheetClose>
+                    <SheetClose class="radcn-button inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-[var(--radcn-button-bg,var(--radcn-primary))] text-[var(--radcn-button-fg,var(--radcn-primary-foreground))]">Save changes</SheetClose>
                   </SheetFooter>
                 </SheetContent>
               </SheetPortal>
@@ -5598,7 +5598,7 @@ function BreadcrumbPreview() {
                         <a class="radcn-breadcrumb-link" href="#">Build Your Application</a>
                       </div>
                       <DrawerFooter>
-                        <DrawerClose class="radcn-button radcn-button--outline radcn-button--default">Close</DrawerClose>
+                        <DrawerClose class="radcn-button radcn-button--outline radcn-button--default inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-[var(--radcn-button-bg,var(--radcn-primary))] text-[var(--radcn-button-fg,var(--radcn-primary-foreground))]">Close</DrawerClose>
                       </DrawerFooter>
                     </DrawerContent>
                   </DrawerPortal>
@@ -5816,11 +5816,11 @@ function KbdPreview() {
       <div data-radcn-docs-kbd-family="kbd-tooltip">
         <ButtonGroup ariaLabel="Kbd tooltip shortcuts">
           <Tooltip defaultOpen>
-            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Save command">Save</TooltipTrigger>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground [--radcn-btn-mh:2rem] [--radcn-btn-px:0.75rem] [--radcn-btn-py:0.375rem] [--radcn-btn-fs:0.8125rem]" ariaLabel="Save command">Save</TooltipTrigger>
             <TooltipPortal><TooltipContent>Save draft <Kbd>S</Kbd></TooltipContent></TooltipPortal>
           </Tooltip>
           <Tooltip defaultOpen>
-            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm" ariaLabel="Print command">Print</TooltipTrigger>
+            <TooltipTrigger class="radcn-button radcn-button--outline radcn-button--sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground [--radcn-btn-mh:2rem] [--radcn-btn-px:0.75rem] [--radcn-btn-py:0.375rem] [--radcn-btn-fs:0.8125rem]" ariaLabel="Print command">Print</TooltipTrigger>
             <TooltipPortal>
               <TooltipContent>
                 Print page <KbdGroup><Kbd>Ctrl</Kbd><span>+</span><Kbd>P</Kbd></KbdGroup>
@@ -6132,7 +6132,7 @@ function AlertDialogDemoPreview() {
   return () => (
     <div data-radcn-docs-alert-dialog-family="alert-dialog-demo" mix={[previewStackStyle, forceVisiblePreviewStyle]}>
       <AlertDialog id="docs-alert-dialog-demo">
-        <AlertDialogTrigger class="radcn-button radcn-button--outline">Show Dialog</AlertDialogTrigger>
+        <AlertDialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Show Dialog</AlertDialogTrigger>
         <AlertDialogPortal>
           <AlertDialogOverlay />
           <AlertDialogContent>
@@ -7168,7 +7168,7 @@ function TooltipDemoPreview() {
     <div data-radcn-docs-tooltip-family="tooltip-demo">
       <TooltipProvider delayDuration={0}>
         <Tooltip id="docs-tooltip-demo">
-          <TooltipTrigger class="radcn-button radcn-button--outline">Hover</TooltipTrigger>
+          <TooltipTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Hover</TooltipTrigger>
           <TooltipPortal>
             <TooltipContent sideOffset={0}>
               <p>Add to library</p>
@@ -7682,7 +7682,7 @@ function PopoverDemoPreview() {
   return () => (
     <div data-radcn-docs-popover-family="popover-demo" mix={popoverDemoStyle}>
       <Popover id="docs-popover-demo">
-        <PopoverTrigger class="radcn-button radcn-button--outline">Open popover</PopoverTrigger>
+        <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Open popover</PopoverTrigger>
         <PopoverPortal>
           <PopoverContent class="w-80 radcn-docs-popover-demo-content" style="width:20rem;">
             <div data-radcn-docs-popover-form>

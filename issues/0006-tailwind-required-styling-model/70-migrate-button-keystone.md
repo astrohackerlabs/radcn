@@ -107,6 +107,50 @@ remaining debt.
 Fail criteria: a button assertion regresses; the base/variant utilities don't generate;
 a variant/size conflict misrenders; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+The keystone migrated; both suites green (both fixture runs clean). The component
+(`button.tsx`) emits `buttonBase` + the variant/size var-set maps + keeps the markers;
+the ~99 raw sites (component + 36 docs real-demos + the fixtures) append the utilities;
+the 14 button rules removed (button-group cascades kept); `index.ts` byte-identical;
+the button utilities GENERATE (count 20 incl. `--radcn-btn-bc`/`-mh` reads +
+`underline-offset-2`); no junk; all three typechecks pass; fixture **1191 ×2** (the 27
+`radcn-button--{variant}` assertions hold), docs **11 ×2**; `git diff --check` clean.
+
+**One regression caught + fixed mid-implementation (a key lesson):** the first run's
+naive `class="…"` regex ALSO rewrote `class="radcn-button …"` strings inside the docs'
+CODE-SAMPLE template literals (`const …Source = \`…\``, displayed as text), breaking a
+`coverage.spec.ts` exact-text assertion (`<TooltipTrigger class="radcn-button
+radcn-button--outline">Hover…`). Fix: re-ran the docs migration with a backtick-region
+exclusion — `class="…"` is augmented ONLY outside backtick template literals, so the
+REAL demos (36, outside backticks) migrate while the displayed code-samples stay
+verbatim. Re-gate: docs coverage **5 passed**, both suites green.
+
+## Conclusion
+
+The Button keystone — base + 6 variants + 6 sizes — renders from Tailwind utilities,
+with every base↔variant/size property conflict (border-color/min-height/padding-x/y/
+font-size/width) resolved by the var-set pattern (base reads `--radcn-btn-*`; the
+variant/size sets it). The `radcn-button`/`--{variant}`/`--{size}` markers are kept
+(27 assertions + the button-group cascades); the ~99 raw sites + the component emit the
+utilities. This clears the DOMINANT remaining debt (the Exp-31 deferral). Remaining: a
+small set of Button-coupled triggers/closes (`select-trigger`, `dialog-trigger`,
+`drawer-trigger`, `dropdown-menu-trigger`, `popover-close`) — same consumer-site
+pattern, several reusing `buttonBase`.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Button's base↔variant/size conflicts (the most in any component) all resolve with the
+  var-set pattern: base reads `…-[var(--radcn-btn-X,default)]`, each variant/size SETS
+  the var — no double-declaration.
+- CRITICAL when scripting consumer-site migrations in the DOCS file: it contains
+  CODE-SAMPLE template literals (`const …Source = \`…\``) that DISPLAY `class="…"` as
+  text. A blind `class="…"` rewrite corrupts those samples (breaking exact-text
+  assertions + the displayed examples). Exclude backtick-template-literal regions;
+  migrate only real JSX attributes.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -130,3 +174,24 @@ includes the consumer-site generation proof + the assertions.
 Approval result: approved (after the `underline-offset-2` fix) — the var-set conflict
 resolution + the uniform-literal raw-site replacement + the kept markers/cascades are
 sound; the gate (generation proof + 27/19 assertions + dual-suite) decides.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the component exports + emits
+buttonBase + the variant/size var-set maps (link `underline-offset-2`), markers kept,
+mergedClass order correct; the var-set conflict resolution is complete (every
+conflicting property declared once — base reads, variant/size sets; NO double
+declaration); the 14 button rules removed, the button-group cascades KEPT; the docs
+CODE-SAMPLE template literals are UNCHANGED (e.g. `tooltipDemoSource` line ~7155 shows
+the bare class as text) while the real demo (~7171) + the fixtures migrated;
+byte-identical `index.ts`. It rebuilt both pipelines (the button utils + var-sets +
+underline-offset-2 GENERATE, no junk), re-ran the three typechecks, the docs coverage
+spec (the previously-failing `:118` now PASSES), the full fixture suite (1191, the 27
+`radcn-button--{variant}` assertions hold), and docs (11). Verdict: APPROVED.
+
+Approval result: approved with no blockers — the KEYSTONE migrated; the dominant
+remaining debt cleared (38 of 39 rule-groups done; only the Button-coupled
+triggers/closes remain).

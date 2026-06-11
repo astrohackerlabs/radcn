@@ -136,7 +136,7 @@ export function renderToastFixture(fixture: FixtureScenario) {
   return (
     <section style="display:grid;gap:16px;max-width:420px" data-radcn-toast-recipe>
       <button
-        class="radcn-button radcn-button--default radcn-button--default"
+        class="radcn-button radcn-button--default radcn-button--default inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-[var(--radcn-button-bg,var(--radcn-primary))] text-[var(--radcn-button-fg,var(--radcn-primary-foreground))]"
         data-toast-description="The RadCN toaster listens for browser events."
         data-toast-duration="0"
         data-toast-title="Event notification"

@@ -68,7 +68,7 @@ export function renderCollapsibleFixture(fixture: FixtureScenario) {
               <span class="flex items-center justify-between gap-4 px-4 radcn-fixture-collapsible-demo-header" data-collapsible-demo-header style={demoHeaderStyle}>
                 <h4 aria-hidden="true" style={demoHeadingStyle}>@peduarte starred 3 repositories</h4>
                 <span
-                  class="radcn-button radcn-button--ghost radcn-button--icon size-8"
+                  class="radcn-button radcn-button--ghost radcn-button--icon size-8 inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:var(--radcn-control-height)] [--radcn-btn-px:0] [--radcn-btn-py:0]"
                   data-fixture-collapsible-demo-icon-button
                   style={demoIconButtonStyle}
                 >

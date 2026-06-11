@@ -204,7 +204,7 @@ function ComboboxDropdownMenuExample() {
         <span style="color:var(--radcn-muted-foreground)">Create a new project</span>
       </p>
       <DropdownMenu id="candidate-combobox-dropdown-menu">
-        <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm">...</DropdownMenuTrigger>
+        <DropdownMenuTrigger ariaLabel="Project actions" class="radcn-button radcn-button--ghost radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]">...</DropdownMenuTrigger>
         <DropdownMenuPortal>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
@@ -243,7 +243,7 @@ function ComboboxPopoverExample() {
     <div data-fixture-combobox-example="combobox-popover" data-fixture-combobox-owner="combobox-popover" style="display:flex;align-items:center;gap:16px">
       <span style="color:var(--radcn-muted-foreground)">Status</span>
       <Popover id="candidate-combobox-popover">
-        <PopoverTrigger class="radcn-button radcn-button--outline"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
+        <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
         <PopoverPortal>
           <PopoverContent align="start" side="right">
             {statusCommand('combobox-popover', 'Change status...')}
@@ -259,7 +259,7 @@ function ComboboxResponsiveExample() {
     <div data-fixture-combobox-example="combobox-responsive" data-fixture-combobox-owner="combobox-responsive" style="display:grid;gap:14px">
       <div data-fixture-combobox-responsive-branch="desktop" style="display:block">
         <Popover id="candidate-combobox-responsive-popover">
-          <PopoverTrigger class="radcn-button radcn-button--outline"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
+          <PopoverTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground"><span data-fixture-combobox-label>+ Set status</span></PopoverTrigger>
           <PopoverPortal>
             <PopoverContent align="start">
               {statusCommand('combobox-responsive')}

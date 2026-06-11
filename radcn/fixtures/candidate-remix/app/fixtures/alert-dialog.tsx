@@ -22,7 +22,7 @@ export function renderAlertDialogFixture(fixture: FixtureScenario) {
   if (fixture.id === 'demo') {
     return (
       <AlertDialog id="candidate-alert-dialog-demo">
-        <AlertDialogTrigger class="radcn-button radcn-button--outline">Show Dialog</AlertDialogTrigger>
+        <AlertDialogTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">Show Dialog</AlertDialogTrigger>
         <AlertDialogPortal>
           <AlertDialogOverlay />
           <AlertDialogContent>

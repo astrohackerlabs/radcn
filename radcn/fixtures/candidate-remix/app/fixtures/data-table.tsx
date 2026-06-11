@@ -110,7 +110,7 @@ function PaymentDemoTable() {
           </DataTableFilter>
           <DataTableColumnControls>
             <DropdownMenu id="candidate-data-table-columns">
-              <DropdownMenuTrigger class="radcn-button radcn-button--outline">
+              <DropdownMenuTrigger class="radcn-button radcn-button--outline inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 [--radcn-btn-bc:var(--radcn-border)] bg-background text-foreground">
                 Columns <span aria-hidden="true" data-candidate-data-table-icon="chevron-down">v</span>
               </DropdownMenuTrigger>
               <DropdownMenuPortal>
@@ -156,7 +156,7 @@ function PaymentDemoTable() {
               <DataTableCell class="text-right" style="text-align:right;">
                 <DataTableRowActions>
                   <DropdownMenu id={`candidate-data-table-row-${payment.id}`}>
-                    <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm" data-payment-id={payment.id}>
+                    <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]" data-payment-id={payment.id}>
                       <span class="radcn-sr-only">Open menu</span>
                       <span aria-hidden="true" data-candidate-data-table-icon="more-horizontal">...</span>
                     </DropdownMenuTrigger>
