@@ -169,7 +169,7 @@ a dependency listed in package manifests.
 - [Experiment 19: Migrate Alert to Tailwind utilities](19-migrate-alert-to-tailwind.md)
   — **Pass**
 - [Experiment 20: Migrate Table to Tailwind utilities](20-migrate-table-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -434,6 +434,16 @@ From Experiment 19 (Alert migration — Pass):
 - Prefix-sharing ≠ coupling: `.radcn-alert*` (Alert) vs `.radcn-alert-dialog*`
   (AlertDialog) are separate components; grep-confirm no shared selector / no
   cross-render before removing one's rules.
+
+From Experiment 20 (Table migration — Pass):
+
+- A component with all-inline-backed/attribute-only assertions, no custom
+  tokens, no cross-component selectors, and no raw class-string consumers is a
+  clean verbatim migration even when shadcn's appearance differs markedly
+  (Table's bordered container + secondary headers → shadcn's borderless/`p-2`);
+  unasserted appearance changes toward shadcn are the goal.
+- A RadCN-only unasserted variant (Table `dense`, like Card `size`) is kept as
+  an inert prop + `data-*` hook with its class dropped.
 
 ## Completion Criteria
 

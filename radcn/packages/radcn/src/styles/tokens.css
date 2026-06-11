@@ -1283,49 +1283,14 @@
   gap: 0.375rem;
 }
 
-.radcn-table-container {
-  width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--radcn-border);
-  border-radius: var(--radcn-radius);
-  font-family: var(--radcn-font);
-}
-
-.radcn-table {
-  width: 100%;
-  border-collapse: collapse;
-  caption-side: bottom;
-  color: var(--radcn-foreground);
-  font: 400 0.875rem/1.45 var(--radcn-font);
-}
-
-.radcn-table-caption {
-  padding: 0.75rem;
-  color: var(--radcn-muted-foreground);
-  text-align: left;
-}
-
-.radcn-table-row {
-  border-bottom: 1px solid var(--radcn-border);
-}
-
-.radcn-table-head,
-.radcn-table-cell {
-  padding: 0.75rem;
-  text-align: left;
-  vertical-align: middle;
-}
-
-.radcn-table--dense .radcn-table-head,
-.radcn-table--dense .radcn-table-cell {
-  padding: 0.375rem 0.5rem;
-}
-
-.radcn-table-head,
-.radcn-table-footer {
-  background: var(--radcn-secondary);
-  font-weight: 600;
-}
+/*
+ * Table and its sub-components (container, table, caption, row, head, cell,
+ * footer, header, body) are migrated to Tailwind utilities (Issue 6,
+ * Experiment 20). Their bespoke rules — including the dense-variant padding —
+ * were removed; the components emit shadcn v4 utility classes. Data attributes
+ * (and data-dense) remain as hooks; dense no longer changes padding (shadcn
+ * tables have no dense variant).
+ */
 
 .radcn-typography-h1,
 .radcn-typography-h2,

@@ -111,6 +111,51 @@ BOTH suites green and stable; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: any table assertion regresses; a utility not generated;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Table is migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the table utilities generate (`caption-bottom`,
+   `has-aria-expanded`, `[&:has([role=checkbox])]` — grep count 2 in the fixture
+   CSS).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-table` rule remains
+   (grep empty); the component emits no `radcn-table*` class.
+4. Docs suite: **11 passed** ×2 — incl. the table cell font-weight/text-align.
+5. Fixture suite: **1191 passed** ×2 — incl. the table-sections,
+   `data-dense='true'` attribute, and the inline-backed cell
+   font-weight:500/text-align:right assertions.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Table is migrated to shadcn v4 utilities across the container and 8
+sub-components — the cleanest container migration so far (no custom tokens, no
+cross-component selectors, no raw class-string consumers). It adopts shadcn's
+table appearance (borderless container, transparent headers, `p-2` cells, hover
+rows), removing RadCN's divergences; none were asserted. The `dense` prop and
+`data-dense` attribute are retained as an inert API/hook (the `radcn-table--dense`
+class dropped; shadcn has no dense variant). Thirteen components are now
+migrated (Badge, Skeleton, Separator, Kbd, Empty, Label, AspectRatio, Card,
+Input, Textarea, Alert, Table — plus sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- A component whose assertions are all inline-backed or attribute-only, with no
+  custom tokens / cross-component selectors / raw class-string consumers, is a
+  clean verbatim migration even when shadcn's appearance differs markedly from
+  RadCN's (here the bordered container + secondary headers) — adopting shadcn's
+  look is the goal, and unasserted appearance changes are acceptable.
+- A RadCN-only variant with no shadcn equivalent whose effect isn't asserted
+  (Table `dense`, like Card `size`) is kept as an inert prop + `data-*` hook;
+  drop its class and document the parity.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -153,3 +198,27 @@ Approval result: approved (round 2). Design correct, complete, and
 implementation-ready; round-1's "rejection" was a design-vs-implementation /
 verbosity misread, overruled by lead judgment with the substantive all-pass
 verification standing.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed all nine table parts emit the verbatim shadcn strings
+with no `radcn-table*` class, the `radcn-table--dense` class dropped while the
+`dense` prop + `data-dense` attribute are retained, and all
+`data-radcn-table*`/`aria-sort`/`scope`/`colspan` hooks kept; tokens.css has no
+`.radcn-table` rule (literal-free comment) and byte-identical `index.ts`. It
+independently re-ran both `styles:build` (utilities present), the three
+typechecks, the docs suite (2/2 = 11), and the fixture suite (2/2 = 1191) —
+confirming the table-sections + `data-dense='true'` + the cell
+font-weight/text-align tests pass, and verified those cell assertions are
+genuinely inline-backed (so they pass legitimately, not via residual CSS). It
+judged the migration faithful and dense-as-inert-hook acceptable (Badge/Alert/
+Card precedent). Verdict: APPROVED.
+
+Approval result: approved with no blockers.
