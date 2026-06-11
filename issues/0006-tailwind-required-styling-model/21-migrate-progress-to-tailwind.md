@@ -117,6 +117,60 @@ Fail criteria: any progress assertion regresses (esp. the inline width or the
 custom indicator color); the indeterminate animation breaks; a utility not
 generated; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Progress is migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the progress utilities generate
+   (`rounded-[inherit]`, `bg-primary/20`, `size-full`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no base
+   `.radcn-progress-wrapper`/`.radcn-progress`/`.radcn-progress-track`/
+   `.radcn-progress-indicator` rule remains; the
+   `.radcn-progress-wrapper--indeterminate` rule + `@keyframes
+   radcn-progress-slide` remain (RadCN extension); `.radcn-fixture-custom-progress`
+   sets `background-color: #ccfbf1` and its `[data-radcn-progress-indicator]`
+   descendant sets `background-color: #0f766e` directly.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `native-state.spec.ts` in isolation
+   **8 passed** ×... (confirmed) — incl. the determinate/indeterminate
+   `data-state`, the indicator `style="width:48%"`, the custom WRAPPER
+   `background-color: rgb(204, 251, 241)` and INDICATOR
+   `background-color: rgb(15, 118, 110)`, and the `value="75"`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Progress is migrated via an architecture-aware adaptation: shadcn's Root/Indicator
+utilities map onto RadCN's wrapper(visible bar)/native-progress(a11y, hidden)/
+track/indicator structure, while RadCN's WIDTH-driven indicator (inline
+`width:X%`, asserted) is preserved instead of shadcn's transform approach. The
+indeterminate animation is kept as a RadCN extension (no shadcn equivalent;
+unasserted beyond the attribute), and the custom-token override was translated
+to a direct wrapper rule + an indicator descendant rule. Fourteen components are
+now migrated (Badge, Skeleton, Separator, Kbd, Empty, Label, AspectRatio, Card,
+Input, Textarea, Alert, Table, Progress — plus sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- When a component's architecture differs from shadcn's (Progress: native-
+  progress + width-driven indicator vs Radix + transform), adapt shadcn's
+  utilities onto RadCN's elements rather than rewriting the architecture —
+  especially when an inline-style behavior (`width:X%`) is asserted. Map the
+  base utility (`w-0`) so the inline style still overrides.
+- A RadCN feature with no shadcn equivalent and no computed assertion (the
+  indeterminate slide animation) is kept as a bespoke extension (its class +
+  `@keyframes`) alongside the migrated utilities.
+- A custom-token override on a parent that is asserted on a CHILD needs a
+  descendant direct rule (`.custom [data-child] { … }`), not a rule on the
+  parent class alone.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -148,3 +202,34 @@ NO cross-component `.radcn-progress*` dependency.
 
 Approval result: APPROVED (with the documentation fix applied). The
 architecture-aware adaptation is correct and all assertions are accounted for.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none substantive (the reviewer's only "blocker" was that this
+Completion Review section was not yet written — the circular artifact that THIS
+review produces, overruled by lead judgment).
+
+The reviewer independently verified all 18 implementation checks pass:
+progress.tsx emits the shadcn-adapted wrapper/native/track/indicator utilities
+(indicator keeping its inline width, `w-0` base) with the
+`radcn-progress-wrapper--indeterminate` class retained for the indeterminate
+case and all data/native attributes kept, no base `radcn-progress*` class
+emitted; tokens.css has no base progress rule, keeps the indeterminate rule +
+`@keyframes radcn-progress-slide`, and translates `.radcn-fixture-custom-progress`
+to the wrapper bg #ccfbf1 + indicator-descendant bg #0f766e; byte-identical
+`index.ts`. It re-ran both `styles:build`, the three typechecks, the docs suite
+(2/2 = 11), the fixture suite (2/2 = 1191), and `native-state.spec.ts` in
+isolation (8 passed) — confirming the determinate/indeterminate `data-state`,
+the indicator `style="width:48%"`, the custom WRAPPER `rgb(204, 251, 241)` and
+INDICATOR `rgb(15, 118, 110)` backgrounds, and the native `value="75"`. It
+judged the architecture-aware adaptation faithful (not masking), the
+width-based indicator correctly preserved, the both-rules custom-token
+translation correct, and the indeterminate extension legitimately kept.
+Substantive verdict: APPROVED.
+
+Approval result: approved with no substantive blockers.

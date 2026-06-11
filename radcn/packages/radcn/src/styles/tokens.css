@@ -1578,38 +1578,13 @@
   transform: translateX(0.875rem);
 }
 
-.radcn-progress-wrapper {
-  position: relative;
-  display: block;
-  width: min(100%, 20rem);
-  height: 0.5rem;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--radcn-progress-bg, var(--radcn-secondary));
-}
-
-.radcn-progress {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-}
-
-.radcn-progress-track {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.radcn-progress-indicator {
-  display: block;
-  width: 0;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--radcn-progress-fg, var(--radcn-primary));
-  transition: width 120ms ease;
-}
+/*
+ * Progress is migrated to Tailwind utilities (Issue 6, Experiment 21). The
+ * wrapper/native-progress/track/indicator base rules were removed; the
+ * component emits shadcn-adapted utilities (the indicator keeps its inline
+ * width:X%). Data attributes remain as hooks. The indeterminate state below is
+ * a RadCN extension (shadcn has no indeterminate Progress), kept verbatim.
+ */
 
 .radcn-progress-wrapper--indeterminate .radcn-progress-indicator {
   width: 35%;
@@ -2745,8 +2720,11 @@
 }
 
 .radcn-fixture-custom-progress {
-  --radcn-progress-bg: #ccfbf1;
-  --radcn-progress-fg: #0f766e;
+  background-color: #ccfbf1;
+}
+
+.radcn-fixture-custom-progress [data-radcn-progress-indicator] {
+  background-color: #0f766e;
 }
 
 .radcn-fixture-custom-slider {

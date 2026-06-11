@@ -171,7 +171,7 @@ a dependency listed in package manifests.
 - [Experiment 20: Migrate Table to Tailwind utilities](20-migrate-table-to-tailwind.md)
   — **Pass**
 - [Experiment 21: Migrate Progress to Tailwind utilities](21-migrate-progress-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -446,6 +446,19 @@ From Experiment 20 (Table migration — Pass):
   unasserted appearance changes toward shadcn are the goal.
 - A RadCN-only unasserted variant (Table `dense`, like Card `size`) is kept as
   an inert prop + `data-*` hook with its class dropped.
+
+From Experiment 21 (Progress migration — Pass):
+
+- When a component's architecture differs from shadcn's (Progress: native-
+  progress + width-driven indicator vs Radix + transform), adapt shadcn's
+  utilities onto RadCN's elements rather than rewriting the architecture —
+  map the base utility (`w-0`) so an asserted inline style (`width:X%`) still
+  overrides.
+- A RadCN feature with no shadcn equivalent and no computed assertion
+  (Progress's indeterminate slide animation) is kept as a bespoke extension
+  (its class + `@keyframes`) alongside the migrated utilities.
+- A custom-token override on a parent asserted on a CHILD needs a descendant
+  direct rule (`.custom [data-child] { … }`), not a rule on the parent alone.
 
 ## Completion Criteria
 
