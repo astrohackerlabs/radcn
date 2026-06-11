@@ -1129,6 +1129,48 @@ is the Experiment-31 blast-radius work, now mapped per item:
   fixture), `hover-card-avatar` + `hover-card-body` (positioned-overlays fixture +
   docs).
 
+### Progress update (after Experiment 69) — 27/39 cleared; the consumer-site pattern is proven
+
+Experiments 67–69 PROVED the consumer-site pattern (Exp 67's "not scanned" blocker was
+a false negative; the fixture + docs ARE scanned — see the correction below) and
+cleared the raw-class primitives: HoverCard avatar/body (Exp 68), toggle-group-icon +
+breadcrumb-glyph + the dead toggle-group rule (Exp 69). **Cumulative: 27 of 39
+visual-debt rules cleared (Exps 64–69), all dual-suite-green + adversarially reviewed.**
+
+**Remaining ~12 rules = the Button keystone + its coupled triggers/closes.** The Button
+is the single most conflict-laden migration in the issue (unlike all prior components,
+it has MULTIPLE property-override conflicts between base/variant/size — Exp-41). The
+worked-out approach for the final Button experiment(s):
+
+- **Resolve every base↔variant/size conflict with the proven var-set pattern**, so each
+  conflicting property is read once from a var the variant/size sets:
+  - border-color: base `border border-[var(--radcn-btn-bc,transparent)]`; outline sets
+    `[--radcn-btn-bc:var(--radcn-border)]`.
+  - min-height: base `min-h-[var(--radcn-btn-mh,var(--radcn-control-height))]`; link
+    sets `[--radcn-btn-mh:auto]`; icon-sm/lg set their `2rem`/`2.75rem`.
+  - padding-x / width: base `px-[var(--radcn-btn-px,1rem)] w-[var(--radcn-btn-w,max-content)]`;
+    link sets `[--radcn-btn-px:0]`; icon/icon-sm/icon-lg set `[--radcn-btn-w:…]` +
+    `[--radcn-btn-px:0]`; sm/lg set their px.
+  - the rest map directly (gap-2, rounded-md, font-medium, the transition, focus-visible
+    ring, disabled/aria-disabled opacity; `--default` bg/fg via the existing
+    `--radcn-button-bg/-fg` tokens; secondary/destructive/ghost colors; link underline).
+- **Component** (`button.tsx`): emit `buttonBase` + the variant/size var-set utilities,
+  KEEP the `radcn-button` + `radcn-button--{variant}`/`--{size}` markers (27 assertions
+  check them by name).
+- **~95 raw sites across 13 fixture/docs files**: a SCRIPT parses each
+  `class="radcn-button radcn-button--{v} radcn-button--{s} …"`, appends `buttonBase` +
+  the variant-set + size-set utilities for its specific markers, keeps the markers.
+  (Sites have heterogeneous variant/size combos — not a uniform find/replace; the
+  script keys off the present `--{v}`/`--{s}` markers.)
+- **tokens.css**: remove `.radcn-button` base/focus/disabled + the 6 variant + 6 size
+  rules; KEEP the button-group cross-component cascades (Exp 63, they reference
+  `.radcn-button`).
+- **Gate additions**: verify the button utilities GENERATE in the candidate build
+  (consumer-site proof); the 27 `radcn-button--{variant}` `toHaveClass` assertions hold
+  (markers kept); any computed button color/size assertions hold via the var reads.
+  The Button-coupled triggers/closes (dialog/drawer/dropdown/select-trigger,
+  popover-close) follow the same consumer-site pattern, several reusing `buttonBase`.
+
 **CORRECTION (Experiment 67's blocker was retracted):** the Experiment-67 claim that
 "consumer files are not Tailwind-scanned" was a FALSE NEGATIVE — the probe used a
 nonsense sentinel utility (`zz-sentinel-[7px]`) that Tailwind never generates
