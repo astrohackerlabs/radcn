@@ -165,7 +165,7 @@ a dependency listed in package manifests.
 - [Experiment 17: Re-attempt the Card migration](17-re-attempt-card-migration.md)
   — **Pass**
 - [Experiment 18: Migrate Input and Textarea to Tailwind utilities](18-migrate-input-textarea-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -406,6 +406,20 @@ From Experiment 17 (Card re-attempt — Pass):
 - Card is the template for the remaining bordered/container components
   (`border`+base-color, `@container` header, `has-[...]` layout, sub-part data
   hooks, custom-token translation, cross-component selector repoint).
+
+From Experiment 18 (Input + Textarea migration — Pass):
+
+- Components that SHARE bespoke CSS rules (Input+Textarea share base/state)
+  migrate together, else the shared rule must be split.
+- A component's class can be cross-referenced by MULTIPLE other components
+  (Input by InputGroup ×2 combined selectors AND ButtonGroup ×6); grep every
+  `.radcn-X` selector (including combined `.radcn-X, .radcn-Y` and
+  child-combinator group selectors) and repoint ALL to `[data-radcn-X]`. The
+  grouped reset rules are load-bearing — they neutralize the migrated control's
+  standalone `border`.
+- When shadcn styling legitimately differs (file input: no element text color +
+  `file:bg-transparent` vs RadCN's `--muted-foreground` + `--secondary`), update
+  the affected test assertions to shadcn's computed values rather than diverging.
 
 ## Completion Criteria
 

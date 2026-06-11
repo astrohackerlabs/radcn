@@ -143,6 +143,66 @@ Fail criteria: any input/textarea/group assertion regresses beyond the
 documented file-input updates; a grouped input renders with a double border
 (repoint missed); a utility not generated; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Input and Textarea are migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the input/textarea utilities generate
+   (`border-input`, `field-sizing-content`, `file:bg-transparent`, the
+   focus-visible/aria-invalid rings).
+2. All three typechecks pass (the `node:*` import lints in input.spec.ts are
+   pre-existing editor LSP noise — the fixture typecheck passes).
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-input`/`.radcn-textarea`
+   base/state class selector remains (grep excluding `-group`/`-otp`/data forms
+   is empty); the InputGroup selectors target `[data-radcn-input]`/
+   `[data-radcn-textarea]` and the six ButtonGroup selectors target
+   `[data-radcn-input]`.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 — incl. `input.spec.ts` (the file-input
+   assertions updated to shadcn values: text color `rgb(17, 24, 39)` inherited,
+   `::file-selector-button` background `rgba(0, 0, 0, 0)` from
+   `file:bg-transparent`; the disabled `cursor: not-allowed` assertion
+   unchanged), `form-input-cluster.spec.ts` (InputGroup grouped-input behavior
+   via the repoint — the grouped input's border is still reset, no double
+   border), the button-group tests, and textarea coverage.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   five expected files changed.
+
+Only the two documented file-input assertions changed; no other deviation.
+
+## Conclusion
+
+Input and Textarea are migrated to shadcn v4 utilities — the most entangled
+migration so far, validated by the foundation built earlier. It exercised: the
+Experiment 16 `--border` base (overridden by `border-input` for inputs); a
+two-component co-migration (shared base/state rules); two cross-component
+selector repoints to the `[data-radcn-input]`/`[data-radcn-textarea]` hooks
+(InputGroup ×2 combined, ButtonGroup ×6), which keep grouped inputs from
+double-bordering; the `file:`/`selection:`/`field-sizing-content` Tailwind v4
+features; and faithful test updates where shadcn's file-input styling
+legitimately differs from RadCN's. Eleven components are now migrated (Badge,
+Skeleton, Separator, Kbd, Empty, Label, AspectRatio, Card, Input, Textarea —
+plus sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- Components that SHARE bespoke CSS rules (Input+Textarea) must migrate
+  together, or the shared rule has to be split — migrating one strands the
+  other's shared styling.
+- A component's class can be cross-referenced by MULTIPLE other components
+  (Input by both InputGroup and ButtonGroup); grep ALL `.radcn-X` selectors
+  (including combined `.radcn-X, .radcn-Y` lists and child-combinator group
+  selectors) and repoint every one to the `[data-radcn-X]` hook. The grouped
+  reset rules are load-bearing (they neutralize the migrated control's standalone
+  `border`), so the repoint must be exhaustive.
+- When shadcn's styling legitimately differs from RadCN's (the file input:
+  shadcn sets no element text color and `file:bg-transparent`, vs RadCN's
+  `--muted-foreground` + `--secondary`), update the affected assertions to the
+  shadcn computed values rather than diverging from verbatim shadcn.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -187,3 +247,29 @@ Approval result: approved — design correct and complete; all cross-component
 dependencies (InputGroup ×2 combined, ButtonGroup ×6), the shared
 Input/Textarea base/state rules, the file-input assertion updates, and the
 preconditions are accounted for. No substantive blocker remains.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, Experiments 15–18, and
+read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed input.tsx/textarea.tsx emit the verbatim shadcn strings
+(no bespoke class) with data hooks + aria-invalid + type; tokens.css has NO
+remaining `.radcn-input`/`.radcn-textarea` base/state class selector, the
+InputGroup selectors repointed for BOTH input and textarea (base +
+:focus-visible), and ALL SIX ButtonGroup selectors repointed to
+`[data-radcn-input]` (the `.radcn-input-group` group lines correctly remain);
+byte-identical `index.ts`; and the updated file-input assertions. It
+independently re-ran both `styles:build`, the three typechecks, the docs suite
+(2/2 = 11) and fixture suite (2/2 = 1191) — confirming `input.spec.ts` and the
+grouped-control tests (`form-input-cluster.spec.ts` InputGroup, and the
+ButtonGroup-containing-InputGroup parity scenario) pass with no double-border /
+stranded styling. It judged the file-input assertion updates faithful (shadcn
+parity, not masking) and the cross-component repoints exhaustive. Verdict:
+APPROVED.
+
+Approval result: approved with no blockers.

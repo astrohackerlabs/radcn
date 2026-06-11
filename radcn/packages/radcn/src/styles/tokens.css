@@ -263,73 +263,14 @@
  * data-disabled remain as non-visual hooks.
  */
 
-.radcn-input,
-.radcn-textarea {
-  width: 100%;
-  border: 1px solid var(--radcn-input);
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-background);
-  color: var(--radcn-foreground);
-  font: 400 0.875rem/1.35 var(--radcn-font);
-  outline: none;
-  transition: border-color 120ms ease, box-shadow 120ms ease;
-}
-
-.radcn-input {
-  height: var(--radcn-control-height);
-  padding: 0 0.75rem;
-}
-
-.radcn-input[type="file"] {
-  display: flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
-  color: var(--radcn-muted-foreground);
-}
-
-.radcn-input[type="file"]::file-selector-button {
-  height: calc(var(--radcn-control-height) - 0.625rem);
-  margin: 0 0.75rem 0 0;
-  border: 0;
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: var(--radcn-secondary);
-  color: var(--radcn-secondary-foreground);
-  font: 500 0.8125rem/1 var(--radcn-font);
-  padding: 0 0.75rem;
-}
-
-.radcn-input[type="file"]:disabled::file-selector-button {
-  cursor: not-allowed;
-}
-
-.radcn-textarea {
-  min-height: 5rem;
-  padding: 0.5rem 0.75rem;
-  resize: vertical;
-}
-
-.radcn-input::placeholder,
-.radcn-textarea::placeholder {
-  color: var(--radcn-muted-foreground);
-}
-
-.radcn-input:focus-visible,
-.radcn-textarea:focus-visible {
-  border-color: var(--radcn-ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-input:disabled,
-.radcn-textarea:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.radcn-input[aria-invalid="true"],
-.radcn-textarea[aria-invalid="true"] {
-  border-color: var(--radcn-field-error, var(--radcn-destructive));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-field-error, var(--radcn-destructive)) 20%, transparent);
-}
+/*
+ * Input and Textarea are migrated to Tailwind utilities (Issue 6,
+ * Experiment 18). Their shared base + state rules (border via border-input,
+ * placeholder/focus-visible/disabled/aria-invalid, the file selector-button)
+ * were removed; the components emit shadcn v4 utility classes. Their data
+ * attributes remain as hooks; InputGroup/ButtonGroup target them via
+ * [data-radcn-input]/[data-radcn-textarea] below.
+ */
 
 .radcn-field-description {
   margin: 0;
@@ -374,15 +315,15 @@
   opacity: 0.6;
 }
 
-.radcn-input-group .radcn-input,
-.radcn-input-group .radcn-textarea {
+.radcn-input-group [data-radcn-input],
+.radcn-input-group [data-radcn-textarea] {
   border: 0;
   border-radius: calc(var(--radcn-radius) - 1px);
   box-shadow: none;
 }
 
-.radcn-input-group .radcn-input:focus-visible,
-.radcn-input-group .radcn-textarea:focus-visible {
+.radcn-input-group [data-radcn-input]:focus-visible,
+.radcn-input-group [data-radcn-textarea]:focus-visible {
   box-shadow: none;
 }
 
@@ -1131,7 +1072,7 @@
 }
 
 .radcn-button-group > .radcn-button,
-.radcn-button-group > .radcn-input,
+.radcn-button-group > [data-radcn-input],
 .radcn-button-group > .radcn-input-group,
 .radcn-button-group > .radcn-select,
 .radcn-button-group > .radcn-dropdown-menu,
@@ -1139,7 +1080,7 @@
   min-width: 0;
 }
 
-.radcn-button-group > .radcn-input,
+.radcn-button-group > [data-radcn-input],
 .radcn-button-group > .radcn-input-group {
   flex: 1 1 auto;
 }
@@ -1151,7 +1092,7 @@
 }
 
 .radcn-button-group > .radcn-button:not(:first-child),
-.radcn-button-group > .radcn-input:not(:first-child),
+.radcn-button-group > [data-radcn-input]:not(:first-child),
 .radcn-button-group > .radcn-input-group:not(:first-child),
 .radcn-button-group > .radcn-select:not(:first-child) > .radcn-select-trigger,
 .radcn-button-group > .radcn-dropdown-menu:not(:first-child) > .radcn-dropdown-menu-trigger,
@@ -1162,7 +1103,7 @@
 }
 
 .radcn-button-group > .radcn-button:not(:last-child),
-.radcn-button-group > .radcn-input:not(:last-child),
+.radcn-button-group > [data-radcn-input]:not(:last-child),
 .radcn-button-group > .radcn-input-group:not(:last-child),
 .radcn-button-group > .radcn-select:not(:last-child) > .radcn-select-trigger,
 .radcn-button-group > .radcn-dropdown-menu:not(:last-child) > .radcn-dropdown-menu-trigger,
@@ -1172,7 +1113,7 @@
 }
 
 .radcn-button-group--vertical > .radcn-button:not(:first-child),
-.radcn-button-group--vertical > .radcn-input:not(:first-child),
+.radcn-button-group--vertical > [data-radcn-input]:not(:first-child),
 .radcn-button-group--vertical > .radcn-input-group:not(:first-child),
 .radcn-button-group--vertical > .radcn-select:not(:first-child) > .radcn-select-trigger,
 .radcn-button-group--vertical > .radcn-dropdown-menu:not(:first-child) > .radcn-dropdown-menu-trigger,
@@ -1184,7 +1125,7 @@
 }
 
 .radcn-button-group--vertical > .radcn-button:not(:last-child),
-.radcn-button-group--vertical > .radcn-input:not(:last-child),
+.radcn-button-group--vertical > [data-radcn-input]:not(:last-child),
 .radcn-button-group--vertical > .radcn-input-group:not(:last-child),
 .radcn-button-group--vertical > .radcn-select:not(:last-child) > .radcn-select-trigger,
 .radcn-button-group--vertical > .radcn-dropdown-menu:not(:last-child) > .radcn-dropdown-menu-trigger,

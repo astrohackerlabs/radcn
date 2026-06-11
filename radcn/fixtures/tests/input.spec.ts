@@ -20,9 +20,13 @@ test('candidate input covers demo disabled and file examples', async ({ page }) 
   let fileInput = page.getByLabel('Picture')
   await expect(fileInput).toHaveAttribute('type', 'file')
   await expect(fileInput).not.toHaveAttribute('role', 'textbox')
-  await expect(fileInput).toHaveCSS('color', 'rgb(113, 113, 122)')
+  // shadcn's Input sets no text color on the element itself (only
+  // file:text-foreground on the button); the file input inherits the ambient
+  // color (Issue 6, Experiment 18 — was --muted-foreground under bespoke CSS).
+  await expect(fileInput).toHaveCSS('color', 'rgb(17, 24, 39)')
   let selectorBackground = await fileInput.evaluate((node) => getComputedStyle(node, '::file-selector-button').backgroundColor)
-  expect(selectorBackground).toBe('rgb(244, 244, 245)')
+  // shadcn uses file:bg-transparent (was --secondary under bespoke CSS).
+  expect(selectorBackground).toBe('rgba(0, 0, 0, 0)')
 
   let dir = await mkdtemp(path.join(os.tmpdir(), 'radcn-input-file-'))
   let fixtureFile = path.join(dir, 'avatar.txt')
