@@ -599,6 +599,41 @@ From Experiment 30 (Drawer overlay + dead-keyframe retirement — Pass):
 - The full overlay cluster (Tooltip, Popover, HoverCard, Dialog, AlertDialog,
   Sheet, Drawer — 7) now renders surfaces/backdrops from Tailwind utilities.
 
+Button keystone — blast-radius finding (investigated after Exp 30, not yet
+migrated):
+
+- Button is NOT a single quick migration. Two facts make it a multi-experiment,
+  cross-suite phase:
+  1. **The `radcn-button--{variant}`/`--{size}` classes are asserted by NAME
+     across ~10+ spec files** — `toHaveClass(/radcn-button--outline/)`,
+     `/radcn-button--link/`, `/radcn-button--ghost/`, `/radcn-button--icon/`,
+     `/radcn-button/` appear in `positioned-overlays`, `collapsible`,
+     `navigation-collection`, and more (every component that uses a Button
+     trigger asserts its classes). Dropping those classes for utilities means
+     rewriting those assertions (Button already emits `data-variant`/`data-size`,
+     so they can move to attribute/computed checks).
+  2. **RadCN's Button DIVERGES from shadcn's `buttonVariants`** — it is a
+     `--radcn-control-height`/`min-height`-based design (e.g. `lg` is
+     `min-height: 2.75rem` = 44px, vs shadcn's `h-10` = 40px; `width: max-content`;
+     `--radcn-button-bg`/`-fg`/`-link-fg` custom tokens). Computed assertions test
+     RadCN's values (e.g. `min-height: 36px` default, `44px` lg, `32px`
+     sm/icon-sm, custom `bg rgb(15,118,110)`). So a verbatim shadcn port would
+     change the design and fail those assertions — the migration must REPRODUCE
+     RadCN's current values via utilities (arbitrary values where it diverges:
+     `min-h-[2.75rem]`, `rounded-[var(--radius)]`, etc.), not adopt shadcn's.
+- Additional coupling to handle in the Button phase: ButtonGroup styles its
+  children via `.radcn-button` child-combinator selectors (repoint to
+  `[data-radcn-button]`); the date-picker trigger uses a raw
+  `radcn-button radcn-button--outline radcn-button--default` class string
+  (re-emit the button utilities); the custom-button fixture (`--radcn-button-bg:
+  #0f766e`, asserted) needs a direct-rule translation; Toggle shares button-like
+  sizing (asserts `min-height: 44px`/`32px`).
+- Recommended decomposition: (a) migrate Button itself (Record-per-variant/size
+  utility strings reproducing RadCN values + `data-*` kept + custom-token
+  translation), updating the in-suite `toHaveClass(/radcn-button--*/)` assertions
+  to `data-variant`/`data-size`; (b) repoint ButtonGroup + date-picker; then the
+  menu-cluster triggers unblock.
+
 ## Completion Criteria
 
 This issue is complete when:
