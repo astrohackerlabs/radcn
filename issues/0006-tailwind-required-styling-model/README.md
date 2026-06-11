@@ -178,6 +178,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 24: Migrate Tooltip (content + arrow) to Tailwind utilities](24-migrate-tooltip-to-tailwind.md)
   — **Pass**
+- [Experiment 25: Migrate Popover content surface to Tailwind utilities](25-migrate-popover-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
