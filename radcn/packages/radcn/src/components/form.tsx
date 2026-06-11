@@ -1,6 +1,7 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+import { fieldDescriptionClass, fieldErrorClass } from './field.tsx'
 
 // Form container surfaces as Tailwind utilities (Issue 6, Experiment 55). Only the
 // layout containers migrate; the `.radcn-form-label[data-error]` / field-or-item
@@ -195,7 +196,7 @@ export function FormDescription(handle: Handle<FormPartProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <p class={classes('radcn-form-description', 'radcn-field-description', className)} data-radcn-form-description id={id} style={style}>
+      <p class={classes('radcn-form-description', 'radcn-field-description', fieldDescriptionClass, className)} data-radcn-form-description id={id} style={style}>
         {children}
       </p>
     )
@@ -211,7 +212,7 @@ export function FormMessage(handle: Handle<FormMessageProps>) {
     }
 
     return (
-      <p class={classes('radcn-form-message', 'radcn-field-error', className)} data-radcn-form-message id={id} style={style}>
+      <p class={classes('radcn-form-message', 'radcn-field-error', fieldErrorClass, className)} data-radcn-form-message id={id} style={style}>
         {children}
       </p>
     )

@@ -2,6 +2,13 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Field message surfaces as Tailwind utilities (Issue 6, Experiment 65). Exported so
+// Form's message/description (which reuse the radcn-field-* classes) emit the same
+// utilities. The marker classes are kept. ASCII comments; no bracketed class-like tokens.
+export const fieldDescriptionClass = 'm-0 text-muted-foreground text-[0.8125rem] leading-[1.4] [font-family:var(--radcn-font)]'
+export const fieldErrorClass =
+  'm-0 text-[var(--radcn-field-error,var(--radcn-destructive))] font-medium text-[0.8125rem] leading-[1.4] [font-family:var(--radcn-font)]'
+
 export type FieldOrientation = 'vertical' | 'horizontal' | 'responsive'
 export type FieldLegendVariant = 'default' | 'label'
 
@@ -178,7 +185,7 @@ export function FieldDescription(handle: Handle<FieldDescriptionProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <p class={classes('radcn-field-description', className)} data-radcn-field-description id={id} style={style}>
+      <p class={classes('radcn-field-description', fieldDescriptionClass, className)} data-radcn-field-description id={id} style={style}>
         {children}
       </p>
     )
@@ -190,7 +197,7 @@ export function FieldError(handle: Handle<FieldErrorProps>) {
     let { children, class: className, id, style } = handle.props
 
     return (
-      <p class={classes('radcn-field-error', className)} data-radcn-field-error id={id} style={style}>
+      <p class={classes('radcn-field-error', fieldErrorClass, className)} data-radcn-field-error id={id} style={style}>
         {children}
       </p>
     )

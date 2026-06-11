@@ -58,6 +58,40 @@ the remaining ~23 debt rules.
 Fail criteria: the form-message color regresses; a utility doesn't compile;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Field/Form message + ToggleGroup item migrated; both suites green (both fixture runs
+clean). All three `styles:build`/typechecks pass; the
+`text-[var(--radcn-field-error,var(--radcn-destructive))]` + `shrink-0` utilities
+compile (no junk); `index.ts` byte-identical; the 3 rules removed; docs 11 ×2;
+`form-input-cluster.spec.ts` **11 passed** (incl. the form-message color `:264`
+`rgb(124,58,237)` via the field-error token) + `static-display.spec.ts` **12 passed**;
+fixture 1191 ×2 (both clean); `git diff --check` clean; four files changed
+(field.tsx, form.tsx, tokens.css, index.ts — toggle-group.tsx needed no change since
+it already emitted `shrink-0`).
+
+## Conclusion
+
+`field-description`/`field-error` render from utilities (defined+exported in
+`field.tsx`, imported by `form.tsx` so the form message/description reuse them; the
+form-message color reads the `--radcn-field-error` token via the arbitrary-value
+utility); `.radcn-toggle-group-item` was already redundant (the component emitted
+`shrink-0` since Exp 47) so only its rule was dropped. Clears 3 of the remaining ~23
+visual-debt rules (≈19 remain: the Button keystone + its raw-class blast radius, the
+Button-coupled triggers/closes, the menu-family `menu-sub-caret`/`menu-item-indicator`
+helpers, and the raw-class primitives toggle-group/toggle-icon/breadcrumb-glyph/
+hover-card avatar+body).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A shared sub-element class used by two components (Field + Form's message/
+  description) migrates by defining+exporting the utility const in the owner
+  (`field.tsx`) and importing it in the reuser (`form.tsx`) — both emit it, keeping
+  the marker classes; the token-driven color (`text-[var(--radcn-field-error,…)]`)
+  preserves the fixture's computed-color assertion.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -79,3 +113,19 @@ experiments.
 Approval result: approved — exact mappings, the toggle item already emits the utility
 (rule redundant), Field+Form both emit the shared consts, the form-message color var
 chain holds.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed field.tsx exports + emits the
+two consts (markers kept); form.tsx imports them and the form-message/description emit
+them (markers kept); toggle-group.tsx unchanged (already emits `shrink-0`); tokens.css
+removed the 3 rules with the `--radcn-field-error` TOKEN var usages + the
+`.radcn-fixture-custom-field` intact; byte-identical `index.ts`. It rebuilt (utilities
+generate, no junk), re-ran the three typechecks, docs (11), `form-input-cluster.spec.ts`
+(11, incl. the `:264` form-message color `rgb(124,58,237)`), `static-display.spec.ts`
+(12), and the full fixture suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — 19 of the 39 visual-debt rules cleared.

@@ -163,18 +163,6 @@
 /* Shared error/description text styles: reused by the Form component as raw
  * classes (radcn-form-message / radcn-form-description), so they stay bespoke
  * until Form is migrated (Field's own FieldError/FieldDescription emit them). */
-.radcn-field-description {
-  margin: 0;
-  color: var(--radcn-muted-foreground);
-  font: 400 0.8125rem/1.4 var(--radcn-font);
-}
-
-.radcn-field-error {
-  margin: 0;
-  color: var(--radcn-field-error, var(--radcn-destructive));
-  font: 500 0.8125rem/1.4 var(--radcn-font);
-}
-
 .radcn-form-label[data-error="true"],
 .radcn-form-field[data-invalid="true"] .radcn-form-label,
 .radcn-form-item[data-invalid="true"] .radcn-form-label {
@@ -822,10 +810,6 @@
 .radcn-toggle-group--vertical {
   flex-direction: column;
   align-items: stretch;
-}
-
-.radcn-toggle-group-item {
-  flex-shrink: 0;
 }
 
 .radcn-toggle-group-item[data-group-disabled="true"] {
