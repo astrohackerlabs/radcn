@@ -62,6 +62,53 @@ consumer-site pattern for the remaining blast-radius debt. Clears 2 rules.
 Fail criteria: a positioned-overlays/docs assertion regresses; a utility doesn't
 compile; divergence.
 
+## Result
+
+**Result:** Fail (premise invalidated — valuable dead-end finding)
+
+Before implementing, an empirical check of the Tailwind source-scanning settled a
+question the design had ASSUMED: it injected a unique sentinel utility
+(`zz-sentinel-[7px]`) into the fixture raw site (`positioned-overlays.tsx`) AND a
+docs sentinel into `components.tsx`, rebuilt both pipelines, and grepped the generated
+CSS. **Neither sentinel was generated** (count 0 in both). The candidate fixture's
+`tailwind.css` `@source`s ONLY `../../../../packages/radcn/src` and uses granular
+`@import 'tailwindcss/utilities'` (not the auto-detecting `@import "tailwindcss"`), so
+Tailwind scans ONLY the component package source — NOT the fixture/docs app files.
+
+Therefore appending utilities to fixture/docs raw-class sites does NOT generate those
+utilities: the styling would silently break. Because `radcn-hover-card-avatar`/`-body`
+have no computed (`toHaveCSS`) assertions, the dual-suite gate would have PASSED while
+the avatar/body rendered unstyled — a false green. The experiment was NOT implemented;
+the sentinel edits were reverted and both pipelines rebuilt clean.
+
+## Conclusion
+
+**Critical architectural finding for ALL remaining blast-radius debt.** The bespoke
+`radcn-*` rules that fixtures/docs hand-write as raw class strings (Button keystone,
+the triggers/closes, toggle-group/-icon, breadcrumb-glyph, hover-card avatar/body)
+cannot be migrated by putting utilities at those consumer sites — the consumer files
+are not in any Tailwind `@source`, so consumer-site utilities never compile. The real
+prerequisite is a FOUNDATIONAL enabler experiment, one of:
+
+1. Add the candidate-fixture app dir + the docs app dir to their Tailwind `@source`
+   (or switch to the auto-detecting `@import "tailwindcss"`), so consumer-site
+   utilities generate. This is the clean enabler — but it newly scans many demo files
+   and may generate utilities for class strings that previously resolved only as
+   bespoke selectors, so the resulting computed-style churn across BOTH suites must be
+   triaged in that experiment (the same kind of triage the Exp-9 preflight decision
+   required).
+2. OR convert the fixture/docs raw `radcn-*` sites to render through the actual
+   components (whose source IS scanned) — a larger refactor of the demos.
+
+Until that enabler lands, the ~18 remaining blast-radius rules cannot be migrated to
+utilities; the green-gate would be deceptive (no computed assertions on most of them).
+This Fail eliminates the naive consumer-site-utility dead-end and redirects the work to
+the `@source`/auto-detect enabler first.
+
+This experiment is a FAIL by the workflow's definition (the designed approach does not
+work), and a useful one — it converts the "~95 sites across 13 files" framing into the
+true blocker: the consumer files are not Tailwind-scanned.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh

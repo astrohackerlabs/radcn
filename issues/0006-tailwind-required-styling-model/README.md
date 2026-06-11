@@ -264,7 +264,7 @@ a dependency listed in package manifests.
 - [Experiment 66: Migrate the menu-family helpers (sub-caret + item-indicator)](66-migrate-menu-family-helpers-to-tailwind.md)
   — **Pass**
 - [Experiment 67: Migrate HoverCard avatar/body (consumer-site pattern)](67-migrate-hover-card-subelements-consumer-sites.md)
-  — **Designed**
+  — **Fail** (uncovered the real blocker: consumer files are not Tailwind-scanned)
 
 ## Learnings
 
@@ -1123,6 +1123,22 @@ is the Experiment-31 blast-radius work, now mapped per item:
   docs `components.tsx` + the toggle fixture), `breadcrumb-glyph` (~5 docs + 2
   fixture), `hover-card-avatar` + `hover-card-body` (positioned-overlays fixture +
   docs).
+
+**CRITICAL BLOCKER discovered in Experiment 67 (empirically, via a sentinel-utility
+probe):** the candidate fixture's `tailwind.css` `@source`s ONLY
+`packages/radcn/src` (granular `@import 'tailwindcss/utilities'`, not the
+auto-detecting `@import "tailwindcss"`), and the docs pipeline likewise does not scan
+its content file — so Tailwind does NOT scan the fixture/docs app files. A utility
+appended to a fixture/docs raw-class site is NEVER generated (sentinel count 0 in both
+builds). Consumer-site utilities are therefore impossible without first either (a)
+adding the fixture-app + docs-app dirs to their Tailwind `@source` / switching to
+auto-detecting `@import "tailwindcss"` (then triaging the computed-style churn from
+newly-scanned demo files), or (b) converting the raw `radcn-*` demo sites to render
+through the components (whose source IS scanned). Because most of the remaining
+blast-radius rules have NO computed assertions, skipping this enabler would produce a
+DECEPTIVE green (the gate passes while the surface renders unstyled). This enabler is
+the true next experiment; only after it can the Button keystone + triggers +
+toggle/breadcrumb/hover-card consumer sites be migrated.
 
 Recommended order: the smaller primitives first (toggle-group/-icon, breadcrumb-glyph,
 hover-card) to establish the consumer-site migration pattern on a contained blast
