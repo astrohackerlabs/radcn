@@ -164,6 +164,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 17: Re-attempt the Card migration](17-re-attempt-card-migration.md)
   — **Pass**
+- [Experiment 18: Migrate Input and Textarea to Tailwind utilities](18-migrate-input-textarea-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
