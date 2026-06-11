@@ -230,7 +230,7 @@ a dependency listed in package manifests.
 - [Experiment 49: Migrate Breadcrumb + Pagination together to Tailwind utilities](49-migrate-breadcrumb-pagination-to-tailwind.md)
   — **Pass**
 - [Experiment 50: Migrate Toast/Sonner to Tailwind utilities](50-migrate-toast-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -887,6 +887,16 @@ From Experiment 49 (Breadcrumb + Pagination together — Pass):
   blocks). Same family as the toggle-icon (Exp 47) raw-class API.
 - Sibling components sharing combined base rules (Breadcrumb + Pagination, like
   Checkbox + Radio) migrate together so the shared rules fully drop.
+
+From Experiment 50 (Toast/Sonner — Pass, first-try green):
+
+- When component HTML is emitted via TWO paths (JSX + a runtime JS template
+  string), reference the SAME utility consts in both so they cannot drift (the JS
+  template interpolates `class="${theConst}"` — switch a single-quoted string to a
+  backtick to interpolate).
+- A `data-[state=...]:[--var:#hex]` arbitrary-property var-set with a LITERAL hex
+  value compiles in Tailwind v4 (verified) — a bespoke `--variant`-sets-vars rule
+  migrates directly to the CSS-var propagation pattern.
 
 ## Completion Criteria
 
