@@ -231,6 +231,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 50: Migrate Toast/Sonner to Tailwind utilities](50-migrate-toast-to-tailwind.md)
   — **Pass**
+- [Experiment 51: Migrate DropdownMenu + ContextMenu together to Tailwind utilities](51-migrate-dropdown-context-menu-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
