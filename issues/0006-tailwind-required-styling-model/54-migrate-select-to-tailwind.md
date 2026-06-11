@@ -27,7 +27,12 @@ everything else migrates.
   text-[var(--radcn-select-fg,var(--radcn-foreground))]
   shadow-[0_18px_48px_rgb(0_0_0_/_0.16)]
   [transform-origin:var(--radcn-select-transform-origin,top_left)]
-  animate-[radcn-select-in_120ms_ease-out] [&[hidden]]:hidden`.
+  animate-[radcn-select-in_120ms_ease-out] motion-reduce:animate-none
+  [&[hidden]]:hidden`. (The `motion-reduce:animate-none` replaces the bespoke
+  `@media (prefers-reduced-motion: reduce) { .radcn-select-content { animation:none } }`
+  override — found during implementation; the migrated content dropped the
+  `.radcn-select-content` class the `@media` rule targeted, so the reduced-motion
+  reset moves onto the content utility via Tailwind's `motion-reduce:` variant.)
 - viewport (`.radcn-select-viewport`): `grid gap-0.5
   max-h-[min(14rem,var(--radcn-select-available-height,14rem))] overflow-y-auto p-1.5
   outline-none`.
@@ -102,6 +107,53 @@ byte-identical.
 Fail criteria: a select assertion regresses; the content positioning/animation
 drifts; the trigger ButtonGroup coupling breaks; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Select content surfaces migrated; both suites green (both fixture runs clean — no
+flake). One thing surfaced during implementation: a `@media (prefers-reduced-motion:
+reduce) { .radcn-select-content { animation: none } }` override targeted the dropped
+`.radcn-select-content` class — moved onto the content utility as
+`motion-reduce:animate-none` and the bespoke `@media` block removed.
+
+Verification:
+1. Both `styles:build` exit 0; the `min-w-32`, `max-h-[min(…)]`, `[&[hidden]]:hidden`,
+   `animate-[radcn-select-in_120ms_ease-out]`, `motion-reduce:animate-none`
+   (`@media (prefers-reduced-motion: reduce){…animation:none}` generated, count 1),
+   `[outline-offset:-2px]` utilities compile; no junk ellipsis.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated select rule remains; the
+   trigger rules (+ size/focus/disabled/invalid + the split `[data-placeholder]`) +
+   the fixture + `@keyframes radcn-select-in` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 (both clean); `select.spec.ts` in isolation
+   **12 passed** — the custom content class + colors, trigger open/close, value/
+   placeholder, items + highlight/disabled, indicator, groups, separators, scroll
+   buttons, keyboard nav.
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+## Conclusion
+
+Select's content surfaces (root/value/icon/content/viewport/group/label/item/
+indicator/separator/scroll-button) render from Tailwind utilities; the
+ButtonGroup-coupled trigger (+ its size/focus/disabled/invalid/placeholder rules)
+stays bespoke (the `.radcn-button-group > .radcn-select-trigger` cascade still
+restyles it for split-buttons). The value/trigger placeholder rule was SPLIT; the
+reduced-motion override became a `motion-reduce:` utility. FORTY-SEVEN components are
+now migrated (Select counts as one; its trigger remains a kept surface until
+ButtonGroup migrates).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A `@media (prefers-reduced-motion: reduce)` override of an animated migrated
+  surface becomes a `motion-reduce:animate-none` (or `motion-reduce:…`) utility on
+  that surface — Tailwind's `motion-reduce:` variant IS that media query. Grep for
+  `prefers-reduced-motion` blocks targeting a class you're dropping.
+- The Exp-51 "ButtonGroup-coupled trigger stays bespoke" carve-out generalizes to
+  Select: migrate the content surfaces, keep the trigger + its state rules bespoke
+  until ButtonGroup migrates.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, Haiku 4.5, spawned via the Agent
@@ -133,3 +185,29 @@ Approval result: approved (lead-agent judgment) — the substantive design is so
 (trigger carve-out, placeholder split, token reads, proven animate pattern); the
 reviewer's reject was a design-stage misread, and its concrete value-checks confirm
 the mapping. The dual-suite gate decides.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed the 11 content-surface utility consts (icon + inline
+item-indicator converted from raw classes); the TRIGGER still emits
+`radcn-select-trigger` (bespoke, ButtonGroup cascade intact); the scroll-button
+`--up`/`--down` style-less markers kept; `selectContentClass` has
+`animate-[radcn-select-in_120ms_ease-out]` + `motion-reduce:animate-none` +
+`[&[hidden]]:hidden`; `selectValueClass` has the `data-[placeholder=true]:text-[…]`
+half of the split. tokens.css KEEPS the trigger rules (+ size/focus/disabled/invalid
++ split `[data-placeholder]`), removed the bespoke `@media (prefers-reduced-motion)`
+block, kept the fixture + `@keyframes radcn-select-in`; byte-identical `index.ts`.
+It rebuilt + confirmed the utilities (incl. the regenerated reduced-motion media
+query) compile with no junk, re-ran the three typechecks, the docs suite (11),
+`select.spec.ts` (12), and the full fixture suite (1191×2, both clean). Verdict:
+APPROVED.
+
+Approval result: approved with no blockers — Select content surfaces migrated (47
+components); the trigger stays bespoke until ButtonGroup migrates.

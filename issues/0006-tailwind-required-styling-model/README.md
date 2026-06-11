@@ -238,7 +238,7 @@ a dependency listed in package manifests.
 - [Experiment 53: Migrate Command + Combobox together to Tailwind utilities](53-migrate-command-combobox-to-tailwind.md)
   — **Pass**
 - [Experiment 54: Migrate Select content surfaces to Tailwind utilities](54-migrate-select-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -938,6 +938,16 @@ From Experiment 53 (Command + Combobox together — Pass):
   overrides` when the override changes a shared property (border/radius/bg) — that
   re-creates the Exp-41 source-order conflict. Emit the overriding element's RESOLVED
   state directly (per-side border longhands instead of the `border` shorthand).
+
+From Experiment 54 (Select content surfaces — Pass):
+
+- A `@media (prefers-reduced-motion: reduce)` override of an animated MIGRATED
+  surface becomes a `motion-reduce:animate-none` (or `motion-reduce:...`) utility on
+  that surface (Tailwind's `motion-reduce:` variant IS that media query). Grep for
+  `prefers-reduced-motion` blocks targeting a class you're dropping.
+- The Exp-51 ButtonGroup-coupled-trigger carve-out generalizes to Select: migrate
+  the content surfaces, keep the trigger + its state rules bespoke until ButtonGroup
+  migrates.
 
 ## Remaining Component Migration Map
 
