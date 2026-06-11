@@ -190,6 +190,9 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 30: Migrate Drawer overlay to Tailwind + retire the dead modal keyframes](30-migrate-drawer-overlay-to-tailwind.md)
   — **Pass**
+- [Experiment 31: Button migration — scope analysis and decomposition plan](31-migrate-button-to-tailwind.md)
+  — **Pass** (scope analysis; Button decomposed into follow-up experiments — no
+  code change)
 
 ## Learnings
 
@@ -633,6 +636,17 @@ migrated):
   translation), updating the in-suite `toHaveClass(/radcn-button--*/)` assertions
   to `data-variant`/`data-size`; (b) repoint ButtonGroup + date-picker; then the
   menu-cluster triggers unblock.
+
+Update (Experiment 31, scope analysis): the true cost is larger than the
+component — there are **95 raw `radcn-button--*` class strings hand-written
+across 13 fixture/docs files** that bypass the Button component and depend on
+the bespoke CSS directly. So Button is a decomposable sub-project: (1) route all
+raw call sites through the `Button` component / a `buttonClass()` helper
+(byte-identical, green), THEN (2) flip the component to utilities + remove the
+bespoke CSS + rewrite the 27 `toHaveClass` assertions. Never remove a
+widely-hand-written class in one atomic pass. Self-contained, non-button-coupled
+components (Avatar, Accordion, Tabs, ScrollArea, Switch/Checkbox/RadioGroup,
+Slider) can be migrated in parallel with the Button decomposition.
 
 ## Completion Criteria
 
