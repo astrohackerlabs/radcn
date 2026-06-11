@@ -1041,6 +1041,53 @@ From Experiment 63 (ButtonGroup + InputGroup — Pass; FINAL components):
   reset) can stay bespoke as documented hooks — keep the group's marker classes so they
   match; no need to thread radius/border vars through the already-migrated child.
 
+## Migration Status Audit (after Experiment 63)
+
+A `tokens.css` audit after Experiment 63 corrects an over-optimistic count used
+during Experiments 47–63. Those experiments migrated each component's PRIMARY
+surfaces and the count was tracked per-experiment as "components migrated"; the audit
+shows the issue is NOT complete. **39 genuine visual-debt rules remain** (rules with
+two or more visual declarations — `padding`/`font`/`border`/`background`/`gap`/etc.):
+
+- **Button** (keystone) — `.radcn-button` (+ the `--{variant}`/`--{size}` rules). Still
+  fully bespoke. Experiment 31 was re-scoped to a SCOPE-ANALYSIS experiment and
+  explicitly DEFERRED the implementation: the `radcn-button*` classes are hand-written
+  as raw class strings in ~95 places across 13 fixture/docs files (plus asserted by
+  name in 27 spec places), so removing the rules requires a coordinated multi-file
+  change, not a component-only edit.
+- **Overlay-family triggers** (full button-style visual debt): `.radcn-dialog-trigger`,
+  `.radcn-drawer-trigger`, `.radcn-dropdown-menu-trigger`, `.radcn-popover-close`,
+  `.radcn-select-trigger` — each ~8–10 visual declarations; several are also raw-class
+  in fixtures (shared blast radius with Button).
+- **Overlay-family sub-elements**: `.radcn-dialog-{header,footer,title,description}`,
+  `.radcn-drawer-{header,footer,title,description,close,content,handle}`,
+  `.radcn-sheet-{header,footer,title,description}`,
+  `.radcn-popover-{header,title,description}`, `.radcn-alert-dialog-{action,cancel,media}`,
+  `.radcn-hover-card-{avatar,body}` — layout + typography (grid/gap/padding/font).
+- **Primitives still bespoke**: `.radcn-toggle-group`, `.radcn-toggle-group-icon`,
+  `.radcn-toggle-icon`, `.radcn-field-description`, `.radcn-field-error`,
+  `.radcn-breadcrumb-{glyph,trigger}`, `.radcn-menu-item-indicator`,
+  `.radcn-menu-sub-caret`, `.radcn-date-picker-content`.
+
+What IS genuinely migrated (emits utilities; bespoke rule removed; verified by the
+byte-identical gate): the leaf/primitive set (Badge, Card, Input/Textarea, Skeleton,
+Separator, Kbd, Empty, Label, AspectRatio, Alert, Table, Progress, Spinner, Avatar,
+ScrollArea, Tabs, Accordion, Collapsible, Switch, Checkbox/RadioGroup, Slider, Item,
+Typography, NativeSelect, DataTable, Field container, Direction) and this session's
+batch (Toggle/ToggleGroup primary, Resizable, Breadcrumb/Pagination, Toast/Sonner,
+the menu/select content surfaces, Calendar, Carousel, Chart, Sidebar, InputOTP,
+DatePicker surfaces, Form, ButtonGroup/InputGroup own surfaces). Also genuinely kept
+as documented non-styling hooks: portals (`position:fixed` only), the family
+`radcn-menu-*` raw-class API, fixture/docs demo classes, and style-less markers.
+
+**Issue 6 remains OPEN.** The remaining ~39 visual-debt rules — centered on the
+Button keystone + its raw-class blast radius and the overlay-family triggers/
+sub-elements — are the genuine path to completion. The next experiments must migrate
+each component's surface AND update the raw `radcn-*` class sites in fixtures/docs
+that depend on the bespoke rules (the Experiment 31 blast-radius finding), then the
+issue can be closed. The byte-identical/dual-suite gate and the per-experiment review
+discipline still apply.
+
 ## Remaining Component Migration Map
 
 As of Experiment 51 (42 components migrated), the remaining components are
