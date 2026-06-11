@@ -1420,19 +1420,6 @@
   opacity: 0.5;
 }
 
-.radcn-menu-item-indicator {
-  display: inline-flex;
-  width: 1rem;
-  justify-content: center;
-  color: var(--radcn-menu-indicator-fg, var(--radcn-primary));
-}
-
-.radcn-menu-sub-caret {
-  margin-left: auto;
-  color: var(--radcn-muted-foreground);
-  font: 500 0.75rem/1 var(--radcn-font);
-}
-
 .radcn-fixture-custom-menu {
   --radcn-menu-border: #7c3aed;
   --radcn-menu-bg: #faf5ff;

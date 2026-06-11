@@ -3,6 +3,7 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { setupMenuOverlay } from '../utils/menu-overlay.ts'
 import type { DropdownMenuAlign, DropdownMenuItemVariant, DropdownMenuSide } from './dropdown-menu.tsx'
+import { menuItemIndicatorClass, menuSubCaretClass } from './dropdown-menu.tsx'
 
 // Menubar + NavigationMenu shared surfaces as Tailwind utilities (Issue 6,
 // Experiment 52). The trigger base + active are exported here and reused by
@@ -261,7 +262,7 @@ export function MenubarItem(handle: Handle<MenubarItemProps>) {
 export function MenubarCheckboxItem(handle: Handle<MenubarCheckboxItemProps>) {
   return () => {
     let { checked, children, class: className, disabled, inset, style, textValue } = handle.props
-    return <button aria-checked={checked ? 'true' : 'false'} aria-disabled={disabled ? 'true' : undefined} class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-checkbox-item data-radcn-menu-checkbox-item="true" data-radcn-menu-item data-state={checked ? 'checked' : 'unchecked'} data-text={textValue} role="menuitemcheckbox" style={style} tabIndex={-1} type="button"><span class="radcn-menu-item-indicator" data-radcn-menubar-item-indicator data-radcn-menu-item-indicator hidden={!checked}>✓</span>{children}</button>
+    return <button aria-checked={checked ? 'true' : 'false'} aria-disabled={disabled ? 'true' : undefined} class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-checkbox-item data-radcn-menu-checkbox-item="true" data-radcn-menu-item data-state={checked ? 'checked' : 'unchecked'} data-text={textValue} role="menuitemcheckbox" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menubar-item-indicator data-radcn-menu-item-indicator hidden={!checked}>✓</span>{children}</button>
   }
 }
 
@@ -275,14 +276,14 @@ export function MenubarRadioGroup(handle: Handle<MenubarRadioGroupProps>) {
 export function MenubarRadioItem(handle: Handle<MenubarRadioItemProps>) {
   return () => {
     let { children, class: className, disabled, inset, style, textValue, value } = handle.props
-    return <button aria-checked="false" aria-disabled={disabled ? 'true' : undefined} class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-radio-item data-radcn-menu-item data-radcn-menu-radio-item="true" data-state="unchecked" data-text={textValue} data-value={value} role="menuitemradio" style={style} tabIndex={-1} type="button"><span class="radcn-menu-item-indicator" data-radcn-menubar-item-indicator data-radcn-menu-item-indicator hidden>●</span>{children}</button>
+    return <button aria-checked="false" aria-disabled={disabled ? 'true' : undefined} class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-radio-item data-radcn-menu-item data-radcn-menu-radio-item="true" data-state="unchecked" data-text={textValue} data-value={value} role="menuitemradio" style={style} tabIndex={-1} type="button"><span class={menuItemIndicatorClass} data-radcn-menubar-item-indicator data-radcn-menu-item-indicator hidden>●</span>{children}</button>
   }
 }
 
 export function MenubarItemIndicator(handle: Handle<MenubarPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <span class={classes('radcn-menu-item-indicator', className)} data-radcn-menubar-item-indicator data-radcn-menu-item-indicator style={style}>{children || '✓'}</span>
+    return <span class={classes(menuItemIndicatorClass, className)} data-radcn-menubar-item-indicator data-radcn-menu-item-indicator style={style}>{children || '✓'}</span>
   }
 }
 
@@ -311,7 +312,7 @@ export function MenubarSubTrigger(handle: Handle<MenubarItemProps>) {
   return () => {
     let { children, class: className, disabled, inset, style, textValue } = handle.props
     let id = `radcn-menubar-sub-${Math.random().toString(36).slice(2)}`
-    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class="radcn-menu-sub-caret" aria-hidden="true">›</span></button>
+    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menubarItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-menubar-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class={menuSubCaretClass} aria-hidden="true">›</span></button>
   }
 }
 

@@ -23,6 +23,10 @@ export const menuShortcutClass =
   'ml-auto text-muted-foreground text-[0.75rem] font-medium leading-none [font-family:var(--radcn-font)]'
 export const menuSeparatorClass = 'h-px my-1 -mx-1.5 bg-[var(--radcn-menu-separator-bg,var(--radcn-border))]'
 export const menuSubClass = 'contents'
+export const menuSubCaretClass =
+  'radcn-menu-sub-caret ml-auto text-muted-foreground font-medium text-[0.75rem] leading-none [font-family:var(--radcn-font)]'
+export const menuItemIndicatorClass =
+  'radcn-menu-item-indicator inline-flex w-4 justify-center text-[var(--radcn-menu-indicator-fg,var(--radcn-primary))]'
 
 export type DropdownMenuAlign = 'start' | 'center' | 'end'
 export type DropdownMenuSide = 'top' | 'right' | 'bottom' | 'left'
@@ -160,7 +164,7 @@ export function DropdownMenuCheckboxItem(handle: Handle<DropdownMenuCheckboxItem
 
     return (
       <button aria-checked={checked ? 'true' : 'false'} aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-dropdown-menu-checkbox-item data-radcn-menu-checkbox-item="true" data-radcn-menu-item data-state={checked ? 'checked' : 'unchecked'} data-text={textValue} role="menuitemcheckbox" style={style} tabIndex={-1} type="button">
-        <span class="radcn-menu-item-indicator" data-radcn-menu-item-indicator hidden={!checked}>✓</span>
+        <span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden={!checked}>✓</span>
         {children}
       </button>
     )
@@ -181,7 +185,7 @@ export function DropdownMenuRadioItem(handle: Handle<DropdownMenuRadioItemProps>
 
     return (
       <button aria-checked="false" aria-disabled={disabled ? 'true' : undefined} class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-dropdown-menu-radio-item data-radcn-menu-item data-radcn-menu-radio-item="true" data-state="unchecked" data-text={textValue} data-value={value} role="menuitemradio" style={style} tabIndex={-1} type="button">
-        <span class="radcn-menu-item-indicator" data-radcn-menu-item-indicator hidden>●</span>
+        <span class={menuItemIndicatorClass} data-radcn-menu-item-indicator hidden>●</span>
         {children}
       </button>
     )
@@ -217,7 +221,7 @@ export function DropdownMenuSubTrigger(handle: Handle<DropdownMenuItemProps>) {
     let { children, class: className, disabled, inset, style, textValue } = handle.props
     let id = `radcn-dropdown-sub-${Math.random().toString(36).slice(2)}`
 
-    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-dropdown-menu-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class="radcn-menu-sub-caret" aria-hidden="true">›</span></button>
+    return <button aria-controls={id} aria-disabled={disabled ? 'true' : undefined} aria-expanded="false" aria-haspopup="menu" class={classes(menuItemClass, inset && 'radcn-menu-item--inset', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-radcn-dropdown-menu-sub-trigger data-radcn-menu-item data-radcn-menu-sub-trigger="true" data-state="closed" data-text={textValue} role="menuitem" style={style} tabIndex={-1} type="button">{children}<span class={menuSubCaretClass} aria-hidden="true">›</span></button>
   }
 }
 

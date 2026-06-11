@@ -59,6 +59,42 @@ hold; BOTH suites green; byte-identical. Clears 2 of the remaining debt rules.
 
 Fail criteria: a menu spec regresses; a utility doesn't compile; divergence.
 
+## Result
+
+**Result:** Pass
+
+The menu-family helpers migrated; both suites green (both fixture runs clean). All
+three `styles:build`/typechecks pass; the caret/indicator utilities compile (no junk);
+`index.ts` byte-identical; the 2 rules removed; docs 11 ×2; `menu-overlays.spec.ts`
+isolation **9 passed** (the sub-trigger caret `toHaveText('›')`, the checkbox/radio
+indicator visibility); fixture 1191 ×2 (both clean); `git diff --check` clean; five
+files changed (dropdown-menu/context-menu/menubar + tokens.css + index.ts).
+
+## Conclusion
+
+`radcn-menu-sub-caret` + `radcn-menu-item-indicator` render from utilities —
+defined+exported by DropdownMenu (the family-const owner) and imported by ContextMenu
++ Menubar; the 9 inline sites + the Menubar wrapper emit the consts (markers +
+`data-radcn-menu-item-indicator` kept). This completes the menu-family helper
+retirement and clears the last component-emitted, no-blast-radius debt. Clears 2 of
+the remaining ~19 visual-debt rules.
+
+The remaining ~17 are ALL in the raw-class blast-radius cluster (hand-written across
+fixtures/docs): the **Button keystone** (`radcn-button*`, ~95 sites/13 files/27
+assertions — the Exp-31 deferral), the Button-coupled triggers/closes
+(`dialog/drawer/dropdown/select trigger`, `popover-close`), and the raw-class
+primitives (`toggle-group`/`toggle-group-icon`, `breadcrumb-glyph`,
+`hover-card avatar`/`body`). Each needs the coordinated component + fixture/docs
+raw-class migration.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Family-helper retirement: shared `radcn-menu-*` helper classes emitted inline across
+  the menu cluster migrate by adding the utility consts to the family owner
+  (`dropdown-menu.tsx`, already the export hub) and importing them in the siblings —
+  the inline `class="…"` literals become `class={const}` (the const carries the marker
+  for the asserted text/visibility), no fixture blast radius.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -81,3 +117,20 @@ substantive design is approved; the gate decides the implementation.
 
 Approval result: approved — exact mappings, the family-const pattern, markers +
 data-attrs preserved (the caret-text + indicator-visible assertions hold).
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed dropdown-menu exports both
+consts (exact mappings), context-menu + menubar import them, all 9 inline sites + the
+menubar wrapper use `class={const}`, NO inline `class="radcn-menu-*"` literals remain,
+markers + `data-radcn-menu-item-indicator` preserved; tokens.css removed both rules;
+byte-identical `index.ts`. It rebuilt (utilities generate, no junk), re-ran the three
+typechecks, docs (11), `menu-overlays.spec.ts` (the caret `toHaveText('›')` + the
+indicator visibility), and the full fixture suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — 21 of the 39 visual-debt rules cleared;
+the remainder is the raw-class blast-radius cluster (Button keystone + triggers +
+toggle/breadcrumb/hover-card primitives).
