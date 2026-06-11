@@ -117,7 +117,46 @@ truncate + active/prev/next + separators hold; BOTH suites green; byte-identical
 Fail criteria: the custom color, truncate, or an active/link assertion regresses;
 the responsive toggle drifts; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Breadcrumb + Pagination migrated; both suites green. Verification:
+
+1. Both `styles:build` exit 0; no junk ellipsis (0); the `max-[767px]:`,
+   `text-[length:var(…)]`, `min-w-6` utilities compile.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; ZERO shared/component breadcrumb/
+   pagination rules remain; the breadcrumb raw-class API (trigger/glyph/truncate/
+   responsive-*/drawer-links + BOTH `@media` blocks) + `.radcn-fixture-custom-breadcrumb`
+   retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `navigation-collection.spec.ts` in isolation
+   **9 passed** — incl. the breadcrumb custom color `rgb(15,118,110)`, the
+   `.radcn-breadcrumb-truncate` `overflow:hidden` (kept bespoke), separators, the
+   parity depth; pagination structure, active page, prev/next, ellipsis.
+6. `git diff --check` clean; `vendor/` untouched; the four expected files changed.
+
+No deviations from the (review-corrected) design.
+
+## Conclusion
+
+Breadcrumb + Pagination are migrated: the component-emitted surfaces (list/content,
+item, link, page, separator, ellipsis, nav, active, prev/next) render from Tailwind
+utilities; the shared rules are fully removed (both migrated together); the
+breadcrumb raw-class layout API (trigger/glyph/truncate/responsive/drawer +
+`@media`) stays bespoke (consumed directly by fixtures+docs). THIRTY-NINE
+components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A component's bespoke CSS can mix component-EMITTED classes (migrate to utilities)
+  with a consumer-facing RAW-class layout API the component never emits
+  (fixtures/docs apply it). Grep the component AND the fixtures/docs: migrate only
+  the emitted surfaces; keep the raw-class API bespoke (the Exp-37/47 lesson, here
+  for breadcrumb trigger/glyph/truncate/responsive/drawer + their `@media` blocks).
+- Sibling components sharing combined base rules (Breadcrumb + Pagination, like
+  Checkbox + Radio) migrate together so the shared rules fully drop.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -144,3 +183,29 @@ removed (both migrated together). The `:54` `.radcn-breadcrumb-truncate`
 
 Approval result: approved (with the corrected scope) — the shared-rule
 together-migration is sound; the breadcrumb raw-class layout API stays bespoke.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed breadcrumb.tsx emits utility-const strings for
+list/item/link/page/separator/ellipsis (root `radcn-breadcrumb` dropped,
+`data-radcn-breadcrumb` kept; trigger/glyph/truncate/responsive/drawer NOT in the
+component); pagination.tsx emits utilities for nav/content/item/link(+active)/
+prev(`gap-1.5`)/next/ellipsis. tokens.css has ZERO shared + component breadcrumb +
+pagination rules, while the breadcrumb RAW-CLASS API is KEPT bespoke — `.radcn-breadcrumb-trigger`
+(+`:hover`/`:focus-visible`), `-glyph`, `-truncate` (`overflow:hidden`),
+`-responsive-desktop`/`-mobile`, `-drawer-links`, AND BOTH `@media` blocks
+(`max-width:767px` + `min-width:768px`) — plus the custom fixture. byte-identical
+`index.ts`; no junk. It re-ran the three typechecks, the docs suite (11),
+`navigation-collection.spec.ts` (9 — custom color `rgb(15,118,110)`, truncate
+`overflow:hidden`, separators, pagination), and the full fixture suite (1191).
+Verdict: APPROVED.
+
+Approval result: approved with no blockers — Breadcrumb + Pagination migrated (39
+components).

@@ -228,7 +228,7 @@ a dependency listed in package manifests.
 - [Experiment 48: Migrate Resizable to Tailwind utilities](48-migrate-resizable-to-tailwind.md)
   — **Pass**
 - [Experiment 49: Migrate Breadcrumb + Pagination together to Tailwind utilities](49-migrate-breadcrumb-pagination-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -874,6 +874,17 @@ From Experiment 48 (Resizable — Pass, first-try green via the Exp-47 pattern):
 - A parent->child cascade that sets a property to its OWN default (e.g.
   `height:auto`/`width:auto` on a flex item's cross-axis = stretch) is a no-op —
   drop it outright rather than propagate.
+
+From Experiment 49 (Breadcrumb + Pagination together — Pass):
+
+- A component's bespoke CSS can mix component-EMITTED classes (migrate to
+  utilities) with a consumer-facing RAW-class layout API the component never emits
+  (fixtures/docs apply it directly). Grep the component AND the fixtures/docs:
+  migrate only the emitted surfaces; keep the raw-class API bespoke (here:
+  breadcrumb trigger/glyph/truncate/responsive-*/drawer-links + their `@media`
+  blocks). Same family as the toggle-icon (Exp 47) raw-class API.
+- Sibling components sharing combined base rules (Breadcrumb + Pagination, like
+  Checkbox + Radio) migrate together so the shared rules fully drop.
 
 ## Completion Criteria
 
