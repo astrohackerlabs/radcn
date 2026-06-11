@@ -194,7 +194,7 @@ a dependency listed in package manifests.
   — **Pass** (scope analysis; Button decomposed into follow-up experiments — no
   code change)
 - [Experiment 32: Migrate Avatar surfaces to Tailwind utilities](32-migrate-avatar-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -649,6 +649,18 @@ bespoke CSS + rewrite the 27 `toHaveClass` assertions. Never remove a
 widely-hand-written class in one atomic pass. Self-contained, non-button-coupled
 components (Avatar, Accordion, Tabs, ScrollArea, Switch/Checkbox/RadioGroup,
 Slider) can be migrated in parallel with the Button decomposition.
+
+From Experiment 32 (Avatar surfaces — Pass):
+
+- `rounded-full` computes to Tailwind v4's `calc(infinity * 1px)`, NOT a literal
+  pixel value — when a test asserts an exact `border-radius` (RadCN's `999px`),
+  use `rounded-[999px]`. Same exact-value caution as Card Exp 15.
+- A size variant that sets a CSS var consumed by a descendant migrates cleanly
+  by emitting an arbitrary-property utility (`[--radcn-avatar-badge-size:0.5rem]`)
+  on the parent; the descendant inherits it (no descendant rule needed).
+- Token-referencing utilities (`bg-[var(--radcn-avatar-fallback-bg,…)]`)
+  reproduce a custom-token fixture's overrides with NO translation — the
+  fixture's `--radcn-*` tokens stay and the utilities read them.
 
 ## Completion Criteria
 

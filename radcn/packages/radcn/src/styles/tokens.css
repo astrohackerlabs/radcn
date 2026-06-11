@@ -2013,115 +2013,24 @@
   color: var(--radcn-toggle-icon-on-fg, currentColor);
 }
 
-.radcn-avatar {
-  position: relative;
-  display: inline-flex;
-  width: var(--radcn-avatar-size, 2.5rem);
-  height: var(--radcn-avatar-size, 2.5rem);
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--radcn-avatar-bg, var(--radcn-secondary));
-  color: var(--radcn-avatar-fg, var(--radcn-secondary-foreground));
-  font: 600 0.875rem/1 var(--radcn-font);
-  user-select: none;
-}
-
-.radcn-avatar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--radcn-avatar-border, var(--radcn-border));
-  border-radius: inherit;
-  pointer-events: none;
-}
-
-.radcn-avatar--sm {
-  --radcn-avatar-size: 2rem;
-  font-size: 0.75rem;
-}
-
-.radcn-avatar--lg {
-  --radcn-avatar-size: 3rem;
-  font-size: 1rem;
-}
-
-.radcn-avatar-image {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.radcn-avatar-fallback {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  background: var(--radcn-avatar-fallback-bg, var(--radcn-secondary));
-  color: var(--radcn-avatar-fallback-fg, var(--radcn-secondary-foreground));
-}
-
-.radcn-avatar-badge {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 2;
-  display: inline-flex;
-  width: var(--radcn-avatar-badge-size, 0.625rem);
-  height: var(--radcn-avatar-badge-size, 0.625rem);
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--radcn-background);
-  border-radius: 999px;
-  background: var(--radcn-avatar-badge-bg, #16a34a);
-  color: var(--radcn-avatar-badge-fg, #ffffff);
-}
-
-.radcn-avatar--sm .radcn-avatar-badge {
-  --radcn-avatar-badge-size: 0.5rem;
-}
-
-.radcn-avatar--lg .radcn-avatar-badge {
-  --radcn-avatar-badge-size: 0.75rem;
-}
-
-.radcn-avatar-group {
-  display: flex;
-  align-items: center;
-  isolation: isolate;
-}
-
-.radcn-avatar-group .radcn-avatar,
-.radcn-avatar-group .radcn-avatar-group-count,
-.radcn-avatar-group [data-radcn-avatar],
-.radcn-avatar-group [data-radcn-avatar-group-count] {
+/*
+ * Avatar surfaces (avatar + ::after ring, image, fallback, badge, group,
+ * group-count) are migrated to Tailwind utilities (Issue 6, Experiment 32); the
+ * components emit token-referencing utilities so the custom-avatar fixture
+ * tokens keep working. What remains here is the avatar-GROUP overlap (negative
+ * margins + ring): the grouped children are separate components, so their
+ * overlap can't be a utility on the parent — it stays a bespoke composition
+ * rule, keyed on the data attributes.
+ */
+[data-radcn-avatar-group] [data-radcn-avatar],
+[data-radcn-avatar-group] [data-radcn-avatar-group-count] {
   margin-left: -0.5rem;
   box-shadow: 0 0 0 2px var(--radcn-background);
 }
 
-.radcn-avatar-group .radcn-avatar:first-child,
-.radcn-avatar-group .radcn-avatar-group-count:first-child,
-.radcn-avatar-group [data-radcn-avatar]:first-child,
-.radcn-avatar-group [data-radcn-avatar-group-count]:first-child {
+[data-radcn-avatar-group] [data-radcn-avatar]:first-child,
+[data-radcn-avatar-group] [data-radcn-avatar-group-count]:first-child {
   margin-left: 0;
-}
-
-.radcn-avatar-group-count {
-  display: inline-flex;
-  width: 2.5rem;
-  height: 2.5rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: var(--radcn-avatar-count-bg, var(--radcn-secondary));
-  color: var(--radcn-avatar-count-fg, var(--radcn-secondary-foreground));
-  font: 600 0.8125rem/1 var(--radcn-font);
 }
 
 .radcn-scroll-area {

@@ -108,6 +108,56 @@ BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: an avatar assertion regresses (size/fallback/badge/group); the
 custom colors fail; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (one in-flight fix during verification)
+
+Avatar surfaces are migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the avatar utilities generate (`rounded-[999px]`,
+   `after:border`, `size-[var(--radcn-avatar-size,2.5rem)]`, `object-cover`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated `.radcn-avatar*` CLASS
+   rule remains (count 0); the group child-overlap rule keyed on
+   `[data-radcn-avatar-group] [data-radcn-avatar]` present; `.radcn-fixture-custom-avatar`
+   retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `avatar-scroll-area.spec.ts` in isolation
+   **7 passed** — incl. class presence, fallback bg `rgb(15,118,110)`, badge bg
+   `rgb(124,58,237)`, group margin-left `-8px`, box-shadow not `none`, the
+   consumer grayscale, AND the `border-radius: 999px` default-radius assertion.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+In-flight fix: the first run failed `avatar-scroll-area.spec.ts:78`
+(`border-radius` asserted exactly `999px` but `rounded-full` computes to Tailwind
+v4's `calc(infinity * 1px)` ≈ `3.35e7px`). Fixed by using `rounded-[999px]`
+(arbitrary, exact) instead of `rounded-full` on the avatar base, badge, and
+group-count — reproducing RadCN's literal `999px`. Re-verified green.
+
+## Conclusion
+
+Avatar is migrated: its surfaces render from token-referencing Tailwind
+utilities (so the custom-avatar fixture works unchanged), the `::after` ring via
+`after:*` utilities, the size variants set the size/badge-size tokens (cascading
+to the badge), and the group overlap stays a bespoke composition rule keyed on
+`[data-radcn-avatar-group]`. Twenty-two components are now migrated. The other
+self-contained components (Accordion, Tabs, ScrollArea, Switch/Checkbox/
+RadioGroup, Slider, etc.) follow the same pattern; Button proceeds via its
+decomposition (Exp 31).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- `rounded-full` computes to Tailwind v4's `calc(infinity * 1px)`, NOT a literal
+  pixel value. When a test asserts an exact `border-radius` (RadCN used the
+  literal `999px`), use `rounded-[999px]` — the same exact-value caution as the
+  Card Exp 15 / Button-size lessons. (A pill that's only visually round, with no
+  computed assertion, can keep `rounded-full`.)
+- A size variant that sets a CSS var consumed by a descendant
+  (`--radcn-avatar-badge-size`) migrates cleanly by emitting an arbitrary-property
+  utility (`[--radcn-avatar-badge-size:0.5rem]`) on the parent — the descendant
+  inherits it, no descendant rule needed.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -133,3 +183,30 @@ exist outside the component (unlike Button). Verdict: APPROVED.
 Approval result: approved — self-contained migration; token-referencing
 utilities keep the custom fixture working with no translation; the group overlap
 stays a bespoke composition rule keyed on the data attributes.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed avatar.tsx emits utility-const strings (no `radcn-avatar*`
+classes), base/badge/group-count use `rounded-[999px]` (not `rounded-full`), the
+size variants set the `[--radcn-avatar-size:…]`/`[--radcn-avatar-badge-size:…]`
+arbitrary-property utilities, the fallback/badge use token-referencing bg/text,
+and all data attributes are kept; tokens.css has ZERO migrated `.radcn-avatar*`
+class rules, the group child-overlap rule keyed on
+`[data-radcn-avatar-group] [data-radcn-avatar]`/`[data-radcn-avatar-group-count]`,
+and the retained `.radcn-fixture-custom-avatar`; byte-identical `index.ts`. It
+re-ran both `styles:build`, the three typechecks, the docs suite (2/2 = 11), the
+fixture suite (2/2 = 1191), and `avatar-scroll-area.spec.ts` in isolation (7 —
+the `border-radius: 999px` default, fallback bg `rgb(15,118,110)`, badge bg
+`rgb(124,58,237)`, group `margin-left: -8px`, box-shadow not none, grayscale). It
+judged the migration faithful, the custom colors held via token-referencing
+utilities (no translation), the sizes/`::after` ring/group overlap intact, and
+the `rounded-[999px]` fix correct. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Avatar is migrated (22 components).
