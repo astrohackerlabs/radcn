@@ -14,3 +14,5 @@
 @import 'tailwindcss/preflight';
 @import 'radcn/theme.css';
 @import 'tailwindcss/utilities';
+/* shadcn v4 overlay enter/exit animation utilities (Issue 6, Experiment 23). */
+@import 'tw-animate-css';

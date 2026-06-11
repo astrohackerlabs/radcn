@@ -175,7 +175,7 @@ a dependency listed in package manifests.
 - [Experiment 22: Migrate Spinner to Tailwind utilities](22-migrate-spinner-to-tailwind.md)
   — **Pass**
 - [Experiment 23: Add the animation-utilities foundation (tw-animate-css)](23-add-animation-utilities-foundation.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -478,6 +478,19 @@ under-scoping):
 - A bespoke `@keyframes` referenced inline by raw (non-component) SVGs is removed
   only after repointing those SVGs to Tailwind's equivalent keyframe
   (`animation:spin`, present once a migrated component uses `animate-spin`).
+
+From Experiment 23 (animation-utilities foundation — Pass):
+
+- shadcn v4 overlay components require `tw-animate-css` (shadcn imports it in
+  globals.css) for their `animate-in`/`data-[state=…]:animate-out`/`fade`/
+  `zoom`/`slide` utilities — these are NOT in core Tailwind. RadCN now imports
+  it in both pipelines (catalog + both apps' devDeps + `@import 'tw-animate-css'`
+  after `tailwindcss/utilities`). This is the foundation overlay migrations need
+  (analogous to Exp 16's border-color base).
+- `tw-animate-css` utilities are ON-DEMAND (`@utility`): they appear in the
+  generated CSS only once a scanned component uses them, so the foundation is
+  byte-inert until consumed — verify it with a throwaway probe, not by grepping
+  the unused output.
 
 ## Completion Criteria
 

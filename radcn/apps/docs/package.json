@@ -21,6 +21,7 @@
     "@tailwindcss/cli": "catalog:",
     "@types/node": "latest",
     "tailwindcss": "catalog:",
+    "tw-animate-css": "catalog:",
     "typescript": "latest"
   }
 }

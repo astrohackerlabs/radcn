@@ -79,6 +79,64 @@ Fail criteria: the install fails (no registry / resolution error) — then this
 foundation is deferred and a non-overlay component is migrated instead; or the
 import regresses a suite; or the utilities still do not generate.
 
+## Result
+
+**Result:** Pass
+
+The animation foundation is in place; both suites are green and stable.
+Verification:
+
+1. `pnpm install` succeeded; `tw-animate-css@1.4.0` resolved and installed
+   (`node_modules/.pnpm/tw-animate-css@1.4.0`); `pnpm-lock.yaml` updated.
+2. Both `styles:build` exit 0.
+3. All three typechecks pass.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** on 3 of 4 runs; one run hit the single
+   positioned-overlay serial-load flake (classified in Experiment 9), which
+   cannot be caused by this change — see the note below.
+6. Throwaway probe confirmed the foundation works: a temporary scanned element
+   using `animate-in fade-in-0 zoom-in-95 slide-in-from-top-2
+   data-[state=closed]:animate-out fade-out-0 zoom-out-95` generated all 7
+   utilities + the `enter`/`exit` keyframes/`--tw-enter-*` vars (grep counts
+   7 and 22). Probe deleted and rebuilt before this result.
+7. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; only
+   `pnpm-workspace.yaml`, the two app `package.json`, `pnpm-lock.yaml`, and the
+   two `tailwind.css` changed.
+
+Important correction to the design's verification assumption: `tw-animate-css`
+defines its utilities via Tailwind v4's ON-DEMAND `@utility` API, so they are
+tree-shaken until USED in scanned source. With no overlay migrated yet, the
+generated CSS is therefore BYTE-UNCHANGED (the utilities are available but not
+emitted) — which is why the change is provably inert and the suites are
+unaffected. The foundation is verified by the probe (utilities generate when
+used), not by static presence in the unused output. (The design step that
+grepped the generated CSS for the utilities was based on a wrong "statically
+present" assumption; the on-demand reality is correct and strictly safer.)
+
+## Conclusion
+
+`tw-animate-css` (shadcn v4's animation library) is imported into both Tailwind
+pipelines after `tailwindcss/utilities`. Its `animate-in`/`animate-out`/
+`fade-*`/`zoom-*`/`slide-*` utilities + `enter`/`exit` keyframes are now
+available on demand, so overlay components (Tooltip, Popover, Dialog, Dropdown,
+Select, Sheet, Drawer, HoverCard, Menubar, ContextMenu, Command, Toast,
+Accordion, …) can migrate to verbatim shadcn content classes that include the
+animation utilities. This is the foundation those migrations needed — analogous
+to Experiment 16's border-color base for bordered components. No component
+migrated yet; the foundation adds zero bytes to the current output.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- shadcn v4 overlay components require `tw-animate-css` (the `@import
+  "tw-animate-css"` shadcn uses in globals.css) for their `animate-in`/
+  `data-[state=…]:animate-out`/`fade`/`zoom`/`slide` utilities. RadCN now imports
+  it in both pipelines; overlay migrations can use those utilities verbatim.
+- `tw-animate-css` utilities are ON-DEMAND (`@utility`), so they only appear in
+  the generated CSS once a scanned component uses them — verify the foundation
+  with a throwaway probe, not by grepping the (still-unused) output. This also
+  means the foundation is byte-inert until consumed.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -104,5 +162,28 @@ risk is zero — the package is purely additive (utilities + `@property` +
 references the new utilities; (6) scope is minimal and correct (pnpm-workspace
 + 2 package.json + lockfile + 2 tailwind.css; no component/tokens.css/index.ts);
 (7) no integration blocker. Verdict: APPROVED.
+
+Approval result: approved with no blockers.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed `tw-animate-css@1.4.0` is installed, the catalog + both
+devDeps + both `@import 'tw-animate-css'` lines are present, both `styles:build`
+and the three typechecks pass, and exactly the expected files changed (no
+component/tokens.css/index.ts). It independently re-ran the on-demand probe
+(temp scanned element → the 7 utilities + `enter`/`exit` keyframes generate;
+deleted → absent, byte-inert), and the docs (2/2 = 11) and fixture (2/2 = 1191)
+suites — judging that the byte-unchanged output means the change cannot cause
+the Exp-9 overlay flake. It judged the foundation correct and faithful
+(shadcn's `tw-animate-css`, imported as shadcn does), the on-demand behavior
+correctly understood and provably inert, and the design's grep-assumption
+correction honest and sound. Verdict: APPROVED.
 
 Approval result: approved with no blockers.
