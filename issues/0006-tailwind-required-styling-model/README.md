@@ -261,6 +261,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 65: Migrate Field/Form message + ToggleGroup item to Tailwind utilities](65-migrate-field-form-toggle-item-to-tailwind.md)
   — **Pass**
+- [Experiment 66: Migrate the menu-family helpers (sub-caret + item-indicator)](66-migrate-menu-family-helpers-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
