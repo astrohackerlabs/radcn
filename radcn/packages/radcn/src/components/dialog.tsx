@@ -2,6 +2,16 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Dialog overlay + content surface from shadcn/ui v4 (registry/new-york-v4/ui/
+// dialog.tsx). See Issue 6, Experiment 27. ENTER-only (the modal JS hides via
+// the `hidden` attribute, so shadcn's exit utilities + duration are omitted).
+// The header/footer/title/description/close sub-parts stay bespoke (scope:
+// overlay + content surface). The shared radcn-dialog-* keyframes remain in
+// tokens.css for AlertDialog/Sheet/Drawer.
+const dialogOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
+const dialogContentClass =
+  'fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg outline-none animate-in fade-in-0 zoom-in-95 sm:max-w-lg'
+
 export interface DialogProps {
   children?: RemixNode
   class?: string
@@ -302,7 +312,7 @@ export function DialogOverlay(handle: Handle<DialogPartProps>) {
   return () => {
     let { class: className, style } = handle.props
 
-    return <div class={classes('radcn-dialog-overlay', className)} data-radcn-dialog-overlay data-state="closed" hidden style={style} />
+    return <div class={classes(dialogOverlayClass, className)} data-radcn-dialog-overlay data-state="closed" hidden style={style} />
   }
 }
 
@@ -313,7 +323,7 @@ export function DialogContent(handle: Handle<DialogContentProps>) {
     return (
       <div
         aria-label={ariaLabel}
-        class={classes('radcn-dialog-content', className)}
+        class={classes(dialogContentClass, className)}
         data-radcn-dialog-content
         data-state="closed"
         hidden

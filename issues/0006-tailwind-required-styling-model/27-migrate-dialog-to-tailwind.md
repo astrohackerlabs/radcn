@@ -117,6 +117,63 @@ Fail criteria: a dialog assertion regresses; the modal mis-centers; the custom
 content/overlay colors fail; a shared keyframe is broken for the other modals;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Dialog's overlay + content surface are migrated; both suites are green and
+stable. The first modal validates the modal-overlay pattern. Verification:
+
+1. Both `styles:build` exit 0; the dialog utilities generate (`bg-background`,
+   `bg-black/50`, `max-w-[calc(100%-2rem)]`, `sm:max-w-lg`, `translate-x-[-50%]`,
+   `animate-in`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-dialog-overlay`/
+   `.radcn-dialog-content` base CLASS rule remains; the `radcn-dialog-fade-in`/
+   `radcn-dialog-zoom-in` keyframes remain (kept ×2, shared with the other
+   modals); the `@media` rule no longer lists dialog; `.radcn-fixture-custom-dialog`
+   has the two descendant content + overlay direct rules (+ the kept trigger
+   token).
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `dialog.spec.ts` in isolation **6 passed**
+   — incl. open/close visibility, `data-state`, Escape-to-close, default-open,
+   the demo, AND the custom-token content `border-color: rgb(15, 118, 110)` +
+   `background-color: rgb(240, 253, 250)` + overlay `background-color: rgba(15,
+   118, 110, 0.35)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Dialog is the first migrated MODAL overlay: its overlay backdrop and centered
+content box render from shadcn v4 utilities (`bg-black/50`; `fixed`-centered
+`grid` `rounded-lg border bg-background p-6 shadow-lg` + enter-animation). The
+shared `radcn-dialog-*` keyframes were kept (AlertDialog/Sheet/Drawer still use
+them); the custom-token override on the portal was translated to descendant
+direct rules for the content (border/bg) and the sibling overlay (bg). The
+header/footer/title/description/close sub-parts + Button-coupled trigger are
+retained. Nineteen components are now migrated (… Tooltip, Popover, HoverCard,
+Dialog — plus sub-parts). This establishes the MODAL pattern for AlertDialog,
+Sheet, and Drawer.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- The modal-overlay pattern: migrate the overlay backdrop (`fixed inset-0 z-50
+  bg-black/50 animate-in fade-in-0`) + the centered content box (shadcn's
+  `fixed top/left-[50%] translate-x/y-[-50%] grid … rounded-lg border
+  bg-background p-6 shadow-lg` + enter-animation) to utilities; keep sub-parts +
+  the shared modal keyframes; the JS `hidden`-hide means exit utilities are
+  omitted.
+- When a custom-token class sits on a shared ANCESTOR (the DialogPortal) and its
+  tokens are read by sibling descendants (overlay + content), translate to
+  DESCENDANT direct rules (`.custom [data-overlay]`, `.custom [data-content]`),
+  one per affected descendant.
+- Modal keyframes (`radcn-dialog-fade-in`/`zoom-in`) are SHARED across the modal
+  cluster — keep them until the last modal migrates; only remove each modal's
+  `animation:` declaration as it migrates.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -147,3 +204,30 @@ the two dialog classes. Verdict: APPROVED.
 Approval result: approved with no blockers — the first modal migration is sound;
 the shared keyframes are preserved and the custom-token sibling coupling is
 handled via descendant rules.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed dialog.tsx emits the shadcn overlay + content utilities
+(no `radcn-dialog-overlay`/`-content` class) with all data attributes kept and
+trigger/close/sub-parts unchanged; tokens.css has ZERO dialog overlay/content
+class rules, BOTH `radcn-dialog-fade-in`/`radcn-dialog-zoom-in` keyframes kept
+(verified still used by AlertDialog/Sheet/Drawer), the `@media` rule without
+dialog (alert-dialog/sheet remain), and `.radcn-fixture-custom-dialog` with the
+kept trigger token + the two descendant content/overlay rules; byte-identical
+`index.ts`. It re-ran both `styles:build`, the three typechecks, the docs suite
+(2/2 = 11), the fixture suite (2/2 = 1191), `dialog.spec.ts` in isolation (6 —
+confirming the custom content border/bg + overlay bg), AND
+`modal-variants.spec.ts` (8 — AlertDialog/Sheet, proving the shared keyframes
+still work). It judged the modal migration faithful, the custom content+overlay
+winning via the descendant rules, the shared keyframes intact, and the
+centering/open/close intact. Verdict: APPROVED.
+
+Approval result: approved with no blockers — the modal-overlay pattern is
+established for AlertDialog/Sheet/Drawer.

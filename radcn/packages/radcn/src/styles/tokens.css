@@ -2231,31 +2231,13 @@
   z-index: var(--radcn-dialog-z, 50);
 }
 
-.radcn-dialog-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--radcn-dialog-overlay-bg, rgb(0 0 0 / 0.5));
-  animation: radcn-dialog-fade-in 120ms ease-out;
-}
-
-.radcn-dialog-content {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  display: grid;
-  width: min(calc(100vw - 2rem), var(--radcn-dialog-width, 32rem));
-  gap: 1rem;
-  border: 1px solid var(--radcn-dialog-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) + 0.125rem);
-  background: var(--radcn-dialog-bg, var(--radcn-background));
-  color: var(--radcn-dialog-fg, var(--radcn-foreground));
-  padding: 1.5rem;
-  box-shadow: 0 24px 64px rgb(0 0 0 / 0.2);
-  outline: none;
-  transform: translate(-50%, -50%);
-  animation: radcn-dialog-zoom-in 120ms ease-out;
-}
+/*
+ * Dialog overlay + content surface are migrated to Tailwind utilities (Issue 6,
+ * Experiment 27); the component emits shadcn v4 modal utilities (backdrop +
+ * centered content box + enter-animation). The header/footer/title/description/
+ * close sub-parts remain bespoke below. The radcn-dialog-fade-in /
+ * radcn-dialog-zoom-in keyframes are KEPT (AlertDialog/Sheet/Drawer use them).
+ */
 
 .radcn-dialog-header {
   display: grid;
@@ -2642,8 +2624,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .radcn-dialog-overlay,
-  .radcn-dialog-content,
   .radcn-alert-dialog-overlay,
   .radcn-alert-dialog-content,
   .radcn-sheet-overlay,
@@ -2764,10 +2744,16 @@
 }
 
 .radcn-fixture-custom-dialog {
-  --radcn-dialog-overlay-bg: rgb(15 118 110 / 0.35);
-  --radcn-dialog-border: #0f766e;
-  --radcn-dialog-bg: #f0fdfa;
   --radcn-dialog-trigger-bg: #0f766e;
+}
+
+.radcn-fixture-custom-dialog [data-radcn-dialog-content] {
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+}
+
+.radcn-fixture-custom-dialog [data-radcn-dialog-overlay] {
+  background-color: rgb(15 118 110 / 0.35);
 }
 
 .radcn-fixture-custom-alert-dialog {

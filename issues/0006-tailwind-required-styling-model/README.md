@@ -183,7 +183,7 @@ a dependency listed in package manifests.
 - [Experiment 26: Migrate HoverCard content surface to Tailwind utilities](26-migrate-hover-card-to-tailwind.md)
   — **Pass**
 - [Experiment 27: Migrate Dialog overlay + content surface to Tailwind utilities](27-migrate-dialog-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -541,6 +541,21 @@ From Experiment 26 (HoverCard content surface — third overlay — Pass):
 - Once all sharers of a `--radcn-*` token group migrate, that group's tokens
   (`--radcn-overlay-bg/border/fg/width`) fall out of use — note for a later
   dead-token cleanup rather than chasing mid-migration.
+
+From Experiment 27 (Dialog — first modal overlay — Pass):
+
+- The modal-overlay pattern: migrate the overlay backdrop (`fixed inset-0 z-50
+  bg-black/50 animate-in fade-in-0`) + the centered content box (`fixed
+  top/left-[50%] translate-x/y-[-50%] grid … rounded-lg border bg-background
+  p-6 shadow-lg` + enter-animation) to utilities; keep sub-parts + the shared
+  modal keyframes; omit exit utilities (JS hides via `hidden`). Applies to
+  AlertDialog, Sheet, Drawer.
+- A custom-token class on a shared ANCESTOR (DialogPortal) whose tokens feed
+  sibling descendants (overlay + content) translates to DESCENDANT direct rules,
+  one per affected descendant (`.custom [data-overlay]`, `.custom [data-content]`).
+- Modal keyframes (`radcn-dialog-fade-in`/`zoom-in`) are SHARED across the modal
+  cluster — keep them until the last modal migrates; remove only each modal's
+  own `animation:` declaration as it migrates.
 
 ## Completion Criteria
 
