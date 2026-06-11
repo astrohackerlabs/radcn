@@ -123,6 +123,62 @@ Fail criteria: any spinner size/color/attribute assertion regresses; a raw SVG
 stops animating (keyframe mishandled); a utility not generated;
 `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Spinner is migrated; both suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; generated CSS contains `animate-spin` + the
+   `spin` keyframe + `opacity-[0.85]` (grep count 4 each).
+2. All three typechecks pass (the docs Calendar*/Combobox* unused-import lints
+   are pre-existing editor-only noise; tsc passes).
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-spinner` rule and no
+   `@keyframes radcn-spin` remain; no `--radcn-spinner-*` token usage remains
+   in fixtures/docs (only the 2 prose strings, now reworded); the raw SVGs use
+   `animation:spin`; `.radcn-fixture-custom-spinner` sets `color`/`width`/
+   `height` directly.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `static-display.spec.ts` in isolation
+   **12 passed** — incl. the spinner basic attribute, the 4 size widths
+   (12/16/24/32px, now from converted inline `width`/`height`), the 5 colors
+   (now from converted inline `color`), the button/badge/input-group/empty/
+   demo/item counts, and the custom raw SVG.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   five expected files changed.
+
+No deviations from the (rewritten) approved design.
+
+## Conclusion
+
+Spinner is migrated: the component emits `size-4 animate-spin text-foreground`
+(track `opacity-20`, head `opacity-[0.85]`) with Tailwind's built-in `spin`
+keyframe replacing the bespoke one. Its size/color API moved off the
+`--radcn-spinner-*` tokens — all 19 inline call sites became direct
+`width`/`height`/`color`, the 2 raw custom SVGs point at Tailwind's `spin`, and
+the docs prose was updated. Fifteen components are now migrated (Badge,
+Skeleton, Separator, Kbd, Empty, Label, AspectRatio, Card, Input, Textarea,
+Alert, Table, Progress, Spinner — plus sub-components).
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- The single-grep-for-assertions shortcut MISSES variable-based assertions
+  (`let s = page.locator(...); expect(s.nth(0)).toHaveCSS(...)`). The Spinner
+  design's round-1 rejection came from exactly this: grep
+  `[data-radcn-X] ... toHaveCSS` on one line found only 1 hit, but the real test
+  used a variable across many lines. ALWAYS read the component's full test block,
+  not just grep hits.
+- When a component's size/color is a `--radcn-*` token API used inline by many
+  consumers (Spinner: 19 sites) AND those values are asserted, the faithful
+  migration converts every call site to direct `width`/`height`/`color` (or
+  `size-*`/`text-*`), not just the component — and updates docs prose that
+  documents the removed tokens.
+- A bespoke `@keyframes` referenced inline by raw (non-component) SVGs can be
+  removed only after repointing those SVGs to Tailwind's equivalent keyframe
+  (`animation:spin`), which is present in the generated CSS once a migrated
+  component uses `animate-spin`.
+
 ## Design Review
 
 Round 1 (fresh Claude subagent, Explore): REJECTED — correctly. The initial
@@ -150,3 +206,30 @@ SVGs keep animating) is already covered by verification step 1. No blocker.
 
 Approval result: approved (round 2). The under-scoped round-1 design was
 correctly rejected; the rewritten full-scope design is correct and complete.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed spinner.tsx emits `size-4 animate-spin text-foreground`
+(track `opacity-20`, head `opacity-[0.85]`) with the data/role/aria attributes
+kept and no `radcn-spinner*` class; tokens.css has no `.radcn-spinner*` rule and
+no `@keyframes radcn-spin`, with `.radcn-fixture-custom-spinner` translated to
+direct color/width/height; byte-identical `index.ts`; and that NO
+`--radcn-spinner-*` token (only reworded prose) and NO `animation:radcn-spin`
+remain in fixtures/docs (the 19 call sites converted to direct
+width/height/color with correct values, the 2 raw SVGs to `animation:spin`). It
+re-ran both `styles:build` (the `spin` keyframe + utilities present), the three
+typechecks, the docs suite (2/2 = 11), the fixture suite (2/2 = 1191), and
+`static-display.spec.ts` in isolation (12 passed) — confirming the spinner basic
+attribute, the 4 size widths (12/16/24/32px), the 5 colors, and the custom raw
+SVG. It judged the migration faithful (size/color genuinely from the converted
+inline styles, not residual tokens) and the raw SVGs still animating. Verdict:
+APPROVED.
+
+Approval result: approved with no blockers.

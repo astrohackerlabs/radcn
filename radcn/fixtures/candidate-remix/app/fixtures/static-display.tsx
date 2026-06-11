@@ -700,11 +700,11 @@ export function renderSpinnerFixture(fixture: FixtureScenario) {
   if (fixture.id === 'color') {
     return (
       <div style="display:flex;gap:18px;align-items:center">
-        <Spinner ariaLabel="Red loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#dc2626" />
-        <Spinner ariaLabel="Green loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#16a34a" />
-        <Spinner ariaLabel="Blue loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
-        <Spinner ariaLabel="Yellow loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#ca8a04" />
-        <Spinner ariaLabel="Purple loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#9333ea" />
+        <Spinner ariaLabel="Red loading" style="width:1.5rem;height:1.5rem;color:#dc2626" />
+        <Spinner ariaLabel="Green loading" style="width:1.5rem;height:1.5rem;color:#16a34a" />
+        <Spinner ariaLabel="Blue loading" style="width:1.5rem;height:1.5rem;color:#2563eb" />
+        <Spinner ariaLabel="Yellow loading" style="width:1.5rem;height:1.5rem;color:#ca8a04" />
+        <Spinner ariaLabel="Purple loading" style="width:1.5rem;height:1.5rem;color:#9333ea" />
       </div>
     )
   }
@@ -716,7 +716,7 @@ export function renderSpinnerFixture(fixture: FixtureScenario) {
         data-radcn-custom-spinner
         fill="none"
         role="status"
-        style="width:1.5rem;height:1.5rem;animation:radcn-spin 1s linear infinite;color:#0f766e"
+        style="width:1.5rem;height:1.5rem;animation:spin 1s linear infinite;color:#0f766e"
         viewBox="0 0 24 24"
       >
         <path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-linecap="round" stroke-width="4" />
@@ -787,10 +787,10 @@ export function renderSpinnerFixture(fixture: FixtureScenario) {
   if (fixture.id === 'size') {
     return (
       <div style="display:flex;gap:18px;align-items:center">
-        <Spinner ariaLabel="Small loading" style="--radcn-spinner-size:0.75rem" />
-        <Spinner ariaLabel="Default loading" style="--radcn-spinner-size:1rem" />
-        <Spinner ariaLabel="Medium loading" style="--radcn-spinner-size:1.5rem" />
-        <Spinner ariaLabel="Large loading" style="--radcn-spinner-size:2rem" />
+        <Spinner ariaLabel="Small loading" style="width:0.75rem;height:0.75rem" />
+        <Spinner ariaLabel="Default loading" style="width:1rem;height:1rem" />
+        <Spinner ariaLabel="Medium loading" style="width:1.5rem;height:1.5rem" />
+        <Spinner ariaLabel="Large loading" style="width:2rem;height:2rem" />
       </div>
     )
   }

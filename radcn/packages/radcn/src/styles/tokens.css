@@ -817,26 +817,14 @@
  * Their data attributes remain as non-visual hooks.
  */
 
-.radcn-spinner {
-  width: var(--radcn-spinner-size, 1rem);
-  height: var(--radcn-spinner-size, 1rem);
-  animation: radcn-spin 1s linear infinite;
-  color: var(--radcn-spinner-color, var(--radcn-foreground));
-}
-
-.radcn-spinner-track {
-  opacity: 0.2;
-}
-
-.radcn-spinner-head {
-  opacity: 0.85;
-}
-
-@keyframes radcn-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+/*
+ * Spinner is migrated to Tailwind utilities (Issue 6, Experiment 22). Its
+ * bespoke rules and the spin keyframe were removed; the component emits
+ * size-4 animate-spin text-foreground (Tailwind's built-in spin keyframe is
+ * identical to the old one), with the track/head opacities as utilities. Its
+ * size/color API moved from the --radcn-spinner-* tokens to direct
+ * width/height/color at the call sites; raw SVGs reference Tailwind's `spin`.
+ */
 
 .radcn-fixture-custom-button {
   --radcn-button-bg: #0f766e;
@@ -868,8 +856,9 @@
 }
 
 .radcn-fixture-custom-spinner {
-  --radcn-spinner-color: #0f766e;
-  --radcn-spinner-size: 2rem;
+  color: #0f766e;
+  width: 2rem;
+  height: 2rem;
 }
 
 .radcn-fixture-aspect-media {

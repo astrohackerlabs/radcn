@@ -173,7 +173,7 @@ a dependency listed in package manifests.
 - [Experiment 21: Migrate Progress to Tailwind utilities](21-migrate-progress-to-tailwind.md)
   — **Pass**
 - [Experiment 22: Migrate Spinner to Tailwind utilities](22-migrate-spinner-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -461,6 +461,21 @@ From Experiment 21 (Progress migration — Pass):
   (its class + `@keyframes`) alongside the migrated utilities.
 - A custom-token override on a parent asserted on a CHILD needs a descendant
   direct rule (`.custom [data-child] { … }`), not a rule on the parent alone.
+
+From Experiment 22 (Spinner migration — Pass; round-1 design rejected for
+under-scoping):
+
+- A single-line grep for assertions MISSES variable-based assertions (`let s =
+  locator(...); expect(s.nth(0)).toHaveCSS(...)`). ALWAYS read a component's
+  full test block before claiming "no computed-style assertion" — the Spinner
+  design's round-1 rejection came from exactly this gap.
+- When size/color is a `--radcn-*` token API used inline by many consumers AND
+  asserted, the faithful migration converts EVERY call site to direct
+  `width`/`height`/`color` (Spinner: 19 sites) and updates docs prose naming the
+  removed tokens — not just the component.
+- A bespoke `@keyframes` referenced inline by raw (non-component) SVGs is removed
+  only after repointing those SVGs to Tailwind's equivalent keyframe
+  (`animation:spin`, present once a migrated component uses `animate-spin`).
 
 ## Completion Criteria
 

@@ -2649,7 +2649,7 @@ export function SpinnerPreview() {
   return (
     <div class="spinner-preview">
       <Spinner />
-      <Spinner style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
+      <Spinner style="width:1.5rem;height:1.5rem;color:#2563eb" />
       <Button disabled size="sm"><Spinner ariaLabel="Loading" /> Loading...</Button>
       <Badge variant="outline"><Spinner ariaLabel="Processing" /> Processing</Badge>
       <InputGroup disabled><InputGroupInput disabled placeholder="Searching..." /><InputGroupAddon align="inline-end"><Spinner /></InputGroupAddon></InputGroup>
@@ -6000,17 +6000,17 @@ function SpinnerPreview() {
       </div>
 
       <div data-radcn-docs-spinner-family="size" mix={previewRowStyle}>
-        <Spinner ariaLabel="Small loading" style="--radcn-spinner-size:0.75rem" />
-        <Spinner ariaLabel="Default loading" style="--radcn-spinner-size:1rem" />
-        <Spinner ariaLabel="Medium loading" style="--radcn-spinner-size:1.5rem" />
-        <Spinner ariaLabel="Large loading" style="--radcn-spinner-size:2rem" />
+        <Spinner ariaLabel="Small loading" style="width:0.75rem;height:0.75rem" />
+        <Spinner ariaLabel="Default loading" style="width:1rem;height:1rem" />
+        <Spinner ariaLabel="Medium loading" style="width:1.5rem;height:1.5rem" />
+        <Spinner ariaLabel="Large loading" style="width:2rem;height:2rem" />
         <span>Size</span>
       </div>
 
       <div data-radcn-docs-spinner-family="color" mix={previewRowStyle}>
-        <Spinner ariaLabel="Red loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#dc2626" />
-        <Spinner ariaLabel="Green loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#16a34a" />
-        <Spinner ariaLabel="Blue loading" style="--radcn-spinner-size:1.5rem;--radcn-spinner-color:#2563eb" />
+        <Spinner ariaLabel="Red loading" style="width:1.5rem;height:1.5rem;color:#dc2626" />
+        <Spinner ariaLabel="Green loading" style="width:1.5rem;height:1.5rem;color:#16a34a" />
+        <Spinner ariaLabel="Blue loading" style="width:1.5rem;height:1.5rem;color:#2563eb" />
         <span>Color</span>
       </div>
 
@@ -6074,7 +6074,7 @@ function SpinnerPreview() {
           data-radcn-docs-custom-spinner
           fill="none"
           role="status"
-          style="width:1.5rem;height:1.5rem;animation:radcn-spin 1s linear infinite;color:#0f766e"
+          style="width:1.5rem;height:1.5rem;animation:spin 1s linear infinite;color:#0f766e"
           viewBox="0 0 24 24"
         >
           <path d="M12 3a9 9 0 1 0 9 9" stroke="currentColor" stroke-linecap="round" stroke-width="4" />
@@ -10432,14 +10432,14 @@ const richComponentDocs: ComponentDoc[] = [
       'Custom app-owned spinner replacements should preserve role="status" and an accessible name.',
     ],
     customization: [
-      'Use class, style, --radcn-spinner-size, and --radcn-spinner-color for size and color customization.',
+      'Use the class and style props (Tailwind size-* and text-* utilities, or inline width/height and color) for size and color customization.',
       'Spinner track and head parts expose package classes for token-driven styling.',
       'Button, Badge, InputGroup, Empty, Item, and Progress compositions keep their own public hooks and state.',
     ],
     divergence: [
       'Upstream lucide LoaderIcon and Loader2Icon map to RadCN package-owned SVG by default; app-owned custom icons can replace the visual glyph when needed.',
       'React SVG prop spreading maps to deliberate Remix UI props, public classes, inline styles, and CSS variables.',
-      'Tailwind size-* and text-* utilities map to RadCN classes, style, --radcn-spinner-size, or --radcn-spinner-color.',
+      'Tailwind size-* and text-* utilities (or inline width/height and color via the class and style props) customize the spinner.',
       'Custom spinner replacement is app-owned presentation, not a RadCN package dependency.',
       'Spinner does not own Button, Badge, InputGroup, Empty, Item, Progress, form, or async state.',
     ],
