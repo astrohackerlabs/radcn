@@ -223,6 +223,8 @@ a dependency listed in package manifests.
   — **Partial** (reverted; variant-less outline item border resolves to currentColor — needs variant/size propagation, not the CSS cascade)
 - [Experiment 46: Migrate DataTable to Tailwind utilities](46-migrate-data-table-to-tailwind.md)
   — **Pass**
+- [Experiment 47: Toggle + ToggleGroup via CSS-var variant propagation](47-toggle-group-css-var-propagation.md)
+  — **Designed**
 
 ## Learnings
 
