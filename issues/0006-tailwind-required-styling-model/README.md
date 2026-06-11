@@ -161,7 +161,7 @@ a dependency listed in package manifests.
   — **Fail** (reverted; surfaced the missing default border-color contract —
   see Experiment 16)
 - [Experiment 16: Add the default border-color base rule](16-default-border-color-base.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -382,6 +382,14 @@ From Experiment 15 (Card migration — FAILED, reverted; useful dead-end):
   (`.radcn-X-content`, etc.) before removing a component's classes — Card's
   design missed both `radcn-fixture-custom-card` and
   `.radcn-chart-example-card .radcn-card-content`.
+
+From Experiment 16 (default border-color base rule):
+
+- `theme.css` now defaults border color to `--border` via
+  `@layer base { *,::before,::after { border-color: var(--border) } }`
+  (shadcn parity). Migrated components using the `border` utility get the
+  `--border` color for free; this unblocks bordered-component migration. It is
+  a theme-CONTRACT edit (separate from the `tokens.css` ↔ `index.ts` sync).
 
 ## Completion Criteria
 

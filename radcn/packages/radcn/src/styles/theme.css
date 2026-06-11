@@ -11,6 +11,21 @@
 
 @custom-variant dark (&:where([data-radcn-theme='dark'], [data-radcn-theme='dark'] *));
 
+/*
+ * Default border color (Issue 6, Experiment 16). Tailwind's `border` utility
+ * sets only border-width; shadcn relies on a base rule defaulting border color
+ * to the --border token so `border` renders the subtle border, not
+ * currentColor. Kept in @layer base (low priority) so border-color utilities
+ * and the unlayered radcn-* rules override it.
+ */
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--border);
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #18181b;

@@ -92,6 +92,53 @@ Fail criteria: any suite regresses (would reveal an element whose border color
 was unintentionally changed by the base rule); the rule does not appear in the
 generated CSS.
 
+## Result
+
+**Result:** Pass
+
+The default border-color base rule is in place; both suites are green and
+stable. Verification:
+
+1. Both `styles:build` exit 0; each generated CSS contains the base-layer
+   `border-color: var(--border)` rule (grep count 2 each — the rule plus its
+   dark-variant materialization).
+2. All three typechecks pass.
+3. Docs suite: **11 passed** ×2 — stable.
+4. Fixture suite: **1191 passed** ×2 in this experiment's runs; no existing
+   border-color assertion shifted. (The positioned-overlay tests retain the
+   rare serial-load flakiness classified in Experiment 9 — a re-run during the
+   completion review hit it once and passed on retry; it is unrelated to this
+   CSS-base change, which touches only default border color.)
+5. Throwaway probe confirmed: a bare `border p-4` element generates with the
+   base `border-color: var(--border)` and `--border: #e4e4e7` (light) present,
+   so a bare `border` now resolves to `rgb(228, 228, 231)` instead of
+   currentColor. Probe deleted and rebuilt before this result.
+6. `git diff --check` clean; `vendor/` untouched; only `theme.css` changed
+   (tokens.css/index.ts untouched — this is a contract-file edit, not a
+   bespoke-CSS edit).
+
+No deviations from the approved design.
+
+## Conclusion
+
+The theme contract now defaults `border-color` to `--border` via a low-priority
+`@layer base` rule, matching shadcn. Tailwind's `border` utility renders the
+subtle `--border` color (not currentColor), border-color UTILITIES and the
+unlayered `radcn-*` rules still override it, and no current test regressed. This
+is the foundation Experiment 15 (Card) was missing; the bordered-component
+migrations (Card re-attempt, Input, Dialog, …) can now proceed.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- `theme.css` now provides `@layer base { *,::before,::after { border-color:
+  var(--border) } }`, so any migrated component using the `border` utility gets
+  the `--border` color for free; only override it with a `border-*` color
+  utility or inline/bespoke rule when a different border color is intended.
+- This is a theme-CONTRACT edit (`theme.css`), independent of the
+  `tokens.css` ↔ `index.ts` bespoke-CSS sync; `theme.css` flows into both
+  pipelines via their `@import 'radcn/theme.css'`.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -129,3 +176,25 @@ new blocker. Verdict: APPROVED.
 Approval result: approved (round 2). No blocker findings remain; the core
 design (the `@layer base` border-color rule + sound cascade reasoning + no
 shifted assertions) was uncontested.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: one Minor (Result wording re: a re-run flake), no Blocker/Major.
+
+The reviewer confirmed theme.css has the `@layer base` border-color rule near
+the top with `--border` defined light/dark, that ONLY theme.css changed (no
+tokens.css/index.ts), and the cascade order (the generated `<link>` before the
+unlayered `radcnStyles` `<style>`, so utilities and bespoke rules override the
+base); independently re-ran both `styles:build` (rule present), all three
+typechecks, the docs suite (11) and fixture suite (1191 on re-run; one run hit
+the Exp-9-classified overlay flake and passed on retry, unrelated to this
+change). It judged the change correctly scoped, sound, and unblocking for
+bordered components with no regression. Verdict: APPROVED. The minor (note the
+re-run flake in the Result) is folded in above.
+
+Approval result: approved with no blockers.
