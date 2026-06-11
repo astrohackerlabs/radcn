@@ -263,6 +263,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 66: Migrate the menu-family helpers (sub-caret + item-indicator)](66-migrate-menu-family-helpers-to-tailwind.md)
   — **Pass**
+- [Experiment 67: Migrate HoverCard avatar/body (consumer-site pattern)](67-migrate-hover-card-subelements-consumer-sites.md)
+  — **Designed**
 
 ## Learnings
 
