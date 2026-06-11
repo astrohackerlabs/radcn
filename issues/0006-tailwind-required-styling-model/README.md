@@ -220,11 +220,11 @@ a dependency listed in package manifests.
 - [Experiment 44: Migrate Toggle (button surface) to Tailwind utilities](44-migrate-toggle-to-tailwind.md)
   — **Fail** (reverted; Toggle + ToggleGroupItem share `.radcn-toggle` rules — migrate together)
 - [Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities](45-migrate-toggle-and-group-to-tailwind.md)
-  — **Partial** (reverted; variant-less outline item border resolves to currentColor — needs variant/size propagation, not the CSS cascade)
+  — **Partial** (reverted; the cascade blocker it found is solved in Exp 47 via CSS-var propagation)
 - [Experiment 46: Migrate DataTable to Tailwind utilities](46-migrate-data-table-to-tailwind.md)
   — **Pass**
 - [Experiment 47: Toggle + ToggleGroup via CSS-var variant propagation](47-toggle-group-css-var-propagation.md)
-  — **Designed**
+  — **Pass** (solves the Exp-45 cascade blocker)
 
 ## Learnings
 
@@ -845,6 +845,21 @@ From Experiment 46 (DataTable — Pass, first-try green):
 - For an unused-but-shared bespoke selector in a combined base rule
   (`.radcn-data-table-recipe`), split-keep it bespoke (conservative, zero cost)
   rather than dropping.
+
+From Experiment 47 (Toggle + ToggleGroup — Pass; the Exp-45 blocker solved):
+
+- A bespoke parent->child CASCADE cannot reliably override a MIGRATED child's
+  utility-set property (border-color -> currentColor; min-height -> the child's
+  own utility wins). Do NOT keep such cascades when migrating the child.
+- Use CSS-VAR PROPAGATION: the parent SETS `--x` via `data-[state=...]:[--x:value]`
+  arbitrary-property utilities (they compile in Tailwind v4); the child READS
+  `border-[color:var(--x,fallback)]` / `min-h-[var(--x,fallback)]` /
+  `text-[length:var(--x,fallback)]` (var font-size needs `length:`, var
+  border-color needs `color:`); a child with its own state re-sets `--x` locally
+  (local beats inherited). No cascade, no currentColor. This is the general fix
+  for the remaining cascade-coupled components (InputOTP/Resizable/InputGroup).
+- A test failing at assertion N can mask a LATER assertion in the same test;
+  fixing N may reveal a second bug (`:158` masked `:174`).
 
 ## Completion Criteria
 

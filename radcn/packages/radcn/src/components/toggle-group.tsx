@@ -1,7 +1,17 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+import { toggleBaseClass } from './toggle.tsx'
 import type { ToggleSize, ToggleVariant } from './toggle.tsx'
+
+// ToggleGroup surfaces as Tailwind utilities (Issue 6, Experiment 47). The
+// container migrates to utilities (orientation via the data-orientation variant,
+// keeping the radcn-toggle-group--{orientation} marker the suite asserts). Each
+// item reuses the shared Toggle button utilities; a variant-LESS item inherits
+// the group variant via the kept bespoke variant cascade (whose outline border
+// now falls back to var(--border)); size-less items via the kept size cascade.
+const toggleGroupClass =
+  'inline-flex w-fit items-center gap-[var(--radcn-toggle-group-gap,0.25rem)] rounded-md [font-family:var(--radcn-font)] data-[disabled=true]:opacity-[0.55] data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch data-[variant=outline]:[--radcn-toggle-bc:var(--radcn-toggle-border,var(--border))] data-[variant=outline]:[--radcn-toggle-bgc:var(--radcn-background)] data-[size=sm]:[--radcn-toggle-mh:2rem] data-[size=sm]:[--radcn-toggle-px:0.625rem] data-[size=sm]:[--radcn-toggle-py:0.375rem] data-[size=sm]:[--radcn-toggle-fs:0.8125rem] data-[size=lg]:[--radcn-toggle-mh:2.75rem] data-[size=lg]:[--radcn-toggle-px:1rem] data-[size=lg]:[--radcn-toggle-py:0.625rem] data-[size=lg]:[--radcn-toggle-fs:1rem]'
 
 export type ToggleGroupOrientation = 'horizontal' | 'vertical'
 export type ToggleGroupType = 'single' | 'multiple'
@@ -200,7 +210,7 @@ export function ToggleGroup(handle: Handle<ToggleGroupProps>) {
 
     return (
       <div
-        class={classes('radcn-toggle-group', `radcn-toggle-group--${orientation}`, className)}
+        class={classes(toggleGroupClass, `radcn-toggle-group--${orientation}`, className)}
         data-default-value={values.join(' ')}
         data-disabled={disabled ? 'true' : undefined}
         data-orientation={orientation}
@@ -238,8 +248,10 @@ export function ToggleGroupItem(handle: Handle<ToggleGroupItemProps>) {
         aria-label={ariaLabel}
         aria-pressed="false"
         class={classes(
-          'radcn-toggle',
+          toggleBaseClass,
           'radcn-toggle-group-item',
+          'shrink-0',
+          'data-[group-disabled=true]:pointer-events-none',
           variant && `radcn-toggle--${variant}`,
           size && `radcn-toggle--${size}`,
           className,

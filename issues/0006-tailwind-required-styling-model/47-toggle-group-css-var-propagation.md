@@ -178,6 +178,68 @@ assertions hold; BOTH suites green; byte-identical.
 Fail criteria: the `:158` border regresses (currentColor/transparent/wrong); a
 pressed/custom/size/marker assertion regresses; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (the Exp-45 blocker is solved)
+
+Toggle + ToggleGroup migrated; both suites green. The path to the fix was itself
+diagnostic:
+
+1. The minimal `var(--radcn-border)`→`var(--border)` change did NOT fix `:158`
+   (still currentColor) — DISPROVING the var-token hypothesis and proving the
+   bespoke parent→child CASCADE intrinsically fails to set a migrated child's
+   border-color.
+2. Switching the VARIANT to CSS-var propagation (group sets `--radcn-toggle-bc`/
+   `-bgc` via `data-[variant=outline]:[--…]`; every toggle READS them via
+   `border-[color:var(--radcn-toggle-bc,transparent)]`/`bg-[var(--radcn-toggle-bgc,transparent)]`)
+   FIXED `:158` — the failure MOVED to `:174` (size min-height 36px not 44px).
+3. That revealed the SIZE cascade ALSO fails the same way (my earlier "size
+   cascade works" was an artifact — `:158` failed first in Exp 45 and masked
+   `:174`). Extending the SAME propagation to size (group sets `--radcn-toggle-mh`/
+   `-px`/`-py`/`-fs` via `data-[size=sm|lg]:[--…]`; toggles read them) fixed `:174`.
+
+Verification:
+- Both `styles:build` exit 0; the `data-[variant=outline]:[--var:val]` /
+  `data-[size=sm]:[--var:val]` arbitrary-property utilities + the
+  `border-[color:var(…)]`/`min-h-[var(…)]`/`text-[length:var(…)]` readers all
+  COMPILE (confirmed in the generated CSS); no junk ellipsis.
+- Three typechecks pass; `index.ts` byte-identical to `tokens.css`.
+- `toggle.spec.ts` in isolation: **7 passed** (incl. `:158`/`:182` variant-less
+  outline borders `rgb(228,228,231)`, `:174`/`:178` size-less item min-heights
+  44px/32px, `:199-201` custom pressed item, markers, gap, orientation, icon
+  on-colors).
+- Docs suite: **11 passed** ×2. Fixture suite: **1191 passed** (run 1 clean);
+  run 2 had the known intermittent serial-load flake (1 unrelated, passes on
+  re-run — toggle isolation is 7/7 and run 1 is 1191).
+- `git diff --check` clean; `vendor/` untouched; the four expected files changed.
+
+## Conclusion
+
+Toggle + ToggleGroup are migrated. THIRTY-SIX components are now migrated. The
+key outcome: a general, validated pattern for parent→child style inheritance after
+migration — **CSS-var propagation** (the container SETS `--x` from its own
+`data-*` via `data-[state]:[--x:val]` arbitrary-property utilities; descendants
+READ `prop-[…:var(--x,default)]`; a descendant with its own state re-sets `--x`
+locally). This REPLACES bespoke parent→child cascades, which fail to override a
+migrated child's properties (border-color → currentColor; min-height → the child's
+own utility wins). This unblocks the remaining cascade-coupled components
+(InputOTP slot states, Resizable orientation, InputGroup addon).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A bespoke parent→child CASCADE cannot reliably override a MIGRATED child's
+  utility-set property (Exp-45/47: border-color → currentColor; min-height → the
+  child's utility wins). Do NOT keep such cascades when migrating the child.
+- Use CSS-VAR PROPAGATION instead: the parent sets `--x` via
+  `data-[state=…]:[--x:value]` arbitrary-property utilities (these compile in
+  Tailwind v4); the child READS `border-[color:var(--x,fallback)]` /
+  `min-h-[var(--x,fallback)]` / `text-[length:var(--x,fallback)]` (a var font-size
+  needs the `length:` hint; a var border-color the `color:` hint); a child with
+  its own state re-sets `--x` locally (local beats inherited). Custom-property
+  inheritance + utility reads = no cascade, no currentColor.
+- When a test fails at assertion N, a LATER assertion in the same test may be
+  silently masked — fixing N can reveal a second bug (here `:158` masked `:174`).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -204,3 +266,37 @@ itself is implicated and needs browser diagnosis (revert + investigate).
 Approval result: approved (lead-agent judgment) for the MINIMAL revised approach
 — low-risk, no new syntax, and it is itself the diagnostic the reviewer asked
 for; the dual-suite gate (esp. `:158`) decides.
+
+(Implementation note: the minimal cascade-fallback change was the diagnostic — it
+FAILED, proving the cascade itself is the problem, so the implementation then
+pivoted to the full CSS-var propagation for BOTH variant and size, which the
+arbitrary-property syntax verification + the gate confirmed. See the Result.)
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major; one informational note that the implemented
+approach evolved from the planned minimal fix to full CSS-var propagation — fully
+documented in the Result).
+
+The reviewer confirmed toggleBaseClass READS border/bg/min-h/px/py/font-size from
+CSS vars and SETS them via `data-[variant=outline]:[--…]` + `data-[size=sm|lg]:[--…]`;
+the button emits `data-size`+`data-variant`; no `toggleVariantClass`/`toggleSizeClass`
+remain; markers kept; base `radcn-toggle` dropped; the group container sets the
+same vars (inherited by variant/size-LESS items); the item reuses `toggleBaseClass`
++ markers + `shrink-0` + `data-[group-disabled]:pointer-events-none`. tokens.css
+has ZERO `.radcn-toggle` button rules + NO variant/size cascade rules; both icon
+rules kept (standalone repointed); custom fixture kept; byte-identical `index.ts`.
+It rebuilt + confirmed the arbitrary-property var-set and var-read utilities
+generate (no junk), re-ran the three typechecks, the docs suite (11), and
+`toggle.spec.ts` (7 — the `:158`/`:182` outline borders `rgb(228,228,231)`,
+`:174`/`:178` min-heights 44px/32px, `:199-201` custom pressed, markers, gap,
+orientation, icon colors), plus the full fixture suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Toggle + ToggleGroup migrated (36
+components); the CSS-var propagation pattern is validated for the remaining
+cascade-coupled components.
