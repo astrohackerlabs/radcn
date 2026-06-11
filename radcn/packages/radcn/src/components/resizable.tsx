@@ -2,6 +2,23 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Resizable surfaces as Tailwind utilities (Issue 6, Experiment 48). The group's
+// own orientation (min-height + flex-direction) uses data-[orientation=vertical]:
+// variants. The handle's axis (width/height/cursor) propagates via CSS vars the
+// group SETS (data-[orientation=vertical]:[--radcn-resizable-hw/-hh/-hcur]) and the
+// handle READS with the horizontal fallbacks — a bespoke child cascade would fail
+// to override the migrated handle's utilities (Exp 47). The panel height/width:auto
+// orientation cascades were no-ops (auto = the flex cross-axis default), dropped.
+// Comments here are ASCII.
+const resizableGroupClass =
+  'flex w-[min(100%,var(--radcn-resizable-width,32rem))] min-h-[var(--radcn-resizable-height,12rem)] overflow-hidden border border-[var(--radcn-resizable-border,var(--radcn-border))] rounded-md bg-[var(--radcn-resizable-bg,var(--radcn-background))] text-foreground [font-family:var(--radcn-font)] data-[orientation=vertical]:min-h-[18rem] data-[orientation=vertical]:flex-col data-[orientation=vertical]:[--radcn-resizable-hw:auto] data-[orientation=vertical]:[--radcn-resizable-hh:0.5rem] data-[orientation=vertical]:[--radcn-resizable-hcur:row-resize]'
+const resizablePanelClass =
+  'min-w-0 min-h-0 flex-[0_0_auto] overflow-auto bg-[var(--radcn-resizable-panel-bg,var(--radcn-background))]'
+const resizableHandleClass =
+  'relative grid flex-[0_0_auto] place-items-center bg-[var(--radcn-resizable-handle-bg,var(--radcn-border))] outline-none touch-none w-[var(--radcn-resizable-hw,0.5rem)] h-[var(--radcn-resizable-hh,auto)] cursor-[var(--radcn-resizable-hcur,col-resize)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const resizableHandleGripClass =
+  'grid min-w-[0.875rem] min-h-[1.25rem] place-items-center border border-[var(--radcn-resizable-grip-border,var(--radcn-border))] rounded-[calc(var(--radcn-radius)-0.125rem)] bg-[var(--radcn-resizable-grip-bg,var(--radcn-background))] text-muted-foreground leading-none'
+
 export type ResizableOrientation = 'horizontal' | 'vertical'
 
 export interface ResizablePanelGroupProps {
@@ -148,7 +165,7 @@ export function ResizablePanelGroup(handle: Handle<ResizablePanelGroupProps>) {
   return () => {
     let { children, class: className, id, orientation = 'horizontal', style } = handle.props
     return (
-      <div class={classes('radcn-resizable-panel-group', `radcn-resizable-panel-group--${orientation}`, className)} data-orientation={orientation} data-radcn-resizable-panel-group id={id} style={style}>
+      <div class={classes(resizableGroupClass, className)} data-orientation={orientation} data-radcn-resizable-panel-group id={id} style={style}>
         {children}
       </div>
     )
@@ -160,7 +177,7 @@ export function ResizablePanel(handle: Handle<ResizablePanelProps>) {
     let { children, class: className, defaultSize = 50, id, minSize = 10, style } = handle.props
     let size = clamp(defaultSize, minSize, 100 - minSize)
     return (
-      <div class={classes('radcn-resizable-panel', className)} data-min-size={minSize} data-radcn-resizable-panel data-size={size} id={id} style={[`flex-basis:${size}%`, style].filter(Boolean).join('; ')}>
+      <div class={classes(resizablePanelClass, className)} data-min-size={minSize} data-radcn-resizable-panel data-size={size} id={id} style={[`flex-basis:${size}%`, style].filter(Boolean).join('; ')}>
         {children}
       </div>
     )
@@ -171,8 +188,8 @@ export function ResizableHandle(handle: Handle<ResizableHandleProps>) {
   return () => {
     let { class: className, disabled, label = 'Resize panels', style, withHandle } = handle.props
     return (
-      <div aria-disabled={disabled ? 'true' : undefined} aria-label={label} class={classes('radcn-resizable-handle', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-resizable-handle role="separator" style={style}>
-        {withHandle ? <span aria-hidden="true" class="radcn-resizable-handle-grip" data-radcn-resizable-handle-grip>⋮</span> : undefined}
+      <div aria-disabled={disabled ? 'true' : undefined} aria-label={label} class={classes(resizableHandleClass, className)} data-disabled={disabled ? 'true' : undefined} data-radcn-resizable-handle role="separator" style={style}>
+        {withHandle ? <span aria-hidden="true" class={resizableHandleGripClass} data-radcn-resizable-handle-grip>⋮</span> : undefined}
       </div>
     )
   }

@@ -226,7 +226,7 @@ a dependency listed in package manifests.
 - [Experiment 47: Toggle + ToggleGroup via CSS-var variant propagation](47-toggle-group-css-var-propagation.md)
   — **Pass** (solves the Exp-45 cascade blocker)
 - [Experiment 48: Migrate Resizable to Tailwind utilities](48-migrate-resizable-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -862,6 +862,16 @@ From Experiment 47 (Toggle + ToggleGroup — Pass; the Exp-45 blocker solved):
   for the remaining cascade-coupled components (InputOTP/Resizable/InputGroup).
 - A test failing at assertion N can mask a LATER assertion in the same test;
   fixing N may reveal a second bug (`:158` masked `:174`).
+
+From Experiment 48 (Resizable — Pass, first-try green via the Exp-47 pattern):
+
+- The CSS-var propagation pattern generalizes: ANY parent->child orientation/state
+  styling on a MIGRATED child should be propagation (parent sets `--x` via
+  `data-[state]:[--x:val]`, child reads `prop-[var(--x,fallback)]`), never a child
+  cascade. Applied first-try to Resizable's handle axis (width/height/cursor).
+- A parent->child cascade that sets a property to its OWN default (e.g.
+  `height:auto`/`width:auto` on a flex item's cross-axis = stretch) is a no-op —
+  drop it outright rather than propagate.
 
 ## Completion Criteria
 

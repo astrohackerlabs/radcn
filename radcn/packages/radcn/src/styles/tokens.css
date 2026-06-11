@@ -3325,73 +3325,15 @@
   --radcn-toast-action-fg: #134e4a;
 }
 
-.radcn-resizable-panel-group {
-  display: flex;
-  width: min(100%, var(--radcn-resizable-width, 32rem));
-  min-height: var(--radcn-resizable-height, 12rem);
-  overflow: hidden;
-  border: 1px solid var(--radcn-resizable-border, var(--radcn-border));
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-resizable-bg, var(--radcn-background));
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-}
-
-.radcn-resizable-panel-group--vertical {
-  min-height: 18rem;
-  flex-direction: column;
-}
-
-.radcn-resizable-panel {
-  min-width: 0;
-  min-height: 0;
-  flex: 0 0 auto;
-  overflow: auto;
-  background: var(--radcn-resizable-panel-bg, var(--radcn-background));
-}
-
-.radcn-resizable-panel-group--horizontal .radcn-resizable-panel {
-  height: auto;
-}
-
-.radcn-resizable-panel-group--vertical .radcn-resizable-panel {
-  width: auto;
-}
-
-.radcn-resizable-handle {
-  position: relative;
-  display: grid;
-  flex: 0 0 auto;
-  width: 0.5rem;
-  place-items: center;
-  background: var(--radcn-resizable-handle-bg, var(--radcn-border));
-  cursor: col-resize;
-  outline: none;
-  touch-action: none;
-}
-
-.radcn-resizable-panel-group--vertical .radcn-resizable-handle {
-  width: auto;
-  height: 0.5rem;
-  cursor: row-resize;
-}
-
-.radcn-resizable-handle:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-resizable-handle-grip {
-  display: grid;
-  min-width: 0.875rem;
-  min-height: 1.25rem;
-  place-items: center;
-  border: 1px solid var(--radcn-resizable-grip-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: var(--radcn-resizable-grip-bg, var(--radcn-background));
-  color: var(--radcn-muted-foreground);
-  line-height: 1;
-}
-
+/*
+ * Resizable surfaces are migrated to Tailwind utilities (Issue 6, Experiment 48):
+ * the components emit utilities; the group's own orientation uses
+ * data-[orientation=vertical]: variants, and the handle's axis propagates via CSS
+ * vars (--radcn-resizable-hw/-hh/-hcur the group sets, the handle reads) rather
+ * than a child cascade (which fails to override a migrated child). No bespoke
+ * .radcn-resizable rules remain; the custom-resizable fixture + the fixture-only
+ * .radcn-fixture-panel demo class below are unchanged.
+ */
 .radcn-fixture-panel {
   display: grid;
   min-height: 100%;
