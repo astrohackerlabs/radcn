@@ -219,6 +219,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 44: Migrate Toggle (button surface) to Tailwind utilities](44-migrate-toggle-to-tailwind.md)
   — **Fail** (reverted; Toggle + ToggleGroupItem share `.radcn-toggle` rules — migrate together)
+- [Experiment 45: Migrate Toggle + ToggleGroup together to Tailwind utilities](45-migrate-toggle-and-group-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
