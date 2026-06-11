@@ -93,7 +93,41 @@ byte-identical.
 Fail criteria: a form-input-cluster assertion regresses; the slot styling/rounding
 drifts; the invalid propagation fails; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+InputOTP migrated; both suites green (both fixture runs clean). Verification:
+1. Both `styles:build` exit 0; the caret animation COMPILES (the generated CSS
+   contains `radcn-input-otp-caret 1s steps...` — `steps(2,_start)` worked, count 1)
+   and the slot-bc invalid var-set compiles (count 2: `data-[invalid]` +
+   `has-[[aria-invalid]]`), as do `size-[var(…)]`/`first:rounded-l-md`; no junk.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-input-otp*` rule remains;
+   `@keyframes radcn-input-otp-caret` + the custom fixture retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 (both clean); `form-input-cluster.spec.ts` in
+   isolation **11 passed** — the InputOTP custom class, slot entry, active slot,
+   disabled, invalid, separators.
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+## Conclusion
+
+InputOTP renders from Tailwind utilities (container/input/slots/group/slot/caret/
+separator); the invalid→slot border propagates via the container-set
+`--radcn-input-otp-slot-bc` var (slot reads it), `data-active` is the slot's own
+variant, and the first/last rounding + `-ml-px` overlap use the slot's own `first:`/
+`last:` position variants. The caret keyframe + the fixture stay bespoke. FIFTY-TWO
+components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Position-based first/last cell styling (the OTP slots' rounding + overlap reset)
+  migrates to the cell's OWN `first:`/`last:` position variants — exact for the
+  single-group case; multi-group divergence is acceptable when unasserted.
+- `animate-[name_dur_steps(2,_start)_infinite]` compiles — the `_` inside `steps()`
+  is the space; the keyframe stays bespoke and the `animate-[…]` utility references it
+  (the JS-set `className` also reads the const).
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
 context: yes.
@@ -115,3 +149,20 @@ the plan). The reviewer's "REJECTED" hinged on those two, both handled.
 Approval result: approved — the invalid propagation + position variants + mappings
 are sound; the caret JS conversion + the `steps(2,_start)` build-check close the
 flagged items.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). Confirmed the container var-sets +
+slot read (invalid propagation), the slot's `first:`/`last:` position variants +
+`-ml-px first:ml-0`, the `data-active` variants, and the caret `className` set in JS
+(line ~116) from `inputOtpCaretClass` with `animate-[…steps(2,_start)…]`; tokens.css
+has ZERO `.radcn-input-otp*` rules with `@keyframes radcn-input-otp-caret` + the
+fixture kept; byte-identical `index.ts`. It rebuilt (the caret animation + slot-bc
+var-sets generate, no junk), re-ran the three typechecks, the docs suite (11),
+`form-input-cluster.spec.ts` (11), and the full fixture suite (1191, modulo the
+known hover-card serial-load flake on one run). Verdict: APPROVED.
+
+Approval result: approved with no blockers — InputOTP migrated (52 components).

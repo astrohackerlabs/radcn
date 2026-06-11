@@ -248,7 +248,7 @@ a dependency listed in package manifests.
 - [Experiment 58: Migrate Calendar to Tailwind utilities](58-migrate-calendar-to-tailwind.md)
   — **Pass**
 - [Experiment 59: Migrate InputOTP to Tailwind utilities](59-migrate-input-otp-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -980,6 +980,15 @@ From Experiment 58 (Calendar — Pass):
   `data-[state]:`, button reads `prop-[var(--x,fallback)]`) — the Exp-47/50 pattern
   scaled to 5 day-states + an own-state (range-middle) on the cell. Wire BOTH the
   internal grid renderer (raw class sites) AND the exported component wrappers.
+
+From Experiment 59 (InputOTP — Pass):
+
+- Position-based first/last cell styling (the OTP slots' rounding + `-ml-px` overlap
+  reset) migrates to the cell's OWN `first:`/`last:` position variants — exact for
+  the single-group case; multi-group divergence acceptable when unasserted.
+- `animate-[name_dur_steps(2,_start)_infinite]` compiles (the `_` inside `steps()` is
+  the space); the keyframe stays bespoke, the utility references it (a JS-set
+  className reads the same const).
 
 ## Remaining Component Migration Map
 

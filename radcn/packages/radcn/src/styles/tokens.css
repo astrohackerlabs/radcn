@@ -319,83 +319,13 @@
   min-height: 2rem;
 }
 
-.radcn-input-otp {
-  display: inline-grid;
-  gap: 0.5rem;
-  color: var(--radcn-foreground);
-  font-family: var(--radcn-font);
-}
-
-.radcn-input-otp[data-disabled="true"] {
-  opacity: 0.55;
-}
-
-.radcn-input-otp-input {
-  width: 1px;
-  height: 1px;
-  border: 0;
-  opacity: 0;
-  position: absolute;
-  pointer-events: none;
-}
-
-.radcn-input-otp-slots,
-.radcn-input-otp-group {
-  display: flex;
-  align-items: center;
-}
-
-.radcn-input-otp-slot {
-  display: inline-flex;
-  position: relative;
-  width: var(--radcn-input-otp-slot-size, 2.5rem);
-  height: var(--radcn-input-otp-slot-size, 2.5rem);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-input-otp-border, var(--radcn-input));
-  background: var(--radcn-input-otp-bg, var(--radcn-background));
-  color: var(--radcn-input-otp-fg, var(--radcn-foreground));
-  font: 500 1rem/1 var(--radcn-font);
-  margin-left: -1px;
-}
-
-.radcn-input-otp-group:first-child .radcn-input-otp-slot:first-child {
-  margin-left: 0;
-  border-top-left-radius: var(--radcn-radius);
-  border-bottom-left-radius: var(--radcn-radius);
-}
-
-.radcn-input-otp-group:last-child .radcn-input-otp-slot:last-child {
-  border-top-right-radius: var(--radcn-radius);
-  border-bottom-right-radius: var(--radcn-radius);
-}
-
-.radcn-input-otp-slot[data-active="true"] {
-  z-index: 1;
-  border-color: var(--radcn-ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-input-otp[data-invalid="true"] .radcn-input-otp-slot,
-.radcn-input-otp:has([aria-invalid="true"]) .radcn-input-otp-slot {
-  border-color: var(--radcn-field-error, var(--radcn-destructive));
-}
-
-.radcn-input-otp-caret {
-  width: 1px;
-  height: 1.25rem;
-  background: var(--radcn-foreground);
-  animation: radcn-input-otp-caret 1s steps(2, start) infinite;
-}
-
-.radcn-input-otp-separator {
-  display: inline-flex;
-  width: 1rem;
-  align-items: center;
-  justify-content: center;
-  color: var(--radcn-muted-foreground);
-}
-
+/*
+ * InputOTP surfaces are migrated to Tailwind utilities (Issue 6, Experiment 59):
+ * the component emits utilities; the invalid border propagates via
+ * --radcn-input-otp-slot-bc (container sets, slot reads), and first/last rounding +
+ * the -ml-px overlap use first:/last: variants. The @keyframes radcn-input-otp-caret
+ * below + the custom-input-otp fixture are unchanged.
+ */
 .radcn-fixture-custom-input-group {
   --radcn-input-group-border: #0f766e;
   --radcn-input-group-bg: #f0fdfa;

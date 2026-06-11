@@ -2,6 +2,22 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// InputOTP surfaces as Tailwind utilities (Issue 6, Experiment 59). The invalid
+// border propagates via a CSS var (the container SETS --radcn-input-otp-slot-bc on
+// data-[invalid]/has-[[aria-invalid]], the slot READS it) — a parent->child cascade
+// onto the migrated slot is unreliable (Exp 47). The first/last slot rounding +
+// the -ml-px overlap use the slot's own position variants (first:/last:). The caret
+// keyframe stays bespoke; the caret className is set in JS below from this const.
+// Comments here are ASCII; no bracketed class-like tokens.
+const inputOtpClass =
+  'inline-grid gap-2 text-foreground [font-family:var(--radcn-font)] data-[disabled=true]:opacity-[0.55] data-[invalid=true]:[--radcn-input-otp-slot-bc:var(--radcn-field-error,var(--radcn-destructive))] has-[[aria-invalid=true]]:[--radcn-input-otp-slot-bc:var(--radcn-field-error,var(--radcn-destructive))]'
+const inputOtpInputClass = 'w-px h-px border-0 opacity-0 absolute pointer-events-none'
+const inputOtpSlotsClass = 'flex items-center'
+const inputOtpSlotClass =
+  'inline-flex relative size-[var(--radcn-input-otp-slot-size,2.5rem)] items-center justify-center border border-[color:var(--radcn-input-otp-slot-bc,var(--radcn-input-otp-border,var(--radcn-input)))] bg-[var(--radcn-input-otp-bg,var(--radcn-background))] text-[var(--radcn-input-otp-fg,var(--radcn-foreground))] text-base font-medium leading-none [font-family:var(--radcn-font)] -ml-px first:ml-0 first:rounded-l-md last:rounded-r-md data-[active=true]:z-[1] data-[active=true]:border-[var(--radcn-ring)] data-[active=true]:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const inputOtpCaretClass = 'w-px h-5 bg-foreground animate-[radcn-input-otp-caret_1s_steps(2,_start)_infinite]'
+const inputOtpSeparatorClass = 'inline-flex w-4 items-center justify-center text-muted-foreground'
+
 export const REGEXP_ONLY_DIGITS = '[0-9]*'
 export const REGEXP_ONLY_DIGITS_AND_CHARS = '[0-9A-Za-z]*'
 
@@ -97,7 +113,7 @@ function setupInputOTP(root: HTMLElement) {
       slot.textContent = character || slot.dataset.placeholder || ''
       if (!character && slot.dataset.active === 'true') {
         let caret = document.createElement('span')
-        caret.className = 'radcn-input-otp-caret'
+        caret.className = inputOtpCaretClass
         caret.dataset.radcnInputOtpCaret = ''
         slot.appendChild(caret)
       }
@@ -187,7 +203,7 @@ export function InputOTP(handle: Handle<InputOTPProps>) {
 
     return (
       <div
-        class={classes('radcn-input-otp', containerClass)}
+        class={classes(inputOtpClass, containerClass)}
         data-complete={currentValue.length >= maxLength ? 'true' : 'false'}
         data-default-value={currentValue}
         data-disabled={disabled ? 'true' : undefined}
@@ -204,7 +220,7 @@ export function InputOTP(handle: Handle<InputOTPProps>) {
           aria-label={ariaLabelledby ? undefined : ariaLabel}
           aria-labelledby={ariaLabelledby}
           autocomplete="one-time-code"
-          class={classes('radcn-input-otp-input', className)}
+          class={classes(inputOtpInputClass, className)}
           data-radcn-input-otp-input
           disabled={disabled}
           id={id}
@@ -218,7 +234,7 @@ export function InputOTP(handle: Handle<InputOTPProps>) {
           type="text"
           value={currentValue}
         />
-        <div class="radcn-input-otp-slots" data-radcn-input-otp-slots>
+        <div class={inputOtpSlotsClass} data-radcn-input-otp-slots>
           {children}
         </div>
       </div>
@@ -231,7 +247,7 @@ export function InputOTPGroup(handle: Handle<InputOTPGroupProps>) {
     let { children, class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-input-otp-group', className)} data-radcn-input-otp-group style={style}>
+      <div class={classes(inputOtpSlotsClass, className)} data-radcn-input-otp-group style={style}>
         {children}
       </div>
     )
@@ -245,7 +261,7 @@ export function InputOTPSlot(handle: Handle<InputOTPSlotProps>) {
     return (
       <div
         aria-hidden="true"
-        class={classes('radcn-input-otp-slot', className)}
+        class={classes(inputOtpSlotClass, className)}
         data-active="false"
         data-char=""
         data-filled="false"
@@ -262,7 +278,7 @@ export function InputOTPSeparator(handle: Handle<InputOTPSeparatorProps>) {
     let { children = '-', class: className, style } = handle.props
 
     return (
-      <div class={classes('radcn-input-otp-separator', className)} data-radcn-input-otp-separator role="separator" style={style}>
+      <div class={classes(inputOtpSeparatorClass, className)} data-radcn-input-otp-separator role="separator" style={style}>
         {children}
       </div>
     )
