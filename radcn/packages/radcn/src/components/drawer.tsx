@@ -3,6 +3,13 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { setupModal } from './dialog.tsx'
 
+// Drawer overlay backdrop as Tailwind utilities (Issue 6, Experiment 30).
+// ENTER-only (the JS hides via `hidden`). The Drawer CONTENT is RadCN's
+// dependency-free drag-to-dismiss system (direction/transform/drag/border/
+// handle, data-direction-keyed) — shadcn uses the vaul library; there is no
+// utility analog, so the content stays bespoke in tokens.css.
+const drawerOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
+
 export type DrawerDirection = 'top' | 'right' | 'bottom' | 'left'
 
 export interface DrawerProps {
@@ -191,7 +198,7 @@ export function DrawerOverlay(handle: Handle<DrawerPartProps>) {
   return () => {
     let { class: className, style } = handle.props
 
-    return <div class={classes('radcn-drawer-overlay', className)} data-radcn-drawer-overlay data-state="closed" hidden style={style} />
+    return <div class={classes(drawerOverlayClass, className)} data-radcn-drawer-overlay data-state="closed" hidden style={style} />
   }
 }
 

@@ -2235,8 +2235,8 @@
  * Dialog overlay + content surface are migrated to Tailwind utilities (Issue 6,
  * Experiment 27); the component emits shadcn v4 modal utilities (backdrop +
  * centered content box + enter-animation). The header/footer/title/description/
- * close sub-parts remain bespoke below. The radcn-dialog-fade-in /
- * radcn-dialog-zoom-in keyframes are KEPT (AlertDialog/Sheet/Drawer use them).
+ * close sub-parts remain bespoke below. (The bespoke radcn-dialog-* keyframes
+ * were retired in Experiment 30 once all modal overlays moved to animate-in.)
  */
 
 .radcn-dialog-header {
@@ -2615,18 +2615,11 @@
   }
 }
 
-@keyframes radcn-dialog-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@keyframes radcn-dialog-zoom-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -48%) scale(0.96);
-  }
-}
+/*
+ * The bespoke modal fade/zoom keyframes were retired in Issue 6, Experiment 30:
+ * Dialog/AlertDialog/Sheet/Drawer overlays all migrated to Tailwind's
+ * animate-in/fade-in utilities (tw-animate-css), so no rule references them.
+ */
 
 @keyframes radcn-sheet-slide-in {
   from {
@@ -2993,12 +2986,12 @@
   z-index: var(--radcn-drawer-z, 50);
 }
 
-.radcn-drawer-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--radcn-drawer-overlay-bg, var(--radcn-modal-overlay-bg, rgb(0 0 0 / 0.45)));
-  animation: radcn-dialog-fade-in 140ms ease-out;
-}
+/*
+ * Drawer's overlay backdrop is migrated to Tailwind utilities (Issue 6,
+ * Experiment 30); the component emits it. The Drawer CONTENT below is RadCN's
+ * dependency-free drag-to-dismiss system (direction/transform/drag/border/
+ * handle) — kept bespoke (shadcn uses the vaul library; no utility analog).
+ */
 
 .radcn-drawer-content {
   position: fixed;
@@ -3148,7 +3141,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .radcn-drawer-overlay,
   .radcn-drawer-content {
     animation: none;
   }

@@ -189,7 +189,7 @@ a dependency listed in package manifests.
 - [Experiment 29: Migrate Sheet overlay + content surface to Tailwind utilities](29-migrate-sheet-to-tailwind.md)
   — **Pass**
 - [Experiment 30: Migrate Drawer overlay to Tailwind + retire the dead modal keyframes](30-migrate-drawer-overlay-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -585,6 +585,19 @@ From Experiment 29 (Sheet — third modal, side-anchored — Pass):
   `animate-in`, keep the content's `@media (prefers-reduced-motion)` guard
   (repointed to the data attribute) and drop only the overlay's — don't
   blanket-remove the block.
+
+From Experiment 30 (Drawer overlay + dead-keyframe retirement — Pass):
+
+- Some components are RadCN SYSTEMS with no shadcn-utility analog (Drawer's
+  drag-to-dismiss vs shadcn's `vaul` library). Migrate the cleanly portable
+  parts (the overlay backdrop) and keep the system bespoke + documented — don't
+  force a utility port where shadcn itself delegates to a JS library.
+- A shared bespoke keyframe can be RETIRED once the last component migrates off
+  it (the modal fade/zoom keyframes died with the Drawer overlay); reword the
+  retirement comment to avoid the literal keyframe tokens so "no longer present"
+  greps stay clean (Exp 7).
+- The full overlay cluster (Tooltip, Popover, HoverCard, Dialog, AlertDialog,
+  Sheet, Drawer — 7) now renders surfaces/backdrops from Tailwind utilities.
 
 ## Completion Criteria
 

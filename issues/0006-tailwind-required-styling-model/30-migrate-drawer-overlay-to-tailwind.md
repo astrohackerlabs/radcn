@@ -115,6 +115,66 @@ byte-identical.
 Fail criteria: a drawer/dialog/alert-dialog/sheet assertion regresses; a removed
 keyframe still had a user; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+The Drawer overlay is migrated and the dead modal keyframes are retired; both
+suites are green and stable. Verification:
+
+1. Both `styles:build` exit 0; the overlay utilities generate (`bg-black/50`,
+   `animate-in`, `fade-in-0`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-drawer-overlay` rule
+   remains; ZERO `radcn-dialog-fade-in`/`radcn-dialog-zoom-in` occurrences
+   (keyframes + the stale comment fully retired — including rewording the
+   retirement comment to avoid the literal tokens, per the Exp 7 grep-hygiene
+   learning); the Drawer `@media` block keeps `.radcn-drawer-content`; the 4
+   `radcn-drawer-*-in` keyframes + the content/handle/direction rules unchanged.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** (with one intermittent failure across repeated
+   runs — `positioned-overlays.spec.ts:242`, the hover-card focus-delay
+   `toBeHidden` timing flake classified in Exp 9; it is unrelated to Drawer (the
+   positioned-overlay CSS is byte-unchanged by this drawer-only change) and
+   passes on re-run). `drawer.spec.ts` + `modal-variants.spec.ts` +
+   `dialog.spec.ts` in isolation **20 passed** — the drawer open/close, the 4
+   directions, the custom-token content `border-top-color rgb(15,118,110)` +
+   handle `background-color rgb(15,118,110)`, the drag threshold, internal
+   scroll, AND the other migrated modals (which now use `animate-in`, proving
+   the retired keyframes broke nothing).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Drawer's overlay backdrop renders from shadcn utilities, completing the
+overlay/backdrop migration of the entire modal cluster (Dialog, AlertDialog,
+Sheet, Drawer). The Drawer CONTENT is documented and kept as RadCN's
+dependency-free drag-to-dismiss system (direction/transform/drag/border/handle,
+`data-direction`-keyed on the `.radcn-drawer-content` class) — shadcn delegates
+this to the `vaul` library, so there is no verbatim-utility port for it; like
+the positioned-overlay and modal-JS systems, it is a legitimate RadCN-system
+exception kept in `tokens.css` (its surface stays token-driven; the asserted
+content border + handle colors hold). The bespoke modal fade/zoom keyframes
+were retired (all four modal overlays now use tw-animate-css `animate-in`); the
+overlay default backdrop opacity shifted `0.45` → `0.5` toward shadcn parity
+(intentional, unasserted). Twenty-one components migrated; the overlay cluster
+(7 components: Tooltip, Popover, HoverCard, Dialog, AlertDialog, Sheet, Drawer)
+is complete.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Some components are RadCN SYSTEMS with no shadcn-utility analog (Drawer's
+  drag-to-dismiss vs shadcn's vaul library). For these, migrate the cleanly
+  portable parts (the overlay backdrop) and keep the system bespoke + documented
+  — don't force a utility port where shadcn itself delegates to a JS library.
+- A shared bespoke keyframe can finally be RETIRED once the last component
+  migrates off it (the modal fade/zoom keyframes died with the Drawer overlay);
+  reword the retirement comment to avoid the literal keyframe tokens so
+  "no longer present" greps stay clean (Exp 7).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -150,3 +210,32 @@ Minors (folded into implementation):
 Approval result: approved — overlay-only scope correct; the dead-keyframe
 retirement is verified safe; the content drag system is a justified kept
 RadCN-system exception.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed drawer.tsx emits `drawerOverlayClass` (no
+`radcn-drawer-overlay` class), keeps the overlay data attributes, and leaves
+DrawerContent + all other parts unchanged; tokens.css has ZERO
+`.radcn-drawer-overlay` rule and ZERO `radcn-dialog-fade-in`/`radcn-dialog-zoom-in`
+occurrences anywhere (keyframes, references, AND comments), the Drawer `@media`
+block keeping `.radcn-drawer-content` (overlay removed), the four
+`radcn-drawer-*-in` keyframes present, and the content/handle/direction rules +
+`.radcn-fixture-custom-drawer` unchanged; byte-identical `index.ts`. It re-ran
+both `styles:build`, the three typechecks, the docs suite (2/2 = 11), the
+drawer+modal+dialog isolation (20 — drawer 4 directions/custom border+handle/
+drag/scroll + alert-dialog/sheet/dialog), and the full fixture suite (1191, with
+only the known unrelated `positioned-overlays.spec.ts:242` hover-card flake
+appearing intermittently and passing on re-run). It judged the
+content-kept-bespoke decision sound + honestly documented (shadcn uses the vaul
+library; no utility analog), the keyframe retirement complete + safe, and the
+overlay migration faithful. Verdict: APPROVED.
+
+Approval result: approved with no blockers — the modal cluster's overlays are
+all migrated, and the full overlay cluster (7 components) is complete.
