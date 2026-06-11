@@ -200,7 +200,7 @@ a dependency listed in package manifests.
 - [Experiment 34: Migrate Tabs surfaces to Tailwind utilities](34-migrate-tabs-to-tailwind.md)
   — **Pass**
 - [Experiment 35: Migrate Accordion surfaces to Tailwind utilities](35-migrate-accordion-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -687,6 +687,18 @@ From Experiment 34 (Tabs surfaces — Pass):
   `data-[disabled=true]:`) on the retained data attributes — the shadcn idiom.
 - When a spec already asserts the data attribute that replaces a dropped class,
   delete the redundant class assertion rather than duplicate it.
+
+From Experiment 35 (Accordion surfaces — Pass):
+
+- A native `<summary>` disclosure marker hides via Tailwind pseudo-element
+  variants — `marker:content-['']` (built-in `marker:` → `::marker`) +
+  `[&::-webkit-details-marker]:hidden` (arbitrary variant); both compile in v4.
+- Style-less "marker" classes (emitted but with no CSS rule) are pure
+  drop-on-migration; if a spec asserts one by name, the underlying `data-*`
+  attribute already carries the real state, so remove that assertion.
+- Parent-state→child effects on a native `<details>` (`item[open]`→icon,
+  `item[data-disabled]`→trigger) stay bespoke rules keyed on the data attribute
+  ancestor + the state attribute (`[open]` is native; `[data-disabled]`).
 
 ## Completion Criteria
 

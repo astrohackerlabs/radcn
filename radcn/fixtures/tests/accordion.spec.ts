@@ -113,7 +113,6 @@ test('candidate accordion exposes disabled and customization hooks', async ({ pa
 
   let disabled = page.locator('[data-radcn-accordion-item][data-value="two"]')
   await expect(disabled).toHaveAttribute('data-disabled', 'true')
-  await expect(disabled).toHaveClass(/radcn-accordion-item--disabled/)
   await expect(disabled).not.toHaveAttribute('open', '')
   await expect(disabled).toHaveJSProperty('tagName', 'DIV')
   await expect(disabled.locator('[data-radcn-accordion-trigger]')).toHaveCSS('pointer-events', 'none')

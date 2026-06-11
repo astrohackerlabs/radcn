@@ -2,6 +2,22 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Accordion surfaces as Tailwind utilities (Issue 6, Experiment 35). Native
+// <details>/<summary> disclosure. Token-referencing utilities keep the
+// custom-accordion fixture working; the summary marker is hidden via Tailwind
+// pseudo-element variants. The parent-state→child effects (item [open] → icon
+// rotate; item disabled → trigger) stay bespoke rules in tokens.css keyed on the
+// data attributes. The style-less marker classes (--single/--multiple/
+// item--disabled/trigger--disabled) are dropped.
+const accordionRootClass = 'w-[min(100%,36rem)] border-t border-[var(--radcn-accordion-border,var(--radcn-border))]'
+const accordionItemClass = 'border-b border-[var(--radcn-accordion-border,var(--radcn-border))] data-[disabled=true]:opacity-50'
+const accordionTriggerClass =
+  "flex w-full items-start justify-between gap-4 py-4 text-[var(--radcn-accordion-trigger-fg,var(--radcn-foreground))] cursor-pointer text-sm font-medium leading-[1.3] list-none outline-none text-left hover:underline hover:underline-offset-4 focus-visible:rounded-md focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] marker:content-[''] [&::-webkit-details-marker]:hidden"
+const accordionIconClass = 'shrink-0 text-[var(--radcn-muted-foreground)] text-xs font-semibold leading-none transition-transform'
+const accordionContentClass =
+  'overflow-hidden text-[var(--radcn-accordion-content-fg,var(--radcn-muted-foreground))] text-sm leading-normal'
+const accordionContentInnerClass = 'pb-4'
+
 export type AccordionType = 'single' | 'multiple'
 
 export interface AccordionProps {
@@ -54,7 +70,7 @@ export function Accordion(handle: Handle<AccordionProps>) {
 
     return (
       <div
-        class={classes('radcn-accordion', `radcn-accordion--${type}`, className)}
+        class={classes(accordionRootClass, className)}
         data-collapsible={collapsible ? 'true' : undefined}
         data-default-value={values.join(' ')}
         data-radcn-accordion
@@ -76,7 +92,7 @@ export function AccordionItem(handle: Handle<AccordionItemProps>) {
     if (disabled) {
       return (
         <div
-          class={classes('radcn-accordion-item', 'radcn-accordion-item--disabled', className)}
+          class={classes(accordionItemClass, className)}
           data-disabled="true"
           data-radcn-accordion-item
           data-state={state}
@@ -90,7 +106,7 @@ export function AccordionItem(handle: Handle<AccordionItemProps>) {
 
     return (
       <details
-        class={classes('radcn-accordion-item', className)}
+        class={classes(accordionItemClass, className)}
         data-radcn-accordion-item
         data-state={state}
         data-value={value}
@@ -109,10 +125,10 @@ export function AccordionTrigger(handle: Handle<AccordionTriggerProps>) {
     let { children, class: className, disabled, style } = handle.props
     let content = (
       <>
-        <span class="radcn-accordion-trigger-text" data-radcn-accordion-trigger-text>
+        <span data-radcn-accordion-trigger-text>
           {children}
         </span>
-        <span aria-hidden="true" class="radcn-accordion-icon" data-radcn-accordion-icon>
+        <span aria-hidden="true" class={accordionIconClass} data-radcn-accordion-icon>
           v
         </span>
       </>
@@ -122,7 +138,7 @@ export function AccordionTrigger(handle: Handle<AccordionTriggerProps>) {
       return (
         <div
           aria-disabled="true"
-          class={classes('radcn-accordion-trigger', 'radcn-accordion-trigger--disabled', className)}
+          class={classes(accordionTriggerClass, className)}
           data-disabled="true"
           data-radcn-accordion-trigger
           role="button"
@@ -134,7 +150,7 @@ export function AccordionTrigger(handle: Handle<AccordionTriggerProps>) {
     }
 
     return (
-      <summary class={classes('radcn-accordion-trigger', className)} data-radcn-accordion-trigger style={style}>
+      <summary class={classes(accordionTriggerClass, className)} data-radcn-accordion-trigger style={style}>
         {content}
       </summary>
     )
@@ -148,11 +164,11 @@ export function AccordionContent(handle: Handle<AccordionContentProps>) {
     return (
       <div
         hidden={disabled ? true : undefined}
-        class={classes('radcn-accordion-content', className)}
+        class={classes(accordionContentClass, className)}
         data-radcn-accordion-content
         style={style}
       >
-        <div class="radcn-accordion-content-inner" data-radcn-accordion-content-inner>
+        <div class={accordionContentInnerClass} data-radcn-accordion-content-inner>
           {children}
         </div>
       </div>

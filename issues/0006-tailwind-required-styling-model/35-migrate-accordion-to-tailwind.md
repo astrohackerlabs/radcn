@@ -107,7 +107,53 @@ Fail criteria: an accordion assertion regresses; the icon rotation or disabled
 trigger breaks; the summary marker reappears; the custom colors fail;
 `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Accordion is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 — the `marker:content-['']` +
+   `[&::-webkit-details-marker]:hidden` pseudo-element variants compiled cleanly
+   (the design-review's MAJOR concern, now confirmed valid Tailwind v4), as did
+   `data-[disabled=true]:` and the `color-mix` focus shadow.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated `.radcn-accordion*`
+   CLASS rule remains (count 0); the two parent-state→child rules present (keyed
+   on `[open]`/`[data-disabled]`); `.radcn-fixture-custom-accordion` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `accordion.spec.ts` in isolation **4
+   passed** — incl. the content class array + `display:flex`/`gap:16px` (consumer-
+   driven), the disabled item `pointer-events: none` + `data-disabled`, the icon
+   open-rotation, and the custom border-top `rgb(15,118,110)` + trigger color
+   `rgb(19,78,74)` + content color `rgb(15,118,110)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   four expected files changed (incl. `accordion.spec.ts`).
+
+No deviations from the (clarified) approved design.
+
+## Conclusion
+
+Accordion is migrated: the native `<details>`/`<summary>` surfaces render from
+token-referencing Tailwind utilities (the custom-accordion fixture works
+unchanged), the summary disclosure marker is hidden via the `marker:` +
+`[&::-webkit-details-marker]:` pseudo-element variants, and the two parent-state→
+child effects (item `[open]` → icon rotate; item disabled → trigger) stay
+bespoke rules keyed on the data attributes. Twenty-five components are now
+migrated. The `radcn-accordion-item--disabled` style-less marker class and its
+redundant assertion were dropped (the disabled state holds via `data-disabled` +
+the `[data-disabled]`-keyed opacity).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A native `<summary>` disclosure marker hides cleanly via Tailwind
+  pseudo-element variants — `marker:content-['']` (built-in `marker:` →
+  `::marker`) + `[&::-webkit-details-marker]:hidden` (arbitrary variant). Both
+  compile in Tailwind v4.
+- Style-less "marker" classes (`--single`/`--multiple`/`item--disabled`/
+  `trigger--disabled` — emitted but with no CSS rule) are pure drop-on-migration;
+  if a spec asserts one by name, the underlying `data-*` attribute already
+  carries the real state, so remove the assertion.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -147,3 +193,34 @@ assertion are confirmed in the verification gate.
 Approval result: approved — the `<details>` migration is sound; parent-state→
 child rules kept bespoke, marker hiding as utilities (build-verified), custom
 tokens read in place, the dropped marker class's assertion removed.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed accordion.tsx emits the utility-const strings (no
+`radcn-accordion*` classes), with the `marker:content-['']` +
+`[&::-webkit-details-marker]:hidden` + `list-none` + hover/focus variants on the
+trigger, the style-less marker classes dropped, and all data/native attributes
+(`data-radcn-accordion*`, `data-disabled`, `data-state`, `data-value`, `open`,
+`role`, `aria-disabled`) kept; tokens.css has ZERO migrated `.radcn-accordion*`
+class rules, the two parent-state→child rules (`[open]`→icon rotate,
+`[data-disabled]`→trigger), and the retained `.radcn-fixture-custom-accordion`;
+byte-identical `index.ts`; `accordion.spec.ts` has the `radcn-accordion-item--disabled`
+assertion removed with `data-disabled='true'` retained and no other
+`radcn-accordion--` class assertion anywhere. It re-ran both `styles:build`, the
+three typechecks, the docs suite (2/2 = 11), the fixture suite (2/2 = 1191, the
+only intermittent failure being the known unrelated hover-card flake), and
+`accordion.spec.ts` in isolation (4 — content flex/gap consumer-driven, disabled
+`pointer-events:none`, icon open-rotation, custom border-top/trigger/content
+colors). It confirmed the marker-variant compilation (the prior design-review
+crux), the parent-state rules + custom tokens holding, and the assertion removal
+correct. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Accordion is migrated (25
+components).
