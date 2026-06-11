@@ -205,6 +205,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 37: Migrate Field surfaces to Tailwind utilities](37-migrate-field-to-tailwind.md)
   — **Pass**
+- [Experiment 38: Migrate Switch surfaces to Tailwind utilities](38-migrate-switch-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
