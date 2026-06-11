@@ -247,6 +247,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 58: Migrate Calendar to Tailwind utilities](58-migrate-calendar-to-tailwind.md)
   — **Pass**
+- [Experiment 59: Migrate InputOTP to Tailwind utilities](59-migrate-input-otp-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
