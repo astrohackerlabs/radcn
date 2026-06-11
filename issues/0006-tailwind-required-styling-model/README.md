@@ -236,7 +236,7 @@ a dependency listed in package manifests.
 - [Experiment 52: Migrate Menubar + NavigationMenu together to Tailwind utilities](52-migrate-menubar-navigation-menu-to-tailwind.md)
   — **Pass**
 - [Experiment 53: Migrate Command + Combobox together to Tailwind utilities](53-migrate-command-combobox-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -925,6 +925,17 @@ From Experiment 52 (Menubar + NavigationMenu together — Pass):
   same property (conflict) — use only the var-read.
 - A combined rule whose kept selector is ALREADY fully covered by a standalone rule
   (`.radcn-menu-sub-caret`, kept from Exp 51) is DELETED outright, not split.
+
+From Experiment 53 (Command + Combobox together — Pass):
+
+- A class can be a TEST LOCATOR even with no CSS rule and not being the component's
+  "own" surface (`radcn-command-dialog`, on the migrated Dialog, is located by
+  `combobox-command.spec.ts:286`). Grep the SPECS for a class before dropping it,
+  not just components/fixtures; keep asserted classes as style-less markers.
+- Across a shared/override component boundary, do NOT layer `${sharedConst} +
+  overrides` when the override changes a shared property (border/radius/bg) — that
+  re-creates the Exp-41 source-order conflict. Emit the overriding element's RESOLVED
+  state directly (per-side border longhands instead of the `border` shorthand).
 
 ## Remaining Component Migration Map
 

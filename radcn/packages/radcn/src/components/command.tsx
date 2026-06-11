@@ -1,6 +1,22 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+import { sharedContentStructure, sharedEmpty, sharedGroup, sharedIndicator, sharedInput, sharedItemStructure, sharedList, sharedSeparator } from './combobox.tsx'
+
+// Command surfaces as Tailwind utilities (Issue 6, Experiment 53). Shares the
+// control/input/content/list/item structure with Combobox (imported). The command
+// root + input-wrapper carry their RESOLVED state directly (no shared-vs-override
+// conflict, Exp-41). The item-indicator keeps its class for the kept
+// [data-checked=false] cascade. Comments are ASCII.
+const commandRootClass = `${sharedContentStructure} bg-[var(--radcn-command-bg,var(--radcn-background))] text-[var(--radcn-command-fg,var(--radcn-foreground))] [font-family:var(--radcn-font)] w-[min(100%,var(--radcn-command-width,26rem))]`
+const commandInputWrapperClass =
+  'flex w-full min-h-[var(--radcn-control-height)] items-center border-x-0 border-t-0 border-b rounded-none border-[color:var(--radcn-command-border,var(--radcn-border))] bg-[var(--radcn-command-bg,var(--radcn-background))] text-[var(--radcn-combobox-trigger-fg,var(--radcn-foreground))]'
+const commandItemClass = `${sharedItemStructure} grid-cols-[minmax(0,1fr)_auto_auto]`
+const commandGroupHeadingClass =
+  'px-2 pt-1.5 pb-1 text-muted-foreground font-semibold text-[0.75rem] leading-[1.2] [font-family:var(--radcn-font)]'
+const commandShortcutClass = 'text-muted-foreground font-medium text-[0.75rem] leading-none [font-family:var(--radcn-font)]'
+const commandDialogClass = 'p-0 overflow-hidden'
+const commandDialogHeaderClass = 'absolute w-px h-px overflow-hidden [clip:rect(0,0,0,0)]'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogOverlay, DialogPortal, DialogTitle } from './dialog.tsx'
 import { setupSearchableListbox } from '../utils/searchable-listbox.ts'
 
@@ -151,7 +167,7 @@ export function enhanceCommand(root: ParentNode = document) {
 export function Command(handle: Handle<CommandProps>) {
   return () => {
     let { children, class: className, disabled, id, loop, style, value } = handle.props
-    return <div class={classes('radcn-command', className)} data-disabled={disabled ? 'true' : undefined} data-loop={loop ? 'true' : undefined} data-query="" data-radcn-command data-value={value} id={id} style={style}>{children}</div>
+    return <div class={classes(commandRootClass, className)} data-disabled={disabled ? 'true' : undefined} data-loop={loop ? 'true' : undefined} data-query="" data-radcn-command data-value={value} id={id} style={style}>{children}</div>
   }
 }
 
@@ -162,8 +178,8 @@ export function CommandDialog(handle: Handle<CommandDialogProps>) {
       <Dialog defaultOpen={open ?? defaultOpen} dismissible={modal}>
         <DialogPortal>
           <DialogOverlay />
-          <DialogContent class={classes('radcn-command-dialog', className)} showCloseButton={showCloseButton} style={style}>
-            <DialogHeader class="radcn-command-dialog-header">
+          <DialogContent class={classes(commandDialogClass, 'radcn-command-dialog', className)} showCloseButton={showCloseButton} style={style}>
+            <DialogHeader class={commandDialogHeaderClass}>
               <DialogTitle>{title}</DialogTitle>
               <DialogDescription>{description}</DialogDescription>
             </DialogHeader>
@@ -178,21 +194,21 @@ export function CommandDialog(handle: Handle<CommandDialogProps>) {
 export function CommandInput(handle: Handle<CommandInputProps>) {
   return () => {
     let { ariaLabel, class: className, defaultValue, disabled, placeholder = 'Type a command or search...', style } = handle.props
-    return <div class="radcn-command-input-wrapper" data-radcn-command-input-wrapper><input aria-label={ariaLabel} class={classes('radcn-command-input', className)} data-radcn-command-input disabled={disabled} placeholder={placeholder} style={style} value={defaultValue} /><span aria-hidden="true" class="radcn-command-input-icon" data-radcn-command-input-icon>?</span></div>
+    return <div class={commandInputWrapperClass} data-radcn-command-input-wrapper><input aria-label={ariaLabel} class={classes(sharedInput, className)} data-radcn-command-input disabled={disabled} placeholder={placeholder} style={style} value={defaultValue} /><span aria-hidden="true" class="radcn-command-input-icon" data-radcn-command-input-icon>?</span></div>
   }
 }
 
 export function CommandList(handle: Handle<CommandPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-command-list', className)} data-radcn-command-list style={style}>{children}</div>
+    return <div class={classes(sharedList, className)} data-radcn-command-list style={style}>{children}</div>
   }
 }
 
 export function CommandEmpty(handle: Handle<CommandPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-command-empty', className)} data-empty="false" data-radcn-command-empty hidden style={style}>{children || 'No results found.'}</div>
+    return <div class={classes(sharedEmpty, className)} data-empty="false" data-radcn-command-empty hidden style={style}>{children || 'No results found.'}</div>
   }
 }
 
@@ -201,8 +217,8 @@ export function CommandGroup(handle: Handle<CommandGroupProps>) {
     let { children, class: className, heading, id, style } = handle.props
     let headingId = heading && id ? `${id}-heading` : undefined
     return (
-      <div aria-labelledby={headingId} class={classes('radcn-command-group', className)} data-radcn-command-group id={id} role="group" style={style}>
-        {heading ? <div class="radcn-command-group-heading" data-radcn-command-group-heading id={headingId}>{heading}</div> : null}
+      <div aria-labelledby={headingId} class={classes(sharedGroup, className)} data-radcn-command-group id={id} role="group" style={style}>
+        {heading ? <div class={commandGroupHeadingClass} data-radcn-command-group-heading id={headingId}>{heading}</div> : null}
         {children}
       </div>
     )
@@ -212,20 +228,20 @@ export function CommandGroup(handle: Handle<CommandGroupProps>) {
 export function CommandItem(handle: Handle<CommandItemProps>) {
   return () => {
     let { checked, children, class: className, disabled, keywords, style, value } = handle.props
-    return <div aria-disabled={disabled ? 'true' : undefined} aria-selected="false" class={classes('radcn-command-item', className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-keywords={keywords} data-radcn-command-item data-selected="false" data-value={value} role="option" style={style}>{children}<span aria-hidden="true" class="radcn-command-item-indicator" data-radcn-command-item-indicator>✓</span></div>
+    return <div aria-disabled={disabled ? 'true' : undefined} aria-selected="false" class={classes(commandItemClass, className)} data-checked={checked ? 'true' : 'false'} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-keywords={keywords} data-radcn-command-item data-selected="false" data-value={value} role="option" style={style}>{children}<span aria-hidden="true" class={classes(sharedIndicator, 'radcn-command-item-indicator')} data-radcn-command-item-indicator>✓</span></div>
   }
 }
 
 export function CommandShortcut(handle: Handle<CommandPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <span class={classes('radcn-command-shortcut', className)} data-radcn-command-shortcut style={style}>{children}</span>
+    return <span class={classes(commandShortcutClass, className)} data-radcn-command-shortcut style={style}>{children}</span>
   }
 }
 
 export function CommandSeparator(handle: Handle<CommandPartProps>) {
   return () => {
     let { class: className, style } = handle.props
-    return <div class={classes('radcn-command-separator', className)} data-radcn-command-separator role="separator" style={style} />
+    return <div class={classes(sharedSeparator, className)} data-radcn-command-separator role="separator" style={style} />
   }
 }

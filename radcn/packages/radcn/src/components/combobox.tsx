@@ -3,6 +3,39 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { setupSearchableListbox } from '../utils/searchable-listbox.ts'
 
+// Combobox + Command shared surfaces as Tailwind utilities (Issue 6, Experiment
+// 53). The shared consts are exported here and reused by command.tsx. Two shared
+// rules are component-overridden (content bg/fg, item grid-cols), so the shared
+// consts carry only the non-conflicting structure and each component adds its own
+// bg/fg + grid-cols (Exp-41). The control invalid/disabled propagates via vars the
+// combobox root sets and the control reads (Exp-47). Comments here are ASCII; no
+// bracketed class-like tokens.
+export const sharedControl =
+  'flex w-[var(--radcn-combobox-width,14rem)] min-h-[var(--radcn-control-height)] items-center border border-[color:var(--radcn-combobox-control-bc,var(--radcn-combobox-border,var(--radcn-input)))] rounded-md bg-[var(--radcn-combobox-trigger-bg,var(--radcn-background))] text-[var(--radcn-combobox-trigger-fg,var(--radcn-foreground))] shadow-[var(--radcn-combobox-control-shadow,none)] opacity-[var(--radcn-combobox-control-op,1)]'
+export const sharedInput =
+  'min-w-0 flex-1 border-0 bg-transparent text-inherit px-3 py-2 text-[0.875rem] font-normal leading-none [font-family:var(--radcn-font)] outline-none placeholder:text-muted-foreground'
+export const sharedContentStructure =
+  'grid overflow-hidden border border-[var(--radcn-combobox-border,var(--radcn-border))] rounded-md shadow-[0_18px_48px_rgb(0_0_0_/_0.16)]'
+export const sharedList = 'grid gap-0.5 max-h-56 overflow-y-auto p-1.5'
+export const sharedGroup = 'grid gap-0.5'
+export const sharedItemStructure =
+  'grid min-h-8 items-center gap-2 rounded-[calc(var(--radcn-radius)-0.125rem)] cursor-default px-2 py-1.5 text-[0.875rem] font-normal leading-[1.25] [font-family:var(--radcn-font)] data-[highlighted=true]:bg-[var(--radcn-combobox-highlight-bg,var(--radcn-secondary))] data-[highlighted=true]:text-[var(--radcn-combobox-highlight-fg,var(--radcn-foreground))] data-[disabled=true]:text-muted-foreground data-[disabled=true]:opacity-50'
+export const sharedIndicator = 'text-[var(--radcn-combobox-indicator-fg,var(--radcn-primary))]'
+export const sharedEmpty =
+  'p-5 text-muted-foreground text-center text-[0.875rem] font-normal leading-[1.4] [font-family:var(--radcn-font)]'
+export const sharedSeparator = 'h-px my-1 mx-1.5 bg-border'
+const comboboxRootClass =
+  '[font-family:var(--radcn-font)] data-[invalid=true]:[--radcn-combobox-control-bc:var(--radcn-destructive)] data-[invalid=true]:[--radcn-combobox-control-shadow:0_0_0_3px_color-mix(in_srgb,var(--radcn-destructive)_18%,transparent)] data-[disabled=true]:[--radcn-combobox-control-op:0.5]'
+const comboboxTriggerClass =
+  'inline-flex w-8 min-h-8 items-center justify-center border-0 bg-transparent text-muted-foreground cursor-pointer text-[0.75rem] font-medium leading-none [font-family:var(--radcn-font)]'
+const comboboxContentClass = `${sharedContentStructure} bg-[var(--radcn-combobox-bg,var(--radcn-background))] text-[var(--radcn-combobox-fg,var(--radcn-foreground))] z-[var(--radcn-combobox-z,50)] max-h-[min(var(--radcn-combobox-content-max-height,17rem),var(--radcn-combobox-available-height,17rem))] [transform-origin:var(--radcn-combobox-transform-origin,top_left)] animate-[radcn-select-in_120ms_ease-out] [&[hidden]]:hidden`
+const comboboxItemClass = `${sharedItemStructure} grid-cols-[1rem_minmax(0,1fr)_auto]`
+const comboboxLabelClass =
+  'px-7 pt-1.5 pb-1 text-muted-foreground font-semibold text-[0.75rem] leading-[1.2] [font-family:var(--radcn-font)]'
+const comboboxChipsClass = 'flex flex-wrap gap-1.5 mb-2'
+const comboboxChipClass =
+  'inline-flex items-center gap-1 rounded-[calc(var(--radcn-radius)-0.125rem)] bg-secondary text-secondary-foreground px-2 py-1 text-[0.75rem] font-medium leading-none [font-family:var(--radcn-font)] [&[hidden]]:hidden'
+const comboboxChipRemoveClass = 'border-0 bg-transparent text-inherit cursor-pointer p-0'
 export type ComboboxAlign = 'start' | 'center' | 'end'
 export type ComboboxSide = 'top' | 'right' | 'bottom' | 'left'
 
@@ -370,7 +403,7 @@ export function Combobox(handle: Handle<ComboboxProps>) {
     let { children, class: className, defaultOpen, defaultValue, disabled, id, invalid, multiple, name, required, style, value } = handle.props
     let initialValue = value ?? defaultValue ?? ''
     return (
-      <div class={classes('radcn-combobox', className)} data-default-open={defaultOpen ? 'true' : undefined} data-default-value={defaultValue} data-disabled={disabled ? 'true' : undefined} data-invalid={invalid ? 'true' : undefined} data-multiple={multiple ? 'true' : undefined} data-open={defaultOpen ? 'true' : 'false'} data-placeholder={initialValue ? 'false' : 'true'} data-radcn-combobox data-required={required ? 'true' : undefined} data-state={defaultOpen ? 'open' : 'closed'} data-value={initialValue} id={id} style={style}>
+      <div class={classes(comboboxRootClass, className)} data-default-open={defaultOpen ? 'true' : undefined} data-default-value={defaultValue} data-disabled={disabled ? 'true' : undefined} data-invalid={invalid ? 'true' : undefined} data-multiple={multiple ? 'true' : undefined} data-open={defaultOpen ? 'true' : 'false'} data-placeholder={initialValue ? 'false' : 'true'} data-radcn-combobox data-required={required ? 'true' : undefined} data-state={defaultOpen ? 'open' : 'closed'} data-value={initialValue} id={id} style={style}>
         {name && <input data-radcn-combobox-hidden-input name={name} required={required} type="hidden" value={initialValue} />}
         {children}
       </div>
@@ -381,118 +414,118 @@ export function Combobox(handle: Handle<ComboboxProps>) {
 export function ComboboxValue(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <span class={classes('radcn-combobox-value', className)} data-radcn-combobox-value style={style}>{children}</span>
+    return <span class={classes(className)} data-radcn-combobox-value style={style}>{children}</span>
   }
 }
 
 export function ComboboxInput(handle: Handle<ComboboxInputProps>) {
   return () => {
     let { ariaLabel, class: className, disabled, placeholder = 'Search...', style } = handle.props
-    return <input aria-label={ariaLabel} class={classes('radcn-combobox-input', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-combobox-input disabled={disabled} placeholder={placeholder} style={style} />
+    return <input aria-label={ariaLabel} class={classes(sharedInput, className)} data-disabled={disabled ? 'true' : undefined} data-radcn-combobox-input disabled={disabled} placeholder={placeholder} style={style} />
   }
 }
 
 export function ComboboxTrigger(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, disabled, style } = handle.props
-    return <button class={classes('radcn-combobox-trigger', className)} data-radcn-combobox-trigger disabled={disabled} type="button" style={style}>{children || 'v'}</button>
+    return <button class={classes(comboboxTriggerClass, className)} data-radcn-combobox-trigger disabled={disabled} type="button" style={style}>{children || 'v'}</button>
   }
 }
 
 export function ComboboxClear(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, disabled, style } = handle.props
-    return <button class={classes('radcn-combobox-clear', className)} data-radcn-combobox-clear disabled={disabled} type="button" style={style}>{children || 'x'}</button>
+    return <button class={classes(comboboxTriggerClass, className)} data-radcn-combobox-clear disabled={disabled} type="button" style={style}>{children || 'x'}</button>
   }
 }
 
 export function ComboboxPortal(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-portal', className)} data-radcn-combobox-portal data-state="closed" hidden style={style}>{children}</div>
+    return <div class={classes('[&[hidden]]:hidden', className)} data-radcn-combobox-portal data-state="closed" hidden style={style}>{children}</div>
   }
 }
 
 export function ComboboxContent(handle: Handle<ComboboxContentProps>) {
   return () => {
     let { align = 'start', children, class: className, side = 'bottom', sideOffset = 6, style } = handle.props
-    return <div class={classes('radcn-combobox-content', className)} data-align={align} data-radcn-combobox-content data-side={side} data-side-offset={String(sideOffset)} data-state="closed" hidden style={style}>{children}</div>
+    return <div class={classes(comboboxContentClass, className)} data-align={align} data-radcn-combobox-content data-side={side} data-side-offset={String(sideOffset)} data-state="closed" hidden style={style}>{children}</div>
   }
 }
 
 export function ComboboxList(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-list', className)} data-radcn-combobox-list style={style}>{children}</div>
+    return <div class={classes(sharedList, className)} data-radcn-combobox-list style={style}>{children}</div>
   }
 }
 
 export function ComboboxItem(handle: Handle<ComboboxItemProps>) {
   return () => {
     let { children, class: className, disabled, keywords, style, textValue, value } = handle.props
-    return <div aria-disabled={disabled ? 'true' : undefined} aria-selected="false" class={classes('radcn-combobox-item', className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-keywords={keywords} data-radcn-combobox-item data-selected="false" data-text={textValue} data-value={value} role="option" style={style}><span class="radcn-combobox-item-indicator" data-radcn-combobox-item-indicator hidden>✓</span><span data-radcn-combobox-item-text>{children}</span></div>
+    return <div aria-disabled={disabled ? 'true' : undefined} aria-selected="false" class={classes(comboboxItemClass, className)} data-disabled={disabled ? 'true' : undefined} data-highlighted="false" data-keywords={keywords} data-radcn-combobox-item data-selected="false" data-text={textValue} data-value={value} role="option" style={style}><span class={sharedIndicator} data-radcn-combobox-item-indicator hidden>✓</span><span data-radcn-combobox-item-text>{children}</span></div>
   }
 }
 
 export function ComboboxItemIndicator(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <span class={classes('radcn-combobox-item-indicator', className)} data-radcn-combobox-item-indicator hidden style={style}>{children || '✓'}</span>
+    return <span class={classes(sharedIndicator, className)} data-radcn-combobox-item-indicator hidden style={style}>{children || '✓'}</span>
   }
 }
 
 export function ComboboxGroup(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-group', className)} data-radcn-combobox-group role="group" style={style}>{children}</div>
+    return <div class={classes(sharedGroup, className)} data-radcn-combobox-group role="group" style={style}>{children}</div>
   }
 }
 
 export function ComboboxLabel(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-label', className)} data-radcn-combobox-label style={style}>{children}</div>
+    return <div class={classes(comboboxLabelClass, className)} data-radcn-combobox-label style={style}>{children}</div>
   }
 }
 
 export function ComboboxCollection(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-collection', className)} data-radcn-combobox-collection style={style}>{children}</div>
+    return <div class={classes(className)} data-radcn-combobox-collection style={style}>{children}</div>
   }
 }
 
 export function ComboboxEmpty(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-empty', className)} data-empty="false" data-radcn-combobox-empty hidden style={style}>{children || 'No results found.'}</div>
+    return <div class={classes(sharedEmpty, className)} data-empty="false" data-radcn-combobox-empty hidden style={style}>{children || 'No results found.'}</div>
   }
 }
 
 export function ComboboxSeparator(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-separator', className)} data-radcn-combobox-separator role="separator" style={style} />
+    return <div class={classes(sharedSeparator, className)} data-radcn-combobox-separator role="separator" style={style} />
   }
 }
 
 export function ComboboxChips(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-combobox-chips', className)} data-radcn-combobox-chips style={style}>{children}</div>
+    return <div class={classes(comboboxChipsClass, className)} data-radcn-combobox-chips style={style}>{children}</div>
   }
 }
 
 export function ComboboxChip(handle: Handle<ComboboxChipProps>) {
   return () => {
     let { children, class: className, disabled, style, value } = handle.props
-    return <span class={classes('radcn-combobox-chip', className)} data-disabled={disabled ? 'true' : undefined} data-radcn-combobox-chip data-value={value} hidden style={style}>{children || value}</span>
+    return <span class={classes(comboboxChipClass, className)} data-disabled={disabled ? 'true' : undefined} data-radcn-combobox-chip data-value={value} hidden style={style}>{children || value}</span>
   }
 }
 
 export function ComboboxChipRemove(handle: Handle<ComboboxPartProps>) {
   return () => {
     let { children, class: className, disabled, style } = handle.props
-    return <button class={classes('radcn-combobox-chip-remove', className)} data-radcn-combobox-chip-remove disabled={disabled} type="button" style={style}>{children || 'x'}</button>
+    return <button class={classes(comboboxChipRemoveClass, className)} data-radcn-combobox-chip-remove disabled={disabled} type="button" style={style}>{children || 'x'}</button>
   }
 }

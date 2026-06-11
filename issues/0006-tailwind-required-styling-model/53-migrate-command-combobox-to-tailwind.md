@@ -180,6 +180,64 @@ content/item splits hold; BOTH suites green; byte-identical.
 Fail criteria: a combobox-command assertion regresses; a content bg/fg or item
 grid-cols conflict; the propagation fails; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (one in-flight fix: a missed marker class)
+
+Command + Combobox migrated; both suites green. The gate caught one regression,
+fixed in-flight:
+
+- `combobox-command.spec.ts:286` locates the command dialog by
+  `.radcn-command-dialog[data-radcn-dialog-content]` — `radcn-command-dialog` is an
+  asserted MARKER (locator), but the first pass dropped it (migrated to utilities).
+  Fix: the command dialog emits `classes(commandDialogClass, 'radcn-command-dialog',
+  className)` — the style-less marker kept alongside the utilities (the nav-link
+  marker pattern). combobox-command isolation then 11/11.
+
+Verification (post-fix):
+1. Both `styles:build` exit 0; the control propagation var-set + read compile
+   (`--radcn-combobox-control-bc` set + `var(--radcn-combobox-control-bc…)` read,
+   count 2), as do the `grid-cols-[…]`, `max-h-[min(…)]`, `[&[hidden]]:hidden`,
+   `[clip:rect(0,0,0,0)]`, `animate-[radcn-select-in_120ms_ease-out]`; no junk.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated combobox/command rule
+   remains except the kept `[data-checked="false"] .radcn-command-item-indicator`
+   cascade; the fixture + `@keyframes radcn-select-in` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: `combobox-command.spec.ts` in isolation **11 passed** (custom
+   combobox content class, custom command class + border `rgb(15,118,110)`, combobox
+   invalid/disabled, item highlight/disabled/indicator, chips, empty, the command
+   dialog marker + open). Full fixture suite **1191 passed** (run 2 clean); run 1 had
+   the known intermittent serial-load flake (1 unrelated, passes on re-run —
+   isolation is 11/11 and run 2 is 1191).
+6. `git diff --check` clean; `vendor/` untouched; the four expected files changed.
+
+## Conclusion
+
+Command + Combobox render from Tailwind utilities (shared consts exported from
+`combobox.tsx`, reused by `command.tsx`); the shared control/input/content/list/item
+rules dropped (both migrated together). The content bg/fg + item grid-cols were
+SPLIT per component (Exp-41); the combobox control invalid/disabled propagates via
+`--radcn-combobox-control-*` vars; the command raw-class sub-elements
+(input-wrapper/group-heading/dialog-header) became utilities, the command dialog
+keeps its `radcn-command-dialog` marker, and the input-wrapper carries its resolved
+state with per-side border longhands (no shared-vs-override conflict). The
+`[data-checked="false"] .radcn-command-item-indicator` cascade stays bespoke.
+FORTY-SIX components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A class can be a TEST LOCATOR even when it has no CSS rule and isn't the
+  component's "own" surface — `radcn-command-dialog` (on the migrated Dialog) is
+  located by `combobox-command.spec.ts:286`. Grep the SPECS for a class before
+  dropping it, not just the components/fixtures; keep asserted classes as style-less
+  markers.
+- Across a shared/override component boundary, do NOT layer
+  `${sharedConst} + overrides` when the override changes a shared property
+  (border/radius/bg) — that re-creates the Exp-41 source-order conflict. Emit the
+  overriding element's RESOLVED state directly (here the command input-wrapper, with
+  per-side border longhands instead of the `border` shorthand).
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -212,3 +270,30 @@ bottom border (not dead); `input-icon` stays a style-less structural raw class.
 Approval result: approved after the input-wrapper fix — the splits + propagation +
 raw-class conversions are sound, and the input-wrapper now carries its resolved
 state with no shared-vs-override conflict.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer verified all 15 checkpoints: the 9 shared consts exported from
+combobox.tsx + imported by command.tsx (sharedControl correctly omitted from
+command); the control propagation (root sets `--radcn-combobox-control-bc/-shadow/-op`,
+sharedControl reads with the right fallbacks); BOTH conflict-splits (content bg/fg,
+item grid-cols — shared carries structure only, each component adds its own); the
+command input-wrapper emitting its RESOLVED state with per-side border longhands (no
+sharedControl, no conflict); the command raw-class sub-elements converted; the
+`radcn-command-dialog` + `radcn-command-item-indicator` markers kept; input-icon
+style-less; tokens.css pruned except the kept checked-indicator cascade + fixture +
+`@keyframes radcn-select-in`; byte-identical `index.ts`. It rebuilt + confirmed the
+propagation var-set/read + the arbitrary utilities generate (no junk), re-ran the
+three typechecks, the docs suite (11), `combobox-command.spec.ts` (11 — incl. the
+`:286` dialog marker + the custom border `rgb(15,118,110)`), and the full fixture
+suite (1191). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Command + Combobox migrated (46
+components).
