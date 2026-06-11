@@ -179,7 +179,7 @@ a dependency listed in package manifests.
 - [Experiment 24: Migrate Tooltip (content + arrow) to Tailwind utilities](24-migrate-tooltip-to-tailwind.md)
   — **Pass**
 - [Experiment 25: Migrate Popover content surface to Tailwind utilities](25-migrate-popover-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -514,6 +514,19 @@ From Experiment 24 (Tooltip — first overlay migration — Pass):
 - Read the FULL overlay test block: a custom-token `toHaveCSS` is often a
   variable-based assertion (`content.toHaveCSS(...)`) that a single-line grep
   misses (Tooltip's custom background at `positioned-overlays.spec.ts:218`).
+
+From Experiment 25 (Popover content surface — second overlay — Pass):
+
+- Overlays can SHARE a surface rule (Popover+HoverCard's combined
+  `.radcn-popover-content, .radcn-hover-card-content`); migrating one means
+  splitting the selector — give the un-migrated sibling a standalone bespoke
+  copy (the Input+Textarea shared-rule pattern, applied to overlays).
+- When migrating an overlay, clean its entry from the shared
+  `@media (prefers-reduced-motion)` rule and sweep any strand a prior overlay
+  migration left (Exp 24's `.radcn-tooltip-content`); dropping that guard for
+  migrated overlays is shadcn-faithful.
+- The popover width-320px assertion was INLINE-backed (`style="width:20rem"`) —
+  always read the full test for inline/variable-based assertions.
 
 ## Completion Criteria
 

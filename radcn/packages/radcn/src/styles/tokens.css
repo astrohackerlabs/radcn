@@ -2541,7 +2541,12 @@
   z-index: var(--radcn-positioned-overlay-z, 50);
 }
 
-.radcn-popover-content,
+/*
+ * HoverCard keeps the bespoke overlay surface (Issue 6: it migrates in its own
+ * experiment). Popover's surface is migrated to Tailwind utilities (Issue 6,
+ * Experiment 25); only its layout + positioning glue remains, keyed on the
+ * data attribute (RadCN's dependency-free positioning system).
+ */
 .radcn-hover-card-content {
   z-index: var(--radcn-positioned-overlay-z, 50);
   display: grid;
@@ -2556,6 +2561,13 @@
   outline: none;
   transform-origin: var(--radcn-overlay-transform-origin, center top);
   animation: radcn-positioned-overlay-in 120ms ease-out;
+}
+
+[data-radcn-popover-content] {
+  display: grid;
+  gap: 0.875rem;
+  width: min(18rem, var(--radcn-overlay-available-width, calc(100vw - 1rem)));
+  transform-origin: var(--radcn-overlay-transform-origin, center top);
 }
 
 .radcn-popover-header {
@@ -2641,8 +2653,6 @@
   .radcn-alert-dialog-content,
   .radcn-sheet-overlay,
   .radcn-sheet-content,
-  .radcn-popover-content,
-  .radcn-tooltip-content,
   .radcn-hover-card-content {
     animation: none;
   }
@@ -2791,9 +2801,9 @@
 }
 
 .radcn-fixture-custom-popover {
-  --radcn-overlay-border: #7c3aed;
-  --radcn-overlay-bg: #faf5ff;
-  --radcn-overlay-fg: #3b0764;
+  border-color: #7c3aed;
+  background-color: #faf5ff;
+  color: #3b0764;
   --radcn-popover-close-border: #7c3aed;
 }
 

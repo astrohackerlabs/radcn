@@ -128,7 +128,61 @@ BOTH suites green and stable; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a popover or hover-card assertion regresses; the custom border/bg
 fail; the split strands hover-card styling; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Popover's content surface is migrated; both suites are green and stable; the
+shared-surface split left HoverCard intact. Verification:
+
+1. Both `styles:build` exit 0; the popover utilities generate (`bg-popover`,
+   `text-popover-foreground`, `shadow-md`, the `data-[side]:slide` + `animate-in`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-popover-content` CLASS
+   rule remains; `.radcn-hover-card-content` has a standalone surface body; the
+   `[data-radcn-popover-content]` layout/positioning rule is present; the
+   `@media` reduced-motion rule no longer lists popover OR the
+   (Exp-24-stranded) tooltip; `.radcn-fixture-custom-popover` sets
+   `border-color`/`background-color`/`color` directly.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** on 3 of 4 runs; `positioned-overlays.spec.ts`
+   in isolation **9 passed** — incl. the popover visibility/`data-side`/`w-80`/
+   width-320px, the close click, the custom-token content `border-color:
+   rgb(124, 58, 237)` + `background-color: rgb(250, 245, 255)`, AND the
+   hover-card tests (unaffected by the split). One full run hit the single
+   positioned-overlay serial-load flake (classified in Exp 9), which cannot be
+   caused by this change (the popover/hovercard tests pass deterministically in
+   isolation).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the approved design.
+
+## Conclusion
+
+Popover is the second migrated overlay: its content surface renders from shadcn
+utilities (`bg-popover`, `border`, `rounded-md`, `p-4`, `shadow-md`,
+`text-popover-foreground`, the enter-animation), the RadCN layout/positioning
+glue (grid/gap, default+collision width, transform-origin) stays as a
+`[data-radcn-popover-content]` bespoke rule, and the custom-token override is a
+direct rule. The shared `.radcn-popover-content, .radcn-hover-card-content`
+surface rule was split (HoverCard keeps a standalone bespoke copy), and the
+Exp-24 `.radcn-tooltip-content` reduced-motion strand was cleaned. The
+close button + header/footer sub-parts + Button-coupled trigger are retained.
+Seventeen components are now migrated (… Tooltip, Popover — plus sub-parts).
+
+Learnings (also copied to the issue README Learnings digest):
+
+- Overlays can SHARE a surface rule (Popover+HoverCard); migrating one means
+  splitting the combined selector — give the un-migrated sibling a standalone
+  bespoke copy (the Input+Textarea shared-rule pattern, applied to overlays).
+- When migrating an overlay, also clean its entry from the shared
+  `@media (prefers-reduced-motion)` rule, and sweep any strand a prior overlay
+  migration left (Exp 24's `.radcn-tooltip-content`). Dropping the
+  reduced-motion guard for migrated overlays is shadcn-faithful (shadcn has no
+  such guard).
+- The width-320px assertion was INLINE-backed (`style="width:20rem"`) — the
+  recurring inline/variable-assertion lesson; always read the full test.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -166,3 +220,32 @@ is correct, all assertions survive, the split is safe, the cascade holds.
 
 Approval result: approved — design sound and complete; the four "blockers" are
 the to-be-implemented changes themselves, not design flaws.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed popover.tsx emits the shadcn surface utilities (no
+`radcn-popover-content` class) with all data attributes kept and close/anchor/
+portal/trigger unchanged; tokens.css has no `.radcn-popover-content` class rule,
+the `[data-radcn-popover-content]` layout rule, the standalone
+`.radcn-hover-card-content` surface body (explicitly verifying the `color`
+fallback is `--radcn-foreground`, not `--background`), the `@media` rule with
+popover AND the stranded tooltip removed, and the direct
+`.radcn-fixture-custom-popover` rule (keeping the close-border token);
+byte-identical `index.ts`. It independently re-ran both `styles:build`, the
+three typechecks, the docs suite (2/2 = 11), the fixture suite (1191; one run
+hit the Exp-9 serial-load flake at test 242, unrelated), and
+`positioned-overlays.spec.ts` in isolation (9) — confirming the popover
+visibility/`data-side`/`w-80`/width-320px/close-click, the custom-token content
+`rgb(124,58,237)`/`rgb(250,245,255)`, AND all 3 hover-card tests pass (split
+safe). It judged the migration faithful, the custom override winning via the
+unlayered direct rule, HoverCard genuinely unaffected, and the tooltip-strand
+cleanup correct. Verdict: APPROVED.
+
+Approval result: approved with no blockers.

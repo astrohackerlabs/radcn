@@ -6,6 +6,15 @@ import { setupPositionedOverlay } from '../utils/positioned-overlay.ts'
 export type PopoverSide = 'top' | 'right' | 'bottom' | 'left'
 export type PopoverAlign = 'start' | 'center' | 'end'
 
+// PopoverContent surface from shadcn/ui v4 (registry/new-york-v4/ui/
+// popover.tsx). See Issue 6, Experiment 25. ENTER-only (the JS hides via the
+// `hidden` attribute, so shadcn's exit utilities are omitted). shadcn's `w-72`
+// default is omitted (RadCN's classes() does not tailwind-merge, so it would
+// conflict with a consumer `w-80`); the width default + grid layout + collision
+// clamp + transform origin stay in the [data-radcn-popover-content] bespoke rule.
+const popoverContentClass =
+  'z-50 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
+
 export interface PopoverProps {
   children?: RemixNode
   class?: string
@@ -114,7 +123,7 @@ export function PopoverContent(handle: Handle<PopoverContentProps>) {
 
     return (
       <div
-        class={classes('radcn-popover-content', className)}
+        class={classes(popoverContentClass, className)}
         data-align={align}
         data-radcn-popover-content
         data-side={side}
