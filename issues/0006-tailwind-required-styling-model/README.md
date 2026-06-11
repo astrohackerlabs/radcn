@@ -211,6 +211,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 40: Migrate Slider surfaces to Tailwind utilities](40-migrate-slider-to-tailwind.md)
   — **Pass**
+- [Experiment 41: Migrate Item surfaces to Tailwind utilities](41-migrate-item-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
