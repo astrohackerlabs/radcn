@@ -217,6 +217,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 43: Migrate NativeSelect to Tailwind utilities](43-migrate-native-select-to-tailwind.md)
   — **Pass**
+- [Experiment 44: Migrate Toggle (button surface) to Tailwind utilities](44-migrate-toggle-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
