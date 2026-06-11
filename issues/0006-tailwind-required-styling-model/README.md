@@ -251,6 +251,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 60: Migrate Carousel to Tailwind utilities](60-migrate-carousel-to-tailwind.md)
   — **Pass**
+- [Experiment 61: Migrate Chart to Tailwind utilities](61-migrate-chart-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
