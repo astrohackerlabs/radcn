@@ -2098,89 +2098,9 @@
   --radcn-calendar-range-bg: #ccfbf1;
 }
 
-.radcn-carousel {
-  position: relative;
-  display: grid;
-  width: min(100%, var(--radcn-carousel-width, 22rem));
-  gap: 0.75rem;
-  color: var(--radcn-carousel-fg, var(--radcn-foreground));
-  font-family: var(--radcn-font);
-  outline: none;
-}
-
-.radcn-carousel:focus-visible {
-  border-radius: var(--radcn-radius);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-carousel-content {
-  overflow: auto hidden;
-  border-radius: var(--radcn-radius);
-  scroll-behavior: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.radcn-carousel-content::-webkit-scrollbar {
-  display: none;
-}
-
-.radcn-carousel-track {
-  display: flex;
-  gap: var(--radcn-carousel-gap, 1rem);
-}
-
-.radcn-carousel-item {
-  min-width: 0;
-  flex: 0 0 var(--radcn-carousel-item-size, 100%);
-  scroll-snap-align: start;
-  outline: none;
-}
-
-.radcn-carousel-item:focus-visible {
-  border-radius: var(--radcn-radius);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
 .radcn-carousel-item[data-selected="true"] .radcn-carousel-slide-card,
 .radcn-carousel-item[data-selected="true"] .reference-carousel-slide-card {
   border-color: var(--radcn-carousel-selected-border, var(--radcn-primary));
-}
-
-.radcn-carousel--vertical {
-  width: min(100%, var(--radcn-carousel-vertical-width, 18rem));
-}
-
-.radcn-carousel--vertical .radcn-carousel-content {
-  overflow: hidden auto;
-  max-height: var(--radcn-carousel-vertical-height, 18rem);
-  scroll-snap-type: y mandatory;
-}
-
-.radcn-carousel--vertical .radcn-carousel-track {
-  flex-direction: column;
-}
-
-.radcn-carousel--vertical .radcn-carousel-item {
-  flex-basis: var(--radcn-carousel-item-size, 11rem);
-}
-
-.radcn-carousel-previous,
-.radcn-carousel-next {
-  position: absolute;
-  z-index: 1;
-  display: inline-flex;
-  width: 2rem;
-  height: 2rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-carousel-control-border, var(--radcn-border));
-  border-radius: 999px;
-  background: var(--radcn-carousel-control-bg, var(--radcn-background));
-  color: var(--radcn-carousel-control-fg, var(--radcn-foreground));
-  cursor: pointer;
-  font: 600 1.25rem/1 var(--radcn-font);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
 }
 
 .radcn-carousel-previous {
@@ -2207,12 +2127,6 @@
   bottom: -1rem;
   left: 50%;
   transform: translateX(-50%) rotate(90deg);
-}
-
-.radcn-carousel-previous:disabled,
-.radcn-carousel-next:disabled {
-  cursor: not-allowed;
-  opacity: 0.45;
 }
 
 .radcn-carousel-slide-card {

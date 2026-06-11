@@ -113,6 +113,40 @@ BOTH suites green; byte-identical.
 Fail criteria: a carousel assertion regresses; the vertical layout/control position
 drifts; the scrollbar shows; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Carousel migrated; both suites green (both fixture runs clean). All three
+`styles:build`/typechecks pass; the orientation var-sets + `[overflow:var(…)]` +
+`[&::-webkit-scrollbar]:hidden` + `flex-[0_0_var(…)]` compile (no junk); `index.ts`
+byte-identical; the 13 migrated carousel rules removed while the control POSITION
+rules (+ `--vertical` overrides), the slide-card + selected cascade, `--multiple`/
+`--size`/`--spacing`, and the fixture are retained; docs 11 ×2; `carousel.spec.ts`
+in isolation 5 passed (track gap 6px, custom class, slide-card border/bg, horizontal
++ vertical orientation, prev/next nav); fixture 1191 ×2 (both clean); `git diff
+--check` clean; three files changed.
+
+## Conclusion
+
+Carousel renders from Tailwind utilities (root/content/track/item/control appearance);
+the vertical orientation propagates via the root's `data-[orientation=vertical]:`
+var-sets (content overflow/max-h/snap, track flex-direction, item flex-basis
+fallback) read by the children, with the root width as its own variant; the control
+POSITION stays bespoke (positioning-only, keyed on the kept markers); the slide-card /
+`--multiple` / `--size` / `--spacing` fixture-demo classes + the selected-border
+cascade stay bespoke. FIFTY-THREE components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- For a positioned control whose POSITION differs by orientation but APPEARANCE does
+  not, split: migrate the appearance to utilities, keep the position rules bespoke
+  (positioning-only — `top`/`left`/`transform` — does not conflict with the appearance
+  utilities), and keep the orientation marker on the parent so the position cascade
+  still matches. Avoids propagating ~10 positioning vars.
+- `[overflow:var(--x,auto_hidden)]` / `[scroll-snap-type:var(--x,y_mandatory)]` /
+  `[&::-webkit-scrollbar]:hidden` all compile — scroll containers migrate fully.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
@@ -137,3 +171,22 @@ class, `:156/:157` slide-card border/bg (kept bespoke), and the vertical orienta
 
 Approval result: approved — the orientation propagation + the control
 position/appearance split + the fixture-demo carve-outs are sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). The reviewer confirmed all 5 cruxes:
+the root var-sets + children's reads (orientation propagation) + the root width
+own-variant; the control appearance migrated + position kept bespoke (positioning-only,
+no conflict) with the markers kept; the slide-card/`--multiple`/`--size`/`--spacing` +
+selected cascade kept bespoke (not component-emitted); the `[overflow:var(…)]`/
+`[&::-webkit-scrollbar]:hidden`/`flex-[0_0_var(…)]`/`gap-[var(…)]` compile; the
+`:68/152` track gap, `:155` custom class, `:156/157` slide-card border/bg, and the
+vertical orientation all hold. tokens.css removed the 13 migrated rules and kept the
+position + demos + fixture; byte-identical `index.ts`. It re-ran the three typechecks,
+the docs suite (11), `carousel.spec.ts` (5), and the full fixture suite (1191).
+Verdict: APPROVED.
+
+Approval result: approved with no blockers — Carousel migrated (53 components).

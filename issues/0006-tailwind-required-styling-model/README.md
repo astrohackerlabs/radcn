@@ -250,7 +250,7 @@ a dependency listed in package manifests.
 - [Experiment 59: Migrate InputOTP to Tailwind utilities](59-migrate-input-otp-to-tailwind.md)
   — **Pass**
 - [Experiment 60: Migrate Carousel to Tailwind utilities](60-migrate-carousel-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -991,6 +991,17 @@ From Experiment 59 (InputOTP — Pass):
 - `animate-[name_dur_steps(2,_start)_infinite]` compiles (the `_` inside `steps()` is
   the space); the keyframe stays bespoke, the utility references it (a JS-set
   className reads the same const).
+
+From Experiment 60 (Carousel — Pass):
+
+- For a positioned control whose POSITION differs by orientation but APPEARANCE does
+  not, split: migrate the appearance to utilities, keep the position rules bespoke
+  (positioning-only `top`/`left`/`transform` — no conflict with the appearance
+  utilities), and keep the orientation marker on the parent so the position cascade
+  still matches (avoids propagating ~10 positioning vars).
+- Scroll containers migrate fully: `[overflow:var(--x,auto_hidden)]`,
+  `[scroll-snap-type:var(--x,y_mandatory)]`, `[scrollbar-width:none]`,
+  `[&::-webkit-scrollbar]:hidden` all compile.
 
 ## Remaining Component Migration Map
 
