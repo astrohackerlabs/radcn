@@ -246,7 +246,7 @@ a dependency listed in package manifests.
 - [Experiment 57: Migrate DatePicker surfaces to Tailwind utilities](57-migrate-date-picker-to-tailwind.md)
   — **Pass**
 - [Experiment 58: Migrate Calendar to Tailwind utilities](58-migrate-calendar-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -970,6 +970,14 @@ From Experiment 57 (DatePicker surfaces — Pass):
   (Button) keeps its OVERRIDE rules bespoke + unlayered (they reliably beat the
   migrated @layer utilities / would lose as appended utilities); migrate only its
   standalone surfaces (root/icon/preset-select).
+
+From Experiment 58 (Calendar — Pass):
+
+- A grid of stateful cells (Calendar days) where the parent cell carries the state
+  and a child button is styled by it: propagate via vars (cell sets `--x` on
+  `data-[state]:`, button reads `prop-[var(--x,fallback)]`) — the Exp-47/50 pattern
+  scaled to 5 day-states + an own-state (range-middle) on the cell. Wire BOTH the
+  internal grid renderer (raw class sites) AND the exported component wrappers.
 
 ## Remaining Component Migration Map
 

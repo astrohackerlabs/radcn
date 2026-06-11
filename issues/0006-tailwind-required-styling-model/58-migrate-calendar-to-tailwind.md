@@ -100,7 +100,45 @@ states (via propagation) + structure hold; BOTH suites green; byte-identical.
 Fail criteria: a calendar assertion regresses; a day-state propagation fails; the
 date-picker trigger/content rules get dropped; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Calendar migrated; both suites green (both fixture runs clean). Verification:
+1. Both `styles:build` exit 0; the day-state var-sets + reads compile
+   (`--radcn-cal-day-bg`/etc. + `var(--radcn-cal-day-bg…)`, count 4), as do
+   `[border-spacing:0.125rem]`, `shadow-[var(…)]`, `[outline-offset:2px]`; no junk.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-calendar*` rule remains;
+   the interleaved `.radcn-date-picker-trigger`/`-content` (Exp 57) + the fixture
+   retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2 (both clean); `calendar-date-picker.spec.ts`
+   in isolation **6 passed** — the custom calendar class + border `rgb(15,118,110)`,
+   day selection/range/today/outside (via propagation), nav prev/next, weekday
+   headers, keyboard nav, AND the DatePicker (which renders the Calendar).
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+(A pre-existing unused `caption` local in the calendar enhancer JS — unrelated to
+this class-string migration — was left untouched; the project typecheck passes.)
+
+## Conclusion
+
+Calendar renders from Tailwind utilities (root/nav/prev-next/months/month/caption/
+grid/weekday/day/day-button); the day-STATE styling (selected/range/today/outside)
+propagates via the `--radcn-cal-day-bg`/`-fg`/`-shadow` vars the day sets and the
+day-button reads, and range-middle is the day's own bg utility. The style-less
+weekdays/week/caption-dropdowns/month-select/year-select classes stay as structural
+hooks; the DatePicker override rules are preserved. FIFTY-ONE components are now
+migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A grid of stateful cells (Calendar days) where the parent cell carries the state
+  and a child button is styled by it: propagate via vars (cell sets
+  `--x` on `data-[state]:`, button reads `prop-[var(--x,fallback)]`) — exactly the
+  Exp-47/50 pattern, scaled to 5 day-states (selected/range-start/range-end/today/
+  outside) + an own-state (range-middle) on the cell.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
 context: yes.
@@ -122,3 +160,23 @@ wrappers, and the day td + day-button must carry the var-sets/var-reads.
 
 Approval result: approved — the day-state propagation + the surface mappings are
 sound; the date-picker rules + style-less hooks are preserved.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool). Fresh
+context: yes.
+
+Findings: none (no Blocker, Major, or Minor). The reviewer confirmed the 10 consts
+wired in BOTH the internal `renderMonth` renderer AND the exported component
+wrappers; the day td carries the day-state var-sets (+ range-middle own bg) and the
+day-button reads `--radcn-cal-day-bg/-fg/-shadow` (each once, no conflict); the
+style-less weekdays/week/caption-dropdowns/month-select/year-select kept as raw
+hooks; tokens.css has ZERO `.radcn-calendar*` rules with the date-picker
+trigger/content + the fixture preserved; byte-identical `index.ts`; the pre-existing
+unused `caption` local confirmed pre-existing. It rebuilt (var-sets/reads +
+`[border-spacing]`/`[outline-offset:2px]` generate, no junk), re-ran the three
+typechecks, the docs suite (11), `calendar-date-picker.spec.ts` (6 — `:91/:92`
+custom class + border `rgb(15,118,110)`, day states, nav, DatePicker), and the full
+fixture suite (1191×2). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Calendar migrated (51 components).

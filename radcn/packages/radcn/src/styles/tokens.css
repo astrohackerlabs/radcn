@@ -2141,17 +2141,6 @@
   --radcn-menubar-highlight-bg: #ccfbf1;
 }
 
-.radcn-calendar {
-  display: inline-grid;
-  gap: 0.75rem;
-  border: 1px solid var(--radcn-calendar-border, var(--radcn-border));
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-calendar-bg, var(--radcn-background));
-  color: var(--radcn-calendar-fg, var(--radcn-foreground));
-  padding: 0.75rem;
-  font-family: var(--radcn-font);
-}
-
 .radcn-date-picker-trigger {
   width: 100%;
   justify-content: flex-start;
@@ -2162,105 +2151,13 @@
   padding: 0.5rem;
 }
 
-.radcn-calendar-nav {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.radcn-calendar-previous,
-.radcn-calendar-next {
-  display: inline-flex;
-  width: 2rem;
-  height: 2rem;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-calendar-border, var(--radcn-border));
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-}
-
-.radcn-calendar-months {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.radcn-calendar-month {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.radcn-calendar-caption {
-  text-align: center;
-  font: 600 0.875rem/1.2 var(--radcn-font);
-}
-
-.radcn-calendar-grid {
-  border-collapse: separate;
-  border-spacing: 0.125rem;
-}
-
-.radcn-calendar-weekday,
-.radcn-calendar-week-number-header,
-.radcn-calendar-week-number {
-  width: var(--radcn-calendar-cell-size, 2.25rem);
-  height: 1.5rem;
-  color: var(--radcn-muted-foreground);
-  text-align: center;
-  font: 500 0.75rem/1 var(--radcn-font);
-}
-
-.radcn-calendar-day {
-  width: var(--radcn-calendar-cell-size, 2.25rem);
-  height: var(--radcn-calendar-cell-size, 2.25rem);
-  padding: 0;
-  text-align: center;
-}
-
-.radcn-calendar-day-button {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  font: 400 0.875rem/1 var(--radcn-font);
-}
-
-.radcn-calendar-day[data-selected="true"] .radcn-calendar-day-button,
-.radcn-calendar-day[data-range-start="true"] .radcn-calendar-day-button,
-.radcn-calendar-day[data-range-end="true"] .radcn-calendar-day-button {
-  background: var(--radcn-calendar-selected-bg, var(--radcn-primary));
-  color: var(--radcn-calendar-selected-fg, var(--radcn-primary-foreground));
-}
-
-.radcn-calendar-day[data-range-middle="true"] {
-  background: var(--radcn-calendar-range-bg, var(--radcn-secondary));
-}
-
-.radcn-calendar-day[data-today="true"] .radcn-calendar-day-button {
-  box-shadow: inset 0 0 0 1px var(--radcn-ring);
-}
-
-.radcn-calendar-day[data-outside="true"] .radcn-calendar-day-button {
-  color: var(--radcn-muted-foreground);
-}
-
-.radcn-calendar-day-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.radcn-calendar-day-button[data-focused="true"],
-.radcn-calendar-day-button:focus-visible {
-  outline: 2px solid var(--radcn-ring);
-  outline-offset: 2px;
-}
-
+/*
+ * Calendar surfaces are migrated to Tailwind utilities (Issue 6, Experiment 58):
+ * the component emits utilities; the day-state styling propagates via the
+ * --radcn-cal-day-* vars (the day sets them on its data-states, the day-button
+ * reads them). The DatePicker trigger/content override rules (Exp 57) sit above
+ * (preserved); the custom-calendar fixture below feeds the --radcn-calendar-* tokens.
+ */
 .radcn-fixture-custom-calendar,
 .radcn-fixture-custom-date-picker {
   --radcn-calendar-border: #0f766e;

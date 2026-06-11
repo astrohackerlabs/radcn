@@ -3,6 +3,29 @@ import type { Handle, RemixNode } from 'remix/ui'
 import { classes } from '../utils/classes.ts'
 import { addDays, addMonths, dateFromIso, daysInCalendarMonth, fullDateLabel, isBetween, isoDate, monthLabel, sameDay, startOfMonth, weekNumber } from '../utils/date.ts'
 
+// Calendar surfaces as Tailwind utilities (Issue 6, Experiment 58). The day-STATE
+// styling propagates via CSS vars (the DAY sets --radcn-cal-day-bg/-fg/-shadow on its
+// data-[selected/range-start/range-end/today/outside]; the day-button READS them) —
+// a bespoke parent->child cascade onto the migrated button is unreliable (Exp 47).
+// range-middle is the day's own bg utility. The style-less weekdays/week/caption-
+// dropdowns/month-select/year-select classes are structural hooks (no rule, kept).
+// Comments here are ASCII; no bracketed class-like tokens.
+const calendarRootClass =
+  'inline-grid gap-3 border border-[var(--radcn-calendar-border,var(--radcn-border))] rounded-md bg-[var(--radcn-calendar-bg,var(--radcn-background))] text-[var(--radcn-calendar-fg,var(--radcn-foreground))] p-3 [font-family:var(--radcn-font)]'
+const calendarNavClass = 'flex justify-between gap-2'
+const calendarNavButtonClass =
+  'inline-flex w-8 h-8 items-center justify-center border border-[var(--radcn-calendar-border,var(--radcn-border))] rounded-[calc(var(--radcn-radius)-0.125rem)] bg-transparent text-inherit cursor-pointer'
+const calendarMonthsClass = 'flex flex-wrap gap-4'
+const calendarMonthClass = 'grid gap-2'
+const calendarCaptionClass = 'text-center text-[0.875rem] font-semibold leading-[1.2] [font-family:var(--radcn-font)]'
+const calendarGridClass = 'border-separate [border-spacing:0.125rem]'
+const calendarWeekCellClass =
+  'w-[var(--radcn-calendar-cell-size,2.25rem)] h-6 text-muted-foreground text-center text-[0.75rem] font-medium leading-none [font-family:var(--radcn-font)]'
+const calendarDayClass =
+  'w-[var(--radcn-calendar-cell-size,2.25rem)] h-[var(--radcn-calendar-cell-size,2.25rem)] p-0 text-center data-[selected=true]:[--radcn-cal-day-bg:var(--radcn-calendar-selected-bg,var(--radcn-primary))] data-[selected=true]:[--radcn-cal-day-fg:var(--radcn-calendar-selected-fg,var(--radcn-primary-foreground))] data-[range-start=true]:[--radcn-cal-day-bg:var(--radcn-calendar-selected-bg,var(--radcn-primary))] data-[range-start=true]:[--radcn-cal-day-fg:var(--radcn-calendar-selected-fg,var(--radcn-primary-foreground))] data-[range-end=true]:[--radcn-cal-day-bg:var(--radcn-calendar-selected-bg,var(--radcn-primary))] data-[range-end=true]:[--radcn-cal-day-fg:var(--radcn-calendar-selected-fg,var(--radcn-primary-foreground))] data-[today=true]:[--radcn-cal-day-shadow:inset_0_0_0_1px_var(--radcn-ring)] data-[outside=true]:[--radcn-cal-day-fg:var(--radcn-muted-foreground)] data-[range-middle=true]:bg-[var(--radcn-calendar-range-bg,var(--radcn-secondary))]'
+const calendarDayButtonClass =
+  'w-full h-full border-0 rounded-[calc(var(--radcn-radius)-0.125rem)] bg-[var(--radcn-cal-day-bg,transparent)] text-[var(--radcn-cal-day-fg,inherit)] shadow-[var(--radcn-cal-day-shadow,none)] cursor-pointer text-[0.875rem] font-normal leading-none [font-family:var(--radcn-font)] disabled:cursor-not-allowed disabled:opacity-40 data-[focused=true]:outline-2 data-[focused=true]:outline-[var(--radcn-ring)] data-[focused=true]:[outline-offset:2px] focus-visible:outline-2 focus-visible:outline-[var(--radcn-ring)] focus-visible:[outline-offset:2px]'
+
 export type CalendarMode = 'single' | 'range'
 export type CalendarCaptionLayout = 'label' | 'dropdown'
 
@@ -103,11 +126,11 @@ function captionLayoutFor(props: CalendarProps): CalendarCaptionLayout {
 function renderCaption(month: Date, props: CalendarProps, offset: number) {
   let id = calendarCaptionId(props, offset)
   if (captionLayoutFor(props) !== 'dropdown') {
-    return <div class="radcn-calendar-caption" data-radcn-calendar-caption id={id}>{monthLabel(month)}</div>
+    return <div class={calendarCaptionClass} data-radcn-calendar-caption id={id}>{monthLabel(month)}</div>
   }
 
   return (
-    <div class="radcn-calendar-caption" data-radcn-calendar-caption id={id}>
+    <div class={calendarCaptionClass} data-radcn-calendar-caption id={id}>
       <div class="radcn-calendar-caption-dropdowns" data-radcn-calendar-caption-dropdowns>
         <select aria-label="Month" class="radcn-calendar-month-select" data-month-offset={String(offset)} data-radcn-calendar-month-select value={String(month.getMonth())}>
           {monthNames.map((name, index) => <option selected={index === month.getMonth()} value={String(index)}>{name}</option>)}
@@ -140,13 +163,13 @@ function renderMonth(month: Date, props: CalendarProps, offset: number) {
   }
 
   return (
-    <div class="radcn-calendar-month" data-month={isoDate(month).slice(0, 7)} data-radcn-calendar-month>
+    <div class={calendarMonthClass} data-month={isoDate(month).slice(0, 7)} data-radcn-calendar-month>
       {renderCaption(month, props, offset)}
-      <table aria-labelledby={calendarCaptionId(props, offset)} class="radcn-calendar-grid" data-radcn-calendar-grid role="grid">
+      <table aria-labelledby={calendarCaptionId(props, offset)} class={calendarGridClass} data-radcn-calendar-grid role="grid">
         <thead>
           <tr class="radcn-calendar-weekdays" data-radcn-calendar-weekdays>
-            {props.showWeekNumber && <th class="radcn-calendar-week-number-header" scope="col">Wk</th>}
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => <th class="radcn-calendar-weekday" data-radcn-calendar-weekday scope="col">{day}</th>)}
+            {props.showWeekNumber && <th class={calendarWeekCellClass} scope="col">Wk</th>}
+            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => <th class={calendarWeekCellClass} data-radcn-calendar-weekday scope="col">{day}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -154,7 +177,7 @@ function renderMonth(month: Date, props: CalendarProps, offset: number) {
             let week = days.slice(weekIndex * 7, weekIndex * 7 + 7)
             return (
               <tr class="radcn-calendar-week" data-radcn-calendar-week>
-                {props.showWeekNumber && <td class="radcn-calendar-week-number" data-radcn-calendar-week-number>{weekNumber(week[0].date)}</td>}
+                {props.showWeekNumber && <td class={calendarWeekCellClass} data-radcn-calendar-week-number>{weekNumber(week[0].date)}</td>}
                 {week.map((day) => {
                   let selectedSingle = selectedDate ? sameDay(day.date, selectedDate) : false
                   let isRangeStart = !!rangeStart && sameDay(day.date, rangeStart)
@@ -163,8 +186,8 @@ function renderMonth(month: Date, props: CalendarProps, offset: number) {
                   let dayDisabled = isDisabled(day.date, day.iso)
                   let hidden = props.showOutsideDays === false && day.outside
                   return (
-                    <td aria-selected={selectedSingle || isRangeStart || isRangeEnd ? 'true' : undefined} class="radcn-calendar-day" data-date={day.iso} data-disabled={dayDisabled ? 'true' : undefined} data-outside={day.outside ? 'true' : undefined} data-radcn-calendar-day data-range-end={isRangeEnd ? 'true' : undefined} data-range-middle={isRangeMiddle ? 'true' : undefined} data-range-start={isRangeStart ? 'true' : undefined} data-selected={selectedSingle || isRangeStart || isRangeEnd ? 'true' : undefined} data-today={sameDay(day.date, today) ? 'true' : undefined} role="gridcell">
-                      {!hidden && <button aria-label={fullDateLabel(day.date)} class="radcn-calendar-day-button" data-date={day.iso} data-disabled={dayDisabled ? 'true' : undefined} data-focused={selectedSingle || isRangeStart ? 'true' : undefined} data-radcn-calendar-day-button disabled={dayDisabled} tabIndex={selectedSingle || isRangeStart || (!selected && !day.outside && weekIndex === 0) ? 0 : -1} type="button">{day.date.getDate()}</button>}
+                    <td aria-selected={selectedSingle || isRangeStart || isRangeEnd ? 'true' : undefined} class={calendarDayClass} data-date={day.iso} data-disabled={dayDisabled ? 'true' : undefined} data-outside={day.outside ? 'true' : undefined} data-radcn-calendar-day data-range-end={isRangeEnd ? 'true' : undefined} data-range-middle={isRangeMiddle ? 'true' : undefined} data-range-start={isRangeStart ? 'true' : undefined} data-selected={selectedSingle || isRangeStart || isRangeEnd ? 'true' : undefined} data-today={sameDay(day.date, today) ? 'true' : undefined} role="gridcell">
+                      {!hidden && <button aria-label={fullDateLabel(day.date)} class={calendarDayButtonClass} data-date={day.iso} data-disabled={dayDisabled ? 'true' : undefined} data-focused={selectedSingle || isRangeStart ? 'true' : undefined} data-radcn-calendar-day-button disabled={dayDisabled} tabIndex={selectedSingle || isRangeStart || (!selected && !day.outside && weekIndex === 0) ? 0 : -1} type="button">{day.date.getDate()}</button>}
                     </td>
                   )
                 })}
@@ -500,13 +523,13 @@ export function Calendar(handle: Handle<CalendarProps>) {
     let numberOfMonths = props.numberOfMonths || 1
     let captionLayout = captionLayoutFor(props)
     return (
-      <div aria-label="Calendar" class={classes('radcn-calendar', props.class)} data-caption-layout={captionLayout} data-default-month={props.defaultMonth} data-default-selected={props.defaultSelected} data-disabled-dates={props.disabledDates} data-max={props.max} data-min={props.min} data-mode={props.mode || 'single'} data-month={isoDate(month).slice(0, 7)} data-radcn-calendar data-selected={selected} data-show-outside-days={props.showOutsideDays === false ? 'false' : 'true'} data-show-week-number={props.showWeekNumber ? 'true' : 'false'} id={props.id} style={props.style}>
+      <div aria-label="Calendar" class={classes(calendarRootClass, props.class)} data-caption-layout={captionLayout} data-default-month={props.defaultMonth} data-default-selected={props.defaultSelected} data-disabled-dates={props.disabledDates} data-max={props.max} data-min={props.min} data-mode={props.mode || 'single'} data-month={isoDate(month).slice(0, 7)} data-radcn-calendar data-selected={selected} data-show-outside-days={props.showOutsideDays === false ? 'false' : 'true'} data-show-week-number={props.showWeekNumber ? 'true' : 'false'} id={props.id} style={props.style}>
         {props.name && <input data-radcn-calendar-hidden-input name={props.name} required={props.required} type="hidden" value={selected} />}
-        <div class="radcn-calendar-nav" data-radcn-calendar-nav>
-          <button aria-label="Previous month" class="radcn-calendar-previous" data-radcn-calendar-previous type="button">‹</button>
-          <button aria-label="Next month" class="radcn-calendar-next" data-radcn-calendar-next type="button">›</button>
+        <div class={calendarNavClass} data-radcn-calendar-nav>
+          <button aria-label="Previous month" class={calendarNavButtonClass} data-radcn-calendar-previous type="button">‹</button>
+          <button aria-label="Next month" class={calendarNavButtonClass} data-radcn-calendar-next type="button">›</button>
         </div>
-        <div class="radcn-calendar-months" data-radcn-calendar-months>
+        <div class={calendarMonthsClass} data-radcn-calendar-months>
           {Array.from({ length: numberOfMonths }).map((_, index) => renderMonth(addMonths(month, index), props, index))}
         </div>
         {props.children}
@@ -518,42 +541,42 @@ export function Calendar(handle: Handle<CalendarProps>) {
 export function CalendarMonth(handle: Handle<CalendarMonthProps>) {
   return () => {
     let { children, class: className, month, style } = handle.props
-    return <div class={classes('radcn-calendar-month', className)} data-month={month} data-radcn-calendar-month style={style}>{children}</div>
+    return <div class={classes(calendarMonthClass, className)} data-month={month} data-radcn-calendar-month style={style}>{children}</div>
   }
 }
 
 export function CalendarCaption(handle: Handle<CalendarPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-calendar-caption', className)} data-radcn-calendar-caption style={style}>{children}</div>
+    return <div class={classes(calendarCaptionClass, className)} data-radcn-calendar-caption style={style}>{children}</div>
   }
 }
 
 export function CalendarNav(handle: Handle<CalendarPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <div class={classes('radcn-calendar-nav', className)} data-radcn-calendar-nav style={style}>{children}</div>
+    return <div class={classes(calendarNavClass, className)} data-radcn-calendar-nav style={style}>{children}</div>
   }
 }
 
 export function CalendarPrevious(handle: Handle<CalendarNavButtonProps>) {
   return () => {
     let { children, class: className, disabled, label = 'Previous month', style } = handle.props
-    return <button aria-label={label} class={classes('radcn-calendar-previous', className)} data-radcn-calendar-previous disabled={disabled} type="button" style={style}>{children || '‹'}</button>
+    return <button aria-label={label} class={classes(calendarNavButtonClass, className)} data-radcn-calendar-previous disabled={disabled} type="button" style={style}>{children || '‹'}</button>
   }
 }
 
 export function CalendarNext(handle: Handle<CalendarNavButtonProps>) {
   return () => {
     let { children, class: className, disabled, label = 'Next month', style } = handle.props
-    return <button aria-label={label} class={classes('radcn-calendar-next', className)} data-radcn-calendar-next disabled={disabled} type="button" style={style}>{children || '›'}</button>
+    return <button aria-label={label} class={classes(calendarNavButtonClass, className)} data-radcn-calendar-next disabled={disabled} type="button" style={style}>{children || '›'}</button>
   }
 }
 
 export function CalendarGrid(handle: Handle<CalendarPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
-    return <table class={classes('radcn-calendar-grid', className)} data-radcn-calendar-grid role="grid" style={style}>{children}</table>
+    return <table class={classes(calendarGridClass, className)} data-radcn-calendar-grid role="grid" style={style}>{children}</table>
   }
 }
 
@@ -574,7 +597,7 @@ export function CalendarWeek(handle: Handle<CalendarPartProps>) {
 export function CalendarDay(handle: Handle<CalendarDayProps>) {
   return () => {
     let { children, class: className, date, disabled, outside, rangeEnd, rangeMiddle, rangeStart, selected, style, today } = handle.props
-    return <td aria-selected={selected ? 'true' : undefined} class={classes('radcn-calendar-day', className)} data-date={date} data-disabled={disabled ? 'true' : undefined} data-outside={outside ? 'true' : undefined} data-radcn-calendar-day data-range-end={rangeEnd ? 'true' : undefined} data-range-middle={rangeMiddle ? 'true' : undefined} data-range-start={rangeStart ? 'true' : undefined} data-selected={selected ? 'true' : undefined} data-today={today ? 'true' : undefined} role="gridcell" style={style}>{children}</td>
+    return <td aria-selected={selected ? 'true' : undefined} class={classes(calendarDayClass, className)} data-date={date} data-disabled={disabled ? 'true' : undefined} data-outside={outside ? 'true' : undefined} data-radcn-calendar-day data-range-end={rangeEnd ? 'true' : undefined} data-range-middle={rangeMiddle ? 'true' : undefined} data-range-start={rangeStart ? 'true' : undefined} data-selected={selected ? 'true' : undefined} data-today={today ? 'true' : undefined} role="gridcell" style={style}>{children}</td>
   }
 }
 
@@ -582,6 +605,6 @@ export function CalendarDayButton(handle: Handle<CalendarDayProps>) {
   return () => {
     let { children, class: className, date, disabled, style } = handle.props
     let parsed = dateFromIso(date)
-    return <button aria-label={parsed ? fullDateLabel(parsed) : date} class={classes('radcn-calendar-day-button', className)} data-date={date} data-disabled={disabled ? 'true' : undefined} data-radcn-calendar-day-button disabled={disabled} type="button" style={style}>{children || parsed?.getDate() || date}</button>
+    return <button aria-label={parsed ? fullDateLabel(parsed) : date} class={classes(calendarDayButtonClass, className)} data-date={date} data-disabled={disabled ? 'true' : undefined} data-radcn-calendar-day-button disabled={disabled} type="button" style={style}>{children || parsed?.getDate() || date}</button>
   }
 }
