@@ -99,6 +99,71 @@ BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a typography assertion regresses (h1 size, muted color); a
 margin/border/font drifts; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass (after two caught-and-fixed bugs)
+
+Typography is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0.
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-typography-*`
+   CLASS rule remains; `.radcn-fixture-custom-typography` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `navigation-collection.spec.ts` +
+   `tailwind-probe.spec.ts` in isolation **12 passed** — incl. the h1 font-size
+   `40px` and the muted color `rgb(124,58,237)` (custom tokens), and tailwind-probe
+   (global utility health).
+6. `git diff --check` clean; `vendor/` untouched; the three expected files changed.
+
+Two in-flight bugs (both real, caught by the gate):
+
+1. **Ambiguous `text-[var(...)]` for font-size.** The first impl used
+   `text-[var(--radcn-typography-h1-size,2rem)]` for the h1. Tailwind treats a
+   bare `text-[var(...)]` as a COLOR (the generated CSS was
+   `color: var(--radcn-typography-h1-size,2rem)`), so the h1 had NO font-size and
+   rendered at the inherited 16px — `navigation-collection:351` expected 40px.
+   Fix: the arbitrary-PROPERTY form `[font-size:var(--radcn-typography-h1-size,2rem)]`
+   (the same form as `[font-family:...]`) — unambiguous, emits `font-size:`.
+   (`text-[length:var(...)]` would also disambiguate, but see bug 2.)
+
+2. **A non-ASCII char in a `@source`-scanned comment broke the whole stylesheet.**
+   The intermediate fix added a code COMMENT containing an ellipsis `…` (U+2026)
+   inside a class-like token. `@source '../../../../packages/radcn/src'` scans
+   this `.tsx` file, so Tailwind emitted a JUNK utility
+   `.text-[length:var(…)] { font-size: var(…); }` EARLY in the generated CSS
+   (line ~1110 of ~2494). The dev CSS transform choked on that rule, dropping
+   EVERY utility after it — ~38 unrelated components (avatar, dialog, modal, tabs,
+   slider, …) lost their styling and the `tailwind-probe` test failed. Critically,
+   the on-disk file looked complete (465 rules, balanced braces, byte-identical),
+   so this was invisible to the static checks — only the running suite caught it.
+   Fix: keep source comments ASCII and free of bracketed class-like tokens (the
+   comment was reworded to plain prose). Diagnosed by `git stash`-ing the change
+   (the stashed Exp-41 tree returned to green), then grepping the generated CSS
+   for the junk rule.
+
+## Conclusion
+
+Typography is migrated: the 11 text styles render from per-element Tailwind
+utilities (longhand margins, the shared var-font baked in, the h1 size + muted
+color reading the custom tokens). THIRTY-THREE components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- For a font-SIZE driven by a CSS var, use the arbitrary-PROPERTY form
+  `[font-size:var(...)]` (or `text-[length:var(...)]`) — a bare `text-[var(...)]`
+  is ambiguous and Tailwind defaults it to `color`, silently dropping the size.
+  (A var-driven COLOR via `text-[var(...)]` → `color:` is correct, so muted was
+  fine.)
+- `@source` scans source files INCLUDING COMMENTS — a bracketed class-like token
+  written in a comment becomes a real generated utility. If it contains a
+  non-ASCII char (e.g. an ellipsis `…`), Tailwind emits a rule the downstream CSS
+  transform can choke on, dropping every utility AFTER it in the stylesheet and
+  breaking many unrelated components. Keep source comments ASCII and free of
+  bracketed class tokens. The on-disk CSS can look complete (balanced braces,
+  byte-identical) while the SERVED CSS is truncated — only the running suite
+  catches this; `git stash` to isolate, then grep the generated CSS for junk.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -122,3 +187,28 @@ cross-component reuse.
 Approval result: approved — clean, self-contained per-element migration; the
 token-referencing h1/muted, the longhand margins, and the preserved font are
 sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file with both bugs, and
+read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed all 11 components emit utility-const strings (no
+`radcn-typography-*` classes); CRUCIALLY verified BOTH bug fixes: (1) the h1 uses
+the arbitrary-PROPERTY `[font-size:var(--radcn-typography-h1-size,2rem)]` (the
+generated CSS emits `font-size: var(...)`, not `color:`); (2) the comments are
+ASCII-only with NO bracketed class-like tokens (no `…` U+2026) — it rebuilt the
+generated CSS clean and confirmed ZERO `var(…)` junk rules. It verified longhand
+margins, the var-font on each (save mono code), the style-less list-item, the
+retained data attributes, ZERO `.radcn-typography-*` rules in tokens.css with the
+custom fixture retained, and byte-identical index.ts. It re-ran the three
+typechecks, the docs suite (11), navigation-collection + tailwind-probe in
+isolation (the h1 40px, muted `rgb(124,58,237)`, AND global utility health), and
+the full fixture suite (1191 ×2 — the 38-failure cascade GONE). Verdict: APPROVED.
+
+Approval result: approved with no blockers — Typography is migrated (33
+components); both in-flight bugs fixed and verified.

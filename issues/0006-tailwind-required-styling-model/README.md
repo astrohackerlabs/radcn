@@ -214,7 +214,7 @@ a dependency listed in package manifests.
 - [Experiment 41: Migrate Item surfaces to Tailwind utilities](41-migrate-item-to-tailwind.md)
   — **Pass**
 - [Experiment 42: Migrate Typography to Tailwind utilities](42-migrate-typography-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -776,6 +776,21 @@ From Experiment 41 (Item surfaces — Pass, after a caught-and-fixed utility con
 - A `toBeGreaterThan(X)` returning exactly `X` can be a real signal (two sizes
   collapsing to equal), not just a flake; identify the EXACT failing assertion
   (the `--reporter=line` progress line can interleave with a prior test's error).
+
+From Experiment 42 (Typography — Pass, after two caught-and-fixed bugs):
+
+- For a font-SIZE driven by a CSS var, use the arbitrary-PROPERTY form
+  `[font-size:var(...)]` (or `text-[length:var(...)]`) — a bare `text-[var(...)]`
+  is ambiguous and Tailwind defaults it to `color`, silently dropping the size.
+  (A var-driven COLOR via `text-[var(...)]` is correct.)
+- `@source` scans source files INCLUDING COMMENTS — a bracketed class-like token
+  in a comment becomes a real generated utility; if it holds a non-ASCII char
+  (e.g. `…`), Tailwind emits a rule the downstream CSS transform chokes on,
+  dropping every utility AFTER it and breaking many unrelated components. Keep
+  source comments ASCII and free of bracketed class tokens. The on-disk CSS can
+  look complete (balanced braces, byte-identical) while the SERVED CSS is
+  truncated — only the running suite catches it; `git stash` to isolate, then
+  grep the generated CSS for junk rules.
 
 ## Completion Criteria
 

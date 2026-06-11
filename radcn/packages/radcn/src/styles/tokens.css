@@ -1102,96 +1102,14 @@
  * tables have no dense variant).
  */
 
-.radcn-typography-h1,
-.radcn-typography-h2,
-.radcn-typography-h3,
-.radcn-typography-h4,
-.radcn-typography-p,
-.radcn-typography-blockquote,
-.radcn-typography-list,
-.radcn-typography-lead,
-.radcn-typography-large,
-.radcn-typography-small,
-.radcn-typography-muted {
-  font-family: var(--radcn-font);
-}
-
-.radcn-typography-h1 {
-  margin: 0 0 1rem;
-  font-size: var(--radcn-typography-h1-size, 2rem);
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.radcn-typography-h2 {
-  margin: 2rem 0 1rem;
-  border-bottom: 1px solid var(--radcn-border);
-  padding-bottom: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.radcn-typography-h3 {
-  margin: 1.5rem 0 0.75rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-}
-
-.radcn-typography-h4 {
-  margin: 1rem 0 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-}
-
-.radcn-typography-p,
-.radcn-typography-list {
-  margin: 0 0 1rem;
-  color: var(--radcn-foreground);
-  font-size: 1rem;
-  line-height: 1.75;
-}
-
-.radcn-typography-list {
-  padding-left: 1.5rem;
-}
-
-.radcn-typography-blockquote {
-  margin: 1rem 0;
-  border-left: 2px solid var(--radcn-border);
-  padding-left: 1rem;
-  color: var(--radcn-muted-foreground);
-  font-style: italic;
-}
-
-.radcn-typography-inline-code {
-  border-radius: calc(var(--radcn-radius) - 0.125rem);
-  background: var(--radcn-secondary);
-  padding: 0.125rem 0.25rem;
-  font: 600 0.875em/1.4 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
-}
-
-.radcn-typography-lead {
-  color: var(--radcn-muted-foreground);
-  font-size: 1.25rem;
-  line-height: 1.6;
-}
-
-.radcn-typography-large {
-  font-size: 1.125rem;
-  font-weight: 600;
-}
-
-.radcn-typography-small {
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.radcn-typography-muted {
-  color: var(--radcn-typography-muted, var(--radcn-muted-foreground));
-  font-size: 0.875rem;
-}
-
+/*
+ * Typography surfaces (h1-h4, p, blockquote, list, inline-code, lead, large,
+ * small, muted) are migrated to Tailwind utilities (Issue 6, Experiment 42); the
+ * components emit per-element utility strings (the shared font-family baked into
+ * each, save monospace code). No bespoke rules remain; the custom-typography
+ * fixture below still feeds --radcn-typography-h1-size / --radcn-typography-muted
+ * to the token-referencing utilities.
+ */
 .radcn-native-select-wrapper {
   position: relative;
   display: inline-flex;
