@@ -197,6 +197,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 33: Migrate ScrollArea surfaces to Tailwind utilities](33-migrate-scroll-area-to-tailwind.md)
   — **Pass**
+- [Experiment 34: Migrate Tabs surfaces to Tailwind utilities](34-migrate-tabs-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
