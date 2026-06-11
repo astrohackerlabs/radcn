@@ -206,7 +206,7 @@ a dependency listed in package manifests.
 - [Experiment 37: Migrate Field surfaces to Tailwind utilities](37-migrate-field-to-tailwind.md)
   — **Pass**
 - [Experiment 38: Migrate Switch surfaces to Tailwind utilities](38-migrate-switch-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -717,6 +717,25 @@ From Experiment 37 (Field surfaces — Pass, one in-flight fix):
   `max-sm:` (639.98px).
 - A consumer-applied modifier class the component never emits
   (`radcn-field--choice-card`) stays bespoke (no element to host utilities).
+
+From Experiment 38 (Switch surfaces — Pass, after a caught-and-fixed Fail):
+
+- RadCN's form controls (Checkbox/Radio/Switch) SHARE combined CSS rules
+  (`.radcn-checkbox-wrapper, .radcn-radio-item, .radcn-switch-wrapper { … }` for
+  base/input/`:has()` states). Migrating one means SPLITTING each shared rule
+  (drop only that control's selector, keep the others), NOT removing it — else
+  the un-migrated siblings break (the first attempt removed them and broke
+  checkbox/radio: transparent checked bg, uninteractable inputs).
+- NEVER inspect a rule's structure with `grep -v "<sibling>"` — it hides
+  shared/combined selectors and makes a shared rule look standalone.
+- Native-input `:has()` state styling migrates cleanly: `has-[:checked]:`/
+  `has-[:focus-visible]:` variants on the wrapper for its own state; bespoke
+  `[data-wrapper]:has([data-input]:checked) [data-child]` rules for
+  parent-state→child (the knob slide).
+- Regenerate `index.ts` to the canonical node `JSON.stringify` form
+  (`ensure_ascii=False` if using Python) — Python's default `\uXXXX` escaping of
+  non-ASCII comment chars otherwise diverges from node's raw output and trips the
+  byte-identical check (though the decoded string is equivalent).
 
 ## Completion Criteria
 

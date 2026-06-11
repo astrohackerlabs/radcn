@@ -79,14 +79,30 @@ Kept bespoke (parent-state → child knob, keyed on data attributes):
 
 ## Changes
 
+CRITICAL (discovered during implementation — first attempt corrupted checkbox/
+radio): Switch SHARES six combined rules with Checkbox + RadioGroup — the base
+(`.radcn-checkbox-wrapper, .radcn-radio-item, .radcn-switch-wrapper { … }`), the
+hidden input, `:has(:focus-visible)`, `:has(:checked)`, `[data-invalid]`, and
+`[data-disabled]`. These must be SPLIT (drop only the `.radcn-switch-*` selector,
+KEEP `.radcn-checkbox-*, .radcn-radio-*`), NOT removed (Checkbox/Radio aren't
+migrated yet). Only the switch-STANDALONE rules (toggle dimensions, `--sm`,
+thumb) are removed/kept-as-knob-bespoke.
+
 - `radcn/packages/radcn/src/components/switch.tsx`: emit utility-const strings
   for wrapper (+ size `Record`)/input/thumb; drop the `radcn-switch*` classes;
   keep ALL data attributes + the native input attrs.
-- `radcn/packages/radcn/src/styles/tokens.css`: remove the migrated
-  `.radcn-switch*` rules; KEEP the three parent-state→child knob rules repointed
-  to the data attributes; KEEP `.radcn-fixture-custom-switch` (shared control
-  tokens).
-- `radcn/packages/radcn/src/styles/index.ts`: regenerate.
+- `radcn/packages/radcn/src/styles/tokens.css`:
+  - SPLIT the 6 shared checkbox/radio/switch combined rules — remove the
+    `.radcn-switch-wrapper`/`.radcn-switch-input` selector from each, keeping the
+    checkbox + radio selectors intact;
+  - remove the switch-standalone toggle-dimensions rule + `--sm` rule + the thumb
+    base rule (→ utilities);
+  - KEEP the three parent-state→child knob rules, repointed to the data
+    attributes (`[data-radcn-switch-wrapper]` + `:has([data-radcn-switch-input]:checked)`/
+    `[data-size]`);
+  - KEEP `.radcn-fixture-custom-switch` (shared control tokens).
+- `radcn/packages/radcn/src/styles/index.ts`: regenerate via the canonical node
+  formula (`node -e '…JSON.stringify…'`).
 
 Expected git status: `switch.tsx`, `tokens.css`, `index.ts`, this file, README.
 Both generated CSS untracked. (The shared `.radcn-fixture-custom-checkbox,
@@ -115,6 +131,68 @@ hold; BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 
 Fail criteria: a switch assertion regresses; the knob doesn't slide on checked;
 the checked/invalid styling breaks; `tokens.css`/`index.ts` diverge.
+
+## Result
+
+**Result:** Pass (after an in-flight shared-rule-split correction)
+
+Switch is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (the `has-[:checked]:`/`has-[:focus-visible]:`
+   variants + the bespoke `:has()` knob rules + `color-mix` shadows compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (canonical node formula); no
+   `.radcn-switch*` CLASS rule remains; the 6 shared rules are SPLIT (checkbox +
+   radio selectors intact); the three `[data-radcn-switch-wrapper]` knob rules
+   present; `.radcn-fixture-custom-switch` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `native-state.spec.ts` in isolation **8
+   passed** — switch (`data-state`, native `:checked`, the demo, the custom
+   class) AND checkbox + radio (the shared rules they still depend on — incl. the
+   checked checkbox `background-color: rgb(37,99,235)`).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   four expected files changed.
+
+In-flight correction (a Fail caught + fixed before commit): the first
+implementation treated the switch base/input/`:has(:focus-visible)`/
+`:has(:checked)`/`[data-invalid]`/`[data-disabled]` rules as standalone and
+removed them — but they are SHARED combined rules
+(`.radcn-checkbox-wrapper, .radcn-radio-item, .radcn-switch-wrapper { … }`), so
+removing them broke Checkbox + RadioGroup (4 native-state failures: the checked
+checkbox bg went transparent, inputs uninteractable). Reverted, then re-did it
+correctly by SPLITTING each shared rule (dropping only the `.radcn-switch-*`
+selector, keeping checkbox + radio). The `grep -v "checkbox|radio"` I used during
+investigation had hidden the shared selectors — the lesson below.
+
+## Conclusion
+
+Switch is migrated: the wrapper styles itself from the input via
+`has-[:checked]:`/`has-[:focus-visible]:` variants (reading the `--radcn-control-*`
+tokens), the input + thumb-base emit utilities, and the knob's size + slide stay
+bespoke parent-state→child rules keyed on the data attributes. Twenty-eight
+components are now migrated. The form-control `:has()` pattern is established for
+Checkbox + RadioGroup; CRUCIALLY, those two SHARE the base/input/state rules with
+Switch (now split to keep them), so migrating Checkbox/Radio will move the
+remaining halves of those shared rules.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- RadCN's form controls (Checkbox/Radio/Switch) SHARE combined CSS rules
+  (`.radcn-checkbox-wrapper, .radcn-radio-item, .radcn-switch-wrapper { … }` for
+  base/input/`:has()` states). Migrating one means SPLITTING each shared rule
+  (drop only that control's selector, keep the others), NOT removing it — else
+  the un-migrated siblings break.
+- NEVER investigate a rule's structure with `grep -v "<sibling>"` — it hides
+  shared/combined selectors and makes a shared rule look standalone. Read the
+  full rule block.
+- The native-input `:has()` state pattern migrates cleanly:
+  `has-[:checked]:`/`has-[:focus-visible]:` variants on the wrapper for its own
+  state; bespoke `[data-wrapper]:has([data-input]:checked) [data-child]` rules
+  for parent-state→child effects (the knob slide).
+- index.ts must be regenerated to match the canonical node `JSON.stringify` form
+  (`ensure_ascii=False` if using Python) — non-ASCII chars in comments otherwise
+  diverge (Python's default `\uXXXX` escaping vs node's raw), tripping the
+  byte-identical check though the decoded string is equivalent.
 
 ## Design Review
 
@@ -151,3 +229,32 @@ scanning/emission "blockers" are the proven pattern; the one real correction
 Approval result: approved — the `:has()` form-control pattern is sound
 (has-variants for the wrapper's own state + bespoke parent-has→child for the
 knob); the asserted custom checked-bg holds via the token-reading has-variant.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed switch.tsx emits the utility-const strings (no
+`radcn-switch*` classes) with the `has-[:checked]:`/`has-[:focus-visible]:`/
+`data-[invalid=true]:`/`data-[disabled=true]:` variants + all data attributes;
+and CRUCIALLY verified the six shared rules are correctly SPLIT — the base,
+input, `:has(:focus-visible)`, `:has(:checked)` (+ checkbox indeterminate),
+`[data-invalid]`, `[data-disabled]` rules each STILL contain the checkbox + radio
+selectors with only `.radcn-switch-*` removed; the three knob rules are keyed on
+`[data-radcn-switch-wrapper]`; `.radcn-fixture-custom-switch` is retained;
+`index.ts` byte-identical via the node formula. It re-ran both `styles:build`,
+the three typechecks, the docs suite (11), the fixture suite (1191, only the
+known hover-card flake intermittently, passing on re-run), and
+`native-state.spec.ts` in isolation (8 — checkbox checked bg `rgb(37,99,235)`,
+radio custom, switch — confirming the first attempt's checkbox/radio breakage is
+FIXED) plus the custom-switch checked bg `rgb(15,118,110)`. It judged the
+migration faithful, the shared-rule split correct, the has-variant + knob bespoke
+correct, and the custom tokens holding. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Switch is migrated (28 components);
+the form-control shared-rule-split pattern is established for Checkbox + Radio.
