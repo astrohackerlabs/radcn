@@ -912,6 +912,57 @@ From Experiment 51 (DropdownMenu + ContextMenu together — Pass):
   sets `display:grid` (which beats the browser `[hidden]` default) — used across all
   positioned-overlay content surfaces.
 
+## Remaining Component Migration Map
+
+As of Experiment 51 (42 components migrated), the remaining components are
+NOT independent — they migrate as interconnected sibling pairs / coupled sets.
+This map (derived from the combined-selector + cross-component-cascade analysis)
+scopes each remaining experiment so the next session executes without
+re-discovering the structure:
+
+- **Menubar + NavigationMenu** (together): share the trigger/font/disabled/`[hidden]`
+  rules (combined selectors `.radcn-menubar-trigger, .radcn-navigation-menu-trigger,
+  .radcn-navigation-menu-link` etc.). Menubar also emits the family `radcn-menu-*`
+  helpers (kept bespoke until then) + a `.radcn-menubar-shortcut, .radcn-menu-sub-caret`
+  combined rule to SPLIT. Menubar content uses `@keyframes radcn-select-in`.
+- **Command + Combobox** (together): share control/input/content/list/group/item/
+  empty/separator/`[hidden]` rules. Combobox adds two parent→child cascades onto the
+  control (`[data-invalid]`/`[data-disabled]`) → migrate via CSS-var propagation
+  (root sets `--radcn-combobox-control-bc/-shadow/-op`, control reads). Command has
+  raw-class sub-elements (input-wrapper, input-icon, group-heading, dialog-header)
+  to convert, a `radcn-command-dialog` class on the migrated Dialog, a
+  `[data-checked=false] .item-indicator` cascade to keep bespoke/repoint, and a
+  3-fold `.radcn-command` root (font + shared-content + width/bg/fg).
+- **Select** (alone): ButtonGroup-coupled trigger (`.radcn-button-group >
+  .radcn-select-trigger`, like the dropdown trigger — keep trigger bespoke or
+  propagate radius) + an internal `.radcn-select[data-invalid] .radcn-select-trigger`
+  cascade → propagation. Plus its own content/item/value/portal surfaces.
+- **Family-helper retirement**: once Menubar + Command/Combobox are migrated, the
+  family `radcn-menu-*` helpers (`--inset`/`--destructive`/`-indicator`/`-sub-caret`/
+  `[data-radcn-menu-item][data-disabled]`) convert from shared classes to
+  per-component utilities (e.g. `data-[inset=true]:pl-8`,
+  `data-[variant=destructive]:text-[var(--radcn-menu-destructive-fg,...)]`) emitted
+  by each menu component, then their bespoke rules drop.
+- **ButtonGroup + InputGroup**: restyle NESTED migrated Button/Input (radius/border
+  resets) → the nested migrated component must READ a radius/border var the group
+  SETS (extend Button/Input to read `--radcn-button-radius`/`--radcn-input-border-*`).
+  ButtonGroup also owns the kept dropdown/select-trigger cascades.
+- **InputOTP** (alone): invalid→slot border via propagation (container sets
+  `--radcn-input-otp-slot-bc`, slot reads); the `data-active` state via
+  `data-[active=true]:` utilities; the position-based first/last slot rounding +
+  `-ml-px` overlap is UNASSERTED (only `toHaveClass` on the custom class) — reproduce
+  faithfully (single-group `first:`/`last:` utilities, or keep the position cascade
+  bespoke where it ADDS rather than overrides).
+- **Large composites** (each alone): Calendar (day grid), Sidebar, Carousel
+  (35 rules, has internal combined selectors), Chart (SVG + docs raw classes),
+  DatePicker.
+
+The proven patterns cover all of these: CSS-var propagation (parent→child on
+migrated children), shared-rule sibling together-migration (+ SPLIT mixed combined
+rules), raw-class/family-helper APIs kept bespoke until the last emitter migrates,
+markers for `toHaveClass` locators, dual-emission shared consts, and the
+`[&[hidden]]:hidden` grid-overlay idiom.
+
 ## Completion Criteria
 
 This issue is complete when:
