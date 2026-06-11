@@ -227,6 +227,8 @@ a dependency listed in package manifests.
   — **Pass** (solves the Exp-45 cascade blocker)
 - [Experiment 48: Migrate Resizable to Tailwind utilities](48-migrate-resizable-to-tailwind.md)
   — **Pass**
+- [Experiment 49: Migrate Breadcrumb + Pagination together to Tailwind utilities](49-migrate-breadcrumb-pagination-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
