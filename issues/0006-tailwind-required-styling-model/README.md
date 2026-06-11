@@ -202,7 +202,7 @@ a dependency listed in package manifests.
 - [Experiment 35: Migrate Accordion surfaces to Tailwind utilities](35-migrate-accordion-to-tailwind.md)
   — **Pass**
 - [Experiment 36: Migrate Collapsible surfaces to Tailwind utilities](36-migrate-collapsible-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 

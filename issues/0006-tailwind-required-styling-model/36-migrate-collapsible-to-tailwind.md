@@ -88,7 +88,47 @@ marker-hiding hold; BOTH suites green; `tokens.css`/`index.ts` byte-identical.
 Fail criteria: a collapsible assertion regresses; the icon rotation or disabled
 trigger breaks; the custom colors fail; `tokens.css`/`index.ts` diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Collapsible is migrated; both suites green and stable. Verification:
+
+1. Both `styles:build` exit 0 (marker + `data-[disabled]:` + `color-mix`
+   utilities compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no migrated `.radcn-collapsible*`
+   CLASS rule remains (count 0); the two parent-state→child rules present;
+   `.radcn-fixture-custom-collapsible` retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** (stable across repeated runs; one earlier run
+   showed the known intermittent `positioned-overlays.spec.ts:242` hover-card
+   flake, which passed on every re-run and is unrelated to Collapsible — the
+   collapsible CSS is byte-unaffected). `collapsible.spec.ts` in isolation **3
+   passed** — incl. the disabled `pointer-events: none`, the icon rotation, the
+   custom content color `rgb(15,118,110)`.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed (no test edits — no `radcn-collapsible*` class is
+   asserted by name).
+
+No deviations from the approved design.
+
+## Conclusion
+
+Collapsible is migrated, reusing the Accordion `<details>` pattern: the surfaces
+render from token-referencing utilities (custom fixture works unchanged), the
+summary marker hides via the pseudo-element variants, and the two parent-state→
+child effects stay bespoke rules keyed on the data attributes. Twenty-six
+components are now migrated. The disclosure pair (Accordion + Collapsible) is
+complete.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- A second component sharing an already-migrated pattern (Collapsible ≡
+  Accordion's `<details>` disclosure) migrates with no new techniques — the
+  established token-referencing + marker-variant + parent-state-bespoke recipe
+  applies directly; only the per-component values (padding, the `border-t`
+  content, no focus radius) differ.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -111,3 +151,27 @@ custom-collapsible tokens are read by the utilities (no translation), and no raw
 
 Approval result: approved — a clean Accordion-pattern clone; parent-state→child
 rules kept bespoke, marker hiding via utilities, custom tokens read in place.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed collapsible.tsx emits the utility-const strings (no
+`radcn-collapsible*` classes) with the marker variants + `py-3.5` + no focus
+radius, the style-less marker classes dropped, and all data/native attributes
+kept; tokens.css has ZERO migrated `.radcn-collapsible*` class rules, the two
+parent-state→child rules, and the retained `.radcn-fixture-custom-collapsible`;
+byte-identical `index.ts`. It re-ran both `styles:build`, the three typechecks,
+the docs suite (2/2 = 11), the fixture suite (1191, stable), and
+`collapsible.spec.ts` in isolation (3 — disabled `pointer-events:none`, icon
+rotation, custom content color `rgb(15,118,110)`); the collapsible demo's raw
+`radcn-button` icon button is unaffected. It judged the migration faithful, the
+marker hiding + parent-state + custom tokens holding. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Collapsible is migrated (26
+components); the Accordion+Collapsible disclosure pair is complete.
