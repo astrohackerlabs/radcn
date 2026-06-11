@@ -193,6 +193,8 @@ a dependency listed in package manifests.
 - [Experiment 31: Button migration — scope analysis and decomposition plan](31-migrate-button-to-tailwind.md)
   — **Pass** (scope analysis; Button decomposed into follow-up experiments — no
   code change)
+- [Experiment 32: Migrate Avatar surfaces to Tailwind utilities](32-migrate-avatar-to-tailwind.md)
+  — **Designed**
 
 ## Learnings
 
