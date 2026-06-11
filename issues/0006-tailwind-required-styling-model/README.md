@@ -177,7 +177,7 @@ a dependency listed in package manifests.
 - [Experiment 23: Add the animation-utilities foundation (tw-animate-css)](23-add-animation-utilities-foundation.md)
   — **Pass**
 - [Experiment 24: Migrate Tooltip (content + arrow) to Tailwind utilities](24-migrate-tooltip-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -493,6 +493,25 @@ From Experiment 23 (animation-utilities foundation — Pass):
   generated CSS only once a scanned component uses them, so the foundation is
   byte-inert until consumed — verify it with a throwaway probe, not by grepping
   the unused output.
+
+From Experiment 24 (Tooltip — first overlay migration — Pass):
+
+- The **overlay-migration pattern**: migrate the content/arrow box+color+enter-
+  animation to shadcn utilities (`bg-foreground`, `animate-in fade-in-0
+  zoom-in-95 data-[side=…]:slide-in-from-*`); KEEP the RadCN positioning system
+  (collision max-width clamp, transform-origin, manual arrow data-side
+  placement) as `[data-radcn-…]`-keyed bespoke rules; OMIT shadcn's exit
+  utilities (the JS hides via the `hidden` attribute, so an exit animation never
+  plays); translate custom-token overrides to direct rules; leave the
+  Button-coupled trigger for the Button experiment. Applies to the whole cluster
+  (Popover, Dialog, Dropdown, Select, Sheet, Drawer, HoverCard, Menubar,
+  ContextMenu, Command, Toast, Accordion).
+- An overlay's enter animation migrates cleanly: RadCN's JS toggles `hidden`, so
+  a CSS animation re-triggers on display none→shown — `animate-in` behaves
+  exactly as the old bespoke keyframe did.
+- Read the FULL overlay test block: a custom-token `toHaveCSS` is often a
+  variable-based assertion (`content.toHaveCSS(...)`) that a single-line grep
+  misses (Tooltip's custom background at `positioned-overlays.spec.ts:218`).
 
 ## Completion Criteria
 

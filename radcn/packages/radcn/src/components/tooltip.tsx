@@ -4,6 +4,16 @@ import { classes } from '../utils/classes.ts'
 import { setupPositionedOverlay } from '../utils/positioned-overlay.ts'
 import type { PopoverAlign, PopoverSide } from './popover.tsx'
 
+// Tailwind utility classes from shadcn/ui v4 (registry/new-york-v4/ui/
+// tooltip.tsx). See Issue 6, Experiment 24. ENTER-only animation (the JS hides
+// the content via the `hidden` attribute, so shadcn's exit utilities are
+// omitted). The overlay-positioning glue (transform-origin, available-width
+// clamp) and the arrow data-side placement stay as data-attribute-keyed bespoke
+// rules in tokens.css (RadCN's dependency-free positioning system).
+const tooltipContentClass =
+  'z-50 w-fit rounded-md bg-foreground px-3 py-1.5 text-xs text-balance text-background animate-in fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2'
+const tooltipArrowClass = 'absolute size-2 rotate-45 bg-foreground'
+
 export interface TooltipProviderProps {
   children?: RemixNode
   class?: string
@@ -112,7 +122,7 @@ export function TooltipContent(handle: Handle<TooltipContentProps>) {
 
     return (
       <span
-        class={classes('radcn-tooltip-content', className)}
+        class={classes(tooltipContentClass, className)}
         data-align={align}
         data-radcn-tooltip-content
         data-side={side}
@@ -134,6 +144,6 @@ export function TooltipArrow(handle?: Handle<TooltipPartProps>) {
     let props = handle?.props || {}
     let { class: className, style } = props
 
-    return <span aria-hidden="true" class={classes('radcn-tooltip-arrow', className)} data-radcn-tooltip-arrow style={style} />
+    return <span aria-hidden="true" class={classes(tooltipArrowClass, className)} data-radcn-tooltip-arrow style={style} />
   }
 }

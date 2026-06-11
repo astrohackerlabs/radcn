@@ -138,6 +138,65 @@ runs and the JS `hidden` hide is intact; BOTH suites green and stable;
 Fail criteria: a tooltip visibility/position/attribute assertion regresses; the
 arrow mis-positions; a utility not generated; `tokens.css`/`index.ts` diverge.
 
+## Result
+
+**Result:** Pass
+
+Tooltip content + arrow are migrated; both suites are green and stable. The
+first overlay migration validates the animation foundation (Exp 23) and the
+overlay-system pattern. Verification:
+
+1. Both `styles:build` exit 0; the tooltip utilities generate (`bg-foreground`,
+   `text-background`, `size-2`, the `data-[side=…]:slide-in-from-*`).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css`; no `.radcn-tooltip-content`/
+   `.radcn-tooltip-arrow` CLASS rule remains; the positioning glue +
+   arrow placement are `[data-radcn-tooltip-*]`-keyed;
+   `.radcn-fixture-custom-tooltip` sets `background-color: #0f766e` directly.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `positioned-overlays.spec.ts` in
+   isolation **9 passed** — incl. the tooltip open/hide visibility, hover/delay
+   placement, `data-side`, the arrow `toBeVisible`, and crucially the
+   custom-token content `background-color: rgb(15, 118, 110)` (line 218), now
+   satisfied by the translated direct rule.
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   three expected files changed.
+
+No deviations from the (corrected) approved design.
+
+## Conclusion
+
+Tooltip is the first migrated overlay: its content (box/color) and arrow render
+from shadcn utilities, the enter animation runs via `animate-in`/`fade-in-0`/
+`zoom-in-95`/`data-[side]:slide-in-from-*` (the Exp 23 foundation), and the
+RadCN positioning system (collision clamp, transform-origin, arrow data-side
+placement) stays as data-attribute-keyed bespoke rules. The JS `hidden`-based
+hide is intact (exit utilities omitted). Sixteen components are now migrated
+(… Spinner, Tooltip — plus sub-components).
+
+This establishes the **overlay-migration pattern** for the cluster (Popover,
+Dialog, Dropdown, Select, Sheet, Drawer, HoverCard, Menubar, ContextMenu,
+Command, Toast, Accordion): migrate content/arrow box+color+enter-animation to
+shadcn utilities; keep the positioning glue + arrow placement as
+data-attribute-keyed bespoke; omit exit utilities (JS hides via `hidden`);
+translate custom-token overrides to direct rules; leave the Button-coupled
+trigger for the Button experiment.
+
+Learnings for later experiments (also copied to the issue README Learnings
+digest):
+
+- The overlay-migration pattern (above) — proven on Tooltip — applies to the
+  whole positioned-overlay cluster.
+- The Spinner variable-based-assertion lesson recurred here: the custom-tooltip
+  `background-color` is asserted via `content.toHaveCSS(...)` (a variable
+  locator), which a single-line grep missed; the design review caught it.
+  ALWAYS read the full overlay test block.
+- An overlay's enter animation migrates cleanly to shadcn's `animate-in` family
+  because RadCN's JS toggles `hidden` (a CSS animation re-triggers on
+  display none→shown), exactly as the old bespoke keyframe did; the exit is the
+  `hidden` attribute (instant), so shadcn's `data-[state=closed]:animate-out`
+  utilities are omitted.
+
 ## Design Review
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
@@ -176,3 +235,29 @@ data attribute, unaffected), and all utilities generate. No blocker.
 
 Approval result: approved (round 2). Round 1's substantive catch (custom-tooltip
 bg IS asserted) is corrected; the migration is sound and complete.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, the issue README, this experiment file,
+and read access to the working tree).
+
+Findings: none (no Blocker, Major, or Minor).
+
+The reviewer confirmed tooltip.tsx emits the shadcn content + arrow utilities
+(no `radcn-tooltip-*` class) with all data/role attributes kept; tokens.css has
+no `.radcn-tooltip-content`/`-arrow` class rule, the `[data-radcn-tooltip-content]`
+positioning-glue rule + the 4 repointed arrow data-side rules (offsets intact),
+and `.radcn-fixture-custom-tooltip` translated to direct bg/color (+ arrow
+descendant); byte-identical `index.ts`. It independently re-ran both
+`styles:build`, the three typechecks, the docs suite (2/2 = 11), the fixture
+suite (1191), and `positioned-overlays.spec.ts` in isolation (9) — confirming
+the line-218 custom content `background-color: rgb(15, 118, 110)`, the arrow
+`toBeVisible`, the `data-side` placement, and open/hide visibility all pass. It
+judged the migration faithful (appearance→utilities, positioning→data-keyed
+bespoke), the custom bg genuinely from the unlayered direct rule, and the
+enter-animation + `hidden`-hide intact. Verdict: APPROVED.
+
+Approval result: approved with no blockers — the overlay-migration pattern is
+established.
