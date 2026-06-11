@@ -268,6 +268,8 @@ a dependency listed in package manifests.
   scanned; see the file's Correction + Experiment 68)
 - [Experiment 68: Migrate HoverCard avatar/body (consumer-site, corrected)](68-migrate-hover-card-subelements.md)
   — **Pass**
+- [Experiment 69: Migrate toggle-group-icon + breadcrumb-glyph (consumer-site)](69-migrate-toggle-icon-breadcrumb-glyph.md)
+  — **Designed**
 
 ## Learnings
 
