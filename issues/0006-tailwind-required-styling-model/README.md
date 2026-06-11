@@ -174,6 +174,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 22: Migrate Spinner to Tailwind utilities](22-migrate-spinner-to-tailwind.md)
   — **Pass**
+- [Experiment 23: Add the animation-utilities foundation (tw-animate-css)](23-add-animation-utilities-foundation.md)
+  — **Designed**
 
 ## Learnings
 
