@@ -208,7 +208,7 @@ a dependency listed in package manifests.
 - [Experiment 38: Migrate Switch surfaces to Tailwind utilities](38-migrate-switch-to-tailwind.md)
   — **Pass**
 - [Experiment 39: Migrate Checkbox + RadioGroup to Tailwind utilities](39-migrate-checkbox-radio-to-tailwind.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -738,6 +738,15 @@ From Experiment 38 (Switch surfaces — Pass, after a caught-and-fixed Fail):
   (`ensure_ascii=False` if using Python) — Python's default `\uXXXX` escaping of
   non-ASCII comment chars otherwise diverges from node's raw output and trips the
   byte-identical check (though the decoded string is equivalent).
+
+From Experiment 39 (Checkbox + RadioGroup — Pass; form-control cluster complete):
+
+- When siblings share combined rules, migrate them TOGETHER so the shared rules
+  are fully removed in one experiment (no intermediate split/orphan) — the safe
+  inverse of the Exp-38 lesson, once all sharers are in scope.
+- The `:has()` native-input form-control pattern (wrapper has-variants for its
+  own state + bespoke `[data-wrapper]:has([data-input]:checked) [data-child]`
+  reveal) generalizes across Switch / Checkbox / RadioGroup.
 
 ## Completion Criteria
 

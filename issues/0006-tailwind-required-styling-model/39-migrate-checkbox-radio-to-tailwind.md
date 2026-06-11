@@ -115,7 +115,53 @@ Fail criteria: a checkbox/radio/switch assertion regresses; a checked bg or the
 indicator reveal fails; the indeterminate state breaks; `tokens.css`/`index.ts`
 diverge.
 
-## Design Review
+## Result
+
+**Result:** Pass
+
+Checkbox + RadioGroup are migrated together; both suites green and stable.
+Verification:
+
+1. Both `styles:build` exit 0 (the `has-[:checked]:`/`data-[state=indeterminate]:`
+   variants + `color-mix` shadows + the bespoke `:has()` indicator rules compile).
+2. All three typechecks pass.
+3. `index.ts` byte-identical to `tokens.css` (node formula); no `.radcn-checkbox*`/
+   `.radcn-radio*` surface CLASS rule remains (count 0); the 6 shared rules fully
+   removed; the 2 bespoke indicator-reveal rules present (data-attribute-keyed);
+   the shared custom-control fixture retained.
+4. Docs suite: **11 passed** ×2.
+5. Fixture suite: **1191 passed** ×2; `native-state.spec.ts` in isolation **8
+   passed** — checkbox (state, the checked demo bg `rgb(37,99,235)`,
+   indeterminate, the named examples, the custom checkbox bg `rgb(15,118,110)`),
+   radio (state, forms, the custom radio bg `rgb(15,118,110)`), AND switch
+   (unaffected — its rules were already separate).
+6. `git diff --check` clean; `vendor/` untouched; generated CSS untracked; the
+   four expected files changed.
+
+No deviations from the approved design (this time the shared rules were removed
+correctly — both controls migrated together, the Exp-38 lesson applied).
+
+## Conclusion
+
+Checkbox + RadioGroup render from Tailwind utilities: each control's
+wrapper/item styles itself from its native input via `has-[:checked]:`/
+`has-[:focus-visible]:` variants (checkbox adds `data-[state=indeterminate]:`),
+the inputs/indicators emit utilities, and the indicator reveals (the checkbox
+`x`, the radio dot) stay bespoke parent-state→child rules keyed on the data
+attributes. The six formerly-shared control rules are FULLY removed (Switch
+already separate; both checkbox + radio migrated together — no orphan). The
+form-control cluster (Switch, Checkbox, RadioGroup) is complete. THIRTY
+components are now migrated.
+
+Learnings (also copied to the issue README Learnings digest):
+
+- When two (or more) siblings share combined rules, migrate them TOGETHER so the
+  shared rules are fully removed in one experiment — cleaner than the
+  split-then-remove sequence, and no intermediate orphan risk (the safe inverse
+  of the Exp-38 lesson, once all sharers are in scope).
+- The `:has()` native-input form-control pattern (has-variants on the wrapper for
+  its own state + a bespoke `[data-wrapper]:has([data-input]:checked) [data-child]`
+  reveal) generalizes cleanly across Switch / Checkbox / RadioGroup.
 
 Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
 the Claude implementation session)
@@ -144,3 +190,31 @@ assertion), consistent with the Tabs/Switch migrations.
 Approval result: approved — both controls migrate together (shared rules fully
 removed, no orphan), has-variants + bespoke indicator reveals + token-referencing
 all sound.
+
+## Completion Review
+
+Reviewer: fresh Claude subagent (Explore agent, spawned via the Agent tool by
+the Claude implementation session)
+Fresh context: yes (given `AGENTS.md`, this experiment file, and read access to
+the working tree).
+
+Findings: none (no Blocker, Major, or Minor beyond the noted unasserted
+transition-duration).
+
+The reviewer confirmed both checkbox.tsx + radio-group.tsx emit utility-const
+strings (no `radcn-checkbox*`/`radcn-radio*` surface classes) with the
+`has-[:checked]:`/`data-[state=indeterminate]:`/`has-[:focus-visible]:`/
+`data-[invalid]:`/`data-[disabled]:` variants and all data attributes; CRUCIALLY
+verified the 6 formerly-shared rules are FULLY GONE with NO orphaned selectors,
+the 2 bespoke indicator-reveal rules present (data-attribute-keyed), the shared
+custom-control fixture retained, and Switch's data-keyed rules untouched;
+byte-identical `index.ts` (node). It re-ran both `styles:build`, the three
+typechecks, the docs suite (11), the fixture suite (1191), and
+`native-state.spec.ts` (8 — checkbox checked `rgb(37,99,235)` + custom
+`rgb(15,118,110)`, indeterminate, radio custom `rgb(15,118,110)`, switch). It
+judged the migration faithful, the shared rules correctly removed, the
+has-variants + indeterminate + bespoke reveals correct, the custom tokens
+holding, and Switch still green. Verdict: APPROVED.
+
+Approval result: approved with no blockers — Checkbox + RadioGroup migrated (30
+components); the form-control cluster is complete.

@@ -1364,96 +1364,18 @@
   color: CanvasText;
 }
 
-.radcn-checkbox-wrapper,
-.radcn-radio-item {
-  position: relative;
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-control-border, var(--radcn-input));
-  background: var(--radcn-control-bg, var(--radcn-background));
-  color: var(--radcn-control-fg, var(--radcn-primary-foreground));
-  outline: none;
-  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
-}
-
-.radcn-checkbox-wrapper {
-  width: 1rem;
-  height: 1rem;
-  border-radius: calc(var(--radcn-radius) - 0.1875rem);
-}
-
-.radcn-checkbox-input,
-.radcn-radio-input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.radcn-checkbox-wrapper:has(.radcn-checkbox-input:focus-visible),
-.radcn-radio-item:has(.radcn-radio-input:focus-visible) {
-  border-color: var(--radcn-ring);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
-.radcn-checkbox-wrapper:has(.radcn-checkbox-input:checked),
-.radcn-checkbox-wrapper[data-state="indeterminate"],
-.radcn-radio-item:has(.radcn-radio-input:checked) {
-  border-color: var(--radcn-control-checked-bg, var(--radcn-primary));
-  background: var(--radcn-control-checked-bg, var(--radcn-primary));
-}
-
-.radcn-checkbox-wrapper[data-invalid="true"],
-.radcn-radio-item[data-invalid="true"] {
-  border-color: var(--radcn-control-invalid, var(--radcn-destructive));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-control-invalid, var(--radcn-destructive)) 20%, transparent);
-}
-
-.radcn-checkbox-wrapper[data-disabled="true"],
-.radcn-radio-item[data-disabled="true"] {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.radcn-checkbox-indicator {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  color: var(--radcn-control-fg, var(--radcn-primary-foreground));
-  font: 700 0.6875rem/1 var(--radcn-font);
-  pointer-events: none;
-}
-
-.radcn-checkbox-wrapper:has(.radcn-checkbox-input:checked) .radcn-checkbox-indicator::before {
+/*
+ * Checkbox + RadioGroup surfaces are migrated to Tailwind utilities (Issue 6,
+ * Experiment 39); both controls emit has-[…]: state utilities, so the six
+ * formerly-shared control rules (base/input/:has() states) are fully removed.
+ * What remains: the indicator reveals (parent-state->child), kept bespoke keyed
+ * on the data attributes.
+ */
+[data-radcn-checkbox-wrapper]:has([data-radcn-checkbox-input]:checked) [data-radcn-checkbox-indicator]::before {
   content: "x";
 }
 
-.radcn-radio-group {
-  display: grid;
-  gap: 0.75rem;
-  font-family: var(--radcn-font);
-}
-
-.radcn-radio-item {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 999px;
-}
-
-.radcn-radio-indicator {
-  width: 0.375rem;
-  height: 0.375rem;
-  border-radius: 999px;
-  background: currentColor;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.radcn-radio-item:has(.radcn-radio-input:checked) .radcn-radio-indicator {
+[data-radcn-radio-item]:has([data-radcn-radio-input]:checked) [data-radcn-radio-indicator] {
   opacity: 1;
 }
 
