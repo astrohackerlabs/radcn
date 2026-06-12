@@ -284,6 +284,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 76: Migrate state-indicator residuals](76-migrate-state-indicator-residuals.md)
   — **Pass**
+- [Experiment 77: Migrate modal and drawer layout residuals](77-migrate-modal-drawer-layout-residuals.md)
+  — **Designed**
 
 ## Learnings
 
