@@ -278,6 +278,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 73: Audit remaining Tailwind debt](73-audit-remaining-tailwind-debt.md)
   — **Pass**
+- [Experiment 74: Migrate Select and DatePicker trigger cluster](74-migrate-select-datepicker-trigger-cluster.md)
+  — **Designed**
 
 ## Learnings
 
