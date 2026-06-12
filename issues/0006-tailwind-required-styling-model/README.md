@@ -282,6 +282,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 75: Migrate Field, Form, and InputGroup residuals](75-migrate-field-form-inputgroup-residuals.md)
   — **Pass**
+- [Experiment 76: Migrate state-indicator residuals](76-migrate-state-indicator-residuals.md)
+  — **Designed**
 
 ## Learnings
 
