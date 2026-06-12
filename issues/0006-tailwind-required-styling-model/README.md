@@ -274,6 +274,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 71: Migrate the trigger/close cluster + drawer surfaces to Tailwind](71-migrate-trigger-close-cluster.md)
   — **Fail** (re-scope: cluster more entangled than the single-class audit; audit undercounted)
+- [Experiment 72: Migrate the overlay trigger/close cluster (cohesive)](72-migrate-overlay-trigger-close-cluster.md)
+  — **Designed**
 
 ## Learnings
 
