@@ -277,7 +277,7 @@ a dependency listed in package manifests.
 - [Experiment 72: Migrate the overlay trigger/close cluster (cohesive)](72-migrate-overlay-trigger-close-cluster.md)
   — **Pass**
 - [Experiment 73: Audit remaining Tailwind debt](73-audit-remaining-tailwind-debt.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1229,56 +1229,37 @@ next Issue 6 step must be a fresh remaining-debt audit across `tokens.css`,
 generated package styles, docs, and fixtures before designing the final
 migration clusters.
 
-## Remaining Component Migration Map
+### Progress update (after Experiment 73) — current remaining-debt map
 
-As of Experiment 51 (42 components migrated), the remaining components are
-NOT independent — they migrate as interconnected sibling pairs / coupled sets.
-This map (derived from the combined-selector + cross-component-cascade analysis)
-scopes each remaining experiment so the next session executes without
-re-discovering the structure:
+Experiment 73 audited the current `tokens.css` selector inventory and confirmed
+that Issue 6 is not ready to close. The old remaining-debt maps are superseded.
+The closure standard is now: package styles may keep theme tokens, keyframes,
+portal hosts, dependency-free positioning/drag mechanics, and documented
+parent-child behavior glue; package styles must not keep ordinary component
+surface styling or docs/fixture/demo presentation classes.
 
-- **Menubar + NavigationMenu** (together): share the trigger/font/disabled/`[hidden]`
-  rules (combined selectors `.radcn-menubar-trigger, .radcn-navigation-menu-trigger,
-  .radcn-navigation-menu-link` etc.). Menubar also emits the family `radcn-menu-*`
-  helpers (kept bespoke until then) + a `.radcn-menubar-shortcut, .radcn-menu-sub-caret`
-  combined rule to SPLIT. Menubar content uses `@keyframes radcn-select-in`.
-- **Command + Combobox** (together): share control/input/content/list/group/item/
-  empty/separator/`[hidden]` rules. Combobox adds two parent→child cascades onto the
-  control (`[data-invalid]`/`[data-disabled]`) → migrate via CSS-var propagation
-  (root sets `--radcn-combobox-control-bc/-shadow/-op`, control reads). Command has
-  raw-class sub-elements (input-wrapper, input-icon, group-heading, dialog-header)
-  to convert, a `radcn-command-dialog` class on the migrated Dialog, a
-  `[data-checked=false] .item-indicator` cascade to keep bespoke/repoint, and a
-  3-fold `.radcn-command` root (font + shared-content + width/bg/fg).
-- **Select** (alone): ButtonGroup-coupled trigger (`.radcn-button-group >
-  .radcn-select-trigger`, like the dropdown trigger — keep trigger bespoke or
-  propagate radius) + an internal `.radcn-select[data-invalid] .radcn-select-trigger`
-  cascade → propagation. Plus its own content/item/value/portal surfaces.
-- **Family-helper retirement**: once Menubar + Command/Combobox are migrated, the
-  family `radcn-menu-*` helpers (`--inset`/`--destructive`/`-indicator`/`-sub-caret`/
-  `[data-radcn-menu-item][data-disabled]`) convert from shared classes to
-  per-component utilities (e.g. `data-[inset=true]:pl-8`,
-  `data-[variant=destructive]:text-[var(--radcn-menu-destructive-fg,...)]`) emitted
-  by each menu component, then their bespoke rules drop.
-- **ButtonGroup + InputGroup**: restyle NESTED migrated Button/Input (radius/border
-  resets) → the nested migrated component must READ a radius/border var the group
-  SETS (extend Button/Input to read `--radcn-button-radius`/`--radcn-input-border-*`).
-  ButtonGroup also owns the kept dropdown/select-trigger cascades.
-- **InputOTP** (alone): invalid→slot border via propagation (container sets
-  `--radcn-input-otp-slot-bc`, slot reads); the `data-active` state via
-  `data-[active=true]:` utilities; the position-based first/last slot rounding +
-  `-ml-px` overlap is UNASSERTED (only `toHaveClass` on the custom class) — reproduce
-  faithfully (single-group `first:`/`last:` utilities, or keep the position cascade
-  bespoke where it ADDS rather than overrides).
-- **Large composites** (each alone): Calendar (day grid), Sidebar, Carousel
-  (35 rules, has internal combined selectors), Chart (SVG + docs raw classes),
-  DatePicker.
+Remaining migration clusters, in recommended order:
 
-The proven patterns cover all of these: CSS-var propagation (parent→child on
-migrated children), shared-rule sibling together-migration (+ SPLIT mixed combined
-rules), raw-class/family-helper APIs kept bespoke until the last emitter migrates,
-markers for `toHaveClass` locators, dual-emission shared consts, and the
-`[&[hidden]]:hidden` grid-overlay idiom.
+1. Select + DatePicker trigger/content + ButtonGroup coupling.
+2. Field/Form/InputGroup residuals.
+3. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
+   menu helpers, and Toggle icon/group state.
+4. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
+   and Drawer static surface/handle/close geometry while retaining drag/portal
+   behavior.
+5. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
+   helpers (`radcn-fixture-rounded-button`, `radcn-fixture-aspect-media`,
+   `radcn-fixture-navigation-panel`, `radcn-fixture-panel`), chart/data-table
+   docs helpers, breadcrumb raw compositions, carousel example classes,
+   direction samples, and `radcn-sr-only`.
+
+## Superseded Remaining Map
+
+The old "Remaining Component Migration Map" that followed this section was
+removed after Experiment 73. It was useful historical planning after Experiment
+51, but it listed already-migrated clusters as remaining and undercounted
+docs/fixture/demo CSS debt. Use the Experiment 73 current remaining-debt map
+above as the authoritative queue.
 
 ## Completion Criteria
 
