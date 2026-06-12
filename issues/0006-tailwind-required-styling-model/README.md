@@ -272,6 +272,8 @@ a dependency listed in package manifests.
   — **Pass**
 - [Experiment 70: Migrate the Button keystone to Tailwind utilities](70-migrate-button-keystone.md)
   — **Pass**
+- [Experiment 71: Migrate the trigger/close cluster + drawer surfaces to Tailwind](71-migrate-trigger-close-cluster.md)
+  — **Designed**
 
 ## Learnings
 
