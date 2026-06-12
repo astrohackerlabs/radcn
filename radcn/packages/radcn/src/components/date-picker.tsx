@@ -4,13 +4,13 @@ import { Calendar, type CalendarMode } from './calendar.tsx'
 import { Popover, PopoverContent, PopoverPortal, PopoverTrigger } from './popover.tsx'
 import { classes } from '../utils/classes.ts'
 
-// DatePicker surfaces as Tailwind utilities (Issue 6, Experiment 57). root/icon/
-// preset-select migrate; the trigger keeps the Button raw-class API + its bespoke
-// override (radcn-date-picker-trigger), and the PopoverContent keeps the bespoke
-// radcn-date-picker-content override — both override migrated/raw surfaces and must
-// stay unlayered. Comments here are ASCII.
+// DatePicker surfaces as Tailwind utilities (Issue 6, Experiments 57 and 74).
+// Root/icon/preset-select plus trigger/content overrides emit utilities; comments here
+// are ASCII.
 const datePickerRootClass =
   'inline-grid w-[min(100%,var(--radcn-date-picker-width,18rem))] gap-2 text-foreground [font-family:var(--radcn-font)]'
+const datePickerTriggerClass = 'w-full justify-start'
+const datePickerContentClass = 'w-auto p-2'
 const datePickerIconClass = 'text-muted-foreground text-[0.75rem] font-semibold leading-none [font-family:var(--radcn-font)]'
 const datePickerPresetSelectClass =
   'w-full h-[var(--radcn-control-height)] mb-2 border border-[var(--radcn-input)] rounded-md bg-background text-foreground px-3 py-0 text-[0.875rem] leading-[1.35] [font-family:var(--radcn-font)]'
@@ -172,12 +172,12 @@ export function DatePicker(handle: Handle<DatePickerProps>) {
       >
         {name && <input data-radcn-date-picker-hidden-input name={name} required={required} type="hidden" value={selected} />}
         <Popover defaultOpen={defaultOpen} id={id ? `${id}-popover` : undefined}>
-          <PopoverTrigger class="radcn-button radcn-button--outline radcn-button--default radcn-date-picker-trigger" disabled={disabled}>
+          <PopoverTrigger class={classes('radcn-button radcn-button--outline radcn-button--default', datePickerTriggerClass)} disabled={disabled}>
             <span aria-hidden="true" class={datePickerIconClass} data-radcn-date-picker-icon>[]</span>
             <span data-radcn-date-picker-label>{formatDatePickerValue(selected, placeholder)}</span>
           </PopoverTrigger>
           <PopoverPortal>
-            <PopoverContent class="radcn-date-picker-content">
+            <PopoverContent class={datePickerContentClass}>
               {presets.length > 0 && (
                 <select class={datePickerPresetSelectClass} data-radcn-date-picker-preset-select disabled={disabled}>
                   <option value="">Select</option>

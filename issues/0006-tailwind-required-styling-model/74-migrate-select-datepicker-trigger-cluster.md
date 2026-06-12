@@ -126,3 +126,79 @@ Fixes:
   pass criteria.
 
 Re-review result: approved. No blocker, major, or minor findings remained.
+
+## Result
+
+**Result:** Pass
+
+The Select + DatePicker trigger cluster migrated successfully.
+
+Changes made:
+
+- `select.tsx` now emits Select trigger visual styling through
+  `selectTriggerClass` Tailwind utilities while preserving the
+  `radcn-select-trigger` marker class and existing data/ARIA hooks.
+- `button-group.tsx` now emits scoped descendant Tailwind utilities for
+  Select, DropdownMenu, and Popover trigger coupling inside horizontal and
+  vertical ButtonGroups. Button/Input/InputGroup grouping remains in
+  `tokens.css` for the later Field/Form/InputGroup residual cluster.
+- `date-picker.tsx` now applies trigger width/justification and PopoverContent
+  width/padding through Tailwind-scanned utilities instead of bespoke
+  `radcn-date-picker-*` visual classes.
+- `tokens.css` removed the migrated Select trigger rules,
+  DatePicker trigger/content rules, and only the Select/DropdownMenu/Popover
+  ButtonGroup coupling selectors replaced by this experiment.
+- `styles/index.ts` was regenerated from `tokens.css` with the repository's
+  JSON-stringify formula.
+
+Verification run:
+
+- `pnpm --dir radcn/fixtures/candidate-remix styles:build` — pass.
+- `pnpm --dir radcn/apps/docs styles:build` — pass.
+- `pnpm radcn:typecheck` — pass.
+- `pnpm fixtures:candidate:typecheck` — pass.
+- `pnpm fixtures:reference:typecheck` — pass.
+- `pnpm --dir radcn/apps/docs typecheck` — pass.
+- Style sync check for `tokens.css` and `styles/index.ts` — pass,
+  `styles in sync`.
+- Generated CSS evidence confirmed representative Select trigger utilities,
+  Select invalid/placeholder variables, and ButtonGroup descendant utilities for
+  Select/DropdownMenu/Popover triggers in both candidate fixture and docs app
+  generated CSS.
+- Removed-rule checks confirmed `tokens.css` no longer contains
+  `.radcn-select-trigger`, `.radcn-date-picker-trigger`, or
+  `.radcn-date-picker-content` visual rules. The remaining
+  `--radcn-select-trigger-*` appearances are fixture custom token variables,
+  not selector rules.
+- Focused fixture Playwright gate:
+  `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts tests/select.spec.ts tests/calendar-date-picker.spec.ts tests/navigation-collection.spec.ts tests/positioned-overlays.spec.ts tests/menu-overlays.spec.ts`
+  — 41 passed.
+- Docs Playwright gate:
+  `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` —
+  11 passed.
+- Full fixture artifact gate: `pnpm fixtures:artifacts` — 1191 passed.
+- `git diff --check` — pass.
+- `git diff --name-only | rg '^vendor/'` — no matches.
+
+## Conclusion
+
+Experiment 74 clears the first remaining cluster identified by Experiment 73.
+Tailwind v4 generated the scoped descendant utilities needed for ButtonGroup
+Select/DropdownMenu/Popover trigger coupling, so this pattern can keep replacing
+late package CSS cascades where the parent component owns the grouping
+relationship. The remaining Button/Input/InputGroup grouping rules should stay
+with the Field/Form/InputGroup residual cluster rather than being mixed into
+overlay trigger work.
+
+## Completion Review
+
+Reviewer: Plato (`019ebe20-ec02-7c02-a8de-5e01a4c8bc13`), fresh Codex
+subagent with `fork_context: false`.
+
+Findings: none.
+
+Approval result: approved. The reviewer confirmed the implementation matches
+the approved scope, the experiment file and Issue 6 README record the pass
+result and later-work learnings, `git diff --check` passed, vendor cleanliness
+was checked, no nested non-vendor git repositories were found, `styles/index.ts`
+is in sync with `tokens.css`, and the result commit had not yet been made.

@@ -2,12 +2,12 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
-// Select content surfaces as Tailwind utilities (Issue 6, Experiment 54). The
-// TRIGGER stays bespoke (the .radcn-button-group > .radcn-select-trigger cascade
-// couples its radius; a migrated radius would be an unreliable override, Exp 47/51)
-// — the component keeps emitting radcn-select-trigger. Everything else migrates.
-// Comments here are ASCII; no bracketed class-like tokens.
+// Select surfaces as Tailwind utilities (Issue 6, Experiments 54 and 74). The
+// trigger keeps its marker class for ButtonGroup coupling and tests; visual styling
+// is emitted here. Comments here are ASCII; no bracketed class-like tokens.
 const selectRootClass = 'inline-block [font-family:var(--radcn-font)]'
+const selectTriggerClass =
+  'inline-flex w-[var(--radcn-select-trigger-width,13rem)] min-h-[var(--radcn-control-height)] items-center justify-between gap-2 border border-[var(--radcn-select-border,var(--radcn-input))] rounded-md bg-[var(--radcn-select-trigger-bg,var(--radcn-background))] text-[var(--radcn-select-trigger-fg,var(--radcn-foreground))] cursor-pointer py-2 px-3 text-[0.875rem] font-normal leading-none [font-family:var(--radcn-font)] outline-none focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-[var(--radcn-select-invalid-border,var(--radcn-destructive))] aria-invalid:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-destructive)_18%,transparent)] data-[placeholder=true]:text-[var(--radcn-select-placeholder-fg,var(--radcn-muted-foreground))] data-[size=sm]:min-h-8 data-[size=sm]:py-1.5 data-[size=sm]:text-[0.8125rem]'
 const selectValueClass =
   'overflow-hidden text-ellipsis whitespace-nowrap data-[placeholder=true]:text-[var(--radcn-select-placeholder-fg,var(--radcn-muted-foreground))]'
 const selectIconClass = 'text-[var(--radcn-select-icon-fg,var(--radcn-muted-foreground))] text-[0.75rem]'
@@ -440,7 +440,7 @@ export function SelectTrigger(handle: Handle<SelectTriggerProps>) {
     return (
       <button
         aria-label={ariaLabel}
-        class={classes('radcn-select-trigger', className)}
+        class={classes('radcn-select-trigger', selectTriggerClass, className)}
         data-radcn-select-trigger
         data-size={size}
         data-state="closed"

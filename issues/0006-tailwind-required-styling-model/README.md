@@ -279,7 +279,7 @@ a dependency listed in package manifests.
 - [Experiment 73: Audit remaining Tailwind debt](73-audit-remaining-tailwind-debt.md)
   — **Pass**
 - [Experiment 74: Migrate Select and DatePicker trigger cluster](74-migrate-select-datepicker-trigger-cluster.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1242,18 +1242,34 @@ surface styling or docs/fixture/demo presentation classes.
 
 Remaining migration clusters, in recommended order:
 
-1. Select + DatePicker trigger/content + ButtonGroup coupling.
-2. Field/Form/InputGroup residuals.
-3. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
+1. Field/Form/InputGroup residuals.
+2. State-indicator residuals: Checkbox, RadioGroup, Switch, Slider, Command,
    menu helpers, and Toggle icon/group state.
-4. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
+3. Modal/drawer layout residuals: AlertDialog size/footer, Sheet side geometry,
    and Drawer static surface/handle/close geometry while retaining drag/portal
    behavior.
-5. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
+4. Docs/fixture/demo CSS evacuation: fixture custom classes, non-custom fixture
    helpers (`radcn-fixture-rounded-button`, `radcn-fixture-aspect-media`,
    `radcn-fixture-navigation-panel`, `radcn-fixture-panel`), chart/data-table
    docs helpers, breadcrumb raw compositions, carousel example classes,
    direction samples, and `radcn-sr-only`.
+
+### Progress update (after Experiment 74) — Select and DatePicker trigger cluster cleared
+
+Experiment 74 moved Select trigger styling, DatePicker trigger/content
+overrides, and ButtonGroup Select/DropdownMenu/Popover trigger coupling out of
+package CSS and into Tailwind-scanned utilities. The `radcn-select-trigger`
+marker remains as a behavior/test/grouping hook, but its visual state styling is
+now emitted by `select.tsx`.
+
+Tailwind v4 generated the scoped descendant utilities needed for ButtonGroup
+grouping across Select, DropdownMenu, and Popover triggers in both the candidate
+fixture and docs pipelines. That confirms the Experiment 70/72 pattern remains
+valid for parent-owned grouping cascades: keep marker classes, move visual
+coupling into the parent component's emitted arbitrary descendant utilities, and
+delete only the matching bespoke CSS selectors. The Button/Input/InputGroup
+grouping selectors intentionally remain for the next Field/Form/InputGroup
+residual cluster.
 
 ## Superseded Remaining Map
 
