@@ -2,6 +2,17 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Overlay trigger/close cluster as Tailwind utilities (Issue 6, Experiment 72). Shared
+// structure via overlayTriggerBase (border-color a var the visible-border variants set);
+// markers kept (button-group cascades + the drawer-content>close cascade + data hooks).
+// ASCII comments; no bracketed class-like tokens.
+const overlayTriggerBase =
+  'inline-flex min-h-[var(--radcn-control-height)] items-center justify-center border border-[var(--radcn-ovl-bc,transparent)] rounded-md cursor-pointer py-2 px-4 font-medium text-[0.875rem] leading-none [font-family:var(--radcn-font)] outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const drawerTriggerClass =
+  `${overlayTriggerBase} bg-[var(--radcn-drawer-trigger-bg,var(--radcn-primary))] text-primary-foreground`
+const drawerCloseClass =
+  `${overlayTriggerBase} [--radcn-ovl-bc:var(--radcn-border)] bg-[var(--radcn-drawer-action-bg,var(--radcn-background))] text-foreground`
+
 // Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
 // layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
 const drawerHeaderClass = 'grid gap-1.5 [padding:1rem_1rem_0.5rem] text-center'
@@ -181,7 +192,7 @@ export function DrawerTrigger(handle: Handle<DrawerButtonProps>) {
       <button
         aria-haspopup="dialog"
         aria-label={ariaLabel}
-        class={classes('radcn-drawer-trigger', className)}
+        class={classes('radcn-drawer-trigger', drawerTriggerClass, className)}
         data-radcn-drawer-trigger
         data-state="closed"
         style={style}
@@ -226,7 +237,7 @@ export function DrawerContent(handle: Handle<DrawerContentProps>) {
         {showHandle && <div aria-hidden="true" class="radcn-drawer-handle" data-radcn-drawer-handle />}
         {children}
         {showCloseButton && (
-          <button aria-label="Close" class="radcn-drawer-close" data-radcn-drawer-close type="button">
+          <button aria-label="Close" class={classes('radcn-drawer-close', drawerCloseClass)} data-radcn-drawer-close type="button">
             <span aria-hidden="true">x</span>
           </button>
         )}
@@ -239,7 +250,7 @@ export function DrawerClose(handle: Handle<DrawerButtonProps>) {
   return () => {
     let { ariaLabel, children, class: className, style } = handle.props
 
-    return <button aria-label={ariaLabel} class={classes('radcn-drawer-close', className)} data-radcn-drawer-close style={style} type="button">{children}</button>
+    return <button aria-label={ariaLabel} class={classes('radcn-drawer-close', drawerCloseClass, className)} data-radcn-drawer-close style={style} type="button">{children}</button>
   }
 }
 

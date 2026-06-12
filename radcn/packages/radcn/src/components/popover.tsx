@@ -2,6 +2,17 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Overlay trigger/close cluster as Tailwind utilities (Issue 6, Experiment 72). Shared
+// structure via overlayTriggerBase (border-color a var the visible-border variants set);
+// markers kept (button-group cascades + the drawer-content>close cascade + data hooks).
+// ASCII comments; no bracketed class-like tokens.
+const overlayTriggerBase =
+  'inline-flex min-h-[var(--radcn-control-height)] items-center justify-center border border-[var(--radcn-ovl-bc,transparent)] rounded-md cursor-pointer py-2 px-4 font-medium text-[0.875rem] leading-none [font-family:var(--radcn-font)] outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const popoverTriggerClass =
+  `${overlayTriggerBase} bg-[var(--radcn-overlay-trigger-bg,var(--radcn-primary))] text-[var(--radcn-overlay-trigger-fg,var(--radcn-primary-foreground))]`
+const popoverCloseClass =
+  `${overlayTriggerBase} [--radcn-ovl-bc:var(--radcn-popover-close-border,var(--radcn-border))] bg-[var(--radcn-popover-close-bg,var(--radcn-background))] text-[var(--radcn-popover-close-fg,var(--radcn-foreground))]`
+
 // Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
 // layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
 const popoverHeaderClass = 'grid gap-1'
@@ -94,7 +105,7 @@ export function PopoverTrigger(handle: Handle<PopoverButtonProps>) {
         aria-haspopup="dialog"
         aria-label={ariaLabel}
         aria-expanded="false"
-        class={classes('radcn-popover-trigger', className)}
+        class={classes('radcn-popover-trigger', popoverTriggerClass, className)}
         data-radcn-popover-trigger
         data-state="closed"
         disabled={disabled}
@@ -148,7 +159,7 @@ export function PopoverClose(handle: Handle<PopoverButtonProps>) {
   return () => {
     let { ariaLabel, children, class: className, style } = handle.props
 
-    return <button aria-label={ariaLabel} class={classes('radcn-popover-close', className)} data-radcn-popover-close style={style} type="button">{children}</button>
+    return <button aria-label={ariaLabel} class={classes('radcn-popover-close', popoverCloseClass, className)} data-radcn-popover-close style={style} type="button">{children}</button>
   }
 }
 

@@ -1,6 +1,14 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay trigger/close cluster as Tailwind utilities (Issue 6, Experiment 72). Shared
+// structure via overlayTriggerBase (border-color a var the visible-border variants set);
+// markers kept (button-group cascades + the drawer-content>close cascade + data hooks).
+// ASCII comments; no bracketed class-like tokens.
+const contextTriggerClass =
+  'focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+
 import { setupMenuOverlay } from '../utils/menu-overlay.ts'
 import { menuContentClass, menuGroupClass, menuItemClass, menuItemIndicatorClass, menuLabelClass, menuPortalClass, menuRootClass, menuSeparatorClass, menuShortcutClass, menuSubCaretClass, menuSubClass } from './dropdown-menu.tsx'
 import type {
@@ -57,7 +65,7 @@ export function ContextMenuTrigger(handle: Handle<ContextMenuTriggerProps>) {
   return () => {
     let { ariaLabel, children, class: className, style } = handle.props
 
-    return <div aria-label={ariaLabel} class={classes('radcn-context-menu-trigger', className)} data-radcn-context-menu-trigger data-state="closed" role="button" style={style} tabIndex={0}>{children}</div>
+    return <div aria-label={ariaLabel} class={classes('radcn-context-menu-trigger', contextTriggerClass, className)} data-radcn-context-menu-trigger data-state="closed" role="button" style={style} tabIndex={0}>{children}</div>
   }
 }
 

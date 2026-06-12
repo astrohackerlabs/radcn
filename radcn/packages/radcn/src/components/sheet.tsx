@@ -2,6 +2,19 @@ import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
 
+// Overlay trigger/close cluster as Tailwind utilities (Issue 6, Experiment 72). Shared
+// structure via overlayTriggerBase (border-color a var the visible-border variants set);
+// markers kept (button-group cascades + the drawer-content>close cascade + data hooks).
+// ASCII comments; no bracketed class-like tokens.
+const overlayTriggerBase =
+  'inline-flex min-h-[var(--radcn-control-height)] items-center justify-center border border-[var(--radcn-ovl-bc,transparent)] rounded-md cursor-pointer py-2 px-4 font-medium text-[0.875rem] leading-none [font-family:var(--radcn-font)] outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const sheetTriggerClass =
+  `${overlayTriggerBase} bg-[var(--radcn-modal-action-bg,var(--radcn-primary))] text-[var(--radcn-modal-action-fg,var(--radcn-primary-foreground))]`
+const sheetCloseClass =
+  'cursor-pointer focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const sheetCloseIconClass =
+  'absolute top-3 right-3 inline-flex w-8 h-8 items-center justify-center border-0 rounded-md bg-transparent text-muted-foreground font-semibold text-base leading-none [font-family:var(--radcn-font)] hover:bg-secondary hover:text-foreground'
+
 // Overlay content sub-elements as Tailwind utilities (Issue 6, Experiment 64). Pure
 // layout/typography; marker classes kept. ASCII comments; no bracketed class-like tokens.
 const sheetHeaderClass = 'grid gap-1.5'
@@ -92,7 +105,7 @@ export function SheetTrigger(handle: Handle<SheetButtonProps>) {
       <button
         aria-haspopup="dialog"
         aria-label={ariaLabel}
-        class={classes('radcn-sheet-trigger', className)}
+        class={classes('radcn-sheet-trigger', sheetTriggerClass, className)}
         data-radcn-sheet-trigger
         data-state="closed"
         style={style}
@@ -135,7 +148,7 @@ export function SheetContent(handle: Handle<SheetContentProps>) {
       >
         {children}
         {showCloseButton && (
-          <button aria-label="Close" class="radcn-sheet-close radcn-sheet-close--icon" data-radcn-sheet-close type="button">
+          <button aria-label="Close" class={classes('radcn-sheet-close', sheetCloseClass, 'radcn-sheet-close--icon', sheetCloseIconClass)} data-radcn-sheet-close type="button">
             <span aria-hidden="true">x</span>
           </button>
         )}
@@ -148,7 +161,7 @@ export function SheetClose(handle: Handle<SheetButtonProps>) {
   return () => {
     let { ariaLabel, children, class: className, style } = handle.props
 
-    return <button aria-label={ariaLabel} class={classes('radcn-sheet-close', className)} data-radcn-sheet-close style={style} type="button">{children}</button>
+    return <button aria-label={ariaLabel} class={classes('radcn-sheet-close', sheetCloseClass, className)} data-radcn-sheet-close style={style} type="button">{children}</button>
   }
 }
 

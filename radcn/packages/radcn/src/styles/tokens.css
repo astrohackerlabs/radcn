@@ -748,26 +748,6 @@
   font-family: var(--radcn-font);
 }
 
-.radcn-dialog-trigger {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-dialog-trigger-bg, var(--radcn-primary));
-  color: var(--radcn-dialog-trigger-fg, var(--radcn-primary-foreground));
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
-}
-
-.radcn-dialog-trigger:focus-visible,
-.radcn-dialog-close:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
 .radcn-dialog-portal {
   position: fixed;
   inset: 0;
@@ -782,72 +762,10 @@
  * were retired in Experiment 30 once all modal overlays moved to animate-in.)
  */
 
-.radcn-dialog-close {
-  cursor: pointer;
-}
-
-.radcn-dialog-close--icon {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  display: inline-flex;
-  width: 2rem;
-  height: 2rem;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: var(--radcn-radius);
-  background: transparent;
-  color: var(--radcn-muted-foreground);
-  font: 600 1rem/1 var(--radcn-font);
-}
-
-.radcn-dialog-close--icon:hover {
-  background: var(--radcn-secondary);
-  color: var(--radcn-foreground);
-}
-
 .radcn-alert-dialog,
 .radcn-sheet {
   display: contents;
   font-family: var(--radcn-font);
-}
-
-.radcn-alert-dialog-trigger,
-.radcn-sheet-trigger,
-.radcn-alert-dialog-action,
-.radcn-alert-dialog-cancel {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: var(--radcn-radius);
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
-}
-
-.radcn-alert-dialog-trigger,
-.radcn-sheet-trigger,
-.radcn-alert-dialog-action {
-  background: var(--radcn-modal-action-bg, var(--radcn-primary));
-  color: var(--radcn-modal-action-fg, var(--radcn-primary-foreground));
-}
-
-.radcn-alert-dialog-cancel {
-  border-color: var(--radcn-alert-dialog-cancel-border, var(--radcn-border));
-  background: var(--radcn-background);
-  color: var(--radcn-foreground);
-}
-
-.radcn-alert-dialog-trigger:focus-visible,
-.radcn-alert-dialog-action:focus-visible,
-.radcn-alert-dialog-cancel:focus-visible,
-.radcn-sheet-trigger:focus-visible,
-.radcn-sheet-close:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
 }
 
 .radcn-alert-dialog-portal,
@@ -924,67 +842,11 @@
   bottom: 0;
 }
 
-.radcn-sheet-close {
-  cursor: pointer;
-}
-
-.radcn-sheet-close--icon {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  display: inline-flex;
-  width: 2rem;
-  height: 2rem;
-  align-items: center;
-  justify-content: center;
-  border: 0;
-  border-radius: var(--radcn-radius);
-  background: transparent;
-  color: var(--radcn-muted-foreground);
-  font: 600 1rem/1 var(--radcn-font);
-}
-
-.radcn-sheet-close--icon:hover {
-  background: var(--radcn-secondary);
-  color: var(--radcn-foreground);
-}
-
 .radcn-popover,
 .radcn-tooltip,
 .radcn-hover-card {
   display: contents;
   font-family: var(--radcn-font);
-}
-
-.radcn-popover-trigger,
-.radcn-tooltip-trigger,
-.radcn-hover-card-trigger,
-.radcn-popover-close {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-overlay-trigger-bg, var(--radcn-primary));
-  color: var(--radcn-overlay-trigger-fg, var(--radcn-primary-foreground));
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
-}
-
-.radcn-popover-close {
-  border-color: var(--radcn-popover-close-border, var(--radcn-border));
-  background: var(--radcn-popover-close-bg, var(--radcn-background));
-  color: var(--radcn-popover-close-fg, var(--radcn-foreground));
-}
-
-.radcn-popover-trigger:focus-visible,
-.radcn-tooltip-trigger:focus-visible,
-.radcn-hover-card-trigger:focus-visible,
-.radcn-popover-close:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
 }
 
 .radcn-popover-portal,
@@ -1238,30 +1100,6 @@
   --radcn-hover-card-avatar-fg: #ffffff;
 }
 
-.radcn-dropdown-menu-trigger {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-menu-trigger-bg, var(--radcn-primary));
-  color: var(--radcn-menu-trigger-fg, var(--radcn-primary-foreground));
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
-}
-
-.radcn-context-menu-trigger {
-  outline: none;
-}
-
-.radcn-dropdown-menu-trigger:focus-visible,
-.radcn-context-menu-trigger:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
-}
-
 .radcn-menu-item--inset,
 .radcn-menu-label--inset {
   padding-left: 2rem;
@@ -1288,26 +1126,6 @@
 .radcn-drawer {
   display: contents;
   font-family: var(--radcn-font);
-}
-
-.radcn-drawer-trigger {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-drawer-trigger-bg, var(--radcn-primary));
-  color: var(--radcn-primary-foreground);
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
-}
-
-.radcn-drawer-trigger:focus-visible,
-.radcn-drawer-close:focus-visible {
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--radcn-ring) 35%, transparent);
 }
 
 .radcn-drawer-portal {
@@ -1398,21 +1216,6 @@
 .radcn-drawer-content[data-direction="left"] .radcn-drawer-header,
 .radcn-drawer-content[data-direction="right"] .radcn-drawer-header {
   text-align: left;
-}
-
-.radcn-drawer-close {
-  display: inline-flex;
-  min-height: var(--radcn-control-height);
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--radcn-border);
-  border-radius: var(--radcn-radius);
-  background: var(--radcn-drawer-action-bg, var(--radcn-background));
-  color: var(--radcn-foreground);
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font: 500 0.875rem/1 var(--radcn-font);
-  outline: none;
 }
 
 .radcn-drawer-content > .radcn-drawer-close {

@@ -1,6 +1,16 @@
 import type { Handle, RemixNode } from 'remix/ui'
 
 import { classes } from '../utils/classes.ts'
+
+// Overlay trigger/close cluster as Tailwind utilities (Issue 6, Experiment 72). Shared
+// structure via overlayTriggerBase (border-color a var the visible-border variants set);
+// markers kept (button-group cascades + the drawer-content>close cascade + data hooks).
+// ASCII comments; no bracketed class-like tokens.
+const overlayTriggerBase =
+  'inline-flex min-h-[var(--radcn-control-height)] items-center justify-center border border-[var(--radcn-ovl-bc,transparent)] rounded-md cursor-pointer py-2 px-4 font-medium text-[0.875rem] leading-none [font-family:var(--radcn-font)] outline-none focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)]'
+const tooltipTriggerClass =
+  `${overlayTriggerBase} bg-[var(--radcn-overlay-trigger-bg,var(--radcn-primary))] text-[var(--radcn-overlay-trigger-fg,var(--radcn-primary-foreground))]`
+
 import { setupPositionedOverlay } from '../utils/positioned-overlay.ts'
 import type { PopoverAlign, PopoverSide } from './popover.tsx'
 
@@ -104,7 +114,7 @@ export function TooltipTrigger(handle: Handle<TooltipButtonProps>) {
   return () => {
     let { ariaLabel, children, class: className, style } = handle.props
 
-    return <button aria-label={ariaLabel} class={classes('radcn-tooltip-trigger', className)} data-radcn-tooltip-trigger data-state="closed" style={style} type="button">{children}</button>
+    return <button aria-label={ariaLabel} class={classes('radcn-tooltip-trigger', tooltipTriggerClass, className)} data-radcn-tooltip-trigger data-state="closed" style={style} type="button">{children}</button>
   }
 }
 

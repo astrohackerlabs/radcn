@@ -275,7 +275,7 @@ a dependency listed in package manifests.
 - [Experiment 71: Migrate the trigger/close cluster + drawer surfaces to Tailwind](71-migrate-trigger-close-cluster.md)
   — **Fail** (re-scope: cluster more entangled than the single-class audit; audit undercounted)
 - [Experiment 72: Migrate the overlay trigger/close cluster (cohesive)](72-migrate-overlay-trigger-close-cluster.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1199,6 +1199,33 @@ performs the first such migration (HoverCard avatar/body).
 Recommended order: the smaller primitives first (toggle-group/-icon, breadcrumb-glyph,
 hover-card) to establish the consumer-site migration pattern on a contained blast
 radius, then the Button keystone + its triggers as the final coordinated experiment(s).
+
+### Progress update (after Experiment 72) — overlay trigger/close cluster cleared
+
+Experiments 70–72 resolved the Button keystone and proved that the remaining
+trigger/close debt had to be migrated as a cohesive overlay cluster, not as a
+single-class sweep. Experiment 71's failed re-scope was useful: it showed that
+the combined trigger/close selectors, visible-border variants, icon close
+buttons, focus-visible rules, and retained parent-child cascades were too
+entangled for the original narrow plan.
+
+Experiment 72's durable pattern:
+
+- Split combined selectors into per-component utility constants so each surface
+  emits the exact structure, color, and focus-visible behavior it owns.
+- Share only the true structural base (`overlayTriggerBase`) and read
+  border-color from `--radcn-ovl-bc`; visible-border variants set that local
+  variable with Tailwind arbitrary-property utilities.
+- Keep marker classes and non-styling hooks, but remove the bespoke visual rules
+  once the utilities compile.
+- Keep only explicitly scoped cascades that still express parent-child layout or
+  sibling grouping behavior, such as drawer-content direct-child close
+  positioning and the button-group trigger cascades.
+
+The stale "remaining ~12 rules" estimate above is no longer authoritative. The
+next Issue 6 step must be a fresh remaining-debt audit across `tokens.css`,
+generated package styles, docs, and fixtures before designing the final
+migration clusters.
 
 ## Remaining Component Migration Map
 
