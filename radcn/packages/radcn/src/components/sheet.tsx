@@ -24,11 +24,10 @@ const sheetDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading
 import { setupModal } from './dialog.tsx'
 
 // Sheet overlay + content surface as Tailwind utilities. See Issue 6,
-// Experiment 29 (the modal pattern, side-anchored). ENTER-only (the JS hides
-// via `hidden`). The content's side positioning/sizing (4 `side` variants) and
-// the radcn-sheet-slide-in animation stay data-side-keyed bespoke in tokens.css.
+// Experiments 29 and 77 (modal pattern + side geometry). ENTER-only (the JS
+// hides via `hidden`). The radcn-sheet-slide-in keyframe remains in tokens.css.
 const sheetOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
-const sheetContentClass = 'fixed z-50 flex flex-col gap-4 border bg-background p-6 shadow-lg outline-none'
+const sheetContentClass = 'fixed z-50 flex flex-col gap-4 border bg-background p-6 shadow-lg outline-none animate-[radcn-sheet-slide-in_140ms_ease-out] motion-reduce:animate-none data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:w-[min(100vw,var(--radcn-sheet-width,24rem))] data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:w-[min(100vw,var(--radcn-sheet-width,24rem))] data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:min-h-[var(--radcn-sheet-height,14rem)] data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:min-h-[var(--radcn-sheet-height,14rem)]'
 
 export type SheetSide = 'top' | 'right' | 'bottom' | 'left'
 

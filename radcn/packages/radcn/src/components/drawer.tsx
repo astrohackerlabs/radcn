@@ -21,12 +21,16 @@ const drawerTitleClass = 'm-0 text-[var(--radcn-drawer-title-fg,var(--radcn-fore
 const drawerDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] leading-[1.4] [font-family:var(--radcn-font)]'
 import { setupModal } from './dialog.tsx'
 
-// Drawer overlay backdrop as Tailwind utilities (Issue 6, Experiment 30).
-// ENTER-only (the JS hides via `hidden`). The Drawer CONTENT is RadCN's
-// dependency-free drag-to-dismiss system (direction/transform/drag/border/
-// handle, data-direction-keyed) — shadcn uses the vaul library; there is no
-// utility analog, so the content stays bespoke in tokens.css.
-const drawerOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
+// Drawer overlay/content layout as Tailwind utilities (Issue 6, Experiments 30
+// and 77). The dependency-free drag system still owns --radcn-drawer-drag-offset
+// and the direction keyframes below remain in tokens.css.
+const drawerRootClass = 'contents [font-family:var(--radcn-font)]'
+const drawerPortalClass = 'fixed inset-0 z-[var(--radcn-drawer-z,50)] [&[hidden]]:hidden'
+const drawerOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0 [&[hidden]]:hidden'
+const drawerContentClass =
+  'fixed z-[var(--radcn-drawer-z,50)] flex flex-col border border-[var(--radcn-drawer-border,var(--radcn-border))] bg-[var(--radcn-drawer-bg,var(--radcn-background))] text-[var(--radcn-drawer-fg,var(--radcn-foreground))] shadow-[0_24px_64px_rgb(0_0_0_/_0.24)] [font-family:var(--radcn-font)] touch-none will-change-transform [&[hidden]]:hidden data-[dragging=true]:transition-none motion-reduce:animate-none data-[direction=bottom]:inset-x-0 data-[direction=bottom]:bottom-0 data-[direction=bottom]:max-h-[min(var(--radcn-drawer-max-height,80vh),calc(100%_-_2rem))] data-[direction=bottom]:border-b-0 data-[direction=bottom]:rounded-t-[var(--radcn-drawer-radius,0.75rem)] data-[direction=bottom]:translate-y-[var(--radcn-drawer-drag-offset,0)] data-[direction=bottom]:animate-[radcn-drawer-bottom-in_160ms_ease-out] data-[direction=top]:inset-x-0 data-[direction=top]:top-0 data-[direction=top]:max-h-[min(var(--radcn-drawer-max-height,80vh),calc(100%_-_2rem))] data-[direction=top]:border-t-0 data-[direction=top]:rounded-b-[var(--radcn-drawer-radius,0.75rem)] data-[direction=top]:translate-y-[calc(var(--radcn-drawer-drag-offset,0)*-1)] data-[direction=top]:animate-[radcn-drawer-top-in_160ms_ease-out] data-[direction=right]:inset-y-0 data-[direction=right]:right-0 data-[direction=right]:w-[min(var(--radcn-drawer-side-width,75vw),var(--radcn-drawer-side-max-width,24rem))] data-[direction=right]:border-r-0 data-[direction=right]:translate-x-[var(--radcn-drawer-drag-offset,0)] data-[direction=right]:animate-[radcn-drawer-right-in_160ms_ease-out] data-[direction=left]:inset-y-0 data-[direction=left]:left-0 data-[direction=left]:w-[min(var(--radcn-drawer-side-width,75vw),var(--radcn-drawer-side-max-width,24rem))] data-[direction=left]:border-l-0 data-[direction=left]:translate-x-[calc(var(--radcn-drawer-drag-offset,0)*-1)] data-[direction=left]:animate-[radcn-drawer-left-in_160ms_ease-out] data-[direction=left]:[&_.radcn-drawer-header]:text-left data-[direction=right]:[&_.radcn-drawer-header]:text-left [&>.radcn-drawer-close]:absolute [&>.radcn-drawer-close]:top-3 [&>.radcn-drawer-close]:right-3 [&>.radcn-drawer-close]:min-h-8 [&>.radcn-drawer-close]:w-8 [&>.radcn-drawer-close]:p-0'
+const drawerHandleClass =
+  'w-[var(--radcn-drawer-handle-width,6.25rem)] h-[var(--radcn-drawer-handle-height,0.5rem)] flex-none self-center rounded-full bg-[var(--radcn-drawer-handle-bg,var(--radcn-muted))] [margin-block:0.75rem_0.25rem]'
 
 export type DrawerDirection = 'top' | 'right' | 'bottom' | 'left'
 
@@ -168,7 +172,7 @@ export function Drawer(handle: Handle<DrawerProps>) {
 
     return (
       <div
-        class={classes('radcn-drawer', className)}
+        class={classes('radcn-drawer', drawerRootClass, className)}
         data-default-open={defaultOpen ? 'true' : undefined}
         data-direction={direction}
         data-dismissible={dismissible ? 'true' : 'false'}
@@ -208,7 +212,7 @@ export function DrawerPortal(handle: Handle<DrawerPartProps>) {
   return () => {
     let { children, class: className, style } = handle.props
 
-    return <div class={classes('radcn-drawer-portal', className)} data-radcn-drawer-portal data-state="closed" hidden style={style}>{children}</div>
+    return <div class={classes('radcn-drawer-portal', drawerPortalClass, className)} data-radcn-drawer-portal data-state="closed" hidden style={style}>{children}</div>
   }
 }
 
@@ -226,7 +230,7 @@ export function DrawerContent(handle: Handle<DrawerContentProps>) {
 
     return (
       <div
-        class={classes('radcn-drawer-content', `radcn-drawer-content--${direction}`, className)}
+        class={classes('radcn-drawer-content', drawerContentClass, `radcn-drawer-content--${direction}`, className)}
         data-direction={direction}
         data-radcn-drawer-content
         data-state="closed"
@@ -234,7 +238,7 @@ export function DrawerContent(handle: Handle<DrawerContentProps>) {
         hidden
         style={style}
       >
-        {showHandle && <div aria-hidden="true" class="radcn-drawer-handle" data-radcn-drawer-handle />}
+        {showHandle && <div aria-hidden="true" class={classes('radcn-drawer-handle', drawerHandleClass)} data-radcn-drawer-handle />}
         {children}
         {showCloseButton && (
           <button aria-label="Close" class={classes('radcn-drawer-close', drawerCloseClass)} data-radcn-drawer-close type="button">

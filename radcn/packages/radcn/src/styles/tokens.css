@@ -550,65 +550,17 @@
  */
 
 /*
- * AlertDialog overlay + content surface are migrated to Tailwind utilities
- * (Issue 6, Experiment 28; mirrors Dialog). The component emits shadcn modal
- * utilities; only the content WIDTH + the RadCN `size` variant remain here,
- * keyed on the data attribute. The media/action/header/footer/title/description
- * sub-parts stay bespoke; the radcn-dialog-* keyframes are shared (Sheet/Drawer).
+ * AlertDialog overlay, content surface, width, and size footer residuals are
+ * migrated to Tailwind utilities (Issue 6, Experiments 28 and 77). Marker data
+ * attributes remain as hooks.
  */
-[data-radcn-alert-dialog-content] {
-  width: min(calc(100vw - 2rem), var(--radcn-alert-dialog-width, 32rem));
-}
-
-[data-radcn-alert-dialog-content][data-size="sm"] {
-  --radcn-alert-dialog-width: 24rem;
-}
-
-[data-radcn-alert-dialog-content][data-size="sm"] .radcn-alert-dialog-footer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
 
 /*
- * Sheet overlay + content surface are migrated to Tailwind utilities (Issue 6,
- * Experiment 29; the modal pattern, side-anchored). The component emits the
- * surface utilities; what remains here is RadCN's side-anchoring system + the
- * slide animation, keyed on the data attributes. The header/footer/title/
- * description/close sub-parts stay bespoke. radcn-sheet-slide-in is kept below.
+ * Sheet overlay, content surface, side anchoring, animation attachment, and
+ * reduced-motion residuals are migrated to Tailwind utilities (Issue 6,
+ * Experiments 29 and 77). The radcn-sheet-slide-in keyframe remains because the
+ * component references it from an arbitrary animation utility.
  */
-[data-radcn-sheet-content] {
-  animation: radcn-sheet-slide-in 140ms ease-out;
-}
-
-[data-radcn-sheet-content][data-side="right"],
-[data-radcn-sheet-content][data-side="left"] {
-  top: 0;
-  bottom: 0;
-  width: min(100vw, var(--radcn-sheet-width, 24rem));
-}
-
-[data-radcn-sheet-content][data-side="right"] {
-  right: 0;
-}
-
-[data-radcn-sheet-content][data-side="left"] {
-  left: 0;
-}
-
-[data-radcn-sheet-content][data-side="top"],
-[data-radcn-sheet-content][data-side="bottom"] {
-  right: 0;
-  left: 0;
-  min-height: var(--radcn-sheet-height, 14rem);
-}
-
-[data-radcn-sheet-content][data-side="top"] {
-  top: 0;
-}
-
-[data-radcn-sheet-content][data-side="bottom"] {
-  bottom: 0;
-}
 
 .radcn-popover,
 .radcn-tooltip,
@@ -683,12 +635,6 @@
 [data-radcn-tooltip-content][data-side="right"] [data-radcn-tooltip-arrow] {
   left: -0.25rem;
   top: calc(50% - 0.25rem);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-radcn-sheet-content] {
-    animation: none;
-  }
 }
 
 /*
@@ -882,109 +828,13 @@
   --radcn-menu-trigger-bg: #7c3aed;
 }
 
-.radcn-drawer {
-  display: contents;
-  font-family: var(--radcn-font);
-}
-
-.radcn-drawer-portal {
-  position: fixed;
-  inset: 0;
-  z-index: var(--radcn-drawer-z, 50);
-}
-
 /*
- * Drawer's overlay backdrop is migrated to Tailwind utilities (Issue 6,
- * Experiment 30); the component emits it. The Drawer CONTENT below is RadCN's
- * dependency-free drag-to-dismiss system (direction/transform/drag/border/
- * handle) — kept bespoke (shadcn uses the vaul library; no utility analog).
+ * Drawer's overlay, root, portal, content surface, direction geometry, handle,
+ * close-button placement, and reduced-motion residuals are migrated to Tailwind
+ * utilities (Issue 6, Experiments 30 and 77). The direction keyframes remain
+ * because the component references them from arbitrary animation utilities, and
+ * JS still owns --radcn-drawer-drag-offset for drag-to-dismiss.
  */
-
-.radcn-drawer-content {
-  position: fixed;
-  z-index: var(--radcn-drawer-z, 50);
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--radcn-drawer-border, var(--radcn-border));
-  background: var(--radcn-drawer-bg, var(--radcn-background));
-  color: var(--radcn-drawer-fg, var(--radcn-foreground));
-  box-shadow: 0 24px 64px rgb(0 0 0 / 0.24);
-  font-family: var(--radcn-font);
-  touch-action: none;
-  will-change: transform;
-}
-
-.radcn-drawer-content[hidden],
-.radcn-drawer-overlay[hidden],
-.radcn-drawer-portal[hidden] {
-  display: none;
-}
-
-.radcn-drawer-content[data-direction="bottom"] {
-  inset-inline: 0;
-  bottom: 0;
-  max-height: min(var(--radcn-drawer-max-height, 80vh), calc(100% - 2rem));
-  border-bottom: 0;
-  border-radius: var(--radcn-drawer-radius, 0.75rem) var(--radcn-drawer-radius, 0.75rem) 0 0;
-  transform: translateY(var(--radcn-drawer-drag-offset, 0));
-  animation: radcn-drawer-bottom-in 160ms ease-out;
-}
-
-.radcn-drawer-content[data-direction="top"] {
-  inset-inline: 0;
-  top: 0;
-  max-height: min(var(--radcn-drawer-max-height, 80vh), calc(100% - 2rem));
-  border-top: 0;
-  border-radius: 0 0 var(--radcn-drawer-radius, 0.75rem) var(--radcn-drawer-radius, 0.75rem);
-  transform: translateY(calc(var(--radcn-drawer-drag-offset, 0) * -1));
-  animation: radcn-drawer-top-in 160ms ease-out;
-}
-
-.radcn-drawer-content[data-direction="right"] {
-  inset-block: 0;
-  right: 0;
-  width: min(var(--radcn-drawer-side-width, 75vw), var(--radcn-drawer-side-max-width, 24rem));
-  border-right: 0;
-  transform: translateX(var(--radcn-drawer-drag-offset, 0));
-  animation: radcn-drawer-right-in 160ms ease-out;
-}
-
-.radcn-drawer-content[data-direction="left"] {
-  inset-block: 0;
-  left: 0;
-  width: min(var(--radcn-drawer-side-width, 75vw), var(--radcn-drawer-side-max-width, 24rem));
-  border-left: 0;
-  transform: translateX(calc(var(--radcn-drawer-drag-offset, 0) * -1));
-  animation: radcn-drawer-left-in 160ms ease-out;
-}
-
-.radcn-drawer-content[data-dragging="true"] {
-  transition: none;
-}
-
-.radcn-drawer-handle {
-  width: var(--radcn-drawer-handle-width, 6.25rem);
-  height: var(--radcn-drawer-handle-height, 0.5rem);
-  flex: none;
-  align-self: center;
-  border-radius: 999px;
-  background: var(--radcn-drawer-handle-bg, var(--radcn-muted));
-  margin-block: 0.75rem 0.25rem;
-}
-
-.radcn-drawer-content[data-direction="left"] .radcn-drawer-header,
-.radcn-drawer-content[data-direction="right"] .radcn-drawer-header {
-  text-align: left;
-}
-
-.radcn-drawer-content > .radcn-drawer-close {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  min-height: 2rem;
-  width: 2rem;
-  padding: 0;
-}
 
 @keyframes radcn-drawer-bottom-in {
   from { transform: translateY(100%); }
@@ -1004,12 +854,6 @@
 @keyframes radcn-drawer-left-in {
   from { transform: translateX(-100%); }
   to { transform: translateX(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .radcn-drawer-content {
-    animation: none;
-  }
 }
 
 /*

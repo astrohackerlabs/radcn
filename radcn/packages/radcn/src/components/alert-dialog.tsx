@@ -25,13 +25,12 @@ const alertDialogDescriptionClass = 'm-0 text-muted-foreground text-[0.875rem] l
 import { setupModal } from './dialog.tsx'
 
 // AlertDialog overlay + content surface from shadcn/ui v4. See Issue 6,
-// Experiment 28 (the modal pattern, mirroring Dialog Exp 27). ENTER-only (the
-// JS hides via `hidden`). The content WIDTH + `size` variant + media/action/
-// header/footer/title/description sub-parts stay bespoke in tokens.css; the
-// radcn-dialog-* keyframes are shared (Sheet/Drawer).
+// Experiments 28 and 77 (modal pattern + residual content sizing). ENTER-only
+// (the JS hides via `hidden`). Media/action/header/footer/title/description
+// sub-parts emit utilities above; data hooks remain.
 const alertDialogOverlayClass = 'fixed inset-0 z-50 bg-black/50 animate-in fade-in-0'
 const alertDialogContentClass =
-  'fixed top-[50%] left-[50%] z-50 grid translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg outline-none animate-in fade-in-0 zoom-in-95'
+  'fixed top-[50%] left-[50%] z-50 grid w-[min(calc(100vw-2rem),var(--radcn-alert-dialog-width,32rem))] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg outline-none animate-in fade-in-0 zoom-in-95 data-[size=sm]:[--radcn-alert-dialog-width:24rem] data-[size=sm]:[&_.radcn-alert-dialog-footer]:grid data-[size=sm]:[&_.radcn-alert-dialog-footer]:grid-cols-2'
 
 export type AlertDialogSize = 'default' | 'sm'
 

@@ -285,7 +285,7 @@ a dependency listed in package manifests.
 - [Experiment 76: Migrate state-indicator residuals](76-migrate-state-indicator-residuals.md)
   — **Pass**
 - [Experiment 77: Migrate modal and drawer layout residuals](77-migrate-modal-drawer-layout-residuals.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1311,6 +1311,27 @@ Durable patterns:
 
 Remaining Issue 6 work is now the modal/drawer layout residual cluster and the
 docs/fixture/demo CSS evacuation cluster from the Experiment 73 map.
+
+### Progress update (after Experiment 77) — Modal/drawer residuals cleared
+
+Experiment 77 moved AlertDialog size/footer layout, Sheet side geometry and
+animation attachment, and Drawer static surface/geometry/handle/close
+placement out of package CSS and into Tailwind-scanned component utilities.
+
+Durable patterns:
+
+- Modal size variants can use data-attribute utilities on the content element,
+  including descendant footer layout such as
+  `data-[size=sm]:[&_.radcn-alert-dialog-footer]:grid`.
+- Sheet side placement and reduced-motion behavior can be expressed entirely
+  from the content utility string while retaining the package-owned keyframe.
+- Drawer can keep JS-owned drag state and direction keyframes while moving
+  ordinary surface, geometry, handle, close-button, and reduced-motion styling
+  into Tailwind utilities. `--radcn-drawer-drag-offset` remains a runtime
+  behavior variable read by Tailwind arbitrary translate utilities.
+
+Remaining Issue 6 work is now only the docs/fixture/demo CSS evacuation cluster
+from the Experiment 73 map.
 
 ## Superseded Remaining Map
 

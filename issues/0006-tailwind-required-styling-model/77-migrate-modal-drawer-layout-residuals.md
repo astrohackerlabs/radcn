@@ -162,3 +162,105 @@ Fixes:
 
 Re-review result: approved. The reviewer confirmed all prior findings were
 resolved and no new blocker was introduced.
+
+## Result
+
+**Result:** Pass
+
+Implemented the modal/drawer residual migration in the approved scope.
+
+- `alert-dialog.tsx` now emits the content max-width utility and `size="sm"`
+  width/footer-grid utilities from `alertDialogContentClass`.
+- `sheet.tsx` now emits side geometry, slide-in animation attachment, and
+  reduced-motion suppression from `sheetContentClass`; the shared
+  `radcn-sheet-slide-in` keyframe remains in package CSS as an animation
+  primitive.
+- `drawer.tsx` now emits root/portal layout, content surface, direction
+  geometry, handle presentation, side-header alignment, direct-child close
+  placement, drag-offset transforms, and reduced-motion suppression from
+  component utility strings. The drawer direction keyframes and JS-owned
+  `--radcn-drawer-drag-offset` behavior remain.
+- `tokens.css` and `styles/index.ts` removed the migrated ordinary
+  AlertDialog, Sheet, and Drawer visual/layout cascades and remain in sync.
+
+Verification run:
+
+- `pnpm radcn:typecheck` passed.
+- `pnpm --dir radcn/fixtures/candidate-remix styles:build` passed.
+- `pnpm --dir radcn/apps/docs styles:build` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- Generated CSS evidence exists in both
+  `radcn/fixtures/candidate-remix/app/assets/tailwind.generated.css` and
+  `radcn/apps/docs/app/assets/tailwind.generated.css`:
+  - AlertDialog width utility:
+    `.w-\[min\(calc\(100vw-2rem\)\,var\(--radcn-alert-dialog-width\,32rem\)\)\]`
+    emits `width: min(calc(100vw - 2rem), var(--radcn-alert-dialog-width,32rem))`.
+  - AlertDialog small-size variable utility:
+    `.data-\[size\=sm\]\:\[--radcn-alert-dialog-width\:24rem\]`
+    emits `--radcn-alert-dialog-width: 24rem`.
+  - Sheet animation utility:
+    `.animate-\[radcn-sheet-slide-in_140ms_ease-out\]`
+    emits `animation: radcn-sheet-slide-in 140ms ease-out`.
+  - Drawer drag-offset transforms emit `--tw-translate-x` or
+    `--tw-translate-y` from `--radcn-drawer-drag-offset` for all four
+    directions.
+  - Drawer handle width utility emits
+    `width: var(--radcn-drawer-handle-width,6.25rem)`.
+  - `motion-reduce:animate-none` is generated in both outputs.
+- Removed-selector scan against `tokens.css` found only
+  `.radcn-fixture-custom-alert-dialog [data-radcn-alert-dialog-content]` and
+  `.radcn-fixture-custom-sheet [data-radcn-sheet-content]`. Those are scoped
+  fixture custom-token demo selectors and are intentionally outside this
+  experiment's package-component residual scope.
+- Style sync check passed: `styles in sync`.
+- Focused fixture Playwright gate passed:
+  `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts tests/dialog.spec.ts tests/modal-variants.spec.ts tests/drawer.spec.ts tests/positioned-overlays.spec.ts`
+  reported `29 passed`.
+- Docs Playwright gate passed:
+  `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts`
+  reported `11 passed`.
+- Full fixture artifact gate passed:
+  `pnpm fixtures:artifacts` reported `1191 passed`.
+- Hygiene passed:
+  - `git diff --check` produced no output.
+  - `git status --short` showed the five intended implementation files plus
+    the two intended issue docs.
+  - `git diff --name-only | rg '^vendor/'` produced no matches.
+  - `git -C vendor/shadcn-ui status --short` produced no output.
+  - `git -C vendor/remix status --short` produced no output.
+  - `git -C vendor/react-router status --short` produced no output.
+
+## Conclusion
+
+The modal/drawer residual cluster is cleared. AlertDialog size layout, Sheet
+side layout, and Drawer static geometry/presentation can live in
+Tailwind-scanned component utilities while preserving the dependency-free
+modal/drawer behavior hooks, marker classes, portal visibility, keyframes, and
+drag-offset mechanics.
+
+The remaining Issue 6 work is the docs/fixture/demo CSS evacuation cluster from
+the Experiment 73 map.
+
+## Completion Review
+
+Reviewer: Goodall (`019ebe4e-d634-78f0-b7f7-095c0325d233`), fresh Codex
+subagent with `fork_context: false`.
+
+Findings:
+
+- Minor: the recorded hygiene note said `git status --short` showed only the
+  five intended modified files, but after result documentation the worktree
+  correctly had seven intended modified files: five implementation files plus
+  two issue docs.
+
+Fix:
+
+- Updated the hygiene note to distinguish the five intended implementation
+  files from the two intended issue docs.
+
+Approval result: approved. The reviewer found no blockers or majors, verified
+the clean diff, vendor cleanliness, generated CSS evidence, result/conclusion,
+README status, durable learnings, style sync, and that the result commit had
+not yet been made.
