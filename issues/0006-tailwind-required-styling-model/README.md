@@ -1,6 +1,7 @@
 +++
-status = "open"
+status = "closed"
 opened = "2026-06-06"
+closed = "2026-06-12"
 +++
 
 # Issue 6: Make Tailwind the Required Styling Model
@@ -287,7 +288,7 @@ a dependency listed in package manifests.
 - [Experiment 77: Migrate modal and drawer layout residuals](77-migrate-modal-drawer-layout-residuals.md)
   — **Pass**
 - [Experiment 78: Evacuate docs and fixture CSS from package styles](78-evacuate-docs-fixture-demo-css.md)
-  — **Designed**
+  — **Pass**
 
 ## Learnings
 
@@ -1335,6 +1336,31 @@ Durable patterns:
 Remaining Issue 6 work is now only the docs/fixture/demo CSS evacuation cluster
 from the Experiment 73 map.
 
+### Progress update (after Experiment 78) — Docs/fixture/demo CSS evacuated
+
+Experiment 78 moved the final docs-only, fixture-only, and raw demo
+presentation selectors out of package CSS and into app-owned Tailwind v4
+utility blocks or scanned call-site utilities in the docs app and candidate
+fixture.
+
+Durable patterns:
+
+- Docs and fixture helper classes may remain as stable markers when tests,
+  examples, or docs need them, but their visual styling belongs in the owning
+  app's Tailwind source, not in `radcn/packages/radcn/src/styles/tokens.css`.
+- Tailwind's built-in `sr-only` utility replaces the project-specific
+  `radcn-sr-only` helper in package components, docs, fixtures, and tests.
+- Moved demo utilities sometimes need explicit app-side cascade strength to
+  preserve old package-CSS semantics over component defaults; the fix belongs
+  at the demo/fixture owner, not back in package styles.
+- The closure-standard `tokens.css` inventory is now limited to theme/token
+  foundation, keyframes, portal hosts, dependency-free positioning/drag
+  mechanics, and documented behavior/layout glue. Carousel previous/next
+  positioning remains as component-owned positioning glue.
+
+Issue 6 is now complete: Tailwind v4 is the required styling model across the
+package, docs app, fixtures, and installation-flow assumptions.
+
 ## Superseded Remaining Map
 
 The old "Remaining Component Migration Map" that followed this section was
@@ -1360,3 +1386,19 @@ This issue is complete when:
 - Issue 5's installation-flow documentation reflects Tailwind as required;
 - verification proves representative installed/generated components render
   correctly with Tailwind and fail loudly if Tailwind is absent.
+
+## Conclusion
+
+Issue 6 made Tailwind v4 the required styling model for RadCN. The package
+metadata and installation-flow documentation now treat Tailwind as required; the
+docs app and candidate fixture compile real Tailwind v4 output; component
+surface styling has been migrated to Tailwind utilities and Tailwind-backed
+theme tokens; and package CSS has been reduced to theme foundation, keyframes,
+portal hosts, positioning/drag mechanics, and behavior/layout glue that cannot
+be represented as plain component utility strings without losing runtime
+semantics.
+
+The final closure experiment removed the last docs/fixture/demo presentation
+selectors from package styles and verified the result with typechecks, style
+builds, selector audits, generated CSS checks, docs Playwright coverage, the
+focused artifact gate, and the full fixture artifact suite.

@@ -202,7 +202,7 @@ export function renderAspectRatioFixture(fixture: FixtureScenario) {
 
 export function renderBadgeFixture(fixture: FixtureScenario) {
   if (fixture.id === 'custom-class') {
-    return <Badge class="radcn-fixture-custom-badge">Custom Badge</Badge>
+    return <Badge class="radcn-fixture-custom-badge" style="background:#4f46e5;color:white">Custom Badge</Badge>
   }
 
   if (fixture.id === 'demo') {

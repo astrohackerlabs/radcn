@@ -1595,7 +1595,7 @@ export function DataTablePreview() {
             <DataTableHeaderCell>
               <label>
                 <Checkbox name="select-all" />
-                <span class="radcn-sr-only">Select all</span>
+                <span class="sr-only">Select all</span>
               </label>
             </DataTableHeaderCell>
             <DataTableHeaderCell>Status</DataTableHeaderCell>
@@ -1610,7 +1610,7 @@ export function DataTablePreview() {
               <DataTableCell>
                 <label>
                   <Checkbox checked={payment.selected} name="rows" value={payment.id} />
-                  <span class="radcn-sr-only">Select row</span>
+                  <span class="sr-only">Select row</span>
                 </label>
               </DataTableCell>
               <DataTableCell><Badge variant={payment.status === 'failed' ? 'destructive' : 'secondary'}>{payment.statusLabel}</Badge></DataTableCell>
@@ -1730,7 +1730,7 @@ export function DialogPreview() {
               Anyone who has this link will be able to view this.
             </DialogDescription>
           </DialogHeader>
-            <Label class="radcn-sr-only" for="share-link">Link</Label>
+            <Label class="sr-only" for="share-link">Link</Label>
             <Input
               id="share-link"
               readOnly
@@ -3764,7 +3764,7 @@ export function CollapsibleDemo() {
             @peduarte starred 3 repositories
           </h4>
           <span class="radcn-button radcn-button--ghost radcn-button--icon size-8">
-            <span class="radcn-sr-only">Toggle</span>
+            <span class="sr-only">Toggle</span>
             <span aria-hidden="true">⇵</span>
           </span>
         </span>
@@ -3813,7 +3813,7 @@ function CollapsibleDemoPreview() {
               data-radcn-docs-collapsible-icon-button
               style="width:2rem;min-height:2rem;height:2rem;flex:0 0 auto;justify-content:center;gap:0;padding:0;border-radius:calc(var(--radcn-radius) - 0.125rem);"
             >
-              <span class="radcn-sr-only">Toggle</span>
+              <span class="sr-only">Toggle</span>
               <span aria-hidden="true" data-radcn-docs-collapsible-chevrons style="font-size:1rem;line-height:1;">
                 ⇵
               </span>
@@ -4601,7 +4601,7 @@ function DataTableDemoPreview() {
               <DataTableHeaderCell>
                 <label style="display:inline-flex;align-items:center;">
                   <Checkbox name="select-all" />
-                  <span class="radcn-sr-only">Select all</span>
+                  <span class="sr-only">Select all</span>
                 </label>
               </DataTableHeaderCell>
               <DataTableHeaderCell>Status</DataTableHeaderCell>
@@ -4618,7 +4618,7 @@ function DataTableDemoPreview() {
                 <DataTableCell>
                   <label style="display:inline-flex;align-items:center;">
                     <Checkbox checked={payment.selected} name="rows" value={payment.id} />
-                    <span class="radcn-sr-only">Select row</span>
+                    <span class="sr-only">Select row</span>
                   </label>
                 </DataTableCell>
                 <DataTableCell><span data-payment-status={payment.status}>{payment.statusLabel}</span></DataTableCell>
@@ -4628,7 +4628,7 @@ function DataTableDemoPreview() {
                   <DataTableRowActions>
                     <DropdownMenu defaultOpen={index === 0} id={`docs-data-table-row-${payment.id}`}>
                       <DropdownMenuTrigger ariaLabel="Open menu" class="radcn-button radcn-button--ghost radcn-button--icon-sm inline-flex items-center justify-center gap-2 w-[var(--radcn-btn-w,max-content)] min-h-[var(--radcn-btn-mh,var(--radcn-control-height))] border border-[var(--radcn-btn-bc,transparent)] rounded-md py-[var(--radcn-btn-py,0.5rem)] px-[var(--radcn-btn-px,1rem)] font-medium text-[length:var(--radcn-btn-fs,0.875rem)] leading-none [font-family:var(--radcn-font)] no-underline whitespace-nowrap outline-none cursor-pointer [transition:background-color_120ms_ease,color_120ms_ease,border-color_120ms_ease] focus-visible:border-[var(--radcn-ring)] focus-visible:shadow-[0_0_0_3px_color-mix(in_srgb,var(--radcn-ring)_35%,transparent)] disabled:cursor-not-allowed disabled:opacity-50 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 bg-transparent text-foreground [--radcn-btn-w:2rem] [--radcn-btn-mh:2rem] [--radcn-btn-px:0] [--radcn-btn-py:0]" data-payment-id={payment.id}>
-                        <span class="radcn-sr-only">Open menu</span>
+                        <span class="sr-only">Open menu</span>
                         <span aria-hidden="true" data-radcn-docs-data-table-icon="more-horizontal">...</span>
                       </DropdownMenuTrigger>
                       <DropdownMenuPortal>
@@ -4749,7 +4749,7 @@ function DialogPreview() {
               </DialogHeader>
               <div style="display:flex;align-items:center;gap:0.5rem;">
                 <div style="display:grid;flex:1;gap:0.5rem;">
-                  <Label class="radcn-sr-only" for="docs-dialog-share-link">Link</Label>
+                  <Label class="sr-only" for="docs-dialog-share-link">Link</Label>
                   <Input id="docs-dialog-share-link" readOnly value="https://ui.shadcn.com/docs/installation" />
                 </div>
               </div>
@@ -5524,7 +5524,7 @@ function BreadcrumbPreview() {
               <DropdownMenu defaultOpen>
                 <DropdownMenuTrigger ariaLabel="Toggle menu" class="radcn-breadcrumb-trigger">
                   <BreadcrumbEllipsis />
-                  <span class="radcn-sr-only">Toggle menu</span>
+                  <span class="sr-only">Toggle menu</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuPortal>
                   <DropdownMenuContent align="start">

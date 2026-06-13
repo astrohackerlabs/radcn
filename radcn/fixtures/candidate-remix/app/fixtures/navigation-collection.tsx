@@ -112,7 +112,7 @@ function BreadcrumbDropdownMenu({ label, trigger }: { label?: string; trigger: s
     <DropdownMenu>
       <DropdownMenuTrigger ariaLabel={label} class="radcn-breadcrumb-trigger">
         {trigger === 'ellipsis' ? <BreadcrumbEllipsis /> : <>{trigger}{ChevronGlyph()}</>}
-        {trigger === 'ellipsis' ? <span class="radcn-sr-only">Toggle menu</span> : undefined}
+        {trigger === 'ellipsis' ? <span class="sr-only">Toggle menu</span> : undefined}
       </DropdownMenuTrigger>
       <DropdownMenuPortal>
         <DropdownMenuContent align="start">

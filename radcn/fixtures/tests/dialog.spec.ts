@@ -127,7 +127,7 @@ test('candidate dialog close button demo matches upstream share link composition
   let linkInput = page.locator('#candidate-dialog-share-link')
   await expect(linkInput).toHaveValue('https://ui.shadcn.com/docs/installation')
   await expect(linkInput).toHaveAttribute('readonly', '')
-  await expect(page.locator('label[for="candidate-dialog-share-link"]')).toHaveClass(/radcn-sr-only/)
+  await expect(page.locator('label[for="candidate-dialog-share-link"]')).toHaveClass(/sr-only/)
   await expect(page.locator('.radcn-fixture-dialog-footer-start')).toHaveCSS('justify-content', 'flex-start')
   let footerClose = page.locator('.radcn-fixture-dialog-footer-start [data-radcn-dialog-close]')
   await expect(footerClose).toHaveText('Close')

@@ -127,7 +127,7 @@ export function PaginationEllipsis(handle: Handle<PaginationPartProps>) {
     return (
       <span aria-hidden="true" class={classes(paginationEllipsisClass, className)} data-radcn-pagination-ellipsis style={style}>
         {children}
-        <span class="radcn-sr-only">More pages</span>
+        <span class="sr-only">More pages</span>
       </span>
     )
   }

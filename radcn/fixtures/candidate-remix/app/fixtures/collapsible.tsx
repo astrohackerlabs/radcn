@@ -72,7 +72,7 @@ export function renderCollapsibleFixture(fixture: FixtureScenario) {
                   data-fixture-collapsible-demo-icon-button
                   style={demoIconButtonStyle}
                 >
-                  <span class="radcn-sr-only">Toggle</span>
+                  <span class="sr-only">Toggle</span>
                   <span aria-hidden="true" data-fixture-collapsible-demo-icon style="font-size:1rem;line-height:1;">
                     ⇵
                   </span>

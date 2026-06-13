@@ -134,7 +134,7 @@ export function BreadcrumbEllipsis(handle: Handle<BreadcrumbPartProps>) {
         style={style}
       >
         {children}
-        <span class="radcn-sr-only">More</span>
+        <span class="sr-only">More</span>
       </span>
     )
   }

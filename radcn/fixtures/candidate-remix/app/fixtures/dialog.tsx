@@ -60,7 +60,7 @@ function renderDialogCloseButtonDemoFixture() {
           </DialogHeader>
           <div style="display:flex;align-items:center;gap:0.5rem;">
             <div style="display:grid;flex:1;gap:0.5rem;">
-              <Label class="radcn-sr-only" for="candidate-dialog-share-link">Link</Label>
+              <Label class="sr-only" for="candidate-dialog-share-link">Link</Label>
               <Input id="candidate-dialog-share-link" readOnly value="https://ui.shadcn.com/docs/installation" />
             </div>
           </div>

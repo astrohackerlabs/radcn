@@ -171,3 +171,87 @@ Fixes:
 Approval result: approved for implementation after these plan cleanups. The
 reviewer found no blockers and confirmed the README link, required sections,
 verification gates, hygiene checks, vendor checks, and closure guard are present.
+
+## Result
+
+**Result:** Pass
+
+The docs-only, fixture-only, and raw demo presentation selectors targeted by
+this experiment were removed from `radcn/packages/radcn/src/styles/tokens.css`.
+Their styling now lives at the owning docs and fixture Tailwind v4 call sites.
+Marker classes remain only where tests, docs, or examples still need stable
+hooks.
+
+The implementation also replaced the remaining `radcn-sr-only` usage in RadCN
+package components, fixture sources, docs content, and affected tests with
+Tailwind's `sr-only` utility. The package stylesheet still contains theme
+tokens, keyframes, portal hosts, positioning/drag mechanics, and documented
+behavior glue. The final remaining-style audit classifies Carousel previous/next
+placement and vertical overrides as acceptable component-owned positioning glue,
+not docs or fixture presentation CSS.
+
+Verification:
+
+- `pnpm --dir radcn/fixtures/candidate-remix styles:build` passed.
+- `pnpm --dir radcn/apps/docs styles:build` passed.
+- `pnpm radcn:typecheck` passed.
+- `pnpm fixtures:candidate:typecheck` passed.
+- `pnpm fixtures:reference:typecheck` passed.
+- `pnpm --dir radcn/apps/docs typecheck` passed.
+- Targeted `rg` removal checks against `tokens.css` for fixture helpers, chart
+  docs helpers, data-table recipe helpers, breadcrumb raw helpers,
+  `radcn-sr-only`, carousel demo helpers, and direction demo helpers produced
+  no matches.
+- `tokens.css` and `radcn/packages/radcn/src/styles/index.ts` were confirmed in
+  sync with the JSON-stringify export formula.
+- Representative generated CSS checks found Tailwind output for `sr-only`,
+  breadcrumb trigger/truncate helpers, carousel slide/status helpers,
+  chart/demo helpers, direction samples, and fixture panel helpers in the docs
+  and candidate fixture generated stylesheets.
+- `pnpm exec playwright test -c radcn/fixtures/playwright.config.ts tests/fixture-artifacts.spec.ts --grep "breadcrumb|carousel|chart|data-table|direction|button|aspect-ratio|navigation-menu|resizable"`
+  passed: 214 passed.
+- `pnpm exec playwright test -c radcn/apps/docs/playwright.config.ts` passed:
+  11 passed.
+- `pnpm fixtures:artifacts` passed: 1191 passed.
+- `git diff --check` passed.
+- `git diff --name-only | rg '^vendor/'` produced no matches.
+- `git -C vendor/shadcn-ui status --short`,
+  `git -C vendor/remix status --short`, and
+  `git -C vendor/react-router status --short` produced no output.
+
+## Conclusion
+
+Experiment 78 clears the last remaining Issue 6 migration cluster from the
+Experiment 73 audit. Package CSS no longer owns docs/fixture/demo presentation
+selectors, and component visual styling is now Tailwind utility driven with
+package CSS reduced to the remaining non-visual foundation and behavior glue.
+
+Issue 6 can close after completion review approves this result.
+
+## Completion Review
+
+Reviewer: Godel (`019ebe66-ed62-7473-babf-4fd115729334`), fresh Codex subagent
+with `fork_context: false`.
+
+Findings:
+
+- Blocker: none.
+- Major: none.
+- Minor: none.
+
+Evidence checked:
+
+- Experiment 78 has `Result` and `Conclusion`.
+- Verification, hygiene, vendor checks, and test evidence are recorded.
+- Issue 6 marks Experiment 78 `Pass`, records durable learnings, has a
+  conclusion, and is closed in `issues/README.md`.
+- App-owned Tailwind utilities replace package-owned demo/fixture CSS in the
+  docs and candidate fixture Tailwind sources.
+- The latest commit at review time was still the plan commit
+  `37cf703 Plan demo CSS evacuation`; no result commit had been made.
+- The reviewer reran cheap checks: `git diff --check`, vendor cleanliness,
+  targeted `tokens.css` removal checks, `radcn-sr-only` absence, representative
+  generated CSS selector checks, and the `tokens.css`/`styles/index.ts` sync
+  check.
+
+Approval result: approved for result commit. No fixes were required.

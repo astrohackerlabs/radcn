@@ -67,7 +67,7 @@ test('candidate collapsible demo matches the named upstream composition', async 
   await expect(trigger).toHaveCSS('width', '350px')
   await expect(trigger).toHaveCSS('flex-direction', 'column')
   await expect(trigger).toContainText('Toggle')
-  await expect(trigger.locator('.radcn-sr-only')).toHaveText('Toggle')
+  await expect(trigger.locator('.sr-only')).toHaveText('Toggle')
   await expect(trigger.locator('[data-radcn-collapsible-icon]')).toBeHidden()
   await expect(iconButton).toHaveClass(/radcn-button/)
   await expect(iconButton).toHaveClass(/radcn-button--ghost/)

@@ -8,7 +8,7 @@ test('candidate breadcrumb exposes navigation current page and separator hooks',
   await expect(page.locator('ol[data-radcn-breadcrumb-list]')).toHaveCount(1)
   await expect(page.locator('[data-radcn-breadcrumb-page]')).toHaveAttribute('aria-current', 'page')
   await expect(page.locator('[data-radcn-breadcrumb-ellipsis]')).toHaveCount(1)
-  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .radcn-sr-only')).toHaveText('More')
+  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .sr-only')).toHaveText('More')
 
   await page.goto(`${candidate}/fixtures/breadcrumb/custom-separator`)
   await expect(page.locator('[data-radcn-breadcrumb]')).toHaveClass(/radcn-fixture-custom-breadcrumb/)
@@ -27,7 +27,7 @@ test('candidate breadcrumb covers shadcn example parity depth', async ({ page })
 
   await page.goto(`${candidate}/fixtures/breadcrumb/ellipsis`)
   await expect(page.locator('[data-radcn-breadcrumb-ellipsis]')).toHaveCount(1)
-  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .radcn-sr-only')).toHaveText('More')
+  await expect(page.locator('[data-radcn-breadcrumb-ellipsis] .sr-only')).toHaveText('More')
 
   await page.goto(`${candidate}/fixtures/breadcrumb/separator`)
   await expect(page.locator('[data-radcn-breadcrumb-separator]')).toHaveCount(2)
@@ -240,7 +240,7 @@ test('candidate pagination exposes navigation active page and label hooks', asyn
   await expect(page.locator('[data-radcn-pagination-link][aria-current="page"]')).toHaveAttribute('data-active', 'true')
   await expect(page.locator('[data-radcn-pagination-link]').nth(3)).toHaveText('3')
   await expect(page.locator('[data-radcn-pagination-ellipsis]')).toHaveText('...More pages')
-  await expect(page.locator('[data-radcn-pagination-ellipsis] .radcn-sr-only')).toHaveText('More pages')
+  await expect(page.locator('[data-radcn-pagination-ellipsis] .sr-only')).toHaveText('More pages')
   await expect(page.locator('[data-radcn-pagination-icon="previous"]')).toHaveText('<')
   await expect(page.locator('[data-radcn-pagination-icon="next"]')).toHaveText('>')
   await expect(page.getByRole('link', { name: 'Go to previous page' })).toHaveAttribute('href', '#')
